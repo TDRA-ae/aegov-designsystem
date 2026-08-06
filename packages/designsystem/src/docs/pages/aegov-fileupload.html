@@ -21,370 +21,389 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>File Upload</h1>
-<p class="text-lg text-aeblack-500 mb-8">A file selection control for collecting documents and images from users — Emirates ID copies, passport photographs, supporting evidence for a service application, or any other attachment a UAE Government service may require. The component renders three layouts: a styled input with a built-in browse button, a stand-alone trigger button with an inline file list, and a drag-and-drop dropzone. Each layout is anchored on a real <code>&lt;input type="file"&gt;</code> so submissions, validation, and accessibility all behave like a native form control.</p>
+<p class="text-lg text-aeblack-500 mb-8">A File Upload collects documents from the user — passport scans, tenancy contracts, stamped certificates. It ships three appearances from one API, enforces type, size and count limits before anything is sent, and lists what has been chosen so the user can remove a file before submitting.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-fileupload</code> component wraps a native file input and adds client-side validation for accepted file types, maximum file size, and the maximum number of files. Picked files appear in a list with a remove button per file, and three custom events (<code>aegovFileuploadChange</code>, <code>aegovFileuploadRemove</code>, <code>aegovFileuploadError</code>) keep your form code informed of every change. The component never overrides the OS file picker — it only filters and formats what the user provides.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Upload your Emirates ID&quot;</span>
-  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Upload a clear, full-page scan of both sides as a single PDF.&quot;</span>
-  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>
-  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-fileupload
-    label="Upload your Emirates ID"
-    description="Upload a clear, full-page scan of both sides as a single PDF."
-    accept=".pdf" 
-    label-button="Select Emirates ID" 
-    max-file-size="5242880"
-  ></aegov-fileupload>
+<p><code>aegov-fileupload</code> wraps a real <code>&lt;input type=&quot;file&quot;&gt;</code> and is a form-associated custom element, so the chosen files submit with the form under one <code>name</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Passport copy<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;passport&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.jpg,.png&quot;</span> <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md">
+    <aegov-form-field>
+      <aegov-label>Passport copy</aegov-label>
+      <aegov-fileupload field-id="fu-intro" name="passport" accept=".pdf,.jpg,.png" max-file-size="5242880"></aegov-fileupload>
+    </aegov-form-field>
+  </div>
 </div>
 
+<p>Note the helper text under the field. The component generates it from <code>accept</code> — you did not have to write &quot;Allowed: PDF, JPG, PNG&quot; yourself.</p>
 <hr>
-<h2>Variants</h2>
-<p>The <code>appearance</code> property selects the layout. All three appearances share the same validation, events, and form behaviour — only their visual presentation differs.</p>
-<h3>Default</h3>
-<p>The default appearance looks like a styled text input with a Browse button on the trailing edge. Use it inside dense forms that already contain other input fields. Each new pick replaces the previous selection.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
-  <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;default&quot;</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Passport bio-data page&quot;</span>
-  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;image/*,.pdf&quot;</span>
-  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-fileupload
-    appearance="default"
-    label="Passport bio-data page"
-    accept="image/*,.pdf"
-    max-file-size="5242880"
-  ></aegov-fileupload>
-</div>
-
-<h3>Button</h3>
-<p>The button appearance renders a single trigger button. Picked files appear in a list below the button and accumulate across multiple picks until the user removes them or the maximum count is reached.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
-  <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;button&quot;</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Supporting documents&quot;</span>
-  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Add any additional documents that support your application.&quot;</span>
-  <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span>
-  <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;5&quot;</span>
-  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.docx,image/*&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-fileupload
-    appearance="button"
-    label="Supporting documents"
-    description="Add any additional documents that support your application."
-    is-multiple="true"
-    max-files="5"
-    accept=".pdf,.docx,image/*"
-  ></aegov-fileupload>
-</div>
-
-<h3>Dropzone</h3>
-<p>The dropzone appearance renders a large drag-and-drop target with a fallback browse button. Best for high-volume document upload screens — for example, a service portal that asks the applicant to attach several scanned pages in one step. Picked files accumulate, just like the button appearance.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
-  <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;dropzone&quot;</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Drop your supporting documents here&quot;</span>
-  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Accepted: PDF, JPG, PNG. Maximum 10 MB per file.&quot;</span>
-  <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span>
-  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;10485760&quot;</span>
-  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,image/*&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-fileupload
-    appearance="dropzone"
-    label="Drop your supporting documents here"
-    description="Accepted: PDF, JPG, PNG. Maximum 10 MB per file."
-    is-multiple="true"
-    max-file-size="10485760"
-    accept=".pdf,image/*"
-  ></aegov-fileupload>
-</div>
-
-<hr>
-<h2>Accepted file types</h2>
-<p>Set the <code>accept</code> property to a comma-separated list of file extensions (<code>.pdf</code>), MIME types (<code>application/pdf</code>), or wildcards (<code>image/*</code>). The component enforces this list both in the OS picker filter and after the user selects a file — the OS picker may still let the user choose &ldquo;All files&rdquo;, so the second check is important.</p>
-<p>When <code>accept</code> is provided and <code>label-help</code> is omitted, the component generates a friendly summary line such as &ldquo;Allowed: PDF, JPG&rdquo;.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Passport photograph&quot;</span>
-  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;image/jpeg,image/png&quot;</span>
-  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;2097152&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-fileupload
-    label="Passport photograph"
-    accept="image/jpeg,image/png"
-    max-file-size="2097152"
-  ></aegov-fileupload>
-</div>
-
-<hr>
-<h2>Multiple files and maximum count</h2>
-<p>Set <code>is-multiple=&quot;true&quot;</code> to allow the user to select more than one file. Pair it with <code>max-files</code> to cap the total. When the cap is reached, additional picks emit an <code>aegovFileuploadError</code> event with <code>type: &#39;max-files&#39;</code> and are not added to the selection.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
-  <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;button&quot;</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Vehicle registration documents&quot;</span>
-  <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span>
-  <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;3&quot;</span>
-  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,image/*&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-fileupload
-    appearance="button"
-    label="Vehicle registration documents"
-    is-multiple="true"
-    max-files="3"
-    accept=".pdf,image/*"
-  ></aegov-fileupload>
-</div>
-
-<hr>
-<h2>Maximum file size</h2>
-<p>Set <code>max-file-size</code> in bytes. Files larger than the limit emit <code>aegovFileuploadError</code> with <code>type: &#39;max-size&#39;</code> and are excluded from the selection. The default helper text reads only the <code>accept</code> list — surface size limits to the user via <code>description</code> or <code>label-help</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
-  <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;dropzone&quot;</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Tenancy contract&quot;</span>
-  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;PDF only, maximum 5 MB.&quot;</span>
-  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>
-  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-fileupload
-    appearance="dropzone"
-    label="Tenancy contract"
-    description="PDF only, maximum 5 MB."
-    accept=".pdf"
-    max-file-size="5242880"
-  ></aegov-fileupload>
-</div>
-
-<hr>
-<h2>Sizes</h2>
-<p>The <code>size</code> property scales the input height for the default appearance and the button height for the button and dropzone appearances. Tokens: <code>xs</code>, <code>sm</code>, <code>base</code> (default), <code>lg</code>, <code>xl</code>. A Tailwind-style responsive string is also supported, e.g. <code>sm md:base lg:lg</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small (sm)&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base (default)&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large (lg)&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-fileupload size="sm" label="Small (sm)" accept=".pdf"></aegov-fileupload>
-  <div class="my-4"></div>
-  <aegov-fileupload size="base" label="Base (default)" accept=".pdf"></aegov-fileupload>
-  <div class="my-4"></div>
-  <aegov-fileupload size="lg" label="Large (lg)" accept=".pdf"></aegov-fileupload>
-</div>
-
-<h3>Responsive sizes</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Resizes with the viewport&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-fileupload size="sm md:base xl:lg" label="Resizes with the viewport" accept=".pdf"></aegov-fileupload>
-</div>
-
-<hr>
-<h2>Variant</h2>
-<p>The <code>variant</code> property selects the colour family for the default-appearance ring, the button-appearance fill, the dropzone-appearance border, and the file-name accent. The focus ring stays <code>primary-support-600</code> (camel) and the error border stays <code>aered-600</code> regardless of variant.</p>
-<ul>
-<li><code>primary</code> — primary-* family (default)</li>
-<li><code>secondary</code> — secondary-* family</li>
-<li><code>neutral-max</code> — strong neutral (aeblack-800 family)</li>
-<li><code>neutral-min</code> — quiet neutral (aeblack-100 family). Button fill stays <code>aeblack-800</code> so the button remains legible.</li>
-</ul>
-<h3>Colour matrix</h3>
+<h2>Appearance</h2>
+<p>Three renderings, one API.</p>
 <table>
 <thead>
 <tr>
-<th>Variant</th>
-<th>Default ring</th>
-<th>Button bg</th>
-<th>Dropzone border</th>
-<th>File-name accent</th>
+<th>Appearance</th>
+<th>Look</th>
+<th>Use for</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>primary</code></td>
-<td><code>primary-400</code></td>
-<td><code>primary-600</code></td>
-<td><code>primary-200</code></td>
-<td><code>primary-900</code></td>
+<td><code>default</code></td>
+<td>A styled input with a Browse button.</td>
+<td>A single required document in a form.</td>
 </tr>
 <tr>
-<td><code>secondary</code></td>
-<td><code>secondary-400</code></td>
-<td><code>secondary-600</code></td>
-<td><code>secondary-200</code></td>
-<td><code>secondary-900</code></td>
+<td><code>button</code></td>
+<td>A trigger button plus a list of chosen files.</td>
+<td>Compact layouts and optional attachments.</td>
 </tr>
 <tr>
-<td><code>neutral-max</code></td>
-<td><code>aeblack-400</code></td>
-<td><code>aeblack-800</code></td>
-<td><code>aeblack-300</code></td>
-<td><code>aeblack-900</code></td>
-</tr>
-<tr>
-<td><code>neutral-min</code></td>
-<td><code>aeblack-200</code></td>
-<td><code>aeblack-800</code></td>
-<td><code>aeblack-100</code></td>
-<td><code>aeblack-900</code></td>
+<td><code>dropzone</code></td>
+<td>A large drop target with drag-and-drop, plus a file list.</td>
+<td>Multiple documents, and desktop-first flows.</td>
 </tr>
 </tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Primary&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Secondary&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Neutral-max&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Neutral-min&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <aegov-fileupload variant="primary" label="Primary" accept=".pdf"></aegov-fileupload>
-    <aegov-fileupload variant="secondary" label="Secondary" accept=".pdf"></aegov-fileupload>
-    <aegov-fileupload variant="neutral-max" label="Neutral-max" accept=".pdf"></aegov-fileupload>
-    <aegov-fileupload variant="neutral-min" label="Neutral-min" accept=".pdf"></aegov-fileupload>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;default&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;a&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;b&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;dropzone&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;c&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span> <span class="hljs-attr">is-multiple</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-8">
+    <div><p class="text-sm text-aeblack-500 mb-2">default</p><aegov-fileupload field-id="fu-ap-1" name="fu-a" accept=".pdf,.jpg"></aegov-fileupload></div>
+    <div><p class="text-sm text-aeblack-500 mb-2">button</p><aegov-fileupload field-id="fu-ap-2" appearance="button" name="fu-b" accept=".pdf,.jpg"></aegov-fileupload></div>
+    <div><p class="text-sm text-aeblack-500 mb-2">dropzone</p><aegov-fileupload field-id="fu-ap-3" appearance="dropzone" name="fu-c" accept=".pdf,.jpg" is-multiple></aegov-fileupload></div>
+  </div>
+</div>
+
+<p>The appearances differ in one behaviour that matters: <strong><code>default</code> replaces the selection each time</strong>, matching how a native file input works, while <strong><code>button</code> and <code>dropzone</code> accumulate</strong> files across selections. Choose accordingly — accumulation is what you want for &quot;attach supporting documents&quot;, replacement is what you want for &quot;upload your passport&quot;.</p>
+<p>A dropzone still opens the file picker on click, so it never depends on drag-and-drop alone.</p>
+<hr>
+<h2>Multiple files</h2>
+<p><code>is-multiple</code> allows more than one file per selection.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;dropzone&quot;</span>
+  <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;documents&quot;</span>
+  <span class="hljs-attr">is-multiple</span>
+  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.jpg,.png&quot;</span>
+  <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;5&quot;</span>
+  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md">
+    <aegov-fileupload field-id="fu-multi" appearance="dropzone" name="documents" is-multiple accept=".pdf,.jpg,.png" max-files="5" max-file-size="5242880"></aegov-fileupload>
+  </div>
+</div>
+
+<p>Each chosen file appears in a list with its name, size and a remove button. Removing a file emits <code>aegovFileuploadRemove</code> with both the removed file and the remaining set.</p>
+<hr>
+<h2>Limits</h2>
+<p>Three limits, all enforced client-side before anything is sent.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Limits</th>
+<th>Validity flag when exceeded</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>accept</code></td>
+<td>File types, using the same syntax as the native attribute.</td>
+<td><code>typeMismatch</code></td>
+</tr>
+<tr>
+<td><code>maxFileSize</code></td>
+<td>Size <strong>per file</strong>, in bytes.</td>
+<td><code>tooLong</code></td>
+</tr>
+<tr>
+<td><code>maxFiles</code></td>
+<td>Total number of files.</td>
+<td><code>customError</code></td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;documents&quot;</span>
+  <span class="hljs-attr">is-multiple</span>
+  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.jpg,.png&quot;</span>
+  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;2097152&quot;</span>
+  <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;3&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-8">
+    <div>
+      <p class="text-sm text-aeblack-500 mb-2">accept=".pdf,.jpg,.png" · max 2 MB per file · max 3 files</p>
+      <aegov-fileupload field-id="fu-lim-1" appearance="dropzone" name="fu-lim" is-multiple accept=".pdf,.jpg,.png" max-file-size="2097152" max-files="3"></aegov-fileupload>
+    </div>
+    <div>
+      <p class="text-sm text-aeblack-500 mb-2">accept="image/*"</p>
+      <aegov-fileupload field-id="fu-lim-2" name="fu-img" accept="image/*"></aegov-fileupload>
+    </div>
+  </div>
+</div>
+
+<p><code>maxFileSize</code> is in <strong>bytes</strong>, so 5 MB is <code>5242880</code>. The component formats it for display using localised size units, so you do not need to write &quot;5 MB&quot; anywhere.</p>
+<p>Client-side limits are a usability feature, not a security control. Always enforce the same rules on the server.</p>
+<p>Note that these limits no longer emit a separate error event. If you are migrating from an earlier version, <code>aegovFileuploadError</code> has been removed — the failures now arrive through the unified <code>aegovValidate</code> event with the flag shown in the table above. See <a href="#validation">Validation</a>.</p>
+<hr>
+<h2>Auto-generated helper text</h2>
+<p>The component derives helper text from <code>accept</code> — &quot;.pdf,.jpg&quot; becomes &quot;Allowed: PDF, JPG&quot;, and <code>image/*</code> becomes &quot;Allowed: Images&quot;. Override it with <code>label-help</code> when you need to say something more specific.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;a&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.jpg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;b&quot;</span>
+  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>
+  <span class="hljs-attr">label-help</span>=<span class="hljs-string">&quot;Stamped PDF from your employer, issued within the last 30 days&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-6">
+    <aegov-fileupload field-id="fu-help-1" name="fu-h1" accept=".pdf,.jpg"></aegov-fileupload>
+    <aegov-fileupload field-id="fu-help-2" name="fu-h2" accept=".pdf" label-help="Stamped PDF from your employer, issued within the last 30 days"></aegov-fileupload>
+  </div>
+</div>
+
+<p><code>label-help</code> replaces the generated text; <code>hint</code> adds guidance in the standard hint region shared with every other form control. Use <code>hint</code> for the instruction and <code>label-help</code> for the constraint.</p>
+<hr>
+<h2>Labels</h2>
+<p>Three label properties, each with a distinct job:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Renders</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>label</code></td>
+<td>The field&#39;s own label, above the control. Appends a required asterisk when <code>is-required</code>.</td>
+</tr>
+<tr>
+<td><code>labelButton</code></td>
+<td>The text on the Browse or Choose button.</td>
+</tr>
+<tr>
+<td><code>labelHelp</code></td>
+<td>The constraint line, overriding the generated one.</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;contract&quot;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Tenancy contract&quot;</span>
+  <span class="hljs-attr">label-button</span>=<span class="hljs-string">&quot;Choose PDF&quot;</span>
+  <span class="hljs-attr">label-help</span>=<span class="hljs-string">&quot;Attested contract, PDF only&quot;</span>
+  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>
+  <span class="hljs-attr">is-required</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md">
+    <aegov-fileupload field-id="fu-labels" name="contract" label="Tenancy contract" label-button="Choose PDF" label-help="Attested contract, PDF only" accept=".pdf" is-required></aegov-fileupload>
+  </div>
+</div>
+
+<p>Use either <code>label</code> on the component or an <a href="aegov-label.html"><code>aegov-label</code></a> inside an <a href="aegov-form-field.html"><code>aegov-form-field</code></a> — not both, or the field is announced twice.</p>
+<hr>
+<h2>Sizes</h2>
+<p>Five tokens, scaling the control, the button and the file list.</p>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-6">
+    <aegov-fileupload field-id="fu-s-xs" size="xs" name="fu-sxs" accept=".pdf"></aegov-fileupload>
+    <aegov-fileupload field-id="fu-s-sm" size="sm" name="fu-ssm" accept=".pdf"></aegov-fileupload>
+    <aegov-fileupload field-id="fu-s-base" size="base" name="fu-sb" accept=".pdf"></aegov-fileupload>
+    <aegov-fileupload field-id="fu-s-lg" size="lg" name="fu-slg" accept=".pdf"></aegov-fileupload>
+    <aegov-fileupload field-id="fu-s-xl" size="xl" name="fu-sxl" accept=".pdf"></aegov-fileupload>
+  </div>
+</div>
+
+<h3>Responsive sizes</h3>
+<p><code>size</code> accepts a responsive string with the prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code> and <code>2xl</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;a&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><hr>
+<h2>States</h2>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">is-disabled</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;a&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">is-required</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;b&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Passport copy&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">is-invalid</span> <span class="hljs-attr">error-message</span>=<span class="hljs-string">&quot;Upload your passport copy to continue&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;c&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-6">
+    <aegov-fileupload field-id="fu-st-1" is-disabled name="fu-st1" accept=".pdf" label="Disabled"></aegov-fileupload>
+    <aegov-fileupload field-id="fu-st-2" is-required name="fu-st2" accept=".pdf" label="Passport copy"></aegov-fileupload>
+    <aegov-fileupload field-id="fu-st-3" is-invalid error-message="Upload your passport copy to continue" name="fu-st3" accept=".pdf" label="Passport copy"></aegov-fileupload>
+    <aegov-fileupload field-id="fu-st-4" variant="secondary" name="fu-st4" accept=".pdf" label="Secondary variant"></aegov-fileupload>
   </div>
 </div>
 
 <hr>
-<h2>Required and disabled</h2>
-<p>Set <code>is-required=&quot;true&quot;</code> to mark the field as required — a red asterisk renders next to the label and the inner native input gains the <code>required</code> attribute, so it participates in native form validation. Set <code>is-disabled=&quot;true&quot;</code> to lock the control and prevent any interaction.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Identification&quot;</span>
-  <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>
-  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,image/*&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+<h2>Composite example — supporting documents</h2>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;documents&quot;</span> <span class="hljs-attr">novalidate</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Passport copy<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+      <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;passport&quot;</span>
+      <span class="hljs-attr">is-required</span>
+      <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.jpg,.png&quot;</span>
+      <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
+      <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;Full-page scan of both sides as a single file&quot;</span>
+    &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Pre-filled application (locked)&quot;</span>
-  <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>
-  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-fileupload
-    label="Identification"
-    is-required="true"
-    accept=".pdf,image/*"
-  ></aegov-fileupload>
-  <div class="my-4"></div>
-  <aegov-fileupload
-    label="Pre-filled application (locked)"
-    is-disabled="true"
-    accept=".pdf"
-  ></aegov-fileupload>
-</div>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Emirates ID copy<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+      <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;emiratesId&quot;</span>
+      <span class="hljs-attr">is-required</span>
+      <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.jpg,.png&quot;</span>
+      <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
+    &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
 
-<hr>
-<h2>Custom labels and helper text</h2>
-<p>Four properties shape the visible text:</p>
-<ul>
-<li><code>label</code>: rendered above the control.</li>
-<li><code>description</code>: subtitle line under the label.</li>
-<li><code>label-help</code>: helper line under the control. Overrides the auto-generated &ldquo;Allowed: …&rdquo; summary.</li>
-<li><code>label-button</code>: replaces the trigger button text.</li>
-</ul>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Salary certificate&quot;</span>
-  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Upload a stamped certificate from your employer issued within the last 30 days.&quot;</span>
-  <span class="hljs-attr">label-help</span>=<span class="hljs-string">&quot;PDF preferred. Maximum 5 MB.&quot;</span>
-  <span class="hljs-attr">label-button</span>=<span class="hljs-string">&quot;Choose file&quot;</span>
-  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.docx&quot;</span>
-  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-fileupload
-    label="Salary certificate"
-    description="Upload a stamped certificate from your employer issued within the last 30 days."
-    label-help="PDF preferred. Maximum 5 MB."
-    label-button="Choose file"
-    accept=".pdf,.docx"
-    max-file-size="5242880"
-  ></aegov-fileupload>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Supporting documents<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+      <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;supporting&quot;</span>
+      <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;dropzone&quot;</span>
+      <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;supporting&quot;</span>
+      <span class="hljs-attr">is-multiple</span>
+      <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.jpg,.png&quot;</span>
+      <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;5&quot;</span>
+      <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
+      <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;Anything else that supports your application&quot;</span>
+    &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Submit documents<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> form = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#documents&#x27;</span>);
+
+  form.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;submit&#x27;</span>, <span class="hljs-title function_">async</span> (e) =&gt; {
+    e.<span class="hljs-title function_">preventDefault</span>();
+
+    <span class="hljs-keyword">const</span> uploads = [...form.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;aegov-fileupload&#x27;</span>)];
+    <span class="hljs-keyword">const</span> results = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>(uploads.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">u</span>) =&gt;</span> u.<span class="hljs-title function_">validate</span>(<span class="hljs-string">&#x27;submit&#x27;</span>)));
+    <span class="hljs-keyword">const</span> badIndex = results.<span class="hljs-title function_">findIndex</span>(<span class="hljs-function">(<span class="hljs-params">r</span>) =&gt;</span> !r.<span class="hljs-property">valid</span>);
+
+    <span class="hljs-keyword">if</span> (badIndex !== -<span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> uploads[badIndex].<span class="hljs-title function_">focus</span>();
+
+    <span class="hljs-comment">// FormData carries one entry per file, all under the field&#x27;s name</span>
+    <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">uploadDocuments</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(form));
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-6">
+    <aegov-form-field>
+      <aegov-label>Passport copy</aegov-label>
+      <aegov-fileupload field-id="fu-cx-1" name="passport" is-required accept=".pdf,.jpg,.png" max-file-size="5242880" hint="Full-page scan of both sides as a single file"></aegov-fileupload>
+    </aegov-form-field>
+    <aegov-form-field>
+      <aegov-label>Emirates ID copy</aegov-label>
+      <aegov-fileupload field-id="fu-cx-2" name="emiratesId" is-required accept=".pdf,.jpg,.png" max-file-size="5242880"></aegov-fileupload>
+    </aegov-form-field>
+    <aegov-form-field>
+      <aegov-label>Supporting documents</aegov-label>
+      <aegov-fileupload field-id="fu-cx-3" appearance="dropzone" name="supporting" is-multiple accept=".pdf,.jpg,.png" max-files="5" max-file-size="5242880" hint="Anything else that supports your application"></aegov-fileupload>
+    </aegov-form-field>
+    <aegov-button type="submit" variant="primary" size="lg">Submit documents</aegov-button>
+  </div>
 </div>
 
 <hr>
 <h2>Listening for events</h2>
-<p>The component emits three custom events. <code>aegovFileuploadChange</code> fires after every successful add or remove, <code>aegovFileuploadRemove</code> fires only on remove, and <code>aegovFileuploadError</code> fires on any validation failure (invalid type, oversized file, or count exceeded).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;docs&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;dropzone&quot;</span> <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;image/*,.pdf&quot;</span> <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;docs&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;documents&quot;</span> <span class="hljs-attr">is-multiple</span> <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">const</span> docs = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;docs&#x27;</span>);
-  docs.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovFileuploadChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;current files&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">files</span>);
-  });
-  docs.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovFileuploadRemove&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;removed&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">file</span>.<span class="hljs-property">name</span>, <span class="hljs-string">&#x27;remaining&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">remaining</span>.<span class="hljs-property">length</span>);
-  });
-  docs.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovFileuploadError&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">warn</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">type</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">message</span>);
-  });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
-<h2>Programmatic access</h2>
-<p>Two methods are exposed on the host element. <code>getFiles()</code> returns a copy of the current selection; <code>clear()</code> empties the selection and resets the underlying native input.</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> upload = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-fileupload&#x27;</span>);
-<span class="hljs-keyword">const</span> files = <span class="hljs-keyword">await</span> upload.<span class="hljs-title function_">getFiles</span>();
-<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(files.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">f</span> =&gt;</span> f.<span class="hljs-property">name</span>));
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> upload = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#docs&#x27;</span>);
 
+  upload.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovFileuploadChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">files</span>);                    <span class="hljs-comment">// File[]</span>
+    counter.<span class="hljs-property">textContent</span> = <span class="hljs-string">`<span class="hljs-subst">${e.detail.files.length}</span> of 5 files`</span>;
+  });
+
+  upload.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovFileuploadRemove&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">file</span>.<span class="hljs-property">name</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">remaining</span>.<span class="hljs-property">length</span>);
+  });
+
+  <span class="hljs-comment">// Limit failures arrive here, not on a separate error event</span>
+  upload.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> v = e.<span class="hljs-property">detail</span>.<span class="hljs-property">validity</span>;
+    <span class="hljs-keyword">if</span> (v.<span class="hljs-property">typeMismatch</span>) <span class="hljs-title function_">showToast</span>(<span class="hljs-string">&#x27;That file type is not accepted&#x27;</span>, <span class="hljs-string">&#x27;error&#x27;</span>);
+    <span class="hljs-keyword">if</span> (v.<span class="hljs-property">tooLong</span>)      <span class="hljs-title function_">showToast</span>(<span class="hljs-string">&#x27;That file is too large&#x27;</span>, <span class="hljs-string">&#x27;error&#x27;</span>);
+    <span class="hljs-keyword">if</span> (v.<span class="hljs-property">customError</span>)  <span class="hljs-title function_">showToast</span>(<span class="hljs-string">&#x27;Too many files&#x27;</span>, <span class="hljs-string">&#x27;error&#x27;</span>);
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>You can also read the current selection imperatively:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> files = <span class="hljs-keyword">await</span> upload.<span class="hljs-title function_">getFiles</span>();
 <span class="hljs-keyword">await</span> upload.<span class="hljs-title function_">clear</span>();</code></pre><hr>
-<h2>Combined Example</h2>
-<p>A complete supporting-documents step from a service application — a dropzone with multiple files, an explicit type and size limit, a custom helper line, and a required marker.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
-  <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;dropzone&quot;</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Application supporting documents&quot;</span>
-  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Attach scans of your Emirates ID, passport bio-data page, and a recent utility bill.&quot;</span>
-  <span class="hljs-attr">label-help</span>=<span class="hljs-string">&quot;PDF or JPG. Maximum 10 MB per file. Up to 5 files.&quot;</span>
-  <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span>
-  <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>
-  <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;5&quot;</span>
-  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;10485760&quot;</span>
-  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,image/jpeg,image/png&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-fileupload
-    appearance="dropzone"
-    label="Application supporting documents"
-    description="Attach scans of your Emirates ID, passport bio-data page, and a recent utility bill."
-    label-help="PDF or JPG. Maximum 10 MB per file. Up to 5 files."
-    is-multiple="true"
-    is-required="true"
-    max-files="5"
-    max-file-size="10485760"
-    accept=".pdf,image/jpeg,image/png"
-  ></aegov-fileupload>
-</div>
-
-<hr>
 <h2>RTL Support</h2>
-<p>The component is direction-agnostic. When the document or any ancestor is set to <code>dir=&quot;rtl&quot;</code>, the browse button moves to the start (right) edge in the default appearance; the file list, file icon, file name, file size, and remove button all use logical inline properties so the row reads from right to left. The dropzone layout is centered and looks the same in both directions — only its label and helper text flip with the document direction.</p>
+<p>The component is fully direction-aware, and it is the most thoroughly translated control in the library. In a <code>dir=&quot;rtl&quot;</code> container the layout mirrors — the Browse button, the file icons, the remove buttons and the dropzone content all flip — and <strong>every piece of built-in text switches to Arabic automatically</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Text</th>
+<th>English</th>
+<th>Arabic</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Empty state</td>
+<td>&quot;No file chosen&quot;</td>
+<td>&quot;لم يتم اختيار ملف&quot;</td>
+</tr>
+<tr>
+<td>Multiple selection</td>
+<td>&quot;3 files selected&quot;</td>
+<td>&quot;تم اختيار ٣ ملفات&quot;</td>
+</tr>
+<tr>
+<td>Generated constraint</td>
+<td>&quot;Allowed: PDF, JPG&quot;</td>
+<td>&quot;المسموح به: PDF, JPG&quot;</td>
+</tr>
+<tr>
+<td>Browse button</td>
+<td>&quot;Browse&quot; / &quot;Choose File&quot;</td>
+<td>translated equivalents</td>
+</tr>
+<tr>
+<td>Dropzone prompt</td>
+<td>&quot;Drag and drop files here, or&quot;</td>
+<td>translated equivalent</td>
+</tr>
+<tr>
+<td>Remove button label</td>
+<td>&quot;Remove {filename}&quot;</td>
+<td>&quot;إزالة {filename}&quot;</td>
+</tr>
+<tr>
+<td>Required marker</td>
+<td>&quot;Required&quot;</td>
+<td>&quot;مطلوب&quot;</td>
+</tr>
+<tr>
+<td>Limit errors</td>
+<td>&quot;File … exceeds the maximum size of 5 MB.&quot;</td>
+<td>&quot;الملف … يتجاوز الحجم الأقصى ٥ ميجابايت.&quot;</td>
+</tr>
+</tbody></table>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
-    <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;رفع الهوية الإماراتية&quot;</span>
-    <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;يرجى رفع نسخة واضحة من وجهي الهوية بصيغة PDF.&quot;</span>
-    <span class="hljs-attr">label-button</span>=<span class="hljs-string">&quot;اختر ملف&quot;</span>
-    <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>
-    <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
-  &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>صورة جواز السفر<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+      <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;passport&quot;</span>
+      <span class="hljs-attr">is-required</span>
+      <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.jpg,.png&quot;</span>
+      <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
+      <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;مسح كامل لكلا الوجهين في ملف واحد&quot;</span>
+    &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;dropzone&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;supporting&quot;</span> <span class="hljs-attr">is-multiple</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.jpg&quot;</span> <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-fileupload
-    label="رفع الهوية الإماراتية"
-    description="يرجى رفع نسخة واضحة من وجهي الهوية بصيغة PDF."
-    label-button="اختر ملف"
-    accept=".pdf"
-    max-file-size="5242880"
-  ></aegov-fileupload>
+  <div class="max-w-md space-y-6">
+    <aegov-form-field>
+      <aegov-label>صورة جواز السفر</aegov-label>
+      <aegov-fileupload field-id="fu-rtl-1" name="passport" is-required accept=".pdf,.jpg,.png" max-file-size="5242880" hint="مسح كامل لكلا الوجهين في ملف واحد"></aegov-fileupload>
+    </aegov-form-field>
+    <aegov-fileupload field-id="fu-rtl-2" appearance="dropzone" name="supporting" is-multiple accept=".pdf,.jpg" max-files="5"></aegov-fileupload>
+    <aegov-fileupload field-id="fu-rtl-3" appearance="button" name="other" accept=".pdf" is-invalid error-message="يجب إرفاق صورة جواز السفر للمتابعة"></aegov-fileupload>
+  </div>
 </div>
 
-<p>The same component as a dropzone with multiple files in RTL:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
-    <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;dropzone&quot;</span>
-    <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;المستندات الداعمة للطلب&quot;</span>
-    <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;أرفق صوراً ضوئية للهوية الإماراتية وجواز السفر وفاتورة حديثة.&quot;</span>
-    <span class="hljs-attr">label-button</span>=<span class="hljs-string">&quot;استعراض الملفات&quot;</span>
-    <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span>
-    <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;5&quot;</span>
-    <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;10485760&quot;</span>
-    <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,image/*&quot;</span>
-  &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-fileupload
-    appearance="dropzone"
-    label="المستندات الداعمة للطلب"
-    description="أرفق صوراً ضوئية للهوية الإماراتية وجواز السفر وفاتورة حديثة."
-    label-button="استعراض الملفات"
-    is-multiple="true"
-    max-files="5"
-    max-file-size="10485760"
-    accept=".pdf,image/*"
-  ></aegov-fileupload>
-</div>
-
+<p>File <strong>names</strong> are not translated, obviously — and a name in Latin script inside an Arabic list is normal and correct. The component does not force a direction on them.</p>
 <hr>
 <h2>API Reference</h2>
-<h3>aegov-fileupload Properties</h3>
+<h3>Properties</h3>
 <table>
 <thead>
 <tr>
@@ -398,111 +417,140 @@
 <tbody><tr>
 <td><code>fieldId</code></td>
 <td><code>field-id</code></td>
-<td>DOM <code>id</code> for the inner native <code>&lt;input type=&quot;file&quot;&gt;</code>. Auto-generated.</td>
+<td>ID applied to the inner <code>&lt;input&gt;</code>. Auto-generated when omitted, reflected.</td>
 <td><code>string</code></td>
 <td><em>generated</em></td>
 </tr>
 <tr>
 <td><code>appearance</code></td>
 <td><code>appearance</code></td>
-<td>Layout — <code>default</code>, <code>button</code>, or <code>dropzone</code>.</td>
+<td>Rendering mode. <code>default</code> replaces the selection; <code>button</code> and <code>dropzone</code> accumulate.</td>
 <td><code>&#39;default&#39; | &#39;button&#39; | &#39;dropzone&#39;</code></td>
 <td><code>&#39;default&#39;</code></td>
 </tr>
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Control size token. Accepts a single token or a responsive string.</td>
-<td><code>&#39;xs&#39; | &#39;sm&#39; | &#39;base&#39; | &#39;lg&#39; | &#39;xl&#39;</code></td>
+<td>Size token or responsive string.</td>
+<td><code>string</code> — <code>xs | sm | base | lg | xl</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
 <td><code>variant</code></td>
 <td><code>variant</code></td>
-<td>Colour family for default ring, button bg, dropzone border, and file-name accent. Focus ring stays camel; error stays aered.</td>
+<td>Colour family.</td>
 <td><code>&#39;primary&#39; | &#39;secondary&#39; | &#39;neutral-max&#39; | &#39;neutral-min&#39;</code></td>
 <td><code>&#39;primary&#39;</code></td>
 </tr>
 <tr>
+<td><code>name</code></td>
+<td><code>name</code></td>
+<td>Form field name. All files submit under this one name.</td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+<tr>
 <td><code>isMultiple</code></td>
 <td><code>is-multiple</code></td>
-<td>Allow more than one file to be selected.</td>
+<td>Allow more than one file.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>accept</code></td>
 <td><code>accept</code></td>
-<td>Comma-separated list of allowed types (extensions, MIME, or wildcards).</td>
+<td>Allowed types, native <code>accept</code> syntax. Also drives the generated helper text.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>maxFileSize</code></td>
 <td><code>max-file-size</code></td>
-<td>Maximum size of a single file in bytes.</td>
+<td>Maximum size <strong>per file, in bytes</strong>.</td>
 <td><code>number</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>maxFiles</code></td>
 <td><code>max-files</code></td>
-<td>Maximum number of files when <code>is-multiple</code> is set.</td>
+<td>Maximum number of files.</td>
 <td><code>number</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td><code>label</code></td>
+<td>The field&#39;s own label. Appends a required asterisk when <code>is-required</code>.</td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>labelButton</code></td>
+<td><code>label-button</code></td>
+<td>Text on the Browse button.</td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>labelHelp</code></td>
+<td><code>label-help</code></td>
+<td>Constraint line, overriding the text generated from <code>accept</code>.</td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td><code>hint</code></td>
+<td>Helper text in the standard hint region.</td>
+<td><code>string</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>isDisabled</code></td>
 <td><code>is-disabled</code></td>
-<td>Disables the control. Reflected to the host.</td>
+<td>Disables the control. Reflected.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>isRequired</code></td>
 <td><code>is-required</code></td>
-<td>Marks the field as required and renders a red asterisk on the label.</td>
+<td>Marks the field required.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
-<td><code>name</code></td>
-<td><code>name</code></td>
-<td>Form field name applied to the inner native input.</td>
-<td><code>string</code></td>
-<td><code>undefined</code></td>
+<td><code>isInvalid</code></td>
+<td><code>is-invalid</code></td>
+<td>Invalid state. Mutable and reflected.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
 </tr>
 <tr>
-<td><code>label</code></td>
-<td><code>label</code></td>
-<td>Label text rendered above the control.</td>
+<td><code>errorMessage</code></td>
+<td><code>error-message</code></td>
+<td>Error text shown while invalid.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
-</tr>
-<tr>
-<td><code>description</code></td>
-<td><code>description</code></td>
-<td>Subtitle line rendered under the label.</td>
-<td><code>string</code></td>
-<td><code>undefined</code></td>
-</tr>
-<tr>
-<td><code>labelHelp</code></td>
-<td><code>label-help</code></td>
-<td>Helper text under the control. Overrides the auto-generated &ldquo;Allowed&rdquo; summary.</td>
-<td><code>string</code></td>
-<td><code>undefined</code></td>
-</tr>
-<tr>
-<td><code>labelButton</code></td>
-<td><code>label-button</code></td>
-<td>Custom text for the trigger / browse button.</td>
-<td><code>string</code></td>
-<td><code>undefined</code></td>
+<td><code>&#39;&#39;</code></td>
 </tr>
 </tbody></table>
 <h3>Slots</h3>
-<p>The component does not expose any slots — labels and descriptions are configured through props.</p>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>hint</code></td>
+<td>Rich hint markup. Takes precedence over the <code>hint</code> property.</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Rich error markup. Rendered only while <code>is-invalid</code>.</td>
+</tr>
+</tbody></table>
 <h3>Events</h3>
 <table>
 <thead>
@@ -515,19 +563,20 @@
 <tbody><tr>
 <td><code>aegovFileuploadChange</code></td>
 <td><code>{ files: File[] }</code></td>
-<td>Fires after every successful add or remove. <code>files</code> is the full current selection.</td>
+<td>The selection changed. Carries the full current set, not just the new files.</td>
 </tr>
 <tr>
 <td><code>aegovFileuploadRemove</code></td>
 <td><code>{ file: File; remaining: File[] }</code></td>
-<td>Fires when a file is removed via its remove button.</td>
+<td>A file was removed from the list.</td>
 </tr>
 <tr>
-<td><code>aegovFileuploadError</code></td>
-<td><code>{ type: &#39;max-size&#39; | &#39;max-files&#39; | &#39;invalid-type&#39;; file?: File; message: string }</code></td>
-<td>Fires when a file fails type, size, or count validation. The file is not added.</td>
+<td><code>aegovValidate</code></td>
+<td><code>AegovValidationDetail&lt;File[]&gt;</code></td>
+<td>Unified validation event — see <a href="#validation">Validation</a>.</td>
 </tr>
 </tbody></table>
+<p>There is no <code>aegovFileuploadError</code> event. Limit failures arrive through <code>aegovValidate</code>.</p>
 <h3>Methods</h3>
 <table>
 <thead>
@@ -540,143 +589,198 @@
 <tbody><tr>
 <td><code>getFiles()</code></td>
 <td><code>Promise&lt;File[]&gt;</code></td>
-<td>Resolves with a copy of the currently selected files.</td>
+<td>The current selection.</td>
 </tr>
 <tr>
 <td><code>clear()</code></td>
 <td><code>Promise&lt;void&gt;</code></td>
-<td>Empties the selection and resets the inner native input.</td>
+<td>Removes every file, resets the inner input, and re-runs validation.</td>
+</tr>
+<tr>
+<td><code>validate(trigger?)</code></td>
+<td><code>Promise&lt;AegovValidationResult&gt;</code></td>
+<td>Re-runs validation and emits <code>aegovValidate</code>.</td>
+</tr>
+<tr>
+<td><code>setCustomValidity(message)</code></td>
+<td><code>Promise&lt;void&gt;</code></td>
+<td>Sets <code>error-message</code> and <code>is-invalid</code>, and writes the validity through <code>ElementInternals</code>. Empty string clears.</td>
 </tr>
 </tbody></table>
 <h3>Pass-through Attributes</h3>
-<p>The component forwards <code>aria-*</code> and <code>data-*</code> attributes to the inner native <code>&lt;input type=&quot;file&quot;&gt;</code>, plus the explicit list below. All other attributes (including <code>class</code> and <code>style</code>) stay on the host element.</p>
 <table>
 <thead>
 <tr>
 <th>Attribute group</th>
-<th>Forwarded to</th>
+<th>Forwarded?</th>
 <th>Notes</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>aria-*</code></td>
-<td>inner <code>&lt;input type=&quot;file&quot;&gt;</code></td>
-<td>Preserves <code>aria-label</code>, <code>aria-describedby</code>, etc. on the native input.</td>
-</tr>
-<tr>
-<td><code>data-*</code></td>
-<td>inner <code>&lt;input type=&quot;file&quot;&gt;</code></td>
-<td>Useful for analytics hooks and test selectors.</td>
-</tr>
-<tr>
 <td><code>capture</code></td>
-<td>inner <code>&lt;input type=&quot;file&quot;&gt;</code></td>
-<td><code>user</code> or <code>environment</code> to prefer a camera on mobile devices.</td>
-</tr>
-<tr>
-<td><code>autofocus</code></td>
-<td>inner <code>&lt;input type=&quot;file&quot;&gt;</code></td>
-<td>Auto-focus on page load.</td>
-</tr>
-<tr>
-<td><code>form</code></td>
-<td>inner <code>&lt;input type=&quot;file&quot;&gt;</code></td>
-<td>Associates the control with a <code>&lt;form&gt;</code> element by id.</td>
-</tr>
-<tr>
-<td><code>tabindex</code></td>
-<td>inner <code>&lt;input type=&quot;file&quot;&gt;</code></td>
-<td>Custom tab order.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td>inner <code>&lt;input type=&quot;file&quot;&gt;</code></td>
-<td>Native browser tooltip.</td>
+<td>Yes</td>
+<td>Native camera capture hint on mobile.</td>
 </tr>
 <tr>
 <td><code>webkitdirectory</code></td>
-<td>inner <code>&lt;input type=&quot;file&quot;&gt;</code></td>
-<td>Chromium/Webkit-only flag for directory selection.</td>
+<td>Yes</td>
+<td>Directory selection, where supported.</td>
+</tr>
+<tr>
+<td><code>autofocus</code>, <code>form</code>, <code>tabindex</code>, <code>title</code></td>
+<td>Yes</td>
+<td>Forwarded to the inner <code>&lt;input&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>aria-*</code></td>
+<td>Yes</td>
+<td>Forwarded — except <code>aria-invalid</code> and <code>aria-describedby</code>.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>Yes</td>
+<td>Forwarded to the inner <code>&lt;input&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>aria-invalid</code>, <code>aria-describedby</code></td>
+<td>Managed</td>
+<td>Owned by the component; <code>aria-describedby</code> composes your value with the hint, help and error IDs.</td>
+</tr>
+<tr>
+<td><code>accept</code>, <code>multiple</code></td>
+<td>n/a</td>
+<td>Use the <code>accept</code> and <code>is-multiple</code> properties.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>n/a</td>
+<td>Use <code>field-id</code>.</td>
 </tr>
 <tr>
 <td><code>class</code>, <code>style</code></td>
-<td>host</td>
-<td>Stay on the <code>&lt;aegov-fileupload&gt;</code> element.</td>
+<td>Allowed</td>
+<td>Applied to the host.</td>
+</tr>
+</tbody></table>
+<h3>CSS classes</h3>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Element</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>.aegov-fileupload</code></td>
+<td>The component wrapper.</td>
+</tr>
+<tr>
+<td><code>.fileupload__file-list</code></td>
+<td>The list of chosen files. <code>role=&quot;list&quot;</code>.</td>
+</tr>
+<tr>
+<td><code>.fileupload__file-icon</code></td>
+<td>Per-file icon. Marked <code>aria-hidden</code>.</td>
+</tr>
+<tr>
+<td><code>.fileupload__drop-icon</code></td>
+<td>Dropzone icon. Marked <code>aria-hidden</code>.</td>
+</tr>
+<tr>
+<td><code>.fileupload__required</code></td>
+<td>The asterisk added by <code>is-required</code>. Marked <code>aria-hidden</code>.</td>
+</tr>
+<tr>
+<td><code>.is-invalid</code></td>
+<td>Added to the <strong>host</strong> while <code>is-invalid</code>.</td>
 </tr>
 </tbody></table>
 <hr>
 <h2>Validation</h2>
-<p><code>aegov-fileupload</code> exposes the unified <a href="validation-overview.html">Validation Surface</a>. Fileupload-specific notes:</p>
-<h3>FormAssociated</h3>
-<p>Uses <code>ElementInternals.setFormValue()</code> with FormData containing one entry per file (key = <code>name</code> prop, value = <code>File</code>). Multi-file forms submit cleanly without manual flattening.</p>
-<blockquote>
-<p><strong>Renamed:</strong> the <code>description</code> prop was renamed to <code>hint</code>. CSS class <code>fileupload__description</code> → <code>fileupload__hint</code>.</p>
-<p><strong>Removed event:</strong> <code>aegovFileuploadError</code> was removed in <code>0.2.0</code>. Errors now surface through the unified <code>aegovValidate</code> event with mapped validity flags:</p>
+<h3>Surface</h3>
+<p><code>aegov-fileupload</code> implements the shared contract, reporting a <code>File[]</code> value. It is a <strong>form-associated custom element</strong> using <code>ElementInternals.setFormValue()</code>, appending one <code>FormData</code> entry per file under the field&#39;s <code>name</code>. This is why Safari 16.4 is the support floor. Full reference: <a href="validation-overview.html">Validation Surface</a>.</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(form).<span class="hljs-title function_">getAll</span>(<span class="hljs-string">&#x27;documents&#x27;</span>);   <span class="hljs-comment">// [File, File, File]</span></code></pre><h3>Validity flags</h3>
+<p>The three limits map onto standard flags, which is how they replaced the old dedicated error event:</p>
 <table>
 <thead>
 <tr>
-<th>Old <code>error.type</code></th>
-<th>New <code>validity</code> flag</th>
+<th>Flag</th>
+<th>Set when</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>&#39;max-size&#39;</code></td>
-<td><code>tooLong: true</code></td>
+<td><code>valueMissing</code></td>
+<td><code>is-required</code> and nothing has been chosen.</td>
 </tr>
 <tr>
-<td><code>&#39;invalid-type&#39;</code></td>
-<td><code>typeMismatch: true</code></td>
+<td><code>typeMismatch</code></td>
+<td>A file&#39;s type is not permitted by <code>accept</code>.</td>
 </tr>
 <tr>
-<td><code>&#39;max-files&#39;</code></td>
-<td><code>customError: true</code></td>
+<td><code>tooLong</code></td>
+<td>A file exceeds <code>maxFileSize</code>.</td>
+</tr>
+<tr>
+<td><code>customError</code></td>
+<td>More files than <code>maxFiles</code>, or a message set via <code>setCustomValidity()</code>.</td>
 </tr>
 </tbody></table>
-</blockquote>
+<p>Note <code>tooLong</code> for an oversized file is a deliberate reuse of an existing flag rather than an invented one — it keeps <code>detail.validity</code> a genuine <code>ValidityState</code> shape that generic form code can consume.</p>
 <h3>Common recipes</h3>
-<p><strong>Single PDF, max 5 MB:</strong></p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
-  <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;resume&quot;</span>
-  <span class="hljs-attr">is-required</span>
-  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;application/pdf&quot;</span>
-  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
-  <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;PDF only, up to 5 MB&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><p><code>valueMissing</code> fires when <code>is-required</code> and no file selected. <code>typeMismatch</code> fires for non-PDF; <code>tooLong</code> fires when over size.</p>
-<p><strong>Multiple images, up to 5:</strong></p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
-  <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;photos&quot;</span>
-  <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;dropzone&quot;</span>
-  <span class="hljs-attr">is-multiple</span>
-  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;image/*&quot;</span>
-  <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;5&quot;</span>
-  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;2097152&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><p><strong>Server-side rejection:</strong></p>
-<pre><code class="hljs language-js">fileupload.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovFileuploadChange&#x27;</span>, <span class="hljs-title function_">async</span> (e) =&gt; {
-  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">scanFiles</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">files</span>);
-  <span class="hljs-keyword">if</span> (!res.<span class="hljs-property">ok</span>) {
-    <span class="hljs-keyword">await</span> fileupload.<span class="hljs-title function_">setCustomValidity</span>(res.<span class="hljs-property">message</span>);
-  } <span class="hljs-keyword">else</span> {
-    <span class="hljs-keyword">await</span> fileupload.<span class="hljs-title function_">setCustomValidity</span>(<span class="hljs-string">&#x27;&#x27;</span>);
-  }
-});</code></pre><p>See <a href="validation-byo.html">BYO Validator</a> for more patterns.</p>
-<hr>
+<p>Surface limit failures as messages of your own:</p>
+<pre><code class="hljs language-js">upload.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> v = e.<span class="hljs-property">detail</span>.<span class="hljs-property">validity</span>;
+
+  upload.<span class="hljs-property">isInvalid</span> = !v.<span class="hljs-property">valid</span>;
+  upload.<span class="hljs-property">errorMessage</span> =
+    v.<span class="hljs-property">valueMissing</span> ? <span class="hljs-string">&#x27;Upload your passport copy to continue&#x27;</span> :
+    v.<span class="hljs-property">typeMismatch</span> ? <span class="hljs-string">&#x27;Only PDF, JPG and PNG files are accepted&#x27;</span> :
+    v.<span class="hljs-property">tooLong</span>      ? <span class="hljs-string">&#x27;Each file must be 5 MB or smaller&#x27;</span> :
+    v.<span class="hljs-property">customError</span>  ? <span class="hljs-string">&#x27;Upload no more than 5 files&#x27;</span> : <span class="hljs-string">&#x27;&#x27;</span>;
+});</code></pre><p>A rule the component cannot know — total size across all files:</p>
+<pre><code class="hljs language-js">upload.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovFileuploadChange&#x27;</span>, <span class="hljs-title function_">async</span> (e) =&gt; {
+  <span class="hljs-keyword">const</span> total = e.<span class="hljs-property">detail</span>.<span class="hljs-property">files</span>.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">sum, f</span>) =&gt;</span> sum + f.<span class="hljs-property">size</span>, <span class="hljs-number">0</span>);
+  <span class="hljs-keyword">const</span> ok = total &lt;= <span class="hljs-number">20</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>;
+  <span class="hljs-keyword">await</span> upload.<span class="hljs-title function_">setCustomValidity</span>(ok ? <span class="hljs-string">&#x27;&#x27;</span> : <span class="hljs-string">&#x27;Your documents total more than 20 MB&#x27;</span>);
+});</code></pre><p>A server-side rejection after upload:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">try</span> {
+  <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">uploadDocuments</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(form));
+} <span class="hljs-keyword">catch</span> (err) {
+  <span class="hljs-keyword">await</span> upload.<span class="hljs-title function_">setCustomValidity</span>(err.<span class="hljs-property">message</span> || <span class="hljs-string">&#x27;We could not accept those documents&#x27;</span>);
+}</code></pre><p>More patterns in <a href="validation-byo.html">Bring Your Own Validator</a>.</p>
+<h3>Use with <code>@aegov/designsystem-validation</code></h3>
+<p>The <strong>optional</strong> companion package drives this surface from a schema.</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createForm } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation&#x27;</span>;
+<span class="hljs-keyword">import</span> { valibotAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/adapters/valibot&#x27;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> v <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;valibot&#x27;</span>;
+
+<span class="hljs-title function_">createForm</span>(form, v.<span class="hljs-title function_">object</span>({
+  <span class="hljs-attr">passport</span>: v.<span class="hljs-title function_">pipe</span>(v.<span class="hljs-title function_">array</span>(v.<span class="hljs-title function_">instance</span>(<span class="hljs-title class_">File</span>)), v.<span class="hljs-title function_">minLength</span>(<span class="hljs-number">1</span>, <span class="hljs-string">&#x27;Upload your passport copy&#x27;</span>)),
+}), <span class="hljs-title function_">valibotAdapter</span>());</code></pre><hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The control is anchored on a real <code>&lt;input type=&quot;file&quot;&gt;</code>, so it is keyboard-focusable, screen-reader-friendly, and submits with native forms.</li>
-<li>The visible <code>&lt;label&gt;</code> is wired via <code>for</code> to the inner input&#39;s id.</li>
-<li><strong>Default appearance</strong>: the native file input carries <code>aria-invalid</code>, <code>aria-required</code>, and <code>aria-describedby</code> linking helper text, error, and hint regions — giving AT full field state.</li>
-<li><strong>Button and dropzone appearances</strong>: the native file input is hidden (<code>aria-hidden</code>, <code>tabindex=&quot;-1&quot;</code>) behind a real <code>&lt;button&gt;</code>. The trigger button receives <code>aria-invalid</code> and <code>aria-describedby</code> pointing at the error/hint regions so AT announces the field state when the user focuses the button.</li>
-<li>Error and hint regions use <code>aria-live=&quot;polite&quot;</code> + <code>role=&quot;alert&quot;</code> after the first interaction (gap §7.10) to avoid interrupting AT during initial render.</li>
-<li>Each file in the list has a bilingual <code>aria-label=&quot;Remove {filename}&quot;</code> on its remove button. Remove SVGs are <code>aria-hidden=&quot;true&quot;</code>.</li>
-<li>The native input is reset to an empty value after each selection so picking the same file again still triggers <code>aegovFileuploadChange</code>.</li>
+<li>The control is built on a real <code>&lt;input type=&quot;file&quot;&gt;</code>, so the file picker, keyboard activation and platform integration come from the browser.</li>
+<li>The dropzone opens the picker on click and keyboard activation as well as accepting a drop, so drag-and-drop is never the only route — which is essential, since dragging is unavailable to many keyboard, screen reader and motor-impaired users.</li>
+<li>The file list is a real <code>role=&quot;list&quot;</code>, and each remove button is a real <code>&lt;button&gt;</code> whose <code>aria-label</code> names the file it removes — &quot;Remove passport-scan.pdf&quot;, not a generic &quot;Remove&quot;.</li>
+<li>All decorative icons — file icons, the dropzone icon, the required asterisk — are marked <code>aria-hidden=&quot;true&quot;</code>.</li>
+<li><code>aria-describedby</code> is composed, preserving your own value alongside the hint, the generated help text and the error region.</li>
+<li><strong>Every built-in string is localised</strong>, including limit error messages, size units and the required marker — see <a href="#rtl-support">RTL Support</a>.</li>
+<li>Helper text is generated from <code>accept</code>, so the permitted types are stated to the user rather than discovered by trial and error.</li>
+<li>The error region takes <code>role=&quot;alert&quot;</code> only after first blur.</li>
+<li>The focus ring is a high-contrast camel outline held constant across variants, meeting the 3:1 requirement of WCAG 2.2 SC 1.4.11.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Always provide a meaningful <code>label</code> (or external <code>aegov-label</code>) so screen readers can announce the purpose of the upload.</li>
-<li>For dropzone use cases, supply a <code>hint</code> clarifying the supported types and size limits — drag-and-drop is a visual enhancement; the button is the accessible fallback.</li>
-<li>Use <code>error-message</code> or the <code>error</code> slot to surface validation messages; the component wires them to <code>aria-describedby</code> automatically.</li>
-<li>Default appearance replaces the entire selection on each pick; button and dropzone appearances accumulate. Use <code>clear()</code> to reset programmatically.</li>
+<li><strong>Always label the field</strong>, using either the <code>label</code> property or an <a href="aegov-label.html"><code>aegov-label</code></a> in a <a href="aegov-form-field.html">form field</a> — not both.</li>
+<li><strong>State what document you want, and in what form.</strong> &quot;Passport copy&quot; is not enough; &quot;Full-page scan of both sides as a single file&quot; is.</li>
+<li><strong>Set <code>accept</code> and <code>maxFileSize</code>.</strong> Without them the user discovers the rules by failing, and your server bears uploads it will reject.</li>
+<li><strong>Enforce every limit on the server too.</strong> Client-side checks are usability, not security.</li>
+<li><strong>Announce upload progress and completion yourself.</strong> The component manages selection, not transfer — use a <a href="aegov-progress.html">Progress</a> bar in a live region, and a <a href="aegov-toast.html">Toast</a> on success.</li>
+<li><strong>Never signal an error with colour alone</strong> (WCAG 2.2 SC 1.4.1) — populate <code>error-message</code>, or map the validity flags to messages as shown above.</li>
+<li><strong>Choose the appearance for the job.</strong> <code>default</code> replaces, <code>button</code> and <code>dropzone</code> accumulate; picking the wrong one produces a genuinely confusing field.</li>
+<li><strong>Do not rely on <code>dropzone</code> for mobile.</strong> Drag-and-drop does not exist there; the picker is the real interaction.</li>
+<li><strong>Say what the file will be used for</strong> when uploading identity documents. This is a privacy expectation in government services, not just good copy.</li>
 </ul>
 <h3>Keyboard support</h3>
 <table>
@@ -688,21 +792,26 @@
 </thead>
 <tbody><tr>
 <td><code>Tab</code></td>
-<td>Move focus into the control or to the next file&#39;s remove button.</td>
+<td>Move focus to the control, then through each file&#39;s remove button.</td>
 </tr>
 <tr>
 <td><code>Enter</code>, <code>Space</code></td>
-<td>Open the OS file picker when the trigger button is focused.</td>
+<td>Open the file picker when the control or Browse button has focus.</td>
 </tr>
 <tr>
 <td><code>Enter</code>, <code>Space</code></td>
-<td>Activate the focused remove button to remove its file.</td>
-</tr>
-<tr>
-<td><code>Shift + Tab</code></td>
-<td>Move focus to the previous focusable element.</td>
+<td>Remove a file when its remove button has focus.</td>
 </tr>
 </tbody></table>
+<hr>
+<h2>Where to next</h2>
+<ul>
+<li><a href="aegov-progress.html">Progress</a> — for reporting upload progress.</li>
+<li><a href="aegov-toast.html">Toast</a> — for confirming a successful upload.</li>
+<li><a href="aegov-form-field.html">Form Field</a> and <a href="aegov-label.html">Label</a> — the wrapper and label.</li>
+<li><a href="aegov-callout.html">Callout</a> — for explaining document requirements above a form.</li>
+<li><a href="validation-overview.html">Validation Surface</a> and <a href="validation-byo.html">Bring Your Own Validator</a>.</li>
+</ul>
 <!-- DOC:END -->
           </section>
       </article>

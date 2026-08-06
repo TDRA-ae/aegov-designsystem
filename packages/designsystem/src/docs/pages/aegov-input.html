@@ -21,386 +21,413 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Input</h1>
-<p class="text-lg text-aeblack-500 mb-8">An Input is the primary single-line control for collecting short text values across UAE Government service forms — names, email addresses, Emirates ID numbers, reference codes, passwords, and more. The component wraps a native HTML input so every browser feature, autofill behaviour, and assistive-technology hook keeps working, while the design system layers consistent sizing, four colour variants (`primary`, `secondary`, `neutral-max`, `neutral-min`), icons, password reveal, and copy-to-clipboard helpers on top.</p>
+<p class="text-lg text-aeblack-500 mb-8">An Input collects a single line of text from the user. It is the most-used control in any government service, so it carries the most surface: twelve native types, five sizes, leading and trailing icons, a password reveal toggle, a copy-to-clipboard action, and the full validation contract shared by every form component.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-input</code> component renders a real <code>&lt;input&gt;</code> element styled to the design system. Use it directly when you only need the field, or pair it with <code>aegov-form-field</code> and <code>aegov-label</code> to wire up label, helper text, and error messaging. Sub-component <code>aegov-input-group</code> adds prefix and suffix add-ons (currency symbols, domains, search buttons) and propagates its <code>size</code> to nested inputs and buttons.</p>
+<p><code>aegov-input</code> renders a real <code>&lt;input&gt;</code> in the light DOM and manages the label association, hint and error regions, and ARIA wiring around it. Pair it with <a href="aegov-form-field.html"><code>aegov-form-field</code></a> and <a href="aegov-label.html"><code>aegov-label</code></a> for a complete, correctly-linked field.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Full name (as per Emirates ID)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;full-name&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;e.g. Mohammed Ali Al Mansoori&quot;</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Full name<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;fullName&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;As printed on your Emirates ID&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-form-field>
-    <aegov-label>Full name (as per Emirates ID)</aegov-label>
-    <aegov-input name="full-name" placeholder="e.g. Mohammed Ali Al Mansoori" is-required="true"></aegov-input>
-  </aegov-form-field>
-</div>
-
-<hr>
-<h2>Input Types</h2>
-<p>The <code>type</code> property maps directly to the native HTML input type. Use <code>text</code> for general fields, <code>email</code> for addresses (triggers email keyboards on mobile), <code>tel</code> for phone numbers, <code>number</code> for fees and amounts, <code>password</code> for credentials, <code>search</code> for filter bars, and <code>url</code>/<code>date</code>/<code>time</code> for the obvious cases.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Full name&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;you@example.gov.ae&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;tel&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;+971 50 000 0000&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;number&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;search&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search services&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;url&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;https://&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid gap-4 max-w-md">
-    <aegov-input type="text" placeholder="Full name"></aegov-input>
-    <aegov-input type="email" placeholder="you@example.gov.ae"></aegov-input>
-    <aegov-input type="tel" placeholder="+971 50 000 0000"></aegov-input>
-    <aegov-input type="number" placeholder="0"></aegov-input>
-    <aegov-input type="search" placeholder="Search services"></aegov-input>
-    <aegov-input type="url" placeholder="https://"></aegov-input>
+  <div class="max-w-md">
+    <aegov-form-field>
+      <aegov-label>Full name</aegov-label>
+      <aegov-input field-id="in-intro" name="fullName" placeholder="As printed on your Emirates ID"></aegov-input>
+    </aegov-form-field>
   </div>
 </div>
 
+<p>The wrapper links the label&#39;s <code>for</code> to the input&#39;s generated <code>field-id</code>, so clicking the label focuses the field without you writing an ID by hand.</p>
+<hr>
+<h2>Input types</h2>
+<p><code>type</code> maps to the native input type, which is what gives you the right mobile keyboard, the right browser validation, and the right autofill behaviour.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Use for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>text</code></td>
+<td>Default. Names, reference numbers, free text.</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td>Email addresses. Browser validates the shape and offers an email keyboard.</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td>Secrets. Pair with <code>is-revealable</code>.</td>
+</tr>
+<tr>
+<td><code>tel</code></td>
+<td>Phone numbers. Numeric keypad, no browser format validation.</td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td>Web addresses.</td>
+</tr>
+<tr>
+<td><code>number</code></td>
+<td>Numeric values where stepping makes sense.</td>
+</tr>
+<tr>
+<td><code>search</code></td>
+<td>Search queries.</td>
+</tr>
+<tr>
+<td><code>date</code>, <code>time</code>, <code>datetime-local</code>, <code>month</code>, <code>week</code></td>
+<td>Native date and time pickers.</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Text&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;name@example.ae&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Password&quot;</span> <span class="hljs-attr">is-revealable</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;tel&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;+971 50 123 4567&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;number&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;date&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-4">
+    <aegov-input field-id="in-t-text" type="text" placeholder="Text"></aegov-input>
+    <aegov-input field-id="in-t-email" type="email" placeholder="name@example.ae"></aegov-input>
+    <aegov-input field-id="in-t-pass" type="password" placeholder="Password" is-revealable></aegov-input>
+    <aegov-input field-id="in-t-tel" type="tel" placeholder="+971 50 123 4567"></aegov-input>
+    <aegov-input field-id="in-t-num" type="number" placeholder="0"></aegov-input>
+    <aegov-input field-id="in-t-date" type="date"></aegov-input>
+  </div>
+</div>
+
+<p>For a styled, fully-controlled calendar with ranges and presets, use <a href="aegov-datepicker.html"><code>aegov-datepicker</code></a> rather than <code>type=&quot;date&quot;</code> — the native control cannot be themed and varies between browsers.</p>
+<p>An unrecognised <code>type</code> falls back to <code>text</code> with a console warning in development.</p>
 <hr>
 <h2>Sizes</h2>
-<p>The <code>size</code> property scales the field height, padding, and font size. Five tokens are available: <code>xs</code>, <code>sm</code>, <code>base</code> (default), <code>lg</code>, and <code>xl</code>. Match the input size to surrounding controls — most government forms use <code>base</code>; dense administrative tables use <code>sm</code>; landing-page hero forms use <code>lg</code>.</p>
+<p><code>size</code> controls height, padding and font size. Five tokens are available, and they match the <a href="aegov-button.html">Button</a> scale so controls line up when placed side by side.</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Height</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>xs</code></td>
+<td>36px</td>
+</tr>
+<tr>
+<td><code>sm</code></td>
+<td>40px</td>
+</tr>
+<tr>
+<td><code>base</code></td>
+<td>44px</td>
+</tr>
+<tr>
+<td><code>lg</code></td>
+<td>48px</td>
+</tr>
+<tr>
+<td><code>xl</code></td>
+<td>52px</td>
+</tr>
+</tbody></table>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Extra small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Base (default)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Base&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Extra large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid gap-4 max-w-md">
-    <aegov-input size="xs" placeholder="Extra small"></aegov-input>
-    <aegov-input size="sm" placeholder="Small"></aegov-input>
-    <aegov-input size="base" placeholder="Base (default)"></aegov-input>
-    <aegov-input size="lg" placeholder="Large"></aegov-input>
-    <aegov-input size="xl" placeholder="Extra large">
-    </aegov-input>
+  <div class="max-w-md space-y-4">
+    <aegov-input field-id="in-s-xs" size="xs" placeholder="Extra small"></aegov-input>
+    <aegov-input field-id="in-s-sm" size="sm" placeholder="Small"></aegov-input>
+    <aegov-input field-id="in-s-base" size="base" placeholder="Base"></aegov-input>
+    <aegov-input field-id="in-s-lg" size="lg" placeholder="Large"></aegov-input>
+    <aegov-input field-id="in-s-xl" size="xl" placeholder="Extra large"></aegov-input>
   </div>
 </div>
 
 <h3>Responsive sizes</h3>
-<p><code>size</code> also accepts a Tailwind-style responsive string with the breakpoint prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, and <code>2xl</code>. The example below renders <code>sm</code> on phones, <code>base</code> from the <code>md</code> breakpoint up, and <code>lg</code> from <code>xl</code> up.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Resizes with the viewport&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-input size="sm md:base xl:lg" placeholder="Resizes with the viewport"></aegov-input>
-</div>
-
-<hr>
-<h2>Variant</h2>
-<p>The <code>variant</code> property selects the colour family for the idle ring/border, the value text, and the focus accent. The focus ring stays <code>primary-support-600</code> (camel) and the error border stays <code>aered-600</code> regardless of variant — both are accessibility constants.</p>
-<ul>
-<li><code>primary</code> — primary-* family (default)</li>
-<li><code>secondary</code> — secondary-* family</li>
-<li><code>neutral-max</code> — strong neutral (aeblack-800 family)</li>
-<li><code>neutral-min</code> — quiet neutral (aeblack-100 family)</li>
-</ul>
-<h3>Colour matrix</h3>
-<table>
-<thead>
-<tr>
-<th>Variant</th>
-<th>Idle ring</th>
-<th>Value text</th>
-<th>Hover accent</th>
-<th>Subtle bg</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>primary</code></td>
-<td><code>primary-400</code></td>
-<td><code>primary-900</code></td>
-<td><code>primary-700</code></td>
-<td><code>primary-50</code></td>
-</tr>
-<tr>
-<td><code>secondary</code></td>
-<td><code>secondary-400</code></td>
-<td><code>secondary-900</code></td>
-<td><code>secondary-700</code></td>
-<td><code>secondary-50</code></td>
-</tr>
-<tr>
-<td><code>neutral-max</code></td>
-<td><code>aeblack-400</code></td>
-<td><code>aeblack-900</code></td>
-<td><code>aeblack-800</code></td>
-<td><code>aeblack-50</code></td>
-</tr>
-<tr>
-<td><code>neutral-min</code></td>
-<td><code>aeblack-200</code></td>
-<td><code>aeblack-900</code></td>
-<td><code>aeblack-700</code></td>
-<td><code>aeblack-50</code></td>
-</tr>
-</tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Primary&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Secondary&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Neutral-max&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Neutral-min&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <aegov-input variant="primary" placeholder="Primary"></aegov-input>
-    <aegov-input variant="secondary" placeholder="Secondary"></aegov-input>
-    <aegov-input variant="neutral-max" placeholder="Neutral-max"></aegov-input>
-    <aegov-input variant="neutral-min" placeholder="Neutral-min"></aegov-input>
+<p><code>size</code> accepts a Tailwind-style responsive string. Prefixes are <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code> and <code>2xl</code>, and the first token is the base value.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base md:lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Grows on larger screens&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md">
+    <aegov-input field-id="in-s-resp" size="base md:lg" placeholder="Grows on larger screens"></aegov-input>
   </div>
 </div>
 
+<p>Note the collision of vocabulary here: <code>xs</code> is both a size token and a breakpoint prefix. <code>size=&quot;xs md:base&quot;</code> means &quot;extra-small by default, base from 768px up&quot;.</p>
+<hr>
+<h2>Variant</h2>
+<p><code>variant</code> selects the colour family used for the idle ring, the value text and the accent on hover. Two things deliberately do not follow it: the <strong>focus ring is always camel</strong>, and the <strong>error state is always aered</strong> — so focus and failure remain instantly recognisable regardless of the field&#39;s colour.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Primary&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Secondary&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Neutral max&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Neutral min&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-4">
+    <aegov-input field-id="in-v-p" variant="primary" placeholder="Primary" value="Primary"></aegov-input>
+    <aegov-input field-id="in-v-s" variant="secondary" placeholder="Secondary" value="Secondary"></aegov-input>
+    <aegov-input field-id="in-v-nx" variant="neutral-max" placeholder="Neutral max" value="Neutral max"></aegov-input>
+    <aegov-input field-id="in-v-nm" variant="neutral-min" placeholder="Neutral min" value="Neutral min"></aegov-input>
+  </div>
+</div>
+
+<p><code>variant</code> cascades from <a href="aegov-form-field.html"><code>aegov-form-field</code></a> and <a href="#input-group"><code>aegov-input-group</code></a>, so you can set it once on the wrapper.</p>
 <hr>
 <h2>States</h2>
 <h3>Disabled</h3>
-<p>Set <code>is-disabled=&quot;true&quot;</code> to prevent any interaction. Disabled fields keep their value but are removed from the tab order.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;784-1990-1234567-1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-input is-disabled="true" value="784-1990-1234567-1"></aegov-input>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">is-disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;Locked value&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><h3>Read-only</h3>
+<p>The value stays selectable and copyable but cannot be edited. Read-only fields <strong>are</strong> submitted with the form; disabled fields are not.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">is-readonly</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;784-1990-1234567-1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><h3>Required</h3>
+<p><code>is-required</code> sets the native <code>required</code> attribute, so <code>valueMissing</code> is reported by the browser and <code>form.checkValidity()</code> accounts for it.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">is-required</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Required field&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-4">
+    <aegov-input field-id="in-st-d" is-disabled value="Locked value"></aegov-input>
+    <aegov-input field-id="in-st-r" is-readonly value="784-1990-1234567-1"></aegov-input>
+    <aegov-input field-id="in-st-req" is-required placeholder="Required field"></aegov-input>
+  </div>
 </div>
 
-<h3>Read-only</h3>
-<p>Set <code>is-readonly=&quot;true&quot;</code> to display a value the user cannot change but can still copy or focus. Use this for system-generated reference numbers or pre-filled details from a verified profile.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">is-readonly</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;APP-2026-008421&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-input is-readonly="true" value="APP-2026-008421"></aegov-input>
+<p>Note that <code>is-required</code> does not add a visual asterisk. Mark required fields in the label text — see <a href="aegov-label.html">Label</a>.</p>
+<h3>Invalid</h3>
+<p><code>is-invalid</code> plus <code>error-message</code> is the full invalid state: red styling, <code>aria-invalid</code> on the input, and the message rendered in an associated error region.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span>
+  <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span>
+  <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;not-an-email&quot;</span>
+  <span class="hljs-attr">is-invalid</span>
+  <span class="hljs-attr">error-message</span>=<span class="hljs-string">&quot;Enter a valid email address&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md">
+    <aegov-input field-id="in-st-inv" type="email" value="not-an-email" is-invalid error-message="Enter a valid email address"></aegov-input>
+  </div>
 </div>
 
-<h3>Required</h3>
-<p>Set <code>is-required=&quot;true&quot;</code> to mark the field as mandatory. The native <code>required</code> attribute is added to the input, which exposes the requirement to assistive technology and triggers the browser&#39;s built-in validation on submit.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Emirates ID number<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;784-YYYY-NNNNNNN-N&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-form-field>
-    <aegov-label is-required="true">Emirates ID number</aegov-label>
-    <aegov-input is-required="true" placeholder="784-YYYY-NNNNNNN-N"></aegov-input>
-  </aegov-form-field>
+<p>See <a href="#validation">Validation</a> below and <a href="validation-overview.html">Validation Surface</a> for the whole contract.</p>
+<hr>
+<h2>Hint text</h2>
+<p><code>hint</code> renders helper text below the field and links it to the input through <code>aria-describedby</code>. The hint is replaced by the error while the field is invalid, so the two never compete — you do not need to clear it yourself.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;emiratesId&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;15 digits, as printed on your card&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;username&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;hint&quot;</span>&gt;</span>Letters, numbers and underscores. <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>No spaces.<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-6">
+    <aegov-input field-id="in-h-1" name="emiratesId" hint="15 digits, as printed on your card"></aegov-input>
+    <aegov-input field-id="in-h-2" name="username">
+      <span slot="hint">Letters, numbers and underscores. <strong>No spaces.</strong></span>
+    </aegov-input>
+  </div>
 </div>
 
-<h3>Invalid (error state)</h3>
-<p>Validation styling is owned by the surrounding <code>aegov-form-field</code>. Set <code>is-invalid=&quot;true&quot;</code> on the form field and provide an error message via the <code>error</code> slot (or property). The input itself picks up the error border automatically.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span> <span class="hljs-attr">is-invalid</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Email address<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;not-an-email&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>Enter a valid email in the format name@example.gov.ae.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-form-field is-invalid="true">
-    <aegov-label is-required="true">Email address</aegov-label>
-    <aegov-input type="email" value="not-an-email"></aegov-input>
-    <span slot="error">Enter a valid email in the format name@example.gov.ae.</span>
-  </aegov-form-field>
-</div>
-
+<p>Use the <code>hint</code> slot when the text needs markup or a link; the <code>hint</code> property when it is plain text. The slot wins if both are present.</p>
 <hr>
 <h2>Icons</h2>
-<p>Use the <code>icon-start</code> slot for a leading icon (search, mail, lock) and <code>icon-end</code> for a trailing icon (status, hint). Slot icons sit on the start/end edges and flip automatically in RTL. The SVG is auto-sized to match the input&#39;s <code>size</code> token (14–22 px) — omit <code>width</code>/<code>height</code> attributes on the SVG so the component can size it.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search services&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">cx</span>=<span class="hljs-string">&quot;11&quot;</span> <span class="hljs-attr">cy</span>=<span class="hljs-string">&quot;11&quot;</span> <span class="hljs-attr">r</span>=<span class="hljs-string">&quot;8&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">circle</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M21 21l-4.35-4.35&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">path</span>&gt;</span>
+<p>Slot an inline <code>&lt;svg&gt;</code> into <code>icon-start</code> or <code>icon-end</code>. The component detects the slot, adds the padding needed to clear the glyph, and positions it — you do not need absolute positioning of your own.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;search&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search services&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">cx</span>=<span class="hljs-string">&quot;11&quot;</span> <span class="hljs-attr">cy</span>=<span class="hljs-string">&quot;11&quot;</span> <span class="hljs-attr">r</span>=<span class="hljs-string">&quot;8&quot;</span> /&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;m21 21-4.3-4.3&quot;</span> /&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;you@example.gov.ae&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">rect</span> <span class="hljs-attr">x</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">y</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;14&quot;</span> <span class="hljs-attr">rx</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">rect</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;m3 7 9 6 9-6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">path</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Amount in AED&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-end&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-aeblack-400&quot;</span>&gt;</span>AED<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid gap-4 max-w-md">
-    <aegov-input placeholder="Search services">
-      <svg slot="icon-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="M21 21l-4.35-4.35"></path>
-      </svg>
+  <div class="max-w-md space-y-4">
+    <aegov-input field-id="in-i-1" type="search" placeholder="Search services">
+      <svg slot="icon-start" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
     </aegov-input>
-    <aegov-input type="email" placeholder="you@example.gov.ae">
-      <svg slot="icon-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-        <path d="m3 7 9 6 9-6"></path>
-      </svg>
+    <aegov-input field-id="in-i-2" type="text" placeholder="Amount">
+      <span slot="icon-end" class="text-sm text-aeblack-400">AED</span>
+    </aegov-input>
+    <aegov-input field-id="in-i-3" type="email" placeholder="name@example.ae">
+      <svg slot="icon-start" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 5L2 7" /></svg>
     </aegov-input>
   </div>
 </div>
 
+<p>Mark icons <code>aria-hidden=&quot;true&quot;</code>. They are decoration — the label carries the meaning.</p>
+<p><strong>The trailing slot yields to action buttons.</strong> If <code>is-revealable</code> or <code>is-copyable</code> is active, the <code>icon-end</code> content is hidden, because the reveal and copy buttons occupy that position. Do not rely on both being visible at once.</p>
 <hr>
-<h2>Password Reveal</h2>
-<p>Set <code>is-revealable=&quot;true&quot;</code> together with <code>type=&quot;password&quot;</code> to add an eye icon that toggles between hidden and visible characters. Use this on sign-in screens and password-creation flows where users frequently mistype.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Password<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">is-revealable</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Enter your password&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-form-field>
-    <aegov-label is-required="true">Password</aegov-label>
-    <aegov-input type="password" is-revealable="true" placeholder="Enter your password"></aegov-input>
-  </aegov-form-field>
+<h2>Password reveal</h2>
+<p><code>is-revealable</code> adds a toggle button that switches the input between <code>password</code> and <code>text</code>. It only applies when <code>type=&quot;password&quot;</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">is-revealable</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Enter your password&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md">
+    <aegov-input field-id="in-rev" type="password" is-revealable value="my-secret-password"></aegov-input>
+  </div>
 </div>
 
+<p>The button is a real <code>&lt;button type=&quot;button&quot;&gt;</code>, its icon is <code>aria-hidden</code>, and its <code>aria-label</code> alternates between &quot;Show password&quot; and &quot;Hide password&quot; — automatically translated to Arabic when the field sits inside a <code>dir=&quot;rtl&quot;</code> container. It is disabled alongside the input.</p>
 <hr>
-<h2>Copy to Clipboard</h2>
-<p>Set <code>is-copyable=&quot;true&quot;</code> together with <code>is-readonly=&quot;true&quot;</code> to add a copy button that writes the current value to the clipboard. The button briefly switches to a check mark for visual feedback. Use this for application reference numbers, generated tokens, or confirmation codes.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Application reference number<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">is-readonly</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">is-copyable</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;APP-2026-008421&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-form-field>
-    <aegov-label>Application reference number</aegov-label>
-    <aegov-input is-readonly="true" is-copyable="true" value="APP-2026-008421"></aegov-input>
-  </aegov-form-field>
+<h2>Copy to clipboard</h2>
+<p><code>is-copyable</code> adds a copy button. It only applies when the field is also <code>is-readonly</code> — the pattern is for surfacing a generated value such as a reference number, not for copying user input mid-edit.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span>
+  <span class="hljs-attr">is-readonly</span>
+  <span class="hljs-attr">is-copyable</span>
+  <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;APP-2026-0041827&quot;</span>
+  <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;Quote this reference when contacting us&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md">
+    <aegov-input field-id="in-copy" is-readonly is-copyable value="APP-2026-0041827" hint="Quote this reference when contacting us"></aegov-input>
+  </div>
 </div>
 
+<p>On click the value is written to the clipboard, the icon becomes a checkmark for two seconds, and a visually hidden <code>role=&quot;status&quot;</code> live region announces &quot;Copied&quot; — so the confirmation reaches screen reader users, not just sighted ones. Both the label and the announcement are translated in RTL contexts. Where the async Clipboard API is unavailable the component falls back to selecting the text and using <code>document.execCommand(&#39;copy&#39;)</code>.</p>
 <hr>
-<h2>Helper Text</h2>
-<p>Use the <code>helper</code> slot on <code>aegov-form-field</code> to provide guidance below the input — formatting hints, examples, or links to documentation. Helper text is automatically associated with the input via <code>aria-describedby</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Emirates ID number<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;784-YYYY-NNNNNNN-N&quot;</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;hint&quot;</span>&gt;</span>15 digits in the format 784-YYYY-NNNNNNN-N. Found on the front of your ID card.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-form-field>
-    <aegov-label is-required="true">Emirates ID number</aegov-label>
-    <aegov-input placeholder="784-YYYY-NNNNNNN-N" is-required="true"></aegov-input>
-    <span slot="hint">15 digits in the format 784-YYYY-NNNNNNN-N. Found on the front of your ID card.</span>
-  </aegov-form-field>
-</div>
+<h2>Input group</h2>
+<p><code>aegov-input-group</code> joins an input with text add-ons or buttons into one control. It propagates its resolved <code>size</code> to child <code>aegov-input</code> and <code>aegov-button</code> elements, and cascades <code>variant</code> to inputs that have not set their own.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;https://&quot;</span> <span class="hljs-attr">group-label</span>=<span class="hljs-string">&quot;Website address&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;example.ae&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span>
 
-<hr>
-<h2>Input Group with Add-ons</h2>
-<p><code>aegov-input-group</code> wraps an <code>aegov-input</code> to add a static prefix and/or suffix. Use it for currency symbols, fixed domains, country codes, or unit suffixes. The group propagates its <code>size</code> to nested inputs and buttons so everything aligns.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;AED&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">addon-suffix</span>=<span class="hljs-string">&quot;AED&quot;</span> <span class="hljs-attr">group-label</span>=<span class="hljs-string">&quot;Declared amount&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;number&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;0.00&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">addon-suffix</span>=<span class="hljs-string">&quot;.gov.ae&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;myservice&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;https://&quot;</span> <span class="hljs-attr">addon-suffix</span>=<span class="hljs-string">&quot;.gov.ae&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;myservice&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;+971&quot;</span> <span class="hljs-attr">group-label</span>=<span class="hljs-string">&quot;Mobile number&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;tel&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;50 123 4567&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid gap-4 max-w-md">
-    <aegov-input-group addon-prefix="AED">
-      <aegov-input type="number" placeholder="0.00"></aegov-input>
+  <div class="max-w-md space-y-4">
+    <aegov-input-group addon-prefix="https://" group-label="Website address">
+      <aegov-input field-id="in-g-1" placeholder="example.ae"></aegov-input>
     </aegov-input-group>
-    <aegov-input-group addon-suffix=".gov.ae">
-      <aegov-input placeholder="myservice"></aegov-input>
+    <aegov-input-group addon-suffix="AED" group-label="Declared amount">
+      <aegov-input field-id="in-g-2" type="number" placeholder="0.00"></aegov-input>
     </aegov-input-group>
-    <aegov-input-group addon-prefix="https://" addon-suffix=".gov.ae">
-      <aegov-input placeholder="myservice"></aegov-input>
+    <aegov-input-group addon-prefix="+971" group-label="Mobile number">
+      <aegov-input field-id="in-g-3" type="tel" placeholder="50 123 4567"></aegov-input>
     </aegov-input-group>
   </div>
 </div>
 
-<h3>Search bar with button</h3>
-<p>Compose <code>aegov-input-group</code> with <code>aegov-input</code> and <code>aegov-button</code> to build a search bar. The group propagates the resolved size to both children automatically.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;search&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search services, forms, or documents&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<p>Add-on text is not decoration — it changes the meaning of what the user types. The group gives each add-on an ID and adds it to the input&#39;s <code>aria-describedby</code> chain, so a screen reader announces &quot;Mobile number, +971&quot; rather than leaving the country code invisible.</p>
+<h3>With a button</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">group-label</span>=<span class="hljs-string">&quot;Search services&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;search&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search services&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Search<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-input-group size="lg">
-    <aegov-input type="search" placeholder="Search services, forms, or documents"></aegov-input>
-    <aegov-button variant="primary">Search</aegov-button>
-  </aegov-input-group>
-</div>
-
-<hr>
-<h2>Composite Example — Service Application Form</h2>
-<p>A realistic snippet from a residency permit application showing labels, helpers, required fields, and an error state.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;grid gap-6 max-w-xl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Full name<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;full-name&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;e.g. Fatima Hassan Al Marri&quot;</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
-
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Emirates ID number<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;eid&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;784-YYYY-NNNNNNN-N&quot;</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;hint&quot;</span>&gt;</span>15 digits, found on the front of your Emirates ID card.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
-
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span> <span class="hljs-attr">is-invalid</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Email address<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;user@&quot;</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>Enter a valid email in the format name@example.gov.ae.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
-
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Mobile number<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;+971&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;tel&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;mobile&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;50 000 0000&quot;</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
-
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Application reference (auto-generated)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">is-readonly</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">is-copyable</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;APP-2026-008421&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <form class="grid gap-6 max-w-xl">
-    <aegov-form-field>
-      <aegov-label is-required="true">Full name</aegov-label>
-      <aegov-input name="full-name" placeholder="e.g. Fatima Hassan Al Marri" is-required="true"></aegov-input>
-    </aegov-form-field>
-    <aegov-form-field>
-      <aegov-label is-required="true">Emirates ID number</aegov-label>
-      <aegov-input name="eid" placeholder="784-YYYY-NNNNNNN-N" is-required="true"></aegov-input>
-      <span slot="hint">15 digits, found on the front of your Emirates ID card.</span>
-    </aegov-form-field>
-    <aegov-form-field is-invalid="true">
-      <aegov-label is-required="true">Email address</aegov-label>
-      <aegov-input type="email" name="email" value="user@" is-required="true"></aegov-input>
-      <span slot="error">Enter a valid email in the format name@example.gov.ae.</span>
-    </aegov-form-field>
-    <aegov-form-field>
-      <aegov-label is-required="true">Mobile number</aegov-label>
-      <aegov-input-group addon-prefix="+971">
-        <aegov-input type="tel" name="mobile" placeholder="50 000 0000" is-required="true"></aegov-input>
-      </aegov-input-group>
-    </aegov-form-field>
-    <aegov-form-field>
-      <aegov-label>Application reference (auto-generated)</aegov-label>
-      <aegov-input is-readonly="true" is-copyable="true" value="APP-2026-008421"></aegov-input>
-    </aegov-form-field>
-  </form>
-</div>
-
-<hr>
-<h2>Listening for value events</h2>
-<p>The component emits four events: <code>aegovInputValue</code> on every keystroke, <code>aegovInputChange</code> when the value commits (typically on blur or Enter), <code>aegovInputFocus</code>, and <code>aegovInputBlur</code>. Use <code>input</code> for live validation hints and <code>change</code> for committed-value side effects.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;eid&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Emirates ID number&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">const</span> el = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;eid&#x27;</span>);
-  el.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovInputValue&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Typed:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
-  });
-  el.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovInputChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Committed:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
-  });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
-<h2>RTL Support</h2>
-<p>The input uses CSS logical properties throughout, so padding, slot icons, and the reveal/copy buttons swap sides automatically when the document or any ancestor is set to <code>dir=&quot;rtl&quot;</code>. Add-ons in <code>aegov-input-group</code> flip too — <code>addon-prefix</code> ends up on the right and <code>addon-suffix</code> on the left.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>الاسم الكامل (كما في الهوية الإماراتية)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;مثال: محمد علي المنصوري&quot;</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
-
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>رقم الهوية الإماراتية<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;784-YYYY-NNNNNNN-N&quot;</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;hint&quot;</span>&gt;</span>خمسة عشر رقماً موجودة على الجهة الأمامية من بطاقة الهوية.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
-
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;+971&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;tel&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;50 000 0000&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid gap-6 max-w-xl">
-    <aegov-form-field>
-      <aegov-label is-required="true">الاسم الكامل (كما في الهوية الإماراتية)</aegov-label>
-      <aegov-input placeholder="مثال: محمد علي المنصوري" is-required="true"></aegov-input>
-    </aegov-form-field>
-    <aegov-form-field>
-      <aegov-label is-required="true">رقم الهوية الإماراتية</aegov-label>
-      <aegov-input placeholder="784-YYYY-NNNNNNN-N" is-required="true"></aegov-input>
-      <span slot="hint">خمسة عشر رقماً موجودة على الجهة الأمامية من بطاقة الهوية.</span>
-    </aegov-form-field>
-    <aegov-input-group addon-prefix="+971">
-      <aegov-input type="tel" placeholder="50 000 0000"></aegov-input>
+  <div class="max-w-lg">
+    <aegov-input-group group-label="Search services">
+      <aegov-input field-id="in-g-btn" type="search" placeholder="Search services"></aegov-input>
+      <aegov-button variant="primary">Search</aegov-button>
     </aegov-input-group>
   </div>
 </div>
 
+<p>Set <code>size</code> on the group, not on the children — it cascades, and matching heights are the entire point of the component.</p>
+<p>Always give the group a <code>group-label</code>. It renders <code>role=&quot;group&quot;</code>, and an unnamed group tells the user there is a boundary without saying what it contains.</p>
 <hr>
+<h2>Composite example — service application form</h2>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;residency-application&quot;</span> <span class="hljs-attr">novalidate</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Full name<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;fullName&quot;</span> <span class="hljs-attr">is-required</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;As printed on your Emirates ID&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Emirates ID<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;emiratesId&quot;</span> <span class="hljs-attr">is-required</span> <span class="hljs-attr">inputmode</span>=<span class="hljs-string">&quot;numeric&quot;</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;15 digits&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Email address<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">is-required</span> <span class="hljs-attr">autocomplete</span>=<span class="hljs-string">&quot;email&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;+971&quot;</span> <span class="hljs-attr">group-label</span>=<span class="hljs-string">&quot;Mobile number&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;mobile&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;tel&quot;</span> <span class="hljs-attr">is-required</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;50 123 4567&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Submit application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-5">
+    <aegov-form-field>
+      <aegov-label>Full name</aegov-label>
+      <aegov-input field-id="in-cx-1" name="fullName" is-required hint="As printed on your Emirates ID"></aegov-input>
+    </aegov-form-field>
+    <aegov-form-field>
+      <aegov-label>Emirates ID</aegov-label>
+      <aegov-input field-id="in-cx-2" name="emiratesId" is-required inputmode="numeric" maxlength="18" hint="15 digits"></aegov-input>
+    </aegov-form-field>
+    <aegov-form-field>
+      <aegov-label>Email address</aegov-label>
+      <aegov-input field-id="in-cx-3" name="email" type="email" is-required autocomplete="email"></aegov-input>
+    </aegov-form-field>
+    <div>
+      <aegov-input-group addon-prefix="+971" group-label="Mobile number">
+        <aegov-input field-id="in-cx-4" name="mobile" type="tel" is-required placeholder="50 123 4567"></aegov-input>
+      </aegov-input-group>
+    </div>
+    <aegov-button type="submit" variant="primary" size="lg">Submit application</aegov-button>
+  </div>
+</div>
+
+<p>Note <code>inputmode</code>, <code>maxlength</code> and <code>autocomplete</code> — these are native attributes passed straight through to the inner input, and they do more for usability than any amount of custom JavaScript.</p>
+<hr>
+<h2>Listening for value events</h2>
+<p>There are two value events, and picking the right one matters:</p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Fires</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegovInputValue</code></td>
+<td>On every keystroke. Use for live affordances — character counts, search-as-you-type, strength meters.</td>
+</tr>
+<tr>
+<td><code>aegovInputChange</code></td>
+<td>When the value is committed — the native <code>change</code> event. Use for state you do not want updated mid-word.</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;search&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;search&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search services&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> input = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#search&#x27;</span>);
+
+  <span class="hljs-comment">// Live: every keystroke</span>
+  input.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovInputValue&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-title function_">renderSuggestions</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
+  });
+
+  <span class="hljs-comment">// Committed</span>
+  input.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovInputChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-title function_">runSearch</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>If you are migrating from an earlier version, note the keystroke event is <code>aegovInputValue</code>, not <code>aegovInputInput</code>.</p>
+<hr>
+<h2>RTL Support</h2>
+<p>The input is fully direction-aware. In a <code>dir=&quot;rtl&quot;</code> container the text aligns to the right, the <code>icon-start</code> slot renders on the right and <code>icon-end</code> on the left, and the reveal and copy buttons move to the inline-end edge. Input group add-ons swap sides too, so a <code>+971</code> prefix stays logically before the number.</p>
+<p>The built-in control labels are translated automatically: &quot;Show password&quot; / &quot;Hide password&quot; become &quot;إظهار كلمة المرور&quot; / &quot;إخفاء كلمة المرور&quot;, and the copy button and its live-region announcement become &quot;نسخ إلى الحافظة&quot; / &quot;تم النسخ&quot;.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>الاسم الكامل<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;fullName&quot;</span> <span class="hljs-attr">is-required</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;كما هو مكتوب في الهوية الإماراتية&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">is-revealable</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;كلمة المرور&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;+971&quot;</span> <span class="hljs-attr">group-label</span>=<span class="hljs-string">&quot;رقم الهاتف المتحرك&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;tel&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;50 123 4567&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-5">
+    <aegov-form-field>
+      <aegov-label>الاسم الكامل</aegov-label>
+      <aegov-input field-id="in-rtl-1" name="fullName" is-required hint="كما هو مكتوب في الهوية الإماراتية"></aegov-input>
+    </aegov-form-field>
+    <aegov-input field-id="in-rtl-2" type="password" is-revealable value="كلمة-المرور"></aegov-input>
+    <aegov-input field-id="in-rtl-3" type="search" placeholder="ابحث عن الخدمات">
+      <svg slot="icon-start" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
+    </aegov-input>
+    <div>
+      <aegov-input-group addon-prefix="+971" group-label="رقم الهاتف المتحرك">
+        <aegov-input field-id="in-rtl-4" type="tel" placeholder="50 123 4567"></aegov-input>
+      </aegov-input-group>
+    </div>
+    <aegov-input field-id="in-rtl-5" is-readonly is-copyable value="APP-2026-0041827"></aegov-input>
+  </div>
+</div>
+
+<p>One thing to handle yourself: values that are inherently left-to-right inside Arabic copy — phone numbers, IBANs, reference codes, email addresses. Set <code>dir=&quot;ltr&quot;</code> on that individual input so the digits do not reorder:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;ltr&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;tel&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;mobile&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;+971 50 123 4567&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><hr>
 <h2>API Reference</h2>
 <h3>aegov-input Properties</h3>
 <table>
@@ -416,96 +443,116 @@
 <tbody><tr>
 <td><code>fieldId</code></td>
 <td><code>field-id</code></td>
-<td>DOM <code>id</code> for the native <code>&lt;input&gt;</code>. Auto-generated as <code>aegov-input-{n}</code> if omitted.</td>
+<td>ID applied to the inner <code>&lt;input&gt;</code>. Auto-generated when omitted, reflected to the host.</td>
 <td><code>string</code></td>
 <td><em>generated</em></td>
 </tr>
 <tr>
 <td><code>type</code></td>
 <td><code>type</code></td>
-<td>Native input type. See list below.</td>
-<td><code>InputType</code></td>
+<td>Native input type.</td>
+<td><code>&#39;text&#39; | &#39;email&#39; | &#39;password&#39; | &#39;tel&#39; | &#39;url&#39; | &#39;number&#39; | &#39;search&#39; | &#39;date&#39; | &#39;time&#39; | &#39;datetime-local&#39; | &#39;month&#39; | &#39;week&#39;</code></td>
 <td><code>&#39;text&#39;</code></td>
 </tr>
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Field size token or responsive string.</td>
-<td><code>string</code></td>
+<td>Size token or responsive string.</td>
+<td><code>string</code> — <code>xs | sm | base | lg | xl</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
 <td><code>variant</code></td>
 <td><code>variant</code></td>
-<td>Colour family for idle ring, value text, and hover accent. Focus ring stays camel; error stays aered.</td>
+<td>Colour family for the idle ring, value text and accent.</td>
 <td><code>&#39;primary&#39; | &#39;secondary&#39; | &#39;neutral-max&#39; | &#39;neutral-min&#39;</code></td>
 <td><code>&#39;primary&#39;</code></td>
 </tr>
 <tr>
 <td><code>value</code></td>
 <td><code>value</code></td>
-<td>Current value. Mutable — synced internally on <code>input</code> and <code>change</code>.</td>
+<td>Current value. Mutable — updated as the user types.</td>
 <td><code>string</code></td>
 <td><code>&#39;&#39;</code></td>
 </tr>
 <tr>
-<td><code>placeholder</code></td>
-<td><code>placeholder</code></td>
-<td>Placeholder text shown when the field is empty.</td>
+<td><code>name</code></td>
+<td><code>name</code></td>
+<td>Form field name, used by <code>FormData</code>.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
 </tr>
 <tr>
-<td><code>name</code></td>
-<td><code>name</code></td>
-<td>Native <code>name</code> attribute used during form submission.</td>
+<td><code>placeholder</code></td>
+<td><code>placeholder</code></td>
+<td>Placeholder text. Not a substitute for a label.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>isDisabled</code></td>
 <td><code>is-disabled</code></td>
-<td>Disable the input.</td>
+<td>Disables the input. Not submitted with the form.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>isReadonly</code></td>
 <td><code>is-readonly</code></td>
-<td>Mark the input as read-only.</td>
+<td>Value cannot be edited but is still submitted.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>isRequired</code></td>
 <td><code>is-required</code></td>
-<td>Mark the field as required (sets native <code>required</code>).</td>
+<td>Sets the native <code>required</code> attribute.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>isRevealable</code></td>
 <td><code>is-revealable</code></td>
-<td>Show a password reveal toggle. Only takes effect with <code>type=&quot;password&quot;</code>.</td>
+<td>Adds a show/hide toggle. Only applies to <code>type=&quot;password&quot;</code>.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>isCopyable</code></td>
 <td><code>is-copyable</code></td>
-<td>Show a copy-to-clipboard button. Only takes effect with <code>is-readonly=&quot;true&quot;</code>.</td>
+<td>Adds a copy-to-clipboard button. Only applies when <code>is-readonly</code>.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
+<td><code>isInvalid</code></td>
+<td><code>is-invalid</code></td>
+<td>Invalid state — see <a href="#validation">Validation</a>. Reflected to the host.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>errorMessage</code></td>
+<td><code>error-message</code></td>
+<td>Error text shown while invalid.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td><code>hint</code></td>
+<td>Helper text shown when no error is showing.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
 <td><code>extraClass</code></td>
 <td><code>extra-class</code></td>
-<td>Additional CSS classes applied to the native <code>&lt;input&gt;</code>.</td>
+<td>Extra classes appended to the inner <code>&lt;input&gt;</code>.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
 </tr>
 </tbody></table>
-<p><code>InputType</code> accepts: <code>text</code>, <code>email</code>, <code>password</code>, <code>tel</code>, <code>url</code>, <code>number</code>, <code>search</code>, <code>date</code>, <code>time</code>, <code>datetime-local</code>, <code>month</code>, <code>week</code>.</p>
 <h3>aegov-input-group Properties</h3>
 <table>
 <thead>
@@ -520,62 +567,70 @@
 <tbody><tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Group size, propagated to child <code>aegov-input</code> and <code>aegov-button</code>.</td>
+<td>Size token or responsive string. Propagated to child <code>aegov-input</code> and <code>aegov-button</code>.</td>
 <td><code>string</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
-<td><code>variant</code></td>
-<td><code>variant</code></td>
-<td>Colour family, cascades to inner <code>aegov-input</code> and shifts the addon stripe colour.</td>
-<td><code>&#39;primary&#39; | &#39;secondary&#39; | &#39;neutral-max&#39; | &#39;neutral-min&#39;</code></td>
-<td><code>&#39;primary&#39;</code></td>
-</tr>
-<tr>
 <td><code>addonPrefix</code></td>
 <td><code>addon-prefix</code></td>
-<td>Static text shown before the input (logical start).</td>
+<td>Leading add-on text. Added to the input&#39;s <code>aria-describedby</code>.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>addonSuffix</code></td>
 <td><code>addon-suffix</code></td>
-<td>Static text shown after the input (logical end).</td>
+<td>Trailing add-on text. Added to the input&#39;s <code>aria-describedby</code>.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>groupLabel</code></td>
+<td><code>group-label</code></td>
+<td>Accessible name for the <code>role=&quot;group&quot;</code> wrapper.</td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>Colour family. Cascades to child inputs that have not set their own.</td>
+<td><code>&#39;primary&#39; | &#39;secondary&#39; | &#39;neutral-max&#39; | &#39;neutral-min&#39;</code></td>
+<td><code>&#39;primary&#39;</code></td>
 </tr>
 <tr>
 <td><code>extraClass</code></td>
 <td><code>extra-class</code></td>
-<td>Additional CSS classes on the wrapper.</td>
+<td>Extra classes on the group wrapper.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
 </tr>
 </tbody></table>
+<p><code>prefix</code> and <code>suffix</code> are reserved DOM property names, which is why these are <code>addonPrefix</code> / <code>addonSuffix</code>.</p>
 <h3>Slots</h3>
 <table>
 <thead>
 <tr>
-<th>Component</th>
 <th>Slot</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>aegov-input</code></td>
 <td><code>icon-start</code></td>
-<td>Icon shown before the input value (logical start).</td>
+<td>Leading icon or short text. Rendered at the inline-start edge.</td>
 </tr>
 <tr>
-<td><code>aegov-input</code></td>
 <td><code>icon-end</code></td>
-<td>Icon shown after the input value (hidden when a reveal/copy button is active).</td>
+<td>Trailing icon or short text. <strong>Hidden when <code>is-revealable</code> or <code>is-copyable</code> is active.</strong></td>
 </tr>
 <tr>
-<td><code>aegov-input-group</code></td>
-<td><em>(default)</em></td>
-<td>Place an <code>aegov-input</code> (and optionally an <code>aegov-button</code>) here.</td>
+<td><code>hint</code></td>
+<td>Rich hint markup. Takes precedence over the <code>hint</code> property.</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Rich error markup. Takes precedence over <code>error-message</code>. Rendered only while <code>is-invalid</code>.</td>
 </tr>
 </tbody></table>
 <h3>Events</h3>
@@ -583,203 +638,226 @@
 <thead>
 <tr>
 <th>Event</th>
-<th>Component</th>
 <th>Detail</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>aegovInputValue</code></td>
-<td><code>aegov-input</code></td>
 <td><code>{ value: string; event: Event }</code></td>
-<td>Fires on every keystroke. Use for live validation hints.</td>
+<td>Every keystroke.</td>
 </tr>
 <tr>
 <td><code>aegovInputChange</code></td>
-<td><code>aegov-input</code></td>
 <td><code>{ value: string; event: Event }</code></td>
-<td>Fires when the value commits (native <code>change</code>, typically on blur or Enter).</td>
+<td>Value committed (native <code>change</code>).</td>
 </tr>
 <tr>
 <td><code>aegovInputFocus</code></td>
-<td><code>aegov-input</code></td>
 <td><code>FocusEvent</code></td>
-<td>Fires when the input gains focus.</td>
+<td>Input gained focus.</td>
 </tr>
 <tr>
 <td><code>aegovInputBlur</code></td>
-<td><code>aegov-input</code></td>
 <td><code>FocusEvent</code></td>
-<td>Fires when the input loses focus.</td>
+<td>Input lost focus.</td>
+</tr>
+<tr>
+<td><code>aegovValidate</code></td>
+<td><code>AegovValidationDetail&lt;string&gt;</code></td>
+<td>Unified validation event — see <a href="validation-overview.html">Validation Surface</a>.</td>
 </tr>
 </tbody></table>
-<h3>Pass-through Attributes</h3>
-<p><code>aria-*</code> and <code>data-*</code> attributes set on <code>&lt;aegov-input&gt;</code> are always forwarded to the native <code>&lt;input&gt;</code>. The following standard input attributes are also forwarded when set on the host:</p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>pattern</code></td>
-<td>Regular-expression validation pattern.</td>
-</tr>
-<tr>
-<td><code>min</code>, <code>max</code></td>
-<td>Bounds for numeric and date types.</td>
-</tr>
-<tr>
-<td><code>step</code></td>
-<td>Step granularity for numeric and date types.</td>
-</tr>
-<tr>
-<td><code>minlength</code></td>
-<td>Minimum character count.</td>
-</tr>
-<tr>
-<td><code>maxlength</code></td>
-<td>Maximum character count.</td>
-</tr>
-<tr>
-<td><code>autocomplete</code></td>
-<td>Browser autofill hint (e.g. <code>email</code>, <code>tel</code>, <code>off</code>).</td>
-</tr>
-<tr>
-<td><code>autofocus</code></td>
-<td>Focus the input when it mounts.</td>
-</tr>
-<tr>
-<td><code>inputmode</code></td>
-<td>On-screen keyboard hint (<code>numeric</code>, <code>tel</code>, etc.).</td>
-</tr>
-<tr>
-<td><code>list</code></td>
-<td>Reference a <code>&lt;datalist&gt;</code> element by id.</td>
-</tr>
-<tr>
-<td><code>multiple</code></td>
-<td>Allow multiple comma-separated values (email/file).</td>
-</tr>
-<tr>
-<td><code>accept</code></td>
-<td>File-input MIME filter.</td>
-</tr>
-<tr>
-<td><code>capture</code></td>
-<td>File-input camera/microphone source.</td>
-</tr>
-<tr>
-<td><code>spellcheck</code></td>
-<td>Enable or disable spellchecking.</td>
-</tr>
-<tr>
-<td><code>enterkeyhint</code></td>
-<td>Mobile keyboard &quot;Enter&quot; key label.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td>Native tooltip / validation message.</td>
-</tr>
-<tr>
-<td><code>tabindex</code></td>
-<td>Custom tab order.</td>
-</tr>
-<tr>
-<td><code>form</code></td>
-<td>Associate with a form by id.</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>Reserved HTML attributes (<code>id</code>, <code>class</code>, <code>style</code>) cannot be used as props — <code>id</code> is replaced by <code>field-id</code>, and <code>class</code>/<code>style</code> are applied to the host as usual.</p>
-</blockquote>
-<hr>
-<h2>Validation</h2>
-<p><code>aegov-input</code> exposes the unified validation surface described in <a href="validation-overview.html">Validation Surface</a>. The full contract (props, event payload, methods, value types, ARIA) lives there — only input-specific notes are here.</p>
-<h3>Surface</h3>
-<table>
-<thead>
-<tr>
-<th>Prop</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>is-invalid</code></td>
-<td>Toggles invalid state; sets <code>aria-invalid=&quot;true&quot;</code> on the inner <code>&lt;input&gt;</code>.</td>
-</tr>
-<tr>
-<td><code>error-message</code></td>
-<td>Inline error text below the input. Use <code>error</code> slot for richer markup.</td>
-</tr>
-<tr>
-<td><code>hint</code></td>
-<td>Helper text below the input when no error is shown.</td>
-</tr>
-</tbody></table>
+<h3>Methods</h3>
 <table>
 <thead>
 <tr>
 <th>Method</th>
+<th>Returns</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>validate(trigger?)</code></td>
-<td>Re-runs validation; emits <code>aegovValidate</code>.</td>
+<td><code>Promise&lt;AegovValidationResult&gt;</code></td>
+<td>Re-reads native validity, emits <code>aegovValidate</code>, returns the result. <code>trigger</code> defaults to <code>&#39;manual&#39;</code>.</td>
 </tr>
 <tr>
 <td><code>setCustomValidity(message)</code></td>
-<td>Sets a custom error message; pass <code>&#39;&#39;</code> to clear.</td>
+<td><code>Promise&lt;void&gt;</code></td>
+<td>Sets <code>error-message</code> and <code>is-invalid</code>, and mirrors onto the native input so <code>form.checkValidity()</code> agrees. Empty string clears.</td>
 </tr>
 </tbody></table>
+<h3>Pass-through Attributes</h3>
+<p>Attributes on the host are forwarded to the inner <code>&lt;input&gt;</code>, which is how native behaviour that has no property equivalent still reaches the control.</p>
 <table>
 <thead>
 <tr>
-<th>Event</th>
-<th>Detail</th>
+<th>Attribute group</th>
+<th>Forwarded?</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>aegovValidate</code></td>
-<td><code>{ name, value, validity, validationMessage, customError, trigger }</code> — <code>value</code> is <code>string</code>.</td>
+<td><code>pattern</code>, <code>min</code>, <code>max</code>, <code>minlength</code>, <code>maxlength</code>, <code>step</code></td>
+<td>Yes</td>
+<td>Native constraints. They feed the <code>validity</code> flags in <code>aegovValidate</code>.</td>
+</tr>
+<tr>
+<td><code>autocomplete</code>, <code>inputmode</code>, <code>enterkeyhint</code>, <code>spellcheck</code>, <code>autofocus</code></td>
+<td>Yes</td>
+<td>Native input behaviour and mobile keyboard hints.</td>
+</tr>
+<tr>
+<td><code>list</code>, <code>multiple</code>, <code>accept</code>, <code>capture</code></td>
+<td>Yes</td>
+<td>Native datalist and file-adjacent attributes.</td>
+</tr>
+<tr>
+<td><code>title</code>, <code>tabindex</code>, <code>form</code></td>
+<td>Yes</td>
+<td>Forwarded to the inner <code>&lt;input&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>aria-*</code></td>
+<td>Yes</td>
+<td>Forwarded — <strong>except</strong> <code>aria-invalid</code> and <code>aria-describedby</code>.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>Yes</td>
+<td>Forwarded to the inner <code>&lt;input&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>aria-invalid</code></td>
+<td><strong>No</strong></td>
+<td>Owned by the component and driven by <code>is-invalid</code>. A host-level value is stripped.</td>
+</tr>
+<tr>
+<td><code>aria-describedby</code></td>
+<td>Composed</td>
+<td>Not overwritten: your value is <strong>preserved</strong> and the hint, error and add-on IDs are appended to it.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>n/a</td>
+<td>Use <code>field-id</code>.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Allowed</td>
+<td>Applied to the host. Use <code>extra-class</code> to reach the inner <code>&lt;input&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>dir</code></td>
+<td>Yes</td>
+<td>Useful for forcing LTR on phone numbers and reference codes inside Arabic pages.</td>
 </tr>
 </tbody></table>
+<h3>CSS classes</h3>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Element</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>.aegov-input</code></td>
+<td>The inner <code>&lt;input&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>.input--xs</code> … <code>.input--xl</code></td>
+<td>Size modifier on the input.</td>
+</tr>
+<tr>
+<td><code>.input-variant-*</code></td>
+<td>Variant modifier on the input.</td>
+</tr>
+<tr>
+<td><code>.input--has-action</code></td>
+<td>Added when a reveal or copy button is present.</td>
+</tr>
+<tr>
+<td><code>.input--has-icon-start</code>, <code>.input--has-icon-end</code></td>
+<td>Added when the matching slot has content.</td>
+</tr>
+<tr>
+<td><code>.input__wrapper</code></td>
+<td>Positioning wrapper, rendered only when icons or action buttons exist.</td>
+</tr>
+<tr>
+<td><code>.aegov-input__error</code>, <code>.aegov-input__hint</code></td>
+<td>The error and hint regions.</td>
+</tr>
+<tr>
+<td><code>.is-invalid</code></td>
+<td>Added to the <strong>host</strong> while <code>is-invalid</code>.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Validation</h2>
+<h3>Surface</h3>
+<p><code>aegov-input</code> implements the shared contract: <code>is-invalid</code>, <code>error-message</code> and <code>hint</code> properties, <code>error</code> and <code>hint</code> slots, the <code>aegovValidate</code> event, and <code>validate()</code> / <code>setCustomValidity()</code> methods. Because it wraps a native <code>&lt;input&gt;</code>, the <code>validity</code> flags in the event are the browser&#39;s real <code>ValidityState</code> — not a synthesized approximation. Full reference: <a href="validation-overview.html">Validation Surface</a>.</p>
+<p>The value type is <code>string</code>, and the <code>FormData</code> payload is that same string.</p>
 <h3>Common recipes</h3>
-<p><strong>Required + email validation:</strong></p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">is-required</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><p>The native <code>type=&quot;email&quot;</code> triggers <code>validity.typeMismatch</code>; <code>is-required</code> triggers <code>validity.valueMissing</code>. Both surface through the <code>aegovValidate</code> event.</p>
-<p><strong>Min/max length:</strong></p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;zip&quot;</span> <span class="hljs-attr">minlength</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><p><strong>Pattern (regex):</strong></p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;phone&quot;</span> <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;^\+971-?\d{9}$&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><p><strong>Custom server-side error:</strong></p>
-<pre><code class="hljs language-js">input.<span class="hljs-title function_">setCustomValidity</span>(<span class="hljs-string">&#x27;Username already taken&#x27;</span>);</code></pre><p>See the <a href="validation-byo.html">Bring Your Own Validator</a> recipes for the full pattern catalog including async server checks and cross-field rules.</p>
+<p>Let the browser decide and supply your own copy:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> input = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#email&#x27;</span>);
+
+input.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-keyword">if</span> (e.<span class="hljs-property">detail</span>.<span class="hljs-property">trigger</span> === <span class="hljs-string">&#x27;input&#x27;</span>) <span class="hljs-keyword">return</span>;   <span class="hljs-comment">// don&#x27;t judge mid-typing</span>
+
+  <span class="hljs-keyword">const</span> v = e.<span class="hljs-property">detail</span>.<span class="hljs-property">validity</span>;
+  input.<span class="hljs-property">isInvalid</span> = !v.<span class="hljs-property">valid</span>;
+  input.<span class="hljs-property">errorMessage</span> =
+    v.<span class="hljs-property">valueMissing</span> ? <span class="hljs-string">&#x27;Enter your email address&#x27;</span> :
+    v.<span class="hljs-property">typeMismatch</span> ? <span class="hljs-string">&#x27;Enter a valid email address&#x27;</span> : <span class="hljs-string">&#x27;&#x27;</span>;
+});</code></pre><p>A format rule the browser cannot express:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> eid = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#emirates-id&#x27;</span>);
+
+eid.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-keyword">if</span> (e.<span class="hljs-property">detail</span>.<span class="hljs-property">trigger</span> === <span class="hljs-string">&#x27;input&#x27;</span>) <span class="hljs-keyword">return</span>;
+  <span class="hljs-keyword">const</span> digits = <span class="hljs-title class_">String</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>).<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\D/g</span>, <span class="hljs-string">&#x27;&#x27;</span>);
+  <span class="hljs-keyword">const</span> ok = digits.<span class="hljs-property">length</span> === <span class="hljs-number">15</span>;
+  eid.<span class="hljs-property">isInvalid</span> = !ok;
+  eid.<span class="hljs-property">errorMessage</span> = ok ? <span class="hljs-string">&#x27;&#x27;</span> : <span class="hljs-string">&#x27;Emirates ID must be 15 digits&#x27;</span>;
+});</code></pre><p>A server-side check, using <code>setCustomValidity</code> so native form validity stays honest:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">checkEmiratesId</span>(eid.<span class="hljs-property">value</span>);
+<span class="hljs-keyword">await</span> eid.<span class="hljs-title function_">setCustomValidity</span>(res.<span class="hljs-property">ok</span> ? <span class="hljs-string">&#x27;&#x27;</span> : res.<span class="hljs-property">reason</span>);</code></pre><p>More patterns — cross-field rules, async debouncing, error summaries — in <a href="validation-byo.html">Bring Your Own Validator</a>.</p>
 <h3>Use with <code>@aegov/designsystem-validation</code></h3>
+<p>The optional companion package drives exactly this surface from a schema. It is <strong>not required</strong>, and nothing here depends on it.</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createForm } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation&#x27;</span>;
 <span class="hljs-keyword">import</span> { valibotAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/adapters/valibot&#x27;</span>;
 <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> v <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;valibot&#x27;</span>;
 
-<span class="hljs-keyword">const</span> schema = v.<span class="hljs-title function_">object</span>({
-  <span class="hljs-attr">email</span>: v.<span class="hljs-title function_">pipe</span>(v.<span class="hljs-title function_">string</span>(), v.<span class="hljs-title function_">email</span>(<span class="hljs-string">&#x27;Invalid email&#x27;</span>)),
-});
-<span class="hljs-title function_">createForm</span>(form, schema, <span class="hljs-title function_">valibotAdapter</span>(), { <span class="hljs-attr">onValidSubmit</span>: <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span> });</code></pre><p>The orchestrator listens for <code>aegovValidate</code> events and writes back <code>is-invalid</code> / <code>error-message</code>. No per-component wiring required.</p>
+<span class="hljs-title function_">createForm</span>(form, v.<span class="hljs-title function_">object</span>({
+  <span class="hljs-attr">email</span>: v.<span class="hljs-title function_">pipe</span>(v.<span class="hljs-title function_">string</span>(), v.<span class="hljs-title function_">email</span>(<span class="hljs-string">&#x27;Enter a valid email address&#x27;</span>)),
+}), <span class="hljs-title function_">valibotAdapter</span>(), { <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;onBlur&#x27;</span> });</code></pre><p>Each input needs a <code>name</code> for the orchestrator to match it to a schema path.</p>
 <hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>Renders a real <code>&lt;input&gt;</code> element, preserving native semantics, keyboard handling, autofill, and assistive-technology behaviour.</li>
-<li><code>field-id</code> is auto-generated and reflected to the host so external <code>&lt;label for&gt;</code> (or <code>aegov-label</code>) can associate reliably.</li>
-<li><code>is-required</code> sets the native <code>required</code> attribute, which exposes the requirement to assistive tech automatically.</li>
-<li>The reveal toggle and copy button each have descriptive bilingual <code>aria-label</code> text (&quot;Show password&quot; / &quot;إظهار كلمة المرور&quot;, &quot;Copy to clipboard&quot; / &quot;نسخ&quot;) and are in the natural tab order so keyboard-only users can reach them.</li>
-<li>Decorative SVG icons in the helper buttons use <code>aria-hidden=&quot;true&quot;</code>.</li>
-<li>When wrapped in <code>aegov-form-field</code>, helper and error text are wired up via <code>aria-describedby</code> automatically.</li>
-<li><code>aegov-input-group</code> renders <code>role=&quot;group&quot;</code> and forwards consumer <code>aria-*</code> attributes to it. Use <code>group-label</code> for an <code>aria-label</code>, or add <code>aria-labelledby</code> on the host to reference an external heading.</li>
+<li>The inner element is a real <code>&lt;input&gt;</code>, so type-specific keyboards, autofill, native constraint validation and form participation all come from the platform.</li>
+<li><code>aria-invalid=&quot;true&quot;</code> is set on the input while <code>is-invalid</code>, and removed when it is not.</li>
+<li><strong><code>aria-describedby</code> is composed, never clobbered.</strong> Your own value is preserved, and the hint region, error region and input-group add-on IDs are appended to it.</li>
+<li>The error region takes <code>role=&quot;alert&quot;</code> only <strong>after the field&#39;s first blur</strong>, so a partial error is not announced on every keystroke while the user is still typing.</li>
+<li>The reveal and copy buttons are real <code>&lt;button type=&quot;button&quot;&gt;</code> elements with <code>aria-hidden</code> icons and descriptive <code>aria-label</code>s that are translated in RTL contexts.</li>
+<li>Copy success is announced through a visually hidden <code>role=&quot;status&quot; aria-live=&quot;polite&quot;</code> region, so the confirmation is not purely visual.</li>
+<li>Every size token is at least 36 CSS px tall, above the WCAG 2.2 SC 2.5.8 minimum target size of 24 × 24, and the reveal and copy buttons meet it too.</li>
+<li>The focus ring is a high-contrast camel outline held constant across all variants so it always meets the 3:1 non-text contrast requirement of WCAG 2.2 SC 1.4.11.</li>
+<li><code>aegov-input-group</code> renders <code>role=&quot;group&quot;</code> and names it from <code>group-label</code>.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Always provide a visible label — <code>aegov-label</code> inside <code>aegov-form-field</code> is the preferred pattern. For unlabelled inputs (e.g. an icon-only search field), set <code>aria-label</code> on the host.</li>
-<li>Use the right <code>type</code> for the data being collected — it determines on-screen keyboards, autofill behaviour, and built-in validation.</li>
-<li>For password reveal, warn users about visibility when sharing screens; the toggle does not announce the change to other parties.</li>
-<li>For copyable fields, ensure the value is safe to expose in clipboard history.</li>
+<li><strong>Always provide a visible label.</strong> Use <a href="aegov-label.html"><code>aegov-label</code></a> inside <a href="aegov-form-field.html"><code>aegov-form-field</code></a>, which links them for you. A placeholder is not a label — it disappears on first keystroke and typically fails contrast.</li>
+<li><strong>Mark required fields in the label text.</strong> <code>is-required</code> sets the native attribute but renders no visual marker.</li>
+<li><strong>Choose the right <code>type</code>.</strong> It determines the mobile keyboard and the browser&#39;s own validation; <code>type=&quot;text&quot;</code> for an email address is a usability defect.</li>
+<li><strong>Add <code>autocomplete</code>.</strong> For names, addresses, phone numbers and one-time codes this is a genuine accessibility win, and it is required for WCAG 2.2 SC 1.3.5 on identify-input-purpose.</li>
+<li><strong>Never signal an error with colour alone</strong> (WCAG 2.2 SC 1.4.1) — always populate <code>error-message</code> or the <code>error</code> slot.</li>
+<li><strong>Mark slotted icons <code>aria-hidden=&quot;true&quot;</code>.</strong></li>
+<li><strong>Set <code>dir=&quot;ltr&quot;</code> on inputs holding LTR data</strong> — phone numbers, IBANs, reference codes — inside Arabic pages.</li>
+<li><strong>Do not put both a trailing icon and a reveal or copy button</strong> on one field; the icon will be hidden.</li>
+<li><strong>Keep hint text short and permanent.</strong> If the guidance is only relevant while a field is empty, it probably belongs in the label.</li>
 </ul>
 <h3>Keyboard support</h3>
 <table>
@@ -791,21 +869,31 @@
 </thead>
 <tbody><tr>
 <td><code>Tab</code></td>
-<td>Move focus through the input, then to the reveal/copy button (if shown), then to the next field.</td>
+<td>Move focus to the input, then to the reveal or copy button when present.</td>
 </tr>
 <tr>
-<td><code>Shift + Tab</code></td>
-<td>Move focus to the previous focusable element.</td>
+<td><code>Shift</code> + <code>Tab</code></td>
+<td>Move focus backwards.</td>
 </tr>
 <tr>
 <td><code>Enter</code></td>
-<td>Commit the value (fires <code>aegovInputChange</code>) and submit the surrounding form.</td>
+<td>Submit the surrounding form, if any.</td>
 </tr>
 <tr>
-<td>Standard text editing</td>
-<td>All native shortcuts apply — selection, cursor movement, cut/copy/paste.</td>
+<td><code>Enter</code>, <code>Space</code></td>
+<td>Activate the reveal or copy button when it has focus.</td>
 </tr>
 </tbody></table>
+<p>Type-specific keys — arrow keys on <code>type=&quot;number&quot;</code>, the native picker on <code>type=&quot;date&quot;</code> — are handled by the browser.</p>
+<hr>
+<h2>Where to next</h2>
+<ul>
+<li><a href="aegov-form-field.html">Form Field</a> and <a href="aegov-label.html">Label</a> — the wrapper and label that complete a field.</li>
+<li><a href="aegov-textarea.html">Textarea</a> — multi-line text, with a character counter.</li>
+<li><a href="aegov-select.html">Select</a> — choosing from a list.</li>
+<li><a href="aegov-datepicker.html">Datepicker</a> — a themed calendar instead of <code>type=&quot;date&quot;</code>.</li>
+<li><a href="validation-overview.html">Validation Surface</a> and <a href="validation-byo.html">Bring Your Own Validator</a>.</li>
+</ul>
 <!-- DOC:END -->
           </section>
       </article>

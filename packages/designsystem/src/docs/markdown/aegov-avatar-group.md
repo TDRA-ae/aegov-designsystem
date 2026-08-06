@@ -1,336 +1,267 @@
 # Avatar Group
 
-<p class="text-lg text-aeblack-500 mb-8">A layout wrapper that arranges multiple <code>aegov-avatar</code> children in a row and optionally renders a trailing &ldquo;+N more&rdquo; indicator. Use it for service teams, project members, document collaborators, or any place where several users are represented as a single cluster. The group enforces a uniform size across its children and forces every avatar to a circular appearance.</p>
+<p class="text-lg text-aeblack-500 mb-8">An Avatar Group shows several people as a compact row of overlapping avatars, with an optional count for the ones that do not fit. Use it to indicate who is involved in something — the officers assigned to a case, the members of a team — where the individual names matter less than the group at a glance.</p>
 
 ## Introduction
 
-The `aegov-avatar-group` component composes a parent wrapper with one or more `aegov-avatar` children. The parent owns shared configuration — size and appearance — and propagates it to each child automatically: every child avatar is forced to `appearance="rounded"` and inherits the group's `size`. You only need to author each `aegov-avatar` inside the group; the visual harmony of the cluster is wired up for you.
+`aegov-avatar-group` wraps [`aegov-avatar`](aegov-avatar.html) children and cascades its resolved `size` to each of them.
 
 ```html
-<aegov-avatar-group size="lg" more-count="3">
-  <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima Al Zaabi"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef Al Suwaidi"></aegov-avatar>
-  <aegov-avatar>MA</aegov-avatar>
+<aegov-avatar-group>
+  <aegov-avatar alt="Ahmed Al Mansouri">AM</aegov-avatar>
+  <aegov-avatar alt="Fatima Al Suwaidi">FS</aegov-avatar>
+  <aegov-avatar alt="Omar Al Hashimi">OH</aegov-avatar>
 </aegov-avatar-group>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-avatar-group size="lg" more-count="3">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima Al Zaabi"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef Al Suwaidi"></aegov-avatar>
-    <aegov-avatar>MA</aegov-avatar>
+  <aegov-avatar-group>
+    <aegov-avatar alt="Ahmed Al Mansouri">AM</aegov-avatar>
+    <aegov-avatar alt="Fatima Al Suwaidi">FS</aegov-avatar>
+    <aegov-avatar alt="Omar Al Hashimi">OH</aegov-avatar>
+    <aegov-avatar alt="Sara Al Ali">SA</aegov-avatar>
   </aegov-avatar-group>
 </div>
+
+Set `size` on the group rather than on each avatar — it propagates, and mismatched sizes break the overlap.
 
 ---
 
-## Variant — Default vs. Compact
+## Variant
 
-The `variant` property controls how the avatars are arranged.
-
-- `default` — avatars are spaced apart with a small gap between them.
-- `compact` — avatars overlap, mimicking a stack of stickers; the leftmost avatar sits on top.
-
-Use `default` when each user is a distinct unit (a team listing, a contact strip). Use `compact` to compress a cluster into a tight visual shorthand for "these people are involved", typically alongside text such as a project name.
-
-### Default (spaced)
+| Variant | Overlap |
+| --- | --- |
+| `default` | A moderate overlap, with each face clearly visible. |
+| `compact` | A tighter overlap, for narrow spaces. |
 
 ```html
-<aegov-avatar-group variant="default" size="lg">
-  <aegov-avatar src="https://i.pravatar.cc/150?img=15" alt="Ahmed"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=23" alt="Sara"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=44" alt="Hamda"></aegov-avatar>
-</aegov-avatar-group>
+<aegov-avatar-group variant="default">…</aegov-avatar-group>
+<aegov-avatar-group variant="compact">…</aegov-avatar-group>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-avatar-group variant="default" size="lg">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=15" alt="Ahmed"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=23" alt="Sara"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=44" alt="Hamda"></aegov-avatar>
-  </aegov-avatar-group>
+  <div class="space-y-6">
+    <div>
+      <p class="text-sm text-aeblack-500 mb-2">default</p>
+      <aegov-avatar-group variant="default">
+        <aegov-avatar alt="Ahmed Al Mansouri">AM</aegov-avatar>
+        <aegov-avatar alt="Fatima Al Suwaidi">FS</aegov-avatar>
+        <aegov-avatar alt="Omar Al Hashimi">OH</aegov-avatar>
+      </aegov-avatar-group>
+    </div>
+    <div>
+      <p class="text-sm text-aeblack-500 mb-2">compact</p>
+      <aegov-avatar-group variant="compact">
+        <aegov-avatar alt="Ahmed Al Mansouri">AM</aegov-avatar>
+        <aegov-avatar alt="Fatima Al Suwaidi">FS</aegov-avatar>
+        <aegov-avatar alt="Omar Al Hashimi">OH</aegov-avatar>
+      </aegov-avatar-group>
+    </div>
+  </div>
 </div>
-
-### Compact (overlapping)
-
-```html
-<aegov-avatar-group variant="compact" size="lg">
-  <aegov-avatar src="https://i.pravatar.cc/150?img=15" alt="Ahmed"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=23" alt="Sara"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=44" alt="Hamda"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=51" alt="Mohammed"></aegov-avatar>
-</aegov-avatar-group>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-avatar-group variant="compact" size="lg">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=15" alt="Ahmed"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=23" alt="Sara"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=44" alt="Hamda"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=51" alt="Mohammed"></aegov-avatar>
-  </aegov-avatar-group>
-</div>
-
----
-
-## More Indicator
-
-When more users belong to the group than are visible, set `more-count` to render a trailing "+N" button. The indicator is a real `<button>` and emits the `aegovAvatarGroupMore` event when clicked, so you can open a modal listing the full membership.
-
-```html
-<aegov-avatar-group variant="compact" size="lg" more-count="12">
-  <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
-</aegov-avatar-group>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-avatar-group variant="compact" size="lg" more-count="12">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
-  </aegov-avatar-group>
-</div>
-
-### Custom More Text
-
-By default, the indicator renders as `{moreCount}+`. Set `more-text` to provide a different label — for example a localised string or shorter shorthand.
-
-```html
-<aegov-avatar-group size="lg" more-count="48" more-text="See all">
-  <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
-</aegov-avatar-group>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-avatar-group size="lg" more-count="48" more-text="See all">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
-  </aegov-avatar-group>
-</div>
-
-### Reacting to the More Click
-
-```html
-<aegov-avatar-group id="team" size="lg" more-count="12">
-  <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
-</aegov-avatar-group>
-
-<script>
-  document.querySelector('#team').addEventListener('aegovAvatarGroupMore', () => {
-    console.log('User wants to see all members of the team');
-    // open a modal, navigate to a team page, etc.
-  });
-</script>
-```
 
 ---
 
 ## Sizes
 
-The `size` property is enforced on every child `aegov-avatar` — individual `size` settings on children are overridden. Accepts `xs`, `sm`, `base` (default), `lg`, `xl`, `2xl`, `3xl`, or a Tailwind-style responsive string.
-
-```html
-<aegov-avatar-group size="sm">…</aegov-avatar-group>
-<aegov-avatar-group size="base">…</aegov-avatar-group>
-<aegov-avatar-group size="lg">…</aegov-avatar-group>
-<aegov-avatar-group size="xl">…</aegov-avatar-group>
-```
+`size` takes the full avatar scale and cascades to every child.
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div style="display:flex;flex-direction:column;gap:1rem;">
-    <aegov-avatar-group variant="compact" size="sm" more-count="5">
-      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
-    </aegov-avatar-group>
-    <aegov-avatar-group variant="compact" size="base" more-count="5">
-      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
-    </aegov-avatar-group>
-    <aegov-avatar-group variant="compact" size="lg" more-count="5">
-      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
-    </aegov-avatar-group>
-    <aegov-avatar-group variant="compact" size="xl" more-count="5">
-      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
-    </aegov-avatar-group>
+  <div class="space-y-5">
+    <div class="flex items-center gap-4"><span class="text-xs text-aeblack-500 w-10">xs</span><aegov-avatar-group size="xs"><aegov-avatar alt="A">A</aegov-avatar><aegov-avatar alt="B">B</aegov-avatar><aegov-avatar alt="C">C</aegov-avatar></aegov-avatar-group></div>
+    <div class="flex items-center gap-4"><span class="text-xs text-aeblack-500 w-10">sm</span><aegov-avatar-group size="sm"><aegov-avatar alt="A">A</aegov-avatar><aegov-avatar alt="B">B</aegov-avatar><aegov-avatar alt="C">C</aegov-avatar></aegov-avatar-group></div>
+    <div class="flex items-center gap-4"><span class="text-xs text-aeblack-500 w-10">base</span><aegov-avatar-group size="base"><aegov-avatar alt="A">A</aegov-avatar><aegov-avatar alt="B">B</aegov-avatar><aegov-avatar alt="C">C</aegov-avatar></aegov-avatar-group></div>
+    <div class="flex items-center gap-4"><span class="text-xs text-aeblack-500 w-10">lg</span><aegov-avatar-group size="lg"><aegov-avatar alt="A">A</aegov-avatar><aegov-avatar alt="B">B</aegov-avatar><aegov-avatar alt="C">C</aegov-avatar></aegov-avatar-group></div>
+    <div class="flex items-center gap-4"><span class="text-xs text-aeblack-500 w-10">xl</span><aegov-avatar-group size="xl"><aegov-avatar alt="A">A</aegov-avatar><aegov-avatar alt="B">B</aegov-avatar><aegov-avatar alt="C">C</aegov-avatar></aegov-avatar-group></div>
   </div>
 </div>
+
+### Responsive sizes
+
+`size` accepts a responsive string with the prefixes `xs`, `sm`, `md`, `lg`, `xl` and `2xl`.
+
+```html
+<aegov-avatar-group size="xs md:sm lg:base">…</aegov-avatar-group>
+```
 
 ---
 
-## Composite Examples
+## Overflow count
 
-### Project members card
+`moreCount` adds a final tile showing how many people are not displayed. `moreText` overrides its text.
 
 ```html
-<aegov-card appearance="light">
-  <aegov-title level="4">Smart City roadmap</aegov-title>
-  <aegov-text size="sm">Cross-ministry team delivering digital transformation initiatives.</aegov-text>
-  <div style="margin-top:1rem;">
-    <aegov-avatar-group variant="compact" size="base" more-count="8">
-      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima Al Zaabi"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef Al Suwaidi"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=44" alt="Hamda Al Shamsi"></aegov-avatar>
-    </aegov-avatar-group>
-  </div>
-</aegov-card>
+<aegov-avatar-group more-count="12">
+  <aegov-avatar alt="Ahmed Al Mansouri">AM</aegov-avatar>
+  <aegov-avatar alt="Fatima Al Suwaidi">FS</aegov-avatar>
+  <aegov-avatar alt="Omar Al Hashimi">OH</aegov-avatar>
+</aegov-avatar-group>
+
+<aegov-avatar-group more-count="12" more-text="+12 more">…</aegov-avatar-group>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-card appearance="light">
-    <aegov-title level="4">Smart City roadmap</aegov-title>
-    <aegov-text size="sm">Cross-ministry team delivering digital transformation initiatives.</aegov-text>
-    <div style="margin-top:1rem;">
-      <aegov-avatar-group variant="compact" size="base" more-count="8">
-        <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori"></aegov-avatar>
-        <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima Al Zaabi"></aegov-avatar>
-        <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef Al Suwaidi"></aegov-avatar>
-        <aegov-avatar src="https://i.pravatar.cc/150?img=44" alt="Hamda Al Shamsi"></aegov-avatar>
+  <div class="space-y-6">
+    <div>
+      <p class="text-sm text-aeblack-500 mb-2">more-count="12"</p>
+      <aegov-avatar-group more-count="12">
+        <aegov-avatar alt="Ahmed Al Mansouri">AM</aegov-avatar>
+        <aegov-avatar alt="Fatima Al Suwaidi">FS</aegov-avatar>
+        <aegov-avatar alt="Omar Al Hashimi">OH</aegov-avatar>
       </aegov-avatar-group>
     </div>
-  </aegov-card>
+    <div>
+      <p class="text-sm text-aeblack-500 mb-2">more-count="99" with a custom more-text</p>
+      <aegov-avatar-group more-count="99" more-text="+99">
+        <aegov-avatar alt="Ahmed Al Mansouri">AM</aegov-avatar>
+        <aegov-avatar alt="Fatima Al Suwaidi">FS</aegov-avatar>
+      </aegov-avatar-group>
+    </div>
+  </div>
 </div>
 
-### Mixed image and initials fallback
+The overflow tile is a real button, and activating it emits `aegovAvatarGroupMore` — so it can open the full list. Its accessible label is generated from the count and translated automatically, so a screen reader announces something like "Show 12 more" rather than "+12".
 
 ```html
-<aegov-avatar-group variant="compact" size="lg" more-count="2">
-  <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori"></aegov-avatar>
-  <aegov-avatar>FZ</aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef Al Suwaidi"></aegov-avatar>
-  <aegov-avatar>MA</aegov-avatar>
-</aegov-avatar-group>
+<aegov-avatar-group id="assignees" more-count="12">…</aegov-avatar-group>
+<aegov-drawer id="all-assignees" label="All assignees" position="right">…</aegov-drawer>
+
+<script type="module">
+  const group = document.querySelector('#assignees');
+  const drawer = document.querySelector('#all-assignees');
+
+  group.addEventListener('aegovAvatarGroupMore', () => drawer.show());
+</script>
+```
+
+If you do not handle the event, the tile is a button that does nothing — so either wire it up or leave `moreCount` unset and show the count as plain text beside the group instead.
+
+---
+
+## Composite example — case assignees
+
+```html
+<div class="flex items-center justify-between">
+  <div class="flex items-center gap-3">
+    <aegov-avatar-group size="sm" more-count="4">
+      <aegov-avatar alt="Ahmed Al Mansouri">AM</aegov-avatar>
+      <aegov-avatar alt="Fatima Al Suwaidi">FS</aegov-avatar>
+      <aegov-avatar alt="Omar Al Hashimi">OH</aegov-avatar>
+    </aegov-avatar-group>
+    <aegov-text size="sm" extra-class="text-aeblack-500">7 officers assigned</aegov-text>
+  </div>
+
+  <aegov-button size="sm" appearance="outline">Manage assignees</aegov-button>
+</div>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-avatar-group variant="compact" size="lg" more-count="2">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori"></aegov-avatar>
-    <aegov-avatar>FZ</aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef Al Suwaidi"></aegov-avatar>
-    <aegov-avatar>MA</aegov-avatar>
-  </aegov-avatar-group>
+  <div class="max-w-lg space-y-6">
+    <div class="flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <aegov-avatar-group size="sm" more-count="4">
+          <aegov-avatar alt="Ahmed Al Mansouri">AM</aegov-avatar>
+          <aegov-avatar alt="Fatima Al Suwaidi">FS</aegov-avatar>
+          <aegov-avatar alt="Omar Al Hashimi">OH</aegov-avatar>
+        </aegov-avatar-group>
+        <aegov-text size="sm" extra-class="text-aeblack-500">7 officers assigned</aegov-text>
+      </div>
+      <aegov-button size="sm" appearance="outline">Manage</aegov-button>
+    </div>
+    <aegov-card field-id="ag-cx-card" appearance="light" variant="neutral-min">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <aegov-title size="text-h6" heading-type="h3" extra-class="mb-1">APP-2026-0041827</aegov-title>
+          <aegov-text size="sm" extra-class="text-aeblack-500">Emirates ID renewal</aegov-text>
+        </div>
+        <aegov-badge variant="camel">Under review</aegov-badge>
+      </div>
+      <aegov-separator gap="4" appearance="light" variant="neutral-min"></aegov-separator>
+      <div class="flex items-center gap-3">
+        <aegov-avatar-group size="xs" more-count="2">
+          <aegov-avatar alt="Ahmed Al Mansouri">AM</aegov-avatar>
+          <aegov-avatar alt="Fatima Al Suwaidi">FS</aegov-avatar>
+        </aegov-avatar-group>
+        <aegov-text size="sm" extra-class="text-aeblack-500">4 reviewers</aegov-text>
+      </div>
+    </aegov-card>
+  </div>
 </div>
+
+Note the visible count text beside each group. A row of overlapping faces is decorative shorthand — the number is what actually carries the information, and it should be readable without hovering or counting.
 
 ---
 
 ## RTL Support
 
-The avatar group flows in source order. When the document or any ancestor is set to `dir="rtl"`, the natural flex layout reverses automatically — the first avatar sits on the right and the "+N" indicator slides to the left, all without additional configuration. Each individual `aegov-avatar` remains direction-neutral; only the row layout flips.
+The group is direction-aware. In a `dir="rtl"` container the avatars stack from the right, with the overlap and the overflow tile mirrored, so the first avatar in the DOM appears on the right. The group's own accessible label and the overflow button's label are both translated automatically.
 
 ```html
 <div dir="rtl">
-  <aegov-avatar-group variant="compact" size="lg" more-count="3" more-text="عرض الكل">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="خالد المنصوري"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="فاطمة الزعابي"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="يوسف السويدي"></aegov-avatar>
-    <aegov-avatar>ما</aegov-avatar>
+  <aegov-avatar-group size="sm" more-count="4">
+    <aegov-avatar alt="أحمد المنصوري">أم</aegov-avatar>
+    <aegov-avatar alt="فاطمة السويدي">فس</aegov-avatar>
+    <aegov-avatar alt="عمر الهاشمي">عه</aegov-avatar>
   </aegov-avatar-group>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-avatar-group variant="compact" size="lg" more-count="3" more-text="عرض الكل">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="خالد المنصوري"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="فاطمة الزعابي"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="يوسف السويدي"></aegov-avatar>
-    <aegov-avatar>ما</aegov-avatar>
-  </aegov-avatar-group>
+  <div class="space-y-6 max-w-lg">
+    <div class="flex items-center gap-3">
+      <aegov-avatar-group size="sm" more-count="4">
+        <aegov-avatar alt="أحمد المنصوري">أم</aegov-avatar>
+        <aegov-avatar alt="فاطمة السويدي">فس</aegov-avatar>
+        <aegov-avatar alt="عمر الهاشمي">عه</aegov-avatar>
+      </aegov-avatar-group>
+      <aegov-text size="sm" extra-class="text-aeblack-500">٧ موظفين معنيين</aegov-text>
+    </div>
+    <aegov-avatar-group variant="compact" size="base">
+      <aegov-avatar alt="أحمد المنصوري">أم</aegov-avatar>
+      <aegov-avatar alt="فاطمة السويدي">فس</aegov-avatar>
+      <aegov-avatar alt="سارة العلي">سع</aegov-avatar>
+    </aegov-avatar-group>
+  </div>
 </div>
 
-A spaced (default) variant in RTL — note the consistent right-to-left flow:
-
-```html
-<div dir="rtl">
-  <aegov-avatar-group variant="default" size="base">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=15" alt="أحمد"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=23" alt="سارة"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=44" alt="حمدة"></aegov-avatar>
-  </aegov-avatar-group>
-</div>
-```
-
-<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-avatar-group variant="default" size="base">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=15" alt="أحمد"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=23" alt="سارة"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=44" alt="حمدة"></aegov-avatar>
-  </aegov-avatar-group>
-</div>
+Counts in your own text are content — use Arabic-Indic numerals where the rest of your Arabic copy does, as above. Note the overflow tile's own number comes from `moreCount` and renders as a Western digit unless you override it with `moreText`.
 
 ---
 
 ## API Reference
 
-### aegov-avatar-group Properties
+### Properties
 
-| Property     | Attribute     | Description                                                                  | Type                          | Default     |
-| ------------ | ------------- | ---------------------------------------------------------------------------- | ----------------------------- | ----------- |
-| `variant`    | `variant`     | Layout — `default` (spaced) or `compact` (overlapping).                       | `'default' \| 'compact'`      | `'default'` |
-| `size`       | `size`        | Size enforced on every child avatar. Accepts a single token or responsive string. | `string`                      | `'base'`    |
-| `moreCount`  | `more-count`  | When greater than zero, renders a trailing `+N` button.                       | `number`                      | `0`         |
-| `moreText`   | `more-text`   | Custom label for the more indicator. Defaults to `"{moreCount}+"`.            | `string`                      | `undefined` |
-
-### aegov-avatar Properties (synced by the parent)
-
-The parent group writes the following properties on each child `aegov-avatar` automatically. Setting these on a child directly is overridden on the next sync.
-
-| Property     | Attribute     | Description                                                              | Type                                                                       | Set to       |
-| ------------ | ------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------- | ------------ |
-| `size`       | `size`        | _Set by the parent._ Resolved size token from the group's `size`.         | `'xs' \| 'sm' \| 'base' \| 'lg' \| 'xl' \| '2xl' \| '3xl'`                 | _from group_ |
-| `appearance` | `appearance`  | _Set by the parent._ Always forced to `rounded` while inside a group.    | `'square' \| 'rounded'`                                                    | `'rounded'`  |
-
-> Other `aegov-avatar` props — `src`, `alt`, `status`, `field-id` — remain under your control and behave exactly as documented on the avatar component.
+| Property | Attribute | Description | Type | Default |
+| --- | --- | --- | --- | --- |
+| `variant` | `variant` | Overlap tightness. | `'default' \| 'compact'` | `'default'` |
+| `size` | `size` | Size token or responsive string. Propagated to every child avatar. | `string` — `xs \| sm \| base \| lg \| xl \| 2xl \| 3xl` | `'base'` |
+| `moreCount` | `more-count` | How many people are not shown. Renders an overflow button when greater than 0. | `number` | `0` |
+| `moreText` | `more-text` | Overrides the overflow tile's visible text. | `string` | — |
 
 ### Slots
 
-| Component               | Slot        | Description                                                                  |
-| ----------------------- | ----------- | ---------------------------------------------------------------------------- |
-| `aegov-avatar-group`    | _(default)_ | Place one or more `aegov-avatar` children here.                              |
+| Slot | Description |
+| --- | --- |
+| _(default)_ | The `aegov-avatar` children. |
 
 ### Events
 
-| Event                   | Component              | Detail | Description                                                       |
-| ----------------------- | ---------------------- | ------ | ----------------------------------------------------------------- |
-| `aegovAvatarGroupMore`  | `aegov-avatar-group`   | `void` | Fired when the trailing `+N` button is clicked by the user.       |
+| Event | Detail | Description |
+| --- | --- | --- |
+| `aegovAvatarGroupMore` | `void` | The overflow button was activated. |
 
-#### Listening for the more click
+### Methods
 
-```html
-<aegov-avatar-group id="team" size="lg" more-count="12">
-  <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
-</aegov-avatar-group>
-
-<script>
-  document.querySelector('#team').addEventListener('aegovAvatarGroupMore', () => {
-    console.log('Open the full team list');
-  });
-</script>
-```
+None.
 
 ### Pass-through Attributes
 
-The avatar group does not forward attributes to inner elements — set attributes directly on the host where they are needed. Use `aria-label` on the host to override the default group label when the cluster represents a named team or project.
-
-| Attribute group  | Forwarded? | Where to apply                                                         |
-| ---------------- | ---------- | ---------------------------------------------------------------------- |
-| `aria-*`         | No         | Apply directly to `<aegov-avatar-group>` or each `<aegov-avatar>`.      |
-| `data-*`         | No         | Apply directly to `<aegov-avatar-group>` or each `<aegov-avatar>`.      |
-| `class`, `style` | Allowed    | Applied to the host element.                                           |
+| Attribute group | Forwarded? | Notes |
+| --- | --- | --- |
+| `aria-*` | Yes | Forwarded to the group wrapper, which carries `role="group"` and a translated default label. |
+| `data-*` | Yes | Forwarded. |
+| `class`, `style` | Allowed | Applied to the host element. |
 
 ---
 
@@ -338,26 +269,35 @@ The avatar group does not forward attributes to inner elements — set attribute
 
 ### Built-in behaviour
 
-- The group container has `role="group"` and `aria-label="Avatar group"` so screen readers announce the cluster as a single unit.
-- The trailing `+N` indicator is a real `<button type="button">` and is keyboard-focusable. It carries `aria-label="Show {N} more users"` so its purpose is announced clearly.
-- Each child `aegov-avatar` retains its own `role="img"` and `aria-label` (derived from `alt`), so individual users are still announced when the user navigates into the group.
+- The wrapper carries `role="group"` with a translated accessible name, so the avatars are announced as a related set rather than as loose images.
+- Each child avatar keeps its own `role="img"` and `alt`-derived name — see [Avatar](aegov-avatar.html#accessibility).
+- **The overflow tile is a real `<button>`** with a translated, count-aware `aria-label` such as "Show 12 more", rather than an unlabelled "+12".
+- Size is propagated from the group, so the overlap geometry stays correct.
+- Stacking order and the overflow position use logical properties, so the group mirrors under `dir="rtl"`.
 
 ### Developer responsibilities
 
-- Provide a meaningful `alt` on every child avatar — the group's container label alone is not enough to identify individual people.
-- When the group represents a specific named team or project, override the default `aria-label` on the host (e.g. `aria-label="Smart City team members"`) so the cluster's purpose is clear.
-- If the `+N` button opens a modal or navigates away, follow the relevant accessibility guidance for that destination — focus management, return focus, and labelled headings.
-- Avoid placing too many avatars in a `compact` cluster — the overlapping arrangement makes individual avatars harder to identify visually. Use `more-count` to off-load the long tail to a dedicated list.
+- **Give every child avatar an `alt`.** In a group this matters more than usual — without it a screen reader user hears "User avatar" repeated once per person.
+- **Show the total as visible text** beside the group. A row of overlapping faces plus a "+12" tile is not a readable count; "7 officers assigned" is.
+- **Handle `aegovAvatarGroupMore`**, or do not set `moreCount`. An overflow button that does nothing is a focusable dead end.
+- **Keep the visible set small.** Three to five avatars before the overflow is the practical limit; beyond that the overlap hides the faces it is meant to show.
+- **Do not use an avatar group as the only route to a list of people.** It is a summary; provide a real list — in a [Drawer](aegov-drawer.html) or on a page — for anyone who needs the names.
+- **Set `size` on the group, not the children.**
+- **Override `moreText`** if your page uses Arabic-Indic numerals, since the generated count is a Western digit.
+- **Reconsider the pattern for accessibility-first pages.** Overlapping avatars are decorative by nature; a plain list of names is more useful to more people, and in a government service it is often the better default.
 
 ### Keyboard support
 
-| Key              | Action                                                              |
-| ---------------- | ------------------------------------------------------------------- |
-| `Tab`            | Move focus to the `+N` button (when present) and onward.            |
-| `Enter`, `Space` | Activate the focused `+N` button — emits `aegovAvatarGroupMore`.    |
-| `Shift + Tab`    | Move focus to the previous focusable element.                       |
+| Key | Action |
+| --- | --- |
+| `Tab` | Move focus to the overflow button, when present. Individual avatars are not focusable. |
+| `Enter`, `Space` | Activate the overflow button. |
 
-### Notes
+---
 
-- The group always renders rounded avatars regardless of each child's `appearance`. If you need square avatars in a row, lay them out manually instead of using the group.
-- Updating `size` on the group propagates to every child on the next render cycle; you do not need to set it on each avatar individually.
+## Where to next
+
+- [Avatar](aegov-avatar.html) — the child component, its fallback and status behaviour.
+- [Drawer](aegov-drawer.html) — a good home for the full list behind the overflow button.
+- [Badge](aegov-badge.html) — for a count as a labelled chip instead.
+- [Card](aegov-card.html) — where assignee groups commonly sit.

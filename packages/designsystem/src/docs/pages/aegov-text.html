@@ -21,135 +21,199 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Text</h1>
-<p class="text-lg text-aeblack-500 mb-8">A simple paragraph wrapper for body copy. Use it whenever you need styled body text with a controlled, designsystem-aligned size scale instead of raw <code>&lt;p&gt;</code> tags. Suitable for descriptions, supporting copy, programme summaries, and any inline body content across the system.</p>
+<p class="text-lg text-aeblack-500 mb-8">Text applies the design system's body typography to a block of copy. It is the counterpart to <a href="aegov-title.html">Title</a>: three sizes, the correct font stack for the page language, and line heights that meet the design system's text-spacing requirements.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-text</code> component renders a <code>&lt;p&gt;</code> element with size tokens from the design system&#39;s typography scale. It removes the need to remember bespoke Tailwind utility combinations for body copy and gives you a single, consistent component to reach for whenever you need styled paragraph text. The size token can be a single value or a Tailwind-style responsive string, so the same paragraph can scale across breakpoints without extra markup.</p>
+<p><code>aegov-text</code> renders a paragraph with the design system&#39;s body styling.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
-  The UAE Government Design System provides a unified set of components and patterns
-  used across federal and local digital services to deliver a consistent citizen experience.
+  Most Emirates ID renewals are processed within five working days. You will be notified
+  by email and SMS when a decision has been made.
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-text>
-    The UAE Government Design System provides a unified set of components and patterns used across federal and local digital services to deliver a consistent citizen experience.
-  </aegov-text>
+  <div class="max-w-prose">
+    <aegov-text>Most Emirates ID renewals are processed within five working days. You will be notified by email and SMS when a decision has been made.</aegov-text>
+  </div>
 </div>
 
+<p>Note that the global stylesheet already styles plain <code>&lt;p&gt;</code> elements with the body font and a <code>0</code> margin. <code>aegov-text</code> is for when you want an explicit size token, or want the size to be responsive.</p>
 <hr>
-<h2>Sizes</h2>
-<p>The <code>size</code> property sets the body text size. Three tokens are available: <code>sm</code>, <code>base</code> (default), and <code>lg</code>. Use <code>sm</code> for helper or supporting copy, <code>base</code> for standard body text, and <code>lg</code> for lead-in paragraphs that introduce a section.</p>
+<h2>Size</h2>
+<p>Three tokens.</p>
 <table>
 <thead>
 <tr>
 <th>Token</th>
-<th>Tailwind class</th>
-<th>Approximate size</th>
+<th>Size</th>
+<th>Use for</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>sm</code></td>
-<td><code>text-sm</code></td>
-<td>14 px</td>
+<td>14px</td>
+<td>Secondary information, captions, metadata.</td>
 </tr>
 <tr>
 <td><code>base</code></td>
-<td><code>text-base</code></td>
-<td>16 px (default)</td>
+<td>16px</td>
+<td>Body copy. The default, and the design system&#39;s minimum for body text.</td>
 </tr>
 <tr>
 <td><code>lg</code></td>
-<td><code>text-lg</code></td>
-<td>18 px</td>
+<td>18px</td>
+<td>Introductory paragraphs and standfirsts.</td>
 </tr>
 </tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Helper text shown beneath a form field.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Standard body copy used across most pages.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Lead-in paragraph for a section introduction.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-text size="sm">Your application is automatically saved as you progress through each step.</aegov-text>
-  <aegov-text size="base">Submit your Emirates ID and supporting documents to begin the verification process.</aegov-text>
-  <aegov-text size="lg">The Ministry of Interior offers a wide range of digital services for UAE residents and visitors.</aegov-text>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Small — secondary information.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Base — body copy.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Large — an introductory paragraph.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-prose space-y-4">
+    <aegov-text size="sm">Small — 14px. Use for captions, metadata and secondary notes.</aegov-text>
+    <aegov-text size="base">Base — 16px. The default size for body copy, and the design system's minimum for readable text.</aegov-text>
+    <aegov-text size="lg">Large — 18px. Use for the introductory paragraph that sits under a page title.</aegov-text>
+  </div>
 </div>
 
+<p><strong>Do not go below <code>base</code> for body copy.</strong> The design system&#39;s typography guidance sets 16px as the default body size and treats going below it as an exception that needs a reason. <code>sm</code> is for genuinely secondary text.</p>
 <h3>Responsive sizes</h3>
-<p><code>size</code> also accepts a Tailwind-style responsive string with the breakpoint prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, and <code>2xl</code>. Each segment overrides smaller breakpoints, so the example below is <code>sm</code> on phones, <code>base</code> from the <code>md</code> breakpoint up, and <code>lg</code> from <code>lg</code> up.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span>&gt;</span>
-  This paragraph scales with the viewport — small on phones, base from the medium breakpoint,
-  and large on desktop.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-text size="sm md:base lg:lg">
-    Resize your browser to see this paragraph scale across the <code>sm</code>, <code>md</code>, and <code>lg</code> breakpoints. Useful for hero descriptions and lead-in copy that should remain readable on every device.
-  </aegov-text>
+<p><code>size</code> accepts a responsive string with the prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code> and <code>2xl</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base lg:lg&quot;</span>&gt;</span>Grows on larger screens<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-prose">
+    <aegov-text size="base lg:lg">This paragraph is 16px on small screens and 18px from 1024px up.</aegov-text>
+  </div>
 </div>
 
+<p>Note that <code>sm</code>, <code>lg</code> and so on are both size tokens and breakpoint prefixes, so <code>size=&quot;sm md:base&quot;</code> means &quot;small by default, base from 768px&quot;.</p>
 <hr>
-<h2>Custom Styling</h2>
-<p>Use the <code>extra-class</code> property to merge additional Tailwind utilities onto the rendered <code>&lt;p&gt;</code>. This is the recommended way to adjust colour, weight, or alignment for a single instance without authoring component CSS.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aeblack-600 italic&quot;</span>&gt;</span>
-  All information submitted is encrypted in transit and at rest.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aered-600 font-medium&quot;</span>&gt;</span>
-  Please complete the marked fields before submitting.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-text extra-class="text-aeblack-600 italic">
-    All information submitted is encrypted in transit and at rest, in line with UAE data protection guidelines.
-  </aegov-text>
-  <aegov-text size="sm" extra-class="text-aered-600 font-medium">
-    Please complete the marked fields before submitting your application.
-  </aegov-text>
+<h2>Extra classes</h2>
+<p><code>extraClass</code> appends classes to the rendered paragraph — for colour, spacing, alignment or weight.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aeblack-500&quot;</span>&gt;</span>Muted<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;font-semibold&quot;</span>&gt;</span>Emphasised<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;mb-6&quot;</span>&gt;</span>With a bottom margin<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-prose space-y-3">
+    <aegov-text extra-class="text-aeblack-500">Muted secondary text.</aegov-text>
+    <aegov-text extra-class="font-semibold">Emphasised text.</aegov-text>
+    <aegov-text extra-class="text-primary-700">Coloured text.</aegov-text>
+    <aegov-text size="sm" extra-class="text-aeblack-400">Small and muted — for metadata.</aegov-text>
+  </div>
 </div>
 
-<hr>
-<h2>Combined Example</h2>
-<p>A typical service description block uses a large lead paragraph followed by standard body copy and a smaller note. <code>aegov-text</code> keeps the typographic rhythm consistent across all three.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>
-  Renew your vehicle registration online in a few simple steps.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
-  Submit your Emirates ID, vehicle details, and proof of insurance through the
-  secure portal. Most renewals are processed within one business day.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aeblack-500&quot;</span>&gt;</span>
-  A service fee applies. Payment is taken after the application is reviewed.
+<p>For emphasis <strong>within</strong> a sentence, use real inline elements in the slot rather than styling the whole block:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
+  Renew up to <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>six months<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span> before your card expires.
+  Fees are <span class="hljs-tag">&lt;<span class="hljs-name">em</span>&gt;</span>non-refundable<span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span> once submitted.
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-text size="lg">
-    Renew your vehicle registration online in a few simple steps.
-  </aegov-text>
-  <aegov-text>
-    Submit your Emirates ID, vehicle details, and proof of insurance through the secure portal. Most renewals are processed within one business day.
-  </aegov-text>
-  <aegov-text size="sm" extra-class="text-aeblack-500">
-    A service fee applies. Payment is taken after the application is reviewed.
-  </aegov-text>
+  <div class="max-w-prose">
+    <aegov-text>Renew up to <strong>six months</strong> before your card expires. Fees are <em>non-refundable</em> once submitted.</aegov-text>
+  </div>
+</div>
+
+<p><code>&lt;strong&gt;</code> and <code>&lt;em&gt;</code> carry meaning that assistive technology can convey; <code>font-semibold</code> on the whole paragraph does not.</p>
+<hr>
+<h2>Line length</h2>
+<p>Keep prose between <strong>60 and 100 characters</strong> per line, per the design system&#39;s typography guidance. <code>aegov-text</code> does not constrain width — that is your layout&#39;s job.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;max-w-prose&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="space-y-6">
+    <div>
+      <p class="text-sm text-aeblack-500 mb-2">Constrained with max-w-prose — comfortable</p>
+      <div class="max-w-prose"><aegov-text>Renew your Emirates ID up to six months before it expires. Most renewals are processed within five working days, and you will be notified by email and SMS when a decision has been made.</aegov-text></div>
+    </div>
+    <div>
+      <p class="text-sm text-aeblack-500 mb-2">Unconstrained — hard to read on a wide screen</p>
+      <aegov-text>Renew your Emirates ID up to six months before it expires. Most renewals are processed within five working days, and you will be notified by email and SMS when a decision has been made.</aegov-text>
+    </div>
+  </div>
+</div>
+
+<p><code>max-w-prose</code> is the simplest way to get this right. A full-width paragraph on a desktop monitor is measurably harder to read, because the eye loses its place returning to the start of the next line.</p>
+<hr>
+<h2>Paragraph spacing</h2>
+<p>The global stylesheet sets <code>margin: 0</code> on paragraphs, so <strong>you supply the spacing between them.</strong> The design system&#39;s text-spacing requirement, aligned with WCAG 2.2 SC 1.4.12, is a paragraph margin of about twice the font size.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;max-w-prose space-y-4&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>First paragraph.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Second paragraph.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="space-y-6">
+    <div>
+      <p class="text-sm text-aeblack-500 mb-2">With space-y-4 — correct</p>
+      <div class="max-w-prose space-y-4">
+        <aegov-text>Renew your Emirates ID up to six months before it expires.</aegov-text>
+        <aegov-text>Most renewals are processed within five working days.</aegov-text>
+      </div>
+    </div>
+    <div>
+      <p class="text-sm text-aeblack-500 mb-2">Without spacing — paragraphs run together</p>
+      <div class="max-w-prose">
+        <aegov-text>Renew your Emirates ID up to six months before it expires.</aegov-text>
+        <aegov-text>Most renewals are processed within five working days.</aegov-text>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p>A <code>space-y-4</code> on the container is enough at <code>base</code> size. Do not indent paragraphs to separate them — vertical rhythm carries the separation, and indentation is explicitly discouraged by the typography guidance.</p>
+<hr>
+<h2>Composite example — service description</h2>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;max-w-prose&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-h2&quot;</span>&gt;</span>Renew your Emirates ID<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aeblack-500 mt-3&quot;</span>&gt;</span>
+    Renew up to six months before your card expires.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h5&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;mt-8 mb-3&quot;</span>&gt;</span>Before you start<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;space-y-4&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
+      You will need a valid passport copy and your current Emirates ID. If either has
+      expired, upload a current copy — expired documents will delay your application.
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
+      The service fee is <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>AED 270<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span> and is payable at the end of the
+      application. Fees are non-refundable once an application has been submitted.
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aeblack-400 mt-6&quot;</span>&gt;</span>
+    Last updated 14 March 2026
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-prose">
+    <p class="text-h3 font-extrabold">Renew your Emirates ID</p>
+    <aegov-text size="lg" extra-class="text-aeblack-500 mt-3">Renew up to six months before your card expires.</aegov-text>
+    <aegov-title size="text-h5" heading-type="h2" extra-class="mt-8 mb-3">Before you start</aegov-title>
+    <div class="space-y-4">
+      <aegov-text>You will need a valid passport copy and your current Emirates ID. If either has expired, upload a current copy — expired documents will delay your application.</aegov-text>
+      <aegov-text>The service fee is <strong>AED 270</strong> and is payable at the end of the application. Fees are non-refundable once an application has been submitted.</aegov-text>
+    </div>
+    <aegov-text size="sm" extra-class="text-aeblack-400 mt-6">Last updated 14 March 2026</aegov-text>
+  </div>
 </div>
 
 <hr>
 <h2>RTL Support</h2>
-<p><code>aegov-text</code> is direction-agnostic. Because it renders a plain <code>&lt;p&gt;</code>, the text simply flows in the direction set by the surrounding <code>dir</code> attribute. No properties need to change between LTR and RTL — wrap any ancestor with <code>dir=&quot;rtl&quot;</code> and the paragraph reads right-to-left automatically.</p>
+<p>Text is direction-agnostic — it inherits alignment from its container, and the <code>base</code> stylesheet switches the body font stack to Noto Kufi Arabic automatically in Arabic, along with a slightly more relaxed line height for Arabic paragraphs.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>
-    يوفر نظام التصميم الحكومي الإماراتي مجموعة موحّدة من المكوّنات والأنماط
-    المستخدمة عبر الخدمات الرقمية الاتحادية والمحلية.
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
-    قدّم هويتك الإماراتية والمستندات الداعمة لبدء عملية التحقّق. تتم معالجة معظم
-    الطلبات خلال يوم عمل واحد.
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aeblack-500&quot;</span>&gt;</span>
-    قد تُطبَّق رسوم خدمة. يتم الدفع بعد مراجعة الطلب.
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>جدّد هويتك الإماراتية قبل انتهاء صلاحيتها بستة أشهر.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>تُعالج معظم عمليات التجديد خلال خمسة أيام عمل، وسيتم إشعارك بالبريد الإلكتروني والرسائل النصية.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-text size="lg">
-    يوفر نظام التصميم الحكومي الإماراتي مجموعة موحّدة من المكوّنات والأنماط المستخدمة عبر الخدمات الرقمية الاتحادية والمحلية.
-  </aegov-text>
-  <aegov-text>
-    قدّم هويتك الإماراتية والمستندات الداعمة لبدء عملية التحقّق. تتم معالجة معظم الطلبات خلال يوم عمل واحد.
-  </aegov-text>
-  <aegov-text size="sm" extra-class="text-aeblack-500">
-    قد تُطبَّق رسوم خدمة. يتم الدفع بعد مراجعة الطلب.
-  </aegov-text>
+  <div class="max-w-prose space-y-4">
+    <aegov-text size="lg" extra-class="text-aeblack-500">جدّد هويتك الإماراتية قبل انتهاء صلاحيتها بستة أشهر.</aegov-text>
+    <aegov-text>تُعالج معظم عمليات التجديد خلال خمسة أيام عمل، وسيتم إشعارك بالبريد الإلكتروني والرسائل النصية عند اتخاذ القرار.</aegov-text>
+    <aegov-text>رسوم الخدمة <strong>٢٧٠ درهمًا</strong> وتُدفع في نهاية الطلب، وهي غير قابلة للاسترداد بعد إرسال الطلب.</aegov-text>
+    <aegov-text size="sm" extra-class="text-aeblack-400">آخر تحديث ١٤ مارس ٢٠٢٦</aegov-text>
+  </div>
 </div>
 
-<hr>
+<p>Three things to handle yourself:</p>
+<ul>
+<li><strong>Use logical utilities</strong> in <code>extraClass</code> — <code>text-start</code>, <code>ps-*</code>, <code>me-*</code> — so alignment and spacing mirror. <code>text-left</code> and <code>pl-4</code> do not.</li>
+<li><strong>Do not justify text.</strong> The typography guidance prohibits it in both languages because it slows reading.</li>
+<li><strong>Mark inline language changes</strong> with <code>lang</code> so a screen reader switches voice (WCAG 2.2 SC 3.1.2):</li>
+</ul>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
+  الخدمة متاحة على <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;ltr&quot;</span>&gt;</span>u.ae<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span> على مدار الساعة.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><hr>
 <h2>API Reference</h2>
 <h3>Properties</h3>
 <table>
@@ -165,16 +229,16 @@
 <tbody><tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Body text size. Accepts a single token (<code>sm</code>, <code>base</code>, <code>lg</code>) or a Tailwind-style responsive string.</td>
-<td><code>string</code></td>
+<td>Size token, or a responsive string.</td>
+<td><code>string</code> — <code>sm | base | lg</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
 <td><code>extraClass</code></td>
 <td><code>extra-class</code></td>
-<td>Additional Tailwind / CSS classes merged onto the rendered <code>&lt;p&gt;</code> element.</td>
+<td>Extra classes appended to the rendered paragraph.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
 </tr>
 </tbody></table>
 <h3>Slots</h3>
@@ -187,58 +251,72 @@
 </thead>
 <tbody><tr>
 <td><em>(default)</em></td>
-<td>The text content rendered inside <code>&lt;p&gt;</code>.</td>
+<td>The text content, including inline elements such as <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;a&gt;</code> and <code>&lt;span lang&gt;</code>.</td>
 </tr>
 </tbody></table>
 <h3>Events</h3>
-<p><code>aegov-text</code> emits no custom events.</p>
+<p>None.</p>
+<h3>Methods</h3>
+<p>None.</p>
 <h3>Pass-through Attributes</h3>
-<p>The host forwards <code>aria-*</code> and <code>data-*</code> attributes to the inner <code>&lt;p&gt;</code> element so you can add live-region or analytics hooks without extra markup.</p>
 <table>
 <thead>
 <tr>
 <th>Attribute group</th>
 <th>Forwarded?</th>
-<th>Where it lands</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>aria-*</code></td>
 <td>Yes</td>
-<td>Inner <code>&lt;p&gt;</code> element.</td>
+<td>Forwarded to the rendered paragraph.</td>
 </tr>
 <tr>
 <td><code>data-*</code></td>
 <td>Yes</td>
-<td>Inner <code>&lt;p&gt;</code> element.</td>
+<td>Forwarded to the rendered paragraph.</td>
 </tr>
 <tr>
 <td><code>class</code>, <code>style</code></td>
 <td>Allowed</td>
-<td>Host element.</td>
+<td>Applied to the host. Use <code>extra-class</code> to reach the paragraph.</td>
 </tr>
 <tr>
-<td>Other attributes</td>
-<td>No</td>
-<td>Apply to host.</td>
+<td><code>lang</code>, <code>dir</code></td>
+<td>Yes</td>
+<td>Useful for marking language changes on a whole block.</td>
 </tr>
 </tbody></table>
 <hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>Renders a semantic <code>&lt;p&gt;</code> element so assistive technologies treat the content as a paragraph.</li>
-<li><code>aria-*</code> pass-through allows consumers to add live-region semantics (<code>aria-live</code>, <code>aria-atomic</code>) or labelling without wrapping markup.</li>
+<li>The rendered element is a real paragraph, so it participates in normal reading order and paragraph-by-paragraph screen reader navigation.</li>
+<li>Sizes are set in <code>rem</code> with paired line heights of at least 1.5 for body copy, meeting WCAG 2.2 SC 1.4.12 on text spacing and scaling correctly to 200% zoom (SC 1.4.4).</li>
+<li>Word spacing and letter spacing come from the Roboto and Noto Kufi Arabic metrics, which already satisfy the design system&#39;s spacing requirements.</li>
+<li>The Arabic font stack and a relaxed Arabic line height are applied automatically from the page direction.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Use <code>aegov-text</code> only for paragraph content. Do not place it around headings, lists, or interactive elements.</li>
-<li>When overriding the colour via <code>extra-class</code>, ensure the contrast ratio against the background remains at least 4.5 : 1 for body text (WCAG 2.1 AA).</li>
-<li>Keep paragraph length comfortable to read — roughly 50 to 80 characters per line on desktop.</li>
+<li><strong>Constrain line length</strong> to 60–100 characters. <code>aegov-text</code> does not do this; use <code>max-w-prose</code> or an equivalent.</li>
+<li><strong>Add spacing between paragraphs</strong> — roughly twice the font size. Paragraph margins are reset to <code>0</code> globally, so unspaced paragraphs run together.</li>
+<li><strong>Do not go below <code>base</code> for body copy.</strong> Reserve <code>sm</code> for genuinely secondary text.</li>
+<li><strong>Use <code>&lt;strong&gt;</code> and <code>&lt;em&gt;</code> for inline emphasis</strong>, not a font-weight class on the whole block — only the elements carry meaning.</li>
+<li><strong>Do not justify text.</strong></li>
+<li><strong>Do not indent paragraphs</strong> to separate them.</li>
+<li><strong>Mark inline language changes</strong> with <code>lang</code> and, where needed, <code>dir</code>.</li>
+<li><strong>Use logical utilities</strong> so alignment and spacing mirror in RTL.</li>
+<li><strong>Check contrast when you tint text.</strong> <code>text-aeblack-500</code> on white is fine for secondary copy, but lighter tints can fall below the 4.5:1 minimum required by WCAG 2.2 SC 1.4.3.</li>
+<li><strong>Do not use <code>aegov-text</code> for headings.</strong> Use <a href="aegov-title.html">Title</a> with <code>headingType</code>, or a native heading element.</li>
 </ul>
-<h3>Notes</h3>
+<hr>
+<h2>Where to next</h2>
 <ul>
-<li>The component always applies <code>mb-8 mt-0</code> margin utilities. Override with <code>extra-class</code> (for example, <code>extra-class=&quot;mb-0&quot;</code>) when stacking paragraphs in a tighter rhythm.</li>
+<li><a href="aegov-title.html">Title</a> — headings, and the size-versus-level distinction.</li>
+<li><a href="aegov-blockquote.html">Blockquote</a> — quoted content with attribution.</li>
+<li><a href="aegov-link.html">Link</a> — inline links within body copy.</li>
+<li><a href="installation.html">Installation</a> — the type scale, font stacks and theme tokens.</li>
 </ul>
 <!-- DOC:END -->
           </section>

@@ -1,159 +1,152 @@
 # Banner
 
-<p class="text-lg text-aeblack-500 mb-8">A Banner is a page-level notification pinned to the top or bottom of the viewport. Use it for messages that apply to the whole site or service — scheduled maintenance, regional alerts, cookie consent, ministry-wide announcements, or critical system errors that must remain visible while users scroll. Banners are persistent and intentionally interrupt the normal page flow when needed.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Banner announces something that applies to the whole site rather than to one page — a service outage, a policy change, a maintenance window, a cookie notice. It anchors to the top or bottom of the viewport and stays there while the user navigates, which is what separates it from an inline <a href="aegov-callout.html">Callout</a>.</p>
 
 ## Introduction
 
-The `aegov-banner` component renders a full-width container fixed to the top or bottom of the viewport. It supports four severity variants, two visual treatments, fixed and sticky positioning, and two layout modes — `push` (banner reserves space and the body content is offset) or `overlay` (banner floats above content and emits its height for downstream layout adjustments). The dismiss button is built in.
+`aegov-banner` renders a full-width bar with a variant icon, a heading, a message and optional actions. It is dismissible by default.
 
 ```html
-<aegov-banner variant="info" position="top">
-  Scheduled maintenance: Government services will be briefly unavailable on Friday 03:00–05:00 GST.
+<aegov-banner variant="info" heading="Scheduled maintenance">
+  This service will be unavailable on Friday 12 September between 22:00 and 02:00.
 </aegov-banner>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="relative h-32 overflow-hidden rounded">
-    <aegov-banner variant="info" display="sticky" mode="overlay">
-      Scheduled maintenance: Government services will be briefly unavailable on Friday 03:00&ndash;05:00 GST.
-    </aegov-banner>
+  <p class="text-sm text-aeblack-500 mb-3">Shown inline here for illustration — in use, a banner anchors to the viewport edge.</p>
+  <aegov-banner variant="info" display="sticky" heading="Scheduled maintenance">
+    This service will be unavailable on Friday 12 September between 22:00 and 02:00.
+  </aegov-banner>
+</div>
+
+Because a banner is viewport-anchored, the previews on this page use `display="sticky"` so they sit in the document rather than covering it. Real usage is normally `display="fixed"`.
+
+---
+
+## Banner, callout or toast?
+
+| Component | Scope | Lifetime |
+| --- | --- | --- |
+| **Banner** | The whole site. Anchored to a viewport edge. | Persists across pages until dismissed or the situation ends. |
+| [Callout](aegov-callout.html) | One part of one page. In the content flow. | Persists while the situation applies. |
+| [Toast](aegov-toast.html) | One action the user just took. Floating. | Seconds. |
+
+If the message would still be true on a different page, it is a banner.
+
+---
+
+## Position and display
+
+`position` anchors the banner to the `top` or `bottom` edge. `display` decides whether it is `fixed` to the viewport or `sticky` within the document flow.
+
+```html
+<aegov-banner position="top" display="fixed" variant="info">…</aegov-banner>
+<aegov-banner position="bottom" display="fixed" variant="info">…</aegov-banner>
+```
+
+| Combination | Behaviour |
+| --- | --- |
+| `top` + `fixed` | Pinned to the top of the viewport. The most common configuration. |
+| `bottom` + `fixed` | Pinned to the bottom — conventional for cookie and consent notices. |
+| `top` + `sticky` | Scrolls with the document until it reaches the top, then sticks. |
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="space-y-4">
+    <aegov-banner variant="info" display="sticky" position="top" heading="Top position">Anchored to the top edge.</aegov-banner>
+    <aegov-banner variant="default" display="sticky" position="bottom" heading="Bottom position">Anchored to the bottom edge — conventional for consent notices.</aegov-banner>
   </div>
-  <p class="text-sm text-aeblack-500 mt-3">The banner above is a real <code>&lt;aegov-banner&gt;</code> rendered inside a bounded container so it stays in place for the demo.</p>
-</div>
-
-> The demos on this page use `display="sticky" mode="overlay"` and are placed inside bounded containers so the banners don't pin to the page viewport or add padding to `<body>`. In production you typically want `display="fixed" mode="push"` instead.
-
----
-
-## Variants
-
-The `variant` property sets the colour scheme and the implicit ARIA role.
-
-| Variant | ARIA role | Announcement | Why |
-|---|---|---|---|
-| `error` | `role="alert"` | Assertive — interrupts immediately | Blocking error that the user must act on now (WAI-ARIA 1.2 implicit `aria-live="assertive"`) |
-| `success`, `info`, `warning`, `default` | `role="status"` | Polite — announced when AT is idle | Non-urgent notification; does not interrupt the user's current task (WAI-ARIA 1.2 implicit `aria-live="polite"`) |
-
-Both roles carry their `aria-live` value **implicitly** — the component does not set an explicit `aria-live` attribute, which is correct per the [APG Alert pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alert/examples/alert/).
-
-```html
-<aegov-banner variant="default">A neutral, informational message.</aegov-banner>
-<aegov-banner variant="info">Useful information about the service.</aegov-banner>
-<aegov-banner variant="success">Your application has been received.</aegov-banner>
-<aegov-banner variant="warning">Action required before the deadline.</aegov-banner>
-<aegov-banner variant="error">The service is currently unavailable.</aegov-banner>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-3">
-  <aegov-banner variant="default" display="sticky" mode="overlay" is-dismissible="false">A neutral, informational message.</aegov-banner>
-  <aegov-banner variant="info"    display="sticky" mode="overlay" is-dismissible="false">Useful information about your service.</aegov-banner>
-  <aegov-banner variant="success" display="sticky" mode="overlay" is-dismissible="false">Your Emirates ID renewal application has been received.</aegov-banner>
-  <aegov-banner variant="warning" display="sticky" mode="overlay" is-dismissible="false">Your residency permit expires in 14 days &mdash; renew before 15 May.</aegov-banner>
-  <aegov-banner variant="error"   display="sticky" mode="overlay" is-dismissible="false">The payment gateway is temporarily unavailable. Please try again shortly.</aegov-banner>
 </div>
 
 ---
 
-## Appearance
+## Mode — push or overlay
 
-The `appearance` property switches between two styles. `soft` (default) uses a tinted background suitable for ongoing notices. `solid` uses a fully saturated colour panel, suitable for high-priority alerts that must dominate the viewport.
+This is the property that decides whether the banner covers your content or moves it.
+
+| Mode | Behaviour |
+| --- | --- |
+| `push` | Default. The banner reserves space by setting padding on `<body>`, so page content shifts out from under it. |
+| `overlay` | The banner floats over the content. Nothing shifts, and the component reports its height so you can compensate yourself. |
 
 ```html
-<aegov-banner appearance="soft" variant="warning">
-  Scheduled maintenance window starts at 22:00 tonight.
-</aegov-banner>
+<!-- Content shifts down; nothing is hidden -->
+<aegov-banner mode="push" position="top" display="fixed" variant="warning">…</aegov-banner>
 
-<aegov-banner appearance="solid" variant="error">
-  Critical: identity verification service outage.
-</aegov-banner>
+<!-- Banner floats above content -->
+<aegov-banner mode="overlay" position="top" display="fixed" variant="warning">…</aegov-banner>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-3">
-  <aegov-banner appearance="soft"  variant="warning" display="sticky" mode="overlay" is-dismissible="false">Soft &mdash; scheduled maintenance window starts at 22:00 tonight.</aegov-banner>
-  <aegov-banner appearance="solid" variant="error"   display="sticky" mode="overlay" is-dismissible="false">Solid &mdash; critical: identity verification service outage.</aegov-banner>
-</div>
+In `push` mode with `display="fixed"`, the component sets a CSS custom property for the relevant body padding and keeps it accurate with a `ResizeObserver` — so a banner whose text wraps to two lines on a phone still reserves the right amount of space. On dismiss the padding is removed.
 
----
+Prefer `push`. An `overlay` banner covers whatever is beneath it, which on a top-anchored banner is usually the site header and the skip link.
 
-## Position
+### Reacting to the height yourself
 
-The `position` property pins the banner to the `top` (default) or `bottom` of the viewport. Top is the conventional spot for service-wide notices; bottom is typical for cookie consent and lower-priority informational banners.
+In `overlay` mode the banner emits `aegovBannerHeightChange` whenever its height changes, including `{ height: 0 }` when dismissed. Use it when you need to offset something the component cannot know about, such as a sticky sub-navigation of your own.
 
 ```html
-<aegov-banner position="top" variant="info">
-  We have updated our privacy policy. Read the changes.
+<aegov-banner id="notice" mode="overlay" position="top" display="fixed" variant="warning">
+  Reduced service today.
 </aegov-banner>
 
-<aegov-banner position="bottom" variant="default" is-dismissible="false">
-  We use cookies to improve your experience. By continuing you accept our cookie policy.
-</aegov-banner>
-```
+<script type="module">
+  const banner = document.querySelector('#notice');
+  const nav = document.querySelector('#sticky-nav');
 
----
-
-## Display strategy
-
-The `display` property selects the CSS positioning mechanism.
-
-- `fixed` (default) — the banner stays glued to the chosen edge regardless of scroll.
-- `sticky` — the banner participates in normal page flow until it reaches the chosen edge, then sticks. Useful when you want the banner to scroll away once the user has scrolled past its natural position.
-
-```html
-<aegov-banner display="fixed" variant="warning">Always visible.</aegov-banner>
-<aegov-banner display="sticky" variant="warning">Sticks once scrolled into place.</aegov-banner>
-```
-
----
-
-## Mode
-
-The `mode` property chooses between two layout strategies:
-
-- `push` (default) — when combined with `display="fixed"`, the banner adds matching padding to `<body>` so the page content is pushed down (or up) and the banner does not cover the page header.
-- `overlay` — the banner floats above the page content and emits an `aegovBannerHeightChange` event whenever its height changes. Use this when your application wants to reserve its own space (for example, with a custom layout grid).
-
-```html
-<aegov-banner mode="push" position="top" variant="info">
-  This banner pushes the page content down.
-</aegov-banner>
-
-<aegov-banner mode="overlay" position="top" variant="info" id="floatBanner">
-  This banner floats over content; subscribe to height changes for layout sync.
-</aegov-banner>
-
-<script>
-  document.getElementById('floatBanner')
-    .addEventListener('aegovBannerHeightChange', e => {
-      document.body.style.setProperty('--banner-height', e.detail + 'px');
-    });
+  banner.addEventListener('aegovBannerHeightChange', (e) => {
+    nav.style.top = `${e.detail.height}px`;
+  });
 </script>
 ```
 
 ---
 
-## Sizes
+## Variant
 
-The `size` property scales font size and vertical padding. Three tokens are available: `sm`, `base` (default), and `lg`. Use `sm` for low-priority notices, `lg` for prominent announcements that need extra breathing room.
+Five variants, matching [Callout](aegov-callout.html). As there, the variant decides the announcement politeness as well as the colour — `error` interrupts, everything else waits. See [Accessibility](#accessibility).
 
 ```html
-<aegov-banner size="sm" variant="info">Small banner</aegov-banner>
-<aegov-banner size="base" variant="info">Base banner</aegov-banner>
-<aegov-banner size="lg" variant="info">Large banner</aegov-banner>
+<aegov-banner variant="default">…</aegov-banner>
+<aegov-banner variant="info">…</aegov-banner>
+<aegov-banner variant="success">…</aegov-banner>
+<aegov-banner variant="warning">…</aegov-banner>
+<aegov-banner variant="error">…</aegov-banner>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-3">
-  <aegov-banner variant="info" display="sticky" mode="overlay" size="sm"   is-dismissible="false">Small &mdash; UAE Pass authentication is now available for citizens and residents.</aegov-banner>
-  <aegov-banner variant="info" display="sticky" mode="overlay" size="base" is-dismissible="false">Base &mdash; UAE Pass authentication is now available for citizens and residents.</aegov-banner>
-  <aegov-banner variant="info" display="sticky" mode="overlay" size="lg"   is-dismissible="false">Large &mdash; UAE Pass authentication is now available for citizens and residents.</aegov-banner>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="space-y-4">
+    <aegov-banner variant="default" display="sticky" heading="Default">A neutral site-wide notice.</aegov-banner>
+    <aegov-banner variant="info" display="sticky" heading="Information">Appointment booking now opens 60 days in advance.</aegov-banner>
+    <aegov-banner variant="success" display="sticky" heading="Restored">Service has been restored. Thank you for your patience.</aegov-banner>
+    <aegov-banner variant="warning" display="sticky" heading="Reduced service">Some services are running slowly while we complete maintenance.</aegov-banner>
+    <aegov-banner variant="error" display="sticky" heading="Service unavailable">Payments are temporarily unavailable. Applications can still be saved as drafts.</aegov-banner>
+  </div>
 </div>
 
-### Responsive sizes
+---
 
-`size` accepts a Tailwind-style responsive string with breakpoint prefixes (`xs`, `sm`, `md`, `lg`, `xl`, `2xl`).
+## Appearance and size
+
+`appearance` switches between a tinted and a filled bar. `size` takes three tokens and accepts a responsive string.
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="space-y-4">
+    <aegov-banner variant="info" appearance="soft" display="sticky" heading="Soft">Tinted background.</aegov-banner>
+    <aegov-banner variant="info" appearance="solid" display="sticky" heading="Solid">Filled background.</aegov-banner>
+    <aegov-banner variant="warning" size="sm" display="sticky">Small size, no heading.</aegov-banner>
+    <aegov-banner variant="warning" size="lg" display="sticky" heading="Large size">More padding and larger type.</aegov-banner>
+  </div>
+</div>
+
+---
+
+## Heading
+
+`heading` renders a bold title **and** gives the banner its accessible name through `aria-labelledby`. It is worth setting for that reason alone — a `role="status"` region with no name tells the user a live area changed without saying what it was.
 
 ```html
-<aegov-banner size="sm md:base xl:lg" variant="info">
-  Adapts size with the viewport.
+<aegov-banner variant="warning" heading="Reduced service">
+  Some services are running slowly while we complete maintenance.
 </aegov-banner>
 ```
 
@@ -161,110 +154,161 @@ The `size` property scales font size and vertical padding. Three tokens are avai
 
 ## Actions
 
-The `actions` slot holds buttons aligned to the trailing edge of the banner. When the actions slot has content, the message text aligns to the leading edge instead of being centred. This is the standard pattern for cookie consent or call-to-action banners.
+The `actions` slot holds buttons or links.
 
 ```html
-<aegov-banner variant="info" position="bottom" is-dismissible="false">
-  We use cookies to improve your experience on the UAE Government services portal.
+<aegov-banner variant="default" position="bottom" display="fixed" heading="Cookies on this service">
+  We use essential cookies to make this service work. We would also like to set analytics
+  cookies to help us improve it.
   <div slot="actions">
-    <aegov-button size="sm">Accept all</aegov-button>
-    <aegov-button size="sm" appearance="outline">Manage preferences</aegov-button>
+    <aegov-button size="sm" variant="primary">Accept analytics cookies</aegov-button>
+    <aegov-button size="sm" appearance="outline">Reject analytics cookies</aegov-button>
+    <aegov-link size="sm" appearance="link" href="/cookies">View cookie policy</aegov-link>
   </div>
 </aegov-banner>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-banner variant="info" display="sticky" mode="overlay" is-dismissible="false">
-    We use cookies to improve your experience on the UAE Government services portal.
+  <aegov-banner variant="default" display="sticky" position="bottom" heading="Cookies on this service" is-dismissible="false">
+    We use essential cookies to make this service work. We would also like to set analytics cookies to help us improve it.
     <div slot="actions">
-      <aegov-button size="sm">Accept all</aegov-button>
-      <aegov-button size="sm" appearance="outline">Manage preferences</aegov-button>
+      <aegov-button size="sm" variant="primary">Accept analytics cookies</aegov-button>
+      <aegov-button size="sm" appearance="outline">Reject analytics cookies</aegov-button>
+      <aegov-link size="sm" appearance="link" href="#">View cookie policy</aegov-link>
     </div>
+  </aegov-banner>
+</div>
+
+Note `is-dismissible="false"` on the consent banner. A cookie notice needs an explicit choice — a close button that neither accepts nor rejects leaves consent undetermined.
+
+---
+
+## Custom icon
+
+The `icon` slot replaces the variant's default icon.
+
+```html
+<aegov-banner variant="info" heading="New service">
+  <svg slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <path d="M12 2v20M2 12h20" />
+  </svg>
+  Renew your vehicle registration online from today.
+</aegov-banner>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-banner variant="info" display="sticky" heading="New service">
+    <svg slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M12 8v8M8 12h8" /></svg>
+    Renew your vehicle registration online from today.
   </aegov-banner>
 </div>
 
 ---
 
-## Dismiss control
+## Dismissal
 
-By default banners include a close button. Set `is-dismissible="false"` for messages that the user is not allowed to dismiss (legal notices, mandatory cookie consent, ongoing critical alerts).
-
-The close button triggers a 300 ms exit animation; the `aegovBannerDismiss` event fires after the animation completes.
+`isDismissible` is **on by default**. Set it to `false` for a banner the user must act on.
 
 ```html
-<aegov-banner id="cookieBanner" position="bottom" variant="default" is-dismissible="false">
-  Mandatory notice — cannot be dismissed.
-</aegov-banner>
+<aegov-banner variant="info" is-dismissible>Dismissible (default)</aegov-banner>
+<aegov-banner variant="error" is-dismissible="false">Cannot be dismissed</aegov-banner>
+```
 
-<aegov-banner id="alertBanner" variant="warning">
-  Dismissible reminder — your residency expires in 14 days.
-</aegov-banner>
+Dismissal animates out over 300ms, then emits `aegovBannerDismiss` and cleans up any body padding it had reserved.
 
-<script>
-  document.getElementById('alertBanner')
-    .addEventListener('aegovBannerDismiss', () => {
-      console.log('User dismissed the renewal reminder');
-    });
+```html
+<aegov-banner id="notice" variant="info" heading="New feature">…</aegov-banner>
+
+<script type="module">
+  const banner = document.querySelector('#notice');
+
+  // Remember the dismissal so it does not reappear on every page
+  if (localStorage.getItem('notice-2026-09') === 'dismissed') {
+    banner.remove();
+  }
+
+  banner.addEventListener('aegovBannerDismiss', () => {
+    localStorage.setItem('notice-2026-09', 'dismissed');
+  });
 </script>
 ```
 
+A site-wide banner that returns on every page load is one of the most reliable ways to make a service feel broken. Persist the dismissal.
+
 ---
 
-## Critical alerts (focusable)
+## Focusable banners
 
-For alerts that demand immediate user attention, set `is-focusable="true"`. When the variant resolves to `role="alert"` (i.e. `error` or `success`), the banner is focused on mount so screen reader users hear the announcement and keyboard users can act on it without hunting for it.
+`isFocusable` makes the banner itself focusable. Use it only when you need to move focus to the banner programmatically — for example after an error banner appears mid-task — and remember that a focusable non-interactive region is unusual, so do not enable it by default.
 
-Use this sparingly — it interrupts the user's keyboard focus, which is disruptive if used for routine notifications.
+```js
+banner.isFocusable = true;
+banner.focus();
+```
+
+---
+
+## Composite example — service outage
 
 ```html
 <aegov-banner
+  id="outage"
   variant="error"
-  is-focusable="true"
-  heading="Service interruption"
+  position="top"
+  display="fixed"
+  mode="push"
+  heading="Payments are temporarily unavailable"
+  is-dismissible="false"
 >
-  The Emirates ID renewal service is temporarily offline. Please try again in 30 minutes.
+  You can still complete and save your application as a draft. We will email you when
+  payments are working again.
+  <div slot="actions">
+    <aegov-button size="sm" appearance="outline">Save as draft</aegov-button>
+    <aegov-link size="sm" appearance="link" href="/service-status">Check service status</aegov-link>
+  </div>
 </aegov-banner>
 ```
 
----
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-banner variant="error" display="sticky" mode="push" heading="Payments are temporarily unavailable" is-dismissible="false">
+    You can still complete and save your application as a draft. We will email you when payments are working again.
+    <div slot="actions">
+      <aegov-button size="sm" appearance="outline">Save as draft</aegov-button>
+      <aegov-link size="sm" appearance="link" href="#">Check service status</aegov-link>
+    </div>
+  </aegov-banner>
+</div>
 
-## Heading
-
-The `heading` property sets up `aria-labelledby` on the banner. The component derives a heading id of `${fieldId}-heading`. Render the visible heading inside the default slot using the same id so the relationship resolves correctly.
-
-```html
-<aegov-banner field-id="maintenance" heading="Maintenance window">
-  <strong id="maintenance-heading">Maintenance window</strong>
-  Government services will be briefly unavailable on Friday 03:00&ndash;05:00 GST.
-</aegov-banner>
-```
+Note what this banner does well: it states the problem, says what the user *can* still do, and is not dismissible because the constraint has not gone away.
 
 ---
 
 ## RTL Support
 
-The banner is direction-agnostic. Internal spacing uses logical properties; the dismiss button and actions slot automatically swap sides under `dir="rtl"`. Pass real Arabic content into the slots and the layout flips correctly.
+The banner is direction-aware. In a `dir="rtl"` container the icon moves to the right, the dismiss button to the left, and the heading, message and actions align with the text direction. Body padding in `push` mode is a block-direction property, so it is unaffected by text direction. The dismiss button's `aria-label` is translated automatically.
 
 ```html
 <div dir="rtl">
-  <aegov-banner variant="warning" position="top">
-    تذكير: تنتهي صلاحية بطاقة الهوية الإماراتية الخاصة بك خلال 14 يوماً. يُرجى تجديدها قبل 15 مايو لتفادي رسوم التأخير.
+  <aegov-banner variant="warning" heading="خدمة محدودة">
+    بعض الخدمات تعمل ببطء أثناء إكمال أعمال الصيانة.
     <div slot="actions">
-      <aegov-button size="sm">جدّد الآن</aegov-button>
-      <aegov-button size="sm" appearance="outline">تذكيري لاحقاً</aegov-button>
+      <aegov-button size="sm" appearance="outline">حالة الخدمة</aegov-button>
     </div>
   </aegov-banner>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-banner variant="warning" display="sticky" mode="overlay">
-    تذكير: تنتهي صلاحية بطاقة الهوية الإماراتية الخاصة بك خلال 14 يوماً. يُرجى تجديدها قبل 15 مايو لتفادي رسوم التأخير.
-    <div slot="actions">
-      <aegov-button size="sm">جدّد الآن</aegov-button>
-      <aegov-button size="sm" appearance="outline">تذكيري لاحقاً</aegov-button>
-    </div>
-  </aegov-banner>
+  <div class="space-y-4">
+    <aegov-banner variant="info" display="sticky" heading="صيانة مجدولة">ستكون هذه الخدمة غير متاحة يوم الجمعة ١٢ سبتمبر بين الساعة ٢٢:٠٠ و٠٢:٠٠.</aegov-banner>
+    <aegov-banner variant="error" display="sticky" heading="المدفوعات غير متاحة مؤقتًا" is-dismissible="false">
+      لا يزال بإمكانك إكمال طلبك وحفظه كمسودة. سنراسلك عندما تعود المدفوعات للعمل.
+      <div slot="actions">
+        <aegov-button size="sm" appearance="outline">حفظ كمسودة</aegov-button>
+        <aegov-link size="sm" appearance="link" href="#">حالة الخدمة</aegov-link>
+      </div>
+    </aegov-banner>
+  </div>
 </div>
 
 ---
@@ -273,63 +317,43 @@ The banner is direction-agnostic. Internal spacing uses logical properties; the 
 
 ### Properties
 
-| Property        | Attribute        | Description                                                                                  | Type                                                          | Default     |
-| --------------- | ---------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ----------- |
-| `fieldId`       | `field-id`       | Unique ID for the banner. Auto-generated if not provided.                                    | `string`                                                      | _generated_ |
-| `variant`       | `variant`        | Colour scheme and implicit ARIA role.                                                        | `'default' \| 'error' \| 'warning' \| 'success' \| 'info'`    | `'default'` |
-| `appearance`    | `appearance`     | Visual style — `soft` (tinted) or `solid` (filled).                                          | `'soft' \| 'solid'`                                           | `'soft'`    |
-| `position`      | `position`       | Banner edge of the viewport.                                                                 | `'top' \| 'bottom'`                                           | `'top'`     |
-| `display`       | `display`        | CSS positioning strategy.                                                                    | `'fixed' \| 'sticky'`                                         | `'fixed'`   |
-| `mode`          | `mode`           | Layout strategy — `push` adds body padding, `overlay` floats and emits height events.        | `'push' \| 'overlay'`                                         | `'push'`    |
-| `size`          | `size`           | Size token (`sm`, `base`, `lg`) or responsive string.                                        | `string`                                                      | `'base'`    |
-| `isDismissible` | `is-dismissible` | When `true`, renders a close button.                                                         | `boolean`                                                     | `true`      |
-| `isFocusable`   | `is-focusable`   | When `true` and the resolved role is `alert`, focuses the banner on mount.                   | `boolean`                                                     | `false`     |
-| `heading`       | `heading`        | Heading text used by `aria-labelledby`. Derives id `${fieldId}-heading`.                     | `string`                                                      | `undefined` |
+| Property | Attribute | Description | Type | Default |
+| --- | --- | --- | --- | --- |
+| `fieldId` | `field-id` | ID applied to the banner. Auto-generated when omitted, reflected. Also used to build the heading's ID. | `string` | _generated_ |
+| `variant` | `variant` | Semantic meaning. Also decides the live-region politeness. | `'default' \| 'info' \| 'success' \| 'warning' \| 'error'` | `'default'` |
+| `appearance` | `appearance` | Visual treatment. | `'soft' \| 'solid'` | `'soft'` |
+| `position` | `position` | Which viewport edge the banner anchors to. | `'top' \| 'bottom'` | `'top'` |
+| `display` | `display` | Fixed to the viewport, or sticky within the document. | `'fixed' \| 'sticky'` | `'fixed'` |
+| `mode` | `mode` | `push` reserves space via body padding; `overlay` floats above content. | `'push' \| 'overlay'` | `'push'` |
+| `heading` | `heading` | Bold title. Also becomes the banner's accessible name via `aria-labelledby`. | `string` | — |
+| `size` | `size` | Size token or responsive string. | `string` — `sm \| base \| lg` | `'base'` |
+| `isDismissible` | `is-dismissible` | Renders a close button. **Defaults to on.** | `boolean` | `true` |
+| `isFocusable` | `is-focusable` | Makes the banner itself focusable, for programmatic focus. | `boolean` | `false` |
 
 ### Slots
 
-| Slot        | Description                                                                  |
-| ----------- | ---------------------------------------------------------------------------- |
-| _(default)_ | Banner message content.                                                      |
-| `actions`   | Action buttons aligned to the trailing edge.                                 |
-| `icon`      | Optional custom icon shown next to the content.                              |
+| Slot | Description |
+| --- | --- |
+| _(default)_ | The message. |
+| `icon` | Replaces the variant's default icon. |
+| `actions` | Buttons or links offering next steps. |
 
 ### Events
 
-| Event                       | Detail              | Description                                                                       |
-| --------------------------- | ------------------- | --------------------------------------------------------------------------------- |
-| `aegovBannerDismiss`        | `void`              | Fires after the dismiss animation completes (~300 ms after the user clicks close). |
-| `aegovBannerHeightChange`   | `number` (pixels)   | Fires in `mode="overlay"` whenever the banner's height changes.                   |
-
-#### Listening for events
-
-```html
-<aegov-banner id="maintenanceBanner" mode="overlay" variant="info">
-  Brief maintenance starts in 30 minutes.
-</aegov-banner>
-
-<script>
-  const banner = document.getElementById('maintenanceBanner');
-
-  banner.addEventListener('aegovBannerDismiss', () => {
-    console.log('User dismissed the maintenance banner');
-  });
-
-  banner.addEventListener('aegovBannerHeightChange', (e) => {
-    document.body.style.setProperty('--banner-height', e.detail + 'px');
-  });
-</script>
-```
+| Event | Detail | Description |
+| --- | --- | --- |
+| `aegovBannerDismiss` | `void` | Emitted after the 300ms dismiss animation completes and any reserved body padding has been cleared. |
+| `aegovBannerHeightChange` | `{ height: number }` | Emitted in `overlay` mode whenever the height changes, and with `0` on dismiss. |
 
 ### Pass-through Attributes
 
-| Attribute group  | Forwarded? | Notes                                                                                              |
-| ---------------- | ---------- | -------------------------------------------------------------------------------------------------- |
-| `aria-*`         | Yes        | Forwarded to the banner element.                                                                   |
-| `data-*`         | Yes        | Forwarded to the banner element.                                                                   |
-| `role`           | Yes        | When set on the host, **overrides** the auto-computed role (e.g. downgrade `alert` to `status`).   |
-| `id`             | n/a        | Use `field-id` on the host. The heading id is derived as `${fieldId}-heading`.                     |
-| `class`, `style` | Allowed    | Applied to the host element only.                                                                  |
+| Attribute group | Forwarded? | Notes |
+| --- | --- | --- |
+| `aria-*` | Yes | Forwarded to the banner element. |
+| `data-*` | Yes | Forwarded to the banner element. |
+| `role` | **Override** | Setting `role` on the host overrides the auto-computed live role. Only do this deliberately — see below. |
+| `id` | n/a | Use `field-id`. |
+| `class`, `style` | Allowed | Applied to the host element. |
 
 ---
 
@@ -337,29 +361,44 @@ The banner is direction-agnostic. Internal spacing uses logical properties; the 
 
 ### Built-in behaviour
 
-- The banner auto-computes a `role` based on the variant. `error` and `success` resolve to `role="alert"` (assertive); `info`, `warning`, and `default` resolve to `role="region"` (polite).
-- A `role` attribute set on the host **overrides** the auto-computed role, so consumers can downgrade noisy variants to `status` if needed.
-- `aria-live` is set automatically based on the resolved role: `alert` → `assertive`; `region`/`status` → `polite`.
-- When `heading` is provided, `aria-labelledby` references the derived `${fieldId}-heading` id.
-- A built-in variant icon (error / warning / success / info / default) is rendered automatically alongside the text, satisfying WCAG SC 1.4.1 — severity is conveyed by shape and text, not colour alone. Supply a custom `<… slot="icon">` to override the default.
-- The icon column is marked `aria-hidden="true"` — the text content inside the default slot is the sole accessible announcement.
-- The dismiss button has a minimum touch target of **24 × 24 CSS px** on all sizes (sm, base, lg), satisfying WCAG SC 2.5.8.
-- The dismiss button has `aria-label="Close banner"` (`"إغلاق الشريط"` in RTL). Its SVG icon is `aria-hidden="true"`.
-- In `display="fixed" mode="push"`, the body padding is adjusted automatically so page content is never hidden under the banner. A `ResizeObserver` keeps the padding in sync as the banner resizes.
-- In `mode="overlay"`, the `aegovBannerHeightChange` event is emitted whenever the banner's height changes so consumers can adjust their own layout.
+- **The live role is computed from the variant:**
+  - `error` renders `role="alert"` — assertive, interrupting, because a blocking failure must not wait.
+  - `default`, `info`, `success` and `warning` render `role="status"` — polite, announced when assistive technology is idle.
+- **`role="region"` is deliberately not used.** A region is a navigation landmark with no live-region semantics, so a dynamically injected banner using it would never be announced at all. This is why the component picks `alert` or `status` instead.
+- Setting `role` on the host overrides the computed value, for the rare case where you know better.
+- `heading` is wired to the banner through `aria-labelledby`, giving the live region an accessible name.
+- The variant icon is decorative and hidden from assistive technology.
+- The dismiss button is a real `<button type="button">` with a translated `aria-label` and an `aria-hidden` icon.
+- In `push` mode the reserved body padding is kept accurate by a `ResizeObserver`, so a wrapped banner never covers content — including the site header and skip link.
+- Body padding is removed on dismiss, so the page does not keep a gap.
 
 ### Developer responsibilities
 
-- Choose the `variant` thoughtfully — `role="alert"` is announced assertively and can interrupt screen reader users. For non-critical content, prefer `info`, `warning`, or `default`.
-- The `heading` prop only sets the `aria-labelledby` relationship; the heading content itself is **not** rendered automatically. Render it inside the default slot using the derived id so the relationship resolves.
-- Use `is-focusable="true"` only for genuinely critical alerts that warrant interrupting keyboard focus on mount.
-- When the banner requires user response (cookie consent, mandatory notice), provide an `actions` slot with clear, well-labelled buttons.
-- Body padding is cleared on dismiss and on disconnect; if you remove the banner element through a different mechanism, ensure the padding is also cleared manually.
+- **Set `heading`.** Without it the live region has no accessible name.
+- **Prefer `mode="push"`.** An overlay banner covers the top of the page, which is where the skip link and primary navigation live — a genuine barrier, and one that also risks WCAG 2.2 SC 2.4.11 by obscuring focused elements.
+- **Choose the variant for meaning.** `error` interrupts every screen reader user immediately; using it for a promotional notice is abusive.
+- **Do not show more than one banner at a time.** Two live regions appearing together produce an unusable announcement queue, and two stacked bars consume the viewport.
+- **Persist dismissal.** A banner that returns on every page load is worse than no banner.
+- **Do not make a consent banner dismissible** with a plain close button — consent requires an explicit choice.
+- **Do not put essential first-run instructions in a banner.** It is dismissible and viewport-anchored; instructions belong in the page.
+- **Keep the text short.** A banner is a headline plus one sentence. Anything longer belongs on a page the banner links to.
+- **Mark a custom `icon` as `aria-hidden="true"`.**
+- **Test at 320px.** A banner with three actions and a heading is the most common source of reflow failures under WCAG 2.2 SC 1.4.10.
 
 ### Keyboard support
 
-| Key              | Action                                                                          |
-| ---------------- | ------------------------------------------------------------------------------- |
-| `Tab`            | Move focus into the banner (dismiss button and any controls in the actions slot). |
-| `Enter`, `Space` | Activate the focused control.                                                   |
-| `Shift + Tab`    | Move focus backwards.                                                           |
+| Key | Action |
+| --- | --- |
+| `Tab` | Move focus through the actions, then to the dismiss button. |
+| `Enter`, `Space` | Activate the focused control. |
+
+The banner itself is not a focus stop unless `is-focusable` is set.
+
+---
+
+## Where to next
+
+- [Callout](aegov-callout.html) — for messages inside the page flow.
+- [Toast](aegov-toast.html) — for transient confirmations.
+- [Header](aegov-header.html) — which coexists with a top-anchored banner.
+- [Button](aegov-button.html) and [Link](aegov-link.html) — for the `actions` slot.

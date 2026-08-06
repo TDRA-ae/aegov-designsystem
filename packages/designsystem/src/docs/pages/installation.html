@@ -21,32 +21,82 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Installation</h1>
-<p class="text-lg text-aeblack-500 mb-8">This page covers installing the AEGOV Design System in a plain HTML project. The design system ships as <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web Components</a> — every <code>aegov-*</code> tag works in any HTML page once the CSS and JavaScript are loaded. <strong>Tailwind CSS v4 is required.</strong> Pick your build tool below for a full setup guide. If you are using React, Vue, or Angular see the framework-specific guides in the left navigation.</p>
+<p class="text-lg text-aeblack-500 mb-8">This page covers installing the AEGOV Design System in a plain HTML or vanilla JavaScript project. The design system ships as <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web Components</a> — every <code>aegov-*</code> tag works in any page once the stylesheet and the loader have run. <strong>Tailwind CSS v4 is required in your project</strong>, because the package ships source CSS that your build compiles. If you are using React, Vue, or Angular, start here for the CSS setup and then continue to the framework guide in the left navigation.</p>
 
+<h2>Introduction</h2>
+<p>Installing the design system is always the same two steps, regardless of build tool:</p>
+<ol>
+<li><strong>Compile the CSS</strong> — three <code>@import</code> lines in your stylesheet, processed by Tailwind v4.</li>
+<li><strong>Register the custom elements</strong> — one <code>defineCustomElements()</code> call.</li>
+</ol>
+<p>Miss the first and components render unstyled. Miss the second and <code>&lt;aegov-button&gt;</code> renders as inert plain text.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/dist/styles.css&quot;</span> /&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Submit application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/loader&#x27;</span>;
+  <span class="hljs-title function_">defineCustomElements</span>();
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
+<h2>Requirements</h2>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Version</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Tailwind CSS</td>
+<td><code>^4.1</code></td>
+<td>The package ships <strong>source</strong> CSS with <code>@theme</code> tokens and <code>@apply</code> rules. Your build compiles it. There is no pre-compiled stylesheet.</td>
+</tr>
+<tr>
+<td>Node (build time)</td>
+<td><code>&gt;=20</code></td>
+<td>Required by Tailwind v4 and the bundler plugins below.</td>
+</tr>
+<tr>
+<td>Chrome / Edge</td>
+<td><code>&gt;=77</code></td>
+<td>Custom Elements v1.</td>
+</tr>
+<tr>
+<td>Firefox</td>
+<td><code>&gt;=98</code></td>
+<td>Custom Elements v1.</td>
+</tr>
+<tr>
+<td>Safari</td>
+<td><code>&gt;=16.4</code></td>
+<td><strong>Hard floor.</strong> Several form components are form-associated custom elements and depend on <code>ElementInternals</code>. Older Safari cannot run them.</td>
+</tr>
+</tbody></table>
+<p>A real HTTP server is also required — ES modules and custom elements do not load over <code>file://</code>.</p>
 <hr>
 <h2>Step 1 — Install the package</h2>
-<pre><code class="hljs language-bash">npm install @aegov/designsystem</code></pre><hr>
+<pre><code class="hljs language-bash">npm install @aegov/designsystem</code></pre><p>The core package has exactly one runtime dependency, <code>@stencil/core</code>. Nothing else is pulled in.</p>
+<hr>
 <h2>Step 2 — Set up your build tool</h2>
+<p>Pick the section that matches your project. Every option ends at the same place: a compiled stylesheet plus a module that calls <code>defineCustomElements()</code>.</p>
 <h3>Vite</h3>
-<p><strong>Install the Tailwind v4 Vite plugin:</strong></p>
-<pre><code class="hljs language-bash">npm install -D @tailwindcss/vite</code></pre><p><strong>Add the plugin to <code>vite.config.ts</code>:</strong></p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { defineConfig } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vite&#x27;</span>;
+<pre><code class="hljs language-bash">npm install -D @tailwindcss/vite</code></pre><pre><code class="hljs language-ts"><span class="hljs-comment">// vite.config.ts</span>
+<span class="hljs-keyword">import</span> { defineConfig } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vite&#x27;</span>;
 <span class="hljs-keyword">import</span> tailwindcss <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@tailwindcss/vite&#x27;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineConfig</span>({
   <span class="hljs-attr">plugins</span>: [<span class="hljs-title function_">tailwindcss</span>()],
-});</code></pre><p><strong>Create a CSS entry file (e.g. <code>src/styles.css</code>):</strong></p>
-<pre><code class="hljs language-css"><span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/base&quot;</span>;</code></pre><p><strong>Import both the CSS and the JS loader in your entry file (e.g. <code>src/main.ts</code>):</strong></p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./styles.css&#x27;</span>;
+});</code></pre><pre><code class="hljs language-css"><span class="hljs-comment">/* src/styles.css */</span>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/base&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;</code></pre><pre><code class="hljs language-ts"><span class="hljs-comment">// src/main.ts</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./styles.css&#x27;</span>;
 <span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/loader&#x27;</span>;
 
-<span class="hljs-title function_">defineCustomElements</span>();</code></pre><hr>
-<h3>Webpack</h3>
-<p><strong>Install the required packages:</strong></p>
-<pre><code class="hljs language-bash">npm install -D css-loader style-loader postcss-loader @tailwindcss/postcss postcss</code></pre><p><strong>Add a CSS rule to <code>webpack.config.js</code>:</strong></p>
-<pre><code class="hljs language-js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+<span class="hljs-title function_">defineCustomElements</span>();</code></pre><h3>Webpack</h3>
+<pre><code class="hljs language-bash">npm install -D css-loader style-loader postcss-loader @tailwindcss/postcss postcss</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// webpack.config.js</span>
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
   <span class="hljs-attr">module</span>: {
     <span class="hljs-attr">rules</span>: [
       {
@@ -55,45 +105,31 @@
       },
     ],
   },
-};</code></pre><p><strong>Create <code>postcss.config.js</code> at the project root:</strong></p>
-<pre><code class="hljs language-js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+};</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// postcss.config.js</span>
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
   <span class="hljs-attr">plugins</span>: {
     <span class="hljs-string">&#x27;@tailwindcss/postcss&#x27;</span>: {},
   },
-};</code></pre><p><strong>Create a CSS entry file (e.g. <code>src/styles.css</code>):</strong></p>
-<pre><code class="hljs language-css"><span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/base&quot;</span>;</code></pre><p><strong>Import both in your JS entry file (e.g. <code>src/index.js</code>):</strong></p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./styles.css&#x27;</span>;
-<span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/loader&#x27;</span>;
-
-<span class="hljs-title function_">defineCustomElements</span>();</code></pre><hr>
+};</code></pre><p>Then create <code>src/styles.css</code> with the three imports shown under Vite, and import it from your JS entry alongside the loader call.</p>
 <h3>Parcel</h3>
-<p>Parcel picks up PostCSS automatically when a <code>postcss.config.js</code> is present.</p>
-<p><strong>Install the Tailwind PostCSS plugin:</strong></p>
-<pre><code class="hljs language-bash">npm install -D @tailwindcss/postcss postcss</code></pre><p><strong>Create <code>postcss.config.js</code> at the project root:</strong></p>
-<pre><code class="hljs language-js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+<p>Parcel picks up PostCSS automatically when a config file is present.</p>
+<pre><code class="hljs language-bash">npm install -D @tailwindcss/postcss postcss</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// postcss.config.js</span>
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
   <span class="hljs-attr">plugins</span>: {
     <span class="hljs-string">&#x27;@tailwindcss/postcss&#x27;</span>: {},
   },
-};</code></pre><p><strong>Create a CSS entry file (e.g. <code>src/styles.css</code>):</strong></p>
-<pre><code class="hljs language-css"><span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/base&quot;</span>;</code></pre><p><strong>Reference both in your HTML entry file:</strong></p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;./src/styles.css&quot;</span> /&gt;</span>
+};</code></pre><pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;./src/styles.css&quot;</span> /&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
   <span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/loader&#x27;</span>;
   <span class="hljs-title function_">defineCustomElements</span>();
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
-<h3>Rollup</h3>
-<p><strong>Install the required packages:</strong></p>
-<pre><code class="hljs language-bash">npm install -D rollup-plugin-postcss @tailwindcss/postcss postcss @rollup/plugin-node-resolve</code></pre><p><strong>Configure <code>rollup.config.js</code>:</strong></p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> resolve <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-node-resolve&#x27;</span>;
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Rollup</h3>
+<pre><code class="hljs language-bash">npm install -D rollup-plugin-postcss @tailwindcss/postcss postcss @rollup/plugin-node-resolve</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// rollup.config.js</span>
+<span class="hljs-keyword">import</span> resolve <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-node-resolve&#x27;</span>;
 <span class="hljs-keyword">import</span> postcss <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rollup-plugin-postcss&#x27;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">input</span>: <span class="hljs-string">&#x27;src/main.js&#x27;</span>,
-  <span class="hljs-attr">output</span>: { <span class="hljs-attr">file</span>: <span class="hljs-string">&#x27;dist/bundle.js&#x27;</span>, <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;iife&#x27;</span> },
+  <span class="hljs-attr">output</span>: { <span class="hljs-attr">file</span>: <span class="hljs-string">&#x27;dist/bundle.js&#x27;</span>, <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;es&#x27;</span> },
   <span class="hljs-attr">plugins</span>: [
     <span class="hljs-title function_">resolve</span>(),
     <span class="hljs-title function_">postcss</span>({
@@ -101,79 +137,300 @@
       <span class="hljs-attr">extract</span>: <span class="hljs-string">&#x27;dist/styles.css&#x27;</span>,
     }),
   ],
-};</code></pre><p><strong>Create a CSS entry file (e.g. <code>src/styles.css</code>):</strong></p>
-<pre><code class="hljs language-css"><span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/base&quot;</span>;</code></pre><p><strong>Import both in your JS entry file (e.g. <code>src/main.js</code>):</strong></p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./styles.css&#x27;</span>;
-<span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/loader&#x27;</span>;
-
-<span class="hljs-title function_">defineCustomElements</span>();</code></pre><hr>
-<h3>PostCSS standalone (CLI)</h3>
-<p><strong>Install the required packages:</strong></p>
-<pre><code class="hljs language-bash">npm install -D @tailwindcss/postcss postcss postcss-cli postcss-import</code></pre><p><strong>Create <code>postcss.config.js</code> at the project root:</strong></p>
-<pre><code class="hljs language-js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+};</code></pre><h3>PostCSS CLI (no bundler)</h3>
+<p><code>postcss-import</code> is required here — nothing else resolves the bare <code>@aegov/designsystem/...</code> specifiers for you.</p>
+<pre><code class="hljs language-bash">npm install -D @tailwindcss/postcss postcss postcss-cli postcss-import</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// postcss.config.js</span>
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
   <span class="hljs-attr">plugins</span>: {
     <span class="hljs-string">&#x27;postcss-import&#x27;</span>: {},
     <span class="hljs-string">&#x27;@tailwindcss/postcss&#x27;</span>: {},
   },
-};</code></pre><p><strong>Create a CSS entry file (e.g. <code>src/styles.css</code>):</strong></p>
+};</code></pre><pre><code class="hljs language-bash">npx postcss src/styles.css -o dist/styles.css</code></pre><h3>CDN (prototyping only)</h3>
+<p>For a quick sandbox you can skip the build entirely and use the pre-built bundle from unpkg. Note that this path gives you the <strong>components</strong> but not a Tailwind build, so utility classes in your own markup will not work and the design tokens come only from what the components themselves carry.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/@aegov/designsystem/dist/aegov/aegov.esm.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span></code></pre><p>Use a real build for anything you intend to ship.</p>
+<hr>
+<h2>The three CSS imports</h2>
+<p>Order matters. Tailwind first, then <code>base</code>, then <code>theme</code>.</p>
 <pre><code class="hljs language-css"><span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/base&quot;</span>;</code></pre><p><strong>Build the CSS:</strong></p>
-<pre><code class="hljs language-bash">npx postcss src/styles.css -o dist/styles.css</code></pre><p><strong>Reference both in your HTML:</strong></p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;dist/styles.css&quot;</span> /&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/loader&#x27;</span>;
-  <span class="hljs-title function_">defineCustomElements</span>();
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
-<h2>Step 3 — Use a component</h2>
-<p>Drop any <code>aegov-*</code> tag into your HTML. No <code>customElements.define</code> call needed beyond the <code>defineCustomElements()</code> you already added — the loader handles registration automatically:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">body</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;bg-aeblack-50 p-8&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">main</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;aegov-container&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Submit application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Enter your email&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/base&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;</code></pre><table>
+<thead>
+<tr>
+<th>Import</th>
+<th>Resolves to</th>
+<th>What it gives you</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tailwindcss</code></td>
+<td>Tailwind v4</td>
+<td>The <code>theme</code>, <code>base</code>, <code>components</code>, <code>utilities</code> layers.</td>
+</tr>
+<tr>
+<td><code>@aegov/designsystem/base</code></td>
+<td><code>dist/global/global.css</code></td>
+<td><code>@font-face</code> rules for Roboto, Inter, Noto Kufi Arabic and Alexandria; element resets; heading scale; global <code>&lt;a&gt;</code> and <code>&lt;button&gt;</code> styling; the <code>.aegov-container</code> and <code>.aegov-skip-content</code> component classes.</td>
+</tr>
+<tr>
+<td><code>@aegov/designsystem/theme</code></td>
+<td><code>dist/styles/tailwind.css</code></td>
+<td>The <code>@theme</code> block — every colour, font, type-scale and breakpoint token, plus the explicit cascade-layer order and the <code>dark</code> custom variant.</td>
+</tr>
+</tbody></table>
+<p>Both design system files are wrapped in cascade layers, and the declared order is:</p>
+<pre><code class="hljs language-css"><span class="hljs-keyword">@layer</span> theme, base, components, aegov-internals, utilities;</code></pre><p>Because <code>utilities</code> comes last, your own Tailwind utility classes always win over the design system&#39;s element-level styling. You do not need <code>!important</code> to override a global <code>&lt;a&gt;</code> or heading style.</p>
+<hr>
+<h2>Step 3 — Register the components</h2>
+<p><code>defineCustomElements()</code> registers every <code>aegov-*</code> tag with the browser using lazy loading: one small loader runs immediately, and each component&#39;s implementation is fetched only when a matching tag first appears in the DOM.</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/loader&#x27;</span>;
+
+<span class="hljs-title function_">defineCustomElements</span>();</code></pre><p>Call it once, as early as possible. It is safe to call more than once — later calls are no-ops.</p>
+<h3>Alternative — tree-shakeable individual imports</h3>
+<p>If you want to bundle only the components you use and skip the lazy-loading runtime, import each component&#39;s <code>defineCustomElement</code> directly. This is the path the framework wrappers take internally.</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { defineCustomElement <span class="hljs-keyword">as</span> defineButton } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/components/aegov-button.js&#x27;</span>;
+<span class="hljs-keyword">import</span> { defineCustomElement <span class="hljs-keyword">as</span> defineInput } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/components/aegov-input.js&#x27;</span>;
+
+<span class="hljs-title function_">defineButton</span>();
+<span class="hljs-title function_">defineInput</span>();</code></pre><p>Trade-off: nothing is lazy-loaded, so everything you import lands in your main bundle. Prefer the loader unless bundle composition is a hard requirement.</p>
+<h3>Package entry points</h3>
+<table>
+<thead>
+<tr>
+<th>Specifier</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@aegov/designsystem</code></td>
+<td>Types, and the loader (<code>.</code> re-exports <code>./loader</code>).</td>
+</tr>
+<tr>
+<td><code>@aegov/designsystem/loader</code></td>
+<td><code>defineCustomElements()</code> — lazy registration of all components.</td>
+</tr>
+<tr>
+<td><code>@aegov/designsystem/components</code></td>
+<td>Tree-shakeable custom-element classes and per-component <code>defineCustomElement</code>.</td>
+</tr>
+<tr>
+<td><code>@aegov/designsystem/base</code></td>
+<td>Global stylesheet (fonts, resets, container).</td>
+</tr>
+<tr>
+<td><code>@aegov/designsystem/theme</code></td>
+<td>Tailwind <code>@theme</code> design tokens.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Step 4 — Use a component</h2>
+<p>Drop any <code>aegov-*</code> tag into your markup. No further registration is needed.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">body</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;bg-whitely-100&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">main</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;aegov-container py-10&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Email address<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;name@example.ae&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Submit application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></code></pre><hr>
-<h2>Setting props</h2>
-<p>Pass props as kebab-case HTML attributes for the initial render:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md">
+    <aegov-form-field>
+      <aegov-label>Email address</aegov-label>
+      <aegov-input field-id="install-email" type="email" placeholder="name@example.ae"></aegov-input>
+    </aegov-form-field>
+    <div class="mt-4">
+      <aegov-button variant="primary" size="lg">Submit application</aegov-button>
+    </div>
+  </div>
+</div>
+
+<p><code>.aegov-container</code> is a global utility from the <code>base</code> stylesheet — a centred, max-width <code>1536px</code> wrapper with responsive horizontal padding. Use it for page-level layout.</p>
+<hr>
+<h2>Setting properties</h2>
+<p>Every property has a kebab-case attribute form for markup and a camelCase JavaScript property for runtime updates.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">is-disabled</span>&gt;</span>
   Submit
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span></code></pre><p>For runtime state changes, set them as JavaScript properties (camelCase):</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> btn = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-button&#x27;</span>);
-btn.<span class="hljs-property">isLoading</span> = <span class="hljs-literal">true</span>;
-btn.<span class="hljs-property">isDisabled</span> = <span class="hljs-literal">true</span>;</code></pre><hr>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span></code></pre><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> btn = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-button&#x27;</span>);
+
+btn.<span class="hljs-property">isLoading</span> = <span class="hljs-literal">true</span>;      <span class="hljs-comment">// camelCase property, not the attribute</span>
+btn.<span class="hljs-property">isDisabled</span> = <span class="hljs-literal">true</span>;</code></pre><p>Two rules worth internalising early, because they apply across the whole library:</p>
+<ul>
+<li><strong>Booleans are <code>is*</code> prefixed</strong> — <code>is-disabled</code>, <code>is-required</code>, <code>is-open</code>, <code>is-invalid</code>, <code>is-loading</code>. As HTML attributes they follow normal boolean-attribute semantics: present means <code>true</code>. Prefer bare <code>is-disabled</code> over <code>is-disabled=&quot;true&quot;</code>.</li>
+<li><strong><code>variant</code> is colour, <code>appearance</code> is style.</strong> <code>variant</code> selects the semantic colour (<code>primary</code>, <code>secondary</code>, <code>neutral-max</code>, <code>neutral-min</code>, and <code>danger</code> on actions). <code>appearance</code> selects the visual treatment (<code>solid</code>, <code>outline</code>, <code>soft</code>, <code>link</code> on actions; <code>soft</code> / <code>solid</code> on badges and callouts; and so on per family).</li>
+</ul>
+<h3>Reserved names</h3>
+<p>A few natural names collide with native HTML attributes, so the design system uses alternatives:</p>
+<table>
+<thead>
+<tr>
+<th>Instead of</th>
+<th>Use</th>
+<th>On</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td><code>field-id</code></td>
+<td>All components (auto-generated when omitted)</td>
+</tr>
+<tr>
+<td><code>class</code></td>
+<td><code>extra-class</code></td>
+<td>Components that expose an extra-class hook</td>
+</tr>
+<tr>
+<td><code>prefix</code> / <code>suffix</code></td>
+<td><code>addon-prefix</code> / <code>addon-suffix</code></td>
+<td><code>aegov-input-group</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Responsive properties</h2>
+<p>Most components accept a Tailwind-style responsive string on <code>size</code> — and on a few other properties such as <code>cols</code> on <code>aegov-bento-grid</code> and <code>ratio</code> on <code>aegov-aspect-ratio</code>. The first token is the base value; each <code>breakpoint:value</code> segment takes over at that breakpoint and above.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span>&gt;</span>Adapts to the viewport<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-bento-grid</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;1 md:2 lg:4&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-bento-grid</span>&gt;</span></code></pre><p>Available breakpoint prefixes:</p>
+<table>
+<thead>
+<tr>
+<th>Prefix</th>
+<th>Min width</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>xs</code></td>
+<td>480px</td>
+</tr>
+<tr>
+<td><code>sm</code></td>
+<td>640px</td>
+</tr>
+<tr>
+<td><code>md</code></td>
+<td>768px</td>
+</tr>
+<tr>
+<td><code>lg</code></td>
+<td>1024px</td>
+</tr>
+<tr>
+<td><code>xl</code></td>
+<td>1280px</td>
+</tr>
+<tr>
+<td><code>2xl</code></td>
+<td>1536px</td>
+</tr>
+</tbody></table>
+<p>Resolution happens at runtime through <code>matchMedia</code>, so the value updates live as the viewport changes — no reload, no page-level media queries of your own. Invalid tokens and unknown breakpoints are ignored silently rather than throwing.</p>
+<hr>
 <h2>Listening to events</h2>
-<p>Every component fires native <code>CustomEvent</code>s prefixed with <code>aegov</code>:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> input = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-input&#x27;</span>);
-input.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovInputChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
+<p>Components emit native <code>CustomEvent</code>s, always named <code>aegov</code> + component + action. Read the payload from <code>event.detail</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;emirates-id&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;emiratesId&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> input = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#emirates-id&#x27;</span>);
+  <span class="hljs-keyword">const</span> button = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#submit&#x27;</span>);
+
+  input.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovInputChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
+  });
+
+  button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovButtonClick&#x27;</span>, <span class="hljs-title function_">async</span> () =&gt; {
+    button.<span class="hljs-property">isLoading</span> = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">await</span> <span class="hljs-title function_">submitApplication</span>();
+    } <span class="hljs-keyword">finally</span> {
+      button.<span class="hljs-property">isLoading</span> = <span class="hljs-literal">false</span>;
+    }
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>Every component&#39;s exact event names and detail shapes are listed in the <strong>API Reference</strong> section of its own page.</p>
+<hr>
+<h2>Calling methods</h2>
+<p>Components with imperative APIs expose them as async methods on the element. Await them, or ignore the returned promise.</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> modal = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-modal&#x27;</span>);
+<span class="hljs-keyword">await</span> modal.<span class="hljs-title function_">show</span>();
+
+<span class="hljs-keyword">const</span> form = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-input[name=&quot;email&quot;]&#x27;</span>);
+<span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> form.<span class="hljs-title function_">validate</span>(<span class="hljs-string">&#x27;manual&#x27;</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">valid</span>);</code></pre><hr>
+<h2>Dark mode</h2>
+<p>The theme ships a class-based dark variant:</p>
+<pre><code class="hljs language-css"><span class="hljs-keyword">@custom-variant</span> dark (&amp;:where(.dark, .dark *));</code></pre><p>Add <code>dark</code> to the root element and every component — plus your own <code>dark:</code> utilities — switches together.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dark&quot;</span>&gt;</span></code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// Persisted toggle</span>
+<span class="hljs-keyword">const</span> root = <span class="hljs-variable language_">document</span>.<span class="hljs-property">documentElement</span>;
+<span class="hljs-keyword">const</span> stored = <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&#x27;theme&#x27;</span>);
+<span class="hljs-keyword">if</span> (stored === <span class="hljs-string">&#x27;dark&#x27;</span> || (!stored &amp;&amp; <span class="hljs-title function_">matchMedia</span>(<span class="hljs-string">&#x27;(prefers-color-scheme: dark)&#x27;</span>).<span class="hljs-property">matches</span>)) {
+  root.<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-string">&#x27;dark&#x27;</span>);
+}
+
+<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#theme-toggle&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">const</span> isDark = root.<span class="hljs-property">classList</span>.<span class="hljs-title function_">toggle</span>(<span class="hljs-string">&#x27;dark&#x27;</span>);
+  <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">&#x27;theme&#x27;</span>, isDark ? <span class="hljs-string">&#x27;dark&#x27;</span> : <span class="hljs-string">&#x27;light&#x27;</span>);
+});</code></pre><p>There is no <code>media</code> strategy — the design system deliberately requires the class so that an application can offer an explicit user-facing preference, which UAE government services generally need.</p>
+<hr>
+<h2>Right-to-left</h2>
+<p>Set <code>dir=&quot;rtl&quot;</code> and the whole system flips: layout uses logical properties throughout, and the <code>base</code> stylesheet swaps the body and heading font stacks to Noto Kufi Arabic and Alexandria automatically.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;ar&quot;</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span></code></pre><p>You can also scope direction to a subtree, which is useful for bilingual pages:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>إرسال الطلب<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div dir="rtl">
+    <aegov-form-field>
+      <aegov-label>البريد الإلكتروني</aegov-label>
+      <aegov-input field-id="install-email-rtl" type="email" placeholder="name@example.ae"></aegov-input>
+    </aegov-form-field>
+    <div class="mt-4">
+      <aegov-button variant="primary" size="lg">إرسال الطلب</aegov-button>
+    </div>
+  </div>
+</div>
+
+<p>Each component page has its own <strong>RTL Support</strong> section covering anything specific to that component.</p>
+<hr>
+<h2>Skip-to-content</h2>
+<p>The <code>base</code> stylesheet provides <code>.aegov-skip-content</code>, a visually hidden link that becomes visible on focus. <code>aegov-header</code> portals one to the top of <code>&lt;body&gt;</code> for you; add your own if you are not using the header.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#main&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;aegov-skip-content&quot;</span>&gt;</span>Skip to main content<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">main</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;main&quot;</span> <span class="hljs-attr">tabindex</span>=<span class="hljs-string">&quot;-1&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span></code></pre><hr>
+<h2>Optional — schema-driven validation</h2>
+<p>Every form component already carries a complete validation surface with no extra dependency: <code>is-invalid</code>, <code>error-message</code>, <code>hint</code>, an <code>aegovValidate</code> event and <code>validate()</code> / <code>setCustomValidity()</code> methods. See <a href="validation-overview.html">Validation Surface</a>.</p>
+<p>If you would rather drive that surface from a schema, there is an <strong>optional</strong> companion package. It is not required, and nothing in the design system depends on it.</p>
+<pre><code class="hljs language-bash">npm install @aegov/designsystem-validation valibot</code></pre><pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createForm } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation&#x27;</span>;
+<span class="hljs-keyword">import</span> { valibotAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/adapters/valibot&#x27;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> v <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;valibot&#x27;</span>;
+
+<span class="hljs-keyword">const</span> schema = v.<span class="hljs-title function_">object</span>({
+  <span class="hljs-attr">email</span>: v.<span class="hljs-title function_">pipe</span>(v.<span class="hljs-title function_">string</span>(), v.<span class="hljs-title function_">email</span>(<span class="hljs-string">&#x27;Enter a valid email address&#x27;</span>)),
 });
 
-<span class="hljs-keyword">const</span> button = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-button&#x27;</span>);
-button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovButtonClick&#x27;</span>, <span class="hljs-title function_">async</span> () =&gt; {
-  button.<span class="hljs-property">isLoading</span> = <span class="hljs-literal">true</span>;
-  <span class="hljs-keyword">await</span> <span class="hljs-title function_">submitForm</span>();
-  button.<span class="hljs-property">isLoading</span> = <span class="hljs-literal">false</span>;
-});</code></pre><p>Event names for every component are listed on each component&#39;s docs page.</p>
-<hr>
+<span class="hljs-title function_">createForm</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#application&#x27;</span>), schema, <span class="hljs-title function_">valibotAdapter</span>(), {
+  <span class="hljs-attr">onValidSubmit</span>: <span class="hljs-function">(<span class="hljs-params">values</span>) =&gt;</span> api.<span class="hljs-title function_">submit</span>(values),
+});</code></pre><hr>
 <h2>Troubleshooting</h2>
-<h3>Component renders unstyled</h3>
-<p>CSS custom properties are missing. Verify your build processed all three <code>@import</code> lines and that the output CSS is linked in your HTML. Check DevTools → Elements → <code>:root</code> — you should see <code>--color-primary-600</code> and other AEGOV tokens listed.</p>
-<h3>Component renders as plain text</h3>
-<p>The JS loader did not run. Check DevTools → Console for module errors. Make sure <code>defineCustomElements()</code> is called before the component is used, and that the dev server is running (custom elements require a real HTTP server — <code>file://</code> does not work).</p>
-<h3><code>Failed to fetch …entry.js</code> errors</h3>
-<p>The lazy-loaded per-component chunks must be served from the same folder as <code>aegov.esm.js</code>. Do not move or rename files inside <code>dist/aegov/</code> — the chunks are fetched relative to the loader.</p>
-<h3>Components work in Chrome but not Safari</h3>
-<p>Safari ≥ 16.4 is required. The design system relies on <code>ElementInternals</code> and form-associated custom elements — older Safari lacks these.</p>
+<h3>Components render unstyled</h3>
+<p>The CSS was not compiled. Check DevTools → Elements → <code>:root</code> for <code>--color-primary-600</code>. If the token is missing, the three <code>@import</code> lines never went through Tailwind — most often because the stylesheet is linked directly instead of being processed by the build, or <code>postcss-import</code> is missing in a PostCSS CLI setup.</p>
+<h3>Components render as plain text</h3>
+<p>The loader never ran. Check the console for module resolution errors, confirm <code>defineCustomElements()</code> executes before the tags are used, and confirm you are on <code>http://</code> or <code>https://</code> rather than <code>file://</code>.</p>
+<h3><code>Failed to fetch .../p-xxxxxxx.entry.js</code></h3>
+<p>Lazy-loaded component chunks are fetched relative to <code>aegov.esm.js</code>. Do not rename, flatten, or partially copy <code>dist/aegov/</code> — ship the folder as-is.</p>
+<h3>Utility classes have no effect on component internals</h3>
+<p>Components using shadow DOM — <code>aegov-button</code>, <code>aegov-modal</code>, <code>aegov-drawer</code>, <code>aegov-header</code>, <code>aegov-header-banner</code> — isolate their internals. Utility classes on the host apply to the host only. Use the documented properties, or the exposed <code>part</code> names where a component provides them.</p>
+<h3>Works in Chrome, breaks in Safari</h3>
+<p>Check the Safari version. <code>aegov-otp</code>, <code>aegov-fileupload</code>, <code>aegov-select</code> in listbox mode and <code>aegov-datepicker</code> are form-associated custom elements and need Safari 16.4 or newer.</p>
+<h3>Property set in JavaScript has no effect</h3>
+<p>Set the camelCase <strong>property</strong>, not the attribute, for runtime changes: <code>el.isLoading = true</code>, not <code>el.setAttribute(&#39;isLoading&#39;, &#39;true&#39;)</code>. Attribute names are kebab-case; property names are camelCase.</p>
 <hr>
 <h2>Where to next</h2>
 <ul>
-<li><a href="using-with-react.html">Using with React</a> — typed React wrappers, JSX props, typed event handlers, refs.</li>
-<li><a href="using-with-vue.html">Using with Vue</a> — Vue 3 plugin, kebab-case template syntax, typed events.</li>
-<li><a href="using-with-angular.html">Using with Angular</a> — <code>DesignSystemModule</code>, <code>provideDesignSystem()</code>, camelCase props, NG8008 notes.</li>
-<li><a href="validation-overview.html">Validation Surface</a> — unified <code>isInvalid</code> / <code>errorMessage</code> / <code>hint</code> API across all form components.</li>
-<li>Per-component docs in the left navigation — every page lists props, events, methods, and accessibility notes.</li>
+<li><a href="using-with-react.html">Using with React</a> — typed wrappers, <code>onAegov*</code> handlers, refs, SSR notes.</li>
+<li><a href="using-with-vue.html">Using with Vue</a> — the Vue plugin, kebab-case templates, typed proxy components.</li>
+<li><a href="using-with-angular.html">Using with Angular</a> — <code>provideDesignSystem()</code>, <code>DesignSystemModule</code>, camelCase inputs, NG8008.</li>
+<li><a href="validation-overview.html">Validation Surface</a> — the built-in <code>is-invalid</code> / <code>error-message</code> / <code>hint</code> contract.</li>
+<li><a href="validation-byo.html">Bring Your Own Validator</a> — manual validation with no extra package.</li>
+<li>Per-component pages in the left navigation — each lists properties, slots, events, methods, RTL notes and accessibility obligations.</li>
 </ul>
 <!-- DOC:END -->
           </section>
