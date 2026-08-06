@@ -6,8 +6,11 @@ describe('aegov-dropdown (e2e)', () => {
     await page.setContent('<aegov-dropdown><button>Open</button></aegov-dropdown>');
     const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
     expect(trigger).not.toBeNull();
-    expect(trigger.getAttribute('aria-haspopup')).toBe('true');
-    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    // Per WCAG 4.1.2 the state goes on the focusable child, and the menu-button pattern
+    // uses aria-haspopup="menu".
+    const inner = await page.find('aegov-dropdown .aegov-dropdown-trigger button');
+    expect(inner.getAttribute('aria-haspopup')).toBe('menu');
+    expect(inner.getAttribute('aria-expanded')).toBe('false');
   });
 
   it('opens portal content on trigger click', async () => {
@@ -40,8 +43,8 @@ describe('aegov-dropdown (e2e)', () => {
     const triggerBtn = await page.find('aegov-dropdown button');
     await triggerBtn.click();
     await page.waitForChanges();
-    const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
-    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    const inner = await page.find('aegov-dropdown .aegov-dropdown-trigger button');
+    expect(inner.getAttribute('aria-expanded')).toBe('true');
   });
 
   it('Escape closes the dropdown', async () => {

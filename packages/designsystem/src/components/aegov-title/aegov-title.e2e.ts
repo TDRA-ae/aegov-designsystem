@@ -34,7 +34,7 @@ describe('aegov-title e2e', () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-title size="lg">x</aegov-title>`);
     const p = await page.find('aegov-title p');
-    expect(p.className).toContain('text-xl!');
+    expect(p.className).toContain('text-lg!');
   });
 
   it('passes through data-* and aria-*', async () => {
