@@ -52,7 +52,7 @@
 
 /* Disabled */
 .toggle__input:disabled + .toggle__track {
-  @apply opacity-40 cursor-not-allowed;
+  @apply cursor-not-allowed;
 }
 
 /* ========================================

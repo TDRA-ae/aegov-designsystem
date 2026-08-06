@@ -2,6 +2,10 @@
   display: block;
 }
 
+:host([is-disabled]) {
+  cursor: not-allowed;
+}
+
 .aegov-checkbox-group {
   @apply border-0 p-0 m-0;
 }

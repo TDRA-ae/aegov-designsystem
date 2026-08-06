@@ -2,6 +2,10 @@
   display: block;
 }
 
+:host([is-disabled]) {
+  cursor: not-allowed;
+}
+
 /* ========================================
    Base wrapper
    ======================================== */
@@ -10,7 +14,7 @@
 }
 
 .aegov-range--disabled {
-  @apply opacity-40 cursor-not-allowed;
+  @apply opacity-40;
   pointer-events: none;
 }
 

@@ -1060,12 +1060,12 @@ export class AegovDropdown {
     const passThroughAttributes = getPassThroughAttributes(this.el);
 
     return (
-      <Host>
+      <Host class={{ 'is-disabled': this.isDisabled }}>
         <div
           {...passThroughAttributes}
           class={{
             'aegov-dropdown-trigger': true,
-            'cursor-not-allowed': this.isDisabled,
+            'opacity-40': this.isDisabled,
             'pointer-events-none': this.isDisabled,
           }}
           id={this.triggerId}

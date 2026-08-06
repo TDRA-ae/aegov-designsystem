@@ -279,7 +279,7 @@ export class AegovNavbarItem {
     // <aegov-dropdown>. Render only the dropdown slot.
     if (this.hasDropdown && !this.isDisabled) {
       return (
-        <Host>
+        <Host class={{ 'is-disabled': this.isDisabled }}>
           <li {...passThroughAttributes} class={liClasses}>
             <slot name="dropdown" />
           </li>
@@ -334,7 +334,7 @@ export class AegovNavbarItem {
     }
 
     return (
-      <Host>
+      <Host class={{ 'is-disabled': this.isDisabled }}>
         <li {...passThroughAttributes} class={liClasses}>
           {inner}
           {this.hasDropdown && <slot name="dropdown" />}
