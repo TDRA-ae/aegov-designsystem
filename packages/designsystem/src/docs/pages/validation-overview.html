@@ -20,68 +20,189 @@
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>Validation Surface (Layer 1)</h1>
-<p>All form components in <code>@aegov/designsystem</code> expose a uniform validation surface — a set of props, slots, events, and methods you can use to display invalid state, render error messages, and respond to user input. This page is the single source of truth for the surface; per-component docs link back here.</p>
-<p>The validation surface is intentionally <strong>engine-agnostic</strong>. Drive it manually, plug in your own predicate, or use the optional <code>@aegov/designsystem-validation</code> add-on package — see &quot;Use a Validation Engine&quot; at the bottom.</p>
+<h1>Validation Surface</h1>
+<p class="text-lg text-aeblack-500 mb-8">Every form component in the AEGOV Design System exposes the same validation surface: three properties, two slots, one event and two methods. That surface is built in and has no dependencies — you can drive it by hand, wire it to your own validation code, or hand it to the optional schema-driven companion package. This page is the single source of truth for the contract; each component page links back here.</p>
+
+<h2>Introduction</h2>
+<p>The design system deliberately does <strong>not</strong> ship a validation engine. It ships a <em>surface</em>: a uniform way to say &quot;this field is invalid, here is why&quot;, and a uniform way to be told &quot;the user did something, here is the current value and its validity&quot;. What decides whether a value is acceptable is your business logic — a regex, a server call, a schema library, or the browser&#39;s own constraint validation.</p>
+<p>Thirteen components implement the surface:</p>
+<p><code>aegov-input</code>, <code>aegov-textarea</code>, <code>aegov-select</code>, <code>aegov-checkbox</code>, <code>aegov-checkbox-group</code>, <code>aegov-radio</code>, <code>aegov-radio-group</code>, <code>aegov-toggle</code>, <code>aegov-range</code>, <code>aegov-otp</code>, <code>aegov-fileupload</code>, <code>aegov-datepicker</code>, and the <code>aegov-form-field</code> wrapper.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;We will send confirmation here&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> input = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#email&#x27;</span>);
+
+  input.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (e.<span class="hljs-property">detail</span>.<span class="hljs-property">trigger</span> !== <span class="hljs-string">&#x27;blur&#x27;</span>) <span class="hljs-keyword">return</span>;
+    <span class="hljs-keyword">const</span> ok = <span class="hljs-regexp">/\S+@\S+\.\S+/</span>.<span class="hljs-title function_">test</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
+    input.<span class="hljs-property">isInvalid</span> = !ok;
+    input.<span class="hljs-property">errorMessage</span> = ok ? <span class="hljs-string">&#x27;&#x27;</span> : <span class="hljs-string">&#x27;Enter a valid email address&#x27;</span>;
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-6">
+    <aegov-input field-id="vo-demo-ok" name="email" type="email" hint="We will send confirmation here" placeholder="name@example.ae"></aegov-input>
+    <aegov-input field-id="vo-demo-bad" name="email2" type="email" is-invalid="true" error-message="Enter a valid email address" value="not-an-email"></aegov-input>
+  </div>
+</div>
+
+<p>That is the whole contract. No framework, no library, no schema.</p>
 <hr>
-<h2>What you get on every form component</h2>
-<p>Every form component (<code>aegov-input</code>, <code>aegov-textarea</code>, <code>aegov-select</code>, <code>aegov-checkbox</code>, <code>aegov-checkbox-group</code>, <code>aegov-radio</code>, <code>aegov-radio-group</code>, <code>aegov-toggle</code>, <code>aegov-range</code>, <code>aegov-otp</code>, <code>aegov-fileupload</code>, <code>aegov-datepicker</code>, <code>aegov-form-field</code>) ships with this surface.</p>
-<h3>Props</h3>
+<h2>Properties</h2>
 <table>
 <thead>
 <tr>
-<th>Prop</th>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
 <th>Type</th>
 <th>Default</th>
-<th>Description</th>
 </tr>
 </thead>
 <tbody><tr>
+<td><code>isInvalid</code></td>
 <td><code>is-invalid</code></td>
+<td>Toggles the visual invalid state. Sets <code>aria-invalid=&quot;true&quot;</code> on the inner control and adds the <code>is-invalid</code> class to the host element.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
-<td>Toggles the visual invalid state. Sets <code>aria-invalid=&quot;true&quot;</code> on the inner control and adds <code>is-invalid</code> to the host element.</td>
 </tr>
 <tr>
+<td><code>errorMessage</code></td>
 <td><code>error-message</code></td>
+<td>Inline error text rendered below the control while <code>is-invalid</code> is true. The <code>error</code> slot takes precedence when populated.</td>
 <td><code>string</code></td>
-<td><code>&quot;&quot;</code></td>
-<td>Inline error message rendered below the control when <code>is-invalid</code> is true. The <code>error</code> slot takes precedence if provided.</td>
+<td><code>&#39;&#39;</code></td>
 </tr>
 <tr>
 <td><code>hint</code></td>
+<td><code>hint</code></td>
+<td>Helper text rendered below the control whenever no error is showing. The <code>hint</code> slot takes precedence when populated.</td>
 <td><code>string</code></td>
-<td><code>&quot;&quot;</code></td>
-<td>Helper hint rendered below the control when no error is shown. The <code>hint</code> slot takes precedence if provided.</td>
+<td><code>&#39;&#39;</code></td>
 </tr>
 </tbody></table>
-<h3>Slots</h3>
+<p>Error and hint are mutually exclusive in the rendered output: while the component is invalid the error replaces the hint, and the hint returns when validity is restored. You do not need to clear the hint yourself.</p>
+<hr>
+<h2>Slots</h2>
 <table>
 <thead>
 <tr>
 <th>Slot</th>
-<th>Use</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>error</code></td>
-<td>Custom error markup (icons, links, multi-line content). Only rendered when <code>is-invalid</code> is true.</td>
+<td>Custom error markup — icons, links, multi-line content. Rendered only while <code>is-invalid</code> is true.</td>
 </tr>
 <tr>
 <td><code>hint</code></td>
-<td>Custom hint markup. Only rendered when no error is shown.</td>
+<td>Custom hint markup. Rendered only when no error is showing.</td>
 </tr>
 </tbody></table>
-<h3>Event</h3>
-<p><code>aegovValidate</code> fires on every interaction trigger and from imperative <code>validate()</code> calls.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;username&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;username&quot;</span> <span class="hljs-attr">is-invalid</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>
+    That username is taken. <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/help/usernames&quot;</span>&gt;</span>Choose another<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md">
+    <aegov-input field-id="vo-slot-error" name="username" is-invalid="true" value="ahmed">
+      <span slot="error">That username is taken. <a href="#">Choose another</a>.</span>
+    </aegov-input>
+  </div>
+</div>
+
+<p>When the <code>error</code> slot has content, <code>error-message</code> is ignored. The same applies to <code>hint</code> and the <code>hint</code> slot.</p>
+<hr>
+<h2>The <code>aegovValidate</code> event</h2>
+<p>Fired on every interaction trigger, and by imperative <code>validate()</code> calls. This is how you learn that something happened and what the current value is.</p>
 <pre><code class="hljs language-ts">event.<span class="hljs-property">detail</span>: {
-  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;        <span class="hljs-comment">// from `name` attribute</span>
-  <span class="hljs-attr">value</span>: T;                   <span class="hljs-comment">// typed per component (see Value Types below)</span>
-  <span class="hljs-attr">validity</span>: <span class="hljs-title class_">ValidityState</span>;    <span class="hljs-comment">// standard ValidityState shape — synthesized for custom controls</span>
-  <span class="hljs-attr">validationMessage</span>: <span class="hljs-built_in">string</span>;
-  <span class="hljs-attr">customError</span>: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;                  <span class="hljs-comment">// from the `name` attribute, null if unnamed</span>
+  <span class="hljs-attr">value</span>: T;                             <span class="hljs-comment">// typed per component — see Value types below</span>
+  <span class="hljs-attr">validity</span>: <span class="hljs-title class_">AegovValidityState</span>;         <span class="hljs-comment">// native ValidityState shape; synthesized for custom controls</span>
+  <span class="hljs-attr">validationMessage</span>: <span class="hljs-built_in">string</span>;            <span class="hljs-comment">// human-readable message, &#x27;&#x27; when valid</span>
+  <span class="hljs-attr">customError</span>: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;           <span class="hljs-comment">// message set via setCustomValidity(), else null</span>
   <span class="hljs-attr">trigger</span>: <span class="hljs-string">&#x27;input&#x27;</span> | <span class="hljs-string">&#x27;change&#x27;</span> | <span class="hljs-string">&#x27;blur&#x27;</span> | <span class="hljs-string">&#x27;submit&#x27;</span> | <span class="hljs-string">&#x27;manual&#x27;</span>;
-}</code></pre><h3>Methods</h3>
+}</code></pre><h3>Triggers</h3>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Fired when</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>input</code></td>
+<td>The value changes during typing, keystroke by keystroke.</td>
+</tr>
+<tr>
+<td><code>change</code></td>
+<td>The value is committed — a selection made, a checkbox toggled, a file chosen.</td>
+</tr>
+<tr>
+<td><code>blur</code></td>
+<td>The control loses focus. This is the point most validation should run.</td>
+</tr>
+<tr>
+<td><code>submit</code></td>
+<td>Full-form validation is running as part of a submit.</td>
+</tr>
+<tr>
+<td><code>manual</code></td>
+<td>Your code called <code>validate()</code>.</td>
+</tr>
+</tbody></table>
+<p>Gate on the trigger rather than validating on every event. Validating while someone is still typing their email address tells them they are wrong before they have finished being right:</p>
+<pre><code class="hljs language-js">input.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-keyword">if</span> (e.<span class="hljs-property">detail</span>.<span class="hljs-property">trigger</span> === <span class="hljs-string">&#x27;input&#x27;</span>) <span class="hljs-keyword">return</span>;   <span class="hljs-comment">// let them finish</span>
+  <span class="hljs-title function_">applyMyRules</span>(e.<span class="hljs-property">detail</span>);
+});</code></pre><h3>Validity flags</h3>
+<p><code>detail.validity</code> mirrors the native <a href="https://developer.mozilla.org/en-US/docs/Web/API/ValidityState"><code>ValidityState</code></a> shape. Components wrapping a native control report the browser&#39;s real flags; custom controls synthesize the equivalent, so the shape is identical either way.</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>valueMissing</code></td>
+<td>Required, and empty.</td>
+</tr>
+<tr>
+<td><code>typeMismatch</code></td>
+<td>Wrong shape for the declared <code>type</code> — e.g. an email without <code>@</code>; on <code>aegov-fileupload</code>, a file whose type is not in <code>accept</code>.</td>
+</tr>
+<tr>
+<td><code>patternMismatch</code></td>
+<td>Fails the declared <code>pattern</code> — including the OTP pattern.</td>
+</tr>
+<tr>
+<td><code>tooLong</code> / <code>tooShort</code></td>
+<td>Outside the length bounds. On <code>aegov-fileupload</code>, <code>tooLong</code> reports a file exceeding <code>max-file-size</code>.</td>
+</tr>
+<tr>
+<td><code>rangeOverflow</code> / <code>rangeUnderflow</code></td>
+<td>Outside <code>min</code> / <code>max</code> — numeric inputs, range, datepicker.</td>
+</tr>
+<tr>
+<td><code>stepMismatch</code></td>
+<td>Not on a valid step increment.</td>
+</tr>
+<tr>
+<td><code>badInput</code></td>
+<td>The control cannot convert what the user entered into a value.</td>
+</tr>
+<tr>
+<td><code>customError</code></td>
+<td>A message was set via <code>setCustomValidity()</code>.</td>
+</tr>
+<tr>
+<td><code>valid</code></td>
+<td><code>true</code> only when every other flag is false. Derived, never set directly.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Methods</h2>
 <table>
 <thead>
 <tr>
@@ -92,43 +213,23 @@
 </thead>
 <tbody><tr>
 <td><code>validate(trigger?)</code></td>
-<td><code>Promise&lt;{ valid, message?, validity? }&gt;</code></td>
-<td>Imperatively re-runs validation. Emits <code>aegovValidate</code>.</td>
+<td><code>Promise&lt;AegovValidationResult&gt;</code></td>
+<td>Re-runs validation now and emits <code>aegovValidate</code>. <code>trigger</code> defaults to <code>&#39;manual&#39;</code>.</td>
 </tr>
 <tr>
 <td><code>setCustomValidity(message)</code></td>
 <td><code>Promise&lt;void&gt;</code></td>
-<td>Mirrors native API. Non-empty message marks invalid + sets <code>error-message</code>. Empty string clears.</td>
+<td>Mirrors the native API. A non-empty message marks the control invalid and sets <code>error-message</code>; an empty string clears both.</td>
 </tr>
 </tbody></table>
-<h3>Accessibility</h3>
-<ul>
-<li><code>aria-invalid</code> set on the inner control automatically when <code>is-invalid</code> is true.</li>
-<li><code>aria-describedby</code> is composed: it preserves any author-supplied IDs and appends the error/hint region IDs without clobbering.</li>
-<li>The error region&#39;s <code>role=&quot;alert&quot;</code> and <code>aria-live=&quot;polite&quot;</code> are gated by first blur — preventing assistive-tech spam during typing. They activate on first focus loss or on submit.</li>
-</ul>
-<hr>
-<h2>Minimal example — manual validation</h2>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> input.<span class="hljs-title function_">validate</span>(<span class="hljs-string">&#x27;submit&#x27;</span>);
+<span class="hljs-comment">// result: { valid: boolean; message?: string; validity?: AegovValidityState }</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">const</span> input = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#email&#x27;</span>);
-  input.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-keyword">const</span> ok = <span class="hljs-regexp">/\S+@\S+\.\S+/</span>.<span class="hljs-title function_">test</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
-    input.<span class="hljs-property">isInvalid</span> = !ok &amp;&amp; e.<span class="hljs-property">detail</span>.<span class="hljs-property">trigger</span> === <span class="hljs-string">&#x27;blur&#x27;</span>;
-    input.<span class="hljs-property">errorMessage</span> = ok ? <span class="hljs-string">&#x27;&#x27;</span> : <span class="hljs-string">&#x27;Enter a valid email&#x27;</span>;
-  });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>That&#39;s the entire contract. No framework, no library, no schema — just three properties, one event, one method.</p>
-<hr>
-<h2>Slot example — rich error markup</h2>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;user&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;user&quot;</span> <span class="hljs-attr">is-invalid</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>
-    Username taken. <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/help&quot;</span>&gt;</span>Get help<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.
-  <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><p>The <code>error</code> slot is rendered whenever <code>is-invalid</code> is true. The <code>error-message</code> prop is ignored if the slot is populated.</p>
-<hr>
+<span class="hljs-keyword">if</span> (!result.<span class="hljs-property">valid</span>) input.<span class="hljs-title function_">focus</span>();</code></pre><p><code>setCustomValidity()</code> is the right tool for errors that come from outside the browser — a server rejection, a cross-field rule, a business constraint:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">checkEmiratesId</span>(value);
+<span class="hljs-keyword">await</span> field.<span class="hljs-title function_">setCustomValidity</span>(res.<span class="hljs-property">ok</span> ? <span class="hljs-string">&#x27;&#x27;</span> : res.<span class="hljs-property">reason</span>);</code></pre><hr>
 <h2>Form integration</h2>
-<p>Form components participate in native <code>&lt;form&gt;</code> submission:</p>
+<p>All thirteen components participate in native <code>&lt;form&gt;</code> submission. <code>form.checkValidity()</code>, <code>form.reportValidity()</code>, the <code>:invalid</code> pseudo-class and <code>new FormData(form)</code> all behave as they would with native controls.</p>
 <table>
 <thead>
 <tr>
@@ -137,20 +238,21 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><code>aegov-input</code>, <code>aegov-textarea</code>, <code>aegov-checkbox</code>, <code>aegov-radio</code>, <code>aegov-toggle</code>, <code>aegov-range</code>, <code>aegov-select</code> (native variant)</td>
-<td>Inner native form control with <code>name</code> attribute</td>
+<td><code>aegov-input</code>, <code>aegov-textarea</code>, <code>aegov-checkbox</code>, <code>aegov-radio</code>, <code>aegov-toggle</code>, <code>aegov-range</code>, <code>aegov-select</code> (default appearance)</td>
+<td>Inner native form control carrying the <code>name</code>.</td>
 </tr>
 <tr>
-<td><code>aegov-otp</code>, <code>aegov-fileupload</code>, <code>aegov-select</code> (listbox variant), <code>aegov-datepicker</code></td>
-<td><code>ElementInternals.setFormValue()</code> (FormAssociated custom element)</td>
+<td><code>aegov-otp</code>, <code>aegov-fileupload</code>, <code>aegov-select</code> (listbox appearance), <code>aegov-datepicker</code></td>
+<td>Form-associated custom elements using <code>ElementInternals.setFormValue()</code>.</td>
 </tr>
 <tr>
 <td><code>aegov-checkbox-group</code>, <code>aegov-radio-group</code></td>
-<td>Pure aggregator — children submit individually via their own native inputs</td>
+<td>Pure aggregators — each child submits through its own native input. The group emits an aggregate <code>aegovValidate</code> but holds no form value of its own.</td>
 </tr>
 </tbody></table>
-<p><code>&lt;form&gt;.checkValidity()</code> and <code>:invalid</code> pseudo-class work as expected for all variants.</p>
-<h3>Value types per component</h3>
+<p>The form-associated components are the reason Safari 16.4 is the support floor — <code>ElementInternals</code> is not available earlier.</p>
+<h3>Value types</h3>
+<p><code>detail.value</code> and the FormData payload differ per component. Both are listed here because they are not always the same shape.</p>
 <table>
 <thead>
 <tr>
@@ -167,22 +269,12 @@
 <tr>
 <td><code>aegov-checkbox</code>, <code>aegov-toggle</code></td>
 <td><code>boolean</code></td>
-<td><code>&#39;on&#39;</code> if checked</td>
+<td><code>&#39;on&#39;</code> when checked, absent when not</td>
 </tr>
 <tr>
 <td><code>aegov-radio</code></td>
-<td><code>string</code> (own value if checked)</td>
-<td>own value if checked</td>
-</tr>
-<tr>
-<td><code>aegov-range</code> (single)</td>
-<td><code>number</code></td>
-<td>numeric string</td>
-</tr>
-<tr>
-<td><code>aegov-range</code> (range mode)</td>
-<td><code>{ low, high }</code></td>
-<td><code>name-low</code>, <code>name-high</code></td>
+<td><code>string</code> (own value when checked)</td>
+<td>own value when checked</td>
 </tr>
 <tr>
 <td><code>aegov-select</code> (single)</td>
@@ -192,22 +284,32 @@
 <tr>
 <td><code>aegov-select</code> (multiple)</td>
 <td><code>string[]</code></td>
-<td>per-value FormData entries</td>
+<td>one entry per selected value, all under <code>name</code></td>
+</tr>
+<tr>
+<td><code>aegov-range</code> (single)</td>
+<td><code>number</code></td>
+<td>numeric string</td>
+</tr>
+<tr>
+<td><code>aegov-range</code> (range mode)</td>
+<td><code>{ low, high }</code></td>
+<td><code>name-low</code> and <code>name-high</code></td>
 </tr>
 <tr>
 <td><code>aegov-datepicker</code> (single)</td>
-<td><code>string</code> (ISO 8601)</td>
+<td><code>string</code> — ISO 8601</td>
 <td>ISO string</td>
 </tr>
 <tr>
 <td><code>aegov-datepicker</code> (range)</td>
 <td><code>{ start, end }</code></td>
-<td><code>name-start</code>, <code>name-end</code></td>
+<td><code>name-start</code> and <code>name-end</code></td>
 </tr>
 <tr>
 <td><code>aegov-fileupload</code></td>
 <td><code>File[]</code></td>
-<td>per-file FormData entries</td>
+<td>one entry per file, all under <code>name</code></td>
 </tr>
 <tr>
 <td><code>aegov-checkbox-group</code></td>
@@ -217,37 +319,217 @@
 <tr>
 <td><code>aegov-radio-group</code></td>
 <td><code>string | undefined</code></td>
-<td>name=value of selected child</td>
+<td><code>name=value</code> of the selected child</td>
 </tr>
 </tbody></table>
-<hr>
-<h2><code>aegov-form-field</code> cascade</h2>
-<p>Wrap any form component in <code>&lt;aegov-form-field&gt;</code> and the wrapper-level <code>is-invalid</code> / <code>error-message</code> / <code>hint</code> props cascade to the first form-control descendant — but only if the child has not set its own value. Author intent always wins.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span> <span class="hljs-attr">is-invalid</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">error-message</span>=<span class="hljs-string">&quot;Required field&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Email<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><hr>
-<h2>Use a validation engine</h2>
-<p>If you want schema-driven validation (Valibot, Zod, Vest, native), reach for <code>@aegov/designsystem-validation</code>. It listens for <code>aegovValidate</code> events at form root, runs your schema, and writes <code>is-invalid</code> + <code>error-message</code> back to each component.</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createForm } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation&#x27;</span>;
-<span class="hljs-keyword">import</span> { valibotAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/adapters/valibot&#x27;</span>;
-<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> v <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;valibot&#x27;</span>;
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> form = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#application&#x27;</span>);
+<span class="hljs-keyword">const</span> data = <span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(form);
 
-<span class="hljs-keyword">const</span> schema = v.<span class="hljs-title function_">object</span>({
-  <span class="hljs-attr">email</span>: v.<span class="hljs-title function_">pipe</span>(v.<span class="hljs-title function_">string</span>(), v.<span class="hljs-title function_">email</span>(<span class="hljs-string">&#x27;Invalid email&#x27;</span>)),
-  <span class="hljs-attr">password</span>: v.<span class="hljs-title function_">pipe</span>(v.<span class="hljs-title function_">string</span>(), v.<span class="hljs-title function_">minLength</span>(<span class="hljs-number">8</span>, <span class="hljs-string">&#x27;Min 8 chars&#x27;</span>)),
-});
-
-<span class="hljs-title function_">createForm</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;form&#x27;</span>), schema, <span class="hljs-title function_">valibotAdapter</span>(), {
-  <span class="hljs-attr">onValidSubmit</span>: <span class="hljs-function">(<span class="hljs-params">values</span>) =&gt;</span> api.<span class="hljs-title function_">login</span>(values),
-});</code></pre><p>The add-on package is <strong>optional</strong>. The Layer 1 surface is fully usable without it.</p>
-<p>See the <a href="validation-byo.html">BYO Validator recipe</a> for hand-rolled patterns without an engine.</p>
-<hr>
-<h2>Cross-references</h2>
+data.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;emiratesId&#x27;</span>);        <span class="hljs-comment">// &#x27;784-1990-1234567-1&#x27;</span>
+data.<span class="hljs-title function_">getAll</span>(<span class="hljs-string">&#x27;documents&#x27;</span>);      <span class="hljs-comment">// [File, File]</span>
+data.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;appointment-start&#x27;</span>); <span class="hljs-comment">// &#x27;2026-09-01&#x27;</span></code></pre><hr>
+<h2>Accessibility built in</h2>
+<p>The components handle the ARIA wiring. You do not need to add any of this yourself:</p>
 <ul>
-<li>Per-component validation specifics: each component&#39;s docs page has a &quot;Validation&quot; section linking back here.</li>
-<li>Implementation plan: <a href="https://github.com/aegov/designsystem/blob/main/validation-engine-addon.md"><code>validation-engine-addon.md</code></a> at repository root.</li>
-<li>Migration notes (renames, removed events): see &quot;Known Gotchas&quot; in <code>CLAUDE.md</code>.</li>
+<li><strong><code>aria-invalid</code></strong> is set on the inner control whenever <code>is-invalid</code> is true, and removed when it is not.</li>
+<li><strong><code>aria-describedby</code> is composed, not overwritten.</strong> The component chains its own hint and error region IDs onto whatever IDs you supplied, plus any internal ones such as the textarea character counter. Your value is preserved.</li>
+<li><strong>The error region is announced once, at the right time.</strong> <code>role=&quot;alert&quot;</code> and <code>aria-live=&quot;polite&quot;</code> on the error region are gated behind the field&#39;s first blur. Without that gate, a screen reader would announce a partial error on every keystroke as the user types. The gate lifts on first focus loss, or immediately on submit.</li>
+<li><strong>The <code>is-invalid</code> class</strong> is added to the host element so you can hook your own styling to invalid state without watching the property.</li>
+</ul>
+<h3>Developer responsibilities</h3>
+<ul>
+<li><strong>Write messages that say what to do</strong>, not what went wrong. &quot;Enter a date in the future&quot; beats &quot;Invalid date&quot;.</li>
+<li><strong>Do not rely on colour alone.</strong> The error text is the accessible signal; the red border is decoration. This is why <code>error-message</code> (or the <code>error</code> slot) should always be populated when you set <code>is-invalid</code>.</li>
+<li><strong>Move focus to the first invalid field on failed submit.</strong> The components do not steal focus for you.</li>
+<li><strong>Give every control a <code>name</code></strong> if you intend to read the form with <code>FormData</code>, and a label via <code>aegov-label</code> or the component&#39;s own <code>label</code> property.</li>
+<li><strong>Announce form-level failures separately.</strong> A single field error is announced by the field; &quot;3 problems with your application&quot; belongs in an <code>aegov-callout</code> inside a live region at the top of the form.</li>
+</ul>
+<hr>
+<h2>The <code>aegov-form-field</code> cascade</h2>
+<p><code>aegov-form-field</code> can carry <code>is-invalid</code>, <code>error-message</code> and <code>hint</code> on behalf of the control it wraps. The values cascade down to the first form-control descendant — but only where that child has not set its own value. Author intent on the child always wins.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span> <span class="hljs-attr">is-invalid</span> <span class="hljs-attr">error-message</span>=<span class="hljs-string">&quot;Enter your Emirates ID to continue&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Emirates ID<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;emiratesId&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md">
+    <aegov-form-field is-invalid="true" error-message="Enter your Emirates ID to continue">
+      <aegov-label>Emirates ID</aegov-label>
+      <aegov-input field-id="vo-ff-eid" name="emiratesId"></aegov-input>
+    </aegov-form-field>
+  </div>
+</div>
+
+<p>The wrapper also adds <code>is-invalid</code> to its own <code>.aegov-form-field</code> element, so label and control can be styled together.</p>
+<p>Use the cascade when the wrapper is the natural owner of the message — typically because your form code already tracks state per field rather than per component. Set the properties directly on the control when the control is the owner.</p>
+<hr>
+<h2>Whole-form validation on submit</h2>
+<p>The pattern that covers most services: validate every control on submit, stop the submission if anything fails, focus the first offender.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;application&quot;</span> <span class="hljs-attr">novalidate</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;fullName&quot;</span> <span class="hljs-attr">is-required</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">is-required</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;appointment&quot;</span> <span class="hljs-attr">is-required</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> form = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#application&#x27;</span>);
+
+  form.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;submit&#x27;</span>, <span class="hljs-title function_">async</span> (e) =&gt; {
+    e.<span class="hljs-title function_">preventDefault</span>();
+
+    <span class="hljs-keyword">const</span> controls = form.<span class="hljs-title function_">querySelectorAll</span>(
+      <span class="hljs-string">&#x27;aegov-input, aegov-textarea, aegov-select, aegov-checkbox, aegov-checkbox-group, &#x27;</span> +
+      <span class="hljs-string">&#x27;aegov-radio-group, aegov-toggle, aegov-range, aegov-otp, aegov-fileupload, aegov-datepicker&#x27;</span>
+    );
+
+    <span class="hljs-keyword">const</span> results = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>([...controls].<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">c</span>) =&gt;</span> c.<span class="hljs-title function_">validate</span>(<span class="hljs-string">&#x27;submit&#x27;</span>)));
+    <span class="hljs-keyword">const</span> firstBad = [...controls].<span class="hljs-title function_">find</span>(<span class="hljs-function">(<span class="hljs-params">_, i</span>) =&gt;</span> !results[i].<span class="hljs-property">valid</span>);
+
+    <span class="hljs-keyword">if</span> (firstBad) {
+      firstBad.<span class="hljs-title function_">focus</span>();
+      <span class="hljs-keyword">return</span>;
+    }
+
+    <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">submit</span>(<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">fromEntries</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(form)));
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p><code>novalidate</code> on the form suppresses the browser&#39;s own error bubbles so your inline messages are the only ones shown. Constraint validation still runs — you are only turning off the native UI.</p>
+<hr>
+<h2>Optional — schema-driven validation</h2>
+<p>Everything above works with no dependencies. If you would rather declare rules once as a schema than wire events per field, there is an <strong>optional</strong> companion package, <code>@aegov/designsystem-validation</code>. It is not required, the design system does not depend on it, and nothing in this page changes if you never install it.</p>
+<p>What it does: listens for <code>aegovValidate</code> at the form root, runs your schema, and writes <code>is-invalid</code> and <code>error-message</code> back onto each component — exactly the surface documented above, driven for you.</p>
+<pre><code class="hljs language-bash">npm install @aegov/designsystem-validation valibot</code></pre><pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;login&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">is-revealable</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Sign in<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">import</span> { createForm } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation&#x27;</span>;
+  <span class="hljs-keyword">import</span> { valibotAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/adapters/valibot&#x27;</span>;
+  <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> v <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;valibot&#x27;</span>;
+
+  <span class="hljs-keyword">const</span> schema = v.<span class="hljs-title function_">object</span>({
+    <span class="hljs-attr">email</span>: v.<span class="hljs-title function_">pipe</span>(v.<span class="hljs-title function_">string</span>(), v.<span class="hljs-title function_">email</span>(<span class="hljs-string">&#x27;Enter a valid email address&#x27;</span>)),
+    <span class="hljs-attr">password</span>: v.<span class="hljs-title function_">pipe</span>(v.<span class="hljs-title function_">string</span>(), v.<span class="hljs-title function_">minLength</span>(<span class="hljs-number">8</span>, <span class="hljs-string">&#x27;At least 8 characters&#x27;</span>)),
+  });
+
+  <span class="hljs-title function_">createForm</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#login&#x27;</span>), schema, <span class="hljs-title function_">valibotAdapter</span>(), {
+    <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;onBlur&#x27;</span>,
+    <span class="hljs-attr">onValidSubmit</span>: <span class="hljs-function">(<span class="hljs-params">values</span>) =&gt;</span> api.<span class="hljs-title function_">login</span>(values),
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Options</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>mode</code></td>
+<td><code>&#39;onBlur&#39;</code></td>
+<td>When to validate a field first: <code>&#39;onChange&#39;</code>, <code>&#39;onInput&#39;</code>, <code>&#39;onBlur&#39;</code> or <code>&#39;onSubmit&#39;</code>.</td>
+</tr>
+<tr>
+<td><code>reValidateMode</code></td>
+<td><code>&#39;onChange&#39;</code></td>
+<td>When to re-validate a field that has already errored.</td>
+</tr>
+<tr>
+<td><code>debounce</code></td>
+<td><code>200</code></td>
+<td>Per-field debounce in milliseconds.</td>
+</tr>
+<tr>
+<td><code>onValidSubmit</code></td>
+<td>—</td>
+<td>Called with typed values when full-form validation passes.</td>
+</tr>
+<tr>
+<td><code>messageResolver</code></td>
+<td>—</td>
+<td>Maps an issue to a message — the hook for translated copy.</td>
+</tr>
+<tr>
+<td><code>scrollToError</code></td>
+<td><code>true</code></td>
+<td>Focus the first invalid control on failed submit.</td>
+</tr>
+<tr>
+<td><code>hydrateProps</code></td>
+<td><code>false</code></td>
+<td>Write <code>is-required</code>, <code>minlength</code>, <code>maxlength</code>, <code>pattern</code>, <code>min</code>, <code>max</code> onto components from the schema. Author-supplied attributes always win.</td>
+</tr>
+<tr>
+<td><code>dependencies</code></td>
+<td>—</td>
+<td>Explicit cross-field dependency map, so changing one field re-validates another.</td>
+</tr>
+<tr>
+<td><code>onErrorsChange</code></td>
+<td>—</td>
+<td>Called with the full errors map whenever it changes.</td>
+</tr>
+</tbody></table>
+<p><code>createForm</code> returns a <code>FormApi</code>: <code>validate()</code>, <code>validateField(path)</code>, <code>getValues()</code>, <code>setValue(path, value)</code>, <code>setValues(values)</code>, <code>reset()</code> and <code>destroy()</code>.</p>
+<h3>Adapters</h3>
+<p>Four adapters ship as separate subpath imports, so you bundle only the one you use. Peer dependencies are optional — install just your engine.</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { valibotAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/adapters/valibot&#x27;</span>;
+<span class="hljs-keyword">import</span> { zodAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/adapters/zod&#x27;</span>;
+<span class="hljs-keyword">import</span> { vestAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/adapters/vest&#x27;</span>;
+<span class="hljs-keyword">import</span> { nativeAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/adapters/native&#x27;</span>;</code></pre><p>Bringing your own is a three-method interface:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">ValidatorAdapter</span>&lt;<span class="hljs-title class_">Schema</span> = <span class="hljs-built_in">unknown</span>&gt; {
+  <span class="hljs-title function_">validate</span>(schema, value, context?): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">AdapterResult</span>&gt; | <span class="hljs-title class_">AdapterResult</span>;
+  <span class="hljs-title function_">validateField</span>(schema, path, value, context?): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">AdapterResult</span>&gt; | <span class="hljs-title class_">AdapterResult</span>;
+  parseSchema?(schema): <span class="hljs-title class_">FieldDescriptor</span>[];   <span class="hljs-comment">// optional — enables hydrateProps and the dependency graph</span>
+}</code></pre><h3>Submission behaviour</h3>
+<table>
+<thead>
+<tr>
+<th>Consumer</th>
+<th>Behaviour on a valid submit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>createForm</code> without <code>onValidSubmit</code></td>
+<td>The native submit is re-dispatched, so <code>&lt;form action=&quot;…&quot;&gt;</code> keeps working. Progressive enhancement by default.</td>
+</tr>
+<tr>
+<td><code>createForm</code> with <code>onValidSubmit</code></td>
+<td>The callback runs; the native submit is suppressed.</td>
+</tr>
+<tr>
+<td>React / Vue helpers</td>
+<td><code>handleSubmit(onValid)</code> is required and the callback runs.</td>
+</tr>
+<tr>
+<td>Angular directive</td>
+<td><code>(submitValid)</code> emits.</td>
+</tr>
+</tbody></table>
+<h3>Framework helpers</h3>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { useAegovForm } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/react&#x27;</span>;
+<span class="hljs-keyword">import</span> { useAegovForm } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/vue&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovFormDirective</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/angular&#x27;</span>;</code></pre><p>Per-framework examples live in <a href="using-with-react.html">Using with React</a>, <a href="using-with-vue.html">Using with Vue</a> and <a href="using-with-angular.html">Using with Angular</a>.</p>
+<h3>Translated messages</h3>
+<p>English and Arabic message bundles ship with the package. Map adapter issue codes to your bundle through <code>messageResolver</code>:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> ar <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/i18n/ar&#x27;</span>;
+
+<span class="hljs-title function_">createForm</span>(form, schema, adapter, {
+  <span class="hljs-attr">messageResolver</span>: <span class="hljs-function">(<span class="hljs-params">issue</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> entry = ar[issue.<span class="hljs-property">code</span> ?? <span class="hljs-string">&#x27;invalid&#x27;</span>];
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> entry === <span class="hljs-string">&#x27;function&#x27;</span> ? <span class="hljs-title function_">entry</span>(issue.<span class="hljs-property">params</span> ?? {}) : (entry ?? issue.<span class="hljs-property">message</span>);
+  },
+});</code></pre><p>The native adapter deliberately never reads <code>el.validationMessage</code>, because the browser localises that string and you would lose control of the copy.</p>
+<h3>Requirements</h3>
+<p>Each control needs a <code>name</code> attribute — the orchestrator keys its registry by <code>name</code> and matches it to the schema path. Controls without a <code>name</code> are ignored.</p>
+<hr>
+<h2>Where to next</h2>
+<ul>
+<li><a href="validation-byo.html">Bring Your Own Validator</a> — manual recipes with no extra package: per-field rules, cross-field rules, async server checks, i18n.</li>
+<li>Per-component pages — each form component&#39;s own <strong>Validation</strong> section covers the value type and the rules that make sense for that control.</li>
+<li><a href="aegov-input.html">Input</a>, <a href="aegov-select.html">Select</a>, <a href="aegov-datepicker.html">Datepicker</a>, <a href="aegov-fileupload.html">File Upload</a> — the components with the most validation surface area.</li>
 </ul>
 <!-- DOC:END -->
           </section>

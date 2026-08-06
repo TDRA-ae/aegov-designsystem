@@ -1,456 +1,466 @@
 # Textarea
 
-<p class="text-lg text-aeblack-500 mb-8">A Textarea collects multi-line text — feedback, addresses, complaint descriptions, justifications, or any free-form content that won't fit on a single line. The component wraps a native HTML textarea so spell-check, autofill, and assistive technology continue to work, while layering on designsystem sizing, resize controls, character counting, and copy-to-clipboard.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Textarea collects multiple lines of free text — a reason for appeal, a description of a complaint, additional details on an application. It adds three things a single-line input cannot offer: a controllable resize behaviour, automatic height growth, and a live character counter wired into the field's accessible description.</p>
 
 ## Introduction
 
-The `aegov-textarea` component renders a real `<textarea>` styled to the design system. Use it directly when you only need the field, or pair it with `aegov-form-field` and `aegov-label` to wire up label, helper text, and error messaging.
+`aegov-textarea` renders a real `<textarea>` and manages the hint, error and counter regions around it. Like every form control in the system it pairs with [`aegov-form-field`](aegov-form-field.html) and [`aegov-label`](aegov-label.html).
 
 ```html
 <aegov-form-field>
-  <aegov-label is-required="true">Describe your enquiry</aegov-label>
-  <aegov-textarea
-    name="enquiry"
-    placeholder="Tell us how we can help..."
-    rows="5"
-    is-required="true"
-  ></aegov-textarea>
+  <aegov-label>Reason for appeal</aegov-label>
+  <aegov-textarea name="reason" rows="4" placeholder="Tell us why you are appealing this decision"></aegov-textarea>
 </aegov-form-field>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-form-field>
-    <aegov-label is-required="true">Describe your enquiry</aegov-label>
-    <aegov-textarea
-      name="enquiry"
-      placeholder="Tell us how we can help..."
-      rows="5"
-      is-required="true"
-    ></aegov-textarea>
-  </aegov-form-field>
-</div>
-
----
-
-## Rows
-
-Use the native `rows` attribute to set the initial visible height of the textarea. The browser uses this as the default height; users can still resize the field unless `resize="none"`.
-
-```html
-<aegov-textarea rows="3" placeholder="Three rows"></aegov-textarea>
-<aegov-textarea rows="6" placeholder="Six rows"></aegov-textarea>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid gap-4 max-w-xl">
-    <aegov-textarea rows="3" placeholder="Three rows"></aegov-textarea>
-    <aegov-textarea rows="6" placeholder="Six rows"></aegov-textarea>
+  <div class="max-w-md">
+    <aegov-form-field>
+      <aegov-label>Reason for appeal</aegov-label>
+      <aegov-textarea field-id="ta-intro" name="reason" rows="4" placeholder="Tell us why you are appealing this decision"></aegov-textarea>
+    </aegov-form-field>
   </div>
 </div>
 
----
-
-## Resize Behaviour
-
-The `resize` property controls whether and how the user can drag the textarea handle. Five values are available: `vertical` (default), `horizontal`, `both`, `none`, and `auto`. The `auto` value disables manual resizing and instead grows the textarea to fit its content as the user types.
-
-```html
-<aegov-textarea resize="vertical" placeholder="Default — vertical resize"></aegov-textarea>
-<aegov-textarea resize="none" placeholder="No resize handle"></aegov-textarea>
-<aegov-textarea resize="auto" placeholder="Grows as you type"></aegov-textarea>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid gap-4 max-w-xl">
-    <aegov-textarea resize="vertical" placeholder="Default — drag the bottom-right handle to resize vertically"></aegov-textarea>
-    <aegov-textarea resize="none" placeholder="No resize handle — fixed height"></aegov-textarea>
-    <aegov-textarea resize="auto" placeholder="Grows as you type"></aegov-textarea>
-  </div>
-</div>
+`rows` is a native attribute passed straight through — use it to set the initial height in lines.
 
 ---
 
 ## Sizes
 
-The `size` property scales the font size and padding. Five tokens are available: `xs`, `sm`, `base` (default), `lg`, and `xl`. Match the textarea size to surrounding inputs for visual consistency.
+`size` controls the font size and internal padding. Five tokens, matching the rest of the form family.
+
+| Token | Use for |
+| --- | --- |
+| `xs` | Dense admin interfaces. |
+| `sm` | Secondary fields, compact forms. |
+| `base` | Default. |
+| `lg` | Primary path through a public service form. |
+| `xl` | Large-type layouts and accessibility-first pages. |
 
 ```html
 <aegov-textarea size="sm" rows="3" placeholder="Small"></aegov-textarea>
-<aegov-textarea size="base" rows="3" placeholder="Base (default)"></aegov-textarea>
+<aegov-textarea size="base" rows="3" placeholder="Base"></aegov-textarea>
 <aegov-textarea size="lg" rows="3" placeholder="Large"></aegov-textarea>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid gap-4 max-w-xl">
-    <aegov-textarea size="sm" rows="3" placeholder="Small"></aegov-textarea>
-    <aegov-textarea size="base" rows="3" placeholder="Base (default)"></aegov-textarea>
-    <aegov-textarea size="lg" rows="3" placeholder="Large"></aegov-textarea>
+  <div class="max-w-md space-y-4">
+    <aegov-textarea field-id="ta-s-xs" size="xs" rows="2" placeholder="Extra small"></aegov-textarea>
+    <aegov-textarea field-id="ta-s-sm" size="sm" rows="2" placeholder="Small"></aegov-textarea>
+    <aegov-textarea field-id="ta-s-base" size="base" rows="2" placeholder="Base"></aegov-textarea>
+    <aegov-textarea field-id="ta-s-lg" size="lg" rows="2" placeholder="Large"></aegov-textarea>
+    <aegov-textarea field-id="ta-s-xl" size="xl" rows="2" placeholder="Extra large"></aegov-textarea>
   </div>
 </div>
 
+Height comes from `rows`, not from `size` — the two are independent, so a `lg` textarea with `rows="2"` is short with large text.
+
 ### Responsive sizes
 
-`size` also accepts a Tailwind-style responsive string with the breakpoint prefixes `xs`, `sm`, `md`, `lg`, `xl`, and `2xl`.
+`size` accepts a responsive string with the prefixes `xs`, `sm`, `md`, `lg`, `xl` and `2xl`.
 
 ```html
-<aegov-textarea size="sm md:base xl:lg" rows="4" placeholder="Resizes with the viewport"></aegov-textarea>
+<aegov-textarea size="sm md:base xl:lg" rows="4"></aegov-textarea>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-textarea size="sm md:base xl:lg" rows="4" placeholder="Resizes with the viewport"></aegov-textarea>
+  <div class="max-w-md">
+    <aegov-textarea field-id="ta-s-resp" size="sm md:base xl:lg" rows="3" placeholder="Type scales with the viewport"></aegov-textarea>
+  </div>
+</div>
+
+---
+
+## Resize behaviour
+
+`resize` decides whether and how the user can change the field's size.
+
+| Value | Behaviour |
+| --- | --- |
+| `vertical` | Default. The user can drag the height only. |
+| `none` | Fixed size. No drag handle. |
+| `horizontal` | Width only. Rarely appropriate — it usually breaks the form layout. |
+| `both` | Free resize in both directions. |
+| `auto` | No drag handle; the field grows to fit its content as the user types. |
+
+```html
+<aegov-textarea resize="vertical" rows="3" placeholder="Drag the bottom edge"></aegov-textarea>
+<aegov-textarea resize="none" rows="3" placeholder="Fixed size"></aegov-textarea>
+<aegov-textarea resize="auto" rows="2" placeholder="Grows as you type"></aegov-textarea>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-6">
+    <div>
+      <p class="text-sm text-aeblack-500 mb-2">vertical (default) — drag the bottom edge</p>
+      <aegov-textarea field-id="ta-r-v" resize="vertical" rows="3"></aegov-textarea>
+    </div>
+    <div>
+      <p class="text-sm text-aeblack-500 mb-2">none — fixed</p>
+      <aegov-textarea field-id="ta-r-n" resize="none" rows="3"></aegov-textarea>
+    </div>
+    <div>
+      <p class="text-sm text-aeblack-500 mb-2">auto — grows as you type</p>
+      <aegov-textarea field-id="ta-r-a" resize="auto" rows="2" placeholder="Type several lines here"></aegov-textarea>
+    </div>
+  </div>
+</div>
+
+`resize="auto"` sets the element's height to its own scroll height on every input, so the field never shows an internal scrollbar. It is the friendliest option for long-form answers, at the cost of the page reflowing as the user types. Prefer `vertical` — the default — when the field sits above other content the user is referring to.
+
+Avoid `none` unless the layout genuinely cannot tolerate growth. Removing the drag handle takes away a control that people with low vision use to see more of their own text at once.
+
+---
+
+## Character counter
+
+Setting `maxlength` does two things: it enforces the limit natively, and it renders a live counter below the field. The counter's ID is added to the textarea's `aria-describedby`, so screen reader users hear the limit as part of the field description rather than never learning about it.
+
+```html
+<aegov-textarea
+  name="reason"
+  rows="4"
+  maxlength="500"
+  hint="Describe your reason for appealing this decision"
+></aegov-textarea>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-6">
+    <aegov-textarea field-id="ta-c-1" name="reason" rows="4" maxlength="500" hint="Describe your reason for appealing this decision"></aegov-textarea>
+    <aegov-textarea field-id="ta-c-2" name="short" rows="2" maxlength="40" value="This value is close to the limit."></aegov-textarea>
+  </div>
+</div>
+
+The counter takes a distinct over-limit style when the count exceeds the maximum, which can happen when a value is set programmatically or pre-filled from a server — native `maxlength` only blocks typing, it does not truncate an assigned value. Validate on submit rather than assuming the limit held.
+
+---
+
+## States
+
+### Disabled and read-only
+
+Disabled fields are not submitted with the form. Read-only fields are — the value is just not editable.
+
+```html
+<aegov-textarea is-disabled rows="3" value="This field is locked."></aegov-textarea>
+<aegov-textarea is-readonly rows="3" value="Submitted 14 March 2026. This response cannot be edited."></aegov-textarea>
+```
+
+### Required
+
+```html
+<aegov-textarea is-required rows="3"></aegov-textarea>
+```
+
+### Invalid
+
+```html
+<aegov-textarea
+  rows="3"
+  is-invalid
+  error-message="Tell us why you are appealing, in at least 20 characters"
+></aegov-textarea>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-4">
+    <aegov-textarea field-id="ta-st-d" is-disabled rows="2" value="This field is locked."></aegov-textarea>
+    <aegov-textarea field-id="ta-st-r" is-readonly rows="2" value="Submitted 14 March 2026. This response cannot be edited."></aegov-textarea>
+    <aegov-textarea field-id="ta-st-inv" rows="2" is-invalid error-message="Tell us why you are appealing, in at least 20 characters" value="Too short"></aegov-textarea>
+  </div>
+</div>
+
+---
+
+## Copy to clipboard
+
+`is-copyable` adds a copy button, and applies only when the field is also `is-readonly` — the pattern is for surfacing a generated block of text, not for copying a draft mid-edit.
+
+```html
+<aegov-textarea
+  is-readonly
+  is-copyable
+  rows="4"
+  value="Application APP-2026-0041827 received on 14 March 2026. Decision expected within 5 working days."
+></aegov-textarea>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md">
+    <aegov-textarea field-id="ta-copy" is-readonly is-copyable rows="4" value="Application APP-2026-0041827 received on 14 March 2026. Decision expected within 5 working days."></aegov-textarea>
+  </div>
 </div>
 
 ---
 
 ## Variant
 
-The `variant` property selects the colour family for the idle ring/border, the value text, and the focus accent. The focus ring stays `primary-support-600` (camel) and the error border stays `aered-600` regardless of variant.
-
-- `primary` — primary-* family (default)
-- `secondary` — secondary-* family
-- `neutral-max` — strong neutral (aeblack-800 family)
-- `neutral-min` — quiet neutral (aeblack-100 family)
-
-### Colour matrix
-
-| Variant       | Idle ring        | Value text      | Hover accent    | Subtle bg       |
-| ------------- | ---------------- | --------------- | --------------- | --------------- |
-| `primary`     | `primary-400`    | `primary-900`   | `primary-700`   | `primary-50`    |
-| `secondary`   | `secondary-400`  | `secondary-900` | `secondary-700` | `secondary-50`  |
-| `neutral-max` | `aeblack-400`    | `aeblack-900`   | `aeblack-800`   | `aeblack-50`    |
-| `neutral-min` | `aeblack-200`    | `aeblack-900`   | `aeblack-700`   | `aeblack-50`    |
+`variant` selects the colour family for the idle ring and value text. As with every form control, the **focus ring stays camel** and the **error state stays aered** regardless of variant, so those two signals never become ambiguous.
 
 ```html
-<aegov-textarea variant="primary" rows="3" placeholder="Primary"></aegov-textarea>
-<aegov-textarea variant="secondary" rows="3" placeholder="Secondary"></aegov-textarea>
-<aegov-textarea variant="neutral-max" rows="3" placeholder="Neutral-max"></aegov-textarea>
-<aegov-textarea variant="neutral-min" rows="3" placeholder="Neutral-min"></aegov-textarea>
+<aegov-textarea variant="primary" rows="2"></aegov-textarea>
+<aegov-textarea variant="secondary" rows="2"></aegov-textarea>
+<aegov-textarea variant="neutral-max" rows="2"></aegov-textarea>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <aegov-textarea variant="primary" rows="3" placeholder="Primary"></aegov-textarea>
-    <aegov-textarea variant="secondary" rows="3" placeholder="Secondary"></aegov-textarea>
-    <aegov-textarea variant="neutral-max" rows="3" placeholder="Neutral-max"></aegov-textarea>
-    <aegov-textarea variant="neutral-min" rows="3" placeholder="Neutral-min"></aegov-textarea>
+  <div class="max-w-md space-y-4">
+    <aegov-textarea field-id="ta-v-p" variant="primary" rows="2" value="Primary"></aegov-textarea>
+    <aegov-textarea field-id="ta-v-s" variant="secondary" rows="2" value="Secondary"></aegov-textarea>
+    <aegov-textarea field-id="ta-v-nx" variant="neutral-max" rows="2" value="Neutral max"></aegov-textarea>
   </div>
 </div>
 
+`variant` also cascades from [`aegov-form-field`](aegov-form-field.html).
+
 ---
 
-## Character Counter
-
-Set `maxlength` to an integer to enable both the native length limit and a live character counter rendered below the field. The counter is announced to assistive technology via `aria-live="polite"` and switches to an over-limit colour when the count exceeds the limit (relevant when the value is set programmatically).
+## Composite example — appeal form
 
 ```html
-<aegov-form-field>
-  <aegov-label is-required="true">Reason for appeal</aegov-label>
-  <aegov-textarea
-    name="appeal-reason"
-    maxlength="500"
-    rows="6"
-    placeholder="Briefly describe your reason for appealing this decision..."
-    is-required="true"
-  ></aegov-textarea>
-  <span slot="hint">Provide as much detail as possible. Up to 500 characters.</span>
-</aegov-form-field>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<form id="appeal" novalidate>
   <aegov-form-field>
-    <aegov-label is-required="true">Reason for appeal</aegov-label>
-    <aegov-textarea
-      name="appeal-reason"
-      maxlength="500"
-      rows="6"
-      placeholder="Briefly describe your reason for appealing this decision..."
-      is-required="true"
-    ></aegov-textarea>
-    <span slot="hint">Provide as much detail as possible. Up to 500 characters.</span>
+    <aegov-label>Reference number</aegov-label>
+    <aegov-input name="reference" is-readonly is-copyable value="APP-2026-0041827"></aegov-input>
   </aegov-form-field>
-</div>
 
----
-
-## States
-
-### Disabled
-
-```html
-<aegov-textarea is-disabled="true" rows="3" value="This field is locked while the application is under review."></aegov-textarea>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-textarea is-disabled="true" rows="3" value="This field is locked while the application is under review."></aegov-textarea>
-</div>
-
-### Read-only
-
-```html
-<aegov-textarea is-readonly="true" rows="4" value="Approved by the Ministry of Interior on 14 February 2026. Reference: APP-2026-008421."></aegov-textarea>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-textarea is-readonly="true" rows="4" value="Approved by the Ministry of Interior on 14 February 2026. Reference: APP-2026-008421."></aegov-textarea>
-</div>
-
-### Read-only and copyable
-
-Set `is-copyable="true"` together with `is-readonly="true"` to render a copy button in the top-right of the textarea. Useful for system-generated decisions, official correspondence, or audit logs.
-
-```html
-<aegov-textarea
-  is-readonly="true"
-  is-copyable="true"
-  rows="5"
-  value="Dear applicant, your residency permit application has been approved. Please collect your card from the Ministry of Interior office in Abu Dhabi within 30 days."
-></aegov-textarea>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-textarea
-    is-readonly="true"
-    is-copyable="true"
-    rows="5"
-    value="Dear applicant, your residency permit application has been approved. Please collect your card from the Ministry of Interior office in Abu Dhabi within 30 days."
-  ></aegov-textarea>
-</div>
-
-### Invalid (error state)
-
-Validation styling is owned by the surrounding `aegov-form-field`. Set `is-invalid="true"` on the form field and provide an error message via the `error` slot.
-
-```html
-<aegov-form-field is-invalid="true">
-  <aegov-label is-required="true">Describe the incident</aegov-label>
-  <aegov-textarea rows="4"></aegov-textarea>
-  <span slot="error">This field is required to submit the report.</span>
-</aegov-form-field>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-form-field is-invalid="true">
-    <aegov-label is-required="true">Describe the incident</aegov-label>
-    <aegov-textarea rows="4"></aegov-textarea>
-    <span slot="error">This field is required to submit the report.</span>
-  </aegov-form-field>
-</div>
-
----
-
-## Composite Example — Feedback Form
-
-A realistic snippet from a service feedback form combining a labelled, required, character-limited textarea with helper text.
-
-```html
-<form class="grid gap-6 max-w-xl">
   <aegov-form-field>
-    <aegov-label is-required="true">Your feedback</aegov-label>
+    <aegov-label>Reason for appeal</aegov-label>
     <aegov-textarea
-      name="feedback"
+      name="reason"
+      rows="5"
       maxlength="1000"
-      rows="6"
-      resize="vertical"
-      placeholder="Tell us about your experience with this service..."
-      is-required="true"
+      minlength="20"
+      is-required
+      resize="auto"
+      hint="Explain what you believe was decided incorrectly, and why"
     ></aegov-textarea>
-    <span slot="hint">Up to 1000 characters. Please avoid sharing personal data such as Emirates ID numbers.</span>
   </aegov-form-field>
 
   <aegov-form-field>
-    <aegov-label>Additional details (optional)</aegov-label>
-    <aegov-textarea
-      name="extra"
-      rows="4"
-      resize="auto"
-      placeholder="Anything else you would like us to know?"
-    ></aegov-textarea>
+    <aegov-label>Anything else we should know?</aegov-label>
+    <aegov-textarea name="notes" rows="3" maxlength="300" resize="vertical"></aegov-textarea>
   </aegov-form-field>
+
+  <aegov-button type="submit" variant="primary" size="lg">Submit appeal</aegov-button>
 </form>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <form class="grid gap-6 max-w-xl">
+  <div class="max-w-md space-y-5">
     <aegov-form-field>
-      <aegov-label is-required="true">Your feedback</aegov-label>
-      <aegov-textarea
-        name="feedback"
-        maxlength="1000"
-        rows="6"
-        resize="vertical"
-        placeholder="Tell us about your experience with this service..."
-        is-required="true"
-      ></aegov-textarea>
-      <span slot="hint">Up to 1000 characters. Please avoid sharing personal data such as Emirates ID numbers.</span>
+      <aegov-label>Reference number</aegov-label>
+      <aegov-input field-id="ta-cx-ref" name="reference" is-readonly is-copyable value="APP-2026-0041827"></aegov-input>
     </aegov-form-field>
     <aegov-form-field>
-      <aegov-label>Additional details (optional)</aegov-label>
-      <aegov-textarea
-        name="extra"
-        rows="4"
-        resize="auto"
-        placeholder="Anything else you would like us to know?"
-      ></aegov-textarea>
+      <aegov-label>Reason for appeal</aegov-label>
+      <aegov-textarea field-id="ta-cx-reason" name="reason" rows="5" maxlength="1000" minlength="20" is-required resize="auto" hint="Explain what you believe was decided incorrectly, and why"></aegov-textarea>
     </aegov-form-field>
-  </form>
+    <aegov-form-field>
+      <aegov-label>Anything else we should know?</aegov-label>
+      <aegov-textarea field-id="ta-cx-notes" name="notes" rows="3" maxlength="300" resize="vertical"></aegov-textarea>
+    </aegov-form-field>
+    <aegov-button type="submit" variant="primary" size="lg">Submit appeal</aegov-button>
+  </div>
 </div>
+
+`minlength` is a pass-through native attribute, so it feeds the `tooShort` validity flag without any code of yours.
 
 ---
 
 ## Listening for value events
 
-The component emits four events: `aegovTextareaInput` on every keystroke, `aegovTextareaChange` when the value commits (typically on blur), `aegovTextareaFocus`, and `aegovTextareaBlur`.
+| Event | Fires |
+| --- | --- |
+| `aegovTextareaInput` | On every keystroke. |
+| `aegovTextareaChange` | When the value is committed (native `change`). |
 
 ```html
-<aegov-textarea id="feedback" rows="4"></aegov-textarea>
+<aegov-textarea id="reason" name="reason" maxlength="500"></aegov-textarea>
 
-<script>
-  const el = document.getElementById('feedback');
-  el.addEventListener('aegovTextareaInput', (e) => {
-    console.log('Length now:', e.detail.value.length);
+<script type="module">
+  const textarea = document.querySelector('#reason');
+
+  textarea.addEventListener('aegovTextareaInput', (e) => {
+    saveDraft(e.detail.value);          // autosave as they type
   });
-  el.addEventListener('aegovTextareaChange', (e) => {
-    console.log('Final value:', e.detail.value);
+
+  textarea.addEventListener('aegovTextareaChange', (e) => {
+    commitAnswer(e.detail.value);
   });
 </script>
 ```
+
+Note the naming: the keystroke event here is `aegovTextareaInput`, whereas the equivalent on [`aegov-input`](aegov-input.html) is `aegovInputValue`. Check the event table when moving code between the two.
 
 ---
 
 ## RTL Support
 
-The textarea uses CSS logical properties throughout. When the document or any ancestor is set to `dir="rtl"`, padding flips, the resize handle moves to the bottom-left, the copy button moves to the top-left, and the character counter aligns to the right end. No additional configuration is needed.
+The textarea is fully direction-aware. In a `dir="rtl"` container the text aligns right, the resize handle moves to the inline-start corner, and the character counter and hint or error regions align with the text. The copy button moves to the inline-end edge, and both its `aria-label` and its "Copied" live-region announcement are translated automatically.
 
 ```html
 <div dir="rtl">
   <aegov-form-field>
-    <aegov-label is-required="true">سبب التظلم</aegov-label>
+    <aegov-label>سبب الاستئناف</aegov-label>
     <aegov-textarea
+      name="reason"
+      rows="4"
       maxlength="500"
-      rows="6"
-      placeholder="اشرح بإيجاز سبب تقديمك للتظلم على هذا القرار..."
-      is-required="true"
+      is-required
+      hint="اشرح ما تعتقد أنه تم تقييمه بشكل غير صحيح، ولماذا"
     ></aegov-textarea>
-    <span slot="hint">يرجى تقديم أكبر قدر ممكن من التفاصيل. حتى 500 حرف.</span>
   </aegov-form-field>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-form-field>
-    <aegov-label is-required="true">سبب التظلم</aegov-label>
-    <aegov-textarea
-      maxlength="500"
-      rows="6"
-      placeholder="اشرح بإيجاز سبب تقديمك للتظلم على هذا القرار..."
-      is-required="true"
-    ></aegov-textarea>
-    <span slot="hint">يرجى تقديم أكبر قدر ممكن من التفاصيل. حتى 500 حرف.</span>
-  </aegov-form-field>
+  <div class="max-w-md space-y-5">
+    <aegov-form-field>
+      <aegov-label>سبب الاستئناف</aegov-label>
+      <aegov-textarea field-id="ta-rtl-1" name="reason" rows="4" maxlength="500" is-required hint="اشرح ما تعتقد أنه تم تقييمه بشكل غير صحيح، ولماذا"></aegov-textarea>
+    </aegov-form-field>
+    <aegov-textarea field-id="ta-rtl-2" is-readonly is-copyable rows="3" value="تم استلام الطلب APP-2026-0041827 بتاريخ ١٤ مارس ٢٠٢٦."></aegov-textarea>
+  </div>
 </div>
+
+For mixed-direction content — a field where users may paste English text into an Arabic form — consider `dir="auto"` on the individual textarea so the browser picks the direction from the first strong character:
+
+```html
+<aegov-textarea dir="auto" name="notes" rows="3"></aegov-textarea>
+```
 
 ---
 
 ## API Reference
 
-### aegov-textarea Properties
+### Properties
 
-| Property      | Attribute      | Description                                                                                  | Type              | Default       |
-| ------------- | -------------- | -------------------------------------------------------------------------------------------- | ----------------- | ------------- |
-| `fieldId`     | `field-id`     | DOM `id` for the native `<textarea>`. Auto-generated as `aegov-textarea-{n}` if omitted.       | `string`          | _generated_   |
-| `size`        | `size`         | Size token or responsive string (affects font size and padding).                               | `string`          | `'base'`      |
-| `variant`     | `variant`      | Colour family for idle ring, value text, and hover accent. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
-| `value`       | `value`        | Current value. Mutable — synced internally on `input` and `change`.                            | `string`          | `''`          |
-| `placeholder` | `placeholder`  | Placeholder text shown when the field is empty.                                                | `string`          | `undefined`   |
-| `name`        | `name`         | Native `name` attribute used during form submission.                                            | `string`          | `undefined`   |
-| `isDisabled`  | `is-disabled`  | Disable the textarea.                                                                            | `boolean`         | `false`       |
-| `isReadonly`  | `is-readonly`  | Mark the textarea as read-only.                                                                  | `boolean`         | `false`       |
-| `isRequired`  | `is-required`  | Mark the field as required (sets native `required`).                                              | `boolean`         | `false`       |
-| `resize`      | `resize`       | Resize handle behaviour. `auto` grows the field as the user types.                                | `TextareaResize`  | `'vertical'`  |
-| `maxlength`   | `maxlength`    | Maximum character count. Setting this enables a live character counter below the field.            | `number`          | `undefined`   |
-| `isCopyable`  | `is-copyable`  | Show a copy-to-clipboard button. Only takes effect with `is-readonly="true"`.                       | `boolean`         | `false`       |
-| `extraClass`  | `extra-class`  | Additional CSS classes applied to the native `<textarea>`.                                          | `string`          | `undefined`   |
+| Property | Attribute | Description | Type | Default |
+| --- | --- | --- | --- | --- |
+| `fieldId` | `field-id` | ID applied to the inner `<textarea>`. Auto-generated when omitted, reflected to the host. | `string` | _generated_ |
+| `size` | `size` | Size token or responsive string. Controls font size and padding, not height. | `string` — `xs \| sm \| base \| lg \| xl` | `'base'` |
+| `variant` | `variant` | Colour family for the idle ring and value text. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
+| `resize` | `resize` | Resize behaviour. `auto` grows the field to fit its content. | `'none' \| 'vertical' \| 'horizontal' \| 'both' \| 'auto'` | `'vertical'` |
+| `maxlength` | `maxlength` | Maximum character count. **Renders a live counter when set.** | `number` | — |
+| `value` | `value` | Current value. Mutable. | `string` | `''` |
+| `name` | `name` | Form field name, used by `FormData`. | `string` | — |
+| `placeholder` | `placeholder` | Placeholder text. Not a substitute for a label. | `string` | — |
+| `isDisabled` | `is-disabled` | Disables the field. Not submitted. | `boolean` | `false` |
+| `isReadonly` | `is-readonly` | Not editable, but still submitted. | `boolean` | `false` |
+| `isRequired` | `is-required` | Sets the native `required` attribute. | `boolean` | `false` |
+| `isCopyable` | `is-copyable` | Adds a copy button. Only applies when `is-readonly`. | `boolean` | `false` |
+| `isInvalid` | `is-invalid` | Invalid state. Reflected to the host. | `boolean` | `false` |
+| `errorMessage` | `error-message` | Error text shown while invalid. | `string` | `''` |
+| `hint` | `hint` | Helper text shown when no error is showing. | `string` | `''` |
+| `extraClass` | `extra-class` | Extra classes appended to the inner `<textarea>`. | `string` | — |
 
-`TextareaResize` accepts: `none`, `vertical`, `horizontal`, `both`, `auto`.
+Note `maxlength` is a real property here — unlike on [`aegov-input`](aegov-input.html), where it is a pass-through attribute — because it also drives the counter.
 
 ### Slots
 
-The textarea has no named slots. The textarea content is set through the `value` property, not via slot text.
+| Slot | Description |
+| --- | --- |
+| `hint` | Rich hint markup. Takes precedence over the `hint` property. |
+| `error` | Rich error markup. Takes precedence over `error-message`. Rendered only while `is-invalid`. |
 
 ### Events
 
-| Event                  | Detail                              | Description                                                                  |
-| ---------------------- | ----------------------------------- | ---------------------------------------------------------------------------- |
-| `aegovTextareaInput`   | `{ value: string; event: Event }`   | Fires on every keystroke. Use for live validation and counter updates.        |
-| `aegovTextareaChange`  | `{ value: string; event: Event }`   | Fires when the value commits (native `change`, typically on blur).            |
-| `aegovTextareaFocus`   | `FocusEvent`                        | Fires when the textarea gains focus.                                           |
-| `aegovTextareaBlur`    | `FocusEvent`                        | Fires when the textarea loses focus.                                           |
+| Event | Detail | Description |
+| --- | --- | --- |
+| `aegovTextareaInput` | `{ value: string; event: Event }` | Every keystroke. |
+| `aegovTextareaChange` | `{ value: string; event: Event }` | Value committed (native `change`). |
+| `aegovTextareaFocus` | `FocusEvent` | Field gained focus. |
+| `aegovTextareaBlur` | `FocusEvent` | Field lost focus. |
+| `aegovValidate` | `AegovValidationDetail<string>` | Unified validation event — see [Validation Surface](validation-overview.html). |
+
+### Methods
+
+| Method | Returns | Description |
+| --- | --- | --- |
+| `validate(trigger?)` | `Promise<AegovValidationResult>` | Re-reads native validity, emits `aegovValidate`, returns the result. |
+| `setCustomValidity(message)` | `Promise<void>` | Sets `error-message` and `is-invalid`, and mirrors onto the native textarea. Empty string clears. |
 
 ### Pass-through Attributes
 
-`aria-*` and `data-*` attributes set on `<aegov-textarea>` are always forwarded to the native `<textarea>`. The following standard textarea attributes are also forwarded when set on the host:
+| Attribute group | Forwarded? | Notes |
+| --- | --- | --- |
+| `rows`, `cols`, `wrap` | Yes | Native sizing and wrapping. `rows` is how you set the initial height. |
+| `minlength` | Yes | Feeds the `tooShort` validity flag. |
+| `autocomplete`, `autofocus`, `spellcheck`, `enterkeyhint` | Yes | Native behaviour and mobile keyboard hints. |
+| `title`, `tabindex`, `form` | Yes | Forwarded to the inner `<textarea>`. |
+| `aria-*` | Yes | Forwarded — **except** `aria-invalid` and `aria-describedby`. |
+| `data-*` | Yes | Forwarded to the inner `<textarea>`. |
+| `aria-invalid` | **No** | Owned by the component, driven by `is-invalid`. |
+| `aria-describedby` | Composed | Your value is preserved; the hint, error and counter IDs are appended. |
+| `id` | n/a | Use `field-id`. |
+| `class`, `style` | Allowed | Applied to the host. Use `extra-class` to reach the inner `<textarea>`. |
+| `dir` | Yes | `dir="auto"` is useful for mixed-direction free text. |
 
-| Attribute      | Description                                            |
-| -------------- | ------------------------------------------------------ |
-| `rows`         | Initial visible height in rows.                         |
-| `cols`         | Initial visible width in characters.                    |
-| `minlength`    | Minimum character count for native validation.          |
-| `wrap`         | Line-wrap behaviour (`soft`, `hard`, `off`).            |
-| `autocomplete` | Browser autofill hint (e.g. `street-address`, `off`).    |
-| `autofocus`    | Focus the textarea when it mounts.                      |
-| `spellcheck`   | Enable or disable spellchecking.                        |
-| `enterkeyhint` | Mobile keyboard "Enter" key label.                      |
-| `title`        | Native tooltip / validation message.                     |
-| `tabindex`     | Custom tab order.                                        |
-| `form`         | Associate with a form by id.                             |
+### CSS classes
 
-> Reserved HTML attributes (`id`, `class`, `style`) cannot be used as props — `id` is replaced by `field-id`, and `class`/`style` are applied to the host as usual.
+| Class | Element |
+| --- | --- |
+| `.aegov-textarea` | The inner `<textarea>`. |
+| `.textarea__counter` | The character counter. |
+| `.textarea__counter--over` | Added when the count exceeds `maxlength`. |
+| `.is-invalid` | Added to the **host** while `is-invalid`. |
 
 ---
 
 ## Validation
 
-`aegov-textarea` exposes the unified [Validation Surface](validation-overview.html). Textarea-specific notes only:
+### Surface
 
-| Prop | Description |
-| --- | --- |
-| `is-invalid` | Toggles invalid state; sets `aria-invalid="true"` on the inner `<textarea>`. |
-| `error-message` | Inline error text below the textarea. Use `error` slot for richer markup. |
-| `hint` | Helper text below the textarea when no error is shown. |
-
-### `aria-describedby` chain
-
-When `maxlength` is set, the character counter ID is included automatically. Adding an error region appends its ID alongside the counter:
-
-```text
-aria-describedby="textarea-x-counter textarea-x-error"
-```
+`aegov-textarea` implements the shared contract — `is-invalid`, `error-message`, `hint`, the `error` and `hint` slots, `aegovValidate`, and `validate()` / `setCustomValidity()`. Because it wraps a native `<textarea>`, the `validity` in the event is the browser's real `ValidityState`. Value type is `string`. Full reference: [Validation Surface](validation-overview.html).
 
 ### Common recipes
 
-**Required + max length:**
-
-```html
-<aegov-textarea name="bio" is-required maxlength="500"></aegov-textarea>
-```
-
-**Custom server-side rejection:**
+Length rules come free from `minlength` and `maxlength` — just supply the copy:
 
 ```js
-textarea.setCustomValidity('Contains banned terms');
-```
+const reason = document.querySelector('#reason');
 
-**Profanity filter (BYO):**
+reason.addEventListener('aegovValidate', (e) => {
+  if (e.detail.trigger === 'input') return;
 
-```js
-textarea.addEventListener('aegovValidate', (e) => {
-  const ok = !/(badword1|badword2)/i.test(e.detail.value);
-  textarea.isInvalid = !ok;
-  textarea.errorMessage = ok ? '' : 'Please remove inappropriate language';
+  const v = e.detail.validity;
+  reason.isInvalid = !v.valid;
+  reason.errorMessage =
+    v.valueMissing ? 'Tell us your reason for appealing' :
+    v.tooShort     ? 'Give us at least 20 characters so we can assess your appeal' : '';
 });
 ```
 
-See [BYO Validator](validation-byo.html) for more patterns.
+A word-count rule, which native constraints cannot express:
+
+```js
+reason.addEventListener('aegovValidate', (e) => {
+  if (e.detail.trigger === 'input') return;
+  const words = String(e.detail.value).trim().split(/\s+/).filter(Boolean).length;
+  const ok = words >= 10;
+  reason.isInvalid = !ok;
+  reason.errorMessage = ok ? '' : `Use at least 10 words — you have written ${words}`;
+});
+```
+
+More patterns in [Bring Your Own Validator](validation-byo.html).
+
+### Use with `@aegov/designsystem-validation`
+
+The optional companion package drives this surface from a schema. It is **not required**.
+
+```ts
+import { createForm } from '@aegov/designsystem-validation';
+import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot';
+import * as v from 'valibot';
+
+createForm(form, v.object({
+  reason: v.pipe(v.string(), v.minLength(20, 'Give us at least 20 characters')),
+}), valibotAdapter());
+```
 
 ---
 
@@ -458,25 +468,39 @@ See [BYO Validator](validation-byo.html) for more patterns.
 
 ### Built-in behaviour
 
-- Renders a real `<textarea>` element, preserving native semantics, keyboard handling, autofill, and assistive-technology behaviour.
-- `field-id` is auto-generated and reflected to the host so external `<label for>` (or `aegov-label`) can associate reliably.
-- `is-required` sets the native `required` attribute, exposing the requirement to assistive tech automatically.
-- When `maxlength` is set, the native `maxlength` attribute is applied to the textarea (enforcing the hard limit and allowing AT to announce it in forms mode), and a live character counter is announced via `aria-live="polite"` and linked to the textarea with `aria-describedby`.
-- The copy button (`is-copyable`) is keyboard-accessible; `Tab` moves focus to it after the textarea. Its `aria-label` is bilingual — `"Copy to clipboard"` / `"نسخ إلى الحافظة"` and `"Copied"` / `"تم النسخ"` — no developer translation needed.
-- When wrapped in `aegov-form-field`, helper and error text are wired up via `aria-describedby` automatically.
+- The inner element is a real `<textarea>`, so text editing, selection, spellcheck and form participation come from the platform.
+- `aria-invalid="true"` is set while `is-invalid`.
+- **`aria-describedby` is composed from up to four sources** — your own value, the hint region, the error region and the character counter — without discarding any of them. This is why the character limit is announced as part of the field description.
+- The error region takes `role="alert"` only after the field's first blur, so partial errors are not announced while typing.
+- The copy button is a real `<button type="button">` with an `aria-hidden` icon, a translated `aria-label`, and a visually hidden `role="status"` announcement on success.
+- The focus ring is a high-contrast camel outline held constant across variants, meeting the 3:1 non-text contrast requirement of WCAG 2.2 SC 1.4.11.
 
 ### Developer responsibilities
 
-- Always provide a visible label — `aegov-label` inside `aegov-form-field` is the preferred pattern. For unlabelled textareas, set `aria-label` on the host.
-- When using `maxlength`, set a sensible limit: too low frustrates users, too high makes the counter meaningless. 500–1000 characters works well for most feedback fields.
-- For copyable fields, ensure the value is safe to expose in clipboard history.
+- **Always provide a visible label** via [`aegov-label`](aegov-label.html) inside [`aegov-form-field`](aegov-form-field.html).
+- **State the limit in the hint as well**, when a `maxlength` is short enough to constrain what someone can say. The counter reports progress; the hint sets the expectation before they start.
+- **Do not use `resize="none"` by default.** The drag handle is an accessibility affordance for anyone who needs to see more of their own text.
+- **Set a generous `rows`.** A two-line box for a paragraph-length answer forces the user to compose inside a scrolling viewport.
+- **Never signal an error with colour alone** (WCAG 2.2 SC 1.4.1) — populate `error-message` or the `error` slot.
+- **Validate length on submit**, not only via `maxlength`. A programmatically-set or pasted value can exceed the limit.
+- **Consider `dir="auto"`** for free-text fields on Arabic pages where users may write in either language.
 
 ### Keyboard support
 
-| Key                   | Action                                                                              |
-| --------------------- | ----------------------------------------------------------------------------------- |
-| `Tab`                 | Move focus to the textarea; when the copy button is present, one more `Tab` reaches it. |
-| `Shift + Tab`         | Move focus to the previous focusable element.                                        |
-| `Enter` (on copy btn) | Copy the textarea value to the clipboard.                                            |
-| `Enter`               | Insert a new line within the textarea (does not submit the form).                    |
-| Standard text editing | All native shortcuts apply — selection, cursor movement, cut/copy/paste.             |
+| Key | Action |
+| --- | --- |
+| `Tab` | Move focus to the textarea, then to the copy button when present. |
+| `Shift` + `Tab` | Move focus backwards. |
+| `Enter` | Insert a line break. It does **not** submit the form — that is native textarea behaviour. |
+| `Enter`, `Space` | Activate the copy button when it has focus. |
+
+Because `Enter` inserts a newline, a form containing only a textarea needs an explicit submit button — there is no implicit submission.
+
+---
+
+## Where to next
+
+- [Input](aegov-input.html) — single-line text, icons, password reveal.
+- [Form Field](aegov-form-field.html) and [Label](aegov-label.html) — the wrapper and label.
+- [File Upload](aegov-fileupload.html) — when the answer is a document rather than prose.
+- [Validation Surface](validation-overview.html) and [Bring Your Own Validator](validation-byo.html).

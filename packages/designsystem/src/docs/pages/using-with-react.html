@@ -21,43 +21,379 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Using with React</h1>
-<p class="text-lg text-aeblack-500 mb-8">The AEGOV Design System ships first-class React wrappers for every component. They auto-generate from the Stencil web components and give you typed props, typed event handlers, refs, and standard JSX ergonomics — no <code>customElements.define</code> calls, no kebab-case attribute juggling, no event listener boilerplate. This page walks through installing the React package, wiring its global styles, and dropping a real <code>aegov-button</code> into a React app end to end.</p>
+<p class="text-lg text-aeblack-500 mb-8">The AEGOV Design System ships a typed React wrapper for every component. The wrappers are generated from the web components themselves, so props, events and refs stay in lockstep with the source — you get camelCase props, <code>onAegov*</code> event handlers, refs to the underlying element, and no <code>customElements.define</code> plumbing of your own. This page covers installing the React package, wiring the stylesheet, and the handful of conventions that differ from plain HTML.</p>
 
-<h2>What you install</h2>
-<p>There are two npm packages:</p>
+<h2>Introduction</h2>
+<p>There are two packages, and you need both:</p>
 <table>
 <thead>
 <tr>
 <th>Package</th>
-<th>Purpose</th>
+<th>Role</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>@aegov/designsystem</code></td>
-<td>The web components themselves — Stencil bundles, CSS, and types. Required at runtime.</td>
+<td>The web components — implementations, CSS and TypeScript types. Required at runtime.</td>
 </tr>
 <tr>
 <td><code>@aegov/designsystem-react</code></td>
-<td>React wrappers + TypeScript types. Imports the web component classes from the core package and registers each one&#39;s custom element on first render.</td>
+<td>Thin React wrappers plus types. Registers each component&#39;s custom element the first time that wrapper renders.</td>
 </tr>
 </tbody></table>
-<p>The React package depends on the core package as a peer — install both.</p>
+<p>Because the wrappers register their own elements, <strong>you never call <code>defineCustomElements()</code> in a React app</strong>. Importing <code>AegovButton</code> is enough to define <code>&lt;aegov-button&gt;</code>.</p>
+<pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovButton</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">onAegovButtonClick</span>=<span class="hljs-string">{()</span> =&gt;</span> console.log(&#x27;clicked&#x27;)}&gt;
+      Submit application
+    <span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span></span>
+  );
+}</code></pre><hr>
+<h2>Step 1 — Install</h2>
+<pre><code class="hljs language-bash">npm install @aegov/designsystem @aegov/designsystem-react</code></pre><pre><code class="hljs language-bash">yarn add @aegov/designsystem @aegov/designsystem-react</code></pre><pre><code class="hljs language-bash">pnpm add @aegov/designsystem @aegov/designsystem-react</code></pre><p>React 18 or newer is expected. The wrappers use only the stable hooks API, so React 16.8–17 also work, but React 18+ is what the package is tested against.</p>
 <hr>
-<h2>Step 1 — Install the packages</h2>
-<pre><code class="hljs language-bash">npm install @aegov/designsystem @aegov/designsystem-react</code></pre><p>Or with yarn / pnpm:</p>
-<pre><code class="hljs language-bash">yarn add @aegov/designsystem @aegov/designsystem-react
-pnpm add @aegov/designsystem @aegov/designsystem-react</code></pre><p>If your project already uses React 18+, no extra peer dependencies are needed. For React 16.8–17, the wrappers still work — they target React&#39;s stable hooks API.</p>
-<hr>
-<h2>Step 2 — Import the styles</h2>
-<p>Add all three imports to your main CSS file. Order matters — Tailwind first, then <code>base</code> (component styles and fonts), then <code>theme</code> (design tokens):</p>
+<h2>Step 2 — Set up Tailwind and the stylesheet</h2>
+<p>The design system ships <strong>source</strong> CSS, so your project must run Tailwind v4. For Vite:</p>
+<pre><code class="hljs language-bash">npm install -D @tailwindcss/vite</code></pre><pre><code class="hljs language-ts"><span class="hljs-comment">// vite.config.ts</span>
+<span class="hljs-keyword">import</span> { defineConfig } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vite&#x27;</span>;
+<span class="hljs-keyword">import</span> react <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@vitejs/plugin-react&#x27;</span>;
+<span class="hljs-keyword">import</span> tailwindcss <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@tailwindcss/vite&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineConfig</span>({
+  <span class="hljs-attr">plugins</span>: [<span class="hljs-title function_">react</span>(), <span class="hljs-title function_">tailwindcss</span>()],
+});</code></pre><p>Create the stylesheet. Order matters — Tailwind first, then <code>base</code> (fonts, resets, global element styles), then <code>theme</code> (design tokens):</p>
 <pre><code class="hljs language-css"><span class="hljs-comment">/* src/styles.css */</span>
 <span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
 <span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/base&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;</code></pre><p>Then import the CSS file once in your entry file:</p>
-<pre><code class="hljs language-ts"><span class="hljs-comment">// src/main.tsx (Vite)  or  src/index.tsx (CRA)</span>
-<span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./styles.css&#x27;</span>;</code></pre><p>If you&#39;re on Next.js App Router, import the CSS in your root layout:</p>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;</code></pre><p>Import it once from your entry file:</p>
+<pre><code class="hljs language-tsx"><span class="hljs-comment">// src/main.tsx</span>
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">StrictMode</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>;
+<span class="hljs-keyword">import</span> { createRoot } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom/client&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./styles.css&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">App</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./App&#x27;</span>;
+
+<span class="hljs-title function_">createRoot</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;root&#x27;</span>)!).<span class="hljs-title function_">render</span>(
+  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">StrictMode</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">StrictMode</span>&gt;</span></span>,
+);</code></pre><p>For Create React App, Next.js or Remix the only difference is where the stylesheet import lives — see <a href="installation.html">Installation</a> for Webpack and PostCSS configurations.</p>
+<hr>
+<h2>Step 3 — Use a component</h2>
+<p>Every tag has a wrapper named <code>Aegov</code> + PascalCase:</p>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Import</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;aegov-button&gt;</code></td>
+<td><code>AegovButton</code></td>
+</tr>
+<tr>
+<td><code>&lt;aegov-input&gt;</code></td>
+<td><code>AegovInput</code></td>
+</tr>
+<tr>
+<td><code>&lt;aegov-form-field&gt;</code></td>
+<td><code>AegovFormField</code></td>
+</tr>
+<tr>
+<td><code>&lt;aegov-select-option&gt;</code></td>
+<td><code>AegovSelectOption</code></td>
+</tr>
+<tr>
+<td><code>&lt;aegov-header-banner&gt;</code></td>
+<td><code>AegovHeaderBanner</code></td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovFormField</span>, <span class="hljs-title class_">AegovLabel</span>, <span class="hljs-title class_">AegovInput</span>, <span class="hljs-title class_">AegovButton</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">ContactStep</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;max-w-md&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">AegovFormField</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">AegovLabel</span>&gt;</span>Email address<span class="hljs-tag">&lt;/<span class="hljs-name">AegovLabel</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">AegovInput</span> <span class="hljs-attr">fieldId</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;name@example.ae&quot;</span> /&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">AegovFormField</span>&gt;</span>
+
+      <span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;mt-4&quot;</span>&gt;</span>
+        Continue
+      <span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}</code></pre><p>Each wrapper does four things: registers its custom element, renders the underlying tag, forwards props to DOM properties, and adapts the component&#39;s <code>CustomEvent</code>s into React handler props.</p>
+<hr>
+<h2>Props — camelCase, not kebab-case</h2>
+<p>Plain HTML uses kebab-case attributes. The React wrappers expose the camelCase property names instead.</p>
+<pre><code class="hljs language-tsx">{<span class="hljs-comment">/* Correct */</span>}
+&lt;<span class="hljs-title class_">AegovInput</span> fieldId=<span class="hljs-string">&quot;email&quot;</span> isRequired isDisabled={<span class="hljs-literal">false</span>} /&gt;
+
+{<span class="hljs-comment">/* Wrong — kebab-case is for raw HTML only */</span>}
+&lt;<span class="hljs-title class_">AegovInput</span> field-id=<span class="hljs-string">&quot;email&quot;</span> is-required /&gt;</code></pre><table>
+<thead>
+<tr>
+<th>HTML attribute</th>
+<th>React prop</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>field-id</code></td>
+<td><code>fieldId</code></td>
+</tr>
+<tr>
+<td><code>is-disabled</code></td>
+<td><code>isDisabled</code></td>
+</tr>
+<tr>
+<td><code>is-required</code></td>
+<td><code>isRequired</code></td>
+</tr>
+<tr>
+<td><code>is-invalid</code></td>
+<td><code>isInvalid</code></td>
+</tr>
+<tr>
+<td><code>error-message</code></td>
+<td><code>errorMessage</code></td>
+</tr>
+<tr>
+<td><code>default-open</code></td>
+<td><code>defaultOpen</code></td>
+</tr>
+<tr>
+<td><code>addon-prefix</code></td>
+<td><code>addonPrefix</code></td>
+</tr>
+<tr>
+<td><code>label-nav</code></td>
+<td><code>labelNav</code></td>
+</tr>
+</tbody></table>
+<h3>Booleans</h3>
+<p>Pass real booleans. A string is truthy and will silently enable the flag:</p>
+<pre><code class="hljs language-tsx">&lt;<span class="hljs-title class_">AegovButton</span> isDisabled&gt;<span class="hljs-title class_">Disabled</span>&lt;/<span class="hljs-title class_">AegovButton</span>&gt;
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">isDisabled</span>=<span class="hljs-string">{true}</span>&gt;</span>Disabled<span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">isDisabled</span>=<span class="hljs-string">{isSubmitting}</span>&gt;</span>Conditional<span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span></span>
+
+{<span class="hljs-comment">/* Wrong — always disabled, because &quot;false&quot; is a non-empty string */</span>}
+&lt;<span class="hljs-title class_">AegovButton</span> isDisabled=<span class="hljs-string">&quot;false&quot;</span>&gt;<span class="hljs-title class_">Not</span> what you meant&lt;/<span class="hljs-title class_">AegovButton</span>&gt;</code></pre><h3><code>className</code>, not <code>class</code></h3>
+<p>JSX conventions apply; the wrapper forwards <code>className</code> to the host element correctly.</p>
+<pre><code class="hljs language-tsx">&lt;<span class="hljs-title class_">AegovButton</span> className=<span class="hljs-string">&quot;mt-4 w-full sm:w-auto&quot;</span>&gt;<span class="hljs-title class_">Submit</span>&lt;/<span class="hljs-title class_">AegovButton</span>&gt;</code></pre><p>Components that expose an <code>extraClass</code> property accept it as a prop too — that one targets an inner element rather than the host, and each component page documents which.</p>
+<h3>Responsive size strings</h3>
+<p><code>size</code> still takes the responsive string form; it is just a string prop.</p>
+<pre><code class="hljs language-tsx">&lt;<span class="hljs-title class_">AegovButton</span> size=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span>&gt;<span class="hljs-title class_">Adapts</span> to the viewport&lt;/<span class="hljs-title class_">AegovButton</span>&gt;</code></pre><hr>
+<h2>Events — <code>onAegov*</code> handlers</h2>
+<p>Component events arrive as camelCased props with an <code>onAegov</code> prefix, typed as <code>CustomEvent</code> handlers. Read the payload from <code>event.detail</code>.</p>
+<pre><code class="hljs language-tsx">&lt;<span class="hljs-title class_">AegovInput</span>
+  name=<span class="hljs-string">&quot;emiratesId&quot;</span>
+  onAegovInputChange={<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> <span class="hljs-title function_">setValue</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>)}
+  onAegovInputBlur={<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">setTouched</span>(<span class="hljs-literal">true</span>)}
+/&gt;
+
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovSelect</span> <span class="hljs-attr">onAegovSelectChange</span>=<span class="hljs-string">{(e)</span> =&gt;</span> console.log(e.detail.value, e.detail.label)} /&gt;</span>
+
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovBadge</span> <span class="hljs-attr">isDismissible</span> <span class="hljs-attr">onAegovBadgeDismiss</span>=<span class="hljs-string">{()</span> =&gt;</span> removeFilter(id)} /&gt;</span></code></pre><p>Native React events still work where the DOM emits them — <code>onClick</code>, <code>onFocus</code>, <code>onKeyDown</code> — but prefer the <code>onAegov*</code> handler whenever one exists, because it carries structured detail that the native event does not.</p>
+<pre><code class="hljs language-tsx">{<span class="hljs-comment">/* Rich detail — preferred */</span>}
+&lt;<span class="hljs-title class_">AegovButton</span> onAegovButtonClick={<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> <span class="hljs-title function_">track</span>(e.<span class="hljs-property">detail</span>)} /&gt;
+
+{<span class="hljs-comment">/* Bare DOM click — only if you genuinely need nothing more */</span>}
+&lt;<span class="hljs-title class_">AegovButton</span> onClick={<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">track</span>()} /&gt;</code></pre><hr>
+<h2>Refs and imperative methods</h2>
+<p><code>ref</code> gives you the underlying custom element, typed as <code>HTMLAegov*Element</code>. Component methods are async.</p>
+<pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { useRef } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovModal</span>, <span class="hljs-title class_">AegovButton</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">HTMLAegovModalElement</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">ConfirmDialog</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> modal = useRef&lt;<span class="hljs-title class_">HTMLAegovModalElement</span>&gt;(<span class="hljs-literal">null</span>);
+
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">onAegovButtonClick</span>=<span class="hljs-string">{()</span> =&gt;</span> modal.current?.show()}&gt;
+        Review submission
+      <span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span>
+
+      <span class="hljs-tag">&lt;<span class="hljs-name">AegovModal</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{modal}</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Confirm submission&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Submit your application for review?<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">onAegovButtonClick</span>=<span class="hljs-string">{()</span> =&gt;</span> modal.current?.close()}&gt;
+          Confirm
+        <span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">AegovModal</span>&gt;</span>
+    <span class="hljs-tag">&lt;/&gt;</span></span>
+  );
+}</code></pre><p>For form components, <code>validate()</code> and <code>setCustomValidity()</code> are the two you will reach for most:</p>
+<pre><code class="hljs language-tsx"><span class="hljs-keyword">const</span> input = useRef&lt;<span class="hljs-title class_">HTMLAegovInputElement</span>&gt;(<span class="hljs-literal">null</span>);
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">check</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> input.<span class="hljs-property">current</span>?.<span class="hljs-title function_">validate</span>(<span class="hljs-string">&#x27;manual&#x27;</span>);
+  <span class="hljs-keyword">if</span> (!result?.<span class="hljs-property">valid</span>) input.<span class="hljs-property">current</span>?.<span class="hljs-title function_">focus</span>();
+};</code></pre><hr>
+<h2>Controlled and uncontrolled inputs</h2>
+<p>The components own their internal value, so they behave like uncontrolled inputs by default. Passing <code>value</code> sets the initial value; keep your state in sync from the change event rather than expecting React to drive every keystroke.</p>
+<pre><code class="hljs language-tsx"><span class="hljs-keyword">const</span> [email, setEmail] = <span class="hljs-title function_">useState</span>(<span class="hljs-string">&#x27;&#x27;</span>);
+
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovInput</span>
+  <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span>
+  <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span>
+  <span class="hljs-attr">value</span>=<span class="hljs-string">{email}</span>
+  <span class="hljs-attr">onAegovInputChange</span>=<span class="hljs-string">{(e)</span> =&gt;</span> setEmail(e.detail.value)}
+/&gt;</span></code></pre><p>For form submission you often do not need React state at all — the components participate in native <code>&lt;form&gt;</code> submission, so <code>new FormData(form)</code> returns everything:</p>
+<pre><code class="hljs language-tsx"><span class="hljs-keyword">function</span> <span class="hljs-title function_">ApplicationForm</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">onSubmit</span> = (<span class="hljs-params"><span class="hljs-attr">e</span>: <span class="hljs-title class_">React</span>.<span class="hljs-title class_">FormEvent</span>&lt;<span class="hljs-title class_">HTMLFormElement</span>&gt;</span>) =&gt; {
+    e.<span class="hljs-title function_">preventDefault</span>();
+    <span class="hljs-keyword">const</span> data = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">fromEntries</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(e.<span class="hljs-property">currentTarget</span>));
+    api.<span class="hljs-title function_">submit</span>(data);
+  };
+
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">onSubmit</span>=<span class="hljs-string">{onSubmit}</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">AegovInput</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;fullName&quot;</span> <span class="hljs-attr">isRequired</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">AegovSelect</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;emirate&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;listbox&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">AegovSelectOption</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;AZ&quot;</span>&gt;</span>Abu Dhabi<span class="hljs-tag">&lt;/<span class="hljs-name">AegovSelectOption</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">AegovSelectOption</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;DU&quot;</span>&gt;</span>Dubai<span class="hljs-tag">&lt;/<span class="hljs-name">AegovSelectOption</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">AegovSelect</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></span>
+  );
+}</code></pre><hr>
+<h2>Composite example — service application step</h2>
+<pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { useRef, useState } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>;
+<span class="hljs-keyword">import</span> {
+  <span class="hljs-title class_">AegovFormField</span>, <span class="hljs-title class_">AegovLabel</span>, <span class="hljs-title class_">AegovInput</span>, <span class="hljs-title class_">AegovSelect</span>, <span class="hljs-title class_">AegovSelectOption</span>,
+  <span class="hljs-title class_">AegovCheckbox</span>, <span class="hljs-title class_">AegovButton</span>, <span class="hljs-title class_">AegovCallout</span>,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">HTMLAegovInputElement</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">ApplicationStep</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> [isSubmitting, setSubmitting] = <span class="hljs-title function_">useState</span>(<span class="hljs-literal">false</span>);
+  <span class="hljs-keyword">const</span> [failed, setFailed] = <span class="hljs-title function_">useState</span>(<span class="hljs-literal">false</span>);
+  <span class="hljs-keyword">const</span> emiratesId = useRef&lt;<span class="hljs-title class_">HTMLAegovInputElement</span>&gt;(<span class="hljs-literal">null</span>);
+
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">onSubmit</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"><span class="hljs-attr">e</span>: <span class="hljs-title class_">React</span>.<span class="hljs-title class_">FormEvent</span>&lt;<span class="hljs-title class_">HTMLFormElement</span>&gt;</span>) =&gt; {
+    e.<span class="hljs-title function_">preventDefault</span>();
+    <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> emiratesId.<span class="hljs-property">current</span>?.<span class="hljs-title function_">validate</span>(<span class="hljs-string">&#x27;submit&#x27;</span>);
+    <span class="hljs-keyword">if</span> (!result?.<span class="hljs-property">valid</span>) {
+      emiratesId.<span class="hljs-property">current</span>?.<span class="hljs-title function_">focus</span>();
+      <span class="hljs-keyword">return</span>;
+    }
+
+    <span class="hljs-title function_">setSubmitting</span>(<span class="hljs-literal">true</span>);
+    <span class="hljs-title function_">setFailed</span>(<span class="hljs-literal">false</span>);
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">submitApplication</span>(<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">fromEntries</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(e.<span class="hljs-property">currentTarget</span>)));
+    } <span class="hljs-keyword">catch</span> {
+      <span class="hljs-title function_">setFailed</span>(<span class="hljs-literal">true</span>);
+    } <span class="hljs-keyword">finally</span> {
+      <span class="hljs-title function_">setSubmitting</span>(<span class="hljs-literal">false</span>);
+    }
+  };
+
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">onSubmit</span>=<span class="hljs-string">{onSubmit}</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;max-w-lg&quot;</span>&gt;</span>
+      {failed &amp;&amp; (
+        <span class="hljs-tag">&lt;<span class="hljs-name">AegovCallout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;mb-6&quot;</span>&gt;</span>
+          We could not submit your application. Please try again.
+        <span class="hljs-tag">&lt;/<span class="hljs-name">AegovCallout</span>&gt;</span>
+      )}
+
+      <span class="hljs-tag">&lt;<span class="hljs-name">AegovFormField</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">AegovLabel</span>&gt;</span>Emirates ID<span class="hljs-tag">&lt;/<span class="hljs-name">AegovLabel</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">AegovInput</span>
+          <span class="hljs-attr">ref</span>=<span class="hljs-string">{emiratesId}</span>
+          <span class="hljs-attr">fieldId</span>=<span class="hljs-string">&quot;emirates-id&quot;</span>
+          <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;emiratesId&quot;</span>
+          <span class="hljs-attr">isRequired</span>
+          <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;15 digits, as printed on your card&quot;</span>
+        /&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">AegovFormField</span>&gt;</span>
+
+      <span class="hljs-tag">&lt;<span class="hljs-name">AegovFormField</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">AegovLabel</span>&gt;</span>Emirate of residence<span class="hljs-tag">&lt;/<span class="hljs-name">AegovLabel</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">AegovSelect</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;emirate&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">isRequired</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select an emirate&quot;</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">AegovSelectOption</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;AZ&quot;</span>&gt;</span>Abu Dhabi<span class="hljs-tag">&lt;/<span class="hljs-name">AegovSelectOption</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">AegovSelectOption</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;DU&quot;</span>&gt;</span>Dubai<span class="hljs-tag">&lt;/<span class="hljs-name">AegovSelectOption</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">AegovSelectOption</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;SH&quot;</span>&gt;</span>Sharjah<span class="hljs-tag">&lt;/<span class="hljs-name">AegovSelectOption</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">AegovSelect</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">AegovFormField</span>&gt;</span>
+
+      <span class="hljs-tag">&lt;<span class="hljs-name">AegovCheckbox</span>
+        <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;terms&quot;</span>
+        <span class="hljs-attr">isRequired</span>
+        <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;I confirm the information provided is accurate&quot;</span>
+      /&gt;</span>
+
+      <span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span>
+        <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span>
+        <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>
+        <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>
+        <span class="hljs-attr">isLoading</span>=<span class="hljs-string">{isSubmitting}</span>
+        <span class="hljs-attr">isDisabled</span>=<span class="hljs-string">{isSubmitting}</span>
+        <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;mt-6&quot;</span>
+      &gt;</span>
+        Submit application
+      <span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></span>
+  );
+}</code></pre><hr>
+<h2>TypeScript</h2>
+<p>Component prop types come from the wrapper automatically — your editor autocompletes <code>variant</code>, <code>appearance</code>, <code>size</code> and the rest. Shared payload and token types are exported from the <strong>core</strong> package:</p>
+<pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> {
+  <span class="hljs-title class_">ButtonVariant</span>,
+  <span class="hljs-title class_">ButtonAppearance</span>,
+  <span class="hljs-title class_">InputType</span>,
+  <span class="hljs-title class_">SelectChangeDetail</span>,
+  <span class="hljs-title class_">AegovValidationDetail</span>,
+  <span class="hljs-title class_">HTMLAegovInputElement</span>,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem&#x27;</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-attr">variant</span>: <span class="hljs-title class_">ButtonVariant</span> = <span class="hljs-string">&#x27;primary&#x27;</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-attr">appearance</span>: <span class="hljs-title class_">ButtonAppearance</span> = <span class="hljs-string">&#x27;outline&#x27;</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onValidate</span>(<span class="hljs-params"><span class="hljs-attr">e</span>: <span class="hljs-title class_">CustomEvent</span>&lt;<span class="hljs-title class_">AegovValidationDetail</span>&lt;<span class="hljs-built_in">string</span>&gt;&gt;</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">validity</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">trigger</span>);
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onSelect</span>(<span class="hljs-params"><span class="hljs-attr">e</span>: <span class="hljs-title class_">CustomEvent</span>&lt;<span class="hljs-title class_">SelectChangeDetail</span>&gt;</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">label</span>);
+}</code></pre><p>The <code>Components</code> namespace gives you a component&#39;s full prop interface when you need to build your own wrapper around one:</p>
+<pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">Components</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem&#x27;</span>;
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">MyButtonProps</span> = <span class="hljs-title class_">Pick</span>&lt;<span class="hljs-title class_">Components</span>.<span class="hljs-property">AegovButton</span>, <span class="hljs-string">&#x27;variant&#x27;</span> | <span class="hljs-string">&#x27;appearance&#x27;</span> | <span class="hljs-string">&#x27;size&#x27;</span>&gt;;</code></pre><hr>
+<h2>RTL support</h2>
+<p>Direction is a DOM concern, so nothing React-specific is required — set <code>dir</code> on the document or on a subtree and the components flip, including the font stacks.</p>
+<pre><code class="hljs language-tsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Layout</span>(<span class="hljs-params">{ locale, children }: { locale: <span class="hljs-string">&#x27;en&#x27;</span> | <span class="hljs-string">&#x27;ar&#x27;</span>; children: React.ReactNode }</span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">{locale</span> === <span class="hljs-string">&#x27;ar&#x27;</span> ? &#x27;<span class="hljs-attr">rtl</span>&#x27; <span class="hljs-attr">:</span> &#x27;<span class="hljs-attr">ltr</span>&#x27;} <span class="hljs-attr">lang</span>=<span class="hljs-string">{locale}</span>&gt;</span>
+      {children}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}</code></pre><p>If you toggle locale at runtime, set it on <code>document.documentElement</code> so portal-based components — toast, dropdown, popover, datepicker — inherit it too, since they render into <code>document.body</code> rather than inside your React tree:</p>
+<pre><code class="hljs language-tsx"><span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-variable language_">document</span>.<span class="hljs-property">documentElement</span>.<span class="hljs-property">dir</span> = locale === <span class="hljs-string">&#x27;ar&#x27;</span> ? <span class="hljs-string">&#x27;rtl&#x27;</span> : <span class="hljs-string">&#x27;ltr&#x27;</span>;
+  <span class="hljs-variable language_">document</span>.<span class="hljs-property">documentElement</span>.<span class="hljs-property">lang</span> = locale;
+}, [locale]);</code></pre><hr>
+<h2>Server-side rendering and Next.js</h2>
+<p>Custom elements are a browser API — there is no server implementation. The generated wrapper module is already marked <code>&#39;use client&#39;</code>, so it cannot be imported into a React Server Component.</p>
+<p>In the Next.js App Router, mark the file that uses design system components as a client component:</p>
+<pre><code class="hljs language-tsx"><span class="hljs-string">&#x27;use client&#x27;</span>;
+
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovButton</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">SubmitButton</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span></span>;
+}</code></pre><p>Or load it lazily with SSR disabled:</p>
+<pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> dynamic <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;next/dynamic&#x27;</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">AegovButton</span> = <span class="hljs-title function_">dynamic</span>(
+  <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">m</span>) =&gt;</span> m.<span class="hljs-property">AegovButton</span>),
+  { <span class="hljs-attr">ssr</span>: <span class="hljs-literal">false</span> },
+);</code></pre><p>The <strong>CSS import is SSR-safe</strong> and belongs in your root layout — keep it there so the first paint is styled:</p>
 <pre><code class="hljs language-tsx"><span class="hljs-comment">// app/layout.tsx</span>
-<span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./globals.css&#x27;</span>; <span class="hljs-comment">// contains the three @import lines above</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./globals.css&#x27;</span>; <span class="hljs-comment">// contains the three @import lines</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">RootLayout</span>(<span class="hljs-params">{ children }: { children: React.ReactNode }</span>) {
   <span class="hljs-keyword">return</span> (
@@ -66,162 +402,71 @@ pnpm add @aegov/designsystem @aegov/designsystem-react</code></pre><p>If your pr
     <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span>
   );
 }</code></pre><hr>
-<h2>Step 4 — Use a component</h2>
-<p>Import the React wrapper and render it like any other component. Props are typed; events are camelCase <code>onAegov*</code> handlers.</p>
-<pre><code class="hljs language-tsx"><span class="hljs-comment">// src/App.tsx</span>
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovButton</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>;
+<h2>Validation</h2>
+<p>Form components ship the validation surface described in <a href="validation-overview.html">Validation Surface</a>: <code>isInvalid</code>, <code>errorMessage</code> and <code>hint</code> props, <code>error</code> and <code>hint</code> slots, an <code>onAegovValidate</code> handler, and <code>validate()</code> / <code>setCustomValidity()</code> methods.</p>
+<p>Driving it from React state needs nothing extra:</p>
+<pre><code class="hljs language-tsx"><span class="hljs-keyword">const</span> [error, setError] = <span class="hljs-title function_">useState</span>(<span class="hljs-string">&#x27;&#x27;</span>);
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-keyword">return</span> (
-    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;p-6&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">onAegovButtonClick</span>=<span class="hljs-string">{(e)</span> =&gt;</span> console.log(&#x27;clicked&#x27;, e)}&gt;
-        Submit application
-      <span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
-  );
-}</code></pre><p>That&#39;s it. The wrapper:</p>
-<ol>
-<li>Registers the <code>&lt;aegov-button&gt;</code> custom element on first render.</li>
-<li>Renders the underlying <code>&lt;aegov-button&gt;</code> tag.</li>
-<li>Forwards all React props as kebab-case HTML attributes / DOM properties.</li>
-<li>Adapts native CustomEvents into typed React handlers (<code>onAegovButtonClick</code>, etc.).</li>
-</ol>
-<hr>
-<h2>Full example — a &quot;Submit application&quot; button with loading state</h2>
-<p>This component shows the typical patterns: typed props, ref to the underlying element, typed event handlers, and a loading state controlled by React state.</p>
-<pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { useRef, useState } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovButton</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">HTMLAegovButtonElement</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem&#x27;</span>;
-
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">SubmitApplicationButton</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-keyword">const</span> ref = useRef&lt;<span class="hljs-title class_">HTMLAegovButtonElement</span>&gt;(<span class="hljs-literal">null</span>);
-  <span class="hljs-keyword">const</span> [isLoading, setIsLoading] = <span class="hljs-title function_">useState</span>(<span class="hljs-literal">false</span>);
-
-  <span class="hljs-keyword">const</span> <span class="hljs-title function_">handleSubmit</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {
-    <span class="hljs-title function_">setIsLoading</span>(<span class="hljs-literal">true</span>);
-    <span class="hljs-keyword">try</span> {
-      <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;/api/submit&#x27;</span>, { <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span> });
-    } <span class="hljs-keyword">finally</span> {
-      <span class="hljs-title function_">setIsLoading</span>(<span class="hljs-literal">false</span>);
-    }
-  };
-
-  <span class="hljs-keyword">return</span> (
-    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span>
-      <span class="hljs-attr">ref</span>=<span class="hljs-string">{ref}</span>
-      <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>
-      <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span>
-      <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>
-      <span class="hljs-attr">isLoading</span>=<span class="hljs-string">{isLoading}</span>
-      <span class="hljs-attr">isDisabled</span>=<span class="hljs-string">{isLoading}</span>
-      <span class="hljs-attr">onAegovButtonClick</span>=<span class="hljs-string">{handleSubmit}</span>
-    &gt;</span>
-      Submit application
-    <span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span></span>
-  );
-}</code></pre><p>Notes on the example:</p>
-<ul>
-<li><code>variant</code> / <code>appearance</code> / <code>size</code> are typed string-union props — your editor autocompletes them.</li>
-<li><code>isLoading</code> swaps the button content for a spinner while keeping width stable.</li>
-<li><code>onAegovButtonClick</code> is a <code>CustomEvent&lt;MouseEvent&gt;</code> typed handler — no manual <code>addEventListener</code>.</li>
-<li><code>ref</code> gives direct access to the underlying <code>&lt;aegov-button&gt;</code> HTMLElement — useful for calling imperative methods or focusing.</li>
-</ul>
-<hr>
-<h2>Available components</h2>
-<p>Every web component has a corresponding React wrapper. The most-used ones for forms:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> {
-  <span class="hljs-title class_">AegovButton</span>,
-  <span class="hljs-title class_">AegovInput</span>,
-  <span class="hljs-title class_">AegovTextarea</span>,
-  <span class="hljs-title class_">AegovSelect</span>,
-  <span class="hljs-title class_">AegovSelectOption</span>,
-  <span class="hljs-title class_">AegovCheckbox</span>,
-  <span class="hljs-title class_">AegovRadio</span>,
-  <span class="hljs-title class_">AegovRadioGroup</span>,
-  <span class="hljs-title class_">AegovToggle</span>,
-  <span class="hljs-title class_">AegovRange</span>,
-  <span class="hljs-title class_">AegovOtp</span>,
-  <span class="hljs-title class_">AegovFileupload</span>,
-  <span class="hljs-title class_">AegovDatepicker</span>,
-  <span class="hljs-title class_">AegovFormField</span>,
-  <span class="hljs-title class_">AegovLabel</span>,
-} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>;</code></pre><p>Layout / surface components (cards, modals, drawers, navigation, banners, toasts) are imported the same way — see the per-component docs in the left navigation.</p>
-<hr>
-<h2>TypeScript</h2>
-<p>All wrappers are fully typed. Import payload types from <code>@aegov/designsystem</code>:</p>
-<pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> {
-  <span class="hljs-title class_">AegovValidationDetail</span>,
-  <span class="hljs-title class_">ButtonVariant</span>,
-  <span class="hljs-title class_">InputType</span>,
-} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem&#x27;</span>;
-
-<span class="hljs-keyword">const</span> <span class="hljs-attr">variant</span>: <span class="hljs-title class_">ButtonVariant</span> = <span class="hljs-string">&#x27;primary&#x27;</span>;
-
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">onValidate</span>(<span class="hljs-params"><span class="hljs-attr">e</span>: <span class="hljs-title class_">CustomEvent</span>&lt;<span class="hljs-title class_">AegovValidationDetail</span>&lt;<span class="hljs-built_in">string</span>&gt;&gt;</span>) {
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">validity</span>);
-}</code></pre><hr>
-<h2>Validation in React</h2>
-<p>Form components ship a unified validation surface — <code>isInvalid</code>, <code>errorMessage</code>, <code>hint</code> props, <code>onAegovValidate</code> event, plus imperative <code>validate()</code> and <code>setCustomValidity()</code> methods. The full reference is in <a href="validation-overview.html">Validation Surface</a>. For schema-driven validation (Valibot / Zod / Vest) using a typed React hook, install the optional add-on:</p>
-<pre><code class="hljs language-bash">npm install @aegov/designsystem-validation valibot</code></pre><p>Quick example:</p>
-<pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { useAegovForm } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/react&#x27;</span>;
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovInput</span>
+  <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span>
+  <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span>
+  <span class="hljs-attr">isInvalid</span>=<span class="hljs-string">{!!error}</span>
+  <span class="hljs-attr">errorMessage</span>=<span class="hljs-string">{error}</span>
+  <span class="hljs-attr">onAegovValidate</span>=<span class="hljs-string">{(e)</span> =&gt;</span> {
+    if (e.detail.trigger !== &#x27;blur&#x27;) return;
+    const ok = /\S+@\S+\.\S+/.test(String(e.detail.value));
+    setError(ok ? &#x27;&#x27; : &#x27;Enter a valid email address&#x27;);
+  }}
+/&gt;</span></code></pre><h3>Optional — <code>@aegov/designsystem-validation</code></h3>
+<p>For schema-driven forms there is an <strong>optional</strong> companion package with a React hook. Nothing in the design system requires it.</p>
+<pre><code class="hljs language-bash">npm install @aegov/designsystem-validation valibot</code></pre><pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { useAegovForm } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/react&#x27;</span>;
 <span class="hljs-keyword">import</span> { valibotAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/adapters/valibot&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovInput</span>, <span class="hljs-title class_">AegovButton</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>;
 <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> v <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;valibot&#x27;</span>;
 
 <span class="hljs-keyword">const</span> schema = v.<span class="hljs-title function_">object</span>({
-  <span class="hljs-attr">email</span>: v.<span class="hljs-title function_">pipe</span>(v.<span class="hljs-title function_">string</span>(), v.<span class="hljs-title function_">email</span>(<span class="hljs-string">&#x27;Invalid email&#x27;</span>)),
+  <span class="hljs-attr">email</span>: v.<span class="hljs-title function_">pipe</span>(v.<span class="hljs-title function_">string</span>(), v.<span class="hljs-title function_">email</span>(<span class="hljs-string">&#x27;Enter a valid email address&#x27;</span>)),
+  <span class="hljs-attr">password</span>: v.<span class="hljs-title function_">pipe</span>(v.<span class="hljs-title function_">string</span>(), v.<span class="hljs-title function_">minLength</span>(<span class="hljs-number">8</span>, <span class="hljs-string">&#x27;At least 8 characters&#x27;</span>)),
 });
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">LoginForm</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-keyword">const</span> { formRef, handleSubmit, isValid } = <span class="hljs-title function_">useAegovForm</span>({
+  <span class="hljs-keyword">const</span> { formRef, handleSubmit, errors, isValid } = <span class="hljs-title function_">useAegovForm</span>({
     schema,
     <span class="hljs-attr">adapter</span>: <span class="hljs-title function_">valibotAdapter</span>(),
+    <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;onBlur&#x27;</span>,
   });
+
   <span class="hljs-keyword">return</span> (
     <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{formRef}</span> <span class="hljs-attr">onSubmit</span>=<span class="hljs-string">{handleSubmit((values)</span> =&gt;</span> api.login(values))}&gt;
       <span class="hljs-tag">&lt;<span class="hljs-name">AegovInput</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">AegovInput</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">isRevealable</span> /&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">isDisabled</span>=<span class="hljs-string">{!isValid}</span>&gt;</span>Sign in<span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></span>
   );
-}</code></pre><hr>
-<h2>Common gotchas</h2>
-<h3>Props are camelCase, not kebab-case</h3>
-<p>Web components accept <code>field-id</code>, <code>is-disabled</code>, etc. as HTML attributes — but the React wrapper exposes them as camelCase props.</p>
-<pre><code class="hljs language-tsx"><span class="hljs-comment">// ✅ React wrapper — camelCase props</span>
-&lt;<span class="hljs-title class_">AegovInput</span> fieldId=<span class="hljs-string">&quot;email&quot;</span> isDisabled={<span class="hljs-literal">true</span>} /&gt;
-
-<span class="hljs-comment">// ❌ This won&#x27;t work — kebab-case is for raw HTML</span>
-<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovInput</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">{true}</span> /&gt;</span></span></code></pre><h3>Boolean props must be explicit</h3>
-<p>Pass booleans as JSX boolean attributes, not strings:</p>
-<pre><code class="hljs language-tsx">&lt;<span class="hljs-title class_">AegovButton</span> isDisabled={<span class="hljs-literal">true</span>}&gt;<span class="hljs-title class_">Disabled</span>&lt;/<span class="hljs-title class_">AegovButton</span>&gt;
-<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">isDisabled</span>&gt;</span>Also disabled<span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span></span>
-<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">isDisabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Wrong — this is a string<span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span></span></code></pre><h3>Use <code>onAegov*</code> for component events; <code>onClick</code> for native ones</h3>
-<p>Component custom events are camelCased with the <code>onAegov</code> prefix:</p>
-<pre><code class="hljs language-tsx">&lt;<span class="hljs-title class_">AegovButton</span> onAegovButtonClick={<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> <span class="hljs-comment">/* CustomEvent&lt;MouseEvent&gt; */</span>}&gt;<span class="hljs-title class_">Go</span>&lt;/<span class="hljs-title class_">AegovButton</span>&gt;
-<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovInput</span> <span class="hljs-attr">onAegovValidate</span>=<span class="hljs-string">{(e)</span> =&gt;</span> /* CustomEvent<span class="hljs-tag">&lt;<span class="hljs-name">AegovValidationDetail</span>&gt;</span> */} /&gt;</span></code></pre><p>Use the standard React <code>onClick</code> for the bubbling native click event if all you need is the click coordinate — but most aegov components emit a richer custom event with structured detail. Prefer the <code>onAegov*</code> handler.</p>
-<h3><code>class</code> vs <code>className</code></h3>
-<p>JSX uses <code>className</code>. The wrapper forwards it correctly:</p>
-<pre><code class="hljs language-tsx">&lt;<span class="hljs-title class_">AegovButton</span> className=<span class="hljs-string">&quot;my-button-class&quot;</span>&gt;<span class="hljs-title class_">Go</span>&lt;/<span class="hljs-title class_">AegovButton</span>&gt;</code></pre><h3>Refs return the custom element</h3>
-<p><code>ref</code> gives you the underlying <code>HTMLAegovButtonElement</code> (etc.) — call its imperative methods directly:</p>
-<pre><code class="hljs language-tsx"><span class="hljs-keyword">const</span> ref = useRef&lt;<span class="hljs-title class_">HTMLAegovButtonElement</span>&gt;(<span class="hljs-literal">null</span>);
-<span class="hljs-comment">// later</span>
-ref.<span class="hljs-property">current</span>?.<span class="hljs-title function_">focus</span>();</code></pre><p>For form components: <code>ref.current?.validate(&#39;manual&#39;)</code> runs validation and emits <code>aegovValidate</code>.</p>
+}</code></pre><p><code>values</code> is typed from the schema, and the hook writes <code>is-invalid</code> and <code>error-message</code> onto each component for you. Full reference: <a href="validation-overview.html">Validation Surface</a>.</p>
 <hr>
-<h2>SSR / Next.js</h2>
-<p>The web components are client-side only — they rely on Custom Elements API which doesn&#39;t run in Node. Mark consumer pages or specific components as client-rendered:</p>
-<pre><code class="hljs language-tsx"><span class="hljs-string">&#x27;use client&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovButton</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>;</code></pre><p>Or wrap in <code>next/dynamic</code> with <code>{ ssr: false }</code>:</p>
-<pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> dynamic <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;next/dynamic&#x27;</span>;
-<span class="hljs-keyword">const</span> <span class="hljs-title class_">AegovButton</span> = <span class="hljs-title function_">dynamic</span>(
-  <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">m</span>) =&gt;</span> m.<span class="hljs-property">AegovButton</span>),
-  { <span class="hljs-attr">ssr</span>: <span class="hljs-literal">false</span> },
-);</code></pre><p>The CSS import is SSR-safe and should stay in your root layout.</p>
+<h2>Common gotchas</h2>
+<h3>Do not call <code>defineCustomElements()</code></h3>
+<p>The wrappers register their own elements. Calling the loader as well is harmless but pointless, and it pulls in the lazy-loading runtime you were avoiding by using the wrappers.</p>
+<h3><code>&lt;AegovButton&gt;</code> in a template string is not a component</h3>
+<p>In Angular and Vue templates you write the HTML tag. In React you write the wrapper. Do not mix them:</p>
+<pre><code class="hljs language-tsx">{<span class="hljs-comment">/* Correct in React */</span>}
+&lt;<span class="hljs-title class_">AegovButton</span> variant=<span class="hljs-string">&quot;primary&quot;</span>&gt;<span class="hljs-title class_">Submit</span>&lt;/<span class="hljs-title class_">AegovButton</span>&gt;
+
+{<span class="hljs-comment">/* Works, but you lose typing and the onAegov* handlers */</span>}
+&lt;aegov-button variant=<span class="hljs-string">&quot;primary&quot;</span>&gt;<span class="hljs-title class_">Submit</span>&lt;/aegov-button&gt;</code></pre><h3>Children of shadow-DOM components still work</h3>
+<p><code>aegov-button</code>, <code>aegov-modal</code>, <code>aegov-drawer</code> and the header components use shadow DOM. React children are projected into slots as normal — but utility classes you put on children are styled by your app&#39;s CSS, not the component&#39;s, and you cannot restyle the component&#39;s internals from outside.</p>
+<h3><code>StrictMode</code> double-invokes effects</h3>
+<p>That is React, not the design system. Components are idempotent on re-registration, so double mounting in development is safe.</p>
+<h3>Portal components render outside your React tree</h3>
+<p>Toast, dropdown, popover and datepicker move content into <code>document.body</code>. React refs to the host still work, but do not expect <code>document.querySelector</code> inside a React container to find the portalled content.</p>
 <hr>
 <h2>Where to next</h2>
 <ul>
-<li><a href="validation-overview.html">Validation Surface</a> — unified <code>isInvalid</code> / <code>errorMessage</code> / <code>hint</code> API across all form components.</li>
-<li><a href="validation-byo.html">Bring Your Own Validator</a> — manual validation patterns (no add-on package required).</li>
-<li>Per-component docs in the left navigation — every page lists props, events, methods, and accessibility notes.</li>
+<li><a href="installation.html">Installation</a> — build tool configuration, dark mode, the CSS layer model.</li>
+<li><a href="using-with-vue.html">Using with Vue</a> and <a href="using-with-angular.html">Using with Angular</a>.</li>
+<li><a href="validation-overview.html">Validation Surface</a> — the full form contract.</li>
+<li><a href="validation-byo.html">Bring Your Own Validator</a> — manual patterns, no extra package.</li>
 </ul>
 <!-- DOC:END -->
           </section>

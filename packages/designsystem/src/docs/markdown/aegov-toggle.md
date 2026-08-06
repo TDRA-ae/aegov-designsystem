@@ -1,279 +1,277 @@
 # Toggle
 
-<p class="text-lg text-aeblack-500 mb-8">A Toggle is a switch input that lets users turn a single setting on or off. It is the right choice for binary preferences that take effect immediately — notification channels, language preference, accessibility options — and provides clear visual and assistive-technology feedback for the current state.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Toggle switches a setting on or off. It differs from a checkbox in intent rather than mechanics: a toggle reads as a control that takes effect now, while a checkbox reads as a value being collected for later submission. Use toggles for preferences and settings, and checkboxes for form answers and agreements.</p>
 
 ## Introduction
 
-The `aegov-toggle` component renders a fully accessible switch built on a native `<input type="checkbox">` with `role="switch"`. It supports an optional inline label and description, five sizes, custom on/off icons via slots, and standard form integration through `name` and `value`. Use it for "on now" decisions; for choices that only apply after a Save action, prefer a checkbox.
+`aegov-toggle` renders a real `<input type="checkbox">` with `role="switch"` and a styled track and thumb. Set `label` and the component positions the label beside the switch.
+
+```html
+<aegov-toggle name="notifications" label="Email notifications" is-checked></aegov-toggle>
+<aegov-toggle name="sms" label="SMS notifications"></aegov-toggle>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="space-y-4">
+    <aegov-toggle field-id="tg-intro-1" name="notifications" label="Email notifications" is-checked></aegov-toggle>
+    <aegov-toggle field-id="tg-intro-2" name="sms" label="SMS notifications"></aegov-toggle>
+  </div>
+</div>
+
+`role="switch"` is what makes the difference audible: a screen reader announces "on" or "off" rather than "checked" or "not checked", which matches how a user thinks about a setting.
+
+---
+
+## Toggle or checkbox?
+
+| Use a **toggle** when | Use a **[checkbox](aegov-checkbox.html)** when |
+| --- | --- |
+| The change takes effect immediately. | The value is submitted with a form. |
+| It is a setting or preference. | It is an answer or an agreement. |
+| The two states are "on" and "off". | The two states are "selected" and "not selected". |
+| There is no Save button involved. | A Save or Submit button applies the change. |
+
+The practical test is whether a Save button exists. A toggle inside a form that needs submitting is a broken promise — it looks like it applied instantly and did not. In that situation, use a checkbox.
+
+Consent and terms acceptance are always checkboxes, never toggles.
+
+---
+
+## Hint text
+
+`hint` renders secondary text under the label, wired into the input's `aria-describedby`. Settings usually need it — a toggle label alone rarely says what turning it on actually does.
 
 ```html
 <aegov-toggle
-  label="Enable SMS notifications"
-  hint="Receive transactional updates on your registered UAE mobile number."
-  is-checked="true"
+  name="dataSharing"
+  label="Share my verified profile"
+  hint="Lets other federal services pre-fill your details. You can withdraw consent at any time."
+  is-checked
 ></aegov-toggle>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-toggle
-    label="Enable SMS notifications"
-    hint="Receive transactional updates on your registered UAE mobile number."
-    is-checked="true"
-  ></aegov-toggle>
+  <div class="max-w-lg space-y-5">
+    <aegov-toggle field-id="tg-hint-1" name="dataSharing" label="Share my verified profile" hint="Lets other federal services pre-fill your details. You can withdraw consent at any time." is-checked></aegov-toggle>
+    <aegov-toggle field-id="tg-hint-2" name="reminders" label="Renewal reminders" hint="We will notify you 30 days before your Emirates ID expires"></aegov-toggle>
+  </div>
 </div>
+
+For rich content, use the `hint` slot:
+
+```html
+<aegov-toggle name="beta" label="Join the beta programme">
+  <span slot="hint">Read the <a href="/beta">beta terms</a> first.</span>
+</aegov-toggle>
+```
 
 ---
 
 ## Sizes
 
-The `size` property scales the track, thumb, and label typography. Five tokens are available — `xs`, `sm`, `base` (default), `lg`, and `xl` — to match the surrounding control density.
+Five tokens. The track, thumb and label scale together.
 
 ```html
-<aegov-toggle size="xs" label="Extra small"></aegov-toggle>
-<aegov-toggle size="sm" label="Small"></aegov-toggle>
-<aegov-toggle size="base" label="Base (default)"></aegov-toggle>
-<aegov-toggle size="lg" label="Large"></aegov-toggle>
-<aegov-toggle size="xl" label="Extra large"></aegov-toggle>
+<aegov-toggle size="xs" label="Extra small" is-checked></aegov-toggle>
+<aegov-toggle size="sm" label="Small" is-checked></aegov-toggle>
+<aegov-toggle size="base" label="Base" is-checked></aegov-toggle>
+<aegov-toggle size="lg" label="Large" is-checked></aegov-toggle>
+<aegov-toggle size="xl" label="Extra large" is-checked></aegov-toggle>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
-  <aegov-toggle size="xs" label="Extra small (xs)"></aegov-toggle>
-  <aegov-toggle size="sm" label="Small (sm)"></aegov-toggle>
-  <aegov-toggle size="base" label="Base (default)"></aegov-toggle>
-  <aegov-toggle size="lg" label="Large (lg)"></aegov-toggle>
-  <aegov-toggle size="xl" label="Extra large (xl)"></aegov-toggle>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="space-y-4">
+    <aegov-toggle field-id="tg-s-xs" size="xs" label="Extra small" is-checked></aegov-toggle>
+    <aegov-toggle field-id="tg-s-sm" size="sm" label="Small" is-checked></aegov-toggle>
+    <aegov-toggle field-id="tg-s-base" size="base" label="Base" is-checked></aegov-toggle>
+    <aegov-toggle field-id="tg-s-lg" size="lg" label="Large" is-checked></aegov-toggle>
+    <aegov-toggle field-id="tg-s-xl" size="xl" label="Extra large" is-checked></aegov-toggle>
+  </div>
 </div>
 
 ### Responsive sizes
 
-The `size` property accepts a Tailwind-style responsive string with the breakpoint prefixes `xs`, `sm`, `md`, `lg`, `xl`, and `2xl`. Each segment overrides smaller breakpoints.
+`size` accepts a responsive string with the prefixes `xs`, `sm`, `md`, `lg`, `xl` and `2xl`.
 
 ```html
-<aegov-toggle size="sm md:base xl:lg" label="Resizes with the viewport"></aegov-toggle>
+<aegov-toggle size="sm md:base" label="Adapts to the viewport"></aegov-toggle>
 ```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-toggle size="sm md:base xl:lg" label="Resizes with the viewport"></aegov-toggle>
-</div>
 
 ---
 
-## Variant
+## Icons inside the thumb
 
-The `variant` property selects the colour family of the **ON track**. The OFF track always stays `aeblack-200` for unambiguous visual contrast between states. The focus ring stays `primary-support-600` (camel) and the error border stays `aered-600` regardless of variant. The thumb glyph is always `whitely-50` for legibility.
-
-- `primary` — primary-* family (default)
-- `secondary` — secondary-* family
-- `neutral-max` — strong neutral (aeblack-800 family)
-- `neutral-min` — quiet neutral (aeblack-100 family). ON track stays `aeblack-800` so the toggle remains readable.
-
-### Colour matrix
-
-| Variant       | OFF track       | ON track        | Hover accent    |
-| ------------- | --------------- | --------------- | --------------- |
-| `primary`     | `aeblack-200`   | `primary-600`   | `primary-700`   |
-| `secondary`   | `aeblack-200`   | `secondary-600` | `secondary-700` |
-| `neutral-max` | `aeblack-200`   | `aeblack-800`   | `aeblack-800`   |
-| `neutral-min` | `aeblack-200`   | `aeblack-800`   | `aeblack-700`   |
+Two slots place an icon inside the moving thumb — `icon-checked` when on, `icon-unchecked` when off. This gives the state a second, non-colour signal, which is worth doing when the toggle controls something consequential.
 
 ```html
-<aegov-toggle variant="primary" label="Primary"></aegov-toggle>
-<aegov-toggle variant="secondary" label="Secondary"></aegov-toggle>
-<aegov-toggle variant="neutral-max" label="Neutral-max"></aegov-toggle>
-<aegov-toggle variant="neutral-min" label="Neutral-min"></aegov-toggle>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-    <aegov-toggle variant="primary" label="Primary — OFF"></aegov-toggle>
-    <aegov-toggle variant="primary" label="Primary — ON" is-checked="true"></aegov-toggle>
-    <aegov-toggle variant="secondary" label="Secondary — OFF"></aegov-toggle>
-    <aegov-toggle variant="secondary" label="Secondary — ON" is-checked="true"></aegov-toggle>
-    <aegov-toggle variant="neutral-max" label="Neutral-max — OFF"></aegov-toggle>
-    <aegov-toggle variant="neutral-max" label="Neutral-max — ON" is-checked="true"></aegov-toggle>
-    <aegov-toggle variant="neutral-min" label="Neutral-min — OFF"></aegov-toggle>
-    <aegov-toggle variant="neutral-min" label="Neutral-min — ON" is-checked="true"></aegov-toggle>
-  </div>
-</div>
-
----
-
-## Label and hint
-
-When a `label` is supplied, the toggle renders inside a `<label>` element so the entire row is clickable. Add `hint` to provide secondary helper text below the label — for example to explain consent implications or rate-limit consequences.
-
-```html
-<aegov-toggle
-  label="Share my data with partner government entities"
-  hint="Allows the Ministry to share verified profile data with other UAE federal services to pre-fill applications."
-></aegov-toggle>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-toggle
-    label="Share my data with partner government entities"
-    hint="Allows the Ministry to share verified profile data with other UAE federal services to pre-fill applications."
-  ></aegov-toggle>
-</div>
-
-A toggle without a label renders as a bare switch — useful inside cards or table rows where the label is provided by the surrounding context.
-
-```html
-<aegov-toggle is-checked="true"></aegov-toggle>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex items-center gap-3">
-  <span class="text-aeblack-700">Email notifications</span>
-  <aegov-toggle is-checked="true"></aegov-toggle>
-</div>
-
----
-
-## Checked and unchecked states
-
-Use `is-checked` to set the initial state. The property is reflected back to the host attribute as the user interacts, so reading the attribute always reflects the current value.
-
-```html
-<aegov-toggle label="Off by default"></aegov-toggle>
-<aegov-toggle label="On by default" is-checked="true"></aegov-toggle>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
-  <aegov-toggle label="Off by default"></aegov-toggle>
-  <aegov-toggle label="On by default" is-checked="true"></aegov-toggle>
-</div>
-
----
-
-## Disabled
-
-Set `is-disabled="true"` to prevent interaction. The track and thumb are visually muted and the underlying input receives the native `disabled` attribute, removing it from the tab order and form submission.
-
-```html
-<aegov-toggle label="Disabled (off)" is-disabled="true"></aegov-toggle>
-<aegov-toggle label="Disabled (on)" is-disabled="true" is-checked="true"></aegov-toggle>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
-  <aegov-toggle label="Disabled (off)" is-disabled="true"></aegov-toggle>
-  <aegov-toggle label="Disabled (on)" is-disabled="true" is-checked="true"></aegov-toggle>
-</div>
-
----
-
-## Custom on/off icons
-
-Use the `icon-checked` and `icon-unchecked` slots to embed icons inside the thumb that swap as the toggle changes state. Keep glyphs small and high-contrast — they sit inside a small circular thumb.
-
-```html
-<aegov-toggle label="Dark mode" size="lg">
-  <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+<aegov-toggle name="twoFactor" label="Two-factor authentication" is-checked>
+  <svg slot="icon-checked" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0l-3.5-3.5a1 1 0 0 1 1.4-1.4l2.8 2.8 6.8-6.8a1 1 0 0 1 1.4 0Z" clip-rule="evenodd" />
   </svg>
-  <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="5"/>
+  <svg slot="icon-unchecked" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
   </svg>
 </aegov-toggle>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-toggle label="Dark mode" size="lg">
-    <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-    </svg>
-    <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="5"/>
-    </svg>
-  </aegov-toggle>
+  <div class="space-y-4">
+    <aegov-toggle field-id="tg-ic-1" name="twoFactor" label="Two-factor authentication" is-checked>
+      <svg slot="icon-checked" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0l-3.5-3.5a1 1 0 0 1 1.4-1.4l2.8 2.8 6.8-6.8a1 1 0 0 1 1.4 0Z" clip-rule="evenodd" /></svg>
+      <svg slot="icon-unchecked" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" /></svg>
+    </aegov-toggle>
+    <aegov-toggle field-id="tg-ic-2" name="darkMode" label="Dark mode">
+      <svg slot="icon-checked" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.46 2.4a.75.75 0 0 0-.98.98 7.5 7.5 0 0 0 9.14 9.14.75.75 0 0 0 .98-.98A9 9 0 0 1 7.46 2.4Z" clip-rule="evenodd" /></svg>
+      <svg slot="icon-unchecked" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2a.75.75 0 0 1 .75.75v1a.75.75 0 0 1-1.5 0v-1A.75.75 0 0 1 10 2Zm0 12a.75.75 0 0 1 .75.75v1a.75.75 0 0 1-1.5 0v-1A.75.75 0 0 1 10 14Zm4-4a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" /></svg>
+    </aegov-toggle>
+  </div>
 </div>
+
+Mark both icons `aria-hidden="true"`. The state is already announced through `role="switch"` and `aria-checked` — an announced icon would duplicate it.
 
 ---
 
-## Form integration
-
-Provide `name` and `value` to participate in standard form submission. When checked, the form payload will include the supplied value under the given name; when unchecked, the field is omitted (matching native checkbox behaviour).
+## States
 
 ```html
-<form>
-  <aegov-toggle
-    name="marketing_consent"
-    value="yes"
-    label="I consent to receive service updates by email"
-    is-required="true"
-  ></aegov-toggle>
-</form>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-toggle
-    name="marketing_consent"
-    value="yes"
-    label="I consent to receive service updates by email"
-    is-required="true"
-  ></aegov-toggle>
-</div>
-
----
-
-## Notification preferences example
-
-A typical UAE Government scenario: a citizen managing notification channels for service updates from a federal portal. Each channel is independent and toggling it takes effect immediately.
-
-```html
-<aegov-toggle label="SMS" hint="Status updates sent to your registered UAE mobile." is-checked="true"></aegov-toggle>
-<aegov-toggle label="Email" hint="Receipts and renewal reminders." is-checked="true"></aegov-toggle>
-<aegov-toggle label="Push notifications" hint="In-app alerts on the official UAE Pass mobile app."></aegov-toggle>
-<aegov-toggle label="WhatsApp" hint="High-priority security alerts only." is-disabled="true"></aegov-toggle>
+<aegov-toggle label="Off"></aegov-toggle>
+<aegov-toggle label="On" is-checked></aegov-toggle>
+<aegov-toggle label="Disabled" is-disabled></aegov-toggle>
+<aegov-toggle label="Disabled and on" is-disabled is-checked></aegov-toggle>
+<aegov-toggle label="Invalid" is-invalid error-message="Enable notifications to continue"></aegov-toggle>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="space-y-4">
-    <aegov-toggle label="SMS" hint="Status updates sent to your registered UAE mobile." is-checked="true"></aegov-toggle>
-    <aegov-toggle label="Email" hint="Receipts and renewal reminders." is-checked="true"></aegov-toggle>
-    <aegov-toggle label="Push notifications" hint="In-app alerts on the official UAE Pass mobile app."></aegov-toggle>
-    <aegov-toggle label="WhatsApp" hint="High-priority security alerts only." is-disabled="true"></aegov-toggle>
+    <aegov-toggle field-id="tg-st-1" label="Off"></aegov-toggle>
+    <aegov-toggle field-id="tg-st-2" label="On" is-checked></aegov-toggle>
+    <aegov-toggle field-id="tg-st-3" label="Disabled" is-disabled></aegov-toggle>
+    <aegov-toggle field-id="tg-st-4" label="Disabled and on" is-disabled is-checked></aegov-toggle>
+    <aegov-toggle field-id="tg-st-5" label="Renewal reminders" is-invalid error-message="Enable at least one notification method"></aegov-toggle>
+  </div>
+</div>
+
+A disabled toggle should be accompanied by an explanation of what would enable it — a disabled setting with no reason given is a dead end.
+
+---
+
+## Variant
+
+`variant` sets the colour of the track when on. The **focus ring stays camel** and the **error state stays aered** regardless.
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="space-y-4">
+    <aegov-toggle field-id="tg-v-1" variant="primary" label="Primary" is-checked></aegov-toggle>
+    <aegov-toggle field-id="tg-v-2" variant="secondary" label="Secondary" is-checked></aegov-toggle>
+    <aegov-toggle field-id="tg-v-3" variant="neutral-max" label="Neutral max" is-checked></aegov-toggle>
+    <aegov-toggle field-id="tg-v-4" variant="neutral-min" label="Neutral min" is-checked></aegov-toggle>
   </div>
 </div>
 
 ---
 
+## Composite example — notification settings
+
+Because a toggle implies immediate effect, the realistic pattern is to persist on change and handle failure by reverting.
+
+```html
+<div class="divide-y divide-aeblack-100">
+  <div class="py-4">
+    <aegov-toggle
+      id="notify-email"
+      name="email"
+      label="Email notifications"
+      hint="Sent to the address registered on your account"
+      is-checked
+    ></aegov-toggle>
+  </div>
+  <div class="py-4">
+    <aegov-toggle
+      id="notify-sms"
+      name="sms"
+      label="SMS notifications"
+      hint="Sent to the mobile number on your Emirates ID"
+    ></aegov-toggle>
+  </div>
+</div>
+
+<script type="module">
+  for (const toggle of document.querySelectorAll('aegov-toggle')) {
+    toggle.addEventListener('aegovToggleChange', async (e) => {
+      const { checked } = e.detail;
+      toggle.isDisabled = true;
+
+      try {
+        await api.savePreference(toggle.name, checked);
+        showToast('Preference saved');
+      } catch {
+        toggle.isChecked = !checked;         // revert — the change did not stick
+        showToast('Could not save your preference', 'error');
+      } finally {
+        toggle.isDisabled = false;
+      }
+    });
+  }
+</script>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-lg divide-y divide-aeblack-100">
+    <div class="py-4">
+      <aegov-toggle field-id="tg-cx-1" name="email" label="Email notifications" hint="Sent to the address registered on your account" is-checked></aegov-toggle>
+    </div>
+    <div class="py-4">
+      <aegov-toggle field-id="tg-cx-2" name="sms" label="SMS notifications" hint="Sent to the mobile number on your Emirates ID"></aegov-toggle>
+    </div>
+    <div class="py-4">
+      <aegov-toggle field-id="tg-cx-3" name="reminders" label="Renewal reminders" hint="Notify me 30 days before my Emirates ID expires" is-checked></aegov-toggle>
+    </div>
+    <div class="py-4">
+      <aegov-toggle field-id="tg-cx-4" name="marketing" label="Service updates and newsletters" hint="Occasional updates about new government services"></aegov-toggle>
+    </div>
+  </div>
+</div>
+
+Reverting on failure is the part people forget. Without it the UI claims a setting is on when the server never accepted it.
+
+---
+
+## Listening for events
+
+```html
+<aegov-toggle id="dark-mode" name="darkMode" label="Dark mode"></aegov-toggle>
+
+<script type="module">
+  document.querySelector('#dark-mode').addEventListener('aegovToggleChange', (e) => {
+    document.documentElement.classList.toggle('dark', e.detail.checked);
+    localStorage.setItem('theme', e.detail.checked ? 'dark' : 'light');
+  });
+</script>
+```
+
+The detail carries `{ checked, value? }`. Because a toggle applies immediately, this handler is where the effect belongs — there is no submit step to defer to.
+
+---
+
 ## RTL Support
 
-The toggle is direction-agnostic. When the document or any ancestor is set to `dir="rtl"` the label moves to the inline-end automatically and the thumb travels in the correct direction (right-to-left when checked).
+The toggle is direction-aware. In a `dir="rtl"` container the switch moves to the right of its label, and the thumb travels in the mirrored direction — on is to the left. The component handles this with explicit direction rules, so no configuration is needed. Thumb icons follow the thumb.
 
 ```html
 <div dir="rtl">
-  <aegov-toggle
-    label="تفعيل الإشعارات عبر الرسائل النصية"
-    hint="استلام تحديثات الخدمة على رقم هاتفك المتحرك المسجل في دولة الإمارات."
-    is-checked="true"
-  ></aegov-toggle>
+  <aegov-toggle name="notifications" label="إشعارات البريد الإلكتروني" hint="تُرسل إلى العنوان المسجل في حسابك" is-checked></aegov-toggle>
+  <aegov-toggle name="sms" label="الرسائل النصية" hint="تُرسل إلى رقم الهاتف المسجل في هويتك الإماراتية"></aegov-toggle>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-toggle
-    label="تفعيل الإشعارات عبر الرسائل النصية"
-    hint="استلام تحديثات الخدمة على رقم هاتفك المتحرك المسجل في دولة الإمارات."
-    is-checked="true"
-  ></aegov-toggle>
-</div>
-
-A full preferences panel in RTL:
-
-```html
-<div dir="rtl">
-  <aegov-toggle label="رسائل SMS" hint="تحديثات الحالة على رقم هاتفك." is-checked="true"></aegov-toggle>
-  <aegov-toggle label="البريد الإلكتروني" hint="إيصالات وتذكيرات التجديد." is-checked="true"></aegov-toggle>
-  <aegov-toggle label="إشعارات التطبيق" hint="تنبيهات داخل تطبيق الهوية الرقمية UAE Pass."></aegov-toggle>
-</div>
-```
-
-<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="space-y-4">
-    <aegov-toggle label="رسائل SMS" hint="تحديثات الحالة على رقم هاتفك." is-checked="true"></aegov-toggle>
-    <aegov-toggle label="البريد الإلكتروني" hint="إيصالات وتذكيرات التجديد." is-checked="true"></aegov-toggle>
-    <aegov-toggle label="إشعارات التطبيق" hint="تنبيهات داخل تطبيق الهوية الرقمية UAE Pass."></aegov-toggle>
+  <div class="max-w-lg space-y-5">
+    <aegov-toggle field-id="tg-rtl-1" name="notifications" label="إشعارات البريد الإلكتروني" hint="تُرسل إلى العنوان المسجل في حسابك" is-checked></aegov-toggle>
+    <aegov-toggle field-id="tg-rtl-2" name="sms" label="الرسائل النصية" hint="تُرسل إلى رقم الهاتف المسجل في هويتك الإماراتية"></aegov-toggle>
+    <aegov-toggle field-id="tg-rtl-3" name="twoFactor" label="التحقق بخطوتين" is-checked>
+      <svg slot="icon-checked" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0l-3.5-3.5a1 1 0 0 1 1.4-1.4l2.8 2.8 6.8-6.8a1 1 0 0 1 1.4 0Z" clip-rule="evenodd" /></svg>
+    </aegov-toggle>
+    <aegov-toggle field-id="tg-rtl-4" name="marketing" label="التحديثات والرسائل الإخبارية" is-disabled></aegov-toggle>
   </div>
 </div>
 
@@ -281,89 +279,122 @@ A full preferences panel in RTL:
 
 ## API Reference
 
-### aegov-toggle Properties
+### Properties
 
-| Property      | Attribute      | Description                                                                  | Type      | Default     |
-| ------------- | -------------- | ---------------------------------------------------------------------------- | --------- | ----------- |
-| `fieldId`     | `field-id`     | DOM `id` for the underlying `<input>`. Auto-generated if omitted.             | `string`  | _generated_ |
-| `name`        | `name`         | Form field name used during submission.                                       | `string`  | `undefined` |
-| `value`       | `value`        | Form value submitted when the toggle is checked.                              | `string`  | `undefined` |
-| `isChecked`   | `is-checked`   | Whether the toggle is on. Reflected to the host attribute.                    | `boolean` | `false`     |
-| `size`        | `size`         | Size token (`xs`, `sm`, `base`, `lg`, `xl`) or a responsive string.            | `string`  | `'base'`    |
-| `variant`     | `variant`      | Colour family for the ON track. OFF track stays `aeblack-200`. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
-| `isDisabled`  | `is-disabled`  | Disables the input and removes it from the tab order.                         | `boolean` | `false`     |
-| `isRequired`  | `is-required`  | Marks the underlying input as required for form validation.                   | `boolean` | `false`     |
-| `label`       | `label`        | Inline label text rendered after the switch.                                  | `string`  | `undefined` |
-| `hint`        | `hint`         | Helper hint text shown below the label. Requires `label` to render.           | `string`  | `undefined` |
+| Property | Attribute | Description | Type | Default |
+| --- | --- | --- | --- | --- |
+| `fieldId` | `field-id` | ID applied to the inner `<input>`. Auto-generated when omitted, reflected. | `string` | _generated_ |
+| `name` | `name` | Form field name. | `string` | — |
+| `value` | `value` | Value submitted when on. | `string` | — |
+| `isChecked` | `is-checked` | On state. Mutable and reflected. | `boolean` | `false` |
+| `label` | `label` | Inline label text. Renders the switch and label as one click target. | `string` | — |
+| `hint` | `hint` | Secondary text under the label, added to `aria-describedby`. | `string` | — |
+| `size` | `size` | Size token or responsive string. | `string` — `xs \| sm \| base \| lg \| xl` | `'base'` |
+| `variant` | `variant` | Colour of the track when on. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
+| `isDisabled` | `is-disabled` | Disables the toggle. Reflected. | `boolean` | `false` |
+| `isRequired` | `is-required` | Marks the toggle required. | `boolean` | `false` |
+| `isInvalid` | `is-invalid` | Invalid state. Mutable and reflected. | `boolean` | `false` |
+| `errorMessage` | `error-message` | Error text shown while invalid. | `string` | `''` |
 
 ### Slots
 
-| Slot              | Description                                                                                |
-| ----------------- | ------------------------------------------------------------------------------------------ |
-| `icon-checked`    | Icon shown inside the thumb when the toggle is on. Keep dimensions ≤ 14×14 px.              |
-| `icon-unchecked`  | Icon shown inside the thumb when the toggle is off. Keep dimensions ≤ 14×14 px.             |
+| Slot | Description |
+| --- | --- |
+| `icon-checked` | Icon rendered inside the thumb while on. |
+| `icon-unchecked` | Icon rendered inside the thumb while off. |
+| `hint` | Rich hint markup. Takes precedence over the `hint` property. |
+| `error` | Rich error markup. Rendered only while `is-invalid`. |
 
 ### Events
 
-| Event                 | Detail                                  | Description                                                |
-| --------------------- | --------------------------------------- | ---------------------------------------------------------- |
-| `aegovToggleChange`   | `{ checked: boolean; value?: string }`  | Fires after every state change with the new checked value. |
+| Event | Detail | Description |
+| --- | --- | --- |
+| `aegovToggleChange` | `{ checked: boolean; value?: string }` | The toggle was switched. |
+| `aegovValidate` | `AegovValidationDetail<boolean>` | Unified validation event — see [Validation Surface](validation-overview.html). |
 
-#### Listening for changes
+### Methods
 
-```html
-<aegov-toggle id="sms" label="SMS notifications"></aegov-toggle>
-
-<script>
-  document.querySelector('#sms').addEventListener('aegovToggleChange', (e) => {
-    console.log('SMS toggle is now', e.detail.checked ? 'on' : 'off');
-  });
-</script>
-```
+| Method | Returns | Description |
+| --- | --- | --- |
+| `validate(trigger?)` | `Promise<AegovValidationResult>` | Re-runs validation and emits `aegovValidate`. |
+| `setCustomValidity(message)` | `Promise<void>` | Sets `error-message` and `is-invalid`. Empty string clears. |
 
 ### Pass-through Attributes
 
-The component forwards the attribute groups below onto the inner `<input>`. Apply them on `<aegov-toggle>` and they will appear on the native input that participates in the focus order and form submission.
+| Attribute group | Forwarded? | Notes |
+| --- | --- | --- |
+| `form`, `tabindex`, `autofocus`, `title` | Yes | Forwarded to the inner `<input>`. |
+| `aria-*` | Yes | Forwarded — except `aria-invalid` and `aria-describedby`. |
+| `data-*` | Yes | Forwarded to the inner `<input>`. |
+| `aria-invalid`, `aria-describedby` | Managed | Owned by the component; `aria-describedby` composes your value with the hint and error IDs. |
+| `id` | n/a | Use `field-id`. |
+| `class`, `style` | Allowed | Applied to the host. |
 
-| Attribute group | Forwarded to inner `<input>` | Notes                                                            |
-| --------------- | ---------------------------- | ---------------------------------------------------------------- |
-| `aria-*`        | Yes                          | Use to extend ARIA semantics (e.g. `aria-labelledby`).            |
-| `data-*`        | Yes                          | Useful for analytics or test selectors.                           |
-| `form`          | Yes                          | Associates the input with a form by `id` when not nested inside it.|
-| `tabindex`      | Yes                          | Override default tab order.                                       |
-| `autofocus`     | Yes                          | Focus the toggle on initial page load.                            |
-| `title`         | Yes                          | Native browser tooltip text.                                      |
+### CSS classes
+
+| Class | Element |
+| --- | --- |
+| `.aegov-toggle` | The component wrapper. |
+| `.toggle__track` | The track behind the thumb. Marked `aria-hidden`. |
+| `.is-invalid` | Added to the **host** while `is-invalid`. |
 
 ---
 
 ## Validation
 
-`aegov-toggle` exposes the unified [Validation Surface](validation-overview.html). Toggle-specific notes:
+### Surface
+
+`aegov-toggle` implements the shared contract, reporting a `boolean` value. In `FormData` it submits `'on'` when checked and is absent when not — native checkbox behaviour. Full reference: [Validation Surface](validation-overview.html).
+
+Validation on a toggle is uncommon, because a setting is rarely invalid. The realistic case is a cross-field rule — at least one notification method must be enabled.
 
 ### Common recipes
 
-**Required consent toggle:**
-
-```html
-<aegov-toggle name="newsletter" is-required label="I agree to receive emails"></aegov-toggle>
-```
-
-**Conditional dependent fields:**
+"At least one of these must be on":
 
 ```js
-toggle.addEventListener('aegovValidate', (e) => {
-  // Show extra fields only when toggle is on
-  document.getElementById('details').hidden = !e.detail.value;
+const toggles = [...document.querySelectorAll('aegov-toggle[data-notify]')];
+
+function checkAtLeastOne() {
+  const anyOn = toggles.some((t) => t.isChecked);
+  for (const t of toggles) {
+    t.isInvalid = !anyOn;
+    t.errorMessage = anyOn ? '' : 'Enable at least one notification method';
+  }
+}
+
+for (const t of toggles) {
+  t.addEventListener('aegovToggleChange', checkAtLeastOne);
+}
+```
+
+Required opt-in:
+
+```js
+consent.addEventListener('aegovValidate', (e) => {
+  const ok = e.detail.value === true;
+  consent.isInvalid = !ok;
+  consent.errorMessage = ok ? '' : 'You must enable data sharing to use this service';
 });
 ```
 
-**Server-confirmed toggle (e.g. opt-in pending):**
+If you find yourself writing that second one, reconsider the control — a required opt-in is an agreement, and agreements belong in a [checkbox](aegov-checkbox.html).
 
-```js
-toggle.setCustomValidity('Confirmation pending — check your email');
+More patterns in [Bring Your Own Validator](validation-byo.html).
+
+### Use with `@aegov/designsystem-validation`
+
+The **optional** companion package drives this surface from a schema.
+
+```ts
+import { createForm } from '@aegov/designsystem-validation';
+import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot';
+import * as v from 'valibot';
+
+createForm(form, v.object({
+  dataSharing: v.boolean(),
+}), valibotAdapter());
 ```
-
-See [BYO Validator](validation-byo.html) for more patterns.
 
 ---
 
@@ -371,21 +402,43 @@ See [BYO Validator](validation-byo.html) for more patterns.
 
 ### Built-in behaviour
 
-- The underlying control is a native `<input type="checkbox">` with `role="switch"` and an explicit `aria-checked` state, so assistive technology announces "switch, on" or "switch, off" rather than "checkbox, checked".
-- When `hint` is provided, the input is linked to it via `aria-describedby` so screen readers read the helper text after the label.
-- `is-required` sets both the native `required` attribute and `aria-required="true"`.
-- The label wraps the switch, so the entire row — label and description included — is clickable and fires the same change event.
+- The inner element is a real `<input type="checkbox">` carrying `role="switch"`, so a screen reader announces "on" / "off" rather than "checked" / "unchecked" — matching the mental model of a setting.
+- `aria-checked` is kept in sync with the state.
+- Setting `label` makes the switch and label a single click target, keeping the effective target size compliant with WCAG 2.2 SC 2.5.8 at every size token.
+- `hint` is wired into the input's `aria-describedby`.
+- The visual track is marked `aria-hidden="true"` — it is decoration over the real control, and would otherwise be announced twice.
+- `aria-required` and `aria-invalid` are set from the corresponding properties.
+- Thumb travel direction is mirrored under `dir="rtl"` through explicit direction rules.
+- The error region takes `role="alert"` only after first blur.
+- The focus ring is a high-contrast camel outline held constant across variants, meeting the 3:1 requirement of WCAG 2.2 SC 1.4.11.
 
 ### Developer responsibilities
 
-- Always provide a `label` (or an external `<aegov-label>` linked via `field-id`). A bare switch without an accessible name is opaque to screen reader users.
-- Use a switch only for settings that take effect immediately. For "save later" choices, use a checkbox.
-- Keep on/off icons decorative — the state is already announced via `aria-checked`. Do not encode the only meaning of the toggle in the icon.
+- **Always give a toggle a `label`.** An unlabelled switch is unusable, and the label is also the click target.
+- **Label the setting, not the action.** "Email notifications" is right; "Enable email notifications" reads as a button and becomes wrong once the toggle is on.
+- **Do not rely on colour alone** to convey state (WCAG 2.2 SC 1.4.1). The `role="switch"` announcement covers assistive technology; for sighted users the thumb position is the primary cue, and the `icon-checked` / `icon-unchecked` slots strengthen it further.
+- **Apply the change immediately**, and revert `isChecked` if the request fails. A toggle that silently did not persist is worse than a form that never claimed to save.
+- **Confirm destructive toggles** before applying. Turning off two-factor authentication should open a [modal](aegov-modal.html), not just flip.
+- **Explain a disabled toggle.** Say what would make it available.
+- **Use a [checkbox](aegov-checkbox.html) inside forms** that have a Save button, and always for consent and terms.
+- **Mark thumb icons `aria-hidden="true"`.**
 
 ### Keyboard support
 
-| Key              | Action                                          |
-| ---------------- | ----------------------------------------------- |
-| `Space`          | Toggle the switch on or off.                    |
-| `Tab`            | Move focus to the next focusable element.       |
-| `Shift + Tab`    | Move focus to the previous focusable element.   |
+| Key | Action |
+| --- | --- |
+| `Tab` | Move focus to the toggle. |
+| `Shift` + `Tab` | Move focus to the previous focusable element. |
+| `Space` | Switch the toggle on or off. |
+
+`Enter` does not activate a switch — that is native checkbox behaviour, and it is why a toggle should never be the only way to submit something.
+
+---
+
+## Where to next
+
+- [Checkbox](aegov-checkbox.html) — for form values, agreements and consent.
+- [Radio](aegov-radio.html) — for one choice from a set.
+- [Modal](aegov-modal.html) — for confirming a destructive toggle.
+- [Toast](aegov-toast.html) — for confirming that a setting saved.
+- [Validation Surface](validation-overview.html) and [Bring Your Own Validator](validation-byo.html).

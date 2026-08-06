@@ -1,485 +1,435 @@
 # Range
 
-<p class="text-lg text-aeblack-500 mb-8">A Range is a slider for choosing a numeric value or a numeric span between a minimum and a maximum. It is well suited to inputs where the magnitude is more meaningful than the exact figure — residency duration, age filters, fee brackets — and works equally well with mouse, touch, and keyboard.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Range lets the user pick a number, or a span between two numbers, by dragging along a track. Use it when the approximate value matters more than the exact one — a search radius, a price ceiling, an age band. When the precise figure matters, a number input is the better control.</p>
 
 ## Introduction
 
-The `aegov-range` component is built on a native `<input type="range">` for full keyboard, screen-reader, and form support, with an extra interactive track-and-thumb layer for richer styling and dual-thumb selection. It supports single or dual modes, horizontal and vertical orientation, four value-display styles, and five sizes.
+`aegov-range` renders real `<input type="range">` elements behind a custom track and thumb, so keyboard behaviour and form participation come from the platform while the appearance is fully themed.
 
 ```html
-<aegov-range
-  label="Search radius (km)"
-  min="1"
-  max="50"
-  value="10"
-  display="tooltip"
-></aegov-range>
+<aegov-range name="radius" label="Search radius" min="0" max="50" value="15" display="full"></aegov-range>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-range
-    label="Search radius (km)"
-    min="1"
-    max="50"
-    value="10"
-    display="tooltip"
-  ></aegov-range>
+  <div class="max-w-md">
+    <aegov-range field-id="rg-intro" name="radius" label="Search radius" min="0" max="50" value="15" display="full"></aegov-range>
+  </div>
 </div>
+
+Unlike the other form controls, `aegov-range` renders its own `label` rather than relying on [`aegov-label`](aegov-label.html) — the label needs to sit alongside the value readout, so the component owns that layout.
 
 ---
 
-## Single vs. range mode
+## Mode
 
-Use `mode="single"` (default) for one thumb and one value, or `mode="range"` for two thumbs that select a low/high pair. In range mode, set `value-low` and `value-high` instead of `value`.
+`mode` chooses between one thumb and two.
 
-### Single mode (default)
-
-```html
-<aegov-range
-  label="Monthly income (AED, thousands)"
-  min="0"
-  max="100"
-  value="25"
-  display="tooltip"
-></aegov-range>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-range
-    label="Monthly income (AED, thousands)"
-    min="0"
-    max="100"
-    value="25"
-    display="tooltip"
-  ></aegov-range>
-</div>
-
-### Dual-thumb range
+| Mode | Value properties | Use for |
+| --- | --- | --- |
+| `single` | `value` | A single number — a radius, a volume, a maximum. |
+| `range` | `valueLow` and `valueHigh` | A span — a price band, an age range, a date window. |
 
 ```html
+<aegov-range mode="single" name="radius" label="Search radius" min="0" max="50" value="15" display="full"></aegov-range>
+
 <aegov-range
-  label="Age of dependants"
   mode="range"
+  name="income"
+  label="Household income band (AED)"
   min="0"
-  max="80"
-  value-low="18"
-  value-high="65"
+  max="50000"
+  step="1000"
+  value-low="10000"
+  value-high="30000"
   display="full"
 ></aegov-range>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-range
-    label="Age of dependants"
-    mode="range"
-    min="0"
-    max="80"
-    value-low="18"
-    value-high="65"
-    display="full"
-  ></aegov-range>
+  <div class="max-w-md space-y-10">
+    <aegov-range field-id="rg-m-1" mode="single" name="radius" label="Search radius" min="0" max="50" value="15" display="full"></aegov-range>
+    <aegov-range field-id="rg-m-2" mode="range" name="income" label="Household income band (AED)" min="0" max="50000" step="1000" value-low="10000" value-high="30000" display="full"></aegov-range>
+  </div>
 </div>
 
----
-
-## Min, max, and step
-
-`min` and `max` define the bounds; `step` controls the granularity. Use a non-integer step for currency or fractional values, and a larger step (10, 50, 100) when fine precision is unnecessary.
-
-```html
-<aegov-range label="Years of UAE residency" min="0" max="40" step="1" value="5" display="tooltip"></aegov-range>
-<aegov-range label="Service fee (AED)" min="0" max="500" step="25" value="200" display="full"></aegov-range>
-<aegov-range label="Acceptance threshold" min="0" max="1" step="0.05" value="0.75" display="thumb"></aegov-range>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-8">
-  <aegov-range label="Years of UAE residency" min="0" max="40" step="1" value="5" display="tooltip"></aegov-range>
-  <aegov-range label="Service fee (AED)" min="0" max="500" step="25" value="200" display="full"></aegov-range>
-  <aegov-range label="Acceptance threshold" min="0" max="1" step="0.05" value="0.75" display="thumb"></aegov-range>
-</div>
+In range mode `value` is ignored — read and write `valueLow` and `valueHigh` instead.
 
 ---
 
 ## Value display
 
-The `display` property controls how the current value is shown alongside the slider.
+`display` controls where, and whether, the current value is shown.
 
-| Token     | Behaviour                                                            |
-| --------- | -------------------------------------------------------------------- |
-| `none`    | No on-screen value (default). The label or surrounding UI explains.  |
-| `tooltip` | A small bubble appears above the active thumb on focus or drag.      |
-| `thumb`   | The value sits inside the thumb itself, always visible.              |
-| `full`    | Min and max labels at each end of the track, plus the value in-thumb.|
-
-```html
-<aegov-range label="display = none" value="40"></aegov-range>
-<aegov-range label="display = tooltip" value="40" display="tooltip"></aegov-range>
-<aegov-range label="display = thumb" value="40" display="thumb"></aegov-range>
-<aegov-range label="display = full" value="40" display="full"></aegov-range>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-8">
-  <aegov-range label="display = none" value="40"></aegov-range>
-  <aegov-range label="display = tooltip" value="40" display="tooltip"></aegov-range>
-  <aegov-range label="display = thumb" value="40" display="thumb"></aegov-range>
-  <aegov-range label="display = full" value="40" display="full"></aegov-range>
-</div>
-
----
-
-## Sizes
-
-The `size` property controls the height of the track. Five tokens are available — `xs`, `sm`, `base` (default), `lg`, and `xl`. The thumb size remains constant so it stays comfortably tappable on touch devices.
+| Value | Behaviour |
+| --- | --- |
+| `none` | Default. No readout. Only appropriate when the value is visible elsewhere. |
+| `tooltip` | The value floats above the thumb while dragging. |
+| `thumb` | The value sits permanently inside the thumb. |
+| `full` | Min and max labels at the ends of the track, plus the current value. |
 
 ```html
-<aegov-range size="xs" value="50"></aegov-range>
-<aegov-range size="sm" value="50"></aegov-range>
-<aegov-range size="base" value="50"></aegov-range>
-<aegov-range size="lg" value="50"></aegov-range>
-<aegov-range size="xl" value="50"></aegov-range>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-6">
-  <aegov-range size="xs" value="50"></aegov-range>
-  <aegov-range size="sm" value="50"></aegov-range>
-  <aegov-range size="base" value="50"></aegov-range>
-  <aegov-range size="lg" value="50"></aegov-range>
-  <aegov-range size="xl" value="50"></aegov-range>
-</div>
-
-### Responsive sizes
-
-The `size` property accepts a Tailwind-style responsive string with the breakpoint prefixes `xs`, `sm`, `md`, `lg`, `xl`, and `2xl`. Each segment overrides smaller breakpoints.
-
-```html
-<aegov-range size="sm md:base xl:lg" label="Resizes with the viewport" value="50" display="tooltip"></aegov-range>
+<aegov-range display="none" label="No readout" value="40"></aegov-range>
+<aegov-range display="tooltip" label="Tooltip on drag" value="40"></aegov-range>
+<aegov-range display="thumb" label="Value in thumb" value="40"></aegov-range>
+<aegov-range display="full" label="Full readout" value="40"></aegov-range>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-range size="sm md:base xl:lg" label="Resizes with the viewport" value="50" display="tooltip"></aegov-range>
+  <div class="max-w-md space-y-10">
+    <aegov-range field-id="rg-d-1" display="none" label="none" value="40"></aegov-range>
+    <aegov-range field-id="rg-d-2" display="tooltip" label="tooltip — drag to see it" value="40"></aegov-range>
+    <aegov-range field-id="rg-d-3" display="thumb" label="thumb" value="40"></aegov-range>
+    <aegov-range field-id="rg-d-4" display="full" label="full" value="40"></aegov-range>
+  </div>
 </div>
+
+Prefer `full` for anything the user must get right. `none` leaves them guessing, and `tooltip` hides the value exactly when a keyboard user is not dragging — so if you use `tooltip`, make sure the value is also visible somewhere permanent.
 
 ---
 
-## Variant
+## Min, max and step
 
-The `variant` property selects the colour family for the active fill segment of the track. The off-track stays `aeblack-200` and the thumb stays `aeblack-800` regardless of variant — both are constants for a consistent grip across colour families. The focus ring stays `primary-support-600` (camel) and error states stay `aered-600`.
-
-- `primary` — primary-* family (default)
-- `secondary` — secondary-* family
-- `neutral-max` — strong neutral (aeblack-800 family)
-- `neutral-min` — quiet neutral (aeblack-100 family). Active fill stays `aeblack-800` so the filled portion is still legible.
-
-### Colour matrix
-
-| Variant       | Track (constant) | Active fill     | Thumb (constant) | Hover accent    |
-| ------------- | ---------------- | --------------- | ---------------- | --------------- |
-| `primary`     | `aeblack-200`    | `primary-600`   | `aeblack-800`    | `primary-700`   |
-| `secondary`   | `aeblack-200`    | `secondary-600` | `aeblack-800`    | `secondary-700` |
-| `neutral-max` | `aeblack-200`    | `aeblack-800`   | `aeblack-800`    | `aeblack-800`   |
-| `neutral-min` | `aeblack-200`    | `aeblack-800`   | `aeblack-800`    | `aeblack-700`   |
+`step` sets the granularity. Choose it to match how the value is actually used — a search radius in whole kilometres, a fee in hundreds.
 
 ```html
-<aegov-range variant="primary" value="50"></aegov-range>
-<aegov-range variant="secondary" value="50"></aegov-range>
-<aegov-range variant="neutral-max" value="50"></aegov-range>
-<aegov-range variant="neutral-min" value="50"></aegov-range>
+<aegov-range label="Radius (km)" min="0" max="50" step="5" value="20" display="full"></aegov-range>
+<aegov-range label="Fee ceiling (AED)" min="0" max="5000" step="250" value="1500" display="full"></aegov-range>
+<aegov-range label="Age" min="18" max="80" step="1" value="35" display="full"></aegov-range>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-6">
-  <aegov-range variant="primary" label="Primary" value="50" display="tooltip"></aegov-range>
-  <aegov-range variant="secondary" label="Secondary" value="50" display="tooltip"></aegov-range>
-  <aegov-range variant="neutral-max" label="Neutral-max" value="50" display="tooltip"></aegov-range>
-  <aegov-range variant="neutral-min" label="Neutral-min" value="50" display="tooltip"></aegov-range>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-10">
+    <aegov-range field-id="rg-st-1" label="Radius (km)" min="0" max="50" step="5" value="20" display="full"></aegov-range>
+    <aegov-range field-id="rg-st-2" label="Fee ceiling (AED)" min="0" max="5000" step="250" value="1500" display="full"></aegov-range>
+    <aegov-range field-id="rg-st-3" label="Age" min="18" max="80" step="1" value="35" display="full"></aegov-range>
+  </div>
 </div>
+
+A large range with `step="1"` is hard to operate — 500 keypresses to cross the track. Pick a step that makes the whole range reachable in a reasonable number of presses.
 
 ---
 
 ## Orientation
 
-Set `orientation="vertical"` for a vertical slider. Vertical sliders are most appropriate for graphical equalisers, density controls, and tall side panels. Provide a fixed height on the wrapper — the component fills its container.
-
 ```html
-<aegov-range
-  orientation="vertical"
-  value="60"
-  display="tooltip"
-  style="height: 200px"
-></aegov-range>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-8 items-end">
-  <aegov-range orientation="vertical" value="20" display="tooltip" style="height: 200px"></aegov-range>
-  <aegov-range orientation="vertical" value="60" display="tooltip" style="height: 200px"></aegov-range>
-  <aegov-range orientation="vertical" value="90" display="tooltip" style="height: 200px"></aegov-range>
-</div>
-
----
-
-## Disabled
-
-Set `is-disabled="true"` to prevent interaction. The track and thumb appear muted and the underlying input receives the native `disabled` attribute, removing it from the tab order and form submission.
-
-```html
-<aegov-range label="Disabled" value="40" is-disabled="true" display="tooltip"></aegov-range>
+<aegov-range orientation="horizontal" label="Horizontal" value="40" display="full"></aegov-range>
+<aegov-range orientation="vertical" label="Vertical" value="40" display="thumb"></aegov-range>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-range label="Disabled" value="40" is-disabled="true" display="tooltip"></aegov-range>
+  <div class="flex items-start gap-12">
+    <div class="max-w-xs grow">
+      <aegov-range field-id="rg-o-1" orientation="horizontal" label="Horizontal" value="40" display="full"></aegov-range>
+    </div>
+    <div style="height: 220px;">
+      <aegov-range field-id="rg-o-2" orientation="vertical" label="Vertical" value="40" display="thumb"></aegov-range>
+    </div>
+  </div>
 </div>
+
+Vertical ranges need an explicit height on a wrapper — they have no intrinsic length. They also suit far fewer situations than horizontal; reach for them only where the value is genuinely vertical, such as a level or a volume.
 
 ---
 
-## Form integration
+## Sizes
 
-Provide `name` to participate in standard form submission. In single mode the value is submitted directly. In range mode, two fields are submitted using the suffixes `-low` and `-high` (for example `salary-low` and `salary-high`).
+Five tokens, scaling the track and thumb.
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-8">
+    <aegov-range field-id="rg-s-xs" size="xs" label="Extra small" value="40"></aegov-range>
+    <aegov-range field-id="rg-s-sm" size="sm" label="Small" value="40"></aegov-range>
+    <aegov-range field-id="rg-s-base" size="base" label="Base" value="40"></aegov-range>
+    <aegov-range field-id="rg-s-lg" size="lg" label="Large" value="40"></aegov-range>
+    <aegov-range field-id="rg-s-xl" size="xl" label="Extra large" value="40"></aegov-range>
+  </div>
+</div>
+
+### Responsive sizes
+
+`size` accepts a responsive string with the prefixes `xs`, `sm`, `md`, `lg`, `xl` and `2xl`.
 
 ```html
-<form>
-  <aegov-range
-    label="Acceptable processing fee (AED)"
-    name="processing_fee"
-    min="0"
-    max="500"
-    step="10"
-    value="150"
-    display="full"
-  ></aegov-range>
-</form>
+<aegov-range size="sm md:base lg:lg" label="Adapts to the viewport" value="40"></aegov-range>
+```
+
+Larger tokens give a bigger drag target, which matters on touch. Do not go below `base` for a control the user is expected to drag precisely.
+
+---
+
+## States and variant
+
+```html
+<aegov-range label="Disabled" value="40" is-disabled></aegov-range>
+<aegov-range label="Invalid" value="5" is-invalid error-message="Choose a radius of at least 10 km"></aegov-range>
+<aegov-range label="With hint" value="40" hint="Results update as you drag"></aegov-range>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-range
-    label="Acceptable processing fee (AED)"
-    name="processing_fee"
-    min="0"
-    max="500"
-    step="10"
-    value="150"
-    display="full"
-  ></aegov-range>
+  <div class="max-w-md space-y-10">
+    <aegov-range field-id="rg-x-1" label="Disabled" value="40" is-disabled display="full"></aegov-range>
+    <aegov-range field-id="rg-x-2" label="Search radius (km)" min="0" max="50" value="5" is-invalid error-message="Choose a radius of at least 10 km" display="full"></aegov-range>
+    <aegov-range field-id="rg-x-3" label="Search radius (km)" min="0" max="50" value="20" hint="Results update as you drag" display="full"></aegov-range>
+    <aegov-range field-id="rg-x-4" variant="secondary" label="Secondary variant" value="40" display="full"></aegov-range>
+    <aegov-range field-id="rg-x-5" variant="neutral-max" label="Neutral max variant" value="40" display="full"></aegov-range>
+  </div>
 </div>
+
+As everywhere in the form family, the **focus ring stays camel** and the **error state stays aered** regardless of variant.
 
 ---
 
-## Service-search example
-
-A typical UAE Government scenario: a citizen filtering nearby service centres on the federal portal. A single-thumb radius slider plus a dual-thumb age band on the same panel is a common pairing.
+## Composite example — service search filters
 
 ```html
-<aegov-range
-  label="Service centres within (km)"
-  min="1"
-  max="50"
-  value="10"
-  display="tooltip"
-></aegov-range>
-
-<aegov-range
-  label="Eligible age band"
-  mode="range"
-  min="0"
-  max="80"
-  value-low="21"
-  value-high="60"
-  display="full"
-></aegov-range>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-10">
+<form id="filters">
   <aegov-range
-    label="Service centres within (km)"
+    id="radius"
+    name="radius"
+    label="Search radius (km)"
     min="1"
     max="50"
+    step="1"
     value="10"
-    display="tooltip"
+    display="full"
+    hint="Distance from your registered address"
   ></aegov-range>
+
   <aegov-range
-    label="Eligible age band"
+    id="fee"
     mode="range"
+    name="fee"
+    label="Fee range (AED)"
     min="0"
-    max="80"
-    value-low="21"
-    value-high="60"
+    max="2000"
+    step="50"
+    value-low="0"
+    value-high="1000"
     display="full"
   ></aegov-range>
+
+  <p id="summary" class="text-sm text-aeblack-500" aria-live="polite"></p>
+</form>
+
+<script type="module">
+  const radius = document.querySelector('#radius');
+  const fee = document.querySelector('#fee');
+  const summary = document.querySelector('#summary');
+
+  function update() {
+    summary.textContent =
+      `Showing centres within ${radius.value} km, fees AED ${fee.valueLow}–${fee.valueHigh}`;
+  }
+
+  // While dragging — cheap UI updates only
+  radius.addEventListener('aegovRangeInput', update);
+  fee.addEventListener('aegovRangeInput', update);
+
+  // On release — the expensive call
+  radius.addEventListener('aegovRangeChange', () => runSearch());
+  fee.addEventListener('aegovRangeChange', () => runSearch());
+
+  update();
+</script>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md space-y-10">
+    <aegov-range field-id="rg-cx-1" name="radius" label="Search radius (km)" min="1" max="50" step="1" value="10" display="full" hint="Distance from your registered address"></aegov-range>
+    <aegov-range field-id="rg-cx-2" mode="range" name="fee" label="Fee range (AED)" min="0" max="2000" step="50" value-low="0" value-high="1000" display="full"></aegov-range>
+  </div>
 </div>
+
+The two-event split is the point of this example. `aegovRangeInput` fires continuously while dragging — use it for the readout. `aegovRangeChange` fires on release — use it for anything expensive, such as a network request.
+
+---
+
+## Listening for events
+
+| Event | Fires |
+| --- | --- |
+| `aegovRangeInput` | Continuously while dragging or on each keypress. |
+| `aegovRangeChange` | When the interaction completes. |
+
+```js
+range.addEventListener('aegovRangeInput', (e) => {
+  // single mode
+  console.log(e.detail.value);
+  // range mode
+  console.log(e.detail.valueLow, e.detail.valueHigh);
+});
+```
+
+The detail carries whichever properties apply to the current mode, so check the mode rather than assuming a shape.
 
 ---
 
 ## RTL Support
 
-The range is direction-agnostic. When the document or any ancestor is set to `dir="rtl"` the fill, min/max labels, and pointer mapping mirror automatically — `min` sits on the right, `max` on the left, and dragging right decreases the value.
+The range is direction-aware. In a `dir="rtl"` container the track fills from the right, the min and max labels swap ends, and arrow keys follow the visual order — `ArrowRight` decreases the value, matching what the user sees. Thumb tooltips and readouts mirror with the track.
+
+The built-in accessible labels for the two thumbs in range mode are translated automatically: "Range minimum" and "Range maximum" become "الحد الأدنى للنطاق" and "الحد الأقصى للنطاق", prefixed with your `label` when you supply one.
 
 ```html
 <div dir="rtl">
   <aegov-range
-    label="نصف قطر البحث (كم)"
-    min="1"
+    name="radius"
+    label="نطاق البحث (كم)"
+    min="0"
     max="50"
-    value="10"
+    value="15"
+    display="full"
+    hint="المسافة من عنوانك المسجل"
+  ></aegov-range>
+
+  <aegov-range
+    mode="range"
+    name="fee"
+    label="نطاق الرسوم (درهم)"
+    min="0"
+    max="2000"
+    step="50"
+    value-low="0"
+    value-high="1000"
     display="full"
   ></aegov-range>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-range
-    label="نصف قطر البحث (كم)"
-    min="1"
-    max="50"
-    value="10"
-    display="full"
-  ></aegov-range>
+  <div class="max-w-md space-y-10">
+    <aegov-range field-id="rg-rtl-1" name="radius" label="نطاق البحث (كم)" min="0" max="50" value="15" display="full" hint="المسافة من عنوانك المسجل"></aegov-range>
+    <aegov-range field-id="rg-rtl-2" mode="range" name="fee" label="نطاق الرسوم (درهم)" min="0" max="2000" step="50" value-low="0" value-high="1000" display="full"></aegov-range>
+  </div>
 </div>
 
-A dual-thumb range in RTL:
-
-```html
-<div dir="rtl">
-  <aegov-range
-    label="الفئة العمرية المؤهلة"
-    mode="range"
-    min="0"
-    max="80"
-    value-low="21"
-    value-high="60"
-    display="full"
-  ></aegov-range>
-</div>
-```
-
-<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-range
-    label="الفئة العمرية المؤهلة"
-    mode="range"
-    min="0"
-    max="80"
-    value-low="21"
-    value-high="60"
-    display="full"
-  ></aegov-range>
-</div>
+Numerals are yours to decide. The component renders whatever the numeric value stringifies to, which is Western digits — if your Arabic pages use Arabic-Indic numerals elsewhere, format the readout yourself rather than relying on the built-in display.
 
 ---
 
 ## API Reference
 
-### aegov-range Properties
+### Properties
 
-| Property      | Attribute      | Description                                                                                       | Type                                       | Default     |
-| ------------- | -------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------ | ----------- |
-| `fieldId`     | `field-id`     | DOM `id` for the underlying `<input type="range">`. Auto-generated if omitted.                     | `string`                                   | _generated_ |
-| `name`        | `name`         | Form field name used during submission. In range mode, submitted as `name-low` and `name-high`.    | `string`                                   | `undefined` |
-| `value`       | `value`        | Current value in single mode.                                                                      | `number`                                   | `50`        |
-| `valueLow`    | `value-low`    | Low thumb value in range mode.                                                                     | `number`                                   | `25`        |
-| `valueHigh`   | `value-high`   | High thumb value in range mode.                                                                    | `number`                                   | `75`        |
-| `min`         | `min`          | Minimum value of the range.                                                                        | `number`                                   | `0`         |
-| `max`         | `max`          | Maximum value of the range.                                                                        | `number`                                   | `100`       |
-| `step`        | `step`         | Step increment.                                                                                    | `number`                                   | `1`         |
-| `mode`        | `mode`         | Single thumb or dual thumb (range selection).                                                      | `'single' \| 'range'`                      | `'single'`  |
-| `orientation` | `orientation`  | Slider layout direction.                                                                           | `'horizontal' \| 'vertical'`               | `'horizontal'`|
-| `display`     | `display`      | How the current value is shown. See the Value display section.                                     | `'none' \| 'tooltip' \| 'thumb' \| 'full'` | `'none'`    |
-| `size`        | `size`         | Track size token, or a responsive string.                                                          | `string`                                   | `'base'`    |
-| `variant`     | `variant`      | Colour family for the active fill. Track and thumb stay neutral. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
-| `isDisabled`  | `is-disabled`  | Disables the input and removes it from the tab order.                                              | `boolean`                                  | `false`     |
-| `isRequired`  | `is-required`  | Marks the underlying input as required for form validation.                                        | `boolean`                                  | `false`     |
-| `label`       | `label`        | Optional label rendered above the slider.                                                          | `string`                                   | `undefined` |
-| `extraClass`  | `extra-class`  | Additional CSS classes appended to the wrapper.                                                    | `string`                                   | `undefined` |
+| Property | Attribute | Description | Type | Default |
+| --- | --- | --- | --- | --- |
+| `fieldId` | `field-id` | ID applied to the inner input. Auto-generated when omitted, reflected. | `string` | _generated_ |
+| `name` | `name` | Form field name. | `string` | — |
+| `mode` | `mode` | One thumb or two. | `'single' \| 'range'` | `'single'` |
+| `value` | `value` | Current value in `single` mode. Mutable. | `number` | `50` |
+| `valueLow` | `value-low` | Lower value in `range` mode. Mutable. | `number` | `25` |
+| `valueHigh` | `value-high` | Upper value in `range` mode. Mutable. | `number` | `75` |
+| `min` | `min` | Minimum. | `number` | `0` |
+| `max` | `max` | Maximum. | `number` | `100` |
+| `step` | `step` | Increment. | `number` | `1` |
+| `display` | `display` | Where the value is shown. | `'none' \| 'tooltip' \| 'thumb' \| 'full'` | `'none'` |
+| `orientation` | `orientation` | Track direction. Vertical needs an explicit height on a wrapper. | `'horizontal' \| 'vertical'` | `'horizontal'` |
+| `size` | `size` | Size token or responsive string. | `string` — `xs \| sm \| base \| lg \| xl` | `'base'` |
+| `variant` | `variant` | Colour family for the filled track and thumb. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
+| `label` | `label` | Field label, rendered by the component itself. | `string` | — |
+| `hint` | `hint` | Helper text shown when no error is showing. | `string` | `''` |
+| `isDisabled` | `is-disabled` | Disables the control. Reflected. | `boolean` | `false` |
+| `isRequired` | `is-required` | Marks the field required. | `boolean` | `false` |
+| `isInvalid` | `is-invalid` | Invalid state. Mutable and reflected. | `boolean` | `false` |
+| `errorMessage` | `error-message` | Error text shown while invalid. | `string` | `''` |
+| `extraClass` | `extra-class` | Extra classes on the inner elements. | `string` | — |
 
 ### Slots
 
-The component does not expose slots — content is configured via properties.
+| Slot | Description |
+| --- | --- |
+| `hint` | Rich hint markup. Takes precedence over the `hint` property. |
+| `error` | Rich error markup. Rendered only while `is-invalid`. |
 
 ### Events
 
-| Event              | Detail                                                              | Description                                                                  |
-| ------------------ | ------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `aegovRangeInput`  | `{ value?: number; valueLow?: number; valueHigh?: number }`         | Fires continuously while a thumb is being dragged or a key changes the value.|
-| `aegovRangeChange` | `{ value?: number; valueLow?: number; valueHigh?: number }`         | Fires once when the value is committed (mouse-up, touch-end, or keypress).   |
-| `aegovValidate`    | `AegovValidationDetail<number \| { low: number; high: number }>`    | Unified validation event. Fires on blur, input, change, and `validate()`.    |
+| Event | Detail | Description |
+| --- | --- | --- |
+| `aegovRangeInput` | `{ value?: number; valueLow?: number; valueHigh?: number }` | Continuously during interaction. |
+| `aegovRangeChange` | `{ value?: number; valueLow?: number; valueHigh?: number }` | When the interaction completes. |
+| `aegovValidate` | `AegovValidationDetail<AegovRangeValue>` | Unified validation event — see [Validation Surface](validation-overview.html). |
 
-The detail object contains `value` in single mode, or `valueLow` and `valueHigh` in range mode.
+### Methods
 
-#### Listening for changes
-
-```html
-<aegov-range id="radius" label="Search radius (km)" min="1" max="50" value="10"></aegov-range>
-
-<script>
-  const slider = document.querySelector('#radius');
-  slider.addEventListener('aegovRangeInput', (e) => {
-    console.log('Dragging:', e.detail.value);
-  });
-  slider.addEventListener('aegovRangeChange', (e) => {
-    console.log('Committed:', e.detail.value);
-  });
-</script>
-```
+| Method | Returns | Description |
+| --- | --- | --- |
+| `validate(trigger?)` | `Promise<AegovValidationResult>` | Re-runs validation and emits `aegovValidate`. |
+| `setCustomValidity(message)` | `Promise<void>` | Sets `error-message` and `is-invalid`. Empty string clears. |
 
 ### Pass-through Attributes
 
-The component forwards the attribute groups below onto the inner `<input type="range">`. In dual-thumb mode they are forwarded onto the single-thumb input only; dual inputs use the component's own derived ids and labels.
-
-| Attribute group | Forwarded to inner `<input>` | Notes                                                                |
-| --------------- | ---------------------------- | -------------------------------------------------------------------- |
-| `aria-*`        | Yes                          | Augment ARIA semantics. The component already sets `aria-valuemin/max/now`.|
-| `data-*`        | Yes                          | Useful for analytics or test selectors.                               |
-| `form`          | Yes                          | Associates the input with a form by `id` when not nested inside it.   |
-| `tabindex`      | Yes                          | Override default tab order.                                           |
-| `autofocus`     | Yes                          | Focus the slider on initial page load.                                |
-| `title`         | Yes                          | Native browser tooltip text.                                          |
+| Attribute group | Forwarded? | Notes |
+| --- | --- | --- |
+| `tabindex`, `autofocus`, `title`, `form` | Yes | Forwarded to the inner input. |
+| `aria-*` | Yes | Forwarded — except the value and state attributes the component owns. |
+| `data-*` | Yes | Forwarded to the inner input. |
+| `aria-valuemin`, `aria-valuemax`, `aria-valuenow`, `aria-orientation`, `aria-invalid`, `aria-describedby` | Managed | Owned by the component and derived from `min`, `max`, the current value, `orientation` and the validation state. |
+| `id` | n/a | Use `field-id`. |
+| `class`, `style` | Allowed | Applied to the host. |
 
 ---
 
 ## Validation
 
-`aegov-range` exposes the unified [Validation Surface](validation-overview.html). Range-specific notes:
+### Surface
 
-### Value type per mode
+`aegov-range` implements the shared contract. The value type depends on the mode: a `number` in `single` mode, and `{ low, high }` in `range` mode. Full reference: [Validation Surface](validation-overview.html).
 
-| Mode | `value` type | FormData payload |
-| --- | --- | --- |
-| `single` | `number` | numeric string |
-| `range` | `{ low: number; high: number }` | two entries: `name-low` + `name-high` |
+The `FormData` payload follows the same split:
+
+| Mode | FormData |
+| --- | --- |
+| `single` | One entry under `name`, the value as a numeric string. |
+| `range` | Two entries — `name-low` and `name-high`. |
+
+```js
+const data = new FormData(form);
+
+data.get('radius');      // '15'
+data.get('fee-low');     // '0'
+data.get('fee-high');    // '1000'
+```
+
+A range is rarely invalid on its own, because `min` and `max` already bound it. The realistic rules are minimum spans and business floors.
 
 ### Common recipes
 
-**Bounded numeric range:**
-
-```html
-<aegov-range name="rating" min="0" max="10" step="1" hint="0–10"></aegov-range>
-```
-
-`min` / `max` / `step` enforce native validity; `rangeUnderflow` / `rangeOverflow` / `stepMismatch` flags fire automatically.
-
-**Range mode with min span (3+ days):**
-
-```html
-<aegov-range mode="range" name="period" min="0" max="365"></aegov-range>
-```
+A business floor above the technical minimum:
 
 ```js
-range.addEventListener('aegovValidate', (e) => {
-  const { low, high } = e.detail.value;
-  if (high - low < 3) {
-    range.setCustomValidity('Range must span at least 3 days');
-  } else {
-    range.setCustomValidity('');
-  }
+radius.addEventListener('aegovValidate', (e) => {
+  const ok = Number(e.detail.value) >= 10;
+  radius.isInvalid = !ok;
+  radius.errorMessage = ok ? '' : 'Choose a radius of at least 10 km';
 });
 ```
 
-**Bind to another field:**
+A minimum span in range mode:
 
 ```js
-priceRange.addEventListener('aegovValidate', (e) => {
-  const { high } = e.detail.value;
-  budget.value = String(high);
+fee.addEventListener('aegovRangeChange', (e) => {
+  const span = e.detail.valueHigh - e.detail.valueLow;
+  const ok = span >= 200;
+  fee.isInvalid = !ok;
+  fee.errorMessage = ok ? '' : 'The fee range must span at least AED 200';
 });
 ```
 
-See [BYO Validator](validation-byo.html) for more patterns.
+More patterns in [Bring Your Own Validator](validation-byo.html).
+
+### Use with `@aegov/designsystem-validation`
+
+The **optional** companion package drives this surface from a schema.
+
+```ts
+import { createForm } from '@aegov/designsystem-validation';
+import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot';
+import * as v from 'valibot';
+
+createForm(form, v.object({
+  radius: v.pipe(v.number(), v.minValue(10, 'Choose a radius of at least 10 km')),
+}), valibotAdapter());
+```
 
 ---
 
@@ -487,29 +437,44 @@ See [BYO Validator](validation-byo.html) for more patterns.
 
 ### Built-in behaviour
 
-- The component uses one or two real `<input type="range">` elements, so screen readers, the OS rotor, and assistive tech all treat it as a native slider.
-- `aria-valuemin`, `aria-valuemax`, and `aria-valuenow` are kept in sync as the user drags. In dual-thumb mode the low thumb's `aria-valuemax` clamps to the high thumb's value, and vice-versa, so each handle reports its own permitted range.
-- When the `label` prop is used in single mode, the label is rendered as a `<label>` element with `for` pointing to the underlying `<input>`, so assistive technology announces it on focus. In range mode the label is rendered as a `<span>` with an `id`, and each thumb's `aria-label` incorporates the field label for full context — e.g. "Age of dependants — Range minimum".
-- Each thumb in range mode receives a bilingual `aria-label` that includes the field label and the thumb role ("Range minimum" / "Range maximum" in English; "الحد الأدنى للنطاق" / "الحد الأقصى للنطاق" in Arabic). No developer translation is needed.
-- Both thumbs in range mode have `aria-invalid` and `aria-describedby` kept in sync with the validation state, and both trigger the blur-gated error announcement independently.
-- Pointer events are translated to value updates that respect the configured `step`, so all input methods snap to the same grid.
+- The control is built on real `<input type="range">` elements, so the slider role, arrow-key stepping, `Home` / `End` and form participation come from the platform.
+- `aria-valuemin`, `aria-valuemax` and `aria-valuenow` are set from `min`, `max` and the current value, so the value is announced as it changes.
+- `aria-orientation` reflects the `orientation` property.
+- The component's own `label` is associated through `aria-labelledby`.
+- In `range` mode each thumb gets a distinct accessible name — "Range minimum" and "Range maximum", prefixed with your `label` and translated in RTL contexts — so the two thumbs are distinguishable without sight.
+- In `range` mode the lower thumb's `aria-valuemax` is bounded by the current upper value, so the announced limits reflect the real constraint rather than the track's extremes.
+- The visual track and thumb are decoration over the native inputs; the focusable element is the input itself.
+- The error region takes `role="alert"` only after first blur.
+- The focus ring is a high-contrast camel outline held constant across variants, meeting the 3:1 requirement of WCAG 2.2 SC 1.4.11.
 
 ### Developer responsibilities
 
-- Provide a `label` (or external `<aegov-label>`) that describes the unit (km, AED, years, etc.). A bare slider gives users no way to interpret the value.
-- Pair sliders with a visible numeric readout when precision matters — set `display="tooltip"`, `display="thumb"`, or `display="full"`, or echo the value elsewhere on the page.
-- Keep the value-range realistic. Sliders are poor inputs for values where a free-form number is required; pair with an `aegov-input type="number"` for those cases.
-- For range mode, check that `value-low` and `value-high` always satisfy `value-low + step ≤ value-high` — the component enforces this on input but seeded values must respect it.
+- **Always set `label`.** It is the accessible name and the visible one.
+- **Show the value.** `display="none"` leaves a sighted user guessing; `display="full"` or `display="thumb"` is almost always the right choice. `tooltip` alone hides the value from anyone using the keyboard.
+- **Include the unit** in the label — "Search radius (km)", "Fee range (AED)". A bare number is ambiguous.
+- **Choose a `step` that makes the range traversable** by keyboard in a sensible number of presses.
+- **Do not use a range where precision matters.** If the user needs to enter exactly 37, give them a number input — or pair the range with one.
+- **Debounce expensive work.** Use `aegovRangeInput` for the readout and `aegovRangeChange` for network calls.
+- **Never signal an error with colour alone** (WCAG 2.2 SC 1.4.1) — populate `error-message` or the `error` slot.
+- **Give vertical ranges an explicit height** on a wrapper element.
+- **Format numerals yourself** if your Arabic pages use Arabic-Indic digits.
 
 ### Keyboard support
 
-| Key                   | Action                                                |
-| --------------------- | ----------------------------------------------------- |
-| `Arrow Right` / `Arrow Up`  | Increase the value by one step.                  |
-| `Arrow Left` / `Arrow Down` | Decrease the value by one step.                  |
-| `Page Up`             | Increase the value by a larger increment (browser-defined).|
-| `Page Down`           | Decrease the value by a larger increment (browser-defined).|
-| `Home`                | Jump to `min`.                                        |
-| `End`                 | Jump to `max`.                                        |
-| `Tab`                 | Move focus to the next slider thumb or focusable element. |
-| `Shift + Tab`         | Move focus to the previous slider thumb or focusable element. |
+| Key | Action |
+| --- | --- |
+| `Tab` | Move focus to the slider. In `range` mode each thumb is its own tab stop. |
+| `ArrowRight`, `ArrowUp` | Increase by one step. Follows visual order, so it reverses under `dir="rtl"`. |
+| `ArrowLeft`, `ArrowDown` | Decrease by one step. |
+| `Page Up`, `Page Down` | Increase or decrease by a larger increment. |
+| `Home` | Jump to the minimum. |
+| `End` | Jump to the maximum. |
+
+---
+
+## Where to next
+
+- [Input](aegov-input.html) — `type="number"` for exact values.
+- [Progress](aegov-progress.html) — for displaying a value the user cannot change.
+- [Select](aegov-select.html) — for choosing from discrete bands rather than a continuum.
+- [Validation Surface](validation-overview.html) and [Bring Your Own Validator](validation-byo.html).

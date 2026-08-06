@@ -1,532 +1,312 @@
 # Radio
 
-<p class="text-lg text-aeblack-500 mb-8">A Radio lets a user pick exactly one option from a small, fixed set — title, gender, payment method, preferred language, application type. Each instance is a real native <code>&lt;input type="radio"&gt;</code> styled to the design system, and the <code>aegov-radio-group</code> wrapper takes care of sharing the <code>name</code> attribute, propagating sizing, and emitting a single event when the selection changes.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Radio group lets the user choose exactly one option from a set. Unlike a select, every option is visible at once, which makes it the right control whenever the choice matters and the list is short enough to read in full. Radios are almost never used alone — <code>aegov-radio-group</code> supplies the fieldset, the shared name, and the roving keyboard model that the pattern requires.</p>
 
 ## Introduction
 
-Radios are almost always used inside an `aegov-radio-group`. The group sets the shared `name` (required for native single-select behaviour), propagates `size` to every child, exposes a single `aegovRadioGroupChange` event with the currently selected value, and supports the same layout appearances as the checkbox group.
-
-> **Angular users:** `name` is a required input on `aegov-radio-group` — Angular's template compiler enforces this at build time. The syntax is the same across all frameworks:
-> ```html
-> <!-- HTML / Vue / React / Angular — all the same -->
-> <aegov-radio-group name="title" label="Title">...</aegov-radio-group>
-> ```
+Wrap `aegov-radio` children in an `aegov-radio-group`. The group's `name` is **required** — it is what makes the options mutually exclusive and what `FormData` reads.
 
 ```html
-<aegov-radio-group name="title" label="Title">
-  <aegov-radio value="mr" label="Mr" is-checked="true"></aegov-radio>
-  <aegov-radio value="ms" label="Ms"></aegov-radio>
-  <aegov-radio value="mrs" label="Mrs"></aegov-radio>
-  <aegov-radio value="dr" label="Dr"></aegov-radio>
+<aegov-radio-group name="contactMethod" label="How should we contact you?">
+  <aegov-radio value="email" label="Email"></aegov-radio>
+  <aegov-radio value="sms" label="SMS"></aegov-radio>
+  <aegov-radio value="phone" label="Phone call"></aegov-radio>
 </aegov-radio-group>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-radio-group name="title" label="Title">
-    <aegov-radio value="mr" label="Mr" is-checked="true"></aegov-radio>
-    <aegov-radio value="ms" label="Ms"></aegov-radio>
-    <aegov-radio value="mrs" label="Mrs"></aegov-radio>
-    <aegov-radio value="dr" label="Dr"></aegov-radio>
-  </aegov-radio-group>
-</div>
-
----
-
-## Label and Description
-
-When you set the `label` property on `aegov-radio`, the component renders a `<label>` element wrapping the input — the entire label area becomes a click target. Add the `description` property for additional helper text below the label, automatically associated via `aria-describedby`.
-
-```html
-<aegov-radio-group name="contact-method" label="Preferred contact method">
-  <aegov-radio
-    value="email"
-    label="Email"
-    description="We'll send updates to your registered email address."
-    is-checked="true"
-  ></aegov-radio>
-  <aegov-radio
-    value="sms"
-    label="SMS"
-    description="Short text alerts to your registered mobile number."
-  ></aegov-radio>
-  <aegov-radio
-    value="call"
-    label="Phone call"
-    description="A representative will call you during working hours."
-  ></aegov-radio>
-</aegov-radio-group>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-radio-group name="contact-method" label="Preferred contact method">
-    <aegov-radio
-      value="email"
-      label="Email"
-      description="We'll send updates to your registered email address."
-      is-checked="true"
-    ></aegov-radio>
-    <aegov-radio
-      value="sms"
-      label="SMS"
-      description="Short text alerts to your registered mobile number."
-    ></aegov-radio>
-    <aegov-radio
-      value="call"
-      label="Phone call"
-      description="A representative will call you during working hours."
-    ></aegov-radio>
-  </aegov-radio-group>
-</div>
-
----
-
-## States
-
-### Disabled
-
-Disable an individual radio with `is-disabled="true"`, or disable the entire group via the group's `is-disabled` (which uses native `<fieldset disabled>`).
-
-```html
-<aegov-radio-group name="payment" label="Payment method">
-  <aegov-radio value="card" label="Credit or debit card" is-checked="true"></aegov-radio>
-  <aegov-radio value="bank" label="Direct bank transfer"></aegov-radio>
-  <aegov-radio value="cash" label="Cash at service centre" is-disabled="true" description="Currently unavailable due to system maintenance."></aegov-radio>
-</aegov-radio-group>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-radio-group name="payment" label="Payment method">
-    <aegov-radio value="card" label="Credit or debit card" is-checked="true"></aegov-radio>
-    <aegov-radio value="bank" label="Direct bank transfer"></aegov-radio>
-    <aegov-radio value="cash" label="Cash at service centre" is-disabled="true" description="Currently unavailable due to system maintenance."></aegov-radio>
-  </aegov-radio-group>
-</div>
-
-### Required
-
-Mark a radio as required to enforce that one option in the group must be selected before form submission. Place `is-required` on at least one option in the group (typically the first).
-
-```html
-<aegov-radio-group name="emirate" label="Emirate of residence">
-  <aegov-radio value="abudhabi" label="Abu Dhabi" is-required="true"></aegov-radio>
-  <aegov-radio value="dubai" label="Dubai" is-required="true"></aegov-radio>
-  <aegov-radio value="sharjah" label="Sharjah" is-required="true"></aegov-radio>
-  <aegov-radio value="ajman" label="Ajman" is-required="true"></aegov-radio>
-  <aegov-radio value="rak" label="Ras Al Khaimah" is-required="true"></aegov-radio>
-  <aegov-radio value="uaq" label="Umm Al Quwain" is-required="true"></aegov-radio>
-  <aegov-radio value="fujairah" label="Fujairah" is-required="true"></aegov-radio>
-</aegov-radio-group>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-radio-group name="emirate" label="Emirate of residence">
-    <aegov-radio value="abudhabi" label="Abu Dhabi" is-required="true"></aegov-radio>
-    <aegov-radio value="dubai" label="Dubai" is-required="true"></aegov-radio>
-    <aegov-radio value="sharjah" label="Sharjah" is-required="true"></aegov-radio>
-    <aegov-radio value="ajman" label="Ajman" is-required="true"></aegov-radio>
-    <aegov-radio value="rak" label="Ras Al Khaimah" is-required="true"></aegov-radio>
-    <aegov-radio value="uaq" label="Umm Al Quwain" is-required="true"></aegov-radio>
-    <aegov-radio value="fujairah" label="Fujairah" is-required="true"></aegov-radio>
-  </aegov-radio-group>
-</div>
-
----
-
-## Sizes
-
-Five sizes are available: `xs`, `sm`, `base` (default), `lg`, and `xl`. The size scales the radio circle, the label typography, and the click target. Set `size` on the group to propagate to every child.
-
-```html
-<aegov-radio-group name="size-sm" size="sm" label="Small">
-  <aegov-radio value="a" label="Option A" is-checked="true"></aegov-radio>
-  <aegov-radio value="b" label="Option B"></aegov-radio>
-</aegov-radio-group>
-
-<aegov-radio-group name="size-base" size="base" label="Base (default)">
-  <aegov-radio value="a" label="Option A" is-checked="true"></aegov-radio>
-  <aegov-radio value="b" label="Option B"></aegov-radio>
-</aegov-radio-group>
-
-<aegov-radio-group name="size-lg" size="lg" label="Large">
-  <aegov-radio value="a" label="Option A" is-checked="true"></aegov-radio>
-  <aegov-radio value="b" label="Option B"></aegov-radio>
-</aegov-radio-group>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid gap-6">
-    <aegov-radio-group name="size-sm" size="sm" label="Small">
-      <aegov-radio value="a" label="Option A" is-checked="true"></aegov-radio>
-      <aegov-radio value="b" label="Option B"></aegov-radio>
-    </aegov-radio-group>
-    <aegov-radio-group name="size-base" size="base" label="Base (default)">
-      <aegov-radio value="a" label="Option A" is-checked="true"></aegov-radio>
-      <aegov-radio value="b" label="Option B"></aegov-radio>
-    </aegov-radio-group>
-    <aegov-radio-group name="size-lg" size="lg" label="Large">
-      <aegov-radio value="a" label="Option A" is-checked="true"></aegov-radio>
-      <aegov-radio value="b" label="Option B"></aegov-radio>
+  <div class="max-w-md">
+    <aegov-radio-group name="rd-intro" label="How should we contact you?">
+      <aegov-radio value="email" label="Email"></aegov-radio>
+      <aegov-radio value="sms" label="SMS"></aegov-radio>
+      <aegov-radio value="phone" label="Phone call"></aegov-radio>
     </aegov-radio-group>
   </div>
 </div>
 
-`size` also accepts a Tailwind-style responsive string (e.g. `sm md:base xl:lg`).
+The group renders a real `<fieldset role="radiogroup">` with the `label` as its `<legend>`, and propagates `name`, `size` and `variant` to every child.
+
+Radios differ from [checkboxes](aegov-checkbox.html) in one way that matters for keyboard users: the whole group is a **single tab stop**, and arrow keys move the selection within it.
 
 ---
 
-## Variant
+## Choosing radios over other controls
 
-The `variant` property selects the colour family for the rest border, the checked dot, and the hover halo. The focus ring stays `primary-support-600` (camel) and the error border stays `aered-600` regardless of variant. The inner dot glyph is always `whitely-50` for legibility on the filled control.
+| Use | When |
+| --- | --- |
+| **Radio group** | One choice from 2–7 visible options, where seeing all of them helps the decision. |
+| [Select](aegov-select.html) | One choice from a longer list, or where screen space is tight. |
+| [Toggle](aegov-toggle.html) | An on/off setting that takes effect immediately. |
+| [Checkbox](aegov-checkbox.html) | Any number of choices, including none. |
 
-- `primary` — primary-* family (default)
-- `secondary` — secondary-* family
-- `neutral-max` — strong neutral (aeblack-800 family)
-- `neutral-min` — quiet neutral (aeblack-100 family). Fill stays `aeblack-800` so checked controls remain legible.
+A radio group with two options that are really "yes" and "no" is often better as a single checkbox — but not always: an explicit "Yes / No" pair forces a deliberate answer, whereas an unchecked checkbox is ambiguous between "no" and "not read yet". For consequential declarations, prefer the explicit pair.
 
-### Colour matrix
+---
 
-| Variant       | Rest border      | Checked fill    | Checked border  | Hover halo      |
-| ------------- | ---------------- | --------------- | --------------- | --------------- |
-| `primary`     | `primary-200`    | `primary-600`   | `primary-600`   | `primary-700`   |
-| `secondary`   | `secondary-200`  | `secondary-600` | `secondary-600` | `secondary-700` |
-| `neutral-max` | `aeblack-300`    | `aeblack-800`   | `aeblack-800`   | `aeblack-800`   |
-| `neutral-min` | `aeblack-100`    | `aeblack-800`   | `aeblack-800`   | `aeblack-700`   |
+## Hint text
 
-```html
-<aegov-radio variant="primary" name="r1" label="Primary"></aegov-radio>
-<aegov-radio variant="secondary" name="r2" label="Secondary"></aegov-radio>
-<aegov-radio variant="neutral-max" name="r3" label="Neutral-max"></aegov-radio>
-<aegov-radio variant="neutral-min" name="r4" label="Neutral-min"></aegov-radio>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-    <aegov-radio variant="primary" name="rv1" value="a" label="Primary — unchecked"></aegov-radio>
-    <aegov-radio variant="primary" name="rv1b" value="a" label="Primary — checked" is-checked="true"></aegov-radio>
-    <aegov-radio variant="secondary" name="rv2" value="a" label="Secondary — unchecked"></aegov-radio>
-    <aegov-radio variant="secondary" name="rv2b" value="a" label="Secondary — checked" is-checked="true"></aegov-radio>
-    <aegov-radio variant="neutral-max" name="rv3" value="a" label="Neutral-max — unchecked"></aegov-radio>
-    <aegov-radio variant="neutral-max" name="rv3b" value="a" label="Neutral-max — checked" is-checked="true"></aegov-radio>
-    <aegov-radio variant="neutral-min" name="rv4" value="a" label="Neutral-min — unchecked"></aegov-radio>
-    <aegov-radio variant="neutral-min" name="rv4b" value="a" label="Neutral-min — checked" is-checked="true"></aegov-radio>
-  </div>
-</div>
-
-### Group cascade
-
-Setting `variant` on `aegov-radio-group` cascades to every child radio that does not declare its own `variant`. A child's explicit `variant` always wins.
+`hint` on an individual radio explains that option. `hint` on the group explains the question.
 
 ```html
-<aegov-radio-group variant="secondary" name="agreement" label="Do you agree?">
-  <aegov-radio value="yes" label="Yes"></aegov-radio>
-  <aegov-radio value="no" label="No"></aegov-radio>
-  <aegov-radio value="unsure" label="Not sure" variant="neutral-max"></aegov-radio>
+<aegov-radio-group name="delivery" label="How would you like to receive your card?" hint="Delivery times are estimates">
+  <aegov-radio value="courier" label="Courier to my address" hint="2–3 working days, AED 25"></aegov-radio>
+  <aegov-radio value="collect" label="Collect from a service centre" hint="Ready the next working day, free"></aegov-radio>
 </aegov-radio-group>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-radio-group variant="secondary" name="agreement-variant" label="Do you agree?">
-    <aegov-radio value="yes" label="Yes" is-checked="true"></aegov-radio>
-    <aegov-radio value="no" label="No"></aegov-radio>
-    <aegov-radio value="unsure" label="Not sure (override → neutral-max)" variant="neutral-max"></aegov-radio>
-  </aegov-radio-group>
+  <div class="max-w-lg">
+    <aegov-radio-group name="rd-hint" label="How would you like to receive your card?" hint="Delivery times are estimates">
+      <aegov-radio value="courier" label="Courier to my address" hint="2–3 working days, AED 25"></aegov-radio>
+      <aegov-radio value="collect" label="Collect from a service centre" hint="Ready the next working day, free"></aegov-radio>
+    </aegov-radio-group>
+  </div>
 </div>
+
+Each radio's `hint` is wired into that input's `aria-describedby`, so it is announced with the option rather than being purely visual.
+
+---
+
+## Appearance
+
+Four visual treatments, all with identical markup.
+
+| Appearance | Look |
+| --- | --- |
+| `default` | A plain stack with no decoration. |
+| `list` | Divider lines between items. |
+| `cards` | A bordered card per item; the whole card is clickable and highlights when selected. |
+| `pills` | The circle is visually hidden and the label becomes a pill toggle that fills when selected. |
+
+```html
+<aegov-radio-group appearance="cards" name="delivery" label="Delivery method">…</aegov-radio-group>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="space-y-8 max-w-md">
+    <aegov-radio-group appearance="default" name="rd-ap-1" label="Default">
+      <aegov-radio value="a" label="Email"></aegov-radio>
+      <aegov-radio value="b" label="SMS"></aegov-radio>
+    </aegov-radio-group>
+    <aegov-radio-group appearance="list" name="rd-ap-2" label="List">
+      <aegov-radio value="a" label="Email"></aegov-radio>
+      <aegov-radio value="b" label="SMS"></aegov-radio>
+      <aegov-radio value="c" label="Phone call"></aegov-radio>
+    </aegov-radio-group>
+    <aegov-radio-group appearance="cards" name="rd-ap-3" label="Cards">
+      <aegov-radio value="a" label="Courier to my address" hint="2–3 working days, AED 25"></aegov-radio>
+      <aegov-radio value="b" label="Collect from a service centre" hint="Next working day, free"></aegov-radio>
+    </aegov-radio-group>
+    <aegov-radio-group appearance="pills" orientation="horizontal" name="rd-ap-4" label="Pills">
+      <aegov-radio value="ar" label="Arabic"></aegov-radio>
+      <aegov-radio value="en" label="English"></aegov-radio>
+    </aegov-radio-group>
+  </div>
+</div>
+
+`cards` is the strongest choice when options need explanation — there is room for `hint` text, and the larger target is easier to hit on touch. `pills` suits short mutually-exclusive labels such as a language or a time filter.
 
 ---
 
 ## Orientation
 
-Set `orientation="horizontal"` on the group to lay items out in a row instead of the default vertical stack. Useful for short option lists like Yes/No or rating scales.
-
 ```html
-<aegov-radio-group name="agreement" label="Do you agree with the proposed change?" orientation="horizontal">
-  <aegov-radio value="yes" label="Yes"></aegov-radio>
-  <aegov-radio value="no" label="No"></aegov-radio>
-  <aegov-radio value="unsure" label="Not sure"></aegov-radio>
-</aegov-radio-group>
+<aegov-radio-group orientation="vertical" name="a" label="Vertical">…</aegov-radio-group>
+<aegov-radio-group orientation="horizontal" name="b" label="Horizontal">…</aegov-radio-group>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-radio-group name="agreement" label="Do you agree with the proposed change?" orientation="horizontal">
-    <aegov-radio value="yes" label="Yes"></aegov-radio>
-    <aegov-radio value="no" label="No"></aegov-radio>
-    <aegov-radio value="unsure" label="Not sure"></aegov-radio>
-  </aegov-radio-group>
+  <div class="space-y-8 max-w-lg">
+    <aegov-radio-group orientation="horizontal" name="rd-or-1" label="Horizontal">
+      <aegov-radio value="y" label="Yes"></aegov-radio>
+      <aegov-radio value="n" label="No"></aegov-radio>
+    </aegov-radio-group>
+    <aegov-radio-group orientation="horizontal" appearance="pills" name="rd-or-2" label="Horizontal pills">
+      <aegov-radio value="d" label="Day"></aegov-radio>
+      <aegov-radio value="w" label="Week"></aegov-radio>
+      <aegov-radio value="m" label="Month"></aegov-radio>
+    </aegov-radio-group>
+  </div>
 </div>
+
+Vertical is the default and is easier to scan. Horizontal suits two short options — a yes/no pair — but avoid it for three or more long labels, which collide on narrow viewports.
 
 ---
 
-## Variants
+## Sizes
 
-The `appearance` property selects the visual treatment of the group: `default` (plain stack), `list` (dividers between items), `cards` (each item is a bordered card), or `pills` (toggle pill buttons with the native input visually hidden). All appearances work with both vertical and horizontal orientation.
+Five tokens, propagated from the group to every child.
 
 ```html
-<aegov-radio-group name="application-type" appearance="list" label="Application type">
-  <aegov-radio value="new" label="New application"></aegov-radio>
-  <aegov-radio value="renewal" label="Renewal" is-checked="true"></aegov-radio>
-  <aegov-radio value="replacement" label="Replacement"></aegov-radio>
-  <aegov-radio value="amendment" label="Amendment"></aegov-radio>
-</aegov-radio-group>
-
-<aegov-radio-group name="processing" appearance="cards" label="Processing speed">
-  <aegov-radio
-    value="standard"
-    label="Standard — 5 working days"
-    description="Free of charge for UAE nationals and residents."
-    is-checked="true"
-  ></aegov-radio>
-  <aegov-radio
-    value="express"
-    label="Express — 2 working days"
-    description="Additional fee of AED 100 applies."
-  ></aegov-radio>
-  <aegov-radio
-    value="urgent"
-    label="Urgent — same day"
-    description="Additional fee of AED 250 applies. Subject to availability."
-  ></aegov-radio>
-</aegov-radio-group>
-
-<aegov-radio-group name="frequency" appearance="pills" orientation="horizontal" label="Reporting frequency">
-  <aegov-radio value="daily" label="Daily"></aegov-radio>
-  <aegov-radio value="weekly" label="Weekly" is-checked="true"></aegov-radio>
-  <aegov-radio value="monthly" label="Monthly"></aegov-radio>
-  <aegov-radio value="quarterly" label="Quarterly"></aegov-radio>
-</aegov-radio-group>
+<aegov-radio-group size="lg" name="x" label="Large">…</aegov-radio-group>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid gap-8">
-    <aegov-radio-group name="application-type" appearance="list" label="Application type">
-      <aegov-radio value="new" label="New application"></aegov-radio>
-      <aegov-radio value="renewal" label="Renewal" is-checked="true"></aegov-radio>
-      <aegov-radio value="replacement" label="Replacement"></aegov-radio>
-      <aegov-radio value="amendment" label="Amendment"></aegov-radio>
+  <div class="space-y-6 max-w-md">
+    <aegov-radio-group size="xs" name="rd-s-1" label="Extra small"><aegov-radio value="a" label="Option A" is-checked></aegov-radio><aegov-radio value="b" label="Option B"></aegov-radio></aegov-radio-group>
+    <aegov-radio-group size="sm" name="rd-s-2" label="Small"><aegov-radio value="a" label="Option A" is-checked></aegov-radio><aegov-radio value="b" label="Option B"></aegov-radio></aegov-radio-group>
+    <aegov-radio-group size="base" name="rd-s-3" label="Base"><aegov-radio value="a" label="Option A" is-checked></aegov-radio><aegov-radio value="b" label="Option B"></aegov-radio></aegov-radio-group>
+    <aegov-radio-group size="lg" name="rd-s-4" label="Large"><aegov-radio value="a" label="Option A" is-checked></aegov-radio><aegov-radio value="b" label="Option B"></aegov-radio></aegov-radio-group>
+    <aegov-radio-group size="xl" name="rd-s-5" label="Extra large"><aegov-radio value="a" label="Option A" is-checked></aegov-radio><aegov-radio value="b" label="Option B"></aegov-radio></aegov-radio-group>
+  </div>
+</div>
+
+### Responsive sizes
+
+`size` accepts a responsive string with the prefixes `xs`, `sm`, `md`, `lg`, `xl` and `2xl`.
+
+```html
+<aegov-radio-group size="sm md:base" name="x" label="Adapts to the viewport">…</aegov-radio-group>
+```
+
+---
+
+## States
+
+```html
+<aegov-radio-group name="s" label="States">
+  <aegov-radio value="a" label="Unselected"></aegov-radio>
+  <aegov-radio value="b" label="Selected" is-checked></aegov-radio>
+  <aegov-radio value="c" label="Unavailable" is-disabled></aegov-radio>
+</aegov-radio-group>
+
+<aegov-radio-group name="d" label="Locked while under review" is-disabled>…</aegov-radio-group>
+
+<aegov-radio-group name="e" label="Contact method" is-invalid error-message="Choose how we should contact you">…</aegov-radio-group>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="space-y-8 max-w-md">
+    <aegov-radio-group name="rd-st-1" label="Individual states">
+      <aegov-radio value="a" label="Unselected"></aegov-radio>
+      <aegov-radio value="b" label="Selected" is-checked></aegov-radio>
+      <aegov-radio value="c" label="Unavailable — fully booked" is-disabled></aegov-radio>
     </aegov-radio-group>
-    <aegov-radio-group name="processing" appearance="cards" label="Processing speed">
-      <aegov-radio
-        value="standard"
-        label="Standard — 5 working days"
-        description="Free of charge for UAE nationals and residents."
-        is-checked="true"
-      ></aegov-radio>
-      <aegov-radio
-        value="express"
-        label="Express — 2 working days"
-        description="Additional fee of AED 100 applies."
-      ></aegov-radio>
-      <aegov-radio
-        value="urgent"
-        label="Urgent — same day"
-        description="Additional fee of AED 250 applies. Subject to availability."
-      ></aegov-radio>
+    <aegov-radio-group name="rd-st-2" label="This section is locked while your application is under review" is-disabled appearance="list">
+      <aegov-radio value="a" label="Email" is-checked></aegov-radio>
+      <aegov-radio value="b" label="SMS"></aegov-radio>
     </aegov-radio-group>
-    <aegov-radio-group name="frequency" appearance="pills" orientation="horizontal" label="Reporting frequency">
-      <aegov-radio value="daily" label="Daily"></aegov-radio>
-      <aegov-radio value="weekly" label="Weekly" is-checked="true"></aegov-radio>
-      <aegov-radio value="monthly" label="Monthly"></aegov-radio>
-      <aegov-radio value="quarterly" label="Quarterly"></aegov-radio>
+    <aegov-radio-group name="rd-st-3" label="How should we contact you?" is-required is-invalid error-message="Choose how we should contact you">
+      <aegov-radio value="a" label="Email"></aegov-radio>
+      <aegov-radio value="b" label="SMS"></aegov-radio>
     </aegov-radio-group>
+  </div>
+</div>
+
+`is-disabled` on the group uses native `<fieldset disabled>`, disabling every descendant in one step. `is-disabled` on an individual radio keeps the option visible but unselectable, which is the right way to show that a choice exists but is currently unavailable.
+
+---
+
+## Variant
+
+`variant` sets the colour of the selected dot, and cascades from the group to children still on the default.
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="space-y-6 max-w-md">
+    <aegov-radio-group variant="primary" name="rd-v-1" label="Primary"><aegov-radio value="a" label="Selected" is-checked></aegov-radio></aegov-radio-group>
+    <aegov-radio-group variant="secondary" name="rd-v-2" label="Secondary"><aegov-radio value="a" label="Selected" is-checked></aegov-radio></aegov-radio-group>
+    <aegov-radio-group variant="neutral-max" name="rd-v-3" label="Neutral max"><aegov-radio value="a" label="Selected" is-checked></aegov-radio></aegov-radio-group>
+  </div>
+</div>
+
+As everywhere in the form family, the **focus ring stays camel** and the **error state stays aered** regardless of variant.
+
+---
+
+## Composite example — appointment preferences
+
+```html
+<form id="appointment" novalidate>
+  <aegov-radio-group
+    name="delivery"
+    label="How would you like to receive your Emirates ID?"
+    appearance="cards"
+    is-required
+  >
+    <aegov-radio value="courier" label="Courier to my registered address" hint="2–3 working days · AED 25"></aegov-radio>
+    <aegov-radio value="collect" label="Collect from a service centre" hint="Ready the next working day · Free"></aegov-radio>
+    <aegov-radio value="pobox" label="Deliver to a PO Box" hint="Currently unavailable in your emirate" is-disabled></aegov-radio>
+  </aegov-radio-group>
+
+  <aegov-radio-group name="slot" label="Preferred time" appearance="pills" orientation="horizontal" is-required>
+    <aegov-radio value="am" label="Morning"></aegov-radio>
+    <aegov-radio value="pm" label="Afternoon"></aegov-radio>
+    <aegov-radio value="any" label="No preference"></aegov-radio>
+  </aegov-radio-group>
+
+  <aegov-button type="submit" variant="primary" size="lg">Confirm appointment</aegov-button>
+</form>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-lg space-y-8">
+    <aegov-radio-group name="rd-cx-1" label="How would you like to receive your Emirates ID?" appearance="cards" is-required>
+      <aegov-radio value="courier" label="Courier to my registered address" hint="2–3 working days · AED 25"></aegov-radio>
+      <aegov-radio value="collect" label="Collect from a service centre" hint="Ready the next working day · Free"></aegov-radio>
+      <aegov-radio value="pobox" label="Deliver to a PO Box" hint="Currently unavailable in your emirate" is-disabled></aegov-radio>
+    </aegov-radio-group>
+    <aegov-radio-group name="rd-cx-2" label="Preferred time" appearance="pills" orientation="horizontal" is-required>
+      <aegov-radio value="am" label="Morning"></aegov-radio>
+      <aegov-radio value="pm" label="Afternoon"></aegov-radio>
+      <aegov-radio value="any" label="No preference"></aegov-radio>
+    </aegov-radio-group>
+    <aegov-button type="submit" variant="primary" size="lg">Confirm appointment</aegov-button>
   </div>
 </div>
 
 ---
 
-## Group disabled
-
-Setting `is-disabled="true"` on the group disables all child radios via the native `<fieldset disabled>` mechanism — no per-child changes needed.
+## Listening for events
 
 ```html
-<aegov-radio-group name="locked" label="This section is locked while the application is under review" is-disabled="true">
-  <aegov-radio value="a" label="Option A"></aegov-radio>
-  <aegov-radio value="b" label="Option B" is-checked="true"></aegov-radio>
-  <aegov-radio value="c" label="Option C"></aegov-radio>
-</aegov-radio-group>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-radio-group name="locked" label="This section is locked while the application is under review" is-disabled="true">
-    <aegov-radio value="a" label="Option A"></aegov-radio>
-    <aegov-radio value="b" label="Option B" is-checked="true"></aegov-radio>
-    <aegov-radio value="c" label="Option C"></aegov-radio>
-  </aegov-radio-group>
-</div>
-
----
-
-## Composite Example — Passport Application
-
-A realistic snippet from a passport application form combining several groups in different appearances.
-
-```html
-<form class="grid gap-8 max-w-xl">
-  <aegov-form-field>
-    <aegov-label is-required="true">Application type</aegov-label>
-    <aegov-radio-group name="application-type" appearance="list">
-      <aegov-radio value="new" label="New passport" is-required="true"></aegov-radio>
-      <aegov-radio value="renewal" label="Renewal" is-required="true"></aegov-radio>
-      <aegov-radio value="replacement" label="Replacement (lost or damaged)" is-required="true"></aegov-radio>
-    </aegov-radio-group>
-  </aegov-form-field>
-
-  <aegov-form-field>
-    <aegov-label is-required="true">Processing speed</aegov-label>
-    <aegov-radio-group name="processing" appearance="cards">
-      <aegov-radio
-        value="standard"
-        label="Standard — 5 working days"
-        description="Free of charge for UAE nationals."
-        is-checked="true"
-        is-required="true"
-      ></aegov-radio>
-      <aegov-radio
-        value="express"
-        label="Express — 2 working days"
-        description="Additional fee of AED 100 applies."
-        is-required="true"
-      ></aegov-radio>
-      <aegov-radio
-        value="urgent"
-        label="Urgent — same day"
-        description="Additional fee of AED 250 applies. Subject to availability."
-        is-required="true"
-      ></aegov-radio>
-    </aegov-radio-group>
-  </aegov-form-field>
-
-  <aegov-form-field>
-    <aegov-label is-required="true">Pickup or delivery?</aegov-label>
-    <aegov-radio-group name="delivery" orientation="horizontal">
-      <aegov-radio value="pickup" label="Pickup at service centre" is-required="true"></aegov-radio>
-      <aegov-radio value="courier" label="Courier delivery" is-required="true"></aegov-radio>
-    </aegov-radio-group>
-  </aegov-form-field>
-</form>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <form class="grid gap-8 max-w-xl">
-    <aegov-form-field>
-      <aegov-label is-required="true">Application type</aegov-label>
-      <aegov-radio-group name="application-type" appearance="list">
-        <aegov-radio value="new" label="New passport" is-required="true"></aegov-radio>
-        <aegov-radio value="renewal" label="Renewal" is-required="true"></aegov-radio>
-        <aegov-radio value="replacement" label="Replacement (lost or damaged)" is-required="true"></aegov-radio>
-      </aegov-radio-group>
-    </aegov-form-field>
-    <aegov-form-field>
-      <aegov-label is-required="true">Processing speed</aegov-label>
-      <aegov-radio-group name="processing" appearance="cards">
-        <aegov-radio
-          value="standard"
-          label="Standard — 5 working days"
-          description="Free of charge for UAE nationals."
-          is-checked="true"
-          is-required="true"
-        ></aegov-radio>
-        <aegov-radio
-          value="express"
-          label="Express — 2 working days"
-          description="Additional fee of AED 100 applies."
-          is-required="true"
-        ></aegov-radio>
-        <aegov-radio
-          value="urgent"
-          label="Urgent — same day"
-          description="Additional fee of AED 250 applies. Subject to availability."
-          is-required="true"
-        ></aegov-radio>
-      </aegov-radio-group>
-    </aegov-form-field>
-    <aegov-form-field>
-      <aegov-label is-required="true">Pickup or delivery?</aegov-label>
-      <aegov-radio-group name="delivery" orientation="horizontal">
-        <aegov-radio value="pickup" label="Pickup at service centre" is-required="true"></aegov-radio>
-        <aegov-radio value="courier" label="Courier delivery" is-required="true"></aegov-radio>
-      </aegov-radio-group>
-    </aegov-form-field>
-  </form>
-</div>
-
----
-
-## Listening for change events
-
-Individual radios emit `aegovRadioChange`. The group emits `aegovRadioGroupChange` with the currently selected value.
-
-```html
-<aegov-radio-group id="processing" name="processing" label="Processing speed">
-  <aegov-radio value="standard" label="Standard"></aegov-radio>
-  <aegov-radio value="express" label="Express"></aegov-radio>
-  <aegov-radio value="urgent" label="Urgent"></aegov-radio>
+<aegov-radio-group id="delivery" name="delivery" label="Delivery method">
+  <aegov-radio value="courier" label="Courier"></aegov-radio>
+  <aegov-radio value="collect" label="Collect"></aegov-radio>
 </aegov-radio-group>
 
-<script>
-  const group = document.getElementById('processing');
+<script type="module">
+  const group = document.querySelector('#delivery');
+
   group.addEventListener('aegovRadioGroupChange', (e) => {
-    console.log('Selected:', e.detail.value);
-    // e.g. 'express'
+    console.log(e.detail.value);      // 'courier' | 'collect' | undefined
+    courierFields.hidden = e.detail.value !== 'courier';
   });
 </script>
 ```
+
+Prefer `aegovRadioGroupChange` on the group over `aegovRadioChange` on each child. The group event reports the group's single current value, which is what a radio group means; the child event fires per radio and is rarely what you want.
+
+Note the value can be `undefined` — a group with nothing selected yet has no value.
 
 ---
 
 ## RTL Support
 
-The radio uses CSS logical properties throughout. When the document or any ancestor is set to `dir="rtl"`, the circle swaps to the right of the label, the description aligns right, group dividers and card borders flip, and pill spacing follows the writing direction. No additional configuration is needed.
+Both components are direction-aware. In a `dir="rtl"` container the circle moves to the right of its label, list dividers and card borders mirror, and pills lay out right to left. Arrow-key navigation follows the visual order, so `ArrowRight` moves to the option that appears to the right — which is the *previous* option in an RTL layout. That is the correct platform behaviour and users expect it.
 
 ```html
 <div dir="rtl">
-  <aegov-radio-group name="processing-rtl" appearance="cards" label="سرعة المعالجة">
-    <aegov-radio
-      value="standard"
-      label="عادية — خلال 5 أيام عمل"
-      description="مجاناً لمواطني دولة الإمارات."
-      is-checked="true"
-    ></aegov-radio>
-    <aegov-radio
-      value="express"
-      label="سريعة — خلال يومي عمل"
-      description="رسوم إضافية بقيمة 100 درهم."
-    ></aegov-radio>
-    <aegov-radio
-      value="urgent"
-      label="فورية — في نفس اليوم"
-      description="رسوم إضافية بقيمة 250 درهماً. تخضع للتوفر."
-    ></aegov-radio>
-  </aegov-radio-group>
-
-  <aegov-radio-group name="delivery-rtl" orientation="horizontal" label="الاستلام أم التوصيل؟">
-    <aegov-radio value="pickup" label="الاستلام من مركز الخدمة"></aegov-radio>
-    <aegov-radio value="courier" label="التوصيل عبر شركة الشحن"></aegov-radio>
+  <aegov-radio-group name="delivery" label="كيف تريد استلام الهوية الإماراتية؟" appearance="cards" is-required>
+    <aegov-radio value="courier" label="التوصيل إلى عنواني المسجل" hint="٢–٣ أيام عمل · ٢٥ درهمًا"></aegov-radio>
+    <aegov-radio value="collect" label="الاستلام من مركز خدمة" hint="جاهزة في يوم العمل التالي · مجانًا"></aegov-radio>
   </aegov-radio-group>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid gap-8">
-    <aegov-radio-group name="processing-rtl" appearance="cards" label="سرعة المعالجة">
-      <aegov-radio
-        value="standard"
-        label="عادية — خلال 5 أيام عمل"
-        description="مجاناً لمواطني دولة الإمارات."
-        is-checked="true"
-      ></aegov-radio>
-      <aegov-radio
-        value="express"
-        label="سريعة — خلال يومي عمل"
-        description="رسوم إضافية بقيمة 100 درهم."
-      ></aegov-radio>
-      <aegov-radio
-        value="urgent"
-        label="فورية — في نفس اليوم"
-        description="رسوم إضافية بقيمة 250 درهماً. تخضع للتوفر."
-      ></aegov-radio>
+  <div class="max-w-lg space-y-8">
+    <aegov-radio-group name="rd-rtl-1" label="كيف تريد استلام الهوية الإماراتية؟" appearance="cards" is-required>
+      <aegov-radio value="courier" label="التوصيل إلى عنواني المسجل" hint="٢–٣ أيام عمل · ٢٥ درهمًا"></aegov-radio>
+      <aegov-radio value="collect" label="الاستلام من مركز خدمة" hint="جاهزة في يوم العمل التالي · مجانًا"></aegov-radio>
     </aegov-radio-group>
-    <aegov-radio-group name="delivery-rtl" orientation="horizontal" label="الاستلام أم التوصيل؟">
-      <aegov-radio value="pickup" label="الاستلام من مركز الخدمة"></aegov-radio>
-      <aegov-radio value="courier" label="التوصيل عبر شركة الشحن"></aegov-radio>
+    <aegov-radio-group name="rd-rtl-2" label="الوقت المفضل" appearance="pills" orientation="horizontal">
+      <aegov-radio value="am" label="صباحًا"></aegov-radio>
+      <aegov-radio value="pm" label="بعد الظهر"></aegov-radio>
+      <aegov-radio value="any" label="لا يوجد تفضيل"></aegov-radio>
+    </aegov-radio-group>
+    <aegov-radio-group name="rd-rtl-3" label="كيف نتواصل معك؟" is-required is-invalid error-message="اختر طريقة التواصل">
+      <aegov-radio value="email" label="البريد الإلكتروني"></aegov-radio>
+      <aegov-radio value="sms" label="الرسائل النصية"></aegov-radio>
     </aegov-radio-group>
   </div>
 </div>
@@ -535,105 +315,129 @@ The radio uses CSS logical properties throughout. When the document or any ances
 
 ## API Reference
 
-### aegov-radio Properties
-
-| Property      | Attribute     | Description                                                                       | Type      | Default     |
-| ------------- | ------------- | --------------------------------------------------------------------------------- | --------- | ----------- |
-| `fieldId`     | `field-id`    | DOM `id` for the native `<input>`. Auto-generated as `aegov-radio-{n}` if omitted. | `string`  | _generated_ |
-| `name`        | `name`        | Native `name` attribute. Set automatically by `aegov-radio-group`.                  | `string`  | `undefined` |
-| `value`       | `value`       | Native `value` attribute. Identifies the option in form data and group events.       | `string`  | `undefined` |
-| `isChecked`   | `is-checked`  | Whether the radio is selected. Mutable and reflected to the host.                    | `boolean` | `false`     |
-| `size`        | `size`        | Size token or responsive string. Propagated by `aegov-radio-group`.                  | `string`  | `'base'`    |
-| `variant`     | `variant`     | Colour family for rest border, checked fill, and hover halo. Inherits from group if unset. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
-| `isDisabled`  | `is-disabled` | Disable the individual radio. Reflected to the host.                                  | `boolean` | `false`     |
-| `isRequired`  | `is-required` | Mark the field as required (sets native `required` and `aria-required`).               | `boolean` | `false`     |
-| `label`       | `label`       | Label text. When set, renders a wrapping `<label>` element.                            | `string`  | `undefined` |
-| `description` | `description` | Helper text shown below the label. Only rendered when `label` is also set.              | `string`  | `undefined` |
-| `extraClass`  | `extra-class` | Additional CSS classes applied to the wrapper.                                            | `string`  | `undefined` |
-
 ### aegov-radio-group Properties
 
-| Property      | Attribute     | Description                                                                  | Type                       | Default      |
-| ------------- | ------------- | ---------------------------------------------------------------------------- | -------------------------- | ------------ |
-| `name`        | `name`        | Shared `name` for all radios in the group. Required for native single-select.   | `string`                   | _required_   |
-| `appearance`     | `appearance`     | Visual layout appearance.                                                          | `RadioGroupVariant`        | `'default'`  |
-| `orientation` | `orientation` | Stack direction for items.                                                      | `RadioGroupOrientation`    | `'vertical'` |
-| `label`       | `label`       | Optional `<legend>` text for the underlying `<fieldset>`.                         | `string`                   | `undefined`  |
-| `size`        | `size`        | Size token or responsive string. Propagated to all child radios.                  | `string`                   | `'base'`     |
-| `variant`     | `variant`     | Colour family. Cascades to children that have no explicit `variant`.              | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
-| `isDisabled`  | `is-disabled` | Disable the entire group via native `<fieldset disabled>`.                        | `boolean`                  | `false`      |
-| `extraClass`  | `extra-class` | Additional CSS classes applied to the `<fieldset>`.                                | `string`                   | `undefined`  |
+| Property | Attribute | Description | Type | Default |
+| --- | --- | --- | --- | --- |
+| `name` | `name` | **Required.** Shared form field name, propagated to every child. | `string` | — |
+| `label` | `label` | Group name, rendered as a `<legend>`. | `string` | — |
+| `appearance` | `appearance` | Visual treatment. | `'default' \| 'list' \| 'cards' \| 'pills'` | `'default'` |
+| `orientation` | `orientation` | Layout direction. | `'vertical' \| 'horizontal'` | `'vertical'` |
+| `size` | `size` | Size token or responsive string. Propagated to all children. | `string` — `xs \| sm \| base \| lg \| xl` | `'base'` |
+| `variant` | `variant` | Colour family. Cascades to children still on the default. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
+| `isDisabled` | `is-disabled` | Disables every child via native `<fieldset disabled>`. | `boolean` | `false` |
+| `isRequired` | `is-required` | Marks the group required, setting `aria-required` on the fieldset. | `boolean` | `false` |
+| `isInvalid` | `is-invalid` | Invalid state. Mutable and reflected. | `boolean` | `false` |
+| `errorMessage` | `error-message` | Error text shown below the legend. | `string` | `''` |
+| `hint` | `hint` | Hint text shown below the legend when not invalid. | `string` | `''` |
+| `extraClass` | `extra-class` | Extra classes on the fieldset. | `string` | — |
 
-`RadioGroupVariant` accepts: `default`, `list`, `cards`, `pills`. `RadioGroupOrientation` accepts: `vertical`, `horizontal`.
+In Angular, `name` is a required input — omitting it or writing it in kebab-case raises `NG8008`. See [Using with Angular](using-with-angular.html).
+
+### aegov-radio Properties
+
+| Property | Attribute | Description | Type | Default |
+| --- | --- | --- | --- | --- |
+| `fieldId` | `field-id` | ID applied to the inner `<input>`. Auto-generated when omitted, reflected. | `string` | _generated_ |
+| `value` | `value` | The value submitted when this option is selected. | `string` | — |
+| `name` | `name` | Form field name. Set by the group — do not set it per radio. | `string` | — |
+| `isChecked` | `is-checked` | Selected state. Mutable and reflected. | `boolean` | `false` |
+| `label` | `label` | Inline label text. Renders the circle and label as one click target. | `string` | — |
+| `hint` | `hint` | Secondary text under the label, added to `aria-describedby`. | `string` | — |
+| `size` | `size` | Size token. Set by the group when inside one. | `string` | `'base'` |
+| `variant` | `variant` | Colour of the selected dot. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
+| `isDisabled` | `is-disabled` | Unselectable but still visible. Reflected. | `boolean` | `false` |
+| `isRequired` | `is-required` | Marks the individual radio required. | `boolean` | `false` |
+| `isInvalid` | `is-invalid` | Invalid state. Mutable and reflected. | `boolean` | `false` |
+| `errorMessage` | `error-message` | Error text shown while invalid. | `string` | `''` |
+| `extraClass` | `extra-class` | Extra classes on the inner elements. | `string` | — |
 
 ### Slots
 
-| Component             | Slot        | Description                                                          |
-| --------------------- | ----------- | -------------------------------------------------------------------- |
-| `aegov-radio-group`   | _(default)_ | Place one or more `aegov-radio` children here.                        |
-
-`aegov-radio` does not expose named slots — content is set through the `label` and `description` properties.
+| Slot | On | Description |
+| --- | --- | --- |
+| _(default)_ | group | The `aegov-radio` children. |
+| `hint` | both | Rich hint markup. Takes precedence over the `hint` property. |
+| `error` | both | Rich error markup. Rendered only while invalid. |
 
 ### Events
 
-| Event                    | Component             | Detail                                       | Description                                                                |
-| ------------------------ | --------------------- | -------------------------------------------- | -------------------------------------------------------------------------- |
-| `aegovRadioChange`       | `aegov-radio`         | `{ checked: boolean; value?: string }`       | Fires when the individual radio state changes.                              |
-| `aegovRadioGroupChange`  | `aegov-radio-group`   | `{ value: string \| undefined }`             | Fires when the selected value changes. `undefined` if no radio is selected. |
+| Event | Detail | Description |
+| --- | --- | --- |
+| `aegovRadioGroupChange` | `{ value: string \| undefined }` | The group's selected value changed. **Prefer this one.** |
+| `aegovRadioChange` | `{ checked: boolean; value?: string }` | Fired by an individual radio. Bubbles. |
+| `aegovValidate` | `AegovValidationDetail<string \| undefined>` on the group, `AegovValidationDetail<boolean>` on the radio | Unified validation event — see [Validation Surface](validation-overview.html). |
+
+### Methods
+
+Both components expose:
+
+| Method | Returns | Description |
+| --- | --- | --- |
+| `validate(trigger?)` | `Promise<AegovValidationResult>` | Re-runs validation and emits `aegovValidate`. |
+| `setCustomValidity(message)` | `Promise<void>` | Sets `error-message` and the invalid state. Empty string clears. |
 
 ### Pass-through Attributes
 
-`aria-*` and `data-*` attributes set on `<aegov-radio>` are always forwarded to the native `<input>`. The following standard attributes are also forwarded when set on the host:
-
-| Attribute   | Description                       |
-| ----------- | --------------------------------- |
-| `form`      | Associate with a form by id.       |
-| `tabindex`  | Custom tab order.                  |
-| `autofocus` | Focus the radio when it mounts.    |
-| `title`     | Native tooltip text.               |
-
-> Reserved HTML attributes (`id`, `class`, `style`) cannot be used as props — `id` is replaced by `field-id`, and `class`/`style` are applied to the host as usual.
+| Attribute group | Forwarded? | Notes |
+| --- | --- | --- |
+| `form`, `tabindex`, `autofocus`, `title` | Yes | Forwarded to the inner `<input>`. |
+| `aria-*` | Yes | Forwarded — except `aria-invalid` and `aria-describedby`. |
+| `data-*` | Yes | Forwarded to the inner `<input>`. |
+| `aria-invalid`, `aria-describedby` | Managed | Owned by the component; `aria-describedby` composes your value with the hint and error IDs. |
+| `id` | n/a | Use `field-id`. |
+| `class`, `style` | Allowed | Applied to the host. |
 
 ---
 
 ## Validation
 
-`aegov-radio` exposes the unified [Validation Surface](validation-overview.html). Radio-specific notes:
+### Surface
 
-> **Renamed:** the `description` prop was renamed to `hint`. CSS class `radio__description` → `radio__hint`.
+Both components implement the shared contract. The group reports `string | undefined` — the selected value, or `undefined` when nothing is selected. Full reference: [Validation Surface](validation-overview.html).
 
-Validation typically happens at the **group level** via `aegov-radio-group`. Standalone radios inherit form participation through the native `name` attribute.
+The group is a **pure aggregator**: it is not a form-associated element, and the selected child submits through its own native input. `FormData.get(name)` returns the selected value.
 
 ### Common recipes
 
-**Required group selection:**
-
-```html
-<aegov-radio-group name="size" is-required label="Size">
-  <aegov-radio value="s">Small</aegov-radio>
-  <aegov-radio value="m">Medium</aegov-radio>
-  <aegov-radio value="l">Large</aegov-radio>
-</aegov-radio-group>
-```
-
-The group emits `valueMissing` when `is-required` and no radio is checked.
-
-**Default value via `is-checked`:**
-
-```html
-<aegov-radio-group name="plan" label="Plan">
-  <aegov-radio value="basic" is-checked>Basic</aegov-radio>
-  <aegov-radio value="pro">Pro</aegov-radio>
-</aegov-radio-group>
-```
-
-**Per-radio custom error:**
+Required selection:
 
 ```js
-radio.setCustomValidity('This option is unavailable for your region');
+delivery.addEventListener('aegovValidate', (e) => {
+  const ok = !!e.detail.value;
+  delivery.isInvalid = !ok;
+  delivery.errorMessage = ok ? '' : 'Choose how you would like to receive your card';
+});
 ```
 
-See [BYO Validator](validation-byo.html) for more patterns.
+A conditional rule based on the choice:
+
+```js
+delivery.addEventListener('aegovRadioGroupChange', async (e) => {
+  addressFields.hidden = e.detail.value !== 'courier';
+
+  // Clear a stale error on the now-hidden fields
+  if (e.detail.value !== 'courier') {
+    await address.setCustomValidity('');
+  }
+});
+```
+
+More patterns in [Bring Your Own Validator](validation-byo.html).
+
+### Use with `@aegov/designsystem-validation`
+
+The **optional** companion package drives this surface from a schema. Set the schema key to the group's `name`.
+
+```ts
+import { createForm } from '@aegov/designsystem-validation';
+import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot';
+import * as v from 'valibot';
+
+createForm(form, v.object({
+  delivery: v.picklist(['courier', 'collect'], 'Choose a delivery method'),
+}), valibotAdapter());
+```
 
 ---
 
@@ -641,30 +445,49 @@ See [BYO Validator](validation-byo.html) for more patterns.
 
 ### Built-in behaviour
 
-- Renders a real `<input type="radio">`, preserving native semantics, single-select behaviour, and keyboard handling.
-- `field-id` is auto-generated and reflected to the host so external `<label for>` (or `aegov-label`) can associate reliably.
-- When `label` is set, the entire label area is part of the click target via the wrapping `<label>` element.
-- The `hint` text is associated with the input via `aria-describedby`; error text is announced via a polite `aria-live` region after the first blur.
-- `aegov-radio-group` renders a real `<fieldset>` with `role="radiogroup"` and an optional `<legend>`, giving screen-reader users a clear group label.
-- When `is-required` is set on `aegov-radio-group`, `aria-required="true"` is added to the `<fieldset>` so assistive technology knows at least one option must be selected.
-- The group forwards `aria-*` and `data-*` host attributes onto the `<fieldset>` — use this to add `aria-labelledby` when an external heading labels the group.
-- The group sets the shared `name` on every child automatically, so native single-select behaviour and arrow-key navigation work without any extra wiring.
+- Each option is a real `<input type="radio">`, so mutual exclusion, arrow-key navigation, the single-tab-stop model and form participation all come from the platform.
+- The group renders a real `<fieldset>` carrying `role="radiogroup"`, with the `label` as its `<legend>` — the only construct that correctly names a set of radios.
+- `name` is propagated to every child, so the options are genuinely exclusive rather than only appearing so.
+- Setting `label` on a radio makes the circle and label a single click target, keeping the effective target size compliant with WCAG 2.2 SC 2.5.8 at every size token.
+- Each radio's `hint` is wired into its own `aria-describedby`.
+- `aria-required` and `aria-invalid` are set on the fieldset from the group's properties.
+- `is-disabled` on the group uses native `<fieldset disabled>`, so descendants are genuinely disabled.
+- Individually disabled radios are skipped by arrow-key navigation.
+- The error region takes `role="alert"` only after first blur.
+- The focus ring is a high-contrast camel outline held constant across variants, meeting the 3:1 requirement of WCAG 2.2 SC 1.4.11.
 
 ### Developer responsibilities
 
-- Always provide either a visible `label`, a sibling `<label for>`, or `aria-label` / `aria-labelledby` on each radio. A bare radio with no label reads as just "radio button".
-- Always wrap related radios in `aegov-radio-group` and set the group `label` — this gives screen-reader users the question being asked, not just the option text.
-- Use radios only for genuinely mutually exclusive choices. For binary on/off, prefer `aegov-toggle`. For multi-select, use `aegov-checkbox-group`.
-- Provide between two and seven options per group. For longer lists, use `aegov-select` instead.
+- **Always set `name` on the group.** Without it the options are not exclusive — the single most damaging mistake available here.
+- **Always give the group a `label`.** It becomes the `<legend>`; without it a screen reader user hears options with no question attached.
+- **Give every radio a `label` and a distinct `value`.**
+- **Do not preselect a default** unless it is genuinely the right answer for most people. A preselected option is easily missed, and for consequential choices it amounts to answering on the user's behalf. Where no default is appropriate, leave the group empty and mark it required.
+- **Do not use radios for more than about seven options.** Beyond that, a [Select](aegov-select.html) is easier to scan.
+- **Never signal an error with colour alone** (WCAG 2.2 SC 1.4.1) — populate `error-message` or the `error` slot.
+- **Include an explicit escape option** where "none of these" is a valid answer — "No preference", "Prefer not to say". Radios cannot be deselected once chosen, so without one the user is trapped by their first click.
+- **Avoid `pills` for consequential choices.** It hides the circle, and a filled pill is a weaker affordance.
+- **Do not nest interactive content inside a radio's label.** A link inside the label competes with the option's own click target.
 
 ### Keyboard support
 
-Native browser radio-group semantics apply once `aegov-radio-group` shares the `name` across children:
+The group is a **single tab stop**. This is the main difference from [Checkbox](aegov-checkbox.html), where every box is its own stop.
 
-| Key                                | Action                                                                              |
-| ---------------------------------- | ----------------------------------------------------------------------------------- |
-| `Tab`                              | Move focus to the selected radio in the group (or the first radio if none selected). |
-| `Shift + Tab`                      | Move focus out of the group to the previous focusable element.                        |
-| `Arrow Right`, `Arrow Down`        | Move focus to the next radio in the group and select it.                               |
-| `Arrow Left`, `Arrow Up`           | Move focus to the previous radio in the group and select it.                           |
-| `Space`                            | Select the focused radio.                                                              |
+| Key | Action |
+| --- | --- |
+| `Tab` | Move focus into the group, landing on the selected radio — or the first one if nothing is selected. |
+| `Shift` + `Tab` | Move focus out of the group. |
+| `ArrowDown`, `ArrowRight` | Select the next enabled option. Follows visual order, so it reverses under `dir="rtl"`. |
+| `ArrowUp`, `ArrowLeft` | Select the previous enabled option. |
+| `Space` | Select the focused option. |
+
+Arrow keys both move focus **and** change the selection, which is native radio behaviour. It is why a radio group should not trigger destructive side effects on change — a keyboard user passing through the options will select each one on the way.
+
+---
+
+## Where to next
+
+- [Checkbox](aegov-checkbox.html) — for any number of choices, and for select-all behaviour.
+- [Select](aegov-select.html) — for longer option lists.
+- [Toggle](aegov-toggle.html) — for an immediate on/off setting.
+- [Form Field](aegov-form-field.html) — the wrapper and its validation cascade.
+- [Validation Surface](validation-overview.html) and [Bring Your Own Validator](validation-byo.html).

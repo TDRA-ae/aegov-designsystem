@@ -1,489 +1,366 @@
 # Accordion
 
-<p class="text-lg text-aeblack-500 mb-8">An Accordion is a dynamic user interface component that helps effectively manage and organize content in an interactive, user-friendly manner. It enables content to be collapsed into separate sections that can be expanded upon user interaction. This design is especially beneficial in environments with limited screen space, enhancing readability and providing a clean, organized layout for information presentation.</p>
+<p class="text-lg text-aeblack-500 mb-8">An Accordion collapses sections of content behind headings the user can expand. Use it for FAQs, long reference material, and optional detail that would otherwise make a page hard to scan. Unlike <a href="aegov-tabs.html">Tabs</a>, an accordion can have several sections open at once and scales to many more of them.</p>
 
 ## Introduction
 
-The `aegov-accordion` component composes a parent wrapper with one or more `aegov-accordion-item` children. The parent owns shared configuration — icon style, heading size, single-open vs. multi-open behaviour, and first/last positioning — and propagates it to each item automatically. You only need to author content inside each item; everything else is wired up for you.
-
-```html
-<aegov-accordion default-open="0">
-  <aegov-accordion-item heading="What is the UAE Design System?">
-    A shared library of UI components built to a common visual and accessibility standard, used by UAE Government services to deliver consistent digital experiences.
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="Where can I report bugs?">
-    File an issue on the project repository, or contact the design system team via your usual support channel.
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="Is the design system free to use?">
-    Yes. The design system is open and available to all UAE federal and local government entities at no cost.
-  </aegov-accordion-item>
-</aegov-accordion>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-accordion default-open="0">
-    <aegov-accordion-item heading="What is the UAE Design System?">
-      A shared library of UI components built to a common visual and accessibility standard, used by UAE Government services to deliver consistent digital experiences.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Where can I report bugs?">
-      File an issue on the project repository, or contact the design system team via your usual support channel.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Is the design system free to use?">
-      Yes. The design system is open and available to all UAE federal and local government entities at no cost.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
----
-
-## Single item opened vs. Multiple item opened
-
-By default the accordion behaves like a radio group — opening one item collapses the rest. Set `is-multiple="true"` to allow any number of items to be expanded at once.
-
-### Single item (default)
+`aegov-accordion` manages a set of `aegov-accordion-item` children. Each item has a heading and a content region.
 
 ```html
 <aegov-accordion>
-  <aegov-accordion-item heading="Application requirements">
-    Valid Emirates ID, recent utility bill, and proof of residence.
+  <aegov-accordion-item heading="How long does an application take?">
+    <p slot="accordion-item-content">Most applications are processed within five working days.</p>
   </aegov-accordion-item>
-  <aegov-accordion-item heading="Processing times">
-    Most applications are processed within three business days.
+
+  <aegov-accordion-item heading="Can I track my application?">
+    <p slot="accordion-item-content">Yes — sign in and open My applications.</p>
   </aegov-accordion-item>
+</aegov-accordion>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion field-id="ac-intro">
+    <aegov-accordion-item heading="How long does an application take?">
+      <p slot="accordion-item-content">Most applications are processed within five working days. Applications needing additional documents may take longer.</p>
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Can I track my application?">
+      <p slot="accordion-item-content">Yes — sign in and open <strong>My applications</strong> to see the current status.</p>
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="What if my documents have expired?">
+      <p slot="accordion-item-content">Upload current copies before submitting. Expired documents will delay your application.</p>
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+The parent cascades `icon`, `size` and `headingLevel` to every item, so set them once.
+
+---
+
+## Heading
+
+Two ways to provide the heading:
+
+```html
+<!-- The heading property, for plain text -->
+<aegov-accordion-item heading="How long does an application take?">
+  <p slot="accordion-item-content">…</p>
+</aegov-accordion-item>
+
+<!-- The heading slot, for markup -->
+<aegov-accordion-item>
+  <span slot="accordion-item-heading">
+    Fees <aegov-badge size="sm" variant="camel">Updated</aegov-badge>
+  </span>
+  <p slot="accordion-item-content">…</p>
+</aegov-accordion-item>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion field-id="ac-head">
+    <aegov-accordion-item heading="Plain text heading">
+      <p slot="accordion-item-content">Supplied through the heading property.</p>
+    </aegov-accordion-item>
+    <aegov-accordion-item>
+      <span slot="accordion-item-heading">Fees <aegov-badge size="sm" variant="camel">Updated</aegov-badge></span>
+      <p slot="accordion-item-content">Supplied through the heading slot, so it can contain markup.</p>
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+The slot takes precedence when both are present.
+
+---
+
+## Heading level
+
+`headingLevel` sets which `<hN>` element wraps each item's trigger button, so the accordion slots into your document outline correctly. Default is `3`.
+
+```html
+<!-- Under an <h1> page title with an <h2> section heading above it -->
+<aegov-accordion heading-level="3">…</aegov-accordion>
+```
+
+Choose the level from the accordion's position in the page outline, not from how large you want the text. This is the same rule as any heading.
+
+**Nested accordions increment automatically.** An accordion inside another accordion's content raises its own heading level by one, capped at 6 — so the outline stays valid without you tracking it.
+
+```html
+<aegov-accordion heading-level="2">
   <aegov-accordion-item heading="Fees and payment">
-    Service fees are payable online through the secure payment gateway.
+    <div slot="accordion-item-content">
+      <!-- This inner accordion uses level 3 automatically -->
+      <aegov-accordion>
+        <aegov-accordion-item heading="Card payments">
+          <p slot="accordion-item-content">Visa and Mastercard are accepted.</p>
+        </aegov-accordion-item>
+      </aegov-accordion>
+    </div>
   </aegov-accordion-item>
 </aegov-accordion>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-accordion>
-    <aegov-accordion-item heading="Application requirements">
-      Valid Emirates ID, recent utility bill, and proof of residence.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Processing times">
-      Most applications are processed within three business days.
-    </aegov-accordion-item>
+  <aegov-accordion field-id="ac-nest" heading-level="2" is-bordered>
     <aegov-accordion-item heading="Fees and payment">
-      Service fees are payable online through the secure payment gateway.
+      <div slot="accordion-item-content">
+        <p class="mb-3">Fees vary by service. Payment is taken at the end of the application.</p>
+        <aegov-accordion field-id="ac-nest-in">
+          <aegov-accordion-item heading="Card payments">
+            <p slot="accordion-item-content">Visa and Mastercard are accepted.</p>
+          </aegov-accordion-item>
+          <aegov-accordion-item heading="Bank transfer">
+            <p slot="accordion-item-content">Allow three working days for the transfer to clear.</p>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      </div>
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Refunds">
+      <p slot="accordion-item-content">Service fees are non-refundable once an application has been submitted.</p>
     </aegov-accordion-item>
   </aegov-accordion>
 </div>
 
-### Multiple items
+Keep nesting to one level. Two levels of collapsed content is very hard to navigate, particularly with a screen reader.
+
+---
+
+## Single or multiple open
+
+By default opening one item closes the others. `isMultiple` allows several open at once.
 
 ```html
-<aegov-accordion is-multiple="true">
-  <aegov-accordion-item heading="Eligibility">
-    Open to UAE nationals and residents aged 18 and over.
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="Documents">
-    Upload a clear copy of both sides of your Emirates ID.
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="Confirmation">
-    A confirmation message is sent by SMS once your request is received.
-  </aegov-accordion-item>
-</aegov-accordion>
+<aegov-accordion>…</aegov-accordion>
+<aegov-accordion is-multiple>…</aegov-accordion>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-accordion is-multiple="true">
-    <aegov-accordion-item heading="Eligibility">
-      Open to UAE nationals and residents aged 18 and over.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Documents">
-      Upload a clear copy of both sides of your Emirates ID.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Confirmation">
-      A confirmation message is sent by SMS once your request is received.
-    </aegov-accordion-item>
+  <div class="space-y-8">
+    <div>
+      <p class="text-sm text-aeblack-500 mb-2">Default — one at a time</p>
+      <aegov-accordion field-id="ac-single">
+        <aegov-accordion-item heading="First question"><p slot="accordion-item-content">Opening another closes this one.</p></aegov-accordion-item>
+        <aegov-accordion-item heading="Second question"><p slot="accordion-item-content">Only one is open at a time.</p></aegov-accordion-item>
+      </aegov-accordion>
+    </div>
+    <div>
+      <p class="text-sm text-aeblack-500 mb-2">is-multiple</p>
+      <aegov-accordion field-id="ac-multi" is-multiple>
+        <aegov-accordion-item heading="First question"><p slot="accordion-item-content">This can stay open…</p></aegov-accordion-item>
+        <aegov-accordion-item heading="Second question"><p slot="accordion-item-content">…while this one is also open.</p></aegov-accordion-item>
+      </aegov-accordion>
+    </div>
+  </div>
+</div>
+
+Prefer `isMultiple` for reference content, where the user may want to compare two answers. The single-open default suits a compact list where vertical space is tight.
+
+---
+
+## Default open item
+
+`defaultOpen` takes the **zero-based index** of the item to open initially.
+
+```html
+<aegov-accordion default-open="0">…</aegov-accordion>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion field-id="ac-def" default-open="0">
+    <aegov-accordion-item heading="Opened by default"><p slot="accordion-item-content">This item is open on load because default-open is 0.</p></aegov-accordion-item>
+    <aegov-accordion-item heading="Closed"><p slot="accordion-item-content">Closed on load.</p></aegov-accordion-item>
   </aegov-accordion>
+</div>
+
+Note this is an index, unlike [Tabs](aegov-tabs.html) where `defaultOpen` takes an ID.
+
+---
+
+## Icon
+
+```html
+<aegov-accordion icon="chevron">…</aegov-accordion>
+<aegov-accordion icon="plus">…</aegov-accordion>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="space-y-8">
+    <aegov-accordion field-id="ac-ic-1" icon="chevron">
+      <aegov-accordion-item heading="Chevron icon (default)"><p slot="accordion-item-content">Rotates when open.</p></aegov-accordion-item>
+    </aegov-accordion>
+    <aegov-accordion field-id="ac-ic-2" icon="plus">
+      <aegov-accordion-item heading="Plus icon"><p slot="accordion-item-content">Becomes a minus when open.</p></aegov-accordion-item>
+    </aegov-accordion>
+  </div>
 </div>
 
 ---
 
-## Default Open Item
+## Bordered
 
-Use `default-open` with a zero-based index to expand a specific item on initial render. This is useful for highlighting the most important question in an FAQ.
-
-```html
-<aegov-accordion default-open="1">
-  <aegov-accordion-item heading="Section A">
-    First section content.
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="Section B (open by default)">
-    Second section content — open on initial render.
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="Section C">
-    Third section content.
-  </aegov-accordion-item>
-</aegov-accordion>
-```
+`isBordered` adds a border around the accordion and dividers between items, which helps when it sits directly on a page background rather than inside a card.
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-accordion default-open="1">
-    <aegov-accordion-item heading="Section A">
-      First section content.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Section B (open by default)">
-      Second section content — open on initial render.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Section C">
-      Third section content.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
----
-
-## Toggle Icon
-
-The `icon` property selects the visual indicator next to each heading. `chevron` (default) rotates downward as the item expands; `plus` swaps to a minus sign when open.
-
-### Chevron (default)
-
-```html
-<aegov-accordion icon="chevron">
-  <aegov-accordion-item heading="Privacy policy">…</aegov-accordion-item>
-  <aegov-accordion-item heading="Terms of service">…</aegov-accordion-item>
-</aegov-accordion>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-accordion icon="chevron">
-    <aegov-accordion-item heading="Privacy policy">We collect only the data necessary to provide the service.</aegov-accordion-item>
-    <aegov-accordion-item heading="Terms of service">By using this service you agree to the terms set out in the official agreement.</aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
-### Plus / minus
-
-```html
-<aegov-accordion icon="plus">
-  <aegov-accordion-item heading="Privacy policy">…</aegov-accordion-item>
-  <aegov-accordion-item heading="Terms of service">…</aegov-accordion-item>
-</aegov-accordion>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-accordion icon="plus">
-    <aegov-accordion-item heading="Privacy policy">We collect only the data necessary to provide the service.</aegov-accordion-item>
-    <aegov-accordion-item heading="Terms of service">By using this service you agree to the terms set out in the official agreement.</aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
----
-
-## Bordered Container
-
-Set `is-bordered="true"` to wrap the entire accordion in a rounded outline. Use this when the accordion sits on a page background that needs a visible boundary; omit it when the surrounding card already provides a container.
-
-```html
-<aegov-accordion is-bordered="true">
-  <aegov-accordion-item heading="Bordered item one">First item content.</aegov-accordion-item>
-  <aegov-accordion-item heading="Bordered item two">Second item content.</aegov-accordion-item>
-  <aegov-accordion-item heading="Bordered item three">Third item content.</aegov-accordion-item>
-</aegov-accordion>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-accordion is-bordered="true">
-    <aegov-accordion-item heading="Bordered item one">First item content.</aegov-accordion-item>
-    <aegov-accordion-item heading="Bordered item two">Second item content.</aegov-accordion-item>
-    <aegov-accordion-item heading="Bordered item three">Third item content.</aegov-accordion-item>
-  </aegov-accordion>
+  <div class="space-y-8">
+    <aegov-accordion field-id="ac-b-1">
+      <aegov-accordion-item heading="Without borders"><p slot="accordion-item-content">Default.</p></aegov-accordion-item>
+      <aegov-accordion-item heading="Second item"><p slot="accordion-item-content">Default.</p></aegov-accordion-item>
+    </aegov-accordion>
+    <aegov-accordion field-id="ac-b-2" is-bordered>
+      <aegov-accordion-item heading="With borders"><p slot="accordion-item-content">is-bordered.</p></aegov-accordion-item>
+      <aegov-accordion-item heading="Second item"><p slot="accordion-item-content">is-bordered.</p></aegov-accordion-item>
+    </aegov-accordion>
+  </div>
 </div>
 
 ---
 
 ## Sizes
 
-The `size` property sets the heading typography. Three tokens are available: `sm`, `base` (default), and `lg`. The body content keeps its inherited size — only the trigger heading scales.
-
-| Token  | Heading size   |
-| ------ | -------------- |
-| `sm`   | 14 px          |
-| `base` | 16 px (default) |
-| `lg`   | 18 px          |
-
-```html
-<aegov-accordion size="sm">…</aegov-accordion>
-<aegov-accordion size="base">…</aegov-accordion>
-<aegov-accordion size="lg">…</aegov-accordion>
-```
+Three tokens, controlling heading font size and padding. `size` accepts a responsive string.
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-accordion size="sm">
-    <aegov-accordion-item heading="Small heading (14 px)">Compact size suits dense administrative interfaces.</aegov-accordion-item>
-    <aegov-accordion-item heading="Another small heading">Compact size suits dense administrative interfaces.</aegov-accordion-item>
-  </aegov-accordion>
-  <aegov-accordion size="base">
-    <aegov-accordion-item heading="Base heading (16 px)">The default size, suitable for most page contexts.</aegov-accordion-item>
-    <aegov-accordion-item heading="Another base heading">The default size, suitable for most page contexts.</aegov-accordion-item>
-  </aegov-accordion>
-  <aegov-accordion size="lg">
-    <aegov-accordion-item heading="Large heading (18 px)">Large size works well as a primary FAQ on a landing page.</aegov-accordion-item>
-    <aegov-accordion-item heading="Another large heading">Large size works well as a primary FAQ on a landing page.</aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
-### Responsive sizes
-
-`size` also accepts a Tailwind-style responsive string with the breakpoint prefixes `xs`, `sm`, `md`, `lg`, `xl`, and `2xl`. Each segment overrides smaller breakpoints, so the example below is `sm` on phones, `base` from the `md` breakpoint up, and `lg` from `xl` up.
-
-```html
-<aegov-accordion size="sm md:base xl:lg">
-  <aegov-accordion-item heading="Resizes with the viewport">
-    Resize your browser to see the heading scale.
-  </aegov-accordion-item>
-</aegov-accordion>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-accordion size="sm md:base xl:lg">
-    <aegov-accordion-item heading="Resizes with the viewport">
-      Resize your browser to see the heading scale across the <code>sm</code>, <code>md</code>, and <code>xl</code> breakpoints.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Same item at every size">
-      Body content stays the same — only the trigger heading scales.
-    </aegov-accordion-item>
-  </aegov-accordion>
+  <div class="space-y-6">
+    <aegov-accordion field-id="ac-s-1" size="sm"><aegov-accordion-item heading="Small"><p slot="accordion-item-content">Small size.</p></aegov-accordion-item></aegov-accordion>
+    <aegov-accordion field-id="ac-s-2" size="base"><aegov-accordion-item heading="Base"><p slot="accordion-item-content">Base size.</p></aegov-accordion-item></aegov-accordion>
+    <aegov-accordion field-id="ac-s-3" size="lg"><aegov-accordion-item heading="Large"><p slot="accordion-item-content">Large size.</p></aegov-accordion-item></aegov-accordion>
+  </div>
 </div>
 
 ---
 
-## Custom Heading Slot
-
-When the trigger needs richer markup — formatting, an inline icon, a status badge — use the `accordion-item-heading` slot instead of the `heading` property. The slot replaces the plain text heading entirely.
+## Disabled items
 
 ```html
-<aegov-accordion>
-  <aegov-accordion-item>
-    <span slot="accordion-item-heading">
-      <strong>Step 1.</strong> Verify your identity
-      <aegov-badge variant="success" size="sm">Required</aegov-badge>
-    </span>
-    Use your Emirates ID to confirm your identity before proceeding.
-  </aegov-accordion-item>
-  <aegov-accordion-item>
-    <span slot="accordion-item-heading">
-      <strong>Step 2.</strong> Submit your documents
-    </span>
-    Upload the supporting documents listed in the application form.
-  </aegov-accordion-item>
-</aegov-accordion>
+<aegov-accordion-item heading="Not yet available" is-disabled>
+  <p slot="accordion-item-content">…</p>
+</aegov-accordion-item>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-accordion>
-    <aegov-accordion-item>
-      <span slot="accordion-item-heading">
-        <strong>Step 1.</strong> Verify your identity
-        <aegov-badge variant="success" size="sm">Required</aegov-badge>
-      </span>
-      Use your Emirates ID to confirm your identity before proceeding.
-    </aegov-accordion-item>
-    <aegov-accordion-item>
-      <span slot="accordion-item-heading">
-        <strong>Step 2.</strong> Submit your documents
-      </span>
-      Upload the supporting documents listed in the application form.
-    </aegov-accordion-item>
+  <aegov-accordion field-id="ac-dis" is-bordered>
+    <aegov-accordion-item heading="Available"><p slot="accordion-item-content">Open me.</p></aegov-accordion-item>
+    <aegov-accordion-item heading="Available after your application is reviewed" is-disabled><p slot="accordion-item-content">Hidden until review completes.</p></aegov-accordion-item>
   </aegov-accordion>
 </div>
 
+Disabled items are skipped by keyboard navigation. Say why the section is unavailable in the heading itself.
+
 ---
 
-## Disabled Items
+## Reacting to toggles
 
-Set `is-disabled="true"` on an individual item to prevent it from being opened. The trigger renders as visually muted and is removed from the keyboard tab order.
+Each item emits `aegovAccordionItemToggle`, which bubbles.
 
 ```html
-<aegov-accordion>
-  <aegov-accordion-item heading="Active service">
-    This service is currently accepting applications.
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="Coming soon" is-disabled="true">
-    This section is not yet available.
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="Active service">
-    This service is currently accepting applications.
-  </aegov-accordion-item>
-</aegov-accordion>
+<aegov-accordion id="faq">…</aegov-accordion>
+
+<script type="module">
+  document.querySelector('#faq').addEventListener('aegovAccordionItemToggle', (e) => {
+    const item = e.target;
+    if (e.detail.open) {
+      analytics.track('faq_opened', { question: item.heading });
+    }
+  });
+</script>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-accordion>
-    <aegov-accordion-item heading="Active service">
-      This service is currently accepting applications.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Coming soon" is-disabled="true">
-      This section is not yet available.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Active service">
-      This service is currently accepting applications.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
+This is also the hook for lazy-loading a section's content the first time it opens.
 
 ---
 
-## Combined Example
-
-This example combines `is-multiple`, `icon="plus"`, `is-bordered`, and `default-open` to build a bordered FAQ card that lets users open several questions at once.
+## Composite example — service FAQ
 
 ```html
-<aegov-accordion is-multiple="true" icon="plus" is-bordered="true" default-open="0">
-  <aegov-accordion-item heading="How do I create an account?">
-    Visit the registration page and verify your Emirates ID. Account activation is instant.
+<h2>Frequently asked questions</h2>
+
+<aegov-accordion is-multiple is-bordered heading-level="3" icon="plus">
+  <aegov-accordion-item heading="How long does an Emirates ID renewal take?">
+    <p slot="accordion-item-content">
+      Most renewals are processed within five working days.
+      <aegov-link href="/service-charter">See the service charter</aegov-link>.
+    </p>
   </aegov-accordion-item>
-  <aegov-accordion-item heading="How do I reset my password?">
-    Use the &ldquo;Forgot password&rdquo; link on the sign-in page. A reset link is sent to your registered email.
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="How do I update my contact information?">
-    Sign in, open your profile, and edit your phone number or email under <em>Personal details</em>.
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="How do I delete my account?">
-    Contact support — account deletion requires identity verification and cannot be reversed.
-  </aegov-accordion-item>
-</aegov-accordion>
-```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-accordion is-multiple="true" icon="plus" is-bordered="true" default-open="0">
-    <aegov-accordion-item heading="How do I create an account?">
-      Visit the registration page and verify your Emirates ID. Account activation is instant.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="How do I reset my password?">
-      Use the &ldquo;Forgot password&rdquo; link on the sign-in page. A reset link is sent to your registered email.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="How do I update my contact information?">
-      Sign in, open your profile, and edit your phone number or email under <em>Personal details</em>.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="How do I delete my account?">
-      Contact support — account deletion requires identity verification and cannot be reversed.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
----
-
-## Nested accordion
-
-A nested accordion is the ablity to place a single accordion element inside the item of a parent accordion.
-
-```html
-<aegov-accordion is-bordered="true">
-    <aegov-accordion-item heading="How can I get a passport">
-      <p>To receive a passport, you must follow the steps mentioned here</p>
-      <aegov-accordion icon="plus">
-        <aegov-accordion-item heading="Privacy policy">We collect only the data necessary to provide the service.</aegov-accordion-item>
-        <aegov-accordion-item heading="Terms of service">By using this service you agree to the terms set out in the official agreement.</aegov-accordion-item>
-      </aegov-accordion>
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Documents required">Second item content.</aegov-accordion-item>
-    <aegov-accordion-item heading="Appointment booking">Third item content.</aegov-accordion-item>
-  </aegov-accordion>
-```
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-accordion is-bordered="true">
-    <aegov-accordion-item heading="How can I get a passport">
-      <p>To receive a passport, you must follow the steps mentioned here</p>
-      <aegov-accordion icon="plus">
-        <aegov-accordion-item heading="Privacy policy">We collect only the data necessary to provide the service.</aegov-accordion-item>
-        <aegov-accordion-item heading="Terms of service">By using this service you agree to the terms set out in the official agreement.</aegov-accordion-item>
-      </aegov-accordion>
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Documents required">Second item content.</aegov-accordion-item>
-    <aegov-accordion-item heading="Appointment booking">Third item content.</aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
----
-
-## Rich text enabled
-
-The `aegov-accordion-item` is a slot that will accept HTML directly as well. you may therefore add text that is styled as a list, paragraph or more.
-
-<aegov-accordion>
-  <aegov-accordion-item heading="Specifications">
-    <p>To repair the Kirby, you need the following items that mean specefications</p>
-    <ul>
-      <li>A 55 mm plugable chain</li>
-      <li>Original cleaning brush</li>
-      <li>60 ml of cleaning liquid</li>
-    </ul>
-    <p>It is essentially to have all of the above placed in the correct container before proceeding with the repair.</p>
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="Hardware">
-    <p class="mb-6">Obtain the hardware from an authorised dealership only. Since you are located in Dubai, United Arab Emirates, here is the nearest dealship to you.</p>
-    <div class="flex items-start justify-start gap-8 pt-8">
-      <div class="bg-aeblack-500 w-60 h-48">&nbsp;</div>
-      <div>
-        <h6>Headoffice locaton</h6>
-        <p>17A Street, Al Habtoor Building<br>Umm Ramool,<br>Dubai, United Arab Emirates</p>
-      </div>
+  <aegov-accordion-item heading="What documents do I need?">
+    <div slot="accordion-item-content">
+      <ul class="list-disc ps-5 space-y-1">
+        <li>A valid passport copy</li>
+        <li>Your current Emirates ID</li>
+        <li>A recent photograph</li>
+      </ul>
     </div>
   </aegov-accordion-item>
-  <aegov-accordion-item heading="Software">
-    <p>All software must be downloaded form our portal</p>
+
+  <aegov-accordion-item heading="Can I renew on behalf of a family member?">
+    <p slot="accordion-item-content">Yes, with a signed authorisation and both Emirates ID copies.</p>
   </aegov-accordion-item>
 </aegov-accordion>
+```
 
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="text-h5 font-bold mb-4">Frequently asked questions</p>
+  <aegov-accordion field-id="ac-cx" is-multiple is-bordered heading-level="3" icon="plus">
+    <aegov-accordion-item heading="How long does an Emirates ID renewal take?">
+      <p slot="accordion-item-content">Most renewals are processed within five working days. <aegov-link href="#">See the service charter</aegov-link>.</p>
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="What documents do I need?">
+      <div slot="accordion-item-content">
+        <ul class="list-disc ps-5 space-y-1">
+          <li>A valid passport copy</li>
+          <li>Your current Emirates ID</li>
+          <li>A recent photograph</li>
+        </ul>
+      </div>
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Can I renew on behalf of a family member?">
+      <p slot="accordion-item-content">Yes, with a signed authorisation and copies of both Emirates IDs.</p>
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+Note `ps-5` on the list — a logical property, so the indent follows the reading direction.
 
 ---
 
 ## RTL Support
 
-The accordion is direction-agnostic. When the document or any ancestor is set to `dir="rtl"` the layout, heading alignment, and toggle icon position mirror automatically. The component uses CSS logical properties for padding, borders, and the expand animation, so no additional configuration is required.
+The accordion is direction-aware. In a `dir="rtl"` container the icon moves to the inline-start edge, headings and content align right, and the chevron rotates in the mirrored direction. Arrow-key navigation is vertical, so direction does not affect it.
 
 ```html
 <div dir="rtl">
-  <aegov-accordion is-bordered="true" default-open="0">
-    <aegov-accordion-item heading="ما هو نظام التصميم الإماراتي؟">
-      مكتبة مشتركة من مكوّنات واجهة المستخدم مبنية وفق معيار بصري وإمكانية وصول موحّدة، تستخدمها الجهات الحكومية في دولة الإمارات لتقديم تجربة رقمية متّسقة.
+  <aegov-accordion is-multiple is-bordered icon="plus">
+    <aegov-accordion-item heading="كم تستغرق عملية تجديد الهوية الإماراتية؟">
+      <p slot="accordion-item-content">تُعالج معظم عمليات التجديد خلال خمسة أيام عمل.</p>
     </aegov-accordion-item>
-    <aegov-accordion-item heading="كيف يمكنني الإبلاغ عن خطأ؟">
-      افتح طلب دعم على مستودع المشروع، أو تواصل مع فريق نظام التصميم عبر قنوات الدعم المعتمدة لديك.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="هل النظام متاح مجاناً؟">
-      نعم. نظام التصميم متاح مجاناً لجميع الجهات الحكومية الاتحادية والمحلية في دولة الإمارات.
+    <aegov-accordion-item heading="ما المستندات المطلوبة؟">
+      <div slot="accordion-item-content">
+        <ul class="list-disc ps-5 space-y-1">
+          <li>صورة جواز سفر صالح</li>
+          <li>الهوية الإماراتية الحالية</li>
+        </ul>
+      </div>
     </aegov-accordion-item>
   </aegov-accordion>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-accordion is-bordered="true" default-open="0">
-    <aegov-accordion-item heading="ما هو نظام التصميم الإماراتي؟">
-      مكتبة مشتركة من مكوّنات واجهة المستخدم مبنية وفق معيار بصري وإمكانية وصول موحّدة، تستخدمها الجهات الحكومية في دولة الإمارات لتقديم تجربة رقمية متّسقة.
+  <aegov-accordion field-id="ac-rtl" is-multiple is-bordered icon="plus">
+    <aegov-accordion-item heading="كم تستغرق عملية تجديد الهوية الإماراتية؟">
+      <p slot="accordion-item-content">تُعالج معظم عمليات التجديد خلال خمسة أيام عمل. <aegov-link href="#">راجع ميثاق الخدمة</aegov-link>.</p>
     </aegov-accordion-item>
-    <aegov-accordion-item heading="كيف يمكنني الإبلاغ عن خطأ؟">
-      افتح طلب دعم على مستودع المشروع، أو تواصل مع فريق نظام التصميم عبر قنوات الدعم المعتمدة لديك.
+    <aegov-accordion-item heading="ما المستندات المطلوبة؟">
+      <div slot="accordion-item-content">
+        <ul class="list-disc ps-5 space-y-1">
+          <li>صورة جواز سفر صالح</li>
+          <li>الهوية الإماراتية الحالية</li>
+          <li>صورة شخصية حديثة</li>
+        </ul>
+      </div>
     </aegov-accordion-item>
-    <aegov-accordion-item heading="هل النظام متاح مجاناً؟">
-      نعم. نظام التصميم متاح مجاناً لجميع الجهات الحكومية الاتحادية والمحلية في دولة الإمارات.
+    <aegov-accordion-item heading="هل يمكنني التجديد نيابة عن أحد أفراد الأسرة؟">
+      <p slot="accordion-item-content">نعم، مع تفويض موقّع وصور من هويتي الطرفين.</p>
     </aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
-The same accordion with the plus icon and multi-open behaviour, in RTL:
-
-```html
-<div dir="rtl">
-  <aegov-accordion is-multiple="true" icon="plus">
-    <aegov-accordion-item heading="الفقرة الأولى">المحتوى الأول.</aegov-accordion-item>
-    <aegov-accordion-item heading="الفقرة الثانية">المحتوى الثاني.</aegov-accordion-item>
-    <aegov-accordion-item heading="الفقرة الثالثة">المحتوى الثالث.</aegov-accordion-item>
-  </aegov-accordion>
-</div>
-```
-
-<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-accordion is-multiple="true" icon="plus">
-    <aegov-accordion-item heading="الفقرة الأولى">المحتوى الأول.</aegov-accordion-item>
-    <aegov-accordion-item heading="الفقرة الثانية">المحتوى الثاني.</aegov-accordion-item>
-    <aegov-accordion-item heading="الفقرة الثالثة">المحتوى الثالث.</aegov-accordion-item>
   </aegov-accordion>
 </div>
 
@@ -493,68 +370,47 @@ The same accordion with the plus icon and multi-open behaviour, in RTL:
 
 ### aegov-accordion Properties
 
-| Property      | Attribute      | Description                                                                | Type                  | Default     |
-| ------------- | -------------- | -------------------------------------------------------------------------- | --------------------- | ----------- |
-| `fieldId`     | `field-id`     | DOM `id` for the accordion wrapper element. Auto-generated if omitted.     | `string`              | _generated_ |
-| `isMultiple`  | `is-multiple`  | When `true`, multiple items can be open at the same time.                  | `boolean`             | `false`     |
-| `defaultOpen` | `default-open` | Zero-based index of the item to open on initial render.                    | `number`              | `undefined` |
-| `icon`        | `icon`         | Toggle indicator style — `chevron` rotates, `plus` swaps to a minus.        | `'chevron' \| 'plus'` | `'chevron'` |
-| `isBordered`  | `is-bordered`  | Adds an outer border and rounded corners around the entire accordion.       | `boolean`             | `false`     |
-| `size`        | `size`         | Heading typography size. Accepts a single token or a responsive string.     | `string`              | `'base'`    |
+| Property | Attribute | Description | Type | Default |
+| --- | --- | --- | --- | --- |
+| `fieldId` | `field-id` | ID applied to the wrapper. Auto-generated when omitted, reflected. | `string` | _generated_ |
+| `isMultiple` | `is-multiple` | Allow several items open at once. | `boolean` | `false` |
+| `defaultOpen` | `default-open` | **Zero-based index** of the item to open initially. | `number` | — |
+| `icon` | `icon` | Expand indicator. Cascades to items. | `'chevron' \| 'plus'` | `'chevron'` |
+| `isBordered` | `is-bordered` | Border around the accordion and dividers between items. | `boolean` | `false` |
+| `size` | `size` | Size token or responsive string. Cascades to items. | `string` — `sm \| base \| lg` | `'base'` |
+| `headingLevel` | `heading-level` | Heading level (1–6) wrapping each trigger. Auto-incremented in a nested accordion. | `number` | `3` |
 
 ### aegov-accordion-item Properties
 
-| Property     | Attribute     | Description                                                              | Type                       | Default     |
-| ------------ | ------------- | ------------------------------------------------------------------------ | -------------------------- | ----------- |
-| `heading`    | `heading`     | Trigger text. Ignored when the `accordion-item-heading` slot is used.    | `string`                   | `undefined` |
-| `isOpen`     | `is-open`     | Reflects whether the item is currently expanded. Managed by the parent.  | `boolean`                  | `false`     |
-| `isDisabled` | `is-disabled` | Disables the trigger so the item cannot be opened or closed.             | `boolean`                  | `false`     |
-| `icon`       | `icon`        | _Set by the parent._ Toggle indicator style.                              | `'chevron' \| 'plus'`      | `'chevron'` |
-| `isFirst`    | `is-first`    | _Set by the parent._ Whether this is the first item in the group.         | `boolean`                  | `false`     |
-| `isLast`     | `is-last`     | _Set by the parent._ Whether this is the last item in the group.          | `boolean`                  | `false`     |
-| `size`       | `size`        | _Set by the parent._ Heading typography size.                             | `'sm' \| 'base' \| 'lg'`   | `'base'`    |
+| Property | Attribute | Description | Type | Default |
+| --- | --- | --- | --- | --- |
+| `heading` | `heading` | Heading text. The `accordion-item-heading` slot takes precedence. | `string` | — |
+| `isDisabled` | `is-disabled` | Cannot be opened, and skipped by arrow keys. | `boolean` | `false` |
 
-> Properties marked _Set by the parent_ are written automatically by `aegov-accordion`. Setting them on an item directly will be overridden on the next sync.
+Open state, icon, size, heading level and first/last position are managed by the parent.
 
 ### Slots
 
-| Component               | Slot                       | Description                                                              |
-| ----------------------- | -------------------------- | ------------------------------------------------------------------------ |
-| `aegov-accordion`       | _(default)_                | Place one or more `aegov-accordion-item` children here.                   |
-| `aegov-accordion-item`  | `accordion-item-heading`   | Custom heading content. Overrides the `heading` property when supplied.   |
-| `aegov-accordion-item`  | _(default)_                | Body content shown when the item is expanded.                             |
+| Slot | On | Description |
+| --- | --- | --- |
+| _(default)_ | accordion | The `aegov-accordion-item` children. |
+| `accordion-item-heading` | item | Heading markup. Takes precedence over the `heading` property. |
+| `accordion-item-content` | item | The collapsible content. |
 
 ### Events
 
-| Event                       | Component               | Detail              | Description                                                                                              |
-| --------------------------- | ----------------------- | ------------------- | -------------------------------------------------------------------------------------------------------- |
-| `aegovAccordionItemToggle`  | `aegov-accordion-item`  | `{ open: boolean }` | Fired when an item requests open or close. The parent intercepts this event and updates `isOpen`.        |
-
-#### Listening for toggle events
-
-```html
-<aegov-accordion id="faq">
-  <aegov-accordion-item heading="A">A</aegov-accordion-item>
-  <aegov-accordion-item heading="B">B</aegov-accordion-item>
-</aegov-accordion>
-
-<script>
-  document.querySelector('#faq').addEventListener('aegovAccordionItemToggle', (e) => {
-    console.log('Item toggle requested, open =', e.detail.open);
-  });
-</script>
-```
+| Event | Detail | Description |
+| --- | --- | --- |
+| `aegovAccordionItemToggle` | `{ open: boolean }` | An item was opened or closed. Bubbles, so listen on the accordion. |
 
 ### Pass-through Attributes
 
-The accordion does not forward any attributes to inner elements — set attributes directly on the host element where they are needed.
-
-| Attribute group | Forwarded? | Where to apply                                                              |
-| --------------- | ---------- | --------------------------------------------------------------------------- |
-| `aria-*`        | No         | Apply directly to `<aegov-accordion>` or `<aegov-accordion-item>`.           |
-| `data-*`        | No         | Apply directly to `<aegov-accordion>` or `<aegov-accordion-item>`.           |
-| `id`            | n/a        | Use `field-id` on `<aegov-accordion>`. The trigger and panel use generated IDs. |
-| `class`, `style`| Allowed    | Applied to the host element.                                                 |
+| Attribute group | Forwarded? | Notes |
+| --- | --- | --- |
+| `aria-*` | Yes | Forwarded to the wrapper. |
+| `data-*` | Yes | Forwarded to the wrapper. |
+| `id` | n/a | Use `field-id`. |
+| `class`, `style` | Allowed | Applied to the host element. |
 
 ---
 
@@ -562,27 +418,44 @@ The accordion does not forward any attributes to inner elements — set attribut
 
 ### Built-in behaviour
 
-- Each trigger is a real `<button>` with `aria-expanded` reflecting the open state and `aria-controls` linked to its panel.
-- Each panel uses `role="region"` and `aria-labelledby` pointing at its trigger so screen readers announce the heading–content relationship.
-- `Enter` and `Space` toggle the focused item.
-- Arrow-key navigation (`ArrowUp` / `ArrowDown` / `Home` / `End`) moves focus between item triggers, matching the [WAI-ARIA Accordion pattern](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/).
-- Collapsed panels have the HTML `inert` attribute applied to their content wrapper. This removes all child elements — buttons, links, inputs — from both the keyboard tab sequence and the accessibility tree simultaneously, so there is no focus leakage into hidden content.
-- Disabled items set the native `disabled` attribute on the trigger and do not emit toggle events.
+- Each trigger is a real `<button>` wrapped in an `<hN>` element at the configured `headingLevel`, so the accordion appears in a screen reader's heading list and can be navigated by heading — which is the primary way users move through an FAQ.
+- `aria-expanded` on each trigger tracks its state, and the trigger is associated with its content region.
+- **Nested accordions increment `headingLevel` automatically**, capped at 6, so the document outline stays valid without manual bookkeeping.
+- Disabled items report their state and are skipped by arrow-key navigation.
+- Arrow-key navigation moves between item headers, with `Home` and `End` support.
+- The expand icon is decorative and hidden from assistive technology.
+- Layout uses logical properties, so the icon and content mirror under `dir="rtl"`.
 
 ### Developer responsibilities
 
-- Provide a meaningful `heading` (or heading slot) on every item — without it the trigger announces as just "button".
-- Focusable controls nested inside a collapsed panel are automatically excluded from the tab order via `inert`. You do not need to manually disable or hide them.
-- When using `default-open`, ensure the index points to a real child item.
+- **Set `headingLevel` to match your page outline.** The default `3` assumes an `<h2>` section heading above. A wrong level breaks heading navigation, which is the main reason an accordion is usable at all.
+- **Write headings that answer-in-brief.** "How long does renewal take?" is scannable; "Timing" is not.
+- **Do not hide essential content.** Anything required to complete a task belongs on the page. Collapsed content is missed, is not searched by in-page find in some browsers, and does not print.
+- **Do not put form fields in an accordion** where validation may fail inside a closed section. If you must, open the section containing the first error on submit.
+- **Prefer `isMultiple` for reference content** so users can compare answers.
+- **Keep nesting to one level.**
+- **Say why a disabled item is unavailable**, in the heading.
+- **Use logical spacing utilities** — `ps-*`, `pe-*` — in your content so it mirrors in RTL.
+- **Consider whether the content should be collapsed at all.** For three short paragraphs, plain headings and text are better than an accordion.
 
 ### Keyboard support
 
-| Key              | Action                                                   |
-| ---------------- | -------------------------------------------------------- |
-| `Enter`, `Space` | Toggle the focused accordion item.                       |
-| `ArrowDown`      | Move focus to the next accordion trigger.                |
-| `ArrowUp`        | Move focus to the previous accordion trigger.            |
-| `Home`           | Move focus to the first accordion trigger.               |
-| `End`            | Move focus to the last accordion trigger.                |
-| `Tab`            | Move focus to the next focusable element on the page.    |
-| `Shift + Tab`    | Move focus to the previous focusable element on the page.|
+| Key | Action |
+| --- | --- |
+| `Tab` | Move focus to the next accordion trigger, then into the open content. |
+| `Enter`, `Space` | Toggle the focused item. |
+| `ArrowDown` | Move focus to the next item's trigger. |
+| `ArrowUp` | Move focus to the previous item's trigger. |
+| `Home` | Move focus to the first trigger. |
+| `End` | Move focus to the last trigger. |
+
+Disabled items are skipped.
+
+---
+
+## Where to next
+
+- [Tabs](aegov-tabs.html) — for a small number of parallel panels.
+- [Navblock](aegov-navblock.html) — collapsible navigation rather than content.
+- [Callout](aegov-callout.html) — for information that must not be collapsed.
+- [Title](aegov-title.html) and [Text](aegov-text.html) — for content inside the panels.

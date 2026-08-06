@@ -21,335 +21,351 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Navblock</h1>
-<p class="text-lg text-aeblack-500 mb-8">The Navblock is the vertical, sidebar-style navigation companion to <code>aegov-navbar</code>. It composes one or more <code>aegov-navblock-item</code> children that can each be a plain link, a link with a leading icon, or a parent group containing nested sub-items. Parent items expand and collapse like an accordion — exactly the pattern most application sidebars use to organise sections by topic.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Navblock is vertical navigation for a sidebar — a section index, a settings menu, the contents of a long document. It supports nesting, so a parent item can hold its own children, and it offers two modes: collapsible groups that expand and collapse, or a flat tree where everything is always visible.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-navblock</code> component renders a <code>&lt;nav&gt;</code> landmark wrapping an optional title and a <code>&lt;ul&gt;</code> of <code>aegov-navblock-item</code> children. Each item is either:</p>
-<ul>
-<li>a <strong>leaf</strong> — renders as <code>&lt;a&gt;</code> (when <code>href</code> is set) or a <code>&lt;button&gt;</code>, becoming the current page when <code>is-active=&quot;true&quot;</code>,</li>
-<li>or a <strong>group</strong> — any nested <code>aegov-navblock-item</code> children are auto-promoted into the collapsible sub-region. The whole row toggles open/closed.</li>
-</ul>
-<p>Authors do not need to add <code>slot=&quot;subnav&quot;</code> to nested items — the component does it automatically.</p>
+<p><code>aegov-navblock</code> wraps <code>aegov-navblock-item</code> children in a <code>&lt;nav&gt;</code>. An item becomes a group simply by containing other items.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">block-title</span>=<span class="hljs-string">&quot;Workspace&quot;</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Project sidebar&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">is-active</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
     Reports
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/r/sales&quot;</span>&gt;</span>Sales<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/r/users&quot;</span>&gt;</span>Users<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/reports/sales&quot;</span>&gt;</span>Sales<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/reports/users&quot;</span>&gt;</span>Users<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/settings&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov" style="max-width: 320px;">
-  <aegov-navblock block-title="Workspace" label-nav="Project sidebar">
-    <aegov-navblock-item href="#" is-active="true">Dashboard</aegov-navblock-item>
-    <aegov-navblock-item>
-      Reports
-      <aegov-navblock-item href="#">Sales</aegov-navblock-item>
-      <aegov-navblock-item href="#">Users</aegov-navblock-item>
-    </aegov-navblock-item>
-    <aegov-navblock-item href="#">Settings</aegov-navblock-item>
-  </aegov-navblock>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="max-width: 320px;">
+    <aegov-navblock field-id="nbk-intro" block-title="Workspace" label-nav="Project sidebar">
+      <aegov-navblock-item href="#" is-active>Dashboard</aegov-navblock-item>
+      <aegov-navblock-item>
+        Reports
+        <aegov-navblock-item href="#">Sales</aegov-navblock-item>
+        <aegov-navblock-item href="#">Users</aegov-navblock-item>
+      </aegov-navblock-item>
+      <aegov-navblock-item href="#">Settings</aegov-navblock-item>
+    </aegov-navblock>
+  </div>
 </div>
 
+<p>An item with children and no <code>href</code> is a group header. An item with an <code>href</code> and children is both a link and a group — the parent link stays reachable, and the toggle is separate.</p>
+<p><strong>Always set <code>labelNav</code>.</strong> It names the <code>&lt;nav&gt;</code> landmark, which is how a screen reader user distinguishes this from the main navigation.</p>
 <hr>
-<h2>Variants</h2>
-<p>The <code>variant</code> prop switches the visual mode of the entire tree — set it once on <code>aegov-navblock</code> and all descendant items adapt automatically. Two variants are available:</p>
-<ul>
-<li><strong><code>collapsible</code></strong> (default) — parent items expand and collapse with an animated accordion. The active item receives a filled background highlight.</li>
-<li><strong><code>flat</code></strong> — all items sit at the same indentation level. Items with children become non-interactive bold group headers; their children are always visible. The active item gets a colour and font-weight change only — no filled background.</li>
-</ul>
-<blockquote>
-<p>The markup is <strong>identical</strong> between variants. Switching <code>variant</code> from <code>&quot;collapsible&quot;</code> to <code>&quot;flat&quot;</code> is all that is needed.</p>
-</blockquote>
-<h3>Collapsible (default)</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;collapsible&quot;</span> <span class="hljs-attr">block-title</span>=<span class="hljs-string">&quot;Workspace&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 256 256&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">rect</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;256&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;256&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M208 127.99v72a8 8 0 0 1-8 8h-56v-56h-32v56H56a8 8 0 0 1-8-8V128&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;20&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;m24 136 95.996-96L216 136&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;20&quot;</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-    Dashboard
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 256 256&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">rect</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;256&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;256&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;128&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;216&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;128&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;20&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;64&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;216&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;64&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;20&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;192&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;216&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;192&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;20&quot;</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-    Transactions
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-    Account
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Profile<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Billing<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov" style="max-width: 320px;">
-  <aegov-navblock variant="collapsible" block-title="Workspace">
-    <aegov-navblock-item href="#" is-active="true">
-      <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><path d="M208 127.99v72a8 8 0 0 1-8 8h-56v-56h-32v56H56a8 8 0 0 1-8-8V128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><path d="m24 136 95.996-96L216 136" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/></svg>
-      Dashboard
-    </aegov-navblock-item>
-    <aegov-navblock-item href="#">
-      <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><line x1="40" y1="64" x2="216" y2="64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><line x1="40" y1="192" x2="216" y2="192" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/></svg>
-      Transactions
-    </aegov-navblock-item>
-    <aegov-navblock-item>
-      Account
-      <aegov-navblock-item href="#">Profile</aegov-navblock-item>
-      <aegov-navblock-item href="#">Settings</aegov-navblock-item>
-      <aegov-navblock-item href="#">Billing</aegov-navblock-item>
-    </aegov-navblock-item>
-  </aegov-navblock>
+<h2>Variant</h2>
+<p>The <strong>markup is identical</strong> between variants — switching <code>variant</code> is all that changes.</p>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>collapsible</code></td>
+<td>Default. Parent items expand and collapse. The active item gets a filled highlight.</td>
+</tr>
+<tr>
+<td><code>flat</code></td>
+<td>Everything is visible. Items with children become non-interactive bold group headers, and their children are always shown. The active item changes colour and weight only.</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;collapsible&quot;</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Sidebar&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;flat&quot;</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Sidebar&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-10">
+    <div style="width: 260px;">
+      <p class="text-sm text-aeblack-500 mb-2">collapsible (default)</p>
+      <aegov-navblock field-id="nbk-v1" variant="collapsible" label-nav="Collapsible sidebar">
+        <aegov-navblock-item href="#" is-active>Overview</aegov-navblock-item>
+        <aegov-navblock-item>
+          Applications
+          <aegov-navblock-item href="#">In progress</aegov-navblock-item>
+          <aegov-navblock-item href="#">Submitted</aegov-navblock-item>
+        </aegov-navblock-item>
+        <aegov-navblock-item href="#">Documents</aegov-navblock-item>
+      </aegov-navblock>
+    </div>
+    <div style="width: 260px;">
+      <p class="text-sm text-aeblack-500 mb-2">flat</p>
+      <aegov-navblock field-id="nbk-v2" variant="flat" label-nav="Flat sidebar">
+        <aegov-navblock-item href="#" is-active>Overview</aegov-navblock-item>
+        <aegov-navblock-item>
+          Applications
+          <aegov-navblock-item href="#">In progress</aegov-navblock-item>
+          <aegov-navblock-item href="#">Submitted</aegov-navblock-item>
+        </aegov-navblock-item>
+        <aegov-navblock-item href="#">Documents</aegov-navblock-item>
+      </aegov-navblock>
+    </div>
+  </div>
 </div>
 
-<h3>Flat</h3>
-<p>All items share the same indentation level. Group headers (items with children) render as bold, non-interactive labels. No connector line is drawn between parent and children.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;flat&quot;</span> <span class="hljs-attr">block-title</span>=<span class="hljs-string">&quot;Workspace&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 256 256&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-    Dashboard
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 256 256&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-    Transactions
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-    Account
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Profile<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Billing<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov" style="max-width: 320px;">
-  <aegov-navblock variant="flat" block-title="Workspace">
-    <aegov-navblock-item href="#" is-active="true">
-      <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><path d="M208 127.99v72a8 8 0 0 1-8 8h-56v-56h-32v56H56a8 8 0 0 1-8-8V128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><path d="m24 136 95.996-96L216 136" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/></svg>
-      Dashboard
-    </aegov-navblock-item>
-    <aegov-navblock-item href="#">
-      <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><line x1="40" y1="64" x2="216" y2="64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><line x1="40" y1="192" x2="216" y2="192" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/></svg>
-      Transactions
-    </aegov-navblock-item>
-    <aegov-navblock-item>
-      Account
-      <aegov-navblock-item href="#">Profile</aegov-navblock-item>
-      <aegov-navblock-item href="#">Settings</aegov-navblock-item>
-      <aegov-navblock-item href="#">Billing</aegov-navblock-item>
-    </aegov-navblock-item>
-  </aegov-navblock>
-</div>
-
-<h3>Flat with active border</h3>
-<p>Add <code>active-border=&quot;true&quot;</code> to apply the Flux sidebar pattern: a persistent light-gray border runs the full height of the list; the active top-level item&#39;s segment of that border changes to the primary colour, creating a merged active indicator.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;flat&quot;</span> <span class="hljs-attr">active-border</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">block-title</span>=<span class="hljs-string">&quot;Workspace&quot;</span>&gt;</span>
-  …
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov" style="max-width: 320px;">
-  <aegov-navblock variant="flat" active-border="true" block-title="Workspace">
-    <aegov-navblock-item href="#" is-active="true">
-      <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><path d="M208 127.99v72a8 8 0 0 1-8 8h-56v-56h-32v56H56a8 8 0 0 1-8-8V128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><path d="m24 136 95.996-96L216 136" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/></svg>
-      Dashboard
-    </aegov-navblock-item>
-    <aegov-navblock-item href="#">
-      <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><line x1="40" y1="64" x2="216" y2="64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><line x1="40" y1="192" x2="216" y2="192" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/></svg>
-      Transactions
-    </aegov-navblock-item>
-    <aegov-navblock-item>
-      Account
-      <aegov-navblock-item href="#">Profile</aegov-navblock-item>
-      <aegov-navblock-item href="#" is-active="true">Settings</aegov-navblock-item>
-      <aegov-navblock-item href="#">Billing</aegov-navblock-item>
-    </aegov-navblock-item>
-  </aegov-navblock>
-</div>
-
+<p>Use <code>flat</code> for short trees where hiding anything costs more than it saves, and for document contents where the user wants to see the whole structure. Use <code>collapsible</code> for long sidebars.</p>
 <hr>
 <h2>Block title</h2>
-<p>The <code>block-title</code> prop sets a short heading rendered above the items. Pass markup via the <code>title</code> slot to override the prop entirely (for example to embed an icon next to the title).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">block-title</span>=<span class="hljs-string">&quot;Resources&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/docs&quot;</span>&gt;</span>Docs<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov" style="max-width: 320px;">
-  <aegov-navblock block-title="Resources">
-    <aegov-navblock-item href="#">Docs</aegov-navblock-item>
-    <aegov-navblock-item href="#">API reference</aegov-navblock-item>
-    <aegov-navblock-item href="#">Release notes</aegov-navblock-item>
-  </aegov-navblock>
-</div>
+<p><code>blockTitle</code> renders a heading above the list. The <code>title</code> slot takes markup instead.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">block-title</span>=<span class="hljs-string">&quot;My account&quot;</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Account navigation&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span>
 
-<hr>
-<h2>Single open vs. multiple open</h2>
-<p>By default the block enforces single-open behaviour at every level — opening one parent collapses any other open parent that shares the same direct ancestor. Set <code>is-multiple=&quot;true&quot;</code> to allow any number of parents to remain open at once.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-    Reports
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/r/sales&quot;</span>&gt;</span>Sales<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-    Users
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/u/admins&quot;</span>&gt;</span>Admins<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov" style="max-width: 320px;">
-  <aegov-navblock is-multiple="true">
-    <aegov-navblock-item>
-      Reports
-      <aegov-navblock-item href="#">Sales</aegov-navblock-item>
-      <aegov-navblock-item href="#">Inventory</aegov-navblock-item>
-    </aegov-navblock-item>
-    <aegov-navblock-item>
-      Users
-      <aegov-navblock-item href="#">Admins</aegov-navblock-item>
-      <aegov-navblock-item href="#">Members</aegov-navblock-item>
-    </aegov-navblock-item>
-  </aegov-navblock>
-</div>
-
-<hr>
-<h2>Toggle icon</h2>
-<p>Switch the parent-row indicator with the <code>icon</code> prop: <code>chevron</code> (default) rotates 180° on open; <code>plus</code> rotates 45° to form a minus sign.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;plus&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-    Reports
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/r/sales&quot;</span>&gt;</span>Sales<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov" style="max-width: 320px;">
-  <aegov-navblock icon="plus">
-    <aegov-navblock-item>
-      Reports
-      <aegov-navblock-item href="#">Sales</aegov-navblock-item>
-      <aegov-navblock-item href="#">Inventory</aegov-navblock-item>
-    </aegov-navblock-item>
-  </aegov-navblock>
-</div>
-
-<hr>
-<h2>Sizes</h2>
-<p>The <code>size</code> prop scales row typography and padding. Three tokens are available — <code>sm</code>, <code>base</code> (default), and <code>lg</code>. The parent navblock resolves the token and cascades it to every descendant item, so the whole tree always scales together. Tailwind-style responsive strings such as <code>&quot;sm md:base xl:lg&quot;</code> are also accepted.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-6" style="align-items: flex-start;">
-  <div style="min-width: 200px;">
-    <aegov-navblock size="sm" block-title="Small">
-      <aegov-navblock-item href="#" is-active="true">Home</aegov-navblock-item>
-      <aegov-navblock-item href="#">Reports</aegov-navblock-item>
-      <aegov-navblock-item href="#">Settings</aegov-navblock-item>
-    </aegov-navblock>
-  </div>
-  <div style="min-width: 200px;">
-    <aegov-navblock size="base" block-title="Base">
-      <aegov-navblock-item href="#" is-active="true">Home</aegov-navblock-item>
-      <aegov-navblock-item href="#">Reports</aegov-navblock-item>
-      <aegov-navblock-item href="#">Settings</aegov-navblock-item>
-    </aegov-navblock>
-  </div>
-  <div style="min-width: 200px;">
-    <aegov-navblock size="lg" block-title="Large">
-      <aegov-navblock-item href="#" is-active="true">Home</aegov-navblock-item>
-      <aegov-navblock-item href="#">Reports</aegov-navblock-item>
-      <aegov-navblock-item href="#">Settings</aegov-navblock-item>
-    </aegov-navblock>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Account navigation&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;title&quot;</span>&gt;</span>My account <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>3<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  …
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-10">
+    <div style="width: 240px;">
+      <aegov-navblock field-id="nbk-t1" block-title="My account" label-nav="Account navigation">
+        <aegov-navblock-item href="#" is-active>Profile</aegov-navblock-item>
+        <aegov-navblock-item href="#">Notifications</aegov-navblock-item>
+      </aegov-navblock>
+    </div>
+    <div style="width: 240px;">
+      <aegov-navblock field-id="nbk-t2" label-nav="Applications navigation">
+        <span slot="title">Applications <aegov-badge size="sm" variant="primary">3</aegov-badge></span>
+        <aegov-navblock-item href="#">In progress</aegov-navblock-item>
+        <aegov-navblock-item href="#" is-active>Submitted</aegov-navblock-item>
+      </aegov-navblock>
+    </div>
   </div>
 </div>
 
+<p>Note the title is a visual heading; it does <strong>not</strong> replace <code>labelNav</code>, which names the landmark itself.</p>
 <hr>
-<h2>Leading icons and inline content</h2>
-<p>Each item supports a leading icon via <code>slot=&quot;icon-start&quot;</code>. Anything else placed inside the item — including other components such as <code>aegov-badge</code> — appears inline next to the label, so authors can attach counts, status pills, or any other inline node without a dedicated meta slot.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/inbox&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 256 256&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">rect</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;256&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;256&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> /&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M32 96l96 64 96-64v96a16 16 0 0 1-16 16H48a16 16 0 0 1-16-16Z&quot;</span>
-            <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> /&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-    Inbox
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>12<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<h2>Nesting and open state</h2>
+<p><code>isOpen</code> on an item controls whether its children are showing, and it is readable and writable from outside the element — so you can expand the branch containing the current page on load.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Sidebar&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">is-open</span>&gt;</span>
+    Applications
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/in-progress&quot;</span> <span class="hljs-attr">is-active</span>&gt;</span>In progress<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/submitted&quot;</span>&gt;</span>Submitted<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/sent&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 256 256&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">rect</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;256&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;256&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> /&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;m48 56 176 72-176 72 32-72Z&quot;</span>
-            <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> /&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-    Sent
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov" style="max-width: 320px;">
-  <aegov-navblock>
-    <aegov-navblock-item href="#" is-active="true">
-      <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true">
-        <rect width="256" height="256" fill="none" />
-        <path d="M32 96l96 64 96-64v96a16 16 0 0 1-16 16H48a16 16 0 0 1-16-16Z" fill="none" stroke="currentColor" stroke-width="20" stroke-linejoin="round" />
-      </svg>
-      Inbox
-      <aegov-badge color="primary">12</aegov-badge>
-    </aegov-navblock-item>
-    <aegov-navblock-item href="#">
-      <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true">
-        <rect width="256" height="256" fill="none" />
-        <path d="m48 56 176 72-176 72 32-72Z" fill="none" stroke="currentColor" stroke-width="20" stroke-linejoin="round" />
-      </svg>
-      Sent
-    </aegov-navblock-item>
-    <aegov-navblock-item href="#">
-      <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true">
-        <rect width="256" height="256" fill="none" />
-        <path d="M48 64h160v144H48Z" fill="none" stroke="currentColor" stroke-width="20" stroke-linejoin="round" />
-      </svg>
-      Drafts
-      <aegov-badge color="aeblack" appearance="soft">2</aegov-badge>
-    </aegov-navblock-item>
-  </aegov-navblock>
-</div>
-
-<hr>
-<h2>Deep nesting</h2>
-<p>Sub-items can themselves contain sub-items, recursively. When any descendant item is <code>is-active</code>, every ancestor is automatically expanded on the initial render so the active row is visible.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-    Reports
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-      Sales
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/r/sales/q1&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Q1 — current<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/r/sales/q2&quot;</span>&gt;</span>Q2<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/r/users&quot;</span>&gt;</span>Users<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov" style="max-width: 320px;">
-  <aegov-navblock>
-    <aegov-navblock-item>
-      Reports
-      <aegov-navblock-item>
-        Sales
-        <aegov-navblock-item href="#" is-active="true">Q1 — current</aegov-navblock-item>
-        <aegov-navblock-item href="#">Q2</aegov-navblock-item>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// Expand whichever branch contains the active item</span>
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> item <span class="hljs-keyword">of</span> <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;aegov-navblock-item&#x27;</span>)) {
+  <span class="hljs-keyword">if</span> (item.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-navblock-item[is-active]&#x27;</span>)) item.<span class="hljs-property">isOpen</span> = <span class="hljs-literal">true</span>;
+}</code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="max-width: 300px;">
+    <aegov-navblock field-id="nbk-open" label-nav="Sidebar with open branch" block-title="Workspace">
+      <aegov-navblock-item href="#">Dashboard</aegov-navblock-item>
+      <aegov-navblock-item is-open>
+        Applications
+        <aegov-navblock-item href="#" is-active>In progress</aegov-navblock-item>
+        <aegov-navblock-item href="#">Submitted</aegov-navblock-item>
+        <aegov-navblock-item href="#">Archived</aegov-navblock-item>
       </aegov-navblock-item>
-      <aegov-navblock-item href="#">Users</aegov-navblock-item>
-    </aegov-navblock-item>
-    <aegov-navblock-item href="#">Settings</aegov-navblock-item>
-  </aegov-navblock>
+      <aegov-navblock-item>
+        Reports
+        <aegov-navblock-item href="#">Monthly</aegov-navblock-item>
+        <aegov-navblock-item href="#">Annual</aegov-navblock-item>
+      </aegov-navblock-item>
+    </aegov-navblock>
+  </div>
+</div>
+
+<p>A sidebar that opens with the current page hidden inside a collapsed branch is disorienting — always expand the active branch.</p>
+<h3>Single or multiple open</h3>
+<p><code>isMultiple</code> on the navblock allows several branches open at once. By default opening one closes the others.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">is-multiple</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Sidebar&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="max-width: 300px;">
+    <aegov-navblock field-id="nbk-multi" is-multiple label-nav="Sidebar, multiple open">
+      <aegov-navblock-item is-open>
+        Applications
+        <aegov-navblock-item href="#">In progress</aegov-navblock-item>
+        <aegov-navblock-item href="#">Submitted</aegov-navblock-item>
+      </aegov-navblock-item>
+      <aegov-navblock-item is-open>
+        Reports
+        <aegov-navblock-item href="#">Monthly</aegov-navblock-item>
+        <aegov-navblock-item href="#">Annual</aegov-navblock-item>
+      </aegov-navblock-item>
+    </aegov-navblock>
+  </div>
 </div>
 
 <hr>
-<h2>Bordered</h2>
-<p>Use <code>is-bordered=&quot;true&quot;</code> to wrap the block in a rounded border with internal padding — useful when the block sits directly on a coloured background without its own card frame.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">is-bordered</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">block-title</span>=<span class="hljs-string">&quot;Workspace&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/r&quot;</span>&gt;</span>Reports<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov" style="max-width: 320px;">
-  <aegov-navblock is-bordered="true" block-title="Workspace">
-    <aegov-navblock-item href="#" is-active="true">Dashboard</aegov-navblock-item>
-    <aegov-navblock-item href="#">Reports</aegov-navblock-item>
-    <aegov-navblock-item href="#">Settings</aegov-navblock-item>
-  </aegov-navblock>
+<h2>Icons</h2>
+<p>The <code>icon-start</code> slot on an item takes a leading icon.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/dashboard&quot;</span> <span class="hljs-attr">is-active</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;size-4&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 20 20&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+  Dashboard
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="max-width: 280px;">
+    <aegov-navblock field-id="nbk-icons" block-title="Workspace" label-nav="Sidebar with icons">
+      <aegov-navblock-item href="#" is-active>
+        <svg slot="icon-start" class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M4 4h5v5H4V4Zm7 0h5v5h-5V4ZM4 11h5v5H4v-5Zm7 0h5v5h-5v-5Z" /></svg>
+        Dashboard
+      </aegov-navblock-item>
+      <aegov-navblock-item href="#">
+        <svg slot="icon-start" class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M3 3.5A1.5 1.5 0 0 1 4.5 2h6.3a1.5 1.5 0 0 1 1.06.44l3.7 3.7A1.5 1.5 0 0 1 16 7.2v9.3a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 3 16.5v-13Z" /></svg>
+        Documents
+      </aegov-navblock-item>
+      <aegov-navblock-item href="#">
+        <svg slot="icon-start" class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8.34 1.8A1 1 0 0 1 9.32 1h1.36a1 1 0 0 1 .98.8l.3 1.48c.5.14.97.34 1.42.59l1.25-.84a1 1 0 0 1 1.26.13l.96.96a1 1 0 0 1 .13 1.26l-.84 1.25c.25.45.45.92.59 1.42l1.47.3a1 1 0 0 1 .8.97v1.36a1 1 0 0 1-.8.98l-1.47.3c-.14.5-.34.97-.59 1.42l.84 1.25a1 1 0 0 1-.13 1.26l-.96.96a1 1 0 0 1-1.26.13l-1.25-.84c-.45.25-.92.45-1.42.59l-.3 1.47a1 1 0 0 1-.98.8H9.32a1 1 0 0 1-.98-.8l-.3-1.47c-.5-.14-.97-.34-1.42-.59l-1.25.84a1 1 0 0 1-1.26-.13l-.96-.96a1 1 0 0 1-.13-1.26l.84-1.25c-.25-.45-.45-.92-.59-1.42l-1.47-.3A1 1 0 0 1 1 10.68V9.32a1 1 0 0 1 .8-.98l1.47-.3c.14-.5.34-.97.59-1.42l-.84-1.25a1 1 0 0 1 .13-1.26l.96-.96A1 1 0 0 1 5.38 3l1.25.84c.45-.25.92-.45 1.42-.59l.3-1.47ZM13 10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" clip-rule="evenodd" /></svg>
+        Settings
+      </aegov-navblock-item>
+    </aegov-navblock>
+  </div>
+</div>
+
+<p>Mark icons <code>aria-hidden=&quot;true&quot;</code>.</p>
+<hr>
+<h2>Appearance options</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>icon</code></td>
+<td>Expand indicator on group items — <code>chevron</code> or <code>plus</code>.</td>
+</tr>
+<tr>
+<td><code>isBordered</code></td>
+<td>Border around the block.</td>
+</tr>
+<tr>
+<td><code>activeBorder</code></td>
+<td>Adds an edge marker to the active item.</td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td>Three tokens, cascaded to items. Accepts a responsive string.</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;plus&quot;</span> <span class="hljs-attr">is-bordered</span> <span class="hljs-attr">active-border</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Sidebar&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-8">
+    <div style="width: 240px;">
+      <p class="text-sm text-aeblack-500 mb-2">icon="plus" · is-bordered</p>
+      <aegov-navblock field-id="nbk-a1" icon="plus" is-bordered label-nav="Bordered sidebar">
+        <aegov-navblock-item href="#" is-active>Overview</aegov-navblock-item>
+        <aegov-navblock-item>
+          Applications
+          <aegov-navblock-item href="#">In progress</aegov-navblock-item>
+        </aegov-navblock-item>
+      </aegov-navblock>
+    </div>
+    <div style="width: 240px;">
+      <p class="text-sm text-aeblack-500 mb-2">active-border</p>
+      <aegov-navblock field-id="nbk-a2" active-border label-nav="Sidebar with active border">
+        <aegov-navblock-item href="#" is-active>Overview</aegov-navblock-item>
+        <aegov-navblock-item href="#">Documents</aegov-navblock-item>
+      </aegov-navblock>
+    </div>
+    <div style="width: 240px;">
+      <p class="text-sm text-aeblack-500 mb-2">size="sm"</p>
+      <aegov-navblock field-id="nbk-a3" size="sm" label-nav="Small sidebar">
+        <aegov-navblock-item href="#" is-active>Overview</aegov-navblock-item>
+        <aegov-navblock-item href="#">Documents</aegov-navblock-item>
+      </aegov-navblock>
+    </div>
+  </div>
+</div>
+
+<p>Note <code>activeBorder</code> is spelled without the <code>is</code> prefix, unlike other booleans in the library.</p>
+<hr>
+<h2>Reacting to toggles</h2>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;sidebar&quot;</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Sidebar&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#sidebar&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovNavblockItemToggle&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-comment">// e.target is the item, e.detail.open is its new state</span>
+    <span class="hljs-variable language_">sessionStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">`nav-<span class="hljs-subst">${e.target.textContent.trim()}</span>`</span>, <span class="hljs-title class_">String</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">open</span>));
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>Persisting the open branches is worth doing for a sidebar the user returns to repeatedly.</p>
+<hr>
+<h2>Composite example — service dashboard sidebar</h2>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex gap-8&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aside</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;w-64 shrink-0&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">block-title</span>=<span class="hljs-string">&quot;My account&quot;</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Account navigation&quot;</span> <span class="hljs-attr">is-multiple</span> <span class="hljs-attr">active-border</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/dashboard&quot;</span> <span class="hljs-attr">is-active</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;size-4&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 20 20&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+        Dashboard
+      <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">is-open</span>&gt;</span>
+        Applications
+        <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/applications/active&quot;</span>&gt;</span>In progress<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/applications/submitted&quot;</span>&gt;</span>Submitted<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/applications/archived&quot;</span>&gt;</span>Archived<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/documents&quot;</span>&gt;</span>Documents<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/payments&quot;</span>&gt;</span>Payments<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/settings&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aside</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">main</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;grow&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex gap-8">
+    <aside style="width: 260px;" class="shrink-0">
+      <aegov-navblock field-id="nbk-cx" block-title="My account" label-nav="Account navigation" is-multiple active-border>
+        <aegov-navblock-item href="#" is-active>
+          <svg slot="icon-start" class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M4 4h5v5H4V4Zm7 0h5v5h-5V4ZM4 11h5v5H4v-5Zm7 0h5v5h-5v-5Z" /></svg>
+          Dashboard
+        </aegov-navblock-item>
+        <aegov-navblock-item is-open>
+          Applications
+          <aegov-navblock-item href="#">In progress</aegov-navblock-item>
+          <aegov-navblock-item href="#">Submitted</aegov-navblock-item>
+          <aegov-navblock-item href="#">Archived</aegov-navblock-item>
+        </aegov-navblock-item>
+        <aegov-navblock-item href="#">Documents</aegov-navblock-item>
+        <aegov-navblock-item href="#">Payments</aegov-navblock-item>
+        <aegov-navblock-item href="#">Settings</aegov-navblock-item>
+      </aegov-navblock>
+    </aside>
+    <div class="grow">
+      <p class="text-h5 font-bold mb-2">Dashboard</p>
+      <p class="text-aeblack-500">You have 3 applications in progress.</p>
+    </div>
+  </div>
+</div>
+
+<p>On narrow viewports, put the same navblock inside a <a href="aegov-drawer.html">Drawer</a> rather than shrinking the sidebar — that is also the pattern for the mobile version of an <a href="aegov-navbar.html"><code>aegov-navbar</code></a>.</p>
+<hr>
+<h2>RTL Support</h2>
+<p>The navblock is direction-aware. In a <code>dir=&quot;rtl&quot;</code> container the list aligns right, <code>icon-start</code> renders on the right, nesting indentation and the active edge marker move to the inline-start side, and the chevron rotates in the mirrored direction. Vertical arrow navigation is unaffected by direction.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">block-title</span>=<span class="hljs-string">&quot;حسابي&quot;</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;تنقل الحساب&quot;</span> <span class="hljs-attr">is-multiple</span> <span class="hljs-attr">active-border</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">is-active</span>&gt;</span>لوحة المعلومات<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">is-open</span>&gt;</span>
+      الطلبات
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>قيد الإنجاز<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>المُرسلة<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>المستندات<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-8">
+    <div style="width: 260px;">
+      <aegov-navblock field-id="nbk-rtl-1" block-title="حسابي" label-nav="تنقل الحساب" is-multiple active-border>
+        <aegov-navblock-item href="#" is-active>لوحة المعلومات</aegov-navblock-item>
+        <aegov-navblock-item is-open>
+          الطلبات
+          <aegov-navblock-item href="#">قيد الإنجاز</aegov-navblock-item>
+          <aegov-navblock-item href="#">المُرسلة</aegov-navblock-item>
+          <aegov-navblock-item href="#">المؤرشفة</aegov-navblock-item>
+        </aegov-navblock-item>
+        <aegov-navblock-item href="#">المستندات</aegov-navblock-item>
+        <aegov-navblock-item href="#">الإعدادات</aegov-navblock-item>
+      </aegov-navblock>
+    </div>
+    <div style="width: 260px;">
+      <aegov-navblock field-id="nbk-rtl-2" variant="flat" label-nav="محتويات المستند" block-title="المحتويات">
+        <aegov-navblock-item href="#" is-active>مقدمة</aegov-navblock-item>
+        <aegov-navblock-item>
+          الأهلية
+          <aegov-navblock-item href="#">المتطلبات</aegov-navblock-item>
+          <aegov-navblock-item href="#">الاستثناءات</aegov-navblock-item>
+        </aegov-navblock-item>
+      </aegov-navblock>
+    </div>
+  </div>
 </div>
 
 <hr>
-<h2>Disabled items</h2>
-<p>A disabled item is not focusable, is removed from arrow-key navigation, and renders with reduced opacity. Use it for items the user cannot reach in the current state — for example a workflow step waiting on prerequisites.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Step one<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/two&quot;</span>&gt;</span>Step two<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/three&quot;</span> <span class="hljs-attr">is-disabled</span>&gt;</span>Step three (locked)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov" style="max-width: 320px;">
-  <aegov-navblock>
-    <aegov-navblock-item href="#" is-active="true">Step one</aegov-navblock-item>
-    <aegov-navblock-item href="#">Step two</aegov-navblock-item>
-    <aegov-navblock-item href="#" is-disabled>Step three (locked)</aegov-navblock-item>
-  </aegov-navblock>
-</div>
-
-<hr>
-<h2>Properties</h2>
-<h3><code>aegov-navblock</code></h3>
+<h2>API Reference</h2>
+<h3>aegov-navblock Properties</h3>
 <table>
 <thead>
 <tr>
@@ -361,70 +377,70 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><code>blockTitle</code></td>
-<td><code>block-title</code></td>
-<td>Heading rendered above the items. Overridden by the <code>title</code> slot.</td>
-<td><code>string | undefined</code></td>
-<td><code>undefined</code></td>
+<td><code>fieldId</code></td>
+<td><code>field-id</code></td>
+<td>ID applied to the <code>&lt;nav&gt;</code>. Auto-generated when omitted, reflected.</td>
+<td><code>string</code></td>
+<td><em>generated</em></td>
 </tr>
 <tr>
 <td><code>labelNav</code></td>
 <td><code>label-nav</code></td>
-<td>Accessible label for the <code>&lt;nav&gt;</code> landmark.</td>
+<td>Accessible name for the <code>&lt;nav&gt;</code> landmark. <strong>Set this.</strong></td>
 <td><code>string</code></td>
-<td><code>&#39;Sidebar navigation&#39;</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>blockTitle</code></td>
+<td><code>block-title</code></td>
+<td>Visual heading above the list. The <code>title</code> slot takes precedence.</td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>Collapsible groups, or a flat always-visible tree. Cascades to items.</td>
+<td><code>&#39;collapsible&#39; | &#39;flat&#39;</code></td>
+<td><code>&#39;collapsible&#39;</code></td>
 </tr>
 <tr>
 <td><code>isMultiple</code></td>
 <td><code>is-multiple</code></td>
-<td>Allow multiple sibling parents to be open at once.</td>
+<td>Allow several branches open at once.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>icon</code></td>
 <td><code>icon</code></td>
-<td>Expand/collapse indicator — <code>&#39;chevron&#39;</code> or <code>&#39;plus&#39;</code>.</td>
+<td>Expand indicator on group items. Cascades to items.</td>
 <td><code>&#39;chevron&#39; | &#39;plus&#39;</code></td>
 <td><code>&#39;chevron&#39;</code></td>
 </tr>
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Size token. Accepts responsive strings (e.g. <code>&quot;sm md:base lg:lg&quot;</code>).</td>
-<td><code>string</code></td>
+<td>Size token or responsive string. Cascades to items.</td>
+<td><code>string</code> — <code>sm | base | lg</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
 <td><code>isBordered</code></td>
 <td><code>is-bordered</code></td>
-<td>Wrap the block in a bordered container.</td>
+<td>Border around the block.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
-</tr>
-<tr>
-<td><code>variant</code></td>
-<td><code>variant</code></td>
-<td>Visual mode — <code>&#39;collapsible&#39;</code> (accordion) or <code>&#39;flat&#39;</code> (group headers, no indent).</td>
-<td><code>&#39;collapsible&#39; | &#39;flat&#39;</code></td>
-<td><code>&#39;collapsible&#39;</code></td>
 </tr>
 <tr>
 <td><code>activeBorder</code></td>
 <td><code>active-border</code></td>
-<td>When <code>true</code> and <code>variant=&quot;flat&quot;</code>, active item gets a coloured inline-start border.</td>
+<td>Edge marker on the active item. Note: no <code>is</code> prefix.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
-<tr>
-<td><code>fieldId</code></td>
-<td><code>field-id</code></td>
-<td>Unique ID for the wrapper. Auto-generated if not provided.</td>
-<td><code>string | undefined</code></td>
-<td>(auto-generated)</td>
-</tr>
 </tbody></table>
-<h3><code>aegov-navblock-item</code></h3>
+<h3>aegov-navblock-item Properties</h3>
 <table>
 <thead>
 <tr>
@@ -438,65 +454,51 @@
 <tbody><tr>
 <td><code>href</code></td>
 <td><code>href</code></td>
-<td>Destination URL. Renders an <code>&lt;a&gt;</code> when present (and the item has no sub-items).</td>
-<td><code>string | undefined</code></td>
-<td><code>undefined</code></td>
+<td>Destination. Omit to make the item a pure group header.</td>
+<td><code>string</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>target</code></td>
 <td><code>target</code></td>
-<td>Anchor target attribute.</td>
-<td><code>&#39;_blank&#39; | &#39;_self&#39; | &#39;_parent&#39; | &#39;_top&#39;</code></td>
-<td><code>undefined</code></td>
+<td>Native target.</td>
+<td><code>&#39;_self&#39; | &#39;_blank&#39; | &#39;_parent&#39; | &#39;_top&#39;</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>rel</code></td>
 <td><code>rel</code></td>
-<td>Anchor <code>rel</code> attribute.</td>
-<td><code>string | undefined</code></td>
-<td><code>undefined</code></td>
+<td>Native rel.</td>
+<td><code>string</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>isActive</code></td>
 <td><code>is-active</code></td>
-<td>Mark as the current page. Sets <code>aria-current=&quot;page&quot;</code> and a highlight style.</td>
+<td>Marks the current page. Sets <code>aria-current=&quot;page&quot;</code>.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>isDisabled</code></td>
 <td><code>is-disabled</code></td>
-<td>Visually disabled, not focusable, removed from arrow-key navigation.</td>
+<td>Renders as non-navigating text with <code>aria-disabled</code>.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>isOpen</code></td>
 <td><code>is-open</code></td>
-<td>Sub-region open state. Set by the parent navblock; can also be authored directly.</td>
+<td>Whether this item&#39;s children are showing. Mutable and readable from outside.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
-<td><code>icon</code></td>
-<td><code>icon</code></td>
-<td>Expand/collapse indicator. Cascades from the parent navblock.</td>
-<td><code>&#39;chevron&#39; | &#39;plus&#39;</code></td>
-<td><code>&#39;chevron&#39;</code></td>
-</tr>
-<tr>
-<td><code>size</code></td>
-<td><code>size</code></td>
-<td>Size token. Cascades from the parent navblock.</td>
-<td><code>&#39;sm&#39; | &#39;base&#39; | &#39;lg&#39;</code></td>
-<td><code>&#39;base&#39;</code></td>
-</tr>
-<tr>
-<td><code>variant</code></td>
-<td><code>variant</code></td>
-<td>Visual variant. Cascades automatically from the parent navblock — do not set manually.</td>
-<td><code>&#39;collapsible&#39; | &#39;flat&#39;</code></td>
-<td><code>&#39;collapsible&#39;</code></td>
+<td><code>icon</code>, <code>size</code>, <code>variant</code></td>
+<td>—</td>
+<td>Cascaded from the navblock.</td>
+<td>—</td>
+<td>—</td>
 </tr>
 </tbody></table>
 <h3>Slots</h3>
@@ -504,24 +506,34 @@
 <thead>
 <tr>
 <th>Slot</th>
+<th>On</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>default</code></td>
-<td>(Navblock) Top-level <code>aegov-navblock-item</code> children. (Item) Row content — label and any inline siblings.</td>
+<td><em>(default)</em></td>
+<td>navblock</td>
+<td>The <code>aegov-navblock-item</code> children.</td>
 </tr>
 <tr>
 <td><code>title</code></td>
-<td>(Navblock) Custom block title; overrides the <code>block-title</code> prop.</td>
+<td>navblock</td>
+<td>Heading markup. Takes precedence over <code>blockTitle</code>.</td>
+</tr>
+<tr>
+<td><em>(default)</em></td>
+<td>item</td>
+<td>The item label, plus any nested <code>aegov-navblock-item</code> children.</td>
 </tr>
 <tr>
 <td><code>icon-start</code></td>
-<td>(Item) Optional leading icon shown before the label.</td>
+<td>item</td>
+<td>Leading icon.</td>
 </tr>
 <tr>
 <td><code>subnav</code></td>
-<td>(Item) Nested sub-items. Auto-assigned for nested <code>aegov-navblock-item</code> children without an explicit slot.</td>
+<td>item</td>
+<td>Alternative slot for nested navigation content.</td>
 </tr>
 </tbody></table>
 <h3>Events</h3>
@@ -529,25 +541,72 @@
 <thead>
 <tr>
 <th>Event</th>
+<th>Detail</th>
 <th>Description</th>
-<th>Payload</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>aegovNavblockItemToggle</code></td>
-<td>Fired by an item when it toggles its sub-region.</td>
 <td><code>{ open: boolean }</code></td>
+<td>A group item expanded or collapsed. Bubbles, so listen on the navblock.</td>
+</tr>
+</tbody></table>
+<h3>Pass-through Attributes</h3>
+<table>
+<thead>
+<tr>
+<th>Attribute group</th>
+<th>Forwarded?</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aria-*</code></td>
+<td>Yes</td>
+<td>Forwarded to the <code>&lt;nav&gt;</code> on the navblock, and to the link on an item. Prefer <code>labelNav</code> for the landmark name.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>Yes</td>
+<td>Forwarded.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>n/a</td>
+<td>Use <code>field-id</code>.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Allowed</td>
+<td>Applied to the host element.</td>
 </tr>
 </tbody></table>
 <hr>
 <h2>Accessibility</h2>
+<h3>Built-in behaviour</h3>
 <ul>
-<li>The block renders as a <code>&lt;nav&gt;</code> landmark with an <code>aria-label</code> from <code>label-nav</code>.</li>
-<li>Parent rows are real <code>&lt;button&gt;</code> elements with <code>aria-expanded</code> and <code>aria-controls</code> linking the trigger to the sub-region.</li>
-<li>Leaf rows are <code>&lt;a&gt;</code> elements when <code>href</code> is set, or <code>&lt;button&gt;</code> otherwise. The active leaf carries <code>aria-current=&quot;page&quot;</code>.</li>
-<li>Disabled items use native <code>disabled</code> (button) or <code>aria-disabled=&quot;true&quot;</code> (span) and are excluded from keyboard navigation.</li>
+<li>The block is a real <code>&lt;nav&gt;</code> landmark, named from <code>labelNav</code>, containing a real list.</li>
+<li><code>isActive</code> sets <code>aria-current=&quot;page&quot;</code> on the link — the programmatic signal for the current page.</li>
+<li><strong>Group items expose <code>aria-expanded</code>; leaf items do not.</strong> The component uses the presence of that attribute to distinguish the two, so a toggle is never announced on a plain link.</li>
+<li>In <code>flat</code> variant, group headers are non-interactive rather than being focusable controls that do nothing.</li>
+<li><code>isDisabled</code> produces a non-navigating element with <code>aria-disabled=&quot;true&quot;</code>.</li>
+<li>Items are links, so native <code>Tab</code>, <code>Enter</code>, middle-click and right-click all work.</li>
+<li>Layout uses logical properties, so indentation, icons and the active marker mirror under <code>dir=&quot;rtl&quot;</code>.</li>
 </ul>
-<h3>Keyboard</h3>
+<h3>Developer responsibilities</h3>
+<ul>
+<li><strong>Always set <code>labelNav</code>.</strong> A page often has several navigation landmarks; unnamed ones are indistinguishable in a screen reader&#39;s region list.</li>
+<li><strong>Expand the branch containing the active item</strong> on load. A current page hidden inside a collapsed group is disorienting.</li>
+<li><strong>Set <code>isActive</code> on exactly one item.</strong></li>
+<li><strong>Do not rely on the active state being colour-only</strong> (WCAG 2.2 SC 1.4.1). The built-in styling pairs colour with weight and, with <code>activeBorder</code>, an edge marker — keep that pairing.</li>
+<li><strong>Keep nesting to one level.</strong> Two levels of collapsed navigation is very hard to operate.</li>
+<li><strong>Mark icons <code>aria-hidden=&quot;true&quot;</code>.</strong></li>
+<li><strong>Use a <a href="aegov-drawer.html">Drawer</a> on small viewports</strong> rather than a squeezed sidebar.</li>
+<li><strong>Do not put actions in a navblock.</strong> It is for destinations; commands belong in a <a href="aegov-button.html">Button</a>.</li>
+<li><strong>Give group headers meaningful labels.</strong> &quot;Applications&quot; is useful; &quot;More&quot; is not.</li>
+<li><strong>Consider <code>flat</code> for document contents</strong>, where seeing the whole structure is the point.</li>
+</ul>
+<h3>Keyboard support</h3>
 <table>
 <thead>
 <tr>
@@ -557,37 +616,29 @@
 </thead>
 <tbody><tr>
 <td><code>Tab</code></td>
-<td>Move focus to the navblock; subsequent <code>Tab</code> exits the block.</td>
+<td>Move focus to the next item or group toggle.</td>
 </tr>
 <tr>
-<td><code>ArrowDown</code></td>
-<td>Move focus to the next visible row.</td>
+<td><code>Enter</code></td>
+<td>Follow the focused link, or toggle the focused group.</td>
 </tr>
 <tr>
-<td><code>ArrowUp</code></td>
-<td>Move focus to the previous visible row.</td>
+<td><code>Space</code></td>
+<td>Toggle the focused group.</td>
 </tr>
 <tr>
-<td><code>Home</code></td>
-<td>Move focus to the first visible row.</td>
-</tr>
-<tr>
-<td><code>End</code></td>
-<td>Move focus to the last visible row.</td>
-</tr>
-<tr>
-<td><code>ArrowRight</code></td>
-<td>Expand a closed parent row.</td>
-</tr>
-<tr>
-<td><code>ArrowLeft</code></td>
-<td>Collapse an open parent row, or move focus to the parent row from a leaf.</td>
-</tr>
-<tr>
-<td><code>Enter</code> / <code>Space</code></td>
-<td>Activate a leaf link, or toggle a parent row.</td>
+<td><code>ArrowDown</code>, <code>ArrowUp</code></td>
+<td>Move between items.</td>
 </tr>
 </tbody></table>
+<hr>
+<h2>Where to next</h2>
+<ul>
+<li><a href="aegov-navbar.html">Navbar</a> — horizontal primary navigation.</li>
+<li><a href="aegov-drawer.html">Drawer</a> — the mobile container for a navblock.</li>
+<li><a href="aegov-accordion.html">Accordion</a> — the same collapse pattern for content rather than navigation.</li>
+<li><a href="aegov-breadcrumbs.html">Breadcrumbs</a> — hierarchy, alongside a sidebar.</li>
+</ul>
 <!-- DOC:END -->
           </section>
       </article>
