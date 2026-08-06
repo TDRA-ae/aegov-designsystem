@@ -318,7 +318,7 @@
 
 /* Card disabled */
 :host(.radio-appearance-cards) .radio__wrapper:has(input:disabled) {
-  @apply cursor-not-allowed;
+  @apply opacity-40 cursor-not-allowed;
 }
 
 /* ============================================================

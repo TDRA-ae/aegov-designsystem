@@ -60,7 +60,7 @@
 }
 
 :host([is-disabled]) .datepicker__input-wrapper {
-  @apply opacity-40 pointer-events-none cursor-not-allowed;
+  @apply opacity-40 pointer-events-none;
 }
 
 /* ── Input ──────────────────────────────────────────── */

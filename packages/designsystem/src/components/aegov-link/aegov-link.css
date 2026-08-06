@@ -20,6 +20,10 @@
   display: block;
 }
 
+:host(.is-disabled) {
+  @apply opacity-40 cursor-not-allowed;
+}
+
 /* Suppress the global <a> hover underline when the link is rendered as a
    button. The global rule (`a { @apply hover:underline ... }` in global.css)
    would otherwise bleed through every button-styled aegov-link variant —
