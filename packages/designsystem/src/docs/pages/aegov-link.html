@@ -21,261 +21,297 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Link</h1>
-<p class="text-lg text-aeblack-500 mb-8">A styled inline anchor for navigation, in-content references, and external destinations. The component wraps a real <code>&lt;a&gt;</code> element so it remains keyboard-accessible and crawlable, while applying the design system's link colour and transition. It also adds automatic safe-rel handling for external targets and a custom click event for SPA-style routing.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Link navigates. Use it whenever activating the control changes the URL — moving to another page, jumping to an anchor, opening a document, or starting a download. <code>aegov-link</code> renders a real anchor, so users keep middle-click, right-click, "open in new tab" and "copy link address". It can also be styled to look exactly like a button when a navigation action needs button prominence.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-link</code> component renders a styled anchor with the system&#39;s link colour (<code>text-primary-600</code>) and a subtle colour transition. It accepts the standard anchor properties (<code>href</code>, <code>target</code>, <code>rel</code>, <code>download</code>, <code>hreflang</code>, etc.) and automatically applies <code>rel=&quot;noopener noreferrer&quot;</code> when <code>target=&quot;_blank&quot;</code> to prevent reverse-tabnabbing. For SPA routing, a custom <code>aegovLinkClick</code> event lets you intercept navigation and hand off to your client-side router.</p>
-<blockquote>
-<p><strong>Angular users:</strong> <code>href</code> is a required input — Angular&#39;s template compiler enforces this at build time. The syntax is the same across all frameworks:</p>
-<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- HTML / Vue / React / Angular — all the same --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span>&gt;</span>u.ae<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre></blockquote>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
-  Visit the official UAE Government portal at
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>u.ae<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-  for the full directory of federal services.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-text>
-    Visit the official UAE Government portal at <aegov-link href="https://u.ae" target="_blank">u.ae</aegov-link> for the full directory of federal services.
-  </aegov-text>
+<p><code>aegov-link</code> has two modes, and it chooses between them for you. On its own it renders a plain text link. The moment you set any button-style property — <code>variant</code>, <code>appearance</code>, <code>size</code>, <code>is-icon</code>, <code>is-full</code>, <code>is-bold</code> or <code>is-disabled</code> — it switches to the shared button styling, so it is visually identical to <a href="aegov-button.html"><code>aegov-button</code></a> while keeping anchor semantics.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>Browse all services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/apply&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Start application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/guide&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Read the guide<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap items-center gap-6">
+    <aegov-link href="#">Browse all services</aegov-link>
+    <aegov-link href="#" variant="primary">Start application</aegov-link>
+    <aegov-link href="#" variant="secondary" appearance="outline">Read the guide</aegov-link>
+  </div>
 </div>
 
+<p><code>href</code> is required. A link without a destination is not a link — if there is no URL, you want a <a href="aegov-button.html">Button</a>.</p>
 <hr>
-<h2>Internal Links</h2>
-<p>For in-application navigation, set <code>href</code> to the route or in-page anchor. The link inherits its size from the surrounding text, so you can drop it inside <code>aegov-text</code>, list items, or table cells without additional styling.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
-  Already have an account?
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/sign-in&quot;</span>&gt;</span>Sign in<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-  to continue your application.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
-  See the
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#fees&quot;</span>&gt;</span>fees and charges<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-  section below for details.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-text>
-    Already have an account? <aegov-link href="/sign-in">Sign in</aegov-link> to continue your application.
-  </aegov-text>
-  <aegov-text>
-    See the <aegov-link href="#fees">fees and charges</aegov-link> section below for details.
-  </aegov-text>
+<h2>Text links</h2>
+<p>With no button-style properties set, the component renders an inline anchor that inherits the design system&#39;s global link styling: primary colour, no underline at rest, underline on hover, and a high-contrast focus treatment.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
+  Applications are processed within five working days. See the
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/service-charter&quot;</span>&gt;</span>service charter<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+  for full details, or
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/contact&quot;</span>&gt;</span>contact us<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+  if you need help.
+<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="max-w-prose">
+    Applications are processed within five working days. See the
+    <aegov-link href="#">service charter</aegov-link>
+    for full details, or
+    <aegov-link href="#">contact us</aegov-link>
+    if you need help.
+  </p>
 </div>
 
+<p>Text links inside a paragraph should describe their destination. &quot;Service charter&quot; tells the user where they are going; &quot;click here&quot; does not, and screen reader users often navigate by a list of links with no surrounding sentence.</p>
 <hr>
-<h2>External Links</h2>
-<p>Set <code>target=&quot;_blank&quot;</code> to open the link in a new browser tab. When <code>target=&quot;_blank&quot;</code> is set without an explicit <code>rel</code>, the component automatically adds <code>rel=&quot;noopener noreferrer&quot;</code> to mitigate reverse-tabnabbing. You can override this by providing your own <code>rel</code> value.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>
-  UAE Government portal
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://government.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;nofollow&quot;</span>&gt;</span>
-  Federal services directory
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-text>
-    Open the
-    <aegov-link href="https://u.ae" target="_blank">UAE Government portal</aegov-link>
-    or the
-    <aegov-link href="https://government.ae" target="_blank">federal services directory</aegov-link>
-    in a new tab.
-  </aegov-text>
-</div>
-
-<hr>
-<h2>Download Links</h2>
-<p>Pass the standard <code>download</code> attribute to prompt the browser to save the resource instead of navigating to it. The attribute is forwarded through to the underlying <code>&lt;a&gt;</code> element.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/files/service-charter.pdf&quot;</span> <span class="hljs-attr">download</span>=<span class="hljs-string">&quot;service-charter.pdf&quot;</span>&gt;</span>
-  Download service charter (PDF)
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-text>
-    <aegov-link href="/files/service-charter.pdf" download="service-charter.pdf">
-      Download service charter (PDF)
-    </aegov-link>
-  </aegov-text>
-</div>
-
-<hr>
-<h2>Custom Styling</h2>
-<p>Use <code>extra-class</code> to merge additional Tailwind utilities — for example, to make the link bolder, change its colour, or add an underline.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;font-semibold underline&quot;</span>&gt;</span>
-  Browse all services
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/help&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aeblack-700 hover:text-primary-600&quot;</span>&gt;</span>
-  Help and support
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-text>
-    <aegov-link href="/services" extra-class="font-semibold underline">Browse all services</aegov-link>
-    &nbsp;·&nbsp;
-    <aegov-link href="/help" extra-class="text-aeblack-700 hover:text-primary-600">Help and support</aegov-link>
-  </aegov-text>
-</div>
-
-<hr>
-<h2>Intercepting Navigation</h2>
-<p>The <code>aegovLinkClick</code> event fires before navigation. Listen for it and call <code>preventDefault()</code> on <code>event.detail.event</code> to stop the browser navigation and hand control to your SPA router.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/dashboard&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dashboard-link&quot;</span>&gt;</span>Open dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>
-    .<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;dashboard-link&#x27;</span>)
-    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovLinkClick&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-      e.<span class="hljs-property">detail</span>.<span class="hljs-property">event</span>.<span class="hljs-title function_">preventDefault</span>();
-      <span class="hljs-comment">// Hand off to the client-side router</span>
-      router.<span class="hljs-title function_">push</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">href</span>);
-    });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>The event detail also includes the original <code>MouseEvent</code>, so you can read modifier keys (Cmd / Ctrl-click for new tab) and decide whether to intercept or let the browser proceed.</p>
-<hr>
-<h2>Combined Example</h2>
-<p>A typical service description block uses inline links for navigation and external references. The example below combines internal navigation, an external link, and a download.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h3&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;mb-2&quot;</span>&gt;</span>
-  Renew your residence visa
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
-  Eligible residents can renew their visa through the
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/visa-renewal&quot;</span>&gt;</span>online service<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-  or by visiting an
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://icp.gov.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>authorised ICP centre<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>.
-  Read the
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/files/visa-renewal-guide.pdf&quot;</span> <span class="hljs-attr">download</span>&gt;</span>full guide (PDF)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-  before you start.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-title heading-type="h3" size="lg" extra-class="mb-2">
-    Renew your residence visa
-  </aegov-title>
-  <aegov-text>
-    Eligible residents can renew their visa through the
-    <aegov-link href="/services/visa-renewal">online service</aegov-link>
-    or by visiting an
-    <aegov-link href="https://icp.gov.ae" target="_blank">authorised ICP centre</aegov-link>.
-    Read the
-    <aegov-link href="/files/visa-renewal-guide.pdf" download>full guide (PDF)</aegov-link>
-    before you start.
-  </aegov-text>
-</div>
-
-<hr>
-<h2>Button-Styled Links</h2>
-<p>For calls-to-action that must remain semantically anchors (so they participate in browser navigation, are middle-click openable, copy-link friendly, and announced as <strong>links</strong> by assistive technology), opt into button styling by passing any of the button-style props: <code>variant</code>, <code>appearance</code>, <code>size</code>, <code>is-icon</code>, <code>is-full</code>, <code>is-bold</code>, or <code>is-disabled</code>. Setting any of these switches the rendered <code>&lt;a&gt;</code> to use the shared button class util, so its look stays in lock-step with <code>aegov-button</code>.</p>
-<p>Crucially, <code>aegov-link</code> does <strong>not</strong> support <code>is-loading</code> — loading states belong on real <code>&lt;button&gt;</code> elements that perform an action. Use <code>aegov-button</code> for those.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/start&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>
-  Get started
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/sign-in&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>
-  Sign in
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/learn-more&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>
-  Learn more
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/docs&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;link&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>
-  Read the docs
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3 items-center">
-  <aegov-link href="/start" variant="primary" appearance="solid" size="base">Get started</aegov-link>
-  <aegov-link href="/sign-in" variant="secondary" appearance="outline" size="base">Sign in</aegov-link>
-  <aegov-link href="/learn-more" variant="primary" appearance="soft" size="base">Learn more</aegov-link>
-  <aegov-link href="/docs" variant="neutral-min" appearance="link" size="base">Read the docs</aegov-link>
+<h2>Button-styled links</h2>
+<p>Setting any button-style property switches the class output to the shared action styling. <code>variant</code>, <code>appearance</code> and <code>size</code> behave exactly as they do on <a href="aegov-button.html">Button</a> — same five variants, same four appearances, same five sizes.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/apply&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Start application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/draft&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Resume draft<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/help&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span>&gt;</span>Get help<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/terms&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;link&quot;</span>&gt;</span>Terms of service<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap items-center gap-3 mb-6">
+    <aegov-link href="#" variant="primary" size="lg">Start application</aegov-link>
+    <aegov-link href="#" variant="secondary" appearance="outline" size="lg">Resume draft</aegov-link>
+    <aegov-link href="#" appearance="soft">Get help</aegov-link>
+    <aegov-link href="#" appearance="link">Terms of service</aegov-link>
+  </div>
+  <div class="flex flex-wrap items-center gap-3">
+    <aegov-link href="#" variant="danger" appearance="outline">Withdraw request</aegov-link>
+    <aegov-link href="#" variant="neutral-max" appearance="outline">Back to dashboard</aegov-link>
+    <aegov-link href="#" variant="neutral-min" appearance="soft">Skip for now</aegov-link>
+  </div>
 </div>
 
 <h3>Sizes</h3>
-<p>Size scale mirrors <code>aegov-button</code> exactly: <code>xs</code>, <code>sm</code>, <code>base</code>, <code>lg</code>, <code>xl</code>. Sizes also accept responsive tokens (e.g. <code>&quot;sm md:base lg:lg&quot;</code>).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span>Extra small<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Base<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Extra large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3 items-center">
-  <aegov-link href="/a" variant="primary" appearance="solid" size="xs">Extra small</aegov-link>
-  <aegov-link href="/a" variant="primary" appearance="solid" size="sm">Small</aegov-link>
-  <aegov-link href="/a" variant="primary" appearance="solid" size="base">Base</aegov-link>
-  <aegov-link href="/a" variant="primary" appearance="solid" size="lg">Large</aegov-link>
-  <aegov-link href="/a" variant="primary" appearance="solid" size="xl">Extra large</aegov-link>
+<p>The same scale as Button, so a link and a button sitting side by side align exactly.</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Height</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>xs</code></td>
+<td><code>h-9</code> (36px)</td>
+</tr>
+<tr>
+<td><code>sm</code></td>
+<td><code>h-10</code> (40px)</td>
+</tr>
+<tr>
+<td><code>base</code></td>
+<td><code>h-11</code> (44px)</td>
+</tr>
+<tr>
+<td><code>lg</code></td>
+<td><code>h-12</code> (48px)</td>
+</tr>
+<tr>
+<td><code>xl</code></td>
+<td><code>h-13</code> (52px)</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/apply&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/apply&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Base<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/apply&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap items-center gap-3">
+    <aegov-link href="#" variant="primary" size="xs">Extra small</aegov-link>
+    <aegov-link href="#" variant="primary" size="sm">Small</aegov-link>
+    <aegov-link href="#" variant="primary" size="base">Base</aegov-link>
+    <aegov-link href="#" variant="primary" size="lg">Large</aegov-link>
+    <aegov-link href="#" variant="primary" size="xl">Extra large</aegov-link>
+  </div>
 </div>
 
-<h3>Full-width link</h3>
-<p>Pair <code>is-full</code> with a block-level container to render a stretched call-to-action.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/apply&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">is-full</span>&gt;</span>
-  Apply now
+<h3>Responsive sizes</h3>
+<p><code>size</code> accepts the same responsive string form, with the prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code> and <code>2xl</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/apply&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span>&gt;</span>
+  Start application
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-link href="/apply" variant="primary" appearance="solid" size="lg" is-full>Apply now</aegov-link>
+  <aegov-link href="#" variant="primary" size="sm md:base xl:lg">Start application</aegov-link>
 </div>
 
-<h3>Icon-only link</h3>
-<p>Provide an explicit <code>aria-label</code> so the link&#39;s destination is announced by assistive technology — the visual icon does not convey meaning to screen readers.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span>
-  <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/settings&quot;</span>
-  <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>
-  <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>
-  <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>
-  <span class="hljs-attr">is-icon</span>
-  <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Open settings&quot;</span>
-&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">cx</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">cy</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">r</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">circle</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">path</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-3 items-center">
-  <aegov-link href="/settings" variant="primary" appearance="outline" size="base" is-icon aria-label="Open settings">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <circle cx="12" cy="12" r="3"></circle>
-      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-    </svg>
+<h3>Pairing a link with a button</h3>
+<p>This is the common case for a service call to action: navigation is the primary path, an action is secondary.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex flex-wrap items-center gap-3&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/apply&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Start application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Save for later<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap items-center gap-3">
+    <aegov-link href="#" variant="primary" size="lg">Start application</aegov-link>
+    <aegov-button variant="secondary" appearance="outline" size="lg">Save for later</aegov-button>
+  </div>
+</div>
+
+<p>They match visually because both delegate to the same styling utility — but the link navigates and the button acts, which is the distinction that matters to assistive technology and to anyone who middle-clicks.</p>
+<hr>
+<h2>Full width and icon-only</h2>
+<p><code>is-full</code> stretches the link to the container width. <code>is-icon</code> makes it square — and, as with buttons, an icon-only link has no text to name it, so <code>aria-label</code> is required.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/apply&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">is-full</span>&gt;</span>Continue to payment<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/settings&quot;</span> <span class="hljs-attr">is-icon</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Account settings&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;size-5&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 20 20&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-sm mb-6">
+    <aegov-link href="#" variant="primary" size="lg" is-full>Continue to payment</aegov-link>
+  </div>
+  <div class="flex flex-wrap items-center gap-3">
+    <aegov-link href="#" is-icon appearance="outline" variant="neutral-max" aria-label="Account settings">
+      <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8.34 1.804A1 1 0 0 1 9.32 1h1.36a1 1 0 0 1 .98.804l.295 1.473c.497.144.971.342 1.416.588l1.25-.834a1 1 0 0 1 1.262.125l.962.962a1 1 0 0 1 .125 1.262l-.834 1.25c.246.445.444.919.588 1.416l1.473.294a1 1 0 0 1 .804.98v1.362a1 1 0 0 1-.804.98l-1.473.295a6.95 6.95 0 0 1-.588 1.416l.834 1.25a1 1 0 0 1-.125 1.262l-.962.962a1 1 0 0 1-1.262.125l-1.25-.834a6.95 6.95 0 0 1-1.416.588l-.294 1.473a1 1 0 0 1-.98.804H9.32a1 1 0 0 1-.98-.804l-.295-1.473a6.95 6.95 0 0 1-1.416-.588l-1.25.834a1 1 0 0 1-1.262-.125l-.962-.962a1 1 0 0 1-.125-1.262l.834-1.25a6.95 6.95 0 0 1-.588-1.416l-1.473-.294A1 1 0 0 1 1 10.68V9.32a1 1 0 0 1 .804-.98l1.473-.295c.144-.497.342-.971.588-1.416l-.834-1.25a1 1 0 0 1 .125-1.262l.962-.962A1 1 0 0 1 5.38 3.03l1.25.834a6.95 6.95 0 0 1 1.416-.588l.294-1.473ZM13 10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" clip-rule="evenodd" /></svg>
+    </aegov-link>
+    <aegov-link href="#" is-icon appearance="soft" aria-label="Download application form">
+      <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.19L6.28 7.97a.75.75 0 0 0-1.06 1.06l4.25 4.25a.75.75 0 0 0 1.06 0l4.25-4.25a.75.75 0 0 0-1.06-1.06l-2.97 2.97V2.75Z" /><path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z" /></svg>
+    </aegov-link>
+  </div>
+</div>
+
+<p><code>is-full</code> also adds an <code>is-full</code> class to the host element, so the host itself stretches rather than leaving a shrink-wrapped wrapper around a full-width anchor.</p>
+<hr>
+<h2>Font weight</h2>
+<p>Unlike Button, links are <strong>not</strong> bold by default — a bold text link inside a paragraph would fight the surrounding copy. Set <code>is-bold</code> when a button-styled link needs the same weight as a button.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/apply&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Regular weight (default)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/apply&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">is-bold</span>&gt;</span>Bold weight<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap items-center gap-3">
+    <aegov-link href="#" variant="primary">Regular weight (default)</aegov-link>
+    <aegov-link href="#" variant="primary" is-bold>Bold weight</aegov-link>
+  </div>
+</div>
+
+<hr>
+<h2>Opening in a new tab</h2>
+<p><code>target</code> maps to the native attribute. When you set <code>target=&quot;_blank&quot;</code> and do not supply your own <code>rel</code>, the component adds <code>rel=&quot;noopener noreferrer&quot;</code> for you — the standard protection against the opened page reaching back into yours.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>
+  The official UAE portal
+  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;size-4&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 20 20&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;sr-only&quot;</span>&gt;</span>(opens in a new tab)<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-link href="https://u.ae" target="_blank">
+    The official UAE portal
+    <svg class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M12.5 3.5a.75.75 0 0 0 0 1.5h1.44l-5.22 5.22a.75.75 0 1 0 1.06 1.06L15 6.06V7.5a.75.75 0 0 0 1.5 0v-3.25a.75.75 0 0 0-.75-.75H12.5Z" /><path d="M4.5 5.5A2 2 0 0 0 2.5 7.5v8A2 2 0 0 0 4.5 17.5h8a2 2 0 0 0 2-2v-3a.75.75 0 0 0-1.5 0v3a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h3a.75.75 0 0 0 0-1.5h-3Z" /></svg>
+    <span class="sr-only">(opens in a new tab)</span>
   </aegov-link>
 </div>
 
-<h3>Disabled link</h3>
-<p>Native <code>&lt;a&gt;</code> elements do not support <code>disabled</code>, so <code>aegov-link</code> polyfills the behaviour when <code>is-disabled</code> is set:</p>
-<ul>
-<li>The link is removed from the tab order (<code>tabindex=&quot;-1&quot;</code>).</li>
-<li><code>role=&quot;link&quot;</code> is set explicitly so assistive technology continues to identify the element as a link even though <code>href</code> is stripped (a native <code>&lt;a&gt;</code> without <code>href</code> loses its implicit link role).</li>
-<li><code>aria-disabled=&quot;true&quot;</code> is announced by assistive technology as &quot;dimmed&quot; or &quot;unavailable&quot;.</li>
-<li><code>href</code> and <code>target</code> are stripped from the rendered element so the browser will not navigate even if the user activates it programmatically.</li>
-<li>Click events are intercepted and <code>preventDefault()</code> is called — <code>aegovLinkClick</code> is not emitted.</li>
-<li>Pointer events are disabled and the cursor switches to <code>not-allowed</code> via the shared button styling.</li>
-</ul>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/wip&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">is-disabled</span>&gt;</span>
-  Coming soon
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-3 items-center">
-  <aegov-link href="/wip" variant="primary" appearance="solid" size="base" is-disabled>Coming soon</aegov-link>
+<p>Announce the new tab. A visually hidden note in the link text is the most reliable way — an icon alone does not reach screen readers, and an unexpected new tab is disorienting for anyone relying on browser history to go back.</p>
+<p>Supplying your own <code>rel</code> overrides the automatic value, so include <code>noopener</code> yourself if you need to add other tokens:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://example.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;noopener external&quot;</span>&gt;</span>External site<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><hr>
+<h2>Downloads</h2>
+<p><code>download</code> is a pass-through attribute, forwarded to the inner anchor. Give the file type and size in the link text so the user knows what they are committing to before it starts.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/forms/residency-application.pdf&quot;</span> <span class="hljs-attr">download</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;size-5&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 20 20&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+  Download application form (PDF, 240 KB)
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/data/statistics-2026.csv&quot;</span> <span class="hljs-attr">download</span>=<span class="hljs-string">&quot;statistics-2026.csv&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span>&gt;</span>
+  Download dataset (CSV, 1.2 MB)
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap items-center gap-3">
+    <aegov-link href="#" download appearance="outline">
+      <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.19L6.28 7.97a.75.75 0 0 0-1.06 1.06l4.25 4.25a.75.75 0 0 0 1.06 0l4.25-4.25a.75.75 0 0 0-1.06-1.06l-2.97 2.97V2.75Z" /><path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z" /></svg>
+      Download application form (PDF, 240 KB)
+    </aegov-link>
+    <aegov-link href="#" download appearance="soft">Download dataset (CSV, 1.2 MB)</aegov-link>
+  </div>
+</div>
+
+<hr>
+<h2>Disabled links</h2>
+<p>Native anchors have no <code>disabled</code> attribute. <code>is-disabled</code> polyfills it: the <code>href</code> is removed so there is nothing to navigate to, <code>role=&quot;link&quot;</code> is kept so the element still announces as a link, <code>aria-disabled=&quot;true&quot;</code> communicates the state, <code>tabindex=&quot;-1&quot;</code> takes it out of the tab order, and click navigation is blocked. Any <code>target</code>, <code>rel</code> or <code>download</code> you set is stripped, so a stale attribute cannot smuggle a navigation through.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/step-3&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">is-disabled</span>&gt;</span>
+  Continue to payment
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap items-center gap-3">
+    <aegov-link href="#" variant="primary" is-disabled>Continue to payment</aegov-link>
+    <aegov-link href="#" appearance="outline" is-disabled>Not yet available</aegov-link>
+    <aegov-link href="#" is-disabled>Disabled text link</aegov-link>
+  </div>
+</div>
+
+<p>Use this sparingly. A disabled link is a dead end with no explanation — usually the better pattern is to omit the link entirely, or to render it as plain text with a note about what needs to happen first. Where you do need it, say why nearby.</p>
+<p>The host also receives an <code>is-disabled</code> class, so you can style surrounding layout in response.</p>
+<hr>
+<h2>Loading state</h2>
+<p>There is deliberately no <code>is-loading</code> on <code>aegov-link</code>. A loading state means work is happening in place, which is button behaviour — navigation either happens or it does not. If activating the control kicks off an async process, use <a href="aegov-button.html"><code>aegov-button</code></a> with <code>is-loading</code> instead.</p>
+<hr>
+<h2>Intercepting navigation</h2>
+<p><code>aegovLinkClick</code> fires on click with the <code>href</code> and the original event. Calling <code>preventDefault()</code> on the <strong>custom</strong> event also cancels the anchor&#39;s native navigation — which is how you hand control to a client-side router.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/emirates-id&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;nav-link&quot;</span>&gt;</span>Emirates ID services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#nav-link&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovLinkClick&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    e.<span class="hljs-title function_">preventDefault</span>();               <span class="hljs-comment">// cancels the browser navigation too</span>
+    router.<span class="hljs-title function_">navigate</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">href</span>);
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>For a whole page, delegate — the event bubbles:</p>
+<pre><code class="hljs language-js"><span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovLinkClick&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> { href, event } = e.<span class="hljs-property">detail</span>;
+
+  <span class="hljs-comment">// Let the browser handle modified clicks and external URLs</span>
+  <span class="hljs-keyword">if</span> (event.<span class="hljs-property">metaKey</span> || event.<span class="hljs-property">ctrlKey</span> || event.<span class="hljs-property">shiftKey</span>) <span class="hljs-keyword">return</span>;
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(href, location.<span class="hljs-property">href</span>).<span class="hljs-property">origin</span> !== location.<span class="hljs-property">origin</span>) <span class="hljs-keyword">return</span>;
+
+  e.<span class="hljs-title function_">preventDefault</span>();
+  router.<span class="hljs-title function_">navigate</span>(href);
+});</code></pre><p>Checking for modifier keys matters. Swallowing every click is what breaks &quot;open in new tab&quot;, and it is one of the most common accessibility regressions in single-page applications.</p>
+<hr>
+<h2>Composite example — service page footer</h2>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex flex-wrap items-center justify-between gap-6&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex flex-wrap items-center gap-3&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/apply&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Start application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/eligibility&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>
+      Check eligibility
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">nav</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex flex-wrap items-center gap-x-6 gap-y-2&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/service-charter&quot;</span>&gt;</span>Service charter<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/forms/guide.pdf&quot;</span> <span class="hljs-attr">download</span>&gt;</span>Guide (PDF, 180 KB)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>
+      u.ae <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;sr-only&quot;</span>&gt;</span>(opens in a new tab)<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap items-center justify-between gap-6">
+    <div class="flex flex-wrap items-center gap-3">
+      <aegov-link href="#" variant="primary" size="lg">Start application</aegov-link>
+      <aegov-link href="#" variant="secondary" appearance="outline" size="lg">Check eligibility</aegov-link>
+    </div>
+    <nav class="flex flex-wrap items-center gap-x-6 gap-y-2">
+      <aegov-link href="#">Service charter</aegov-link>
+      <aegov-link href="#" download>Guide (PDF, 180 KB)</aegov-link>
+      <aegov-link href="https://u.ae" target="_blank">u.ae <span class="sr-only">(opens in a new tab)</span></aegov-link>
+    </nav>
+  </div>
 </div>
 
 <hr>
 <h2>RTL Support</h2>
-<p><code>aegov-link</code> is direction-agnostic. Because it renders inline content, the link simply flows in the direction set by the surrounding <code>dir</code> attribute. No properties need to change between LTR and RTL — wrap any ancestor with <code>dir=&quot;rtl&quot;</code> and the link reads right-to-left automatically.</p>
+<p>The link is direction-agnostic. Text links flow with the surrounding paragraph, and button-styled links use the same logical spacing as Button, so slotted icons reverse automatically in a <code>dir=&quot;rtl&quot;</code> container.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
-    تفضّل بزيارة
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>البوابة الرسمية لحكومة الإمارات<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-    للاطلاع على الدليل الكامل للخدمات الاتحادية.
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
-    لديك حساب بالفعل؟
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/sign-in&quot;</span>&gt;</span>سجّل الدخول<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-    لمتابعة طلبك.
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/files/service-charter.pdf&quot;</span> <span class="hljs-attr">download</span>=<span class="hljs-string">&quot;service-charter.pdf&quot;</span>&gt;</span>
-      تنزيل ميثاق الخدمة (PDF)
-    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
+    تُعالَج الطلبات خلال خمسة أيام عمل. راجع
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/service-charter&quot;</span>&gt;</span>ميثاق الخدمة<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+    لمزيد من التفاصيل.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/apply&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>ابدأ الطلب<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/guide.pdf&quot;</span> <span class="hljs-attr">download</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>تحميل الدليل (PDF، ١٨٠ كيلوبايت)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-text>
-    تفضّل بزيارة
-    <aegov-link href="https://u.ae" target="_blank">البوابة الرسمية لحكومة الإمارات</aegov-link>
-    للاطلاع على الدليل الكامل للخدمات الاتحادية.
-  </aegov-text>
-  <aegov-text>
-    لديك حساب بالفعل؟
-    <aegov-link href="/sign-in">سجّل الدخول</aegov-link>
-    لمتابعة طلبك.
-  </aegov-text>
-  <aegov-text>
-    <aegov-link href="/files/service-charter.pdf" download="service-charter.pdf">
-      تنزيل ميثاق الخدمة (PDF)
-    </aegov-link>
-  </aegov-text>
+  <p class="max-w-prose mb-6">
+    تُعالَج الطلبات خلال خمسة أيام عمل. راجع
+    <aegov-link href="#">ميثاق الخدمة</aegov-link>
+    لمزيد من التفاصيل، أو
+    <aegov-link href="#">اتصل بنا</aegov-link>
+    إذا احتجت إلى مساعدة.
+  </p>
+  <div class="flex flex-wrap items-center gap-3">
+    <aegov-link href="#" variant="primary" size="lg">ابدأ الطلب</aegov-link>
+    <aegov-link href="#" variant="secondary" appearance="outline" size="lg">تحقق من الأهلية</aegov-link>
+    <aegov-link href="#" download appearance="soft">تحميل الدليل (PDF، ١٨٠ كيلوبايت)</aegov-link>
+  </div>
 </div>
 
+<p>Two things to handle yourself:</p>
+<ul>
+<li><strong>Directional icons.</strong> An &quot;external link&quot; arrow or a &quot;next&quot; chevron points the other way in Arabic. Swap the glyph per direction, or choose a symmetrical one.</li>
+<li><strong>&quot;Opens in a new tab&quot; notes</strong> need translating along with the link text — the visually hidden span is content, not chrome.</li>
+</ul>
 <hr>
 <h2>API Reference</h2>
 <h3>Properties</h3>
@@ -292,88 +328,90 @@
 <tbody><tr>
 <td><code>href</code></td>
 <td><code>href</code></td>
-<td>The URL the link points to. <strong>Required.</strong> Stripped from the rendered <code>&lt;a&gt;</code> when <code>isDisabled</code> is true.</td>
+<td><strong>Required.</strong> Destination URL, applied to the inner <code>&lt;a&gt;</code>. Removed while <code>is-disabled</code>.</td>
 <td><code>string</code></td>
 <td>—</td>
 </tr>
 <tr>
-<td><code>target</code></td>
-<td><code>target</code></td>
-<td>Anchor <code>target</code> attribute. Stripped from the rendered <code>&lt;a&gt;</code> when <code>isDisabled</code> is true.</td>
-<td><code>&#39;_blank&#39; | &#39;_self&#39; | &#39;_parent&#39; | &#39;_top&#39;</code></td>
-<td><code>undefined</code></td>
-</tr>
-<tr>
-<td><code>rel</code></td>
-<td><code>rel</code></td>
-<td>Anchor <code>rel</code> attribute. Auto-set to <code>&#39;noopener noreferrer&#39;</code> when <code>target=&quot;_blank&quot;</code> and not explicitly provided.</td>
-<td><code>string</code></td>
-<td><code>undefined</code></td>
-</tr>
-<tr>
 <td><code>fieldId</code></td>
 <td><code>field-id</code></td>
-<td>DOM <code>id</code> for the inner anchor element. Auto-generated if omitted.</td>
+<td>ID applied to the inner <code>&lt;a&gt;</code>. Auto-generated when omitted, and reflected to the host.</td>
 <td><code>string</code></td>
 <td><em>generated</em></td>
 </tr>
 <tr>
+<td><code>target</code></td>
+<td><code>target</code></td>
+<td>Native target. With <code>_blank</code> and no explicit <code>rel</code>, <code>rel=&quot;noopener noreferrer&quot;</code> is added automatically.</td>
+<td><code>&#39;_self&#39; | &#39;_blank&#39; | &#39;_parent&#39; | &#39;_top&#39;</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>rel</code></td>
+<td><code>rel</code></td>
+<td>Native rel. Overrides the automatic <code>_blank</code> value.</td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+<tr>
 <td><code>extraClass</code></td>
 <td><code>extra-class</code></td>
-<td>Additional Tailwind / CSS classes merged onto the rendered <code>&lt;a&gt;</code>.</td>
+<td>Extra classes appended to the inner <code>&lt;a&gt;</code>.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>variant</code></td>
 <td><code>variant</code></td>
-<td>Button-style colour variant. Setting this opts into button-style classes.</td>
+<td>Button-style colour. <strong>Setting this opts into button styling.</strong></td>
 <td><code>&#39;primary&#39; | &#39;secondary&#39; | &#39;danger&#39; | &#39;neutral-min&#39; | &#39;neutral-max&#39;</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>appearance</code></td>
 <td><code>appearance</code></td>
-<td>Button-style visual appearance. Setting this opts into button-style classes.</td>
+<td>Button-style treatment. <strong>Setting this opts into button styling.</strong></td>
 <td><code>&#39;solid&#39; | &#39;outline&#39; | &#39;soft&#39; | &#39;link&#39;</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Button-style size token. Accepts responsive expressions (e.g. <code>&quot;sm md:base lg:lg&quot;</code>). Setting this opts into button styling.</td>
-<td><code>&#39;xs&#39; | &#39;sm&#39; | &#39;base&#39; | &#39;lg&#39; | &#39;xl&#39;</code> (or responsive)</td>
-<td><code>undefined</code></td>
+<td>Button-style size token or responsive string. <strong>Setting this opts into button styling.</strong></td>
+<td><code>string</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>isIcon</code></td>
 <td><code>is-icon</code></td>
-<td>Render as a square icon-only link. Provide an <code>aria-label</code> for accessibility.</td>
+<td>Square, icon-only rendering. Requires <code>aria-label</code>.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>isFull</code></td>
 <td><code>is-full</code></td>
-<td>Stretch the link to fill its container width.</td>
+<td>Stretches to the container width, and adds <code>is-full</code> to the host.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>isBold</code></td>
 <td><code>is-bold</code></td>
-<td>Apply bold (semibold) font weight to button-styled links.</td>
+<td>Bold label. Note this defaults to <code>false</code>, unlike Button.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>isDisabled</code></td>
 <td><code>is-disabled</code></td>
-<td>Polyfill of native <code>disabled</code> for anchors. Removes the link from the tab order, sets <code>aria-disabled=&quot;true&quot;</code>, strips <code>href</code> / <code>target</code>, and blocks click navigation.</td>
+<td>Blocks navigation, removes <code>href</code>, sets <code>aria-disabled</code> and <code>tabindex=&quot;-1&quot;</code>, and adds <code>is-disabled</code> to the host.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 </tbody></table>
+<p>There is no <code>isLoading</code> — see <a href="#loading-state">Loading state</a>.</p>
+<p>Invalid <code>target</code>, <code>variant</code> or <code>appearance</code> values fall back to the default and log a console warning in development.</p>
 <h3>Slots</h3>
 <table>
 <thead>
@@ -384,7 +422,7 @@
 </thead>
 <tbody><tr>
 <td><em>(default)</em></td>
-<td>The link text content rendered inside <code>&lt;a&gt;</code>.</td>
+<td>The link text, plus optional inline <code>&lt;svg&gt;</code> icons and visually hidden notes.</td>
 </tr>
 </tbody></table>
 <h3>Events</h3>
@@ -399,98 +437,94 @@
 <tbody><tr>
 <td><code>aegovLinkClick</code></td>
 <td><code>{ href: string; event: MouseEvent }</code></td>
-<td>Fired when the link is clicked. Call <code>event.detail.event.preventDefault()</code> (or <code>event.preventDefault()</code> on the custom event) to stop default navigation.</td>
+<td>Fired on click. Calling <code>preventDefault()</code> on this event also cancels the anchor&#39;s native navigation. Not emitted while <code>is-disabled</code>.</td>
 </tr>
 </tbody></table>
-<h4>Listening for click events</h4>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/page&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-link&quot;</span>&gt;</span>Open page<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;my-link&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovLinkClick&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Navigating to&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">href</span>);
-  });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
-<p>In addition to <code>aria-*</code> and <code>data-*</code>, the following standard anchor attributes are forwarded from the host to the inner <code>&lt;a&gt;</code> element:</p>
+<h3>Pass-through Attributes</h3>
+<p>Pass-through attributes land on the inner <code>&lt;a&gt;</code>, which is where anchor attributes need to be to take effect.</p>
 <table>
 <thead>
 <tr>
-<th>Attribute</th>
+<th>Attribute group</th>
 <th>Forwarded?</th>
-<th>Where it lands</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>title</code></td>
+<td><code>aria-*</code></td>
 <td>Yes</td>
-<td>Inner <code>&lt;a&gt;</code> element.</td>
+<td>Forwarded to the inner <code>&lt;a&gt;</code> — this is how <code>aria-label</code> and <code>aria-current</code> reach the real link.</td>
 </tr>
 <tr>
-<td><code>referrerpolicy</code></td>
+<td><code>data-*</code></td>
 <td>Yes</td>
-<td>Inner <code>&lt;a&gt;</code> element.</td>
-</tr>
-<tr>
-<td><code>hreflang</code></td>
-<td>Yes</td>
-<td>Inner <code>&lt;a&gt;</code> element.</td>
-</tr>
-<tr>
-<td><code>rel</code></td>
-<td>Yes</td>
-<td>Inner <code>&lt;a&gt;</code> element.</td>
-</tr>
-<tr>
-<td><code>target</code></td>
-<td>Yes</td>
-<td>Inner <code>&lt;a&gt;</code> element.</td>
+<td>Forwarded to the inner <code>&lt;a&gt;</code>.</td>
 </tr>
 <tr>
 <td><code>download</code></td>
 <td>Yes</td>
-<td>Inner <code>&lt;a&gt;</code> element.</td>
+<td>Forwarded. Stripped while <code>is-disabled</code>.</td>
 </tr>
 <tr>
-<td><code>type</code></td>
+<td><code>title</code>, <code>hreflang</code>, <code>referrerpolicy</code>, <code>type</code></td>
 <td>Yes</td>
-<td>Inner <code>&lt;a&gt;</code> element.</td>
+<td>Forwarded to the inner <code>&lt;a&gt;</code>.</td>
 </tr>
 <tr>
-<td><code>aria-*</code>, <code>data-*</code></td>
+<td><code>target</code>, <code>rel</code></td>
 <td>Yes</td>
-<td>Inner <code>&lt;a&gt;</code> element.</td>
+<td>Also available as properties; the properties are the documented route. Both are stripped while <code>is-disabled</code>.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>n/a</td>
+<td>Use <code>field-id</code>.</td>
 </tr>
 <tr>
 <td><code>class</code>, <code>style</code></td>
 <td>Allowed</td>
-<td>Host element.</td>
+<td>Applied to the host. Use <code>extra-class</code> to reach the inner <code>&lt;a&gt;</code>.</td>
+</tr>
+</tbody></table>
+<h3>Host classes</h3>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Applied when</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>is-full</code></td>
+<td><code>is-full</code> is set.</td>
+</tr>
+<tr>
+<td><code>is-disabled</code></td>
+<td><code>is-disabled</code> is set.</td>
 </tr>
 </tbody></table>
 <hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>Renders a real <code>&lt;a&gt;</code> element so it is keyboard-focusable, recognised by assistive technology as a link, and discoverable to search engines.</li>
-<li>Automatically applies <code>rel=&quot;noopener noreferrer&quot;</code> when <code>target=&quot;_blank&quot;</code> (and no explicit <code>rel</code> is provided) to prevent reverse-tabnabbing.</li>
-<li>When <code>is-disabled</code> is set, adds <code>role=&quot;link&quot;</code> explicitly to preserve the link role after <code>href</code> is stripped (a native <code>&lt;a&gt;</code> without <code>href</code> loses its implicit link role, which would break AT navigation-by-links).</li>
-<li>Pass-through attributes allow <code>aria-label</code>, <code>aria-describedby</code>, <code>title</code>, <code>hreflang</code>, and <code>referrerpolicy</code> to be forwarded without wrapping markup.</li>
+<li>The inner element is a real <code>&lt;a href&gt;</code>, so the link role, <code>Enter</code> activation, browser history, middle-click, right-click context menu and &quot;copy link address&quot; all come from the platform.</li>
+<li><code>target=&quot;_blank&quot;</code> without an explicit <code>rel</code> automatically gets <code>rel=&quot;noopener noreferrer&quot;</code>.</li>
+<li><code>is-disabled</code> produces a coherent disabled state rather than a visual-only one: no <code>href</code>, <code>aria-disabled=&quot;true&quot;</code>, <code>tabindex=&quot;-1&quot;</code>, <code>role=&quot;link&quot;</code> retained, click navigation blocked, and navigation-affecting pass-through attributes stripped.</li>
+<li><code>aria-*</code> attributes on the host are forwarded to the anchor, so ARIA relationships apply to the focusable element.</li>
+<li>The global link styling provides a focus-visible treatment with its own background and outline, meeting the 3:1 non-text contrast requirement of WCAG 2.2 SC 1.4.11.</li>
+<li>Button-styled links use the same size scale as Button, so every token is at least 36 CSS px tall — above the 24 × 24 minimum of WCAG 2.2 SC 2.5.8.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Provide descriptive link text. Avoid generic text like &quot;click here&quot; or &quot;read more&quot; — the slot content should describe the destination.</li>
-<li>For icon-only links, provide an <code>aria-label</code> so screen readers announce the destination.</li>
-<li>Use <code>target=&quot;_blank&quot;</code> sparingly — opening new tabs unexpectedly is disorienting for many users. When you do, include a visible or visually-hidden text warning so screen readers announce the behaviour. The recommended pattern uses a visually-hidden <code>&lt;span&gt;</code> that is invisible to sighted users but read aloud by AT:<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
-  <span class="hljs-selector-class">.sr-only</span> {
-    <span class="hljs-attribute">position</span>: absolute; <span class="hljs-attribute">width</span>: <span class="hljs-number">1px</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">1px</span>;
-    <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>; <span class="hljs-attribute">margin</span>: -<span class="hljs-number">1px</span>; <span class="hljs-attribute">overflow</span>: hidden;
-    <span class="hljs-attribute">clip</span>: <span class="hljs-built_in">rect</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>); <span class="hljs-attribute">white-space</span>: nowrap; <span class="hljs-attribute">border</span>: <span class="hljs-number">0</span>;
-  }
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>
-  UAE Government portal
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;sr-only&quot;</span>&gt;</span>(opens in a new tab)<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre></li>
-<li>Maintain sufficient colour contrast (at least 4.5 : 1 against the background) when overriding colour via <code>extra-class</code>.</li>
+<li><strong>Write link text that describes the destination.</strong> &quot;Service charter&quot; works in a list of links read out of context; &quot;click here&quot;, &quot;more&quot; and &quot;read more&quot; do not.</li>
+<li><strong>Announce a new tab</strong> in the link text, typically with a visually hidden <code>(opens in a new tab)</code>. An icon is not announced.</li>
+<li><strong>State the file type and size for downloads</strong>, in the link text, before the user commits to it.</li>
+<li><strong>Give icon-only links an <code>aria-label</code></strong>, and mark decorative icons <code>aria-hidden=&quot;true&quot;</code>.</li>
+<li><strong>Use <code>aria-current=&quot;page&quot;</code></strong> on the link representing the current page in a navigation list.</li>
+<li><strong>Do not use a link for an action.</strong> If it does not change the URL, it belongs in a <a href="aegov-button.html">Button</a> — otherwise middle-click opens a blank tab and the screen reader announcement is wrong.</li>
+<li><strong>Do not rely on colour alone</strong> to mark text as a link inside body copy (WCAG 2.2 SC 1.4.1). The design system underlines links on hover and focus; keep that, or add your own persistent underline in dense prose.</li>
+<li><strong>Respect modifier keys</strong> when intercepting <code>aegovLinkClick</code> for a client-side router.</li>
+<li><strong>Prefer omitting a link to disabling it</strong>, and where you must disable it, explain what unlocks it.</li>
 </ul>
 <h3>Keyboard support</h3>
 <table>
@@ -502,21 +536,25 @@
 </thead>
 <tbody><tr>
 <td><code>Tab</code></td>
-<td>Move focus to the link.</td>
+<td>Move focus to the link. Skipped when <code>is-disabled</code>.</td>
 </tr>
 <tr>
-<td><code>Shift + Tab</code></td>
-<td>Move focus away from the link.</td>
+<td><code>Shift</code> + <code>Tab</code></td>
+<td>Move focus to the previous focusable element.</td>
 </tr>
 <tr>
 <td><code>Enter</code></td>
-<td>Activate the link (navigate or fire the event).</td>
+<td>Follow the link.</td>
 </tr>
 </tbody></table>
-<h3>Notes</h3>
+<p><code>Space</code> deliberately does not activate a link — that is button behaviour, and the difference is a cue that screen reader and keyboard users rely on to tell the two apart.</p>
+<hr>
+<h2>Where to next</h2>
 <ul>
-<li>The <code>aegovLinkClick</code> event fires before navigation. To intercept SPA navigation, call <code>preventDefault()</code> on <code>event.detail.event</code> from your handler.</li>
-<li>The component does not underline links by default. If your site or context requires underlines for link affordance (often the case for inline links inside body copy), apply them via <code>extra-class=&quot;underline&quot;</code> or via a global CSS rule.</li>
+<li><a href="aegov-button.html">Button</a> — for actions, and the source of the shared styling.</li>
+<li><a href="aegov-button-group.html">Button Group</a> — joining related controls.</li>
+<li><a href="aegov-breadcrumbs.html">Breadcrumbs</a> and <a href="aegov-navbar.html">Navbar</a> — navigation patterns with their own link handling.</li>
+<li><a href="installation.html">Installation</a> — global <code>&lt;a&gt;</code> styling and the CSS layer model.</li>
 </ul>
 <!-- DOC:END -->
           </section>

@@ -21,369 +21,227 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Navbar</h1>
-<p class="text-lg text-aeblack-500 mb-8">The Navbar is the horizontal primary navigation that sits directly under an <code>aegov-header</code> on every UAE Government page. It composes one or more <code>aegov-navbar-item</code> children — plain links, links with leading icons, or links paired with a dropdown sub-menu — and owns the keyboard navigation between them. The parent navbar cascades a single resolved size token to every child so the entire bar scales together across breakpoints.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Navbar is the primary horizontal navigation for a site — the row of top-level destinations that usually sits directly under the header. It renders a real navigation landmark, marks the current page, and supports sub-navigation through a dropdown on any item.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-navbar</code> component is a <code>&lt;nav&gt;</code> landmark wrapping a <code>&lt;ul&gt;</code> of <code>aegov-navbar-item</code> children. Each item renders as either an <code>&lt;a&gt;</code> (when <code>href</code> is set) or a non-link <code>&lt;span&gt;</code>. Items can carry a leading icon via the <code>icon-start</code> slot, can be marked as the current page with <code>is-active</code>, and can host a sub-menu via the <code>dropdown</code> slot — in which case a chevron toggle is injected automatically and the entire item rect becomes the dropdown trigger.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Main navigation&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;gap-6&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
+<p><code>aegov-navbar</code> wraps <code>aegov-navbar-item</code> children in a <code>&lt;nav&gt;</code> and cascades its resolved <code>size</code> to each of them.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Main navigation&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">is-active</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/awareness&quot;</span>&gt;</span>Awareness centre<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/open-data&quot;</span>&gt;</span>Open data<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about&quot;</span>&gt;</span>About<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about&quot;</span>&gt;</span>About us<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-navbar label-nav="Main navigation" gap="gap-6">
-    <aegov-navbar-item href="#" is-active="true">Home</aegov-navbar-item>
+  <aegov-navbar label-nav="Main navigation">
+    <aegov-navbar-item href="#" is-active>Home</aegov-navbar-item>
     <aegov-navbar-item href="#">Services</aegov-navbar-item>
     <aegov-navbar-item href="#">Awareness centre</aegov-navbar-item>
     <aegov-navbar-item href="#">Open data</aegov-navbar-item>
-    <aegov-navbar-item href="#">About</aegov-navbar-item>
+    <aegov-navbar-item href="#">About us</aegov-navbar-item>
   </aegov-navbar>
 </div>
 
+<p><strong>Always set <code>labelNav</code>.</strong> It becomes the landmark&#39;s accessible name, which is how a screen reader user distinguishes this navigation from the breadcrumb trail, the footer navigation and any sidebar.</p>
 <hr>
-<h2>Sizes</h2>
-<p>The <code>size</code> property selects the typographic scale and item padding. Three tokens are available — <code>sm</code>, <code>base</code> (default), and <code>lg</code>. The parent navbar resolves the size and cascades it to every <code>aegov-navbar-item</code> child, so individual items always match their siblings.</p>
-<table>
-<thead>
-<tr>
-<th>Token</th>
-<th>Use case</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>sm</code></td>
-<td>Compact site shells, secondary navigation, or footers.</td>
-</tr>
-<tr>
-<td><code>base</code></td>
-<td>Default size for primary navigation under the header.</td>
-</tr>
-<tr>
-<td><code>lg</code></td>
-<td>Marketing pages, landing pages, and wide layouts.</td>
-</tr>
-</tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-6">
-  <aegov-navbar size="sm" gap="gap-4">
-    <aegov-navbar-item href="#" is-active="true">Home</aegov-navbar-item>
-    <aegov-navbar-item href="#">Services</aegov-navbar-item>
-    <aegov-navbar-item href="#">News</aegov-navbar-item>
-    <aegov-navbar-item href="#">About</aegov-navbar-item>
-  </aegov-navbar>
-  <aegov-navbar size="base" gap="gap-6">
-    <aegov-navbar-item href="#" is-active="true">Home</aegov-navbar-item>
-    <aegov-navbar-item href="#">Services</aegov-navbar-item>
-    <aegov-navbar-item href="#">News</aegov-navbar-item>
-    <aegov-navbar-item href="#">About</aegov-navbar-item>
-  </aegov-navbar>
-  <aegov-navbar size="lg" gap="gap-8">
-    <aegov-navbar-item href="#" is-active="true">Home</aegov-navbar-item>
-    <aegov-navbar-item href="#">Services</aegov-navbar-item>
-    <aegov-navbar-item href="#">News</aegov-navbar-item>
-    <aegov-navbar-item href="#">About</aegov-navbar-item>
-  </aegov-navbar>
-</div>
-
-<h3>Responsive sizes</h3>
-<p><code>size</code> also accepts a Tailwind-style responsive string. Each segment overrides smaller breakpoints, so the example below is <code>sm</code> on phones, <code>base</code> from the <code>md</code> breakpoint up, and <code>lg</code> from <code>xl</code> up.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;gap-6&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/news&quot;</span>&gt;</span>News<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about&quot;</span>&gt;</span>About<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-navbar size="sm md:base xl:lg" gap="gap-6">
-    <aegov-navbar-item href="#" is-active="true">Home</aegov-navbar-item>
-    <aegov-navbar-item href="#">Services</aegov-navbar-item>
-    <aegov-navbar-item href="#">News</aegov-navbar-item>
-    <aegov-navbar-item href="#">About</aegov-navbar-item>
-  </aegov-navbar>
-</div>
-
-<hr>
-<h2>Gap Between Items</h2>
-<p>The <code>gap</code> property accepts any Tailwind <code>gap-*</code> utility class — the default is <code>gap-3</code>. Increase the gap on wider layouts and reduce it on dense administrative interfaces.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;gap-10&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/news&quot;</span>&gt;</span>News<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/contact&quot;</span>&gt;</span>Contact<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-navbar gap="gap-10">
-    <aegov-navbar-item href="#" is-active="true">Home</aegov-navbar-item>
-    <aegov-navbar-item href="#">Services</aegov-navbar-item>
-    <aegov-navbar-item href="#">News</aegov-navbar-item>
-    <aegov-navbar-item href="#">Contact</aegov-navbar-item>
-  </aegov-navbar>
-</div>
-
-<hr>
-<h2>Active Item</h2>
-<p>Set <code>is-active=&quot;true&quot;</code> on exactly one item per route. The component sets <code>aria-current=&quot;page&quot;</code> on the inner link so assistive technologies announce the visitor&#39;s current location, and a visual treatment is applied so sighted users can see it too.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Main navigation&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;gap-6&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/news&quot;</span>&gt;</span>News<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about&quot;</span>&gt;</span>About<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-navbar label-nav="Main navigation" gap="gap-6">
+<h2>Current page</h2>
+<p><code>isActive</code> marks the item representing the current page. It applies the active styling <strong>and</strong> sets <code>aria-current=&quot;page&quot;</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span> <span class="hljs-attr">is-active</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-navbar label-nav="Main navigation">
     <aegov-navbar-item href="#">Home</aegov-navbar-item>
-    <aegov-navbar-item href="#" is-active="true">Services</aegov-navbar-item>
-    <aegov-navbar-item href="#">News</aegov-navbar-item>
-    <aegov-navbar-item href="#">About</aegov-navbar-item>
+    <aegov-navbar-item href="#" is-active>Services</aegov-navbar-item>
+    <aegov-navbar-item href="#">Open data</aegov-navbar-item>
   </aegov-navbar>
 </div>
 
+<p>Set it on exactly one item. <code>aria-current</code> is the only signal a screen reader user gets about where they are, so an unset or duplicated value is a real loss.</p>
 <hr>
-<h2>Disabled Items</h2>
-<p>Set <code>is-disabled=&quot;true&quot;</code> to mark an item as unavailable. The item is rendered as a non-clickable span with <code>aria-disabled=&quot;true&quot;</code> and is skipped by the arrow-key cycle, so keyboard users do not get stuck on it.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Main navigation&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;gap-6&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Open data (coming soon)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about&quot;</span>&gt;</span>About<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-navbar label-nav="Main navigation" gap="gap-6">
-    <aegov-navbar-item href="#" is-active="true">Home</aegov-navbar-item>
-    <aegov-navbar-item href="#">Services</aegov-navbar-item>
-    <aegov-navbar-item is-disabled="true">Open data (coming soon)</aegov-navbar-item>
-    <aegov-navbar-item href="#">About</aegov-navbar-item>
-  </aegov-navbar>
+<h2>Sizes and spacing</h2>
+<p><code>size</code> takes three tokens and cascades to every item. <code>gap</code> takes a Tailwind gap utility class, so you control spacing directly.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;gap-4&quot;</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Footer navigation&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;gap-6&quot;</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Main navigation&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;gap-8&quot;</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Main navigation&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="space-y-6">
+    <div><p class="text-sm text-aeblack-500 mb-2">sm · gap-4</p><aegov-navbar size="sm" gap="gap-4" label-nav="Small navigation"><aegov-navbar-item href="#" is-active>Home</aegov-navbar-item><aegov-navbar-item href="#">Services</aegov-navbar-item><aegov-navbar-item href="#">About</aegov-navbar-item></aegov-navbar></div>
+    <div><p class="text-sm text-aeblack-500 mb-2">base · gap-6</p><aegov-navbar size="base" gap="gap-6" label-nav="Base navigation"><aegov-navbar-item href="#" is-active>Home</aegov-navbar-item><aegov-navbar-item href="#">Services</aegov-navbar-item><aegov-navbar-item href="#">About</aegov-navbar-item></aegov-navbar></div>
+    <div><p class="text-sm text-aeblack-500 mb-2">lg · gap-8</p><aegov-navbar size="lg" gap="gap-8" label-nav="Large navigation"><aegov-navbar-item href="#" is-active>Home</aegov-navbar-item><aegov-navbar-item href="#">Services</aegov-navbar-item><aegov-navbar-item href="#">About</aegov-navbar-item></aegov-navbar></div>
+  </div>
 </div>
 
-<hr>
-<h2>Items with Leading Icons</h2>
-<p>Place an SVG (or any inline element) in the <code>icon-start</code> slot of an <code>aegov-navbar-item</code> to render a leading icon next to the label. Icons are useful for orientation in long navigation bars but should remain optional and consistent — avoid mixing items with and without icons in the same group.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;gap-8&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 256 256&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M218.83 103.77 138.83 26.61a16 16 0 0 0-21.66 0l-80 77.16A16 16 0 0 0 32 115.55V208a16 16 0 0 0 16 16h48a16 16 0 0 0 16-16v-56h32v56a16 16 0 0 0 16 16h48a16 16 0 0 0 16-16v-92.45a16 16 0 0 0-5.17-11.78&quot;</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-    Home
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 256 256&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M227.32 73.37 182.63 28.69A16 16 0 0 0 171.31 24H32a8 8 0 0 0-8 8v192a8 8 0 0 0 8 8h192a8 8 0 0 0 8-8V84.69a16 16 0 0 0-4.68-11.32&quot;</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-    Services
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/news&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 256 256&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M224 48H32a8 8 0 0 0-8 8v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a8 8 0 0 0-8-8M88 176H56a8 8 0 0 1 0-16h32a8 8 0 0 1 0 16m0-32H56a8 8 0 0 1 0-16h32a8 8 0 0 1 0 16m112 32h-80a8 8 0 0 1 0-16h80a8 8 0 0 1 0 16m0-32h-80a8 8 0 0 1 0-16h80a8 8 0 0 1 0 16m0-40H56a8 8 0 0 1 0-16h144a8 8 0 0 1 0 16&quot;</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-    News
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/contact&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 256 256&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M224 48H32a8 8 0 0 0-8 8v136a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a8 8 0 0 0-8-8m-96 85.15L52.57 64h150.86Z&quot;</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-    Contact
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-navbar gap="gap-8">
-    <aegov-navbar-item href="#" is-active="true">
-      <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256"><path fill="currentColor" d="M218.83 103.77 138.83 26.61a16 16 0 0 0-21.66 0l-80 77.16A16 16 0 0 0 32 115.55V208a16 16 0 0 0 16 16h48a16 16 0 0 0 16-16v-56h32v56a16 16 0 0 0 16 16h48a16 16 0 0 0 16-16v-92.45a16 16 0 0 0-5.17-11.78"/></svg>
+<p>Note <code>gap</code> is a <strong>class name</strong>, not a token — <code>gap=&quot;gap-6&quot;</code>, not <code>gap=&quot;6&quot;</code>. Any Tailwind gap utility works, including responsive ones such as <code>gap=&quot;gap-3 md:gap-6&quot;</code>.</p>
+<h3>Responsive sizes</h3>
+<p><code>size</code> accepts a responsive string with the prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code> and <code>2xl</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm lg:base&quot;</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Main navigation&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span></code></pre><hr>
+<h2>Icons</h2>
+<p><code>aegov-navbar-item</code> has an <code>icon-start</code> slot.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;size-4&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 20 20&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+  Home
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-navbar label-nav="Main navigation with icons">
+    <aegov-navbar-item href="#" is-active>
+      <svg slot="icon-start" class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2 2 8v9a1 1 0 0 0 1 1h4v-6h6v6h4a1 1 0 0 0 1-1V8l-8-6Z" /></svg>
       Home
     </aegov-navbar-item>
     <aegov-navbar-item href="#">
-      <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256"><path fill="currentColor" d="M227.32 73.37 182.63 28.69A16 16 0 0 0 171.31 24H32a8 8 0 0 0-8 8v192a8 8 0 0 0 8 8h192a8 8 0 0 0 8-8V84.69a16 16 0 0 0-4.68-11.32"/></svg>
+      <svg slot="icon-start" class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M4 3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4Zm2 4h8v1.5H6V7Zm0 4h5v1.5H6V11Z" clip-rule="evenodd" /></svg>
       Services
     </aegov-navbar-item>
     <aegov-navbar-item href="#">
-      <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256"><path fill="currentColor" d="M224 48H32a8 8 0 0 0-8 8v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a8 8 0 0 0-8-8M88 176H56a8 8 0 0 1 0-16h32a8 8 0 0 1 0 16m0-32H56a8 8 0 0 1 0-16h32a8 8 0 0 1 0 16m112 32h-80a8 8 0 0 1 0-16h80a8 8 0 0 1 0 16m0-32h-80a8 8 0 0 1 0-16h80a8 8 0 0 1 0 16m0-40H56a8 8 0 0 1 0-16h144a8 8 0 0 1 0 16"/></svg>
-      News
-    </aegov-navbar-item>
-    <aegov-navbar-item href="#">
-      <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256"><path fill="currentColor" d="M224 48H32a8 8 0 0 0-8 8v136a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a8 8 0 0 0-8-8m-96 85.15L52.57 64h150.86Z"/></svg>
-      Contact
+      <svg slot="icon-start" class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm1-11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-1 3a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 10Z" clip-rule="evenodd" /></svg>
+      About us
     </aegov-navbar-item>
   </aegov-navbar>
 </div>
 
+<p>Mark icons <code>aria-hidden=&quot;true&quot;</code> — the item&#39;s text is its accessible name.</p>
 <hr>
-<h2>Items with a Sub-menu</h2>
-<p>Place an <code>aegov-dropdown</code> in the <code>dropdown</code> slot of an item to add a sub-menu. The navbar item automatically injects a chevron toggle button next to the label and routes the entire item rect as the dropdown trigger. Set <code>trigger=&quot;hover&quot;</code> on the dropdown to open on hover, or leave it as <code>click</code> for keyboard-friendly toggling.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Main navigation&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;gap-8&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
+<h2>Sub-navigation</h2>
+<p>The <code>dropdown</code> slot turns an item into a disclosure with a chevron. The chevron is a separate control from the link, so the user can follow the parent link <strong>or</strong> open its sub-navigation — which matters when the parent is itself a real page.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Main navigation&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>
     Services
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown&quot;</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown&quot;</span> <span class="hljs-attr">tab-behavior</span>=<span class="hljs-string">&quot;disclosure&quot;</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/visas&quot;</span>&gt;</span>Visas and entry permits<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/passports&quot;</span>&gt;</span>Passports<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/emirates-id&quot;</span>&gt;</span>Emirates ID<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/customs&quot;</span>&gt;</span>Customs declarations<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/identity&quot;</span>&gt;</span>Identity<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/residency&quot;</span>&gt;</span>Residency<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/vehicles&quot;</span>&gt;</span>Vehicles<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
       <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about&quot;</span>&gt;</span>
-    About
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown&quot;</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about/leadership&quot;</span>&gt;</span>Our leadership<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about/strategy&quot;</span>&gt;</span>Strategy 2031<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about/contact&quot;</span>&gt;</span>Contact us<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/news&quot;</span>&gt;</span>News<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-navbar label-nav="Main navigation" gap="gap-8">
-    <aegov-navbar-item href="#" is-active="true">Home</aegov-navbar-item>
+  <aegov-navbar label-nav="Main navigation with sub-navigation">
+    <aegov-navbar-item href="#" is-active>Home</aegov-navbar-item>
     <aegov-navbar-item href="#">
       Services
-      <aegov-dropdown slot="dropdown" trigger="hover">
+      <aegov-dropdown field-id="nb-dd-1" slot="dropdown" tab-behavior="disclosure">
         <div slot="dropdown-content">
-          <a href="#">Visas and entry permits</a>
-          <a href="#">Passports</a>
-          <a href="#">Emirates ID</a>
-          <a href="#">Customs declarations</a>
+          <a href="#">Identity</a>
+          <a href="#">Residency</a>
+          <a href="#">Vehicles</a>
+          <a href="#">Business</a>
         </div>
       </aegov-dropdown>
     </aegov-navbar-item>
     <aegov-navbar-item href="#">
-      About
-      <aegov-dropdown slot="dropdown" trigger="hover">
+      Open data
+      <aegov-dropdown field-id="nb-dd-2" slot="dropdown" tab-behavior="disclosure">
         <div slot="dropdown-content">
-          <a href="#">Our leadership</a>
-          <a href="#">Strategy 2031</a>
-          <a href="#">Contact us</a>
+          <a href="#">Datasets</a>
+          <a href="#">API documentation</a>
         </div>
       </aegov-dropdown>
     </aegov-navbar-item>
-    <aegov-navbar-item href="#">News</aegov-navbar-item>
+    <aegov-navbar-item href="#">About us</aegov-navbar-item>
   </aegov-navbar>
 </div>
 
-<p>When an item has both an <code>href</code> and a dropdown, clicking the link navigates to the destination, while clicking the chevron (or pressing <kbd>Enter</kbd> / <kbd>Space</kbd> / <kbd>ArrowDown</kbd> on the chevron) toggles the menu. Both behaviours coexist by design so that the parent landing page remains directly reachable.</p>
+<p>Use <code>tab-behavior=&quot;disclosure&quot;</code> on the dropdown. Sub-navigation is a group of links, not a menu of commands — the disclosure pattern lets <code>Tab</code> move through the links and does not announce a menu that is really navigation. See <a href="aegov-dropdown.html#tab-behaviour">Dropdown</a>.</p>
+<p>The chevron reports its own <code>aria-expanded</code>, so its state is exposed independently of the link beside it.</p>
 <hr>
-<h2>Composing with the Header</h2>
-<p>The navbar is most often paired with <code>aegov-header</code> to form the standard top of a UAE Government page. The composite below is a realistic primary navigation for a ministry site.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-header</span>
-  <span class="hljs-attr">entity-name</span>=<span class="hljs-string">&quot;Ministry of Industry and Advanced Technology&quot;</span>
-  <span class="hljs-attr">entity-domain</span>=<span class="hljs-string">&quot;https://moiat.gov.ae&quot;</span>
-  <span class="hljs-attr">skip-content-container</span>=<span class="hljs-string">&quot;#main&quot;</span>
-&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;logo&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://moiat.gov.ae/-/media/site/moiat/identity/logo/moiat_logo_eng.ashx?iar=0&amp;hash=42716B005DAA289F20DE7B83B575605A&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;MOIAT logo&quot;</span> /&gt;</span>
+<h2>States</h2>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span> <span class="hljs-attr">is-active</span>&gt;</span>Current page<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/coming-soon&quot;</span> <span class="hljs-attr">is-disabled</span>&gt;</span>Not yet available<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;noopener&quot;</span>&gt;</span>External<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-navbar label-nav="Navigation states">
+    <aegov-navbar-item href="#" is-active>Current page</aegov-navbar-item>
+    <aegov-navbar-item href="#">Normal</aegov-navbar-item>
+    <aegov-navbar-item is-disabled>Not yet available</aegov-navbar-item>
+    <aegov-navbar-item href="https://u.ae" target="_blank" rel="noopener noreferrer">u.ae</aegov-navbar-item>
+  </aegov-navbar>
+</div>
+
+<p>A disabled item renders as non-navigating text with <code>aria-disabled</code>. Prefer omitting an unavailable destination entirely — a permanently disabled navigation item is clutter.</p>
+<p>For external links, set <code>target</code> and <code>rel</code> yourself and announce the new tab in the label or with a visually hidden note, as in <a href="aegov-link.html#opening-in-a-new-tab">Link</a>.</p>
+<hr>
+<h2>Composite example — site shell</h2>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-header</span> <span class="hljs-attr">entity-name</span>=<span class="hljs-string">&quot;Ministry of Industry and Advanced Technology&quot;</span> <span class="hljs-attr">entity-domain</span>=<span class="hljs-string">&quot;https://moiat.gov.ae&quot;</span>&gt;</span>
+  …
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-header</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;aegov-container&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Main navigation&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;gap-6&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Main navigation&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;gap-6&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">is-active</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>
       Services
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown&quot;</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown&quot;</span> <span class="hljs-attr">tab-behavior</span>=<span class="hljs-string">&quot;disclosure&quot;</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/business&quot;</span>&gt;</span>Business licensing<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/industry&quot;</span>&gt;</span>Industrial registration<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/standards&quot;</span>&gt;</span>Standards and metrology<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/identity&quot;</span>&gt;</span>Identity<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/residency&quot;</span>&gt;</span>Residency<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
         <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
       <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/awareness&quot;</span>&gt;</span>Awareness centre<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/open-data&quot;</span>&gt;</span>Open data<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/media&quot;</span>&gt;</span>Media centre<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about&quot;</span>&gt;</span>About<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about&quot;</span>&gt;</span>About us<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">main</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;main&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-header
-    entity-name="Ministry of Industry and Advanced Technology"
-    entity-domain="https://moiat.gov.ae"
-  >
-    <img slot="logo" src="https://moiat.gov.ae/-/media/site/moiat/identity/logo/moiat_logo_eng.ashx?iar=0&hash=42716B005DAA289F20DE7B83B575605A" alt="MOIAT logo" />
-  </aegov-header>
-  <div class="aegov-container py-2">
-    <aegov-navbar label-nav="Main navigation" gap="gap-6" size="sm md:base">
-      <aegov-navbar-item href="#" is-active="true">Home</aegov-navbar-item>
-      <aegov-navbar-item href="#">
-        Services
-        <aegov-dropdown slot="dropdown" trigger="hover">
-          <div slot="dropdown-content">
-            <a href="#">Business licensing</a>
-            <a href="#">Industrial registration</a>
-            <a href="#">Standards and metrology</a>
-          </div>
-        </aegov-dropdown>
-      </aegov-navbar-item>
-      <aegov-navbar-item href="#">Awareness centre</aegov-navbar-item>
-      <aegov-navbar-item href="#">Open data</aegov-navbar-item>
-      <aegov-navbar-item href="#">Media centre</aegov-navbar-item>
-      <aegov-navbar-item href="#">About</aegov-navbar-item>
-    </aegov-navbar>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs</span> <span class="hljs-attr">separator</span>=<span class="hljs-string">&quot;chevron&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mt-4&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-navbar label-nav="Main navigation" size="base" gap="gap-6">
+    <aegov-navbar-item href="#" is-active>Home</aegov-navbar-item>
+    <aegov-navbar-item href="#">
+      Services
+      <aegov-dropdown field-id="nb-cx-dd" slot="dropdown" tab-behavior="disclosure">
+        <div slot="dropdown-content"><a href="#">Identity</a><a href="#">Residency</a><a href="#">Vehicles</a></div>
+      </aegov-dropdown>
+    </aegov-navbar-item>
+    <aegov-navbar-item href="#">Open data</aegov-navbar-item>
+    <aegov-navbar-item href="#">About us</aegov-navbar-item>
+  </aegov-navbar>
+  <div class="mt-4">
+    <aegov-breadcrumbs field-id="nb-cx-bc" separator="chevron">
+      <aegov-breadcrumbs-item href="#">Home</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item>Services</aegov-breadcrumbs-item>
+    </aegov-breadcrumbs>
   </div>
 </div>
 
+<p>The navbar names the site&#39;s sections; the <a href="aegov-breadcrumbs.html">breadcrumb trail</a> says where in them you are. Both are landmarks, which is why each needs its own label.</p>
+<h3>Small viewports</h3>
+<p><code>aegov-navbar</code> is a horizontal row and does not collapse into a hamburger menu on its own. On narrow viewports either let it wrap, or hide it and offer the same links in an <a href="aegov-drawer.html"><code>aegov-drawer</code></a> containing an <a href="aegov-navblock.html"><code>aegov-navblock</code></a> — the sidebar navigation component, which is designed for vertical lists and nesting.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hidden md:block&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Main navigation&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;md:hidden&quot;</span> <span class="hljs-attr">is-icon</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Open navigation menu&quot;</span>
+  <span class="hljs-attr">onclick</span>=<span class="hljs-string">&quot;document.querySelector(&#x27;#nav-drawer&#x27;).show()&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;nav-drawer&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Navigation&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;left&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navblock</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;Main navigation&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navblock</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><p>Keep both lists in sync — two navigations that disagree is worse than one that wraps.</p>
 <hr>
 <h2>RTL Support</h2>
-<p>The navbar reads <code>dir=&quot;rtl&quot;</code> from the closest <code>[dir]</code> ancestor or the document root. In RTL mode, <kbd>ArrowLeft</kbd> and <kbd>ArrowRight</kbd> swap roles so that pressing the right arrow always moves to the next visual item from the user&#39;s perspective. Layout, gaps, the active-item indicator, and the dropdown chevron rotation are all mirrored automatically through CSS logical properties.</p>
+<p>The navbar is direction-aware. In a <code>dir=&quot;rtl&quot;</code> container the items run right to left, the <code>icon-start</code> slot renders on the right, and sub-navigation dropdowns align to the reading-start edge. The chevron is a downward glyph, so it needs no mirroring.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;التنقل الرئيسي&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;gap-6&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>الرئيسية<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">is-active</span>&gt;</span>الرئيسية<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>
       الخدمات
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown&quot;</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown&quot;</span> <span class="hljs-attr">tab-behavior</span>=<span class="hljs-string">&quot;disclosure&quot;</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/visas&quot;</span>&gt;</span>التأشيرات وتصاريح الدخول<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/passports&quot;</span>&gt;</span>جوازات السفر<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/emirates-id&quot;</span>&gt;</span>الهوية الإماراتية<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>الهوية<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>الإقامة<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
         <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
       <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/news&quot;</span>&gt;</span>الأخبار<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about&quot;</span>&gt;</span>عنّا<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/contact&quot;</span>&gt;</span>اتصل بنا<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>البيانات المفتوحة<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-navbar label-nav="التنقل الرئيسي" gap="gap-6">
-    <aegov-navbar-item href="#" is-active="true">الرئيسية</aegov-navbar-item>
+    <aegov-navbar-item href="#" is-active>الرئيسية</aegov-navbar-item>
     <aegov-navbar-item href="#">
       الخدمات
-      <aegov-dropdown slot="dropdown" trigger="hover">
-        <div slot="dropdown-content">
-          <a href="#">التأشيرات وتصاريح الدخول</a>
-          <a href="#">جوازات السفر</a>
-          <a href="#">الهوية الإماراتية</a>
-        </div>
+      <aegov-dropdown field-id="nb-rtl-dd" slot="dropdown" tab-behavior="disclosure">
+        <div slot="dropdown-content"><a href="#">الهوية</a><a href="#">الإقامة</a><a href="#">المركبات</a></div>
       </aegov-dropdown>
     </aegov-navbar-item>
-    <aegov-navbar-item href="#">الأخبار</aegov-navbar-item>
-    <aegov-navbar-item href="#">عنّا</aegov-navbar-item>
-    <aegov-navbar-item href="#">اتصل بنا</aegov-navbar-item>
+    <aegov-navbar-item href="#">البيانات المفتوحة</aegov-navbar-item>
+    <aegov-navbar-item href="#">من نحن</aegov-navbar-item>
   </aegov-navbar>
 </div>
 
-<p>The same navigation paired with the Arabic header for a full bilingual top-of-page composite:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-header</span>
-    <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;authority&quot;</span>
-    <span class="hljs-attr">entity-name</span>=<span class="hljs-string">&quot;هيئة الإمارات للخدمات الصحية&quot;</span>
-    <span class="hljs-attr">entity-domain</span>=<span class="hljs-string">&quot;https://www.ehs.gov.ae&quot;</span>
-  &gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;logo&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://www.ehs.gov.ae/app_themes/fg21001/images/ehs-logo.svg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;شعار هيئة الإمارات للخدمات الصحية&quot;</span> /&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-header</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;aegov-container&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">label-nav</span>=<span class="hljs-string">&quot;التنقل الرئيسي&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;gap-6&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">is-active</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>الرئيسية<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>الخدمات<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/centers&quot;</span>&gt;</span>المراكز الصحية<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about&quot;</span>&gt;</span>عنّا<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-header
-    variant="authority"
-    entity-name="هيئة الإمارات للخدمات الصحية"
-    entity-domain="https://www.ehs.gov.ae"
-  >
-    <img slot="logo" src="https://www.ehs.gov.ae/app_themes/fg21001/images/ehs-logo.svg" alt="شعار هيئة الإمارات للخدمات الصحية" />
-  </aegov-header>
-  <div class="aegov-container py-2">
-    <aegov-navbar label-nav="التنقل الرئيسي" gap="gap-6">
-      <aegov-navbar-item href="#" is-active="true">الرئيسية</aegov-navbar-item>
-      <aegov-navbar-item href="#">الخدمات</aegov-navbar-item>
-      <aegov-navbar-item href="#">المراكز الصحية</aegov-navbar-item>
-      <aegov-navbar-item href="#">عنّا</aegov-navbar-item>
-    </aegov-navbar>
-  </div>
-</div>
-
+<p>Remember that the dropdown&#39;s content is portalled to <code>document.body</code>, so <strong>set <code>dir</code> on <code>&lt;html&gt;</code></strong> rather than only on a wrapper — see <a href="aegov-dropdown.html#rtl-support">Dropdown</a>.</p>
 <hr>
 <h2>API Reference</h2>
 <h3>aegov-navbar Properties</h3>
@@ -398,25 +256,25 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><code>size</code></td>
-<td><code>size</code></td>
-<td>Size token cascaded to every child item. Accepts a single token (<code>sm</code>, <code>base</code>, <code>lg</code>) or a Tailwind-style responsive string.</td>
+<td><code>labelNav</code></td>
+<td><code>label-nav</code></td>
+<td>Accessible name for the <code>&lt;nav&gt;</code> landmark. <strong>Set this.</strong></td>
 <td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>Size token or responsive string. Cascades to items.</td>
+<td><code>string</code> — <code>sm | base | lg</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
 <td><code>gap</code></td>
 <td><code>gap</code></td>
-<td>Tailwind gap utility class applied between items, e.g. <code>gap-3</code>, <code>gap-6</code>, <code>gap-10</code>.</td>
+<td>Tailwind gap <strong>utility class</strong> for spacing between items.</td>
 <td><code>string</code></td>
 <td><code>&#39;gap-3&#39;</code></td>
-</tr>
-<tr>
-<td><code>labelNav</code></td>
-<td><code>label-nav</code></td>
-<td>Accessible label for the inner <code>&lt;nav&gt;</code> landmark.</td>
-<td><code>string</code></td>
-<td><code>&#39;Main navigation&#39;</code></td>
 </tr>
 </tbody></table>
 <h3>aegov-navbar-item Properties</h3>
@@ -433,129 +291,99 @@
 <tbody><tr>
 <td><code>href</code></td>
 <td><code>href</code></td>
-<td>URL the item links to. Omit to render a non-link span.</td>
+<td>Destination. Omit for a non-navigating item.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>target</code></td>
 <td><code>target</code></td>
-<td>Anchor <code>target</code> attribute, forwarded to the inner link.</td>
-<td><code>&#39;_blank&#39; | &#39;_self&#39; | &#39;_parent&#39; | &#39;_top&#39;</code></td>
-<td><code>undefined</code></td>
+<td>Native target.</td>
+<td><code>&#39;_self&#39; | &#39;_blank&#39; | &#39;_parent&#39; | &#39;_top&#39;</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>rel</code></td>
 <td><code>rel</code></td>
-<td>Anchor <code>rel</code> attribute, forwarded to the inner link.</td>
+<td>Native rel. Set <code>noopener noreferrer</code> with <code>target=&quot;_blank&quot;</code>.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>isActive</code></td>
 <td><code>is-active</code></td>
-<td>Marks the item as the current page. Sets <code>aria-current=&quot;page&quot;</code> on the inner link.</td>
+<td>Marks the current page. Sets <code>aria-current=&quot;page&quot;</code>.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>isDisabled</code></td>
 <td><code>is-disabled</code></td>
-<td>Visually disables the item, sets <code>aria-disabled=&quot;true&quot;</code>, and removes it from the arrow-key cycle.</td>
+<td>Renders as non-navigating text with <code>aria-disabled</code>.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td><em>Set by the parent navbar.</em> Size token applied to the item.</td>
-<td><code>&#39;sm&#39; | &#39;base&#39; | &#39;lg&#39;</code></td>
+<td>Cascaded from the navbar.</td>
+<td><code>string</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 </tbody></table>
-<blockquote>
-<p>The item must be used inside <code>&lt;aegov-navbar&gt;</code> — if it is rendered standalone the component throws a runtime error.</p>
-</blockquote>
 <h3>Slots</h3>
 <table>
 <thead>
 <tr>
-<th>Component</th>
 <th>Slot</th>
+<th>On</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>aegov-navbar</code></td>
 <td><em>(default)</em></td>
-<td>Place one or more <code>aegov-navbar-item</code> children here.</td>
+<td>navbar</td>
+<td>The <code>aegov-navbar-item</code> children.</td>
 </tr>
 <tr>
-<td><code>aegov-navbar-item</code></td>
 <td><em>(default)</em></td>
-<td>The item label text.</td>
+<td>item</td>
+<td>The item label.</td>
 </tr>
 <tr>
-<td><code>aegov-navbar-item</code></td>
 <td><code>icon-start</code></td>
-<td>Optional leading icon (typically an inline SVG).</td>
+<td>item</td>
+<td>Leading icon.</td>
 </tr>
 <tr>
-<td><code>aegov-navbar-item</code></td>
 <td><code>dropdown</code></td>
-<td>Optional <code>aegov-dropdown</code> element used as a sub-menu. Triggers the chevron toggle and full-rect trigger.</td>
+<td>item</td>
+<td>An <code>aegov-dropdown</code> providing sub-navigation, with a chevron control.</td>
 </tr>
 </tbody></table>
 <h3>Events</h3>
-<p>Neither the navbar nor its items emit custom events. Listen for native events on the inner anchor when you need click handling:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;primary-nav&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about&quot;</span>&gt;</span>About<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/contact&quot;</span>&gt;</span>Contact<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;#primary-nav aegov-navbar-item a&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">a</span>) =&gt;</span> {
-    a.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Navigated to&#x27;</span>, a.<span class="hljs-property">href</span>);
-    });
-  });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
+<p>Neither component emits events of its own. Items are links, so use ordinary navigation — or intercept clicks for a router as shown in <a href="aegov-link.html#intercepting-navigation">Link</a>.</p>
+<h3>Pass-through Attributes</h3>
 <table>
 <thead>
 <tr>
-<th>Component</th>
 <th>Attribute group</th>
 <th>Forwarded?</th>
-<th>Where applied</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>aegov-navbar</code></td>
-<td><code>aria-*</code>, <code>data-*</code></td>
-<td>No</td>
-<td>Apply directly to the host <code>&lt;aegov-navbar&gt;</code> element.</td>
-</tr>
-<tr>
-<td><code>aegov-navbar</code></td>
-<td><code>class</code>, <code>style</code>, <code>id</code></td>
-<td>Allowed</td>
-<td>Applied to the host element.</td>
-</tr>
-<tr>
-<td><code>aegov-navbar-item</code></td>
-<td><code>aria-*</code>, <code>data-*</code></td>
+<td><code>aria-*</code></td>
 <td>Yes</td>
-<td>Forwarded to the inner <code>&lt;li&gt;</code> host (handled by <code>getPassThroughAttributes</code>).</td>
+<td>Forwarded to the <code>&lt;nav&gt;</code> on the navbar, and to the link on an item. Prefer <code>labelNav</code> over <code>aria-label</code> for the landmark.</td>
 </tr>
 <tr>
-<td><code>aegov-navbar-item</code></td>
-<td><code>target</code>, <code>rel</code>, <code>referrerpolicy</code></td>
+<td><code>data-*</code></td>
 <td>Yes</td>
-<td>Forwarded to the inner <code>&lt;a&gt;</code> link element.</td>
+<td>Forwarded.</td>
 </tr>
 <tr>
-<td><code>aegov-navbar-item</code></td>
-<td><code>class</code>, <code>style</code>, <code>id</code></td>
+<td><code>class</code>, <code>style</code></td>
 <td>Allowed</td>
 <td>Applied to the host element.</td>
 </tr>
@@ -564,21 +392,25 @@
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The navbar renders as a <code>&lt;nav&gt;</code> landmark with the configurable <code>aria-label</code> you provide via <code>label-nav</code>.</li>
-<li>Items render as semantic <code>&lt;li&gt;</code> children of an inner <code>&lt;ul&gt;</code> so the structure is exposed to assistive technologies.</li>
-<li>The active item sets <code>aria-current=&quot;page&quot;</code> on its inner link.</li>
-<li>Disabled items set <code>aria-disabled=&quot;true&quot;</code> and are skipped by the arrow-key cycle.</li>
-<li>Roving focus among items via <kbd>ArrowLeft</kbd>, <kbd>ArrowRight</kbd>, <kbd>Home</kbd>, and <kbd>End</kbd> — direction-aware in RTL.</li>
-<li>When an item has a dropdown, the injected chevron is a real <code>&lt;button&gt;</code> with <code>aria-label=&quot;Open &lt;label&gt; submenu&quot;</code> so screen-reader users hear what it controls.</li>
-<li><kbd>Enter</kbd>, <kbd>Space</kbd>, and <kbd>ArrowDown</kbd> on the chevron all open the sub-menu, after which focus moves into the dropdown menu.</li>
+<li>The navbar is a real <code>&lt;nav&gt;</code> landmark, named from <code>labelNav</code>, so it appears in a screen reader&#39;s list of regions.</li>
+<li><code>isActive</code> sets <code>aria-current=&quot;page&quot;</code> on the link — the programmatic signal for the current page, not just a style.</li>
+<li><code>isDisabled</code> renders a non-navigating element with <code>aria-disabled=&quot;true&quot;</code> rather than a link that goes nowhere.</li>
+<li>The sub-navigation chevron is a separate control from the parent link and reports its own <code>aria-expanded</code>, so a user can reach the parent page and its children independently.</li>
+<li>Items are links, so <code>Tab</code> and <code>Enter</code> behave natively and middle-click and right-click work as expected.</li>
+<li>Layout uses logical properties, so items and icons mirror under <code>dir=&quot;rtl&quot;</code>.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Mark exactly one item per route with <code>is-active=&quot;true&quot;</code>.</li>
-<li>Provide a meaningful <code>label-nav</code> whenever the page contains more than one navigation landmark (for example, a primary navbar plus a footer navbar).</li>
-<li>Keep item labels short — long labels can break the horizontal layout on smaller viewports.</li>
-<li>For dropdowns, follow the <code>aegov-dropdown</code> accessibility guidance — focus management inside the menu is owned by the dropdown.</li>
-<li>When supplying icons via <code>icon-start</code>, mark them as decorative (<code>aria-hidden=&quot;true&quot;</code>) so the label remains the single accessible name.</li>
+<li><strong>Always set <code>labelNav</code>.</strong> A page typically has several navigation landmarks — main, breadcrumb, footer, sidebar — and unnamed ones are indistinguishable.</li>
+<li><strong>Set <code>isActive</code> on exactly one item.</strong></li>
+<li><strong>Use <code>tab-behavior=&quot;disclosure&quot;</code> on sub-navigation dropdowns.</strong> Navigation links are not a menu of commands.</li>
+<li><strong>Provide a small-viewport route.</strong> The navbar does not collapse itself; pair it with a <a href="aegov-drawer.html">Drawer</a> + <a href="aegov-navblock.html">Navblock</a>, and keep both lists in sync.</li>
+<li><strong>Keep the top level short.</strong> Five to seven destinations is the practical limit before scanning becomes work.</li>
+<li><strong>Mark icons <code>aria-hidden=&quot;true&quot;</code>.</strong></li>
+<li><strong>Announce external links</strong> and set <code>rel=&quot;noopener noreferrer&quot;</code> with <code>target=&quot;_blank&quot;</code>.</li>
+<li><strong>Set <code>dir</code> on <code>&lt;html&gt;</code></strong> when using sub-navigation dropdowns in RTL, since their content is portalled.</li>
+<li><strong>Do not put actions in the navbar.</strong> It is for destinations; a command belongs in a <a href="aegov-button.html">Button</a>.</li>
+<li><strong>Ensure the active state is not colour-only</strong> (WCAG 2.2 SC 1.4.1) — the built-in styling pairs colour with weight and an underline, so keep it rather than overriding with colour alone.</li>
 </ul>
 <h3>Keyboard support</h3>
 <table>
@@ -590,42 +422,28 @@
 </thead>
 <tbody><tr>
 <td><code>Tab</code></td>
-<td>Move focus into and out of the navbar.</td>
-</tr>
-<tr>
-<td><code>ArrowRight</code></td>
-<td>Move focus to the next item or chevron. In RTL, moves to the previous element.</td>
-</tr>
-<tr>
-<td><code>ArrowLeft</code></td>
-<td>Move focus to the previous item or chevron. In RTL, moves to the next element.</td>
-</tr>
-<tr>
-<td><code>Home</code></td>
-<td>Move focus to the first focusable item.</td>
-</tr>
-<tr>
-<td><code>End</code></td>
-<td>Move focus to the last focusable item.</td>
+<td>Move focus to the next item, and to a sub-navigation chevron where present.</td>
 </tr>
 <tr>
 <td><code>Enter</code></td>
-<td>Activate the focused link, or toggle the focused chevron.</td>
+<td>Follow the focused link, or open the sub-navigation from the chevron.</td>
 </tr>
 <tr>
-<td><code>Space</code></td>
-<td>Toggle the focused chevron.</td>
+<td><code>Escape</code></td>
+<td>Close an open sub-navigation.</td>
 </tr>
 <tr>
-<td><code>ArrowDown</code> (on chevron)</td>
-<td>Open the sub-menu and move focus into it.</td>
+<td><code>ArrowDown</code>, <code>ArrowUp</code></td>
+<td>Move within an open sub-navigation — see <a href="aegov-dropdown.html#keyboard-support">Dropdown</a>.</td>
 </tr>
 </tbody></table>
-<h3>Notes</h3>
+<hr>
+<h2>Where to next</h2>
 <ul>
-<li>An unknown <code>size</code> token falls back to <code>base</code> and emits a development-time warning.</li>
-<li>An item with both an <code>href</code> and a dropdown is intentional: the link navigates and the chevron toggles the menu — both interactions coexist.</li>
-<li><code>aegov-navbar-item</code> cannot be used outside of <code>&lt;aegov-navbar&gt;</code> — doing so throws a runtime error during initialisation.</li>
+<li><a href="aegov-navblock.html">Navblock</a> — vertical sidebar navigation, and the mobile counterpart to this component.</li>
+<li><a href="aegov-dropdown.html">Dropdown</a> — the sub-navigation mechanism, including <code>tabBehavior</code>.</li>
+<li><a href="aegov-breadcrumbs.html">Breadcrumbs</a> — hierarchy below the navbar.</li>
+<li><a href="aegov-header.html">Header</a> — the band the navbar usually sits under.</li>
 </ul>
 <!-- DOC:END -->
           </section>

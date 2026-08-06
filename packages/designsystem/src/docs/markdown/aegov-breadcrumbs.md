@@ -1,267 +1,200 @@
 # Breadcrumbs
 
-<p class="text-lg text-aeblack-500 mb-8">Breadcrumbs are a hierarchical navigation aid that shows the user's current location within the site and offers a quick way back to any ancestor page. They are particularly useful in deep service journeys — a passport renewal nested under <em>Identity Services</em>, for example — where the user needs to understand context without losing their place.</p>
+<p class="text-lg text-aeblack-500 mb-8">Breadcrumbs show where the current page sits in the site hierarchy and give the user a one-click route back up it. They matter most in government services, where people arrive deep in a site from search results and need to know what they landed in.</p>
 
 ## Introduction
 
-The `aegov-breadcrumbs` component composes a parent `<nav>` landmark wrapping an ordered list of `aegov-breadcrumbs-item` children. The parent owns shared configuration — separator style, truncation length, and schema.org microdata — and propagates it to every item automatically. Each item renders as a link except for the last (current) page, which is rendered as plain text and marked with `aria-current="page"`.
+`aegov-breadcrumbs` renders a `<nav>` containing an ordered list of `aegov-breadcrumbs-item` children. The parent tells each item its position, whether it is the last one, and which separator to draw — so you only declare the trail.
 
 ```html
 <aegov-breadcrumbs>
   <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
   <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
   <aegov-breadcrumbs-item href="/services/identity">Identity</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item>Passport renewal</aegov-breadcrumbs-item>
+  <aegov-breadcrumbs-item>Renew Emirates ID</aegov-breadcrumbs-item>
 </aegov-breadcrumbs>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-breadcrumbs>
-    <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services/identity">Identity</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item>Passport renewal</aegov-breadcrumbs-item>
+  <aegov-breadcrumbs field-id="bc-intro">
+    <aegov-breadcrumbs-item href="#">Home</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="#">Services</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="#">Identity</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item>Renew Emirates ID</aegov-breadcrumbs-item>
   </aegov-breadcrumbs>
 </div>
+
+**Leave `href` off the last item.** It represents the current page, so it renders as text rather than a link, and the component marks it `aria-current="page"`.
 
 ---
 
-## Separator Style
-
-The `separator` property controls the character drawn between items. `slash` (default) uses a typographic forward slash; `chevron` swaps it for a directional chevron icon that mirrors automatically in RTL.
-
-### Slash (default)
+## Separator
 
 ```html
-<aegov-breadcrumbs separator="slash">
-  <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item>Visa status</aegov-breadcrumbs-item>
-</aegov-breadcrumbs>
+<aegov-breadcrumbs separator="slash">…</aegov-breadcrumbs>
+<aegov-breadcrumbs separator="chevron">…</aegov-breadcrumbs>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-breadcrumbs separator="slash">
-    <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item>Visa status</aegov-breadcrumbs-item>
-  </aegov-breadcrumbs>
+  <div class="space-y-4">
+    <aegov-breadcrumbs field-id="bc-sep-1" separator="slash">
+      <aegov-breadcrumbs-item href="#">Home</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item href="#">Services</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item>Renew Emirates ID</aegov-breadcrumbs-item>
+    </aegov-breadcrumbs>
+    <aegov-breadcrumbs field-id="bc-sep-2" separator="chevron">
+      <aegov-breadcrumbs-item href="#">Home</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item href="#">Services</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item>Renew Emirates ID</aegov-breadcrumbs-item>
+    </aegov-breadcrumbs>
+  </div>
 </div>
 
-### Chevron
-
-```html
-<aegov-breadcrumbs separator="chevron">
-  <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item href="/news">News</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item>2026 Annual Report</aegov-breadcrumbs-item>
-</aegov-breadcrumbs>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-breadcrumbs separator="chevron">
-    <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/news">News</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item>2026 Annual Report</aegov-breadcrumbs-item>
-  </aegov-breadcrumbs>
-</div>
+Both separators are marked `aria-hidden="true"`, so a screen reader reads the trail as a list rather than "Home slash Services slash".
 
 ---
 
-## Current Page Indication
+## Truncating long labels
 
-Omit the `href` attribute on the last item. The component renders it as plain text and adds `aria-current="page"` so screen readers announce it as the current location. Linked items are real `<a>` elements and behave like ordinary anchors — including middle-click, right-click, and `Ctrl/Cmd + click` to open in a new tab.
+`maxLength` truncates each item's text, which keeps a deep trail on one line. It cascades from the parent to every item.
 
 ```html
-<aegov-breadcrumbs>
+<aegov-breadcrumbs max-length="18">
   <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item href="/services/business">Business services</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item href="/services/business/licensing">Licensing</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item>Renew trade licence</aegov-breadcrumbs-item>
+  <aegov-breadcrumbs-item href="/services">Government services</aegov-breadcrumbs-item>
+  <aegov-breadcrumbs-item href="/services/identity">Identity and citizenship</aegov-breadcrumbs-item>
+  <aegov-breadcrumbs-item>Renew your Emirates ID card</aegov-breadcrumbs-item>
 </aegov-breadcrumbs>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-breadcrumbs>
-    <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services/business">Business services</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services/business/licensing">Licensing</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item>Renew trade licence</aegov-breadcrumbs-item>
-  </aegov-breadcrumbs>
+  <div class="space-y-4">
+    <p class="text-sm text-aeblack-500">Untruncated</p>
+    <aegov-breadcrumbs field-id="bc-tr-1">
+      <aegov-breadcrumbs-item href="#">Home</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item href="#">Government services</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item href="#">Identity and citizenship</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item>Renew your Emirates ID card</aegov-breadcrumbs-item>
+    </aegov-breadcrumbs>
+    <p class="text-sm text-aeblack-500 pt-2">max-length="18"</p>
+    <aegov-breadcrumbs field-id="bc-tr-2" max-length="18">
+      <aegov-breadcrumbs-item href="#">Home</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item href="#">Government services</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item href="#">Identity and citizenship</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item>Renew your Emirates ID card</aegov-breadcrumbs-item>
+    </aegov-breadcrumbs>
+  </div>
 </div>
+
+Use it sparingly. A truncated label the user cannot read defeats the purpose of the trail — prefer shorter page titles, or drop a middle level, over aggressive truncation.
 
 ---
 
-## Truncation
+## Structured data
 
-Long category names can push a trail onto a second line on narrow viewports. Set `max-length` on the parent to truncate every item's text to a fixed character count with an ellipsis. Items containing element children (icons, badges) are not truncated — only plain text segments are clipped.
+`isMicrodata` adds schema.org `BreadcrumbList` microdata to the markup, which lets search engines show the trail in results. It cascades to every item, and the parent supplies each item's `position`.
 
 ```html
-<aegov-breadcrumbs max-length="14">
-  <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item href="/services">Government Services Directory</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item href="/services/health">Public Health Authority</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item>Vaccination Appointment Booking</aegov-breadcrumbs-item>
+<aegov-breadcrumbs is-microdata>
+  <aegov-breadcrumbs-item href="https://example.gov.ae/">Home</aegov-breadcrumbs-item>
+  <aegov-breadcrumbs-item href="https://example.gov.ae/services">Services</aegov-breadcrumbs-item>
+  <aegov-breadcrumbs-item>Renew Emirates ID</aegov-breadcrumbs-item>
 </aegov-breadcrumbs>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-breadcrumbs max-length="14">
-    <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services">Government Services Directory</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services/health">Public Health Authority</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item>Vaccination Appointment Booking</aegov-breadcrumbs-item>
+  <aegov-breadcrumbs field-id="bc-micro" is-microdata>
+    <aegov-breadcrumbs-item href="#">Home</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="#">Services</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item>Renew Emirates ID</aegov-breadcrumbs-item>
   </aegov-breadcrumbs>
 </div>
 
----
-
-## Item with an Icon
-
-When an item contains element children (such as an inline SVG, a badge, or a flag), the component skips text truncation and renders the slot as-is. This is useful for highlighting the home root with a small house icon, or marking a step with a status indicator.
-
-```html
-<aegov-breadcrumbs separator="chevron">
-  <aegov-breadcrumbs-item href="/">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-inline-end:6px"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
-    Home
-  </aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item href="/services/identity">Identity Services</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item>Emirates ID renewal</aegov-breadcrumbs-item>
-</aegov-breadcrumbs>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-breadcrumbs separator="chevron">
-    <aegov-breadcrumbs-item href="/">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-inline-end:6px"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
-      Home
-    </aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services/identity">Identity Services</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item>Emirates ID renewal</aegov-breadcrumbs-item>
-  </aegov-breadcrumbs>
-</div>
+Use absolute URLs when you enable it — search engines need resolvable addresses, and a relative `href` in microdata is often ignored.
 
 ---
 
-## Schema.org Microdata
+## Intercepting navigation
 
-Set `is-microdata="true"` to add `BreadcrumbList` / `ListItem` microdata to the underlying `<ol>` and each `<li>`. Search engines use this to render breadcrumb-style result snippets and rich results. The visual output is unchanged — only the markup gains `itemscope`, `itemtype`, `itemprop`, and a `<meta itemprop="position">` per item.
-
-```html
-<aegov-breadcrumbs is-microdata="true">
-  <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item href="/news">News</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item href="/news/2026">2026</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item>National AI Strategy update</aegov-breadcrumbs-item>
-</aegov-breadcrumbs>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-breadcrumbs is-microdata="true">
-    <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/news">News</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/news/2026">2026</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item>National AI Strategy update</aegov-breadcrumbs-item>
-  </aegov-breadcrumbs>
-</div>
-
----
-
-## Link Targets and Pass-through Attributes
-
-Each item forwards `aria-*`, `data-*`, `title`, `hreflang`, `rel`, and `referrerpolicy` to the inner `<a>` element. Set `target="_blank"` to open the destination in a new tab — when you do, also include `rel="noopener"` for security.
+Each item emits `aegovBreadcrumbItemClick`, and the event bubbles, so one listener on the parent covers the trail. This is the hook for a client-side router.
 
 ```html
-<aegov-breadcrumbs separator="chevron">
-  <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item
-    href="https://u.ae"
-    target="_blank"
-    rel="noopener"
-    title="Open the UAE federal portal in a new tab"
-  >
-    UAE federal portal
-  </aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item>Service catalogue</aegov-breadcrumbs-item>
-</aegov-breadcrumbs>
-```
+<aegov-breadcrumbs id="trail">…</aegov-breadcrumbs>
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-breadcrumbs separator="chevron">
-    <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="https://u.ae" target="_blank" rel="noopener" title="Open the UAE federal portal in a new tab">UAE federal portal</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item>Service catalogue</aegov-breadcrumbs-item>
-  </aegov-breadcrumbs>
-</div>
+<script type="module">
+  document.querySelector('#trail').addEventListener('aegovBreadcrumbItemClick', (e) => {
+    const { href, event } = e.detail;
+    if (!href) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey) return;   // let the browser handle it
 
----
-
-## Listening for Item Clicks
-
-Each item emits an `aegovBreadcrumbItemClick` event with the destination `href` and the underlying `MouseEvent`. Default navigation still happens unless the listener calls `event.preventDefault()` — useful for single-page-app routers that need to intercept link clicks.
-
-```html
-<aegov-breadcrumbs id="service-trail">
-  <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item>Driving licence</aegov-breadcrumbs-item>
-</aegov-breadcrumbs>
-
-<script>
-  document.querySelector('#service-trail').addEventListener('aegovBreadcrumbItemClick', (e) => {
-    console.log('Crumb clicked, href =', e.detail.href);
-    // e.detail.event.preventDefault(); // intercept for SPA routing
+    event.preventDefault();
+    router.navigate(href);
   });
 </script>
 ```
+
+Checking modifier keys matters — swallowing every click is what breaks "open in new tab".
+
+---
+
+## Composite example — deep service page
+
+```html
+<aegov-breadcrumbs separator="chevron" is-microdata>
+  <aegov-breadcrumbs-item href="https://u.ae/">u.ae</aegov-breadcrumbs-item>
+  <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
+  <aegov-breadcrumbs-item href="/services/identity">Identity</aegov-breadcrumbs-item>
+  <aegov-breadcrumbs-item href="/services/identity/emirates-id">Emirates ID</aegov-breadcrumbs-item>
+  <aegov-breadcrumbs-item>Renew</aegov-breadcrumbs-item>
+</aegov-breadcrumbs>
+
+<h1 class="mt-4">Renew your Emirates ID</h1>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-breadcrumbs field-id="bc-cx" separator="chevron" is-microdata>
+    <aegov-breadcrumbs-item href="#">u.ae</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="#">Services</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="#">Identity</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="#">Emirates ID</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item>Renew</aegov-breadcrumbs-item>
+  </aegov-breadcrumbs>
+  <p class="text-h4 font-bold mt-4">Renew your Emirates ID</p>
+</div>
+
+Breadcrumbs sit above the page's `<h1>` and are not a substitute for it. The trail says where you are in the hierarchy; the heading says what this page is.
 
 ---
 
 ## RTL Support
 
-The breadcrumbs are direction-agnostic. When the document or any ancestor has `dir="rtl"`, the trail flows right-to-left, the chevron separator mirrors automatically, and item padding and margins flip via CSS logical properties. No additional configuration is required — supply Arabic content and the layout adapts.
+The trail is direction-aware. In a `dir="rtl"` container the items run right to left and the separators mirror — the chevron points left, matching the reading direction, with no configuration needed. The `<nav>`'s own accessible label is translated automatically ("مسار التنقل").
 
 ```html
 <div dir="rtl">
   <aegov-breadcrumbs separator="chevron">
-    <aegov-breadcrumbs-item href="/">الرئيسية</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services">الخدمات</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services/identity">خدمات الهوية</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item>تجديد جواز السفر</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="#">الرئيسية</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="#">الخدمات</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="#">الهوية</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item>تجديد الهوية الإماراتية</aegov-breadcrumbs-item>
   </aegov-breadcrumbs>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-breadcrumbs separator="chevron">
-    <aegov-breadcrumbs-item href="/">الرئيسية</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services">الخدمات</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services/identity">خدمات الهوية</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item>تجديد جواز السفر</aegov-breadcrumbs-item>
-  </aegov-breadcrumbs>
-</div>
-
-The same trail with the slash separator and a deeper service hierarchy:
-
-```html
-<div dir="rtl">
-  <aegov-breadcrumbs>
-    <aegov-breadcrumbs-item href="/">الرئيسية</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services/business">خدمات الأعمال</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services/business/licensing">الترخيص</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item>تجديد الرخصة التجارية</aegov-breadcrumbs-item>
-  </aegov-breadcrumbs>
-</div>
-```
-
-<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-breadcrumbs>
-    <aegov-breadcrumbs-item href="/">الرئيسية</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services/business">خدمات الأعمال</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item href="/services/business/licensing">الترخيص</aegov-breadcrumbs-item>
-    <aegov-breadcrumbs-item>تجديد الرخصة التجارية</aegov-breadcrumbs-item>
-  </aegov-breadcrumbs>
+  <div class="space-y-4">
+    <aegov-breadcrumbs field-id="bc-rtl-1" separator="chevron">
+      <aegov-breadcrumbs-item href="#">الرئيسية</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item href="#">الخدمات</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item href="#">الهوية</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item>تجديد الهوية الإماراتية</aegov-breadcrumbs-item>
+    </aegov-breadcrumbs>
+    <aegov-breadcrumbs field-id="bc-rtl-2" separator="slash">
+      <aegov-breadcrumbs-item href="#">الرئيسية</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item href="#">الخدمات</aegov-breadcrumbs-item>
+      <aegov-breadcrumbs-item>حجز موعد</aegov-breadcrumbs-item>
+    </aegov-breadcrumbs>
+  </div>
 </div>
 
 ---
@@ -270,67 +203,46 @@ The same trail with the slash separator and a deeper service hierarchy:
 
 ### aegov-breadcrumbs Properties
 
-| Property       | Attribute       | Description                                                                                  | Type                    | Default     |
-| -------------- | --------------- | -------------------------------------------------------------------------------------------- | ----------------------- | ----------- |
-| `fieldId`      | `field-id`      | DOM `id` for the inner `<nav>` element. Auto-generated as `aegov-breadcrumbs-{n}` if omitted. | `string`                | _generated_ |
-| `separator`    | `separator`     | Visual separator between items.                                                              | `'slash' \| 'chevron'`  | `'slash'`   |
-| `maxLength`    | `max-length`    | Maximum characters before each item's text is truncated with an ellipsis.                    | `number`                | `undefined` |
-| `isMicrodata`  | `is-microdata`  | Adds schema.org `BreadcrumbList` / `ListItem` microdata to the markup.                       | `boolean`               | `false`     |
+| Property | Attribute | Description | Type | Default |
+| --- | --- | --- | --- | --- |
+| `fieldId` | `field-id` | ID applied to the `<nav>`. Auto-generated when omitted, reflected. | `string` | _generated_ |
+| `separator` | `separator` | Separator drawn between items. Cascades to children. | `'slash' \| 'chevron'` | `'slash'` |
+| `maxLength` | `max-length` | Truncate each item's text to this many characters. Cascades to children. | `number` | — |
+| `isMicrodata` | `is-microdata` | Add schema.org `BreadcrumbList` microdata. Cascades to children. | `boolean` | `false` |
 
 ### aegov-breadcrumbs-item Properties
 
-| Property       | Attribute       | Description                                                                                  | Type                                          | Default     |
-| -------------- | --------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------- | ----------- |
-| `href`         | `href`          | URL the item links to. Omit on the last (current) item to render plain text.                 | `string`                                      | `undefined` |
-| `target`       | `target`        | Where to open the linked document.                                                           | `'_blank' \| '_self' \| '_parent' \| '_top'`  | `'_self'`   |
-| `isLast`       | `is-last`       | _Set by the parent._ Suppresses the trailing separator on the last item.                     | `boolean`                                     | `false`     |
-| `maxLength`    | `max-length`    | _Set by the parent._ Maximum characters before truncation.                                   | `number`                                      | `undefined` |
-| `separator`    | `separator`     | _Set by the parent._ Separator style displayed after the item.                               | `'slash' \| 'chevron'`                        | `'slash'`   |
-| `isMicrodata`  | `is-microdata`  | _Set by the parent._ Whether to emit schema.org microdata.                                   | `boolean`                                     | `false`     |
-| `position`     | `position`      | _Set by the parent._ 1-indexed position used for microdata.                                  | `number`                                      | `1`         |
+The parent sets `isLast`, `position`, `separator`, `maxLength` and `isMicrodata` automatically. You normally set only `href`.
 
-> Properties marked _Set by the parent_ are written automatically by `aegov-breadcrumbs`. Setting them on an item directly will be overridden on the next sync.
+| Property | Attribute | Description | Type | Default |
+| --- | --- | --- | --- | --- |
+| `href` | `href` | Destination. **Omit on the last item** so it renders as the current page. | `string` | — |
+| `target` | `target` | Native target. | `'_self' \| '_blank' \| '_parent' \| '_top'` | `'_self'` |
+| `isLast` | `is-last` | Marks the current page. Set by the parent. | `boolean` | `false` |
+| `position` | `position` | Microdata position. Set by the parent. | `number` | `1` |
+| `separator`, `maxLength`, `isMicrodata` | — | Cascaded from the parent. | — | — |
 
 ### Slots
 
-| Component                  | Slot        | Description                                                              |
-| -------------------------- | ----------- | ------------------------------------------------------------------------ |
-| `aegov-breadcrumbs`        | _(default)_ | Place one or more `aegov-breadcrumbs-item` children here.                |
-| `aegov-breadcrumbs-item`   | _(default)_ | Item label. Accepts plain text or inline elements (icons, badges).       |
+| Slot | On | Description |
+| --- | --- | --- |
+| _(default)_ | parent | The `aegov-breadcrumbs-item` children. |
+| _(default)_ | item | The item's label text. |
 
 ### Events
 
-| Event                        | Component                  | Detail                                          | Description                                                                                                  |
-| ---------------------------- | -------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `aegovBreadcrumbItemClick`   | `aegov-breadcrumbs-item`   | `{ href?: string; event: MouseEvent }`          | Fired when a linked item is clicked. Default navigation proceeds unless `event.preventDefault()` is called. |
-
-#### Listening for click events
-
-```html
-<aegov-breadcrumbs id="trail">
-  <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
-  <aegov-breadcrumbs-item>Tax filing</aegov-breadcrumbs-item>
-</aegov-breadcrumbs>
-
-<script>
-  document.querySelector('#trail').addEventListener('aegovBreadcrumbItemClick', (e) => {
-    console.log('User clicked', e.detail.href);
-  });
-</script>
-```
+| Event | Detail | Description |
+| --- | --- | --- |
+| `aegovBreadcrumbItemClick` | `{ href?: string; event: MouseEvent }` | An item was clicked. Bubbles, so listen on the parent. |
 
 ### Pass-through Attributes
 
-| Attribute group   | Forwarded to                                | Notes                                                                                                |
-| ----------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `aria-*`          | `<nav>` (parent) / `<a>` or `<span>` (item) | Set on the host element you want them applied to.                                                    |
-| `data-*`          | Same element as set                          | Useful for analytics hooks on individual items.                                                      |
-| `title`           | `<a>` (item only)                            | Native browser tooltip on the link.                                                                  |
-| `hreflang`        | `<a>` (item only)                            | Declares the language of the linked resource.                                                        |
-| `rel`             | `<a>` (item only)                            | Always include `rel="noopener"` when using `target="_blank"`.                                        |
-| `referrerpolicy`  | `<a>` (item only)                            | Controls the `Referer` header sent on navigation.                                                    |
-| `id`              | n/a                                          | Use `field-id` on `<aegov-breadcrumbs>`. The host's `id` attribute is reflected by `field-id`.        |
+| Attribute group | Forwarded? | Notes |
+| --- | --- | --- |
+| `aria-*` | Yes | Forwarded to the `<nav>`. Note the component sets its own `aria-label`. |
+| `data-*` | Yes | Forwarded to the `<nav>`. |
+| `id` | n/a | Use `field-id`. |
+| `class`, `style` | Allowed | Applied to the host element. |
 
 ---
 
@@ -338,24 +250,39 @@ The same trail with the slash separator and a deeper service hierarchy:
 
 ### Built-in behaviour
 
-- The wrapper renders as a `<nav>` landmark with `aria-label="Breadcrumb"` (English) or `aria-label="مسار التنقل"` (Arabic, auto-detected via `dir="rtl"` on any ancestor). Consumers can still override with their own `aria-label` on the `<aegov-breadcrumbs>` host.
-- Items are wrapped in an ordered list (`<ol>`) so screen readers announce position information ("2 of 3").
-- The last item (no `href`) is marked with `aria-current="page"` so assistive technology announces it as the current location.
-- Separators (slash and chevron) are `aria-hidden="true"` — screen readers skip them entirely.
-- Linked items render as native `<a>` elements with full keyboard, middle-click, and context-menu support.
+- The trail is a real `<nav>` with a translated `aria-label`, so it appears as a named landmark in a screen reader's list of regions.
+- Items are a list, so assistive technology announces the trail's length and position.
+- **Separators are marked `aria-hidden="true"`**, so the trail reads as items rather than punctuation.
+- The last item is marked `aria-current="page"` and rendered as text rather than a link — a link to the page you are already on is a dead end.
+- The chevron separator mirrors under `dir="rtl"` through logical styling.
+- Microdata, when enabled, is applied without adding anything to the accessibility tree.
 
 ### Developer responsibilities
 
-- Always omit `href` on the last item — this is what triggers `aria-current="page"` and removes the link affordance on the current page.
-- Keep labels concise — long category names can wrap on narrow viewports. Use `max-length` if you cannot shorten the source text.
-- When using `target="_blank"`, also set `rel="noopener"` for security and provide a visible cue (e.g. an icon or parenthetical text) so users know the link opens a new tab before they activate it.
-- Do not nest interactive elements other than the link inside an item.
-- `aegov-breadcrumbs-item` throws a runtime error if used outside `aegov-breadcrumbs` — always use the pair together.
+- **Omit `href` on the last item.** With one, the current page becomes a self-link and loses `aria-current`.
+- **Keep the trail short.** Four or five levels is the practical maximum; beyond that the trail wraps and stops helping.
+- **Match the trail to the real hierarchy**, not to the user's click path. Breadcrumbs are structural, not historical — for "back", the browser already has a button.
+- **Use short labels.** Prefer editing the label over `max-length`, which can truncate to the point of uselessness.
+- **Use absolute URLs with `is-microdata`.**
+- **Do not put breadcrumbs inside the `<h1>`** or use them as the page title.
+- **Respect modifier keys** when intercepting clicks for a router.
+- **Do not rely on breadcrumbs as the only navigation.** They complement a [Navbar](aegov-navbar.html); they do not replace it.
 
 ### Keyboard support
 
-| Key             | Action                                                            |
-| --------------- | ----------------------------------------------------------------- |
-| `Tab`           | Move focus to the next breadcrumb link.                           |
-| `Shift + Tab`   | Move focus to the previous breadcrumb link.                       |
-| `Enter`         | Activate the focused link (navigate to its `href`).               |
+| Key | Action |
+| --- | --- |
+| `Tab` | Move focus to the next link in the trail. |
+| `Shift` + `Tab` | Move focus to the previous link. |
+| `Enter` | Follow the focused link. |
+
+The current-page item is not focusable, because it is not a link.
+
+---
+
+## Where to next
+
+- [Navbar](aegov-navbar.html) — primary horizontal navigation.
+- [Navblock](aegov-navblock.html) — sidebar navigation.
+- [Link](aegov-link.html) — the underlying anchor behaviour.
+- [Header](aegov-header.html) — where breadcrumbs usually sit just below.

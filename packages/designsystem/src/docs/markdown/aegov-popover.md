@@ -1,319 +1,331 @@
 # Popover
 
-<p class="text-lg text-aeblack-500 mb-8">A Popover is a small floating panel anchored to a trigger element with a directional arrow. Use it for short, contextual content — definitions, helper text, mini-forms, or quick actions — that benefits from a clear visual connection back to the control that opened it. For short hover-only labels, use a Tooltip; for blocking dialogs, use a Modal.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Popover shows a small panel of content anchored to a trigger. Use it for supplementary detail that would clutter the page — an explanation of a fee, a preview of a record, a short set of controls. It sits between a <a href="aegov-tooltip.html">Tooltip</a>, which holds only a short label, and a <a href="aegov-modal.html">Modal</a>, which blocks the page.</p>
 
 ## Introduction
 
-The `aegov-popover` component wraps a trigger element and renders its `popover-content` slot into a portal at `document.body`, so the panel can escape any clipping or stacking context on the page. By default the popover opens on click, focus is trapped inside while it is open, and `Escape`, outside-click, or scrolling the trigger out of view all close it. Only one popover can be open at a time.
+Put the trigger in the default slot and the panel in the `popover-content` slot. The panel is portalled to `document.body` on open, so it is never clipped by a scrolling container.
 
 ```html
-<aegov-popover position="bottom" align="center">
-  <aegov-button variant="secondary">Quick actions</aegov-button>
+<aegov-popover>
+  <aegov-button appearance="outline">What is this fee?</aegov-button>
+
   <div slot="popover-content">
-    <h4 class="text-base font-semibold mb-2">Service shortcuts</h4>
-    <ul class="space-y-1 text-sm">
-      <li><a href="#" class="text-primary-600 hover:underline">Renew Emirates ID</a></li>
-      <li><a href="#" class="text-primary-600 hover:underline">Pay traffic fines</a></li>
-      <li><a href="#" class="text-primary-600 hover:underline">Track application</a></li>
-    </ul>
+    <p class="font-semibold mb-1">Service fee</p>
+    <p>AED 270 covers processing and card issuance. It is non-refundable once your
+    application has been submitted.</p>
   </div>
 </aegov-popover>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex justify-center py-12">
-    <aegov-popover position="bottom" align="center">
-      <aegov-button variant="secondary">Quick actions</aegov-button>
-      <div slot="popover-content">
-        <h4 class="text-base font-semibold mb-2">Service shortcuts</h4>
-        <ul class="space-y-1 text-sm">
-          <li><a href="#" class="text-primary-600 hover:underline">Renew Emirates ID</a></li>
-          <li><a href="#" class="text-primary-600 hover:underline">Pay traffic fines</a></li>
-          <li><a href="#" class="text-primary-600 hover:underline">Track application</a></li>
-        </ul>
-      </div>
-    </aegov-popover>
-  </div>
+  <aegov-popover field-id="pv-intro">
+    <aegov-button appearance="outline">What is this fee?</aegov-button>
+    <div slot="popover-content">
+      <p class="font-semibold mb-1">Service fee</p>
+      <p>AED 270 covers processing and card issuance. It is non-refundable once your application has been submitted.</p>
+    </div>
+  </aegov-popover>
 </div>
+
+The panel includes a small arrow pointing back at the trigger, which the component positions for you.
 
 ---
 
-## Position
+## Popover, tooltip or modal?
 
-The `position` property sets which side of the trigger the popover prefers. If there is not enough space on the chosen side, the popover automatically flips to the opposite side so it stays inside the viewport.
+| Component | Content | Focusable content | Blocks the page |
+| --- | --- | --- | --- |
+| [Tooltip](aegov-tooltip.html) | A short label or hint. Text only. | No | No |
+| **Popover** | A paragraph, a list, small controls. | Yes | No |
+| [Modal](aegov-modal.html) | A decision or a form. | Yes | Yes |
 
-```html
-<aegov-popover position="top">
-  <aegov-button variant="secondary">Top</aegov-button>
-  <div slot="popover-content">Popover content above the trigger.</div>
-</aegov-popover>
-
-<aegov-popover position="right">
-  <aegov-button variant="secondary">Right</aegov-button>
-  <div slot="popover-content">Popover content to the right.</div>
-</aegov-popover>
-
-<aegov-popover position="bottom">
-  <aegov-button variant="secondary">Bottom</aegov-button>
-  <div slot="popover-content">Popover content below the trigger.</div>
-</aegov-popover>
-
-<aegov-popover position="left">
-  <aegov-button variant="secondary">Left</aegov-button>
-  <div slot="popover-content">Popover content to the left.</div>
-</aegov-popover>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap gap-12 items-center justify-center py-16">
-    <aegov-popover position="top">
-      <aegov-button variant="secondary">Top</aegov-button>
-      <div slot="popover-content"><strong>Top.</strong> The popover appears above the trigger and points down.</div>
-    </aegov-popover>
-    <aegov-popover position="right">
-      <aegov-button variant="secondary">Right</aegov-button>
-      <div slot="popover-content"><strong>Right.</strong> The popover appears to the right of the trigger.</div>
-    </aegov-popover>
-    <aegov-popover position="bottom">
-      <aegov-button variant="secondary">Bottom</aegov-button>
-      <div slot="popover-content"><strong>Bottom.</strong> The popover appears below the trigger.</div>
-    </aegov-popover>
-    <aegov-popover position="left">
-      <aegov-button variant="secondary">Left</aegov-button>
-      <div slot="popover-content"><strong>Left.</strong> The popover appears to the left of the trigger.</div>
-    </aegov-popover>
-  </div>
-</div>
-
----
-
-## Alignment
-
-`align` shifts the popover along its cross-axis relative to the trigger. For a `bottom`-positioned popover this means horizontal alignment; for a `left`-positioned popover it means vertical alignment.
-
-```html
-<aegov-popover position="bottom" align="start">
-  <aegov-button variant="secondary">Start</aegov-button>
-  <div slot="popover-content">Anchored to the start edge of the trigger.</div>
-</aegov-popover>
-
-<aegov-popover position="bottom" align="center">
-  <aegov-button variant="secondary">Centre</aegov-button>
-  <div slot="popover-content">Centred on the trigger.</div>
-</aegov-popover>
-
-<aegov-popover position="bottom" align="end">
-  <aegov-button variant="secondary">End</aegov-button>
-  <div slot="popover-content">Anchored to the end edge of the trigger.</div>
-</aegov-popover>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap gap-12 items-center justify-center py-12">
-    <aegov-popover position="bottom" align="start">
-      <aegov-button variant="secondary">Start</aegov-button>
-      <div slot="popover-content">Anchored to the start edge of the trigger.</div>
-    </aegov-popover>
-    <aegov-popover position="bottom" align="center">
-      <aegov-button variant="secondary">Centre</aegov-button>
-      <div slot="popover-content">Centred on the trigger.</div>
-    </aegov-popover>
-    <aegov-popover position="bottom" align="end">
-      <aegov-button variant="secondary">End</aegov-button>
-      <div slot="popover-content">Anchored to the end edge of the trigger.</div>
-    </aegov-popover>
-  </div>
-</div>
+If the content contains a link or a button, it must be a popover — a tooltip's content cannot be reached by keyboard or touch. If the user must deal with it before continuing, it is a modal.
 
 ---
 
 ## Trigger
 
-By default the popover opens on click and stays open until the user clicks elsewhere or presses `Escape`. Set `trigger="hover"` to open on hover with a short grace period, so users can move their cursor onto the popover content without it closing.
+| Value | Opens on |
+| --- | --- |
+| `click` | Click, `Enter` or `Space`. |
+| `hover` | Pointer hover after `delayStart`. Still opens on click and keyboard. |
 
 ```html
-<aegov-popover trigger="click" position="bottom">
-  <aegov-button variant="secondary">Click to open</aegov-button>
-  <div slot="popover-content">Click triggers are best for popovers users will read or interact with.</div>
-</aegov-popover>
-
-<aegov-popover trigger="hover" position="bottom">
-  <aegov-button variant="secondary">Hover to open</aegov-button>
-  <div slot="popover-content">Hover triggers suit transient information that does not need a click.</div>
-</aegov-popover>
+<aegov-popover trigger="click">…</aegov-popover>
+<aegov-popover trigger="hover">…</aegov-popover>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap gap-6 items-center justify-center py-8">
-    <aegov-popover trigger="click" position="bottom">
-      <aegov-button variant="secondary">Click to open</aegov-button>
-      <div slot="popover-content">Click triggers are best for popovers users will read or interact with.</div>
+  <div class="flex flex-wrap gap-4">
+    <aegov-popover field-id="pv-tc" trigger="click">
+      <aegov-button size="sm" appearance="outline">Click to open</aegov-button>
+      <div slot="popover-content"><p>Opened by click. Press Escape to close.</p></div>
     </aegov-popover>
-    <aegov-popover trigger="hover" position="bottom">
-      <aegov-button variant="secondary">Hover to open</aegov-button>
-      <div slot="popover-content">Hover triggers suit transient information that does not need a click.</div>
+    <aegov-popover field-id="pv-th" trigger="hover">
+      <aegov-button size="sm" appearance="outline">Hover to open</aegov-button>
+      <div slot="popover-content"><p>Opened by hover, after a short delay.</p></div>
     </aegov-popover>
   </div>
 </div>
 
+**Use `click` whenever the panel contains anything interactive.** A hover popover with a link inside is a trap: moving the pointer toward the link may close the panel, and touch users cannot hover at all.
+
+`delayStart` (default 200ms) and `delayEnd` (default 0) control hover timing.
+
 ---
 
-## Delay
-
-When the popover is set to `trigger="hover"`, `delay-start` (default 200 ms) controls how long the user must hover before it appears, and `delay-end` (default 0 ms) adds a brief delay before it hides — giving the user time to move into the popover.
+## Position and alignment
 
 ```html
-<aegov-popover trigger="hover" delay-start="500" position="top">
-  <aegov-button variant="secondary">Slow appearance</aegov-button>
-  <div slot="popover-content">Appears after 500 ms of sustained hover.</div>
-</aegov-popover>
+<aegov-popover position="top" align="center">…</aegov-popover>
+<aegov-popover position="right" align="start">…</aegov-popover>
+<aegov-popover position="bottom" align="end">…</aegov-popover>
+<aegov-popover position="left" align="center">…</aegov-popover>
 ```
 
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-4">
+    <aegov-popover field-id="pv-pt" position="top">
+      <aegov-button size="sm" appearance="outline">top</aegov-button>
+      <div slot="popover-content"><p>Above the trigger.</p></div>
+    </aegov-popover>
+    <aegov-popover field-id="pv-pr" position="right">
+      <aegov-button size="sm" appearance="outline">right</aegov-button>
+      <div slot="popover-content"><p>To the right of the trigger.</p></div>
+    </aegov-popover>
+    <aegov-popover field-id="pv-pb" position="bottom">
+      <aegov-button size="sm" appearance="outline">bottom</aegov-button>
+      <div slot="popover-content"><p>Below the trigger — the default.</p></div>
+    </aegov-popover>
+    <aegov-popover field-id="pv-pl" position="left">
+      <aegov-button size="sm" appearance="outline">left</aegov-button>
+      <div slot="popover-content"><p>To the left of the trigger.</p></div>
+    </aegov-popover>
+  </div>
+</div>
+
+`align` positions the panel along the chosen side — `start`, `center` (the default) or `end`. `gap` (default 10) sets the distance from the trigger and `offset` (default 0) nudges it along the alignment axis, both in pixels.
+
+The arrow follows the resolved position automatically.
+
 ---
 
-## Gap and Offset
+## Content
 
-`gap` (pixels, default 10) controls the distance between the trigger and the popover. `offset` (default 0) shifts the popover along its cross-axis — useful when the trigger has visual padding that the popover should not appear to overlap.
-
-```html
-<aegov-popover position="bottom" gap="2">
-  <aegov-button variant="secondary">Tight</aegov-button>
-  <div slot="popover-content">Snug to the trigger.</div>
-</aegov-popover>
-
-<aegov-popover position="bottom" gap="20">
-  <aegov-button variant="secondary">Loose</aegov-button>
-  <div slot="popover-content">A larger gap from the trigger.</div>
-</aegov-popover>
-```
-
----
-
-## Composite Example — Help Text on a Form Field
-
-A popover is well-suited to in-context help — clicking an info icon next to a field opens a short explanation that may include a link to a fuller article. Because the popover is interactive, the link inside the panel is keyboard-reachable; a tooltip would not allow that.
+The `popover-content` slot takes ordinary markup, including interactive elements.
 
 ```html
-<div class="max-w-md">
-  <div class="flex items-center gap-2 mb-2">
-    <label for="iban" class="font-semibold">IBAN</label>
-    <aegov-popover position="top" align="start">
-      <aegov-button is-icon appearance="soft" size="xs" aria-label="What is an IBAN?">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
-      </aegov-button>
-      <div slot="popover-content" class="max-w-xs">
-        <h4 class="text-base font-semibold mb-2">International Bank Account Number</h4>
-        <p class="text-sm mb-2">A UAE IBAN is 23 characters long and starts with <strong>AE</strong>. You will find it on the front of your bank card or on a recent bank statement.</p>
-        <a href="#" class="text-sm text-primary-600 hover:underline">Read full guidance</a>
+<aegov-popover trigger="click" position="bottom" align="start">
+  <aegov-button appearance="soft" size="sm">Ahmed Al Mansouri</aegov-button>
+
+  <div slot="popover-content">
+    <div class="flex items-center gap-3 mb-3">
+      <aegov-avatar size="base" alt="Ahmed Al Mansouri"></aegov-avatar>
+      <div>
+        <p class="font-semibold">Ahmed Al Mansouri</p>
+        <p class="text-sm text-aeblack-500">Applicant · APP-2026-0041827</p>
       </div>
-    </aegov-popover>
+    </div>
+    <aegov-separator></aegov-separator>
+    <div class="flex gap-2 mt-3">
+      <aegov-button size="sm" variant="primary">View application</aegov-button>
+      <aegov-button size="sm" appearance="outline">Message</aegov-button>
+    </div>
   </div>
-  <aegov-input field-id="iban" placeholder="AE07 0331 2345 6789 0123 456"></aegov-input>
-</div>
+</aegov-popover>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md">
-    <div class="flex items-center gap-2 mb-2">
-      <label for="demo-iban" class="font-semibold">IBAN</label>
-      <aegov-popover position="top" align="start">
-        <aegov-button is-icon appearance="soft" size="xs" aria-label="What is an IBAN?">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
-        </aegov-button>
-        <div slot="popover-content" class="max-w-xs">
-          <h4 class="text-base font-semibold mb-2">International Bank Account Number</h4>
-          <p class="text-sm mb-2">A UAE IBAN is 23 characters long and starts with <strong>AE</strong>. You will find it on the front of your bank card or on a recent bank statement.</p>
-          <a href="#" class="text-sm text-primary-600 hover:underline">Read full guidance</a>
+  <aegov-popover field-id="pv-card" trigger="click" position="bottom" align="start">
+    <aegov-button appearance="soft" size="sm">Ahmed Al Mansouri</aegov-button>
+    <div slot="popover-content">
+      <div class="flex items-center gap-3 mb-3">
+        <aegov-avatar size="base" alt="Ahmed Al Mansouri"></aegov-avatar>
+        <div>
+          <p class="font-semibold">Ahmed Al Mansouri</p>
+          <p class="text-sm text-aeblack-500">Applicant · APP-2026-0041827</p>
         </div>
-      </aegov-popover>
-    </div>
-    <aegov-input field-id="demo-iban" placeholder="AE07 0331 2345 6789 0123 456"></aegov-input>
-  </div>
-</div>
-
----
-
-## Composite Example — Quick Actions Menu
-
-Popovers are also useful for compact action menus attached to a row, card, or service tile. Because content inside is fully focusable, links and buttons all work with the keyboard.
-
-```html
-<div class="bg-white border border-aeblack-100 rounded-lg p-4 flex items-center justify-between max-w-md">
-  <div>
-    <h4 class="font-semibold">Application #AE-2026-0419-3128</h4>
-    <p class="text-sm text-aeblack-500">Submitted 12 March 2026</p>
-  </div>
-  <aegov-popover position="bottom" align="end">
-    <aegov-button variant="ghost" aria-label="More actions">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg>
-    </aegov-button>
-    <div slot="popover-content" class="min-w-[12rem]">
-      <ul class="space-y-1 text-sm">
-        <li><a href="#" class="block px-2 py-1 hover:bg-aeblack-50 rounded">View details</a></li>
-        <li><a href="#" class="block px-2 py-1 hover:bg-aeblack-50 rounded">Download receipt</a></li>
-        <li><a href="#" class="block px-2 py-1 hover:bg-aeblack-50 rounded">Track status</a></li>
-        <li><a href="#" class="block px-2 py-1 hover:bg-aeblack-50 rounded text-aered-600">Cancel application</a></li>
-      </ul>
+      </div>
+      <aegov-separator></aegov-separator>
+      <div class="flex gap-2 mt-3">
+        <aegov-button size="sm" variant="primary">View application</aegov-button>
+        <aegov-button size="sm" appearance="outline">Message</aegov-button>
+      </div>
     </div>
   </aegov-popover>
 </div>
+
+Keep the panel small. A popover with a scrollbar is a [Drawer](aegov-drawer.html) or a [Modal](aegov-modal.html) in the wrong component.
+
+---
+
+## Disabled
+
+```html
+<aegov-popover is-disabled>
+  <aegov-button appearance="outline" is-disabled>Details</aegov-button>
+  <div slot="popover-content">…</div>
+</aegov-popover>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="bg-white border border-aeblack-100 rounded-lg p-4 flex items-center justify-between max-w-md">
-    <div>
-      <h4 class="font-semibold">Application #AE-2026-0419-3128</h4>
-      <p class="text-sm text-aeblack-500">Submitted 12 March 2026</p>
-    </div>
-    <aegov-popover position="bottom" align="end">
-      <aegov-button variant="ghost" aria-label="More actions">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg>
-      </aegov-button>
-      <div slot="popover-content" class="min-w-[12rem]">
-        <ul class="space-y-1 text-sm">
-          <li><a href="#" class="block px-2 py-1 hover:bg-aeblack-50 rounded">View details</a></li>
-          <li><a href="#" class="block px-2 py-1 hover:bg-aeblack-50 rounded">Download receipt</a></li>
-          <li><a href="#" class="block px-2 py-1 hover:bg-aeblack-50 rounded">Track status</a></li>
-          <li><a href="#" class="block px-2 py-1 hover:bg-aeblack-50 rounded text-aered-600">Cancel application</a></li>
-        </ul>
-      </div>
-    </aegov-popover>
-  </div>
+  <aegov-popover field-id="pv-dis" is-disabled>
+    <aegov-button appearance="outline" is-disabled>Details</aegov-button>
+    <div slot="popover-content"><p>Never shown.</p></div>
+  </aegov-popover>
 </div>
+
+---
+
+## Closing it in code
+
+```js
+await popover.closePopover();
+```
+
+Useful when an action inside the panel should dismiss it:
+
+```html
+<aegov-popover id="confirm-popover" trigger="click">
+  <aegov-button appearance="outline" size="sm">Withdraw</aegov-button>
+  <div slot="popover-content">
+    <p class="mb-3">Withdraw this application?</p>
+    <div class="flex gap-2">
+      <aegov-button id="yes" size="sm" variant="danger">Yes, withdraw</aegov-button>
+      <aegov-button id="no" size="sm" appearance="outline">Cancel</aegov-button>
+    </div>
+  </div>
+</aegov-popover>
+
+<script type="module">
+  const popover = document.querySelector('#confirm-popover');
+
+  document.querySelector('#no').addEventListener('aegovButtonClick', () => popover.closePopover());
+
+  document.querySelector('#yes').addEventListener('aegovButtonClick', async () => {
+    await api.withdraw();
+    await popover.closePopover();
+    window.aegovToast.show({ message: 'Application withdrawn.', variant: 'success' });
+  });
+</script>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-popover field-id="pv-confirm" trigger="click">
+    <aegov-button appearance="outline" size="sm" variant="danger">Withdraw</aegov-button>
+    <div slot="popover-content">
+      <p class="mb-3">Withdraw this application?</p>
+      <div class="flex gap-2">
+        <aegov-button size="sm" variant="danger" onclick="document.querySelector('#pv-confirm').closePopover()">Yes, withdraw</aegov-button>
+        <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#pv-confirm').closePopover()">Cancel</aegov-button>
+      </div>
+    </div>
+  </aegov-popover>
+</div>
+
+For a genuinely destructive action, prefer a [Modal](aegov-modal.html) — a popover can be dismissed by clicking away, which makes it easy to lose the confirmation without noticing.
+
+---
+
+## Composite example — inline explanations
+
+```html
+<dl class="space-y-3">
+  <div class="flex items-center justify-between">
+    <dt class="flex items-center gap-1">
+      Service fee
+      <aegov-popover position="top">
+        <aegov-button is-icon size="xs" appearance="link" aria-label="About the service fee">
+          <svg class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">…</svg>
+        </aegov-button>
+        <div slot="popover-content">
+          <p>AED 270 covers processing and card issuance. Non-refundable once submitted.</p>
+        </div>
+      </aegov-popover>
+    </dt>
+    <dd>AED 270.00</dd>
+  </div>
+</dl>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <dl class="space-y-3 max-w-sm">
+    <div class="flex items-center justify-between">
+      <dt class="flex items-center gap-1">
+        Service fee
+        <aegov-popover field-id="pv-cx-1" position="top">
+          <aegov-button is-icon size="xs" appearance="link" aria-label="About the service fee">
+            <svg class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10A8 8 0 1 1 2 10a8 8 0 0 1 16 0Zm-8-4a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm.75 3.5a.75.75 0 0 0-1.5 0v4a.75.75 0 0 0 1.5 0v-4Z" clip-rule="evenodd" /></svg>
+          </aegov-button>
+          <div slot="popover-content"><p>AED 270 covers processing and card issuance. Non-refundable once submitted.</p></div>
+        </aegov-popover>
+      </dt>
+      <dd>AED 270.00</dd>
+    </div>
+    <div class="flex items-center justify-between">
+      <dt class="flex items-center gap-1">
+        Urgent processing
+        <aegov-popover field-id="pv-cx-2" position="top">
+          <aegov-button is-icon size="xs" appearance="link" aria-label="About urgent processing">
+            <svg class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10A8 8 0 1 1 2 10a8 8 0 0 1 16 0Zm-8-4a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm.75 3.5a.75.75 0 0 0-1.5 0v4a.75.75 0 0 0 1.5 0v-4Z" clip-rule="evenodd" /></svg>
+          </aegov-button>
+        </aegov-popover>
+      </dt>
+      <dd>AED 100.00</dd>
+    </div>
+    <aegov-separator></aegov-separator>
+    <div class="flex items-center justify-between font-semibold">
+      <dt>Total</dt>
+      <dd>AED 370.00</dd>
+    </div>
+  </dl>
+</div>
+
+Note the second popover has no content slot — it renders nothing. Always provide `popover-content`.
 
 ---
 
 ## RTL Support
 
-The popover follows the document direction. The internal layout of the panel mirrors automatically when `dir="rtl"` is set on an ancestor, and `align="start"` / `align="end"` follow the reading direction. The `position` values remain absolute viewport directions (`top`, `right`, `bottom`, `left`).
+The popover is direction-aware. `align` is logical, so `start` follows the reading direction, and the portal's injected CSS includes `[dir="rtl"]` rules for content alignment. The arrow follows the resolved position.
+
+**`position` is physical** — `position="right"` is the right side of the trigger in both directions. Where the side is semantically "after the trigger", swap it with direction:
+
+```js
+const isRtl = document.documentElement.dir === 'rtl';
+popover.position = isRtl ? 'left' : 'right';
+```
+
+**Set `dir` on `<html>`**, since the panel is portalled to `document.body`.
 
 ```html
-<div dir="rtl">
-  <aegov-popover position="bottom" align="start">
-    <aegov-button variant="secondary">إجراءات سريعة</aegov-button>
+<html dir="rtl" lang="ar">
+  <aegov-popover position="top">
+    <aegov-button appearance="outline">ما هذه الرسوم؟</aegov-button>
     <div slot="popover-content">
-      <h4 class="text-base font-semibold mb-2">اختصارات الخدمات</h4>
-      <ul class="space-y-1 text-sm">
-        <li><a href="#" class="text-primary-600 hover:underline">تجديد الهوية الإماراتية</a></li>
-        <li><a href="#" class="text-primary-600 hover:underline">دفع المخالفات المرورية</a></li>
-        <li><a href="#" class="text-primary-600 hover:underline">متابعة الطلب</a></li>
-      </ul>
+      <p class="font-semibold mb-1">رسوم الخدمة</p>
+      <p>تغطي ٢٧٠ درهمًا المعالجة وإصدار البطاقة، وهي غير قابلة للاسترداد بعد إرسال الطلب.</p>
     </div>
   </aegov-popover>
-</div>
+</html>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex justify-center py-12">
-    <aegov-popover position="bottom" align="start">
-      <aegov-button variant="secondary">إجراءات سريعة</aegov-button>
+  <div class="flex flex-wrap gap-4">
+    <aegov-popover field-id="pv-rtl-1" position="top">
+      <aegov-button appearance="outline">ما هذه الرسوم؟</aegov-button>
       <div slot="popover-content">
-        <h4 class="text-base font-semibold mb-2">اختصارات الخدمات</h4>
-        <ul class="space-y-1 text-sm">
-          <li><a href="#" class="text-primary-600 hover:underline">تجديد الهوية الإماراتية</a></li>
-          <li><a href="#" class="text-primary-600 hover:underline">دفع المخالفات المرورية</a></li>
-          <li><a href="#" class="text-primary-600 hover:underline">متابعة الطلب</a></li>
-        </ul>
+        <p class="font-semibold mb-1">رسوم الخدمة</p>
+        <p>تغطي ٢٧٠ درهمًا المعالجة وإصدار البطاقة، وهي غير قابلة للاسترداد بعد إرسال الطلب.</p>
+      </div>
+    </aegov-popover>
+    <aegov-popover field-id="pv-rtl-2" trigger="click" align="start">
+      <aegov-button appearance="soft" size="sm">أحمد المنصوري</aegov-button>
+      <div slot="popover-content">
+        <p class="font-semibold">أحمد المنصوري</p>
+        <p class="text-sm text-aeblack-500 mb-3">مُقدّم الطلب · APP-2026-0041827</p>
+        <aegov-button size="sm" variant="primary">عرض الطلب</aegov-button>
       </div>
     </aegov-popover>
   </div>
@@ -325,47 +337,64 @@ The popover follows the document direction. The internal layout of the panel mir
 
 ### Properties
 
-| Property      | Attribute     | Description                                                                              | Type                                       | Default     |
-| ------------- | ------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------ | ----------- |
-| `fieldId`     | `field-id`    | DOM `id` for the popover panel. The trigger receives `${fieldId}-trigger` for ARIA linkage. Auto-generated if omitted. | `string`                                   | _generated_ |
-| `trigger`     | `trigger`     | How the popover is opened.                                                               | `'click' \| 'hover'`                       | `'click'`   |
-| `position`    | `position`    | Preferred side of the trigger. The popover auto-flips when there is no room.             | `'top' \| 'right' \| 'bottom' \| 'left'`   | `'bottom'`  |
-| `align`       | `align`       | Alignment along the popover's cross-axis.                                                | `'start' \| 'center' \| 'end'`             | `'center'`  |
-| `gap`         | `gap`         | Distance in pixels between the trigger and the popover.                                  | `number`                                   | `10`        |
-| `offset`      | `offset`      | Additional offset along the cross-axis, in pixels.                                       | `number`                                   | `0`         |
-| `isDisabled`  | `is-disabled` | Suppress opening the popover entirely.                                                   | `boolean`                                  | `false`     |
-| `delayStart`  | `delay-start` | Delay before showing on hover, in milliseconds.                                          | `number`                                   | `200`       |
-| `delayEnd`    | `delay-end`   | Delay before hiding on hover, in milliseconds. (A minimum 100 ms grace is always applied for hover.) | `number`                                   | `0`         |
+| Property | Attribute | Description | Type | Default |
+| --- | --- | --- | --- | --- |
+| `fieldId` | `field-id` | ID for the popover. Auto-generated when omitted, reflected. | `string` | _generated_ |
+| `trigger` | `trigger` | How the panel opens. | `'click' \| 'hover'` | `'click'` |
+| `position` | `position` | Which **physical** side of the trigger the panel appears on. | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` |
+| `align` | `align` | Alignment along that side. Logical, so it follows text direction. | `'start' \| 'center' \| 'end'` | `'center'` |
+| `gap` | `gap` | Distance from the trigger, in pixels. | `number` | `10` |
+| `offset` | `offset` | Nudge along the alignment axis, in pixels. | `number` | `0` |
+| `delayStart` | `delay-start` | Hover open delay, in milliseconds. | `number` | `200` |
+| `delayEnd` | `delay-end` | Hover close delay, in milliseconds. | `number` | `0` |
+| `isDisabled` | `is-disabled` | Prevents opening. | `boolean` | `false` |
 
 ### Slots
 
-| Slot                | Description                                                                              |
-| ------------------- | ---------------------------------------------------------------------------------------- |
-| _(default)_         | The trigger element — typically a button or icon button.                                 |
-| `popover-content`   | The popover body. Any HTML or other components are accepted.                             |
+| Slot | Description |
+| --- | --- |
+| _(default)_ | The trigger. |
+| `popover-content` | The panel content. May contain interactive elements. |
 
 ### Events
 
-| Event                  | Detail | Description                                          |
-| ---------------------- | ------ | ---------------------------------------------------- |
-| `aegovPopoverOpen`     | `void` | Fired when the popover transitions to the open state. |
-| `aegovPopoverClose`    | `void` | Fired when the popover transitions to the closed state. |
+| Event | Detail | Description |
+| --- | --- | --- |
+| `aegovPopoverOpen` | `void` | The panel opened. |
+| `aegovPopoverClose` | `void` | The panel closed. |
+
+### Methods
+
+| Method | Returns | Description |
+| --- | --- | --- |
+| `closePopover()` | `Promise<void>` | Closes the panel. |
+
+### The portal
+
+The panel is portalled to `document.body` on open:
+
+| Selector | Element |
+| --- | --- |
+| `.aegov-popover-portal` | The portal container on the body. |
+| `.aegov-popover` | The panel. |
+| `.aegov-popover__arrow` | The arrow, positioned from `data-position`. |
+| `[data-state="open"]` | On the panel while open. |
+| `[data-position]` | The resolved side, driving arrow placement. |
+
+Consequences:
+
+- **Host styles do not reach the open panel.** The portal injects its own CSS, including dark-mode colours and `<a>` overrides, because scoped component CSS cannot reach a body descendant.
+- **`document.querySelector` inside your container will not find the panel.** In tests, wait for `.aegov-popover-portal .aegov-popover`.
+- **Direction is inherited from the document.**
 
 ### Pass-through Attributes
 
-The popover does not currently forward host-element attributes through to the panel — apply ARIA on the trigger element you place in the default slot, or on the host. The component sets `role`, `aria-haspopup`, `aria-expanded`, `aria-controls`, and `aria-labelledby` automatically.
-
-| Attribute group     | Forwarded? | Where to apply                                                                  |
-| ------------------- | ---------- | ------------------------------------------------------------------------------- |
-| `aria-*`            | No         | Apply directly to the trigger you slot in, or to `<aegov-popover>`.             |
-| `data-*`            | No         | Apply directly to the trigger you slot in, or to `<aegov-popover>`.             |
-| `aria-haspopup`     | Managed    | Set to `dialog` on the first focusable child inside the trigger slot.           |
-| `aria-expanded`     | Managed    | Reflects the open state on the first focusable child inside the trigger slot.   |
-| `aria-controls`     | Managed    | Set on the first focusable child; points to the popover panel while open.       |
-| `aria-labelledby`   | Managed    | The panel is labelled by the trigger wrapper element (contains trigger text).   |
-| `class`, `style`    | Allowed    | Applied to the host element.                                                    |
-
-> **Portal note.** Popover content is moved (not cloned) into a portal at `document.body` while open, and returned to its original location when closed. Avoid wrapping `<aegov-popover>` content with CSS that depends on the parent layout — once portalled, the panel only inherits styles from `:root`.
+| Attribute group | Forwarded? | Notes |
+| --- | --- | --- |
+| `aria-*` | Yes | Forwarded to the trigger wrapper. Put `aria-label` on the trigger button itself for icon triggers. |
+| `data-*` | Yes | Forwarded to the trigger wrapper. |
+| `id` | n/a | Use `field-id`. |
+| `class`, `style` | Allowed | Applied to the host. The open panel is in the portal and unaffected. |
 
 ---
 
@@ -373,29 +402,41 @@ The popover does not currently forward host-element attributes through to the pa
 
 ### Built-in behaviour
 
-- `aria-haspopup="dialog"` and `aria-expanded` are propagated imperatively to the first focusable element inside the trigger slot (the element AT reads), not just the wrapper div.
-- The portalled panel renders with `role="dialog"` and is labelled by the trigger via `aria-labelledby`.
-- When the popover opens, focus moves to the first focusable element inside the panel. If the panel has no focusable children, the panel container itself receives focus (`tabindex="-1"`) so AT announces the dialog immediately.
-- `Tab`, `Shift + Tab`, `ArrowUp`, and `ArrowDown` cycle focus through the focusable elements inside the panel.
-- `Escape` closes the popover and returns focus to the trigger (with `preventScroll` so the page does not jump).
-- When `trigger="hover"`, the popover also opens on keyboard **focus** and closes on **blur** (SC 2.1.1) — hover-only interaction is never the sole access path.
-- Clicking outside the trigger and panel closes the popover.
-- If the trigger scrolls out of the viewport, the popover closes automatically.
-- Only one popover may be open at a time; opening a new popover automatically closes any other.
+- The trigger reports `aria-expanded`, so the open state is exposed rather than only visible.
+- The panel is associated with its trigger, so assistive technology can relate the two.
+- `Escape` closes the panel and returns focus to the trigger.
+- Clicking outside closes the panel.
+- Focus returns to the trigger on close using `preventScroll`, so the page does not jump when a popover closes because the trigger scrolled out of view.
+- The panel is portalled out of any clipping ancestor, which also prevents WCAG 2.2 SC 2.4.11 failures where a focused control inside the panel would be hidden.
+- The arrow is decorative and not announced.
+- Layout uses logical alignment, so the panel mirrors correctly in RTL.
 
 ### Developer responsibilities
 
-- **Provide an accessible name on the trigger.** A button with only an icon needs an `aria-label`. The popover panel is then labelled by that trigger automatically.
-- Keep popover content compact and self-contained. Long forms or multi-step flows belong in `aegov-modal` or `aegov-drawer`.
-- For list-style content, mark up the list with `<ul>` / `<li>` and link items so keyboard users can move through them naturally.
-- Be mindful when nesting popovers inside scrollable regions — the popover closes when the trigger scrolls out of view, which is usually the right behaviour but can be disorienting if the user did not intend to scroll the trigger away.
+- **Use `trigger="click"` when the panel contains anything interactive.** A hover panel with a link cannot be reached reliably by pointer and not at all by touch.
+- **Give icon-only triggers an `aria-label`** that says what the popover explains — "About the service fee", not "Info".
+- **Always provide `popover-content`.** A popover with an empty slot is a trigger that does nothing.
+- **Keep the panel short.** If it scrolls, use a [Drawer](aegov-drawer.html) or [Modal](aegov-modal.html).
+- **Do not put a form in a popover.** Validation messages need room, and dismissal by clicking away loses input silently.
+- **Do not use a popover for a destructive confirmation** — clicking away dismisses it, so the user can miss it entirely. Use a [Modal](aegov-modal.html).
+- **Do not put essential information only in a popover.** It is hidden by default; anything required to complete a task belongs in the page.
+- **Swap `position` for RTL** when the side is semantically directional.
+- **Set `dir` on `<html>`** for RTL, since the panel is portalled.
+- **Do not nest popovers.**
 
 ### Keyboard support
 
-| Key                       | Action                                                                            |
-| ------------------------- | --------------------------------------------------------------------------------- |
-| `Enter`, `Space`          | Open the popover when the trigger is focused (click trigger).                     |
-| `Tab` (into trigger)      | Opens the popover when `trigger="hover"` (focus = hover equivalent, SC 2.1.1).   |
-| `Escape`                  | Close the popover and return focus to the trigger.                                |
-| `Tab` / `Shift + Tab`     | Cycle through focusable elements inside the popover panel.                        |
-| `ArrowDown` / `ArrowUp`   | Move to the next/previous focusable element inside the popover panel.             |
+| Key | Action |
+| --- | --- |
+| `Enter`, `Space` | Open the panel from the trigger. |
+| `Tab` | Move into and through the panel's focusable content. |
+| `Escape` | Close the panel and return focus to the trigger. |
+
+---
+
+## Where to next
+
+- [Tooltip](aegov-tooltip.html) — for a short text label with no interactive content.
+- [Dropdown](aegov-dropdown.html) — for a menu of commands or links.
+- [Modal](aegov-modal.html) — when the user must respond.
+- [Drawer](aegov-drawer.html) — for larger panels.
