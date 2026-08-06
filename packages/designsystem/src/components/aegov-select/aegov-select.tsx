@@ -77,8 +77,11 @@ export class AegovSelect {
   /** Whether multiple selection is enabled. Forces listbox behaviour. */
   @Prop() isMultiple: boolean = false;
 
-  /** Whether the select is disabled. */
-  @Prop() isDisabled: boolean = false;
+  /**
+   * Whether the select is disabled.
+   * Reflected as `is-disabled` so `aegov-form-field` can dim the associated label via CSS.
+   */
+  @Prop({ reflect: true }) isDisabled: boolean = false;
 
   /** Placeholder text shown when nothing is selected. */
   @Prop() placeholder?: string;
