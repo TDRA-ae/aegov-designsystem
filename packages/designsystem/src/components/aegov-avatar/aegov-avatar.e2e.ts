@@ -17,7 +17,11 @@ describe('aegov-avatar (e2e)', () => {
     await page.setContent('<aegov-avatar src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Person"></aegov-avatar>');
     const img = await page.find('aegov-avatar img');
     expect(img).not.toBeNull();
-    expect(img.getAttribute('alt')).toBe('Person');
+    // Accessible name is on the wrapper; the inner img is alt="" + aria-hidden so the
+    // avatar is not announced twice.
+    expect(img.getAttribute('alt')).toBe('');
+    const wrapper = await page.find('aegov-avatar [part="avatar"]');
+    expect(wrapper.getAttribute('aria-label')).toBe('Person');
   });
 
   it('uses alt as inner aria-label', async () => {
@@ -41,7 +45,10 @@ describe('aegov-avatar (e2e)', () => {
     const dot = await page.find('aegov-avatar [part="status"]');
     expect(dot).not.toBeNull();
     expect(dot).toHaveClass('avatar-online');
-    expect(dot.getAttribute('aria-label')).toBe('Status: online');
+    // The dot is decorative; status is folded into the wrapper's accessible name.
+    expect(dot.getAttribute('aria-hidden')).toBe('true');
+    const host = await page.find('aegov-avatar [part="avatar"]');
+    expect(host.getAttribute('aria-label')).toBe('User avatar, status: online');
   });
 
   it('does not render status by default', async () => {
