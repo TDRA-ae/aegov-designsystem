@@ -15,13 +15,29 @@
   @apply mb-0 cursor-pointer pt-px;
 }
 
-.aegov-form-field:has(aegov-input[disabled]) .aegov-label,
-.aegov-form-field:has(aegov-textarea[disabled]) .aegov-label,
-.aegov-form-field:has(aegov-select[disabled]) .aegov-label,
-.aegov-form-field:has(aegov-checkbox[disabled]) .aegov-label {
+/*
+ * Dim the label when the control it names is disabled.
+ *
+ * The attribute is `is-disabled`, not `disabled` — every form control declares
+ * `isDisabled` and reflects it, so the kebab-cased prop name is what lands in
+ * the DOM. Targeting `[disabled]` here silently matched nothing.
+ */
+.aegov-form-field:has(aegov-input[is-disabled]) .aegov-label,
+.aegov-form-field:has(aegov-textarea[is-disabled]) .aegov-label,
+.aegov-form-field:has(aegov-select[is-disabled]) .aegov-label,
+.aegov-form-field:has(aegov-checkbox[is-disabled]) .aegov-label,
+.aegov-form-field:has(aegov-radio[is-disabled]) .aegov-label,
+.aegov-form-field:has(aegov-toggle[is-disabled]) .aegov-label,
+.aegov-form-field:has(aegov-range[is-disabled]) .aegov-label,
+.aegov-form-field:has(aegov-otp[is-disabled]) .aegov-label,
+.aegov-form-field:has(aegov-fileupload[is-disabled]) .aegov-label,
+.aegov-form-field:has(aegov-datepicker[is-disabled]) .aegov-label {
   @apply text-aeblack-200 dark:text-aeblack-600;
 }
 
-.aegov-form-field:has(aegov-checkbox[disabled]) .aegov-label {
+/* Controls whose label is also the click target lose the pointer cursor. */
+.aegov-form-field:has(aegov-checkbox[is-disabled]) .aegov-label,
+.aegov-form-field:has(aegov-radio[is-disabled]) .aegov-label,
+.aegov-form-field:has(aegov-toggle[is-disabled]) .aegov-label {
   @apply cursor-not-allowed;
 }
