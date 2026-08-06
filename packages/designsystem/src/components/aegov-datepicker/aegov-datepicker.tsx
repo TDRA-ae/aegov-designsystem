@@ -841,11 +841,15 @@ export class AegovDatepicker {
     const header = document.createElement('div');
     header.className = 'datepicker__header';
 
+    // In RTL layout the flex row reverses, so the prev button sits on the right
+    // and the next button on the left. Flip the chevron icons to match direction.
+    const rtl = isRtl(this.el);
+
     if (showNavigation) {
       const prevBtn = document.createElement('button');
       prevBtn.className = 'datepicker__nav-btn';
       prevBtn.type = 'button';
-      prevBtn.innerHTML = CHEVRON_LEFT;
+      prevBtn.innerHTML = rtl ? CHEVRON_RIGHT : CHEVRON_LEFT;
       const prevDate = new Date(year, month - 1, 1);
       const prevMonthNames = getMonthNames(this.locale);
       prevBtn.setAttribute('aria-label', `${this.t.prevMonth}, ${prevMonthNames[prevDate.getMonth()]} ${prevDate.getFullYear()}`);
@@ -907,7 +911,7 @@ export class AegovDatepicker {
       const nextBtn = document.createElement('button');
       nextBtn.className = 'datepicker__nav-btn';
       nextBtn.type = 'button';
-      nextBtn.innerHTML = CHEVRON_RIGHT;
+      nextBtn.innerHTML = rtl ? CHEVRON_LEFT : CHEVRON_RIGHT;
       const nextDate = new Date(year, month + 1, 1);
       const nextMonthNames = getMonthNames(this.locale);
       nextBtn.setAttribute('aria-label', `${this.t.nextMonth}, ${nextMonthNames[nextDate.getMonth()]} ${nextDate.getFullYear()}`);
