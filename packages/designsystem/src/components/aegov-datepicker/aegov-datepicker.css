@@ -199,6 +199,11 @@
   @apply flex shrink-0 items-center text-aeblack-500 dark:text-aeblack-400;
 }
 
+:host-context([dir="rtl"]) .datepicker__range-separator,
+:host(:dir(rtl)) .datepicker__range-separator {
+  transform: scaleX(-1);
+}
+
 /* ── Calendar Icon ──────────────────────────────────── */
 .datepicker__icon {
   @apply flex shrink-0 items-center justify-center text-aeblack-500 dark:text-aeblack-400;
