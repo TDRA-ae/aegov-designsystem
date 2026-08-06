@@ -18,7 +18,7 @@
   @apply flex items-center cursor-pointer;
 }
 
-:host([disabled]) .datepicker__trigger {
+:host([is-disabled]) .datepicker__trigger {
   @apply cursor-not-allowed;
 }
 
@@ -59,8 +59,8 @@
   @apply gap-0;
 }
 
-:host([disabled]) .datepicker__input-wrapper {
-  @apply opacity-40 pointer-events-none;
+:host([is-disabled]) .datepicker__input-wrapper {
+  @apply opacity-40 pointer-events-none cursor-not-allowed;
 }
 
 /* ── Input ──────────────────────────────────────────── */
