@@ -330,54 +330,56 @@
 
 /* ========================================
    RTL support
+   [dir="rtl"]/":dir(rtl)" cannot pierce shadow DOM — use :host-context() and :host(:dir())
+   which are designed to check ancestor conditions from inside shadow CSS.
    ======================================== */
-[dir="rtl"] .toggle--xs .toggle__thumb,
-:dir(rtl) .toggle--xs .toggle__thumb {
+:host-context([dir="rtl"]) .toggle--xs .toggle__thumb,
+:host(:dir(rtl)) .toggle--xs .toggle__thumb {
   transform: translateX(0px) translateY(-50%);
 }
 
-[dir="rtl"] .toggle--xs .toggle__input:checked + .toggle__track .toggle__thumb,
-:dir(rtl) .toggle--xs .toggle__input:checked + .toggle__track .toggle__thumb {
+:host-context([dir="rtl"]) .toggle--xs .toggle__input:checked + .toggle__track .toggle__thumb,
+:host(:dir(rtl)) .toggle--xs .toggle__input:checked + .toggle__track .toggle__thumb {
   transform: translateX(-10px) translateY(-50%);
 }
 
-[dir="rtl"] .toggle--sm .toggle__thumb,
-:dir(rtl) .toggle--sm .toggle__thumb {
+:host-context([dir="rtl"]) .toggle--sm .toggle__thumb,
+:host(:dir(rtl)) .toggle--sm .toggle__thumb {
   transform: translateX(0px) translateY(-50%);
 }
 
-[dir="rtl"] .toggle--sm .toggle__input:checked + .toggle__track .toggle__thumb,
-:dir(rtl) .toggle--sm .toggle__input:checked + .toggle__track .toggle__thumb {
+:host-context([dir="rtl"]) .toggle--sm .toggle__input:checked + .toggle__track .toggle__thumb,
+:host(:dir(rtl)) .toggle--sm .toggle__input:checked + .toggle__track .toggle__thumb {
   transform: translateX(-12px) translateY(-50%);
 }
 
-[dir="rtl"] .toggle--base .toggle__thumb,
-:dir(rtl) .toggle--base .toggle__thumb {
+:host-context([dir="rtl"]) .toggle--base .toggle__thumb,
+:host(:dir(rtl)) .toggle--base .toggle__thumb {
   transform: translateX(0px) translateY(-50%);
 }
 
-[dir="rtl"] .toggle--base .toggle__input:checked + .toggle__track .toggle__thumb,
-:dir(rtl) .toggle--base .toggle__input:checked + .toggle__track .toggle__thumb {
+:host-context([dir="rtl"]) .toggle--base .toggle__input:checked + .toggle__track .toggle__thumb,
+:host(:dir(rtl)) .toggle--base .toggle__input:checked + .toggle__track .toggle__thumb {
   transform: translateX(-16px) translateY(-50%);
 }
 
-[dir="rtl"] .toggle--lg .toggle__thumb,
-:dir(rtl) .toggle--lg .toggle__thumb {
+:host-context([dir="rtl"]) .toggle--lg .toggle__thumb,
+:host(:dir(rtl)) .toggle--lg .toggle__thumb {
   transform: translateX(0px) translateY(-50%);
 }
 
-[dir="rtl"] .toggle--lg .toggle__input:checked + .toggle__track .toggle__thumb,
-:dir(rtl) .toggle--lg .toggle__input:checked + .toggle__track .toggle__thumb {
+:host-context([dir="rtl"]) .toggle--lg .toggle__input:checked + .toggle__track .toggle__thumb,
+:host(:dir(rtl)) .toggle--lg .toggle__input:checked + .toggle__track .toggle__thumb {
   transform: translateX(-20px) translateY(-50%);
 }
 
-[dir="rtl"] .toggle--xl .toggle__thumb,
-:dir(rtl) .toggle--xl .toggle__thumb {
+:host-context([dir="rtl"]) .toggle--xl .toggle__thumb,
+:host(:dir(rtl)) .toggle--xl .toggle__thumb {
   transform: translateX(0px) translateY(-50%);
 }
 
-[dir="rtl"] .toggle--xl .toggle__input:checked + .toggle__track .toggle__thumb,
-:dir(rtl) .toggle--xl .toggle__input:checked + .toggle__track .toggle__thumb {
+:host-context([dir="rtl"]) .toggle--xl .toggle__input:checked + .toggle__track .toggle__thumb,
+:host(:dir(rtl)) .toggle--xl .toggle__input:checked + .toggle__track .toggle__thumb {
   transform: translateX(-24px) translateY(-50%);
 }
 

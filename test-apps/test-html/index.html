@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AEGOV Design System — Test</title>
+  <link rel="icon" href="data:,">
   <script type="module" src="/src/main.ts"></script>
   <style>
     .nav-link {
@@ -1226,10 +1227,10 @@
         <div>
           <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Image error fallback — broken src → fallback slot</p>
           <div class="prop-grid preview-box">
-            <div class="prop-item"><span class="prop-attr">broken + rounded</span><aegov-avatar appearance="rounded" size="lg" src="https://invalid.example.com/404.jpg" alt="Broken rounded"></aegov-avatar></div>
-            <div class="prop-item"><span class="prop-attr">broken + square</span><aegov-avatar appearance="square" size="lg" src="https://invalid.example.com/404.jpg" alt="Broken square"></aegov-avatar></div>
-            <div class="prop-item"><span class="prop-attr">broken + initials</span><aegov-avatar appearance="rounded" size="lg" src="https://invalid.example.com/404.jpg" alt="Broken initials">AZ</aegov-avatar></div>
-            <div class="prop-item"><span class="prop-attr">broken + status</span><aegov-avatar appearance="rounded" size="lg" src="https://invalid.example.com/404.jpg" alt="Broken status" status="busy">KM</aegov-avatar></div>
+            <div class="prop-item"><span class="prop-attr">broken + rounded</span><aegov-avatar appearance="rounded" size="lg" src="/broken-image-test.jpg" alt="Broken rounded"></aegov-avatar></div>
+            <div class="prop-item"><span class="prop-attr">broken + square</span><aegov-avatar appearance="square" size="lg" src="/broken-image-test.jpg" alt="Broken square"></aegov-avatar></div>
+            <div class="prop-item"><span class="prop-attr">broken + initials</span><aegov-avatar appearance="rounded" size="lg" src="/broken-image-test.jpg" alt="Broken initials">AZ</aegov-avatar></div>
+            <div class="prop-item"><span class="prop-attr">broken + status</span><aegov-avatar appearance="rounded" size="lg" src="/broken-image-test.jpg" alt="Broken status" status="busy">KM</aegov-avatar></div>
           </div>
         </div>
         <!-- all sizes × status=online -->
@@ -1981,11 +1982,11 @@
         <div>
           <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">height — 1 / 2 / 3 / 4 / 8</p>
           <div class="flex flex-col gap-4 preview-box">
-            <div class="prop-item"><span class="prop-attr">height="1"</span><aegov-progress value="60" height="1"></aegov-progress></div>
-            <div class="prop-item"><span class="prop-attr">height="2" (default)</span><aegov-progress value="60" height="2"></aegov-progress></div>
-            <div class="prop-item"><span class="prop-attr">height="3"</span><aegov-progress value="60" height="3"></aegov-progress></div>
-            <div class="prop-item"><span class="prop-attr">height="4"</span><aegov-progress value="60" height="4"></aegov-progress></div>
-            <div class="prop-item"><span class="prop-attr">height="8"</span><aegov-progress value="60" height="8"></aegov-progress></div>
+            <div class="prop-item"><span class="prop-attr">height="1"</span><aegov-progress value="60" height="1" label="Progress"></aegov-progress></div>
+            <div class="prop-item"><span class="prop-attr">height="2" (default)</span><aegov-progress value="60" height="2" label="Progress"></aegov-progress></div>
+            <div class="prop-item"><span class="prop-attr">height="3"</span><aegov-progress value="60" height="3" label="Progress"></aegov-progress></div>
+            <div class="prop-item"><span class="prop-attr">height="4"</span><aegov-progress value="60" height="4" label="Progress"></aegov-progress></div>
+            <div class="prop-item"><span class="prop-attr">height="8"</span><aegov-progress value="60" height="8" label="Progress"></aegov-progress></div>
           </div>
         </div>
       </div>
@@ -1996,7 +1997,7 @@
           <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">counter — top / trailing / none</p>
           <div class="flex flex-col gap-4 preview-box">
             <div class="prop-item"><span class="prop-attr">counter="top"</span><aegov-progress value="60" label="Upload" counter="top"></aegov-progress></div>
-            <div class="prop-item"><span class="prop-attr">counter="trailing"</span><aegov-progress value="60" counter="trailing"></aegov-progress></div>
+            <div class="prop-item"><span class="prop-attr">counter="trailing"</span><aegov-progress value="60" counter="trailing" label="Progress"></aegov-progress></div>
             <div class="prop-item"><span class="prop-attr">no counter</span><aegov-progress value="60" label="Silent bar"></aegov-progress></div>
           </div>
         </div>
@@ -2011,9 +2012,9 @@
         <div>
           <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">height — fractional (1.5 / 2.5 / 3.5)</p>
           <div class="flex flex-col gap-4 preview-box">
-            <div class="prop-item"><span class="prop-attr">height="1.5"</span><aegov-progress value="60" height="1.5"></aegov-progress></div>
-            <div class="prop-item"><span class="prop-attr">height="2.5"</span><aegov-progress value="60" height="2.5"></aegov-progress></div>
-            <div class="prop-item"><span class="prop-attr">height="3.5"</span><aegov-progress value="60" height="3.5"></aegov-progress></div>
+            <div class="prop-item"><span class="prop-attr">height="1.5"</span><aegov-progress value="60" height="1.5" label="Progress"></aegov-progress></div>
+            <div class="prop-item"><span class="prop-attr">height="2.5"</span><aegov-progress value="60" height="2.5" label="Progress"></aegov-progress></div>
+            <div class="prop-item"><span class="prop-attr">height="3.5"</span><aegov-progress value="60" height="3.5" label="Progress"></aegov-progress></div>
           </div>
         </div>
       </div>
@@ -2035,7 +2036,7 @@
         <div>
           <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">counter-suffix — custom unit</p>
           <div class="preview-box">
-            <div class="prop-item"><span class="prop-attr">counter-suffix=" files"</span><aegov-progress value="40" counter="trailing" counter-suffix=" files"></aegov-progress></div>
+            <div class="prop-item"><span class="prop-attr">counter-suffix=" files"</span><aegov-progress value="40" counter="trailing" counter-suffix=" files" label="Files uploaded"></aegov-progress></div>
           </div>
         </div>
       </div>
@@ -2050,7 +2051,7 @@
                 <span class="prop-attr">field-id="prog-a11y-demo"</span>
                 <div>
                   <label for="prog-a11y-demo" style="display:block;font-size:0.75rem;font-weight:500;margin-bottom:0.25rem">Document upload</label>
-                  <aegov-progress field-id="prog-a11y-demo" value="45" counter="trailing"></aegov-progress>
+                  <aegov-progress field-id="prog-a11y-demo" value="45" counter="trailing" label="Document upload"></aegov-progress>
                 </div>
               </div>
             </div>
@@ -2100,7 +2101,7 @@
             <div class="preview-box">
               <div>
                 <label for="prog-combo-storage" style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.5rem">Storage used</label>
-                <aegov-progress field-id="prog-combo-storage" value="320" max="500" description="320 MB of 500 MB used — 180 MB remaining." counter="trailing" counter-suffix=" MB" height="3"></aegov-progress>
+                <aegov-progress field-id="prog-combo-storage" value="320" max="500" description="320 MB of 500 MB used — 180 MB remaining." counter="trailing" counter-suffix=" MB" height="3" label="Storage used"></aegov-progress>
               </div>
             </div>
           </div>
@@ -11264,7 +11265,7 @@
       d.addEventListener('aegovDrawerEscapePress',   e  => console.log('escapePress'));
       </script>
       <script>
-      document.getElementById('btn-toggle').addEventListener('aegovButtonClick', () => {
+      document.getElementById('btn-drawer-right').addEventListener('aegovButtonClick', () => {
         document.querySelector('[field-id="drawer-right"]').toggle();
       });
       </script>
@@ -11282,18 +11283,9 @@
         .drawer-container--unpinned.drawer-size-base → @apply top-2 right-2 bottom-2; @apply rounded-xl
         .drawer-container--unpinned.drawer-size-lg  → @apply top-3 right-3 bottom-3; @apply rounded-2xl
       -->
-      <aegov-drawer field-id="d-unpin-sm"   size="sm"   is-pinned="false" ...></aegov-drawer>
-      <aegov-drawer field-id="d-unpin-base" size="base" is-pinned="false" ...></aegov-drawer>
-      <aegov-drawer field-id="d-unpin-lg"   size="lg"   is-pinned="false" ...></aegov-drawer>
-      <script>
-      document.querySelector('[field-id="drawer-guard"]')
-        .addEventListener('aegovDrawerBeforeClose', (e) => {
-          if (formIsDirty) {
-            e.detail.preventDefault(); // cancels the close
-            showConfirmPanel();
-          }
-        });
-      </script>
+      <aegov-drawer field-id="d-unpin-sm"   size="sm"   is-pinned="false" label="Small unpinned drawer"></aegov-drawer>
+      <aegov-drawer field-id="d-unpin-base" size="base" is-pinned="false" label="Base unpinned drawer"></aegov-drawer>
+      <aegov-drawer field-id="d-unpin-lg"   size="lg"   is-pinned="false" label="Large unpinned drawer"></aegov-drawer>
       <aegov-drawer field-id="drawer-top-sm"     position="top"    size="sm"   is-pinned="false" is-overlay is-close-with-overlay label="Top sm">...</aegov-drawer>
       <aegov-drawer field-id="drawer-bottom-lg"  position="bottom" size="lg"   is-pinned="false" is-overlay is-close-with-overlay label="Bottom lg">...</aegov-drawer>
 
@@ -18880,7 +18872,7 @@
             <span class="prop-attr">aegov-progress — label links via fieldId</span>
             <aegov-form-field>
               <aegov-label>Application Progress</aegov-label>
-              <aegov-progress value="65" counter="trailing" counter-suffix="%"></aegov-progress>
+              <aegov-progress value="65" counter="trailing" counter-suffix="%" label="Application Progress"></aegov-progress>
             </aegov-form-field>
           </div>
           <div class="prop-item">
