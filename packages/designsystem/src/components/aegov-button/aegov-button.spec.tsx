@@ -1,4 +1,4 @@
-import { newSpecPage } from '@stencil/core/testing';
+import { newSpecPage, SpecPage } from '@stencil/core/testing';
 import { AegovButton } from './aegov-button';
 
 /**
@@ -6,7 +6,7 @@ import { AegovButton } from './aegov-button';
  * Queries must go through `page.root.shadowRoot` — `page.root.querySelector('button')`
  * returns null.
  */
-const inner = (page: { root: HTMLElement }): HTMLButtonElement =>
+const inner = (page: SpecPage): HTMLButtonElement =>
   page.root.shadowRoot.querySelector('button');
 
 describe('aegov-button', () => {
