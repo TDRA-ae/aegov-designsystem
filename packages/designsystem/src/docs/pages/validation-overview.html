@@ -333,7 +333,7 @@ data.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x
 <ul>
 <li><strong><code>aria-invalid</code></strong> is set on the inner control whenever <code>is-invalid</code> is true, and removed when it is not.</li>
 <li><strong><code>aria-describedby</code> is composed, not overwritten.</strong> The component chains its own hint and error region IDs onto whatever IDs you supplied, plus any internal ones such as the textarea character counter. Your value is preserved.</li>
-<li><strong>The error region is announced once, at the right time.</strong> <code>role=&quot;alert&quot;</code> and <code>aria-live=&quot;polite&quot;</code> on the error region are gated behind the field&#39;s first blur. Without that gate, a screen reader would announce a partial error on every keystroke as the user types. The gate lifts on first focus loss, or immediately on submit.</li>
+<li><strong>The error region is announced once, at the right time.</strong> The error region gains <code>role=&quot;alert&quot;</code> only after the field&#39;s first blur — which carries live-region semantics, so the message is announced when it appears. Without that gate, a screen reader would announce a partial error on every keystroke as the user types. The gate lifts on first focus loss, or immediately on submit. No explicit <code>aria-live</code> is set: <code>role=&quot;alert&quot;</code> already implies an assertive live region, and overriding it with <code>aria-live=&quot;polite&quot;</code> produces inconsistent behaviour across screen readers.</li>
 <li><strong>The <code>is-invalid</code> class</strong> is added to the host element so you can hook your own styling to invalid state without watching the property.</li>
 </ul>
 <h3>Developer responsibilities</h3>

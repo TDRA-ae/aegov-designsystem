@@ -192,7 +192,7 @@ describe('aegov-select', () => {
       });
       (page.root.querySelector('button[role="combobox"]') as HTMLButtonElement).click();
       await page.waitForChanges();
-      const search = page.root.querySelector('input[role="searchbox"]') as HTMLInputElement;
+      const search = page.root.querySelector('.select__search-input') as HTMLInputElement;
       expect(search).not.toBeNull();
       search.value = 'an';
       search.dispatchEvent(new Event('input'));
@@ -211,7 +211,7 @@ describe('aegov-select', () => {
       });
       (page.root.querySelector('button[role="combobox"]') as HTMLButtonElement).click();
       await page.waitForChanges();
-      const search = page.root.querySelector('input[role="searchbox"]') as HTMLInputElement;
+      const search = page.root.querySelector('.select__search-input') as HTMLInputElement;
       search.value = 'zzz';
       search.dispatchEvent(new Event('input'));
       await page.waitForChanges();

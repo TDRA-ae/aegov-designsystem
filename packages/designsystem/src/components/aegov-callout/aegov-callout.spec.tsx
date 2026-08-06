@@ -13,7 +13,9 @@ describe('aegov-callout', () => {
     expect(root.className).toContain('callout-default');
     expect(root.className).toContain('callout-soft');
     expect(root.className).toContain('callout-base');
-    expect(root.getAttribute('role')).toBe('alert');
+    // Live-region politeness is derived from variant: error/warning are assertive
+    // (role="alert"), everything else polite (role="status").
+    expect(root.getAttribute('role')).toBe('status');
   });
 
   it('auto-generates fieldId', async () => {

@@ -43,13 +43,15 @@ describe('aegov-tab', () => {
     expect(tabBtn(page.root).getAttribute('tabindex')).toBe('-1');
   });
 
-  it('disabled state reflects via disabled attr and aria-disabled', async () => {
+  it('disabled state reflects via aria-disabled', async () => {
     const page = await newSpecPage({
       components: COMPONENTS,
       html: wrap(`<aegov-tab tab-id="one" is-disabled="true">Label</aegov-tab>`, 'default-open="__none__"'),
     });
     const btn = tabBtn(page.root);
-    expect(btn.hasAttribute('disabled')).toBe(true);
+    // Native `disabled` is deliberately not used: the ARIA tabs pattern keeps a disabled
+    // tab focusable so it stays discoverable in the roving tabindex.
+    expect(btn.hasAttribute('disabled')).toBe(false);
     expect(btn.getAttribute('aria-disabled')).toBe('true');
     expect(btn.className).toContain('tab__btn--disabled');
   });
@@ -115,12 +117,16 @@ describe('aegov-tab', () => {
     expect(page.root.querySelector('svg[slot="icon-end"]')).toBeTruthy();
   });
 
-  it('throws when used outside aegov-tabs', async () => {
-    await expect(
-      newSpecPage({
-        components: [AegovTab],
-        html: `<aegov-tab tab-id="x">Label</aegov-tab>`,
-      }),
-    ).rejects.toThrow('must be used inside <aegov-tabs>');
+  it('logs an error when used outside aegov-tabs', async () => {
+    const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+    // Renders rather than throwing, so one misplaced tab cannot take down the page.
+    await newSpecPage({
+      components: [AegovTab],
+      html: `<aegov-tab tab-id="x">Label</aegov-tab>`,
+    });
+    expect(error).toHaveBeenCalledWith(
+      expect.stringMatching(/must be used inside <aegov-tabs>/),
+    );
+    error.mockRestore();
   });
 });

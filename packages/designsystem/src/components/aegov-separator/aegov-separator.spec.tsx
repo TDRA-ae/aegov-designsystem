@@ -10,7 +10,9 @@ describe('aegov-separator', () => {
     const hr = page.root.querySelector('hr');
     expect(hr).toBeTruthy();
     expect(hr.getAttribute('role')).toBe('presentation');
-    expect(hr.getAttribute('aria-orientation')).toBe('horizontal');
+    // aria-orientation is only valid on role="separator", so it is deliberately omitted
+    // on a decorative separator.
+    expect(hr.getAttribute('aria-orientation')).toBeNull();
   });
 
   it('renders with role="separator" when isDecorative is false', async () => {
@@ -50,7 +52,8 @@ describe('aegov-separator', () => {
     });
     const hr = page.root.querySelector('hr');
     expect(hr.classList.contains('separator--vertical')).toBe(true);
-    expect(hr.getAttribute('aria-orientation')).toBe('vertical');
+    // Decorative by default, so no aria-orientation — see the default-render test.
+    expect(hr.getAttribute('aria-orientation')).toBeNull();
   });
 
   it('applies appearance class', async () => {

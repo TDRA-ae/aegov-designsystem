@@ -27,7 +27,9 @@ describe('aegov-tooltip', () => {
     const tip = page.root.querySelector('.aegov-tooltip') as HTMLElement;
     expect(tip).not.toBeNull();
     expect(tip.getAttribute('role')).toBe('tooltip');
-    expect(tip.style.display).toBe('none');
+    // Hidden with visibility rather than display, so the bubble keeps its measured size
+    // for positioning while out of view.
+    expect(tip.style.visibility).toBe('hidden');
   });
 
   it('detects tooltip-content slot', async () => {
@@ -64,7 +66,7 @@ describe('aegov-tooltip', () => {
     page.rootInstance.isVisible = true;
     await page.waitForChanges();
     const tip = page.root.querySelector('.aegov-tooltip') as HTMLElement;
-    expect(tip.style.display).toBe('block');
+    expect(tip.style.visibility).not.toBe('hidden');
   });
 
   it('aria-describedby populates when visible', async () => {
@@ -74,23 +76,25 @@ describe('aegov-tooltip', () => {
     });
     page.rootInstance.isVisible = true;
     await page.waitForChanges();
-    const trigger = page.root.querySelector('.aegov-tooltip-trigger');
+    // aria-describedby is applied to the slotted trigger element — the thing that actually
+    // receives focus — not to the wrapper div.
+    const slottedTrigger = page.root.querySelector('.aegov-tooltip-trigger button');
     const tip = page.root.querySelector('.aegov-tooltip');
-    expect(trigger.getAttribute('aria-describedby')).toBe(tip.id);
+    expect(slottedTrigger.getAttribute('aria-describedby')).toBe(tip.id);
   });
 
-  it('aria-expanded is set only for click trigger', async () => {
-    const click = await newSpecPage({
-      components: [AegovTooltip],
-      html: `<aegov-tooltip trigger="click" content="x"><button>t</button></aegov-tooltip>`,
-    });
-    expect(click.root.querySelector('.aegov-tooltip-trigger').getAttribute('aria-expanded')).toBe('false');
-
-    const hover = await newSpecPage({
-      components: [AegovTooltip],
-      html: `<aegov-tooltip trigger="hover" content="x"><button>t</button></aegov-tooltip>`,
-    });
-    expect(hover.root.querySelector('.aegov-tooltip-trigger').getAttribute('aria-expanded')).toBeNull();
+  it('does not use aria-expanded for either trigger mode', async () => {
+    // A tooltip is a description, not a disclosure: the content is linked with
+    // aria-describedby and is therefore always available to assistive technology,
+    // so no expanded/collapsed state is exposed.
+    for (const trigger of ['click', 'hover']) {
+      const page = await newSpecPage({
+        components: [AegovTooltip],
+        html: `<aegov-tooltip trigger="${trigger}" content="x"><button>t</button></aegov-tooltip>`,
+      });
+      expect(page.root.querySelector('.aegov-tooltip-trigger').getAttribute('aria-expanded')).toBeNull();
+      expect(page.root.querySelector('.aegov-tooltip-trigger button').getAttribute('aria-expanded')).toBeNull();
+    }
   });
 
   it('disabled tooltip does not show via showTooltip', async () => {
