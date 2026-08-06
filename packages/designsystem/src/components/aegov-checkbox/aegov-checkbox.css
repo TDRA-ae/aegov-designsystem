@@ -405,5 +405,13 @@
 /* ============================
    RTL support
    flex-direction: row with inherited direction:rtl already places the input on
-   the inline-start (right) and the label on the inline-end (left) — no override needed.
+   the inline-start (right) and the label on the inline-end (left) — no layout
+   override needed. However the hover halo ::before uses inset-inline-start: 50%
+   (which maps to `right: 50%` in RTL) combined with translateX(-50%) — that
+   pair de-centres the halo in RTL. Flip the X translation to +50% in RTL.
+   [dir="rtl"] cannot pierce shadow DOM; use :host-context() and :host(:dir()).
    ============================ */
+:host-context([dir="rtl"]) input[type="checkbox"]::before,
+:host(:dir(rtl)) input[type="checkbox"]::before {
+  --tw-translate-x: 50%;
+}
