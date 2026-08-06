@@ -10,7 +10,7 @@ describe('aegov-title', () => {
     expect(page.root).toBeTruthy();
     const p = page.root.querySelector('p');
     expect(p).toBeTruthy();
-    expect(p.classList.contains('text-lg!')).toBe(true);
+    expect(p.classList.contains('text-base!')).toBe(true);
   });
 
   it('auto-generates a fieldId when none provided', async () => {
@@ -46,7 +46,7 @@ describe('aegov-title', () => {
       components: [AegovTitle],
       html: `<aegov-title size="sm">x</aegov-title>`,
     });
-    expect(page.root.querySelector('p').classList.contains('text-base!')).toBe(true);
+    expect(page.root.querySelector('p').classList.contains('text-sm!')).toBe(true);
   });
 
   it('applies size="2xl" class', async () => {
@@ -54,7 +54,7 @@ describe('aegov-title', () => {
       components: [AegovTitle],
       html: `<aegov-title size="2xl">x</aegov-title>`,
     });
-    expect(page.root.querySelector('p').classList.contains('text-3xl!')).toBe(true);
+    expect(page.root.querySelector('p').classList.contains('text-2xl!')).toBe(true);
   });
 
   it('appends extraClass to the rendered tag', async () => {
@@ -90,6 +90,6 @@ describe('aegov-title', () => {
     });
     page.rootInstance.size = 'xl';
     await page.waitForChanges();
-    expect(page.root.querySelector('p').classList.contains('text-2xl!')).toBe(true);
+    expect(page.root.querySelector('p').classList.contains('text-xl!')).toBe(true);
   });
 });

@@ -487,7 +487,7 @@ The components already do this for you — do not re-implement it:
 
 - `aria-invalid` on the inner control, driven by `is-invalid`.
 - `aria-describedby` composed so your own IDs survive alongside the hint and error region IDs.
-- The error region's `role="alert"` / `aria-live="polite"` gated behind first blur, so nothing is announced mid-typing.
+- The error region's `role="alert"` gated behind first blur, so nothing is announced mid-typing.
 - An `is-invalid` class on the host for your own styling hooks.
 
 ### Your responsibilities

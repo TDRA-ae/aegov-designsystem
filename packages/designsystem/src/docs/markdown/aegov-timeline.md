@@ -342,7 +342,7 @@ None.
 
 ### Built-in behaviour
 
-- The timeline renders as a navigation region with an accessible label, and the steps as a list — so a screen reader announces how many steps there are and which one is being read.
+- The timeline renders a `<section>` with an accessible label — a landmark region — containing the steps as an ordered list, so a screen reader announces how many steps there are and which one is being read.
 - Connectors, spacers and the completed checkmark are all marked `aria-hidden="true"`. They are visual scaffolding; the status is carried by the step's own content.
 - The parent supplies each step its index and the total, so the connector logic never depends on you counting correctly.
 - Layout uses logical properties, so both orientations mirror under `dir="rtl"`.

@@ -428,7 +428,7 @@
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The timeline renders as a navigation region with an accessible label, and the steps as a list — so a screen reader announces how many steps there are and which one is being read.</li>
+<li>The timeline renders a <code>&lt;section&gt;</code> with an accessible label — a landmark region — containing the steps as an ordered list, so a screen reader announces how many steps there are and which one is being read.</li>
 <li>Connectors, spacers and the completed checkmark are all marked <code>aria-hidden=&quot;true&quot;</code>. They are visual scaffolding; the status is carried by the step&#39;s own content.</li>
 <li>The parent supplies each step its index and the total, so the connector logic never depends on you counting correctly.</li>
 <li>Layout uses logical properties, so both orientations mirror under <code>dir=&quot;rtl&quot;</code>.</li>
