@@ -206,17 +206,12 @@ Note that `Escape` always closes the modal, even with `is-close-with-overlay="fa
 </script>
 ```
 
-**This differs from [Drawer](aegov-drawer.html).** The drawer's equivalent event is not cancellable; it passes a `preventDefault` function in `event.detail` instead:
+[Drawer](aegov-drawer.html) uses the same contract, so a handler works unchanged on either:
 
 ```js
-// Modal
 modal.addEventListener('aegovModalBeforeClose', (e) => e.preventDefault());
-
-// Drawer — note event.detail
-drawer.addEventListener('aegovDrawerBeforeClose', (e) => e.detail.preventDefault());
+drawer.addEventListener('aegovDrawerBeforeClose', (e) => e.preventDefault());
 ```
-
-Copying the handler from one to the other fails silently, so check which component you are on.
 
 Use this sparingly. A modal that refuses to close is a trap unless the user is given a clear, immediate way out.
 

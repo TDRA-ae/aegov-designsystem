@@ -143,11 +143,8 @@ export class AegovDatepicker {
   /** Comma-separated preset IDs for range mode (e.g., "today,last7Days,thisMonth") */
   @Prop() presets: string = '';
 
-  /**
-   * Whether the datepicker is disabled.
-   * Reflected as `is-disabled` so `aegov-form-field` can dim the associated label via CSS.
-   */
-  @Prop({ reflect: true }) isDisabled: boolean = false;
+  /** Whether the datepicker is disabled */
+  @Prop() isDisabled: boolean = false;
 
   /** Marks the datepicker as required for form validation. Sets `required` on the inner input. */
   @Prop() isRequired: boolean = false;

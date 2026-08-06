@@ -117,9 +117,10 @@ export class AegovDrawer {
   @Event() aegovDrawerClose: EventEmitter<void>;
 
   /**
-   * Emitted before drawer closes (cancellable)
+   * Emitted before the drawer closes. Cancel by calling `preventDefault()` on the
+   * event itself — matching `aegovModalBeforeClose`.
    */
-  @Event() aegovDrawerBeforeClose: EventEmitter<{ preventDefault: () => void }>;
+  @Event({ cancelable: true }) aegovDrawerBeforeClose: EventEmitter<void>;
 
   /**
    * Emitted when backdrop is clicked
@@ -255,16 +256,9 @@ export class AegovDrawer {
   }
 
   private handleClose() {
-    // Emit before close event (cancellable)
-    let cancelled = false;
-    const event = {
-      preventDefault: () => {
-        cancelled = true;
-      },
-    };
-    this.aegovDrawerBeforeClose.emit(event);
-
-    if (cancelled) {
+    // Emit cancellable before-close event; consumer calls event.preventDefault() to cancel
+    const beforeClose = this.aegovDrawerBeforeClose.emit();
+    if (beforeClose.defaultPrevented) {
       return;
     }
 

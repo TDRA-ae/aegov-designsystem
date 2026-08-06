@@ -83,7 +83,7 @@ describe('aegov-drawer (e2e)', () => {
     await page.setContent('<aegov-drawer is-open="true"></aegov-drawer>');
     await page.evaluate(() => {
       const d = document.querySelector('aegov-drawer') as HTMLElement;
-      d.addEventListener('aegovDrawerBeforeClose', (e: any) => e.detail.preventDefault());
+      d.addEventListener('aegovDrawerBeforeClose', (e: Event) => e.preventDefault());
     });
     const el = await page.find('aegov-drawer');
     const closeSpy = await el.spyOnEvent('aegovDrawerClose');
