@@ -9,11 +9,11 @@ describe('aegov-input (e2e)', () => {
     expect(input).toHaveClass('aegov-input');
   });
 
-  it('typing fires aegovInputInput', async () => {
+  it('typing fires aegovInputValue', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-input></aegov-input>');
     const host = await page.find('aegov-input');
-    const spy = await host.spyOnEvent('aegovInputInput');
+    const spy = await host.spyOnEvent('aegovInputValue');
     const input = await page.find('aegov-input input');
     await input.press('a');
     await page.waitForChanges();

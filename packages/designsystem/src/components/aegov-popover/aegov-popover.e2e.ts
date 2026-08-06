@@ -6,8 +6,10 @@ describe('aegov-popover (e2e)', () => {
     await page.setContent('<aegov-popover><button>Open</button></aegov-popover>');
     const trigger = await page.find('aegov-popover .aegov-popover-trigger');
     expect(trigger).not.toBeNull();
-    expect(trigger.getAttribute('aria-haspopup')).toBe('dialog');
-    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    // Per WCAG 4.1.2 the state goes on the focusable child, not the wrapper.
+    const inner = await page.find('aegov-popover .aegov-popover-trigger button');
+    expect(inner.getAttribute('aria-haspopup')).toBe('dialog');
+    expect(inner.getAttribute('aria-expanded')).toBe('false');
   });
 
   it('opens portal content on trigger click', async () => {
@@ -55,8 +57,8 @@ describe('aegov-popover (e2e)', () => {
     const triggerBtn = await page.find('aegov-popover button');
     await triggerBtn.click();
     await page.waitForChanges();
-    const trigger = await page.find('aegov-popover .aegov-popover-trigger');
-    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    const inner = await page.find('aegov-popover .aegov-popover-trigger button');
+    expect(inner.getAttribute('aria-expanded')).toBe('true');
   });
 
   it('Escape closes the popover', async () => {

@@ -107,7 +107,7 @@ describe('aegov-datepicker (e2e)', () => {
     await page.waitForChanges();
 
     await page.evaluate(() => {
-      const next = document.querySelector('.aegov-datepicker-portal button[aria-label="Next month"]') as HTMLButtonElement;
+      const next = document.querySelector('.aegov-datepicker-portal button[aria-label^="Next month"]') as HTMLButtonElement;
       next?.click();
     });
     await page.waitForChanges();
