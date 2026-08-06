@@ -55,11 +55,8 @@ export class AegovOtp {
   /** Regex pattern string for validation. Checked when all cells are filled. */
   @Prop() pattern?: string;
 
-  /**
-   * Disables all input cells.
-   * Reflected as `is-disabled` so `aegov-form-field` can dim the associated label via CSS.
-   */
-  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
+  /** Disables all input cells. */
+  @Prop({ mutable: true }) isDisabled: boolean = false;
 
   /** Marks the field as required for form submission. Used by FormAssociated for `valueMissing`. */
   @Prop() isRequired: boolean = false;

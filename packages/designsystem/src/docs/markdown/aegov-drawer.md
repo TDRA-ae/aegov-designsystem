@@ -190,28 +190,29 @@ await drawer.toggle();
 
 ### Preventing close
 
-`aegovDrawerBeforeClose` carries a `preventDefault` function **in its detail**:
+`aegovDrawerBeforeClose` is a **cancellable event**. Call `preventDefault()` on the event to keep the drawer open.
 
 ```js
 drawer.addEventListener('aegovDrawerBeforeClose', (e) => {
   if (hasUnsavedChanges()) {
-    e.detail.preventDefault();          // note: on the detail, not the event
+    e.preventDefault();
     window.aegovToast.show({ message: 'Save or discard your changes first', variant: 'warning' });
   }
 });
 ```
 
-**This differs from [Modal](aegov-modal.html)**, whose equivalent event is cancellable in the normal DOM way:
+This is the same contract as [Modal](aegov-modal.html), so a handler works unchanged on either:
 
 ```js
-// Drawer — cancel via the detail
-drawer.addEventListener('aegovDrawerBeforeClose', (e) => e.detail.preventDefault());
-
-// Modal — cancel on the event
+drawer.addEventListener('aegovDrawerBeforeClose', (e) => e.preventDefault());
 modal.addEventListener('aegovModalBeforeClose', (e) => e.preventDefault());
 ```
 
-Copying a handler from one to the other fails silently. Check which component you are on.
+> **Changed:** this event previously carried a `preventDefault` function in `event.detail`,
+> and cancelling required `e.detail.preventDefault()`. It is now a standard cancellable
+> event. Update any handler using the old form — `e.detail` is no longer an object.
+
+Use this sparingly. A drawer that refuses to close is a trap unless the user is given a clear, immediate way out.
 
 ---
 
@@ -352,7 +353,7 @@ Because the drawer relocates itself to `document.body`, **set `dir` on `<html>`*
 | --- | --- | --- |
 | `aegovDrawerOpen` | `void` | The drawer opened. |
 | `aegovDrawerClose` | `void` | The drawer closed. |
-| `aegovDrawerBeforeClose` | `{ preventDefault: () => void }` | Cancel by calling `event.detail.preventDefault()` — **not** `event.preventDefault()`. |
+| `aegovDrawerBeforeClose` | `void` | **Cancellable.** Call `preventDefault()` on the event to keep the drawer open. |
 | `aegovDrawerBackdropClick` | `MouseEvent` | The overlay was clicked. |
 | `aegovDrawerEscapePress` | `KeyboardEvent` | `Escape` was pressed. |
 
@@ -405,7 +406,7 @@ The drawer uses **shadow DOM**.
 - **Pair `is-overlay="false"` with `is-prevent-scroll="false"`.** A visible but unscrollable page reads as broken.
 - **Do not expect a non-modal drawer.** Even without an overlay the drawer is `aria-modal` and traps focus; if the user must be able to tab out to the page, build an inline panel instead.
 - **Respect reduced motion globally.** `animation="none"` is a per-instance setting, not a `prefers-reduced-motion` implementation.
-- **Cancel closing only with an explanation.** If you call `event.detail.preventDefault()`, say why immediately.
+- **Cancel closing only with an explanation.** If you call `event.preventDefault()`, say why immediately.
 - **Keep the trigger's state honest.** If the drawer is a filter panel, reflect the active filter count on the trigger so its effect is visible once closed.
 
 ### Keyboard support

@@ -56,11 +56,8 @@ export class AegovInput {
   @State() private _resolvedSize: InputSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
-  /**
-   * Whether the input is disabled.
-   * Reflected as `is-disabled` so `aegov-form-field` can dim the associated label via CSS.
-   */
-  @Prop({ reflect: true }) isDisabled: boolean = false;
+  /** Whether the input is disabled. */
+  @Prop() isDisabled: boolean = false;
 
   /** Whether the input is readonly. */
   @Prop() isReadonly: boolean = false;

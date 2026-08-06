@@ -155,4 +155,54 @@ describe('aegov-drawer', () => {
     await page.rootInstance.close();
     expect(spy).toHaveBeenCalled();
   });
+
+  /**
+   * aegovDrawerBeforeClose must stay a cancellable event cancelled via
+   * `event.preventDefault()`, matching aegovModalBeforeClose. It previously passed a
+   * `preventDefault` closure in `event.detail`, which meant a handler written for the
+   * modal silently failed to cancel here — losing the unsaved-changes guard.
+   */
+  describe('aegovDrawerBeforeClose cancellation', () => {
+    it('is a cancelable event', async () => {
+      const page = await newSpecPage({
+        components: [AegovDrawer],
+        html: `<aegov-drawer is-open="true"></aegov-drawer>`,
+      });
+
+      let received: Event | undefined;
+      page.root.addEventListener('aegovDrawerBeforeClose', (e: Event) => { received = e; });
+      await page.rootInstance.close();
+
+      expect(received).toBeDefined();
+      expect(received!.cancelable).toBe(true);
+      // The old contract put a preventDefault closure on the detail; it must not come back.
+      expect((received as CustomEvent).detail?.preventDefault).toBeUndefined();
+    });
+
+    it('preventDefault() on the event cancels the close', async () => {
+      const page = await newSpecPage({
+        components: [AegovDrawer],
+        html: `<aegov-drawer is-open="true"></aegov-drawer>`,
+      });
+
+      page.root.addEventListener('aegovDrawerBeforeClose', (e: Event) => e.preventDefault());
+      await page.rootInstance.close();
+      await page.waitForChanges();
+
+      expect(page.rootInstance.isOpen).toBe(true);
+    });
+
+    it('closes normally when the event is not cancelled', async () => {
+      const page = await newSpecPage({
+        components: [AegovDrawer],
+        html: `<aegov-drawer is-open="true"></aegov-drawer>`,
+      });
+
+      page.root.addEventListener('aegovDrawerBeforeClose', () => { /* allow */ });
+      await page.rootInstance.close();
+      await page.waitForChanges();
+
+      expect(page.rootInstance.isOpen).toBe(false);
+    });
+  });
 });

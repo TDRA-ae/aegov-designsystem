@@ -693,7 +693,7 @@ export namespace Components {
          */
         "isDisableFuture": boolean;
         /**
-          * Whether the datepicker is disabled. Reflected as `is-disabled` so `aegov-form-field` can dim the associated label via CSS.
+          * Whether the datepicker is disabled
           * @default false
          */
         "isDisabled": boolean;
@@ -1134,7 +1134,7 @@ export namespace Components {
          */
         "isCopyable": boolean;
         /**
-          * Whether the input is disabled. Reflected as `is-disabled` so `aegov-form-field` can dim the associated label via CSS.
+          * Whether the input is disabled.
           * @default false
          */
         "isDisabled": boolean;
@@ -1587,7 +1587,7 @@ export namespace Components {
          */
         "isAlphanumeric": boolean;
         /**
-          * Disables all input cells. Reflected as `is-disabled` so `aegov-form-field` can dim the associated label via CSS.
+          * Disables all input cells.
           * @default false
          */
         "isDisabled": boolean;
@@ -2072,7 +2072,7 @@ export namespace Components {
          */
         "isClearable": boolean;
         /**
-          * Whether the select is disabled. Reflected as `is-disabled` so `aegov-form-field` can dim the associated label via CSS.
+          * Whether the select is disabled.
           * @default false
          */
         "isDisabled": boolean;
@@ -2342,7 +2342,7 @@ export namespace Components {
          */
         "isCopyable": boolean;
         /**
-          * Whether the textarea is disabled. Reflected as `is-disabled` so `aegov-form-field` can dim the associated label via CSS.
+          * Whether the textarea is disabled.
           * @default false
          */
         "isDisabled": boolean;
@@ -3017,7 +3017,7 @@ declare global {
     interface HTMLAegovDrawerElementEventMap {
         "aegovDrawerOpen": void;
         "aegovDrawerClose": void;
-        "aegovDrawerBeforeClose": { preventDefault: () => void };
+        "aegovDrawerBeforeClose": void;
         "aegovDrawerBackdropClick": MouseEvent;
         "aegovDrawerEscapePress": KeyboardEvent;
     }
@@ -4354,7 +4354,7 @@ declare namespace LocalJSX {
          */
         "isDisableFuture"?: boolean;
         /**
-          * Whether the datepicker is disabled. Reflected as `is-disabled` so `aegov-form-field` can dim the associated label via CSS.
+          * Whether the datepicker is disabled
           * @default false
          */
         "isDisabled"?: boolean;
@@ -4516,9 +4516,9 @@ declare namespace LocalJSX {
          */
         "onAegovDrawerBackdropClick"?: (event: AegovDrawerCustomEvent<MouseEvent>) => void;
         /**
-          * Emitted before drawer closes (cancellable)
+          * Emitted before the drawer closes. Cancel by calling `preventDefault()` on the event itself — matching `aegovModalBeforeClose`.
          */
-        "onAegovDrawerBeforeClose"?: (event: AegovDrawerCustomEvent<{ preventDefault: () => void }>) => void;
+        "onAegovDrawerBeforeClose"?: (event: AegovDrawerCustomEvent<void>) => void;
         /**
           * Emitted when drawer is closed
          */
@@ -4806,7 +4806,7 @@ declare namespace LocalJSX {
          */
         "isCopyable"?: boolean;
         /**
-          * Whether the input is disabled. Reflected as `is-disabled` so `aegov-form-field` can dim the associated label via CSS.
+          * Whether the input is disabled.
           * @default false
          */
         "isDisabled"?: boolean;
@@ -5290,7 +5290,7 @@ declare namespace LocalJSX {
          */
         "isAlphanumeric"?: boolean;
         /**
-          * Disables all input cells. Reflected as `is-disabled` so `aegov-form-field` can dim the associated label via CSS.
+          * Disables all input cells.
           * @default false
          */
         "isDisabled"?: boolean;
@@ -5802,7 +5802,7 @@ declare namespace LocalJSX {
          */
         "isClearable"?: boolean;
         /**
-          * Whether the select is disabled. Reflected as `is-disabled` so `aegov-form-field` can dim the associated label via CSS.
+          * Whether the select is disabled.
           * @default false
          */
         "isDisabled"?: boolean;
@@ -6090,7 +6090,7 @@ declare namespace LocalJSX {
          */
         "isCopyable"?: boolean;
         /**
-          * Whether the textarea is disabled. Reflected as `is-disabled` so `aegov-form-field` can dim the associated label via CSS.
+          * Whether the textarea is disabled.
           * @default false
          */
         "isDisabled"?: boolean;
