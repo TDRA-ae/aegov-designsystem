@@ -2,6 +2,14 @@
   @apply block;
 }
 
+:host([is-disabled]) {
+  cursor: not-allowed;
+}
+
+:host([is-disabled]) .aegov-otp {
+  @apply opacity-40 pointer-events-none;
+}
+
 .aegov-otp {
   @apply relative inline-block;
 }

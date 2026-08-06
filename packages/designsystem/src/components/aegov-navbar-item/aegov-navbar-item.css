@@ -73,12 +73,16 @@ button.aegov-navbar-item__chevron svg {
 }
 
 /* Disabled */
+:host(.is-disabled) {
+  cursor: not-allowed;
+}
+
 li.aegov-navbar-item--disabled {
-  @apply opacity-50 pointer-events-none;
+  @apply opacity-40;
 }
 
 li.aegov-navbar-item--disabled .aegov-navbar-item__link {
-  @apply cursor-not-allowed;
+  pointer-events: none;
 }
 
 /* ---- Sizes ---- */

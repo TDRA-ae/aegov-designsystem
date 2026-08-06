@@ -70,7 +70,11 @@
   }
 
   &.accordion-item--disabled {
-    @apply opacity-60;
+    @apply opacity-40 cursor-not-allowed;
+  }
+
+  &.accordion-item--disabled .accordion-item__header {
+    pointer-events: none;
   }
 
   & .accordion-item__content-wrapper {
