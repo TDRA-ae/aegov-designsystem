@@ -632,9 +632,13 @@ export const DRAWER_OVERLAY_OPACITIES = ['light', 'base', 'dark'] as const;
 export type DrawerOverlayOpacity = typeof DRAWER_OVERLAY_OPACITIES[number];
 
 /**
- * Drawer component size types (drive padding, plus gap + border-radius when unpinned). Mirrors aegov-card sizing tokens.
+ * Drawer component size types.
+ * Controls the panel width (left/right drawers) or height (top/bottom drawers) plus padding
+ * and, when unpinned, the edge gap and border-radius.
+ * xs=320px, sm=384px, base=480px, lg=640px, xl=800px, full=100vw/100dvh.
+ * On viewports <640px all left/right sizes collapse to full width.
  */
-export const DRAWER_SIZES = ['sm', 'base', 'lg'] as const;
+export const DRAWER_SIZES = ['xs', 'sm', 'base', 'lg', 'xl', 'full'] as const;
 export type DrawerSize = typeof DRAWER_SIZES[number];
 
 /**

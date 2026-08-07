@@ -124,42 +124,77 @@ The `position` property selects which edge the drawer slides from. `right` is th
 
 ## Sizes
 
-The `size` property controls inner padding and, when `is-pinned="false"`, the gap between the panel and the viewport edge plus the corner radius.
+The `size` property sets the panel **width** for left/right drawers and **height** for top/bottom drawers. It also scales the inner padding and, when `is-pinned="false"`, the edge gap and corner radius.
+
+| Size | Width (left/right) | Height (top/bottom) | Padding | Typical use |
+| ---- | ------------------ | ------------------- | ------- | ----------- |
+| `xs` | 320px | 25vh | p-3 | Notification strip, icon sidebar |
+| `sm` | 384px | 40vh | p-4 | Filter panel, narrow navigation |
+| `base` | 480px _(default)_ | 50vh | p-5 | Settings panel, detail view |
+| `lg` | 640px | 66vh | p-6 | Multi-field form, data table |
+| `xl` | 800px | 85vh | p-8 | Wide wizard, rich detail panel |
+| `full` | 100vw | 100dvh | p-8 | Full-screen takeover |
+
+> On viewports narrower than 640 px all left/right sizes collapse to full width automatically.
 
 ```html
-<aegov-drawer size="sm" is-open="true">…</aegov-drawer>
+<aegov-drawer size="xs"   is-open="true">…</aegov-drawer>
+<aegov-drawer size="sm"   is-open="true">…</aegov-drawer>
 <aegov-drawer size="base" is-open="true">…</aegov-drawer>
-<aegov-drawer size="lg" is-open="true">…</aegov-drawer>
+<aegov-drawer size="lg"   is-open="true">…</aegov-drawer>
+<aegov-drawer size="xl"   is-open="true">…</aegov-drawer>
+<aegov-drawer size="full" is-open="true">…</aegov-drawer>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-3">
-    <aegov-button id="demo-drawer-size-sm-btn">Small</aegov-button>
-    <aegov-button id="demo-drawer-size-base-btn">Base</aegov-button>
-    <aegov-button id="demo-drawer-size-lg-btn">Large</aegov-button>
+    <aegov-button id="demo-drawer-size-xs-btn">XS — 320px</aegov-button>
+    <aegov-button id="demo-drawer-size-sm-btn">SM — 384px</aegov-button>
+    <aegov-button id="demo-drawer-size-base-btn">Base — 480px</aegov-button>
+    <aegov-button id="demo-drawer-size-lg-btn">LG — 640px</aegov-button>
+    <aegov-button id="demo-drawer-size-xl-btn">XL — 800px</aegov-button>
+    <aegov-button id="demo-drawer-size-full-btn">Full — 100vw</aegov-button>
   </div>
 
-  <aegov-drawer id="demo-drawer-size-sm" size="sm" aria-label="Small drawer">
-    <h3 class="text-lg font-bold mb-2">Compact drawer</h3>
-    <p class="mb-6">Compact padding for short content.</p>
+  <aegov-drawer id="demo-drawer-size-xs" size="xs" aria-label="XS drawer">
+    <h3 class="text-base font-bold mb-2">XS drawer — 320px</h3>
+    <p class="mb-6">Compact strip for notifications, icon sidebars, and quick-action panels.</p>
+    <aegov-button id="demo-drawer-size-xs-close" size="sm">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-size-sm" size="sm" aria-label="SM drawer">
+    <h3 class="text-lg font-bold mb-2">SM drawer — 384px</h3>
+    <p class="mb-6">Narrow panel for filter sidebars and compact navigation.</p>
     <aegov-button id="demo-drawer-size-sm-close" size="sm">Close</aegov-button>
   </aegov-drawer>
 
   <aegov-drawer id="demo-drawer-size-base" size="base" aria-label="Base drawer">
-    <h3 class="text-xl font-bold mb-2">Standard drawer</h3>
-    <p class="mb-6">Default padding for most use cases.</p>
+    <h3 class="text-xl font-bold mb-2">Base drawer — 480px (default)</h3>
+    <p class="mb-6">Standard panel for settings panels and detail views.</p>
     <aegov-button id="demo-drawer-size-base-close">Close</aegov-button>
   </aegov-drawer>
 
-  <aegov-drawer id="demo-drawer-size-lg" size="lg" aria-label="Large drawer">
-    <h3 class="text-2xl font-bold mb-2">Spacious drawer</h3>
-    <p class="mb-6">Generous padding for long-form content like settings pages or rich detail views.</p>
+  <aegov-drawer id="demo-drawer-size-lg" size="lg" aria-label="LG drawer">
+    <h3 class="text-2xl font-bold mb-2">LG drawer — 640px</h3>
+    <p class="mb-6">Wide panel for multi-field forms and data tables.</p>
     <aegov-button id="demo-drawer-size-lg-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-size-xl" size="xl" aria-label="XL drawer">
+    <h3 class="text-2xl font-bold mb-2">XL drawer — 800px</h3>
+    <p class="mb-6">Extra-wide panel for complex wizards and rich detail views.</p>
+    <aegov-button id="demo-drawer-size-xl-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-size-full" size="full" aria-label="Full drawer">
+    <h3 class="text-2xl font-bold mb-2">Full drawer — 100vw</h3>
+    <p class="mb-6">Full-screen takeover for immersive workflows.</p>
+    <aegov-button id="demo-drawer-size-full-close">Close</aegov-button>
   </aegov-drawer>
 
   <script>
     (function() {
-      ['sm','base','lg'].forEach(s => {
+      ['xs','sm','base','lg','xl','full'].forEach(s => {
         const d = document.querySelector('#demo-drawer-size-' + s);
         document.querySelector('#demo-drawer-size-' + s + '-btn').addEventListener('click', () => d.show());
         document.querySelector('#demo-drawer-size-' + s + '-close').addEventListener('click', () => d.close());
@@ -496,7 +531,7 @@ The drawer is direction-agnostic. The `position` values are absolute viewport ed
 | `overlayOpacity`      | `overlay-opacity`        | Backdrop dim level (only applies when `is-overlay="true"`).                                       | `'light' \| 'base' \| 'dark'`              | `'base'`    |
 | `isCloseWithOverlay`  | `is-close-with-overlay`  | Close the drawer when the backdrop is clicked. Works even when `is-overlay="false"`.              | `boolean`                                  | `true`      |
 | `isPreventScroll`     | `is-prevent-scroll`      | Lock body scroll while the drawer is open.                                                        | `boolean`                                  | `true`      |
-| `size`                | `size`                   | Padding scale; also drives the gap and corner radius when `is-pinned="false"`.                    | `'sm' \| 'base' \| 'lg'`                   | `'base'`    |
+| `size`                | `size`                   | Panel width (left/right: 320–800px/100vw) or height (top/bottom: 25–85vh/100dvh). Also scales padding and, when `is-pinned="false"`, the edge gap and corner radius. | `'xs' \| 'sm' \| 'base' \| 'lg' \| 'xl' \| 'full'` | `'base'` |
 | `isPadding`           | `is-padding`             | Apply inner content padding. Turn off for full-bleed content.                                     | `boolean`                                  | `true`      |
 | `label`               | `label`                  | Accessible label for the drawer dialog. Prefer `aria-labelledby` pointing at a heading inside the drawer; use `label` only when no visible heading is present. | `string` | `undefined` |
 

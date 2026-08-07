@@ -86,87 +86,118 @@
 
 .drawer-container--right {
   @apply top-0 right-0 bottom-0;
-  width: auto;
   max-width: 100vw;
 }
 
 .drawer-container--left {
   @apply top-0 left-0 bottom-0;
-  width: auto;
   max-width: 100vw;
 }
 
 .drawer-container--top {
   @apply top-0 left-0 right-0;
-  height: auto;
-  max-height: 100vh;
+  max-height: 100dvh;
 }
 
 .drawer-container--bottom {
   @apply bottom-0 left-0 right-0;
-  height: auto;
-  max-height: 100vh;
+  max-height: 100dvh;
 }
+
+/* ============================================
+   Size: Width (left / right drawers)
+   xs=320px · sm=384px · base=480px
+   lg=640px · xl=800px · full=100vw
+   ============================================ */
+
+.drawer-container--left.drawer-size-xs,
+.drawer-container--right.drawer-size-xs  { @apply w-80; }
+
+.drawer-container--left.drawer-size-sm,
+.drawer-container--right.drawer-size-sm  { @apply w-96; }
+
+.drawer-container--left.drawer-size-base,
+.drawer-container--right.drawer-size-base { width: 30rem; }
+
+.drawer-container--left.drawer-size-lg,
+.drawer-container--right.drawer-size-lg  { width: 40rem; }
+
+.drawer-container--left.drawer-size-xl,
+.drawer-container--right.drawer-size-xl  { @apply w-200; }
+
+.drawer-container--left.drawer-size-full,
+.drawer-container--right.drawer-size-full { width: 100vw; }
+
+/* Mobile (<640px): all left/right drawers go full-width */
+@media (max-width: 639px) {
+  .drawer-container--left,
+  .drawer-container--right { width: 100vw; }
+}
+
+/* ============================================
+   Size: Height (top / bottom drawers)
+   xs=25vh · sm=40vh · base=50vh
+   lg=66vh · xl=85vh · full=100dvh
+   ============================================ */
+
+.drawer-container--top.drawer-size-xs,
+.drawer-container--bottom.drawer-size-xs  { height: 25vh; }
+
+.drawer-container--top.drawer-size-sm,
+.drawer-container--bottom.drawer-size-sm  { height: 40vh; }
+
+.drawer-container--top.drawer-size-base,
+.drawer-container--bottom.drawer-size-base { height: 50vh; }
+
+.drawer-container--top.drawer-size-lg,
+.drawer-container--bottom.drawer-size-lg  { height: 66vh; }
+
+.drawer-container--top.drawer-size-xl,
+.drawer-container--bottom.drawer-size-xl  { height: 85vh; }
+
+.drawer-container--top.drawer-size-full,
+.drawer-container--bottom.drawer-size-full { height: 100dvh; }
 
 /* ============================================
    Unpinned Mode (size-aware gap + rounded
    corners). Pinned mode keeps no border-radius
    regardless of size. Mirrors aegov-card sizing
    tokens for radius (sm=lg, base=xl, lg=2xl).
+   full size: no gap, no radius (full-screen).
    ============================================ */
 
 /* Border-radius (unpinned only) */
-.drawer-container--unpinned.drawer-size-sm {
-  @apply rounded-lg;
-}
+.drawer-container--unpinned.drawer-size-xs   { @apply rounded-md; }
+.drawer-container--unpinned.drawer-size-sm   { @apply rounded-lg; }
+.drawer-container--unpinned.drawer-size-base { @apply rounded-xl; }
+.drawer-container--unpinned.drawer-size-lg   { @apply rounded-2xl; }
+.drawer-container--unpinned.drawer-size-xl   { @apply rounded-3xl; }
 
-.drawer-container--unpinned.drawer-size-base {
-  @apply rounded-xl;
-}
+/* Edge gap (unpinned only) — xs=2px, sm=4px, base=8px, lg=12px, xl=16px */
+.drawer-container--unpinned.drawer-size-xs.drawer-container--right  { @apply top-0.5 right-0.5 bottom-0.5; }
+.drawer-container--unpinned.drawer-size-xs.drawer-container--left   { @apply top-0.5 left-0.5 bottom-0.5; }
+.drawer-container--unpinned.drawer-size-xs.drawer-container--top    { @apply top-0.5 left-0.5 right-0.5; }
+.drawer-container--unpinned.drawer-size-xs.drawer-container--bottom { @apply bottom-0.5 left-0.5 right-0.5; }
 
-.drawer-container--unpinned.drawer-size-lg {
-  @apply rounded-2xl;
-}
+.drawer-container--unpinned.drawer-size-sm.drawer-container--right  { @apply top-1 right-1 bottom-1; }
+.drawer-container--unpinned.drawer-size-sm.drawer-container--left   { @apply top-1 left-1 bottom-1; }
+.drawer-container--unpinned.drawer-size-sm.drawer-container--top    { @apply top-1 left-1 right-1; }
+.drawer-container--unpinned.drawer-size-sm.drawer-container--bottom { @apply bottom-1 left-1 right-1; }
 
-/* Edge gap (unpinned only) — sm=4px, base=8px, lg=12px */
-.drawer-container--unpinned.drawer-size-sm.drawer-container--right {
-  @apply top-1 right-1 bottom-1;
-}
-.drawer-container--unpinned.drawer-size-sm.drawer-container--left {
-  @apply top-1 left-1 bottom-1;
-}
-.drawer-container--unpinned.drawer-size-sm.drawer-container--top {
-  @apply top-1 left-1 right-1;
-}
-.drawer-container--unpinned.drawer-size-sm.drawer-container--bottom {
-  @apply bottom-1 left-1 right-1;
-}
+.drawer-container--unpinned.drawer-size-base.drawer-container--right  { @apply top-2 right-2 bottom-2; }
+.drawer-container--unpinned.drawer-size-base.drawer-container--left   { @apply top-2 left-2 bottom-2; }
+.drawer-container--unpinned.drawer-size-base.drawer-container--top    { @apply top-2 left-2 right-2; }
+.drawer-container--unpinned.drawer-size-base.drawer-container--bottom { @apply bottom-2 left-2 right-2; }
 
-.drawer-container--unpinned.drawer-size-base.drawer-container--right {
-  @apply top-2 right-2 bottom-2;
-}
-.drawer-container--unpinned.drawer-size-base.drawer-container--left {
-  @apply top-2 left-2 bottom-2;
-}
-.drawer-container--unpinned.drawer-size-base.drawer-container--top {
-  @apply top-2 left-2 right-2;
-}
-.drawer-container--unpinned.drawer-size-base.drawer-container--bottom {
-  @apply bottom-2 left-2 right-2;
-}
+.drawer-container--unpinned.drawer-size-lg.drawer-container--right  { @apply top-3 right-3 bottom-3; }
+.drawer-container--unpinned.drawer-size-lg.drawer-container--left   { @apply top-3 left-3 bottom-3; }
+.drawer-container--unpinned.drawer-size-lg.drawer-container--top    { @apply top-3 left-3 right-3; }
+.drawer-container--unpinned.drawer-size-lg.drawer-container--bottom { @apply bottom-3 left-3 right-3; }
 
-.drawer-container--unpinned.drawer-size-lg.drawer-container--right {
-  @apply top-3 right-3 bottom-3;
-}
-.drawer-container--unpinned.drawer-size-lg.drawer-container--left {
-  @apply top-3 left-3 bottom-3;
-}
-.drawer-container--unpinned.drawer-size-lg.drawer-container--top {
-  @apply top-3 left-3 right-3;
-}
-.drawer-container--unpinned.drawer-size-lg.drawer-container--bottom {
-  @apply bottom-3 left-3 right-3;
-}
+.drawer-container--unpinned.drawer-size-xl.drawer-container--right  { @apply top-4 right-4 bottom-4; }
+.drawer-container--unpinned.drawer-size-xl.drawer-container--left   { @apply top-4 left-4 bottom-4; }
+.drawer-container--unpinned.drawer-size-xl.drawer-container--top    { @apply top-4 left-4 right-4; }
+.drawer-container--unpinned.drawer-size-xl.drawer-container--bottom { @apply bottom-4 left-4 right-4; }
 
 /* ============================================
    Content
@@ -177,20 +208,15 @@
 }
 
 /* ============================================
-   PADDING (size-aware) — mirrors aegov-card
+   PADDING (size-aware) — mirrors aegov-card / aegov-modal
    ============================================ */
 
-.aegov-drawer-content.drawer-size-sm.drawer--padded {
-  @apply p-4;
-}
-
-.aegov-drawer-content.drawer-size-base.drawer--padded {
-  @apply p-5;
-}
-
-.aegov-drawer-content.drawer-size-lg.drawer--padded {
-  @apply p-6;
-}
+.aegov-drawer-content.drawer-size-xs.drawer--padded   { @apply p-3; }
+.aegov-drawer-content.drawer-size-sm.drawer--padded   { @apply p-4; }
+.aegov-drawer-content.drawer-size-base.drawer--padded { @apply p-5; }
+.aegov-drawer-content.drawer-size-lg.drawer--padded   { @apply p-6; }
+.aegov-drawer-content.drawer-size-xl.drawer--padded   { @apply p-8; }
+.aegov-drawer-content.drawer-size-full.drawer--padded { @apply p-8; }
 
 /* ============================================
    Animation: slide

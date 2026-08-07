@@ -11116,8 +11116,11 @@
           <aegov-button variant="primary" appearance="solid" size="sm" id="btn-drawer-left">Left</aegov-button>
           <aegov-button variant="primary" appearance="solid" size="sm" id="btn-drawer-top">Top</aegov-button>
           <aegov-button variant="primary" appearance="solid" size="sm" id="btn-drawer-bottom">Bottom</aegov-button>
+          <aegov-button variant="secondary" appearance="outline" size="sm" id="btn-drawer-xs">Size: xs</aegov-button>
           <aegov-button variant="secondary" appearance="outline" size="sm" id="btn-drawer-sm">Size: sm</aegov-button>
           <aegov-button variant="secondary" appearance="outline" size="sm" id="btn-drawer-lg">Size: lg</aegov-button>
+          <aegov-button variant="secondary" appearance="outline" size="sm" id="btn-drawer-xl">Size: xl</aegov-button>
+          <aegov-button variant="secondary" appearance="outline" size="sm" id="btn-drawer-full">Size: full</aegov-button>
           <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-noanim">No animation</aegov-button>
           <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-noclose">No overlay close</aegov-button>
           <aegov-button variant="neutral-min" appearance="soft" size="sm" id="btn-drawer-fade">Fade animation</aegov-button>
@@ -11163,19 +11166,43 @@
         </div>
       </aegov-drawer>
 
+      <aegov-drawer field-id="drawer-xs" position="right" animation="slide" size="xs" is-overlay is-close-with-overlay label="XS drawer">
+        <div style="height:100%">
+          <h3 style="margin:0 0 8px;font-weight:600">XS Drawer — size="xs" — 320px</h3>
+          <p style="font-size:0.875rem;margin:0 0 16px">Compact strip: notifications, icon sidebars, quick-action panels.</p>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-xs-close">Close</aegov-button>
+        </div>
+      </aegov-drawer>
+
       <aegov-drawer field-id="drawer-sm" position="right" animation="slide" size="sm" is-overlay is-close-with-overlay label="Small drawer">
-        <div style="padding:24px;height:100%">
-          <h3 style="margin:0 0 8px;font-weight:600">Small Drawer — size="sm"</h3>
-          <p style="font-size:0.875rem;margin:0 0 16px">Narrower panel for compact sidebars.</p>
+        <div style="height:100%">
+          <h3 style="margin:0 0 8px;font-weight:600">SM Drawer — size="sm" — 384px</h3>
+          <p style="font-size:0.875rem;margin:0 0 16px">Narrow panel: filter sidebars, compact navigation.</p>
           <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-sm-close">Close</aegov-button>
         </div>
       </aegov-drawer>
 
       <aegov-drawer field-id="drawer-lg" position="right" animation="slide" size="lg" is-overlay is-close-with-overlay label="Large drawer">
-        <div style="padding:24px;height:100%">
-          <h3 style="margin:0 0 8px;font-weight:600">Large Drawer — size="lg"</h3>
-          <p style="font-size:0.875rem;margin:0 0 16px">Wide panel for complex forms or data tables.</p>
+        <div style="height:100%">
+          <h3 style="margin:0 0 8px;font-weight:600">LG Drawer — size="lg" — 640px</h3>
+          <p style="font-size:0.875rem;margin:0 0 16px">Wide panel: forms with multiple fields, data tables, step-by-step flows.</p>
           <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-lg-close">Close</aegov-button>
+        </div>
+      </aegov-drawer>
+
+      <aegov-drawer field-id="drawer-xl" position="right" animation="slide" size="xl" is-overlay is-close-with-overlay label="XL drawer">
+        <div style="height:100%">
+          <h3 style="margin:0 0 8px;font-weight:600">XL Drawer — size="xl" — 800px</h3>
+          <p style="font-size:0.875rem;margin:0 0 16px">Extra-wide panel: complex multi-section forms, wizards, rich detail views.</p>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-xl-close">Close</aegov-button>
+        </div>
+      </aegov-drawer>
+
+      <aegov-drawer field-id="drawer-full" position="right" animation="slide" size="full" is-overlay is-close-with-overlay label="Full drawer">
+        <div style="height:100%">
+          <h3 style="margin:0 0 8px;font-weight:600">Full Drawer — size="full" — 100vw</h3>
+          <p style="font-size:0.875rem;margin:0 0 16px">Full-screen takeover: immersive workflows that need complete focus.</p>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-full-close">Close</aegov-button>
         </div>
       </aegov-drawer>
 
@@ -11278,10 +11305,13 @@
       <aegov-drawer field-id="drawer-bottom-unpinned" position="bottom" size="base" is-pinned="false" is-overlay is-close-with-overlay label="Unpinned bottom">
         ...
       </aegov-drawer>
-      <!-- CSS classes that vary:
-        .drawer-container--unpinned.drawer-size-sm  → @apply top-1 right-1 bottom-1; @apply rounded-lg
-        .drawer-container--unpinned.drawer-size-base → @apply top-2 right-2 bottom-2; @apply rounded-xl
-        .drawer-container--unpinned.drawer-size-lg  → @apply top-3 right-3 bottom-3; @apply rounded-2xl
+      <!-- CSS classes that vary (unpinned gap + radius):
+        xs   → gap 2px   rounded-md
+        sm   → gap 4px   rounded-lg
+        base → gap 8px   rounded-xl
+        lg   → gap 12px  rounded-2xl
+        xl   → gap 16px  rounded-3xl
+        full → gap 0     no-radius
       -->
       <aegov-drawer field-id="d-unpin-sm"   size="sm"   is-pinned="false" label="Small unpinned drawer"></aegov-drawer>
       <aegov-drawer field-id="d-unpin-base" size="base" is-pinned="false" label="Base unpinned drawer"></aegov-drawer>
@@ -11771,8 +11801,11 @@
     ['btn-drawer-left', 'drawer-left'],
     ['btn-drawer-top', 'drawer-top'],
     ['btn-drawer-bottom', 'drawer-bottom'],
+    ['btn-drawer-xs', 'drawer-xs'],
     ['btn-drawer-sm', 'drawer-sm'],
     ['btn-drawer-lg', 'drawer-lg'],
+    ['btn-drawer-xl', 'drawer-xl'],
+    ['btn-drawer-full', 'drawer-full'],
     ['btn-drawer-noanim', 'drawer-noanim'],
     ['btn-drawer-noclose', 'drawer-noclose'],
     ['btn-drawer-fade', 'drawer-fade'],
@@ -11794,8 +11827,11 @@
     'btn-drawer-left-close': 'drawer-left',
     'btn-drawer-top-close': 'drawer-top',
     'btn-drawer-bottom-close': 'drawer-bottom',
+    'btn-drawer-xs-close': 'drawer-xs',
     'btn-drawer-sm-close': 'drawer-sm',
     'btn-drawer-lg-close': 'drawer-lg',
+    'btn-drawer-xl-close': 'drawer-xl',
+    'btn-drawer-full-close': 'drawer-full',
     'btn-drawer-noanim-close': 'drawer-noanim',
     'btn-drawer-noclose-close': 'drawer-noclose',
     'btn-drawer-fade-close': 'drawer-fade',
