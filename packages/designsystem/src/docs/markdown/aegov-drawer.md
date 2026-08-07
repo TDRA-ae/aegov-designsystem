@@ -26,7 +26,7 @@
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button id="dr-demo-open">Filters</aegov-button>
-  <aegov-drawer field-id="dr-demo" label="Search filters" position="right">
+  <aegov-drawer id="dr-demo" label="Search filters" position="right">
     <h2 class="text-h6 font-bold mb-4">Filters</h2>
     <aegov-checkbox-group label="Emirate" appearance="list">
       <aegov-checkbox name="dr-emirate" value="AZ" label="Abu Dhabi"></aegov-checkbox>
@@ -74,10 +74,10 @@ Set `label` — it becomes the dialog's accessible name.
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-pt').show()">top</aegov-button>
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-pb').show()">bottom</aegov-button>
   </div>
-  <aegov-drawer field-id="dr-pr" position="right" label="Right drawer"><p class="mb-4">Slides in from the right — the default, and conventional for filters and details.</p><aegov-button size="sm" onclick="document.querySelector('#dr-pr').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer field-id="dr-pl" position="left" label="Left drawer"><p class="mb-4">Slides in from the left — conventional for navigation.</p><aegov-button size="sm" onclick="document.querySelector('#dr-pl').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer field-id="dr-pt" position="top" label="Top drawer"><p class="mb-4">Slides down from the top.</p><aegov-button size="sm" onclick="document.querySelector('#dr-pt').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer field-id="dr-pb" position="bottom" label="Bottom drawer"><p class="mb-4">Slides up from the bottom — reads as a sheet on mobile.</p><aegov-button size="sm" onclick="document.querySelector('#dr-pb').close()">Close</aegov-button></aegov-drawer>
+  <aegov-drawer id="dr-pr" position="right" label="Right drawer"><p class="mb-4">Slides in from the right — the default, and conventional for filters and details.</p><aegov-button size="sm" onclick="document.querySelector('#dr-pr').close()">Close</aegov-button></aegov-drawer>
+  <aegov-drawer id="dr-pl" position="left" label="Left drawer"><p class="mb-4">Slides in from the left — conventional for navigation.</p><aegov-button size="sm" onclick="document.querySelector('#dr-pl').close()">Close</aegov-button></aegov-drawer>
+  <aegov-drawer id="dr-pt" position="top" label="Top drawer"><p class="mb-4">Slides down from the top.</p><aegov-button size="sm" onclick="document.querySelector('#dr-pt').close()">Close</aegov-button></aegov-drawer>
+  <aegov-drawer id="dr-pb" position="bottom" label="Bottom drawer"><p class="mb-4">Slides up from the bottom — reads as a sheet on mobile.</p><aegov-button size="sm" onclick="document.querySelector('#dr-pb').close()">Close</aegov-button></aegov-drawer>
 </div>
 
 Conventions worth following: `left` for navigation, `right` for filters and detail panels, `bottom` for mobile sheets. Note these are physical edges, not logical ones — see [RTL Support](#rtl-support).
@@ -94,9 +94,9 @@ Three tokens, controlling width for side drawers and height for top and bottom o
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-sb').show()">base</aegov-button>
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-slg').show()">lg</aegov-button>
   </div>
-  <aegov-drawer field-id="dr-ssm" size="sm" label="Small drawer"><p class="mb-4">Small — a narrow panel.</p><aegov-button size="sm" onclick="document.querySelector('#dr-ssm').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer field-id="dr-sb" size="base" label="Base drawer"><p class="mb-4">Base — the default.</p><aegov-button size="sm" onclick="document.querySelector('#dr-sb').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer field-id="dr-slg" size="lg" label="Large drawer"><p class="mb-4">Large — for forms and dense content.</p><aegov-button size="sm" onclick="document.querySelector('#dr-slg').close()">Close</aegov-button></aegov-drawer>
+  <aegov-drawer id="dr-ssm" size="sm" label="Small drawer"><p class="mb-4">Small — a narrow panel.</p><aegov-button size="sm" onclick="document.querySelector('#dr-ssm').close()">Close</aegov-button></aegov-drawer>
+  <aegov-drawer id="dr-sb" size="base" label="Base drawer"><p class="mb-4">Base — the default.</p><aegov-button size="sm" onclick="document.querySelector('#dr-sb').close()">Close</aegov-button></aegov-drawer>
+  <aegov-drawer id="dr-slg" size="lg" label="Large drawer"><p class="mb-4">Large — for forms and dense content.</p><aegov-button size="sm" onclick="document.querySelector('#dr-slg').close()">Close</aegov-button></aegov-drawer>
 </div>
 
 ---
@@ -115,8 +115,8 @@ Three tokens, controlling width for side drawers and height for top and bottom o
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-pin').show()">Pinned (default)</aegov-button>
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-unpin').show()">Unpinned</aegov-button>
   </div>
-  <aegov-drawer field-id="dr-pin" is-pinned label="Pinned drawer"><p class="mb-4">Flush against the viewport edges.</p><aegov-button size="sm" onclick="document.querySelector('#dr-pin').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer field-id="dr-unpin" is-pinned="false" label="Unpinned drawer"><p class="mb-4">Inset with rounded corners — reads as a floating panel.</p><aegov-button size="sm" onclick="document.querySelector('#dr-unpin').close()">Close</aegov-button></aegov-drawer>
+  <aegov-drawer id="dr-pin" is-pinned label="Pinned drawer"><p class="mb-4">Flush against the viewport edges.</p><aegov-button size="sm" onclick="document.querySelector('#dr-pin').close()">Close</aegov-button></aegov-drawer>
+  <aegov-drawer id="dr-unpin" is-pinned="false" label="Unpinned drawer"><p class="mb-4">Inset with rounded corners — reads as a floating panel.</p><aegov-button size="sm" onclick="document.querySelector('#dr-unpin').close()">Close</aegov-button></aegov-drawer>
 </div>
 
 ---
@@ -139,8 +139,8 @@ Three tokens, controlling width for side drawers and height for top and bottom o
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-ov').show()">With overlay (default)</aegov-button>
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-noov').show()">Without overlay</aegov-button>
   </div>
-  <aegov-drawer field-id="dr-ov" label="With overlay"><p class="mb-4">The page behind is dimmed and inert.</p><aegov-button size="sm" onclick="document.querySelector('#dr-ov').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer field-id="dr-noov" label="Without overlay" is-overlay="false" is-prevent-scroll="false"><p class="mb-4">The page behind stays visible and scrollable.</p><aegov-button size="sm" onclick="document.querySelector('#dr-noov').close()">Close</aegov-button></aegov-drawer>
+  <aegov-drawer id="dr-ov" label="With overlay"><p class="mb-4">The page behind is dimmed and inert.</p><aegov-button size="sm" onclick="document.querySelector('#dr-ov').close()">Close</aegov-button></aegov-drawer>
+  <aegov-drawer id="dr-noov" label="Without overlay" is-overlay="false" is-prevent-scroll="false"><p class="mb-4">The page behind stays visible and scrollable.</p><aegov-button size="sm" onclick="document.querySelector('#dr-noov').close()">Close</aegov-button></aegov-drawer>
 </div>
 
 Pair `is-overlay="false"` with `is-prevent-scroll="false"` — leaving scroll locked while the page is visibly available is confusing.
@@ -165,9 +165,9 @@ Note that the drawer still declares `aria-modal="true"` and traps focus even wit
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-af').show()">fade</aegov-button>
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-an').show()">none</aegov-button>
   </div>
-  <aegov-drawer field-id="dr-as" animation="slide" label="Slide animation"><p class="mb-4">Transforms in from the edge.</p><aegov-button size="sm" onclick="document.querySelector('#dr-as').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer field-id="dr-af" animation="fade" label="Fade animation"><p class="mb-4">Fades in place.</p><aegov-button size="sm" onclick="document.querySelector('#dr-af').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer field-id="dr-an" animation="none" label="No animation"><p class="mb-4">Appears instantly.</p><aegov-button size="sm" onclick="document.querySelector('#dr-an').close()">Close</aegov-button></aegov-drawer>
+  <aegov-drawer id="dr-as" animation="slide" label="Slide animation"><p class="mb-4">Transforms in from the edge.</p><aegov-button size="sm" onclick="document.querySelector('#dr-as').close()">Close</aegov-button></aegov-drawer>
+  <aegov-drawer id="dr-af" animation="fade" label="Fade animation"><p class="mb-4">Fades in place.</p><aegov-button size="sm" onclick="document.querySelector('#dr-af').close()">Close</aegov-button></aegov-drawer>
+  <aegov-drawer id="dr-an" animation="none" label="No animation"><p class="mb-4">Appears instantly.</p><aegov-button size="sm" onclick="document.querySelector('#dr-an').close()">Close</aegov-button></aegov-drawer>
 </div>
 
 `slide` is the default and reinforces where the panel came from, which helps orientation. Use `none` where motion is undesirable — though note this is a per-instance choice, not a substitute for respecting `prefers-reduced-motion` globally.
@@ -261,7 +261,7 @@ Use this sparingly. A drawer that refuses to close is a trap unless the user is 
     <p class="text-sm text-aeblack-500">248 service centres</p>
     <aegov-button id="dr-cx-open" size="sm" appearance="outline">Filters <aegov-badge appearance="solid" variant="primary" size="sm">3</aegov-badge></aegov-button>
   </div>
-  <aegov-drawer field-id="dr-cx" label="Filter service centres" position="right" size="base">
+  <aegov-drawer id="dr-cx" label="Filter service centres" position="right" size="base">
     <h2 class="text-h6 font-bold mb-5">Filters</h2>
     <aegov-checkbox-group label="Emirate" appearance="list">
       <aegov-checkbox name="dr-cx-em" value="AZ" label="Abu Dhabi" is-checked></aegov-checkbox>
@@ -305,7 +305,7 @@ Because the drawer relocates itself to `document.body`, **set `dir` on `<html>`*
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button id="dr-rtl-open">الفلاتر</aegov-button>
-  <aegov-drawer field-id="dr-rtl" label="تصفية مراكز الخدمة" position="left">
+  <aegov-drawer id="dr-rtl" label="تصفية مراكز الخدمة" position="left">
     <h2 class="text-h6 font-bold mb-5">الفلاتر</h2>
     <aegov-checkbox-group label="الإمارة" appearance="list">
       <aegov-checkbox name="dr-rtl-em" value="AZ" label="أبوظبي" is-checked></aegov-checkbox>

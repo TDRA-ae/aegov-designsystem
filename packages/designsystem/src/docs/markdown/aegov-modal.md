@@ -24,7 +24,7 @@
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button id="md-demo-open">Review submission</aegov-button>
-  <aegov-modal field-id="md-demo" label="Confirm submission">
+  <aegov-modal id="md-demo" label="Confirm submission">
     <h2 class="text-h5 font-bold mb-2">Submit your application?</h2>
     <p class="mb-5">You will not be able to change your answers after submitting.</p>
     <div class="flex flex-wrap gap-3">
@@ -101,10 +101,10 @@ Four tokens controlling maximum width.
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-lg').show()">lg</aegov-button>
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-xl').show()">xl</aegov-button>
   </div>
-  <aegov-modal field-id="md-sm" size="sm" label="Small modal"><h2 class="text-h6 font-bold mb-2">Small</h2><p class="mb-4">For a short confirmation.</p><aegov-button size="sm" onclick="document.querySelector('#md-sm').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal field-id="md-base" size="base" label="Base modal"><h2 class="text-h6 font-bold mb-2">Base</h2><p class="mb-4">The default width.</p><aegov-button size="sm" onclick="document.querySelector('#md-base').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal field-id="md-lg" size="lg" label="Large modal"><h2 class="text-h6 font-bold mb-2">Large</h2><p class="mb-4">For content with more structure.</p><aegov-button size="sm" onclick="document.querySelector('#md-lg').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal field-id="md-xl" size="xl" label="Extra large modal"><h2 class="text-h6 font-bold mb-2">Extra large</h2><p class="mb-4">Approaching the point where a page would be better.</p><aegov-button size="sm" onclick="document.querySelector('#md-xl').close()">Close</aegov-button></aegov-modal>
+  <aegov-modal id="md-sm" size="sm" label="Small modal"><h2 class="text-h6 font-bold mb-2">Small</h2><p class="mb-4">For a short confirmation.</p><aegov-button size="sm" onclick="document.querySelector('#md-sm').close()">Close</aegov-button></aegov-modal>
+  <aegov-modal id="md-base" size="base" label="Base modal"><h2 class="text-h6 font-bold mb-2">Base</h2><p class="mb-4">The default width.</p><aegov-button size="sm" onclick="document.querySelector('#md-base').close()">Close</aegov-button></aegov-modal>
+  <aegov-modal id="md-lg" size="lg" label="Large modal"><h2 class="text-h6 font-bold mb-2">Large</h2><p class="mb-4">For content with more structure.</p><aegov-button size="sm" onclick="document.querySelector('#md-lg').close()">Close</aegov-button></aegov-modal>
+  <aegov-modal id="md-xl" size="xl" label="Extra large modal"><h2 class="text-h6 font-bold mb-2">Extra large</h2><p class="mb-4">Approaching the point where a page would be better.</p><aegov-button size="sm" onclick="document.querySelector('#md-xl').close()">Close</aegov-button></aegov-modal>
 </div>
 
 If you reach for `xl` because the content does not fit, the content probably wants a page or a [Drawer](aegov-drawer.html).
@@ -125,9 +125,9 @@ If you reach for `xl` because the content does not fit, the content probably wan
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-pt').show()">top</aegov-button>
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-pb').show()">bottom</aegov-button>
   </div>
-  <aegov-modal field-id="md-pc" position="center" label="Centred modal"><p class="mb-4">Centred — the default.</p><aegov-button size="sm" onclick="document.querySelector('#md-pc').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal field-id="md-pt" position="top" label="Top modal"><p class="mb-4">Anchored near the top.</p><aegov-button size="sm" onclick="document.querySelector('#md-pt').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal field-id="md-pb" position="bottom" label="Bottom modal"><p class="mb-4">Anchored near the bottom — reads as a sheet on mobile.</p><aegov-button size="sm" onclick="document.querySelector('#md-pb').close()">Close</aegov-button></aegov-modal>
+  <aegov-modal id="md-pc" position="center" label="Centred modal"><p class="mb-4">Centred — the default.</p><aegov-button size="sm" onclick="document.querySelector('#md-pc').close()">Close</aegov-button></aegov-modal>
+  <aegov-modal id="md-pt" position="top" label="Top modal"><p class="mb-4">Anchored near the top.</p><aegov-button size="sm" onclick="document.querySelector('#md-pt').close()">Close</aegov-button></aegov-modal>
+  <aegov-modal id="md-pb" position="bottom" label="Bottom modal"><p class="mb-4">Anchored near the bottom — reads as a sheet on mobile.</p><aegov-button size="sm" onclick="document.querySelector('#md-pb').close()">Close</aegov-button></aegov-modal>
 </div>
 
 `top` suits a tall modal that would otherwise be vertically cramped; `bottom` reads as a sheet on touch devices.
@@ -150,9 +150,9 @@ If you reach for `xl` because the content does not fit, the content probably wan
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-ob').show()">base</aegov-button>
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-od').show()">dark</aegov-button>
   </div>
-  <aegov-modal field-id="md-ol" overlay-opacity="light" label="Light overlay"><p class="mb-4">Light overlay.</p><aegov-button size="sm" onclick="document.querySelector('#md-ol').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal field-id="md-ob" overlay-opacity="base" label="Base overlay"><p class="mb-4">Base overlay.</p><aegov-button size="sm" onclick="document.querySelector('#md-ob').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal field-id="md-od" overlay-opacity="dark" label="Dark overlay"><p class="mb-4">Dark overlay — strongest separation.</p><aegov-button size="sm" onclick="document.querySelector('#md-od').close()">Close</aegov-button></aegov-modal>
+  <aegov-modal id="md-ol" overlay-opacity="light" label="Light overlay"><p class="mb-4">Light overlay.</p><aegov-button size="sm" onclick="document.querySelector('#md-ol').close()">Close</aegov-button></aegov-modal>
+  <aegov-modal id="md-ob" overlay-opacity="base" label="Base overlay"><p class="mb-4">Base overlay.</p><aegov-button size="sm" onclick="document.querySelector('#md-ob').close()">Close</aegov-button></aegov-modal>
+  <aegov-modal id="md-od" overlay-opacity="dark" label="Dark overlay"><p class="mb-4">Dark overlay — strongest separation.</p><aegov-button size="sm" onclick="document.querySelector('#md-od').close()">Close</aegov-button></aegov-modal>
 </div>
 
 A darker overlay separates the modal more clearly, which helps comprehension. `light` is only appropriate when the user needs to refer to the content behind — and if they do, consider a [Drawer](aegov-drawer.html) with `is-overlay="false"` instead.
@@ -179,8 +179,8 @@ A darker overlay separates the modal more clearly, which helps comprehension. `l
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-dis1').show()">Overlay closes (default)</aegov-button>
     <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-dis2').show()">Overlay does not close</aegov-button>
   </div>
-  <aegov-modal field-id="md-dis1" label="Closes on overlay click"><p class="mb-4">Click the dimmed area to close.</p><aegov-button size="sm" onclick="document.querySelector('#md-dis1').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal field-id="md-dis2" label="Requires a choice" is-close-with-overlay="false"><p class="mb-4">Clicking outside will not close this. Use a button.</p><div class="flex gap-3"><aegov-button size="sm" variant="danger" onclick="document.querySelector('#md-dis2').close()">Withdraw</aegov-button><aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-dis2').close()">Cancel</aegov-button></div></aegov-modal>
+  <aegov-modal id="md-dis1" label="Closes on overlay click"><p class="mb-4">Click the dimmed area to close.</p><aegov-button size="sm" onclick="document.querySelector('#md-dis1').close()">Close</aegov-button></aegov-modal>
+  <aegov-modal id="md-dis2" label="Requires a choice" is-close-with-overlay="false"><p class="mb-4">Clicking outside will not close this. Use a button.</p><div class="flex gap-3"><aegov-button size="sm" variant="danger" onclick="document.querySelector('#md-dis2').close()">Withdraw</aegov-button><aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-dis2').close()">Cancel</aegov-button></div></aegov-modal>
 </div>
 
 Note that `Escape` always closes the modal, even with `is-close-with-overlay="false"` — that is deliberate, because a dialog with no keyboard escape is a trap. If you need to guard against accidental loss, use the before-close event rather than removing the escape route.
@@ -277,7 +277,7 @@ Use this sparingly. A modal that refuses to close is a trap unless the user is g
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button id="md-cx-trigger" variant="danger" appearance="outline">Withdraw application</aegov-button>
-  <aegov-modal field-id="md-cx" size="sm" label="Withdraw application" is-close-with-overlay="false">
+  <aegov-modal id="md-cx" size="sm" label="Withdraw application" is-close-with-overlay="false">
     <h2 class="text-h6 font-bold mb-2">Withdraw this application?</h2>
     <p class="mb-2">Application <strong>APP-2026-0041827</strong> will be withdrawn and cannot be reinstated.</p>
     <p class="mb-5 text-sm text-aeblack-500">Any fees already paid are non-refundable.</p>
@@ -312,7 +312,7 @@ Because the modal moves itself to `document.body`, **set `dir` on `<html>`** rat
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button id="md-rtl-trigger">مراجعة الإرسال</aegov-button>
-  <aegov-modal field-id="md-rtl" label="تأكيد الإرسال">
+  <aegov-modal id="md-rtl" label="تأكيد الإرسال">
     <h2 class="text-h6 font-bold mb-2">هل تريد إرسال طلبك؟</h2>
     <p class="mb-5">لن تتمكن من تغيير إجاباتك بعد الإرسال.</p>
     <div class="flex flex-wrap gap-3">
