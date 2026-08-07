@@ -386,6 +386,7 @@ export class AegovDrawer {
           ></div>
         )}
         <div
+          {...passThroughAttributes}
           id={this.fieldId}
           class={containerClasses}
           data-state={this.animationState}
@@ -394,7 +395,6 @@ export class AegovDrawer {
           aria-modal="true"
           aria-label={this.label || undefined}
           tabindex={-1}
-          {...passThroughAttributes}
         >
           <div class={contentClasses}>
             <slot></slot>
