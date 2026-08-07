@@ -14,7 +14,7 @@
 }
 
 .aegov-range--disabled {
-  @apply opacity-40;
+  opacity: 0.4;
   pointer-events: none;
 }
 

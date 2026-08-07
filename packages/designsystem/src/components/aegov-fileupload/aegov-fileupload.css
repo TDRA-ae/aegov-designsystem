@@ -11,7 +11,7 @@
 }
 
 .fileupload--disabled {
-  @apply pointer-events-none;
+  pointer-events: none;
 }
 
 /* ============================================
@@ -180,7 +180,8 @@
 }
 
 .fileupload--disabled .fileupload__input-wrapper {
-  @apply opacity-40 cursor-not-allowed;
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .fileupload__filename {
@@ -277,7 +278,8 @@
 }
 
 .fileupload--disabled .fileupload__dropzone {
-  @apply opacity-40 cursor-not-allowed;
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .fileupload__drop-prompt {
