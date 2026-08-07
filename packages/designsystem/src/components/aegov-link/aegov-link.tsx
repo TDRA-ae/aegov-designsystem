@@ -102,7 +102,7 @@ export class AegovLink {
    * removes the link from tab order, and prevents default click navigation.
    * Native `<a>` does not support `disabled`; this is a polyfill.
    */
-  @Prop() isDisabled: boolean = false;
+  @Prop({ reflect: true }) isDisabled: boolean = false;
 
   /**
    * Emitted when the link is clicked.
@@ -237,7 +237,7 @@ export class AegovLink {
     }
 
     return (
-      <Host class={{ 'is-full': this.isFull, 'is-disabled': this.isDisabled }}>
+      <Host class={{ 'is-full': this.isFull }}>
         <a
           id={this.fieldId}
           href={this.isDisabled ? undefined : this.href}

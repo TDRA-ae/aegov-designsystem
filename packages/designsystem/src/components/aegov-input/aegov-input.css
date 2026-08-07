@@ -289,8 +289,9 @@
   @apply end-1;
 }
 
-/* Remove fixed h/w; use top+bottom inset for vertical centering.
-   !important guarantees these beat the base h-13/w-13 rules regardless of source order. */
+/* top+bottom inset for vertical centering; width auto so multi-button grows freely.
+   min-width ensures a single SVG/img icon still gets the full clip-sized zone (same
+   visual weight as icon-start) — the SVG is then centered inside by flex. */
 .input__wrapper--xs   .input__icon.input__icon--end,
 .input__wrapper--sm   .input__icon.input__icon--end,
 .input__wrapper--base .input__icon.input__icon--end,
@@ -300,12 +301,20 @@
   bottom: calc(var(--spacing) * 1) !important;
   height: auto !important;
   width: auto !important;
+  min-width: var(--ae-icon-clip, calc(var(--spacing) * 7));
   overflow: hidden;
   @apply gap-1;
 }
 
+/* Base layout for slotted icon-start — color (text-aeblack-500) inherits from .input__icon */
+::slotted([slot="icon-start"]) {
+  flex-shrink: 0;
+  display: block;
+}
+
 /* Clip slotted icon-end buttons: width+height from inherited --ae-icon-clip;
-   overflow:hidden on host clips the button's shadow-DOM content to that size. */
+   overflow:hidden clips the button's shadow-DOM content to that size.
+   svg/img/span are overridden to the correct icon size by the per-size rules below. */
 ::slotted([slot="icon-end"]) {
   display: flex;
   align-items: center;
@@ -316,6 +325,47 @@
   overflow: hidden;
   border-radius: 0.5rem;
 }
+
+/* ── Per-size icon sizing for BOTH slots ────────────────────────────────────
+   Specificity (0,2,1) beats both ::slotted rules (0,1,0).
+   Covers: bare <svg>, <img>, and <span>-wrapped icons.
+   aegov-button in icon-end is NOT svg/img/span so it keeps the clip size above.
+   Color inherits from .input__icon { text-aeblack-500 dark:text-aeblack-400 }.
+────────────────────────────────────────────────────────────────────────────── */
+.input__wrapper--xs   .input__icon--start ::slotted(svg),
+.input__wrapper--xs   .input__icon--start ::slotted(img),
+.input__wrapper--xs   .input__icon--start ::slotted(span),
+.input__wrapper--xs   .input__icon--end   ::slotted(svg),
+.input__wrapper--xs   .input__icon--end   ::slotted(img),
+.input__wrapper--xs   .input__icon--end   ::slotted(span) { @apply w-3.5 h-3.5; }
+
+.input__wrapper--sm   .input__icon--start ::slotted(svg),
+.input__wrapper--sm   .input__icon--start ::slotted(img),
+.input__wrapper--sm   .input__icon--start ::slotted(span),
+.input__wrapper--sm   .input__icon--end   ::slotted(svg),
+.input__wrapper--sm   .input__icon--end   ::slotted(img),
+.input__wrapper--sm   .input__icon--end   ::slotted(span) { @apply w-4 h-4; }
+
+.input__wrapper--base .input__icon--start ::slotted(svg),
+.input__wrapper--base .input__icon--start ::slotted(img),
+.input__wrapper--base .input__icon--start ::slotted(span),
+.input__wrapper--base .input__icon--end   ::slotted(svg),
+.input__wrapper--base .input__icon--end   ::slotted(img),
+.input__wrapper--base .input__icon--end   ::slotted(span) { @apply w-[18px] h-[18px]; }
+
+.input__wrapper--lg   .input__icon--start ::slotted(svg),
+.input__wrapper--lg   .input__icon--start ::slotted(img),
+.input__wrapper--lg   .input__icon--start ::slotted(span),
+.input__wrapper--lg   .input__icon--end   ::slotted(svg),
+.input__wrapper--lg   .input__icon--end   ::slotted(img),
+.input__wrapper--lg   .input__icon--end   ::slotted(span) { @apply w-5 h-5; }
+
+.input__wrapper--xl   .input__icon--start ::slotted(svg),
+.input__wrapper--xl   .input__icon--start ::slotted(img),
+.input__wrapper--xl   .input__icon--start ::slotted(span),
+.input__wrapper--xl   .input__icon--end   ::slotted(svg),
+.input__wrapper--xl   .input__icon--end   ::slotted(img),
+.input__wrapper--xl   .input__icon--end   ::slotted(span) { @apply w-[22px] h-[22px]; }
 
 /* Override single-icon-end input padding (spec 0,2,0, placed after existing rules).
    Formula: 4px right-inset + button-clip */

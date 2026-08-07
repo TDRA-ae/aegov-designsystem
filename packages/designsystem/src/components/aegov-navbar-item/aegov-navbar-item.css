@@ -73,12 +73,12 @@ button.aegov-navbar-item__chevron svg {
 }
 
 /* Disabled */
-:host(.is-disabled) {
+:host([is-disabled]) {
   cursor: not-allowed;
 }
 
 li.aegov-navbar-item--disabled {
-  @apply opacity-40;
+  opacity: 0.4;
 }
 
 li.aegov-navbar-item--disabled .aegov-navbar-item__link {

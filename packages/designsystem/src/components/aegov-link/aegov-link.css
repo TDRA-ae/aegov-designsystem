@@ -20,8 +20,9 @@
   display: block;
 }
 
-:host(.is-disabled) {
-  @apply opacity-40 cursor-not-allowed;
+:host([is-disabled]) {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* Suppress the global <a> hover underline when the link is rendered as a

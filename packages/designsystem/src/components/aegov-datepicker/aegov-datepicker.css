@@ -19,7 +19,7 @@
 }
 
 :host([is-disabled]) .datepicker__trigger {
-  @apply cursor-not-allowed;
+  cursor: not-allowed;
 }
 
 /* ── Input Wrapper ──────────────────────────────────── */
@@ -60,7 +60,8 @@
 }
 
 :host([is-disabled]) .datepicker__input-wrapper {
-  @apply opacity-40 pointer-events-none;
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 /* ── Input ──────────────────────────────────────────── */
@@ -71,7 +72,7 @@
 }
 
 .datepicker__input:disabled {
-  @apply cursor-not-allowed;
+  cursor: not-allowed;
 }
 
 /* ── Size: xs ──────────────────────────────────────── */

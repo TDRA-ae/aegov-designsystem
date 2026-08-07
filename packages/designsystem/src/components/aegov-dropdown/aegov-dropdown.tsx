@@ -225,7 +225,7 @@ export class AegovDropdown {
    * Whether the dropdown is disabled
    * @default false
    */
-  @Prop() isDisabled: boolean = false;
+  @Prop({ reflect: true }) isDisabled: boolean = false;
 
   /**
    * Delay before showing dropdown (in milliseconds)
@@ -1060,13 +1060,11 @@ export class AegovDropdown {
     const passThroughAttributes = getPassThroughAttributes(this.el);
 
     return (
-      <Host class={{ 'is-disabled': this.isDisabled }}>
+      <Host>
         <div
           {...passThroughAttributes}
           class={{
             'aegov-dropdown-trigger': true,
-            'opacity-40': this.isDisabled,
-            'pointer-events-none': this.isDisabled,
           }}
           id={this.triggerId}
           ref={(el) => (this.triggerRef = el)}
