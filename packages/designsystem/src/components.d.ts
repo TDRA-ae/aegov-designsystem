@@ -870,7 +870,7 @@ export namespace Components {
          */
         "show": () => Promise<void>;
         /**
-          * Size: 'sm' (compact padding), 'base' (default), or 'lg' (generous padding). Mirrors aegov-card sizing tokens. When `is-pinned="false"`, size also drives the edge gap and border-radius. When pinned, no border-radius is applied regardless of size.
+          * Panel width for left/right drawers, or panel height for top/bottom drawers. xs=320px · sm=384px · base=480px (default) · lg=640px · xl=800px · full=100vw/100dvh. Also scales padding and, when `is-pinned="false"`, the edge gap and border-radius. On viewports narrower than 640px all left/right sizes collapse to full width.
           * @default 'base'
          */
         "size": DrawerSize;
@@ -4557,7 +4557,7 @@ declare namespace LocalJSX {
          */
         "position"?: DrawerPosition;
         /**
-          * Size: 'sm' (compact padding), 'base' (default), or 'lg' (generous padding). Mirrors aegov-card sizing tokens. When `is-pinned="false"`, size also drives the edge gap and border-radius. When pinned, no border-radius is applied regardless of size.
+          * Panel width for left/right drawers, or panel height for top/bottom drawers. xs=320px · sm=384px · base=480px (default) · lg=640px · xl=800px · full=100vw/100dvh. Also scales padding and, when `is-pinned="false"`, the edge gap and border-radius. On viewports narrower than 640px all left/right sizes collapse to full width.
           * @default 'base'
          */
         "size"?: DrawerSize;

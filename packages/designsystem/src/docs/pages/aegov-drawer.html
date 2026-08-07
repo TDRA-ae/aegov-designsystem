@@ -130,37 +130,117 @@
 
 <hr>
 <h2>Sizes</h2>
-<p>The <code>size</code> property controls inner padding and, when <code>is-pinned=&quot;false&quot;</code>, the gap between the panel and the viewport edge plus the corner radius.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
+<p>The <code>size</code> property sets the panel <strong>width</strong> for left/right drawers and <strong>height</strong> for top/bottom drawers. It also scales the inner padding and, when <code>is-pinned=&quot;false&quot;</code>, the edge gap and corner radius.</p>
+<table>
+<thead>
+<tr>
+<th>Size</th>
+<th>Width (left/right)</th>
+<th>Height (top/bottom)</th>
+<th>Padding</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>xs</code></td>
+<td>320px</td>
+<td>25vh</td>
+<td>p-3</td>
+<td>Notification strip, icon sidebar</td>
+</tr>
+<tr>
+<td><code>sm</code></td>
+<td>384px</td>
+<td>40vh</td>
+<td>p-4</td>
+<td>Filter panel, narrow navigation</td>
+</tr>
+<tr>
+<td><code>base</code></td>
+<td>480px <em>(default)</em></td>
+<td>50vh</td>
+<td>p-5</td>
+<td>Settings panel, detail view</td>
+</tr>
+<tr>
+<td><code>lg</code></td>
+<td>640px</td>
+<td>66vh</td>
+<td>p-6</td>
+<td>Multi-field form, data table</td>
+</tr>
+<tr>
+<td><code>xl</code></td>
+<td>800px</td>
+<td>85vh</td>
+<td>p-8</td>
+<td>Wide wizard, rich detail panel</td>
+</tr>
+<tr>
+<td><code>full</code></td>
+<td>100vw</td>
+<td>100dvh</td>
+<td>p-8</td>
+<td>Full-screen takeover</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>On viewports narrower than 640 px all left/right sizes collapse to full width automatically.</p>
+</blockquote>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>   <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>   <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>   <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>   <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;full&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-3">
-    <aegov-button id="demo-drawer-size-sm-btn">Small</aegov-button>
-    <aegov-button id="demo-drawer-size-base-btn">Base</aegov-button>
-    <aegov-button id="demo-drawer-size-lg-btn">Large</aegov-button>
+    <aegov-button id="demo-drawer-size-xs-btn">XS — 320px</aegov-button>
+    <aegov-button id="demo-drawer-size-sm-btn">SM — 384px</aegov-button>
+    <aegov-button id="demo-drawer-size-base-btn">Base — 480px</aegov-button>
+    <aegov-button id="demo-drawer-size-lg-btn">LG — 640px</aegov-button>
+    <aegov-button id="demo-drawer-size-xl-btn">XL — 800px</aegov-button>
+    <aegov-button id="demo-drawer-size-full-btn">Full — 100vw</aegov-button>
   </div>
 
-  <aegov-drawer id="demo-drawer-size-sm" size="sm" aria-label="Small drawer">
-    <h3 class="text-lg font-bold mb-2">Compact drawer</h3>
-    <p class="mb-6">Compact padding for short content.</p>
+  <aegov-drawer id="demo-drawer-size-xs" size="xs" aria-label="XS drawer">
+    <h3 class="text-base font-bold mb-2">XS drawer — 320px</h3>
+    <p class="mb-6">Compact strip for notifications, icon sidebars, and quick-action panels.</p>
+    <aegov-button id="demo-drawer-size-xs-close" size="sm">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-size-sm" size="sm" aria-label="SM drawer">
+    <h3 class="text-lg font-bold mb-2">SM drawer — 384px</h3>
+    <p class="mb-6">Narrow panel for filter sidebars and compact navigation.</p>
     <aegov-button id="demo-drawer-size-sm-close" size="sm">Close</aegov-button>
   </aegov-drawer>
 
   <aegov-drawer id="demo-drawer-size-base" size="base" aria-label="Base drawer">
-    <h3 class="text-xl font-bold mb-2">Standard drawer</h3>
-    <p class="mb-6">Default padding for most use cases.</p>
+    <h3 class="text-xl font-bold mb-2">Base drawer — 480px (default)</h3>
+    <p class="mb-6">Standard panel for settings panels and detail views.</p>
     <aegov-button id="demo-drawer-size-base-close">Close</aegov-button>
   </aegov-drawer>
 
-  <aegov-drawer id="demo-drawer-size-lg" size="lg" aria-label="Large drawer">
-    <h3 class="text-2xl font-bold mb-2">Spacious drawer</h3>
-    <p class="mb-6">Generous padding for long-form content like settings pages or rich detail views.</p>
+  <aegov-drawer id="demo-drawer-size-lg" size="lg" aria-label="LG drawer">
+    <h3 class="text-2xl font-bold mb-2">LG drawer — 640px</h3>
+    <p class="mb-6">Wide panel for multi-field forms and data tables.</p>
     <aegov-button id="demo-drawer-size-lg-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-size-xl" size="xl" aria-label="XL drawer">
+    <h3 class="text-2xl font-bold mb-2">XL drawer — 800px</h3>
+    <p class="mb-6">Extra-wide panel for complex wizards and rich detail views.</p>
+    <aegov-button id="demo-drawer-size-xl-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-size-full" size="full" aria-label="Full drawer">
+    <h3 class="text-2xl font-bold mb-2">Full drawer — 100vw</h3>
+    <p class="mb-6">Full-screen takeover for immersive workflows.</p>
+    <aegov-button id="demo-drawer-size-full-close">Close</aegov-button>
   </aegov-drawer>
 
   <script>
     (function() {
-      ['sm','base','lg'].forEach(s => {
+      ['xs','sm','base','lg','xl','full'].forEach(s => {
         const d = document.querySelector('#demo-drawer-size-' + s);
         document.querySelector('#demo-drawer-size-' + s + '-btn').addEventListener('click', () => d.show());
         document.querySelector('#demo-drawer-size-' + s + '-close').addEventListener('click', () => d.close());
@@ -518,8 +598,8 @@
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Padding scale; also drives the gap and corner radius when <code>is-pinned=&quot;false&quot;</code>.</td>
-<td><code>&#39;sm&#39; | &#39;base&#39; | &#39;lg&#39;</code></td>
+<td>Panel width (left/right: 320–800px/100vw) or height (top/bottom: 25–85vh/100dvh). Also scales padding and, when <code>is-pinned=&quot;false&quot;</code>, the edge gap and corner radius.</td>
+<td><code>&#39;xs&#39; | &#39;sm&#39; | &#39;base&#39; | &#39;lg&#39; | &#39;xl&#39; | &#39;full&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
