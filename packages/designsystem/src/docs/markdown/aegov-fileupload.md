@@ -215,21 +215,21 @@ The `size` property scales the input height for the default appearance and the b
 
 ## Variant
 
-The `variant` property selects the colour family for the default-appearance ring, the button-appearance fill, the dropzone-appearance border, and the file-name accent. The focus ring stays `primary-support-600` (camel) and the error border stays `aered-600` regardless of variant.
+The `variant` property selects the colour family for the default-appearance border, the button-appearance fill, the dropzone-appearance border, and the file-name accent. The focus ring uses the variant's support colour (`primary-support-400` for primary, `secondary-support-400` for secondary, `seablue-400` for neutral variants). The error border stays `aered-600` regardless of variant.
 
 - `primary` — primary-* family (default)
 - `secondary` — secondary-* family
 - `neutral-max` — strong neutral (aeblack-800 family)
-- `neutral-min` — quiet neutral (aeblack-100 family). Button fill stays `aeblack-800` so the button remains legible.
+- `neutral-min` — quiet neutral (aeblack-200 browse button, softer borders)
 
 ### Colour matrix
 
-| Variant       | Default ring     | Button bg       | Dropzone border | File-name accent |
-| ------------- | ---------------- | --------------- | --------------- | ---------------- |
-| `primary`     | `primary-400`    | `primary-600`   | `primary-200`   | `primary-900`    |
-| `secondary`   | `secondary-400`  | `secondary-600` | `secondary-200` | `secondary-900`  |
-| `neutral-max` | `aeblack-400`    | `aeblack-800`   | `aeblack-300`   | `aeblack-900`    |
-| `neutral-min` | `aeblack-200`    | `aeblack-800`   | `aeblack-100`   | `aeblack-900`    |
+| Variant       | Idle border (default) | Browse btn bg   | Dropzone border | File-name text   |
+| ------------- | --------------------- | --------------- | --------------- | ---------------- |
+| `primary`     | `primary-600`         | `primary-600`   | `primary-300`   | `primary-900`    |
+| `secondary`   | `secondary-600`       | `secondary-600` | `secondary-300` | `secondary-900`  |
+| `neutral-max` | `aeblack-800`         | `aeblack-800`   | `aeblack-300`   | `aeblack-950`    |
+| `neutral-min` | `aeblack-300`         | `aeblack-200`   | `aeblack-200`   | `aeblack-700`    |
 
 ```html
 <aegov-fileupload variant="primary" label="Primary" accept=".pdf"></aegov-fileupload>

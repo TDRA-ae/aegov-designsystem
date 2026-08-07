@@ -302,50 +302,50 @@
 
 <hr>
 <h2>Variant</h2>
-<p>The <code>variant</code> property selects the colour family for the trigger ring, the selected day fill in the calendar, the today indicator, and the hover bg. The focus ring stays <code>primary-support-600</code> (camel) and the error border stays <code>aered-600</code> regardless of variant. The selected-day glyph is always <code>whitely-50</code> for legibility on the filled cell.</p>
+<p>The <code>variant</code> property selects the colour family for the trigger border, the selected day fill in the calendar, the today indicator, and the hover bg. The focus ring uses the variant&#39;s support colour (<code>primary-support-400</code> for primary, <code>secondary-support-400</code> for secondary, <code>seablue-400</code> for neutral variants). The error border stays <code>aered-600</code> regardless of variant. The selected-day text is always the <code>*-50</code> shade of the variant family for legibility on the filled cell.</p>
 <ul>
 <li><code>primary</code> — primary-* family (default)</li>
 <li><code>secondary</code> — secondary-* family</li>
 <li><code>neutral-max</code> — strong neutral (aeblack-800 family)</li>
-<li><code>neutral-min</code> — quiet neutral (aeblack-100 family). Selected day fill stays <code>aeblack-800</code>.</li>
+<li><code>neutral-min</code> — quiet neutral; selected day fill stays <code>aeblack-800</code> so the cell remains legible.</li>
 </ul>
 <h3>Colour matrix</h3>
 <table>
 <thead>
 <tr>
 <th>Variant</th>
-<th>Trigger ring</th>
+<th>Idle border</th>
 <th>Selected day fill</th>
-<th>Today indicator</th>
+<th>Today text</th>
 <th>Hover bg</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>primary</code></td>
-<td><code>primary-400</code></td>
 <td><code>primary-600</code></td>
-<td><code>primary-700</code></td>
-<td><code>primary-50</code></td>
+<td><code>primary-600</code></td>
+<td><code>primary-600</code></td>
+<td><code>primary-100</code></td>
 </tr>
 <tr>
 <td><code>secondary</code></td>
-<td><code>secondary-400</code></td>
+<td><code>secondary-600</code></td>
 <td><code>secondary-600</code></td>
 <td><code>secondary-700</code></td>
-<td><code>secondary-50</code></td>
+<td><code>secondary-100</code></td>
 </tr>
 <tr>
 <td><code>neutral-max</code></td>
-<td><code>aeblack-400</code></td>
 <td><code>aeblack-800</code></td>
 <td><code>aeblack-800</code></td>
-<td><code>aeblack-50</code></td>
+<td><code>aeblack-800</code></td>
+<td><code>aeblack-100</code></td>
 </tr>
 <tr>
 <td><code>neutral-min</code></td>
-<td><code>aeblack-200</code></td>
+<td><code>aeblack-300</code></td>
 <td><code>aeblack-800</code></td>
-<td><code>aeblack-700</code></td>
+<td><code>aeblack-800</code></td>
 <td><code>aeblack-50</code></td>
 </tr>
 </tbody></table>
