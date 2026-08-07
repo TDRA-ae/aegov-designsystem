@@ -23,5 +23,5 @@
 }
 
 .aegov-form-field:has(aegov-checkbox[disabled]) .aegov-label {
-  @apply cursor-not-allowed;
+  cursor: not-allowed;
 }

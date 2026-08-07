@@ -6,8 +6,6 @@
   font-family: inherit;
   @apply relative w-full bg-transparent leading-6
          motion-reduce:transition-none
-         disabled:pointer-events-none disabled:cursor-not-allowed
-         disabled:select-none disabled:opacity-40
          rounded-lg focus:outline-none;
   @apply placeholder:text-aeblack-300 bg-whitely-50
          border-2
@@ -16,6 +14,12 @@
          focus-visible:ring-primary-support-400
          dark:placeholder:text-aeblack-500 dark:bg-aeblack-800
          dark:focus-visible:ring-primary-support-400;
+}
+
+.aegov-textarea:disabled {
+  cursor: not-allowed;
+  user-select: none;
+  opacity: 0.4;
 }
 
 /* Variant — idle border + value text per colour family (mirrors aegov-input pattern) */

@@ -39,7 +39,8 @@
 /* Disabled group — dim default and list variants at the container level.
    Pills/cards handle per-item opacity via :has(input:disabled). */
 :host([is-disabled]) .aegov-radio-group:not(.radio-group--pills):not(.radio-group--cards) {
-  @apply opacity-40 pointer-events-none;
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
