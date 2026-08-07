@@ -104,7 +104,7 @@ The `size` property accepts a Tailwind-style responsive string with the breakpoi
 
 ## Variant
 
-The `variant` property selects the colour family for the idle cell border, the focused cell border, and the filled cell text/bg accent. The focus ring stays `primary-support-600` (camel) and the error border stays `aered-600` regardless of variant.
+The `variant` property selects the colour family for the idle cell border, the focused cell border, and the filled cell text. The focus ring uses the variant's support colour (`primary-support-400` for primary, `secondary-support-400` for secondary, `seablue-400` for neutral variants). The error border always stays `aered-600` regardless of variant.
 
 - `primary` — primary-* family (default)
 - `secondary` — secondary-* family
@@ -113,12 +113,12 @@ The `variant` property selects the colour family for the idle cell border, the f
 
 ### Colour matrix
 
-| Variant       | Idle border      | Focused border  | Filled text     | Filled bg       |
-| ------------- | ---------------- | --------------- | --------------- | --------------- |
-| `primary`     | `primary-200`    | `primary-400`   | `primary-900`   | `primary-50`    |
-| `secondary`   | `secondary-200`  | `secondary-400` | `secondary-900` | `secondary-50`  |
-| `neutral-max` | `aeblack-300`    | `aeblack-400`   | `aeblack-900`   | `aeblack-50`    |
-| `neutral-min` | `aeblack-100`    | `aeblack-200`   | `aeblack-900`   | `aeblack-50`    |
+| Variant       | Idle border       | Focused border          | Filled text      |
+| ------------- | ----------------- | ----------------------- | ---------------- |
+| `primary`     | `primary-600`     | `primary-support-400`   | `primary-900`    |
+| `secondary`   | `secondary-600`   | `secondary-support-400` | `secondary-900`  |
+| `neutral-max` | `aeblack-800`     | `seablue-400`           | `aeblack-950`    |
+| `neutral-min` | `aeblack-300`     | `seablue-400`           | `aeblack-700`    |
 
 ```html
 <aegov-otp variant="primary" length="6"></aegov-otp>

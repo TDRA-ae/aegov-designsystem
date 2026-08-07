@@ -82,7 +82,7 @@
 
 <hr>
 <h2>Variant</h2>
-<p>The <code>variant</code> property selects the colour family for the idle cell border, the focused cell border, and the filled cell text/bg accent. The focus ring stays <code>primary-support-600</code> (camel) and the error border stays <code>aered-600</code> regardless of variant.</p>
+<p>The <code>variant</code> property selects the colour family for the idle cell border, the focused cell border, and the filled cell text. The focus ring uses the variant&#39;s support colour (<code>primary-support-400</code> for primary, <code>secondary-support-400</code> for secondary, <code>seablue-400</code> for neutral variants). The error border always stays <code>aered-600</code> regardless of variant.</p>
 <ul>
 <li><code>primary</code> — primary-* family (default)</li>
 <li><code>secondary</code> — secondary-* family</li>
@@ -97,36 +97,31 @@
 <th>Idle border</th>
 <th>Focused border</th>
 <th>Filled text</th>
-<th>Filled bg</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>primary</code></td>
-<td><code>primary-200</code></td>
-<td><code>primary-400</code></td>
+<td><code>primary-600</code></td>
+<td><code>primary-support-400</code></td>
 <td><code>primary-900</code></td>
-<td><code>primary-50</code></td>
 </tr>
 <tr>
 <td><code>secondary</code></td>
-<td><code>secondary-200</code></td>
-<td><code>secondary-400</code></td>
+<td><code>secondary-600</code></td>
+<td><code>secondary-support-400</code></td>
 <td><code>secondary-900</code></td>
-<td><code>secondary-50</code></td>
 </tr>
 <tr>
 <td><code>neutral-max</code></td>
-<td><code>aeblack-300</code></td>
-<td><code>aeblack-400</code></td>
-<td><code>aeblack-900</code></td>
-<td><code>aeblack-50</code></td>
+<td><code>aeblack-800</code></td>
+<td><code>seablue-400</code></td>
+<td><code>aeblack-950</code></td>
 </tr>
 <tr>
 <td><code>neutral-min</code></td>
-<td><code>aeblack-100</code></td>
-<td><code>aeblack-200</code></td>
-<td><code>aeblack-900</code></td>
-<td><code>aeblack-50</code></td>
+<td><code>aeblack-300</code></td>
+<td><code>seablue-400</code></td>
+<td><code>aeblack-700</code></td>
 </tr>
 </tbody></table>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>

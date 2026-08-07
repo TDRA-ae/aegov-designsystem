@@ -153,12 +153,12 @@
 
 <hr>
 <h2>Variant</h2>
-<p>The <code>variant</code> property selects the colour family for the active fill segment of the track. The off-track stays <code>aeblack-200</code> and the thumb stays <code>aeblack-800</code> regardless of variant — both are constants for a consistent grip across colour families. The focus ring stays <code>primary-support-600</code> (camel) and error states stay <code>aered-600</code>.</p>
+<p>The <code>variant</code> property selects the colour family for the active fill segment of the track. The off-track stays <code>aeblack-100</code> and the thumb stays <code>white</code> regardless of variant — both are constants for a consistent grip across colour families. The focus ring uses the variant&#39;s support colour (<code>primary-support-400</code> for primary, <code>secondary-support-400</code> for secondary, <code>seablue-400</code> for neutral variants). Error states stay <code>aered-600</code> on the track ring.</p>
 <ul>
 <li><code>primary</code> — primary-* family (default)</li>
 <li><code>secondary</code> — secondary-* family</li>
-<li><code>neutral-max</code> — strong neutral (aeblack-800 family)</li>
-<li><code>neutral-min</code> — quiet neutral (aeblack-100 family). Active fill stays <code>aeblack-800</code> so the filled portion is still legible.</li>
+<li><code>neutral-max</code> — strong neutral (aeblack-800 fill)</li>
+<li><code>neutral-min</code> — quiet neutral (aeblack-300 fill on a light track)</li>
 </ul>
 <h3>Colour matrix</h3>
 <table>
@@ -168,36 +168,36 @@
 <th>Track (constant)</th>
 <th>Active fill</th>
 <th>Thumb (constant)</th>
-<th>Hover accent</th>
+<th>Focused outline</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>primary</code></td>
-<td><code>aeblack-200</code></td>
+<td><code>aeblack-100</code></td>
 <td><code>primary-600</code></td>
-<td><code>aeblack-800</code></td>
-<td><code>primary-700</code></td>
+<td><code>white</code></td>
+<td><code>primary-support-400</code></td>
 </tr>
 <tr>
 <td><code>secondary</code></td>
-<td><code>aeblack-200</code></td>
+<td><code>aeblack-100</code></td>
 <td><code>secondary-600</code></td>
-<td><code>aeblack-800</code></td>
-<td><code>secondary-700</code></td>
+<td><code>white</code></td>
+<td><code>secondary-support-400</code></td>
 </tr>
 <tr>
 <td><code>neutral-max</code></td>
-<td><code>aeblack-200</code></td>
+<td><code>aeblack-100</code></td>
 <td><code>aeblack-800</code></td>
-<td><code>aeblack-800</code></td>
-<td><code>aeblack-800</code></td>
+<td><code>white</code></td>
+<td><code>seablue-400</code></td>
 </tr>
 <tr>
 <td><code>neutral-min</code></td>
-<td><code>aeblack-200</code></td>
-<td><code>aeblack-800</code></td>
-<td><code>aeblack-800</code></td>
-<td><code>aeblack-700</code></td>
+<td><code>aeblack-100</code></td>
+<td><code>aeblack-300</code></td>
+<td><code>white</code></td>
+<td><code>seablue-400</code></td>
 </tr>
 </tbody></table>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>

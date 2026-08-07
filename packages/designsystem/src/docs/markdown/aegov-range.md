@@ -163,21 +163,21 @@ The `size` property accepts a Tailwind-style responsive string with the breakpoi
 
 ## Variant
 
-The `variant` property selects the colour family for the active fill segment of the track. The off-track stays `aeblack-200` and the thumb stays `aeblack-800` regardless of variant — both are constants for a consistent grip across colour families. The focus ring stays `primary-support-600` (camel) and error states stay `aered-600`.
+The `variant` property selects the colour family for the active fill segment of the track. The off-track stays `aeblack-100` and the thumb stays `white` regardless of variant — both are constants for a consistent grip across colour families. The focus ring uses the variant's support colour (`primary-support-400` for primary, `secondary-support-400` for secondary, `seablue-400` for neutral variants). Error states stay `aered-600` on the track ring.
 
 - `primary` — primary-* family (default)
 - `secondary` — secondary-* family
-- `neutral-max` — strong neutral (aeblack-800 family)
-- `neutral-min` — quiet neutral (aeblack-100 family). Active fill stays `aeblack-800` so the filled portion is still legible.
+- `neutral-max` — strong neutral (aeblack-800 fill)
+- `neutral-min` — quiet neutral (aeblack-300 fill on a light track)
 
 ### Colour matrix
 
-| Variant       | Track (constant) | Active fill     | Thumb (constant) | Hover accent    |
-| ------------- | ---------------- | --------------- | ---------------- | --------------- |
-| `primary`     | `aeblack-200`    | `primary-600`   | `aeblack-800`    | `primary-700`   |
-| `secondary`   | `aeblack-200`    | `secondary-600` | `aeblack-800`    | `secondary-700` |
-| `neutral-max` | `aeblack-200`    | `aeblack-800`   | `aeblack-800`    | `aeblack-800`   |
-| `neutral-min` | `aeblack-200`    | `aeblack-800`   | `aeblack-800`    | `aeblack-700`   |
+| Variant       | Track (constant) | Active fill     | Thumb (constant) | Focused outline         |
+| ------------- | ---------------- | --------------- | ---------------- | ----------------------- |
+| `primary`     | `aeblack-100`    | `primary-600`   | `white`          | `primary-support-400`   |
+| `secondary`   | `aeblack-100`    | `secondary-600` | `white`          | `secondary-support-400` |
+| `neutral-max` | `aeblack-100`    | `aeblack-800`   | `white`          | `seablue-400`           |
+| `neutral-min` | `aeblack-100`    | `aeblack-300`   | `white`          | `seablue-400`           |
 
 ```html
 <aegov-range variant="primary" value="50"></aegov-range>

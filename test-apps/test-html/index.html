@@ -17696,6 +17696,17 @@
         </div>
       </div>
 
+      <!-- responsive size -->
+      <div style="grid-column:1/-1">
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — responsive string (breakpoint-prefix syntax)</p>
+        <div class="flex flex-col gap-3 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">size="xs sm:base xl:lg"</span>
+            <aegov-fileupload size="xs sm:base xl:lg" label="Responsive upload (resize viewport)" hint="xs at narrow, base at sm+, lg at xl+."></aegov-fileupload>
+          </div>
+        </div>
+      </div>
+
       <!-- states — full-width, 3-col -->
       <div style="grid-column:1/-1">
         <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">States — disabled / required / invalid</p>
@@ -18011,6 +18022,17 @@
           <div class="prop-item"><span class="prop-attr">size="base"</span><aegov-datepicker size="base" label="Base" placeholder="Select date"></aegov-datepicker></div>
           <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-datepicker size="lg" label="LG" placeholder="Select date"></aegov-datepicker></div>
           <div class="prop-item"><span class="prop-attr">size="xl"</span><aegov-datepicker size="xl" label="XL" placeholder="Select date"></aegov-datepicker></div>
+        </div>
+      </div>
+
+      <!-- responsive size -->
+      <div style="grid-column:1/-1">
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — responsive string (breakpoint-prefix syntax)</p>
+        <div class="flex flex-col gap-3 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">size="xs sm:base xl:lg"</span>
+            <aegov-datepicker size="xs sm:base xl:lg" label="Responsive datepicker (resize viewport)" placeholder="Select date" hint="xs at narrow, base at sm+, lg at xl+."></aegov-datepicker>
+          </div>
         </div>
       </div>
 
@@ -19043,7 +19065,7 @@
                     <input type="search" placeholder="Search…" style="border:1px solid var(--color-aeblack-200);border-radius:0.375rem;padding:0.375rem 0.75rem;font-size:0.875rem;outline:none">
                   </div>
                   <div slot="actions" style="display:flex;gap:0.5rem">
-                    <aegov-button size="sm" variant="ghost">English</aegov-button>
+                    <aegov-button size="sm" variant="neutral-min">English</aegov-button>
                     <aegov-button size="sm" variant="secondary">Login</aegov-button>
                   </div>
                 </aegov-header>
@@ -19069,7 +19091,7 @@
                   logo-label="Federal Authority for Identity — Home">
                   <span slot="logo" style="font-weight:700;font-size:1.1rem">ICA</span>
                   <div slot="actions" style="display:flex;gap:0.5rem">
-                    <aegov-button size="sm" variant="ghost">عربي</aegov-button>
+                    <aegov-button size="sm" variant="neutral-min">عربي</aegov-button>
                   </div>
                 </aegov-header>
                 <div class="aegov-container py-2">
@@ -19100,7 +19122,7 @@
                     </svg>
                   </aegov-input>
                   <div slot="actions" style="display:flex;gap:0.5rem">
-                    <aegov-button size="sm" variant="ghost">English</aegov-button>
+                    <aegov-button size="sm" variant="neutral-min">English</aegov-button>
                     <aegov-button size="sm" variant="secondary">تسجيل الدخول</aegov-button>
                   </div>
                 </aegov-header>
@@ -19126,7 +19148,7 @@
                   logo-label="هيئة الإمارات للخدمات الصحية — الرئيسية">
                   <span slot="logo" style="font-weight:700;font-size:1.1rem">هيئة الإمارات للخدمات الصحية</span>
                   <div slot="actions" style="display:flex;gap:0.5rem">
-                    <aegov-button size="sm" variant="ghost">English</aegov-button>
+                    <aegov-button size="sm" variant="neutral-min">English</aegov-button>
                   </div>
                 </aegov-header>
                 <div class="aegov-container py-2">
@@ -19181,7 +19203,7 @@
                   entity-domain="#"
                   skip-content-container="#main-content">
                   <div slot="actions" style="display:flex;gap:0.5rem;align-items:center">
-                    <aegov-button size="sm" variant="ghost">عربي</aegov-button>
+                    <aegov-button size="sm" variant="neutral-min">عربي</aegov-button>
                     <aegov-button size="sm" variant="secondary">Login</aegov-button>
                   </div>
                 </aegov-header-banner>
