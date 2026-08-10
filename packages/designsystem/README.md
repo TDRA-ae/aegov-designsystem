@@ -1,290 +1,356 @@
 # AEGOV Design System
 
-A modern, framework-agnostic design system built with **StencilJS** and **Tailwind CSS v4**. Create beautiful, accessible, and performant web components that work seamlessly across React, Vue, Angular, and vanilla JavaScript.
+The UAE Government Design System as framework-agnostic Web Components, built with **StencilJS** and **Tailwind CSS v4**. One implementation, used from plain HTML, React, Vue and Angular.
 
-## 🌟 Features
+[![npm](https://img.shields.io/badge/npm-%40aegov%2Fdesignsystem-blue)](https://www.npmjs.com/package/@aegov/designsystem)
 
-- **Framework Agnostic**: Works with React, Vue, Angular, and vanilla JavaScript
-- **Tailwind CSS v4**: Modern CSS-first configuration with design tokens
-- **Scoped CSS**: Styles that don't leak, without Shadow DOM restrictions
-- **TypeScript**: Full type safety and IntelliSense support
-- **Accessible**: Built with WCAG 2.1 guidelines in mind
-- **Tree-shakeable**: Import only what you need
-- **Zero Runtime**: Compiled to native Web Components
+## Contents
 
-## 📦 Installation
+- [What you get](#what-you-get)
+- [Installation](#installation)
+- [Quick start](#quick-start)
+- [Framework packages](#framework-packages)
+- [Design tokens and theming](#design-tokens-and-theming)
+- [Component API conventions](#component-api-conventions)
+- [Validation](#validation)
+- [Accessibility](#accessibility)
+- [Documentation](#documentation)
+- [Development](#development)
+- [Browser support](#browser-support)
+- [License](#license)
 
-### For Consuming Projects
+---
+
+## What you get
+
+- **55 components** — actions, forms, navigation, overlays, feedback, layout and typography.
+- **Framework-agnostic** — native custom elements, plus generated wrappers for React, Vue and Angular.
+- **Tailwind CSS v4 theme** — the full UAE palette, type scale, breakpoints and spacing as `@theme` tokens you can use in your own markup.
+- **Right-to-left throughout** — logical properties everywhere, automatic Arabic font stacks, and built-in Arabic strings for every component-supplied label.
+- **Dark mode** — class-based, so your application can offer an explicit user preference.
+- **A uniform validation surface** across all 13 form components, with no validation library required.
+- **TypeScript types** for every component, event payload and design token.
+
+---
+
+## Installation
 
 ```bash
 npm install @aegov/designsystem
 ```
 
-### For Development
+**Tailwind CSS v4 is required in your project.** The package ships source CSS with `@theme` tokens rather than a pre-compiled stylesheet, so your build compiles it.
 
-```bash
-# Clone the repository
-git clone <repository-url>
-cd aegov-dls-3
+Add three imports to your CSS entry file, in this order:
 
-# Install dependencies
-npm install
-
-# Start development server
-npm start
+```css
+@import "tailwindcss";
+@import "@aegov/designsystem/base";
+@import "@aegov/designsystem/theme";
 ```
 
-## 🚀 Quick Start
+Then register the components once, as early as possible:
 
-### Vanilla JavaScript / HTML
+```ts
+import { defineCustomElements } from '@aegov/designsystem/loader';
+
+defineCustomElements();
+```
+
+Full setup for Vite, Webpack, Parcel, Rollup and the PostCSS CLI is in the [Installation guide](src/docs/markdown/installation.md).
+
+### Package entry points
+
+| Specifier | Contents |
+| --- | --- |
+| `@aegov/designsystem` | Types, and a re-export of the loader. |
+| `@aegov/designsystem/loader` | `defineCustomElements()` — lazy registration of all components. |
+| `@aegov/designsystem/components` | Tree-shakeable element classes and per-component `defineCustomElement`. |
+| `@aegov/designsystem/base` | Global stylesheet — fonts, resets, `.aegov-container`, `.aegov-skip-content`. |
+| `@aegov/designsystem/theme` | The Tailwind `@theme` design tokens. |
+
+---
+
+## Quick start
+
+### Plain HTML
 
 ```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <script type="module" src="https://unpkg.com/@aegov/designsystem/dist/aegov/aegov.esm.js"></script>
-  </head>
-  <body>
-    <aegov-button variant="solid" size="base">
-      Click Me
-    </aegov-button>
+<link rel="stylesheet" href="/dist/styles.css" />
 
-    <script>
-      const button = document.querySelector('aegov-button');
-      button.addEventListener('aegovClick', () => {
-        console.log('Button clicked!');
-      });
-    </script>
-  </body>
-</html>
+<aegov-form-field>
+  <aegov-label>Email address</aegov-label>
+  <aegov-input field-id="email" type="email" name="email" is-required></aegov-input>
+</aegov-form-field>
+
+<aegov-button variant="primary" size="lg">Submit application</aegov-button>
+
+<script type="module">
+  import { defineCustomElements } from '@aegov/designsystem/loader';
+  defineCustomElements();
+
+  document.querySelector('aegov-button')
+    .addEventListener('aegovButtonClick', () => console.log('clicked'));
+</script>
 ```
 
 ### React
 
 ```tsx
-import { AegovButton } from '@aegov/designsystem-react';
+import { AegovButton, AegovInput } from '@aegov/designsystem-react';
 
-function App() {
+export function App() {
   return (
-    <AegovButton
-      variant="solid"
-      size="base"
-      onAegovClick={() => console.log('Clicked!')}
-    >
-      Click Me
-    </AegovButton>
+    <>
+      <AegovInput fieldId="email" type="email" name="email" isRequired />
+      <AegovButton variant="primary" size="lg" onAegovButtonClick={submit}>
+        Submit application
+      </AegovButton>
+    </>
   );
 }
 ```
 
 ### Vue 3
 
+```ts
+// main.ts
+import { createApp } from 'vue';
+import { ComponentLibrary } from '@aegov/designsystem-vue';
+import './styles.css';
+import App from './App.vue';
+
+createApp(App).use(ComponentLibrary).mount('#app');
+```
+
 ```vue
 <template>
-  <aegov-button
-    variant="solid"
-    size="base"
-    @aegov-click="handleClick"
-  >
-    Click Me
+  <aegov-input field-id="email" type="email" name="email" :is-required="true" />
+  <aegov-button variant="primary" size="lg" @aegov-button-click="submit">
+    Submit application
   </aegov-button>
 </template>
-
-<script setup>
-import { AegovButton } from '@aegov/designsystem-vue';
-
-const handleClick = () => {
-  console.log('Clicked!');
-};
-</script>
 ```
 
-### Angular
+### Angular 18+
 
-```typescript
-import { Component } from '@angular/core';
-import { AegovButton } from '@aegov/designsystem-angular';
+```ts
+// app.config.ts
+import { provideDesignSystem } from '@aegov/designsystem-angular';
 
+export const appConfig = { providers: [provideDesignSystem()] };
+```
+
+```ts
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [AegovButton],
+  imports: [AegovButton, AegovInput],
   template: `
-    <aegov-button
-      variant="solid"
-      size="base"
-      (aegovClick)="handleClick()"
-    >
-      Click Me
+    <aegov-input fieldId="email" type="email" name="email" [isRequired]="true" />
+    <aegov-button variant="primary" size="lg" (aegovButtonClick)="submit()">
+      Submit application
     </aegov-button>
-  `
+  `,
 })
-export class AppComponent {
-  handleClick() {
-    console.log('Clicked!');
-  }
-}
+export class AppComponent {}
 ```
-
-## 🎨 Using Tailwind Theme in Your Project
-
-The AEGOV Design System packages its Tailwind CSS theme with design tokens that you can use in your consuming projects.
-
-### Setup in Your Project
-
-1. **Install Tailwind CSS v4** in your project:
-
-```bash
-npm install -D tailwindcss@^4.1.3 @tailwindcss/postcss
-```
-
-2. **Import the AEGOV theme** in your CSS:
-
-```css
-/* src/styles/main.css */
-@import "@aegov/designsystem/tailwind.css";
-
-/* Your custom styles here */
-```
-
-3. **Configure PostCSS**:
-
-```javascript
-// postcss.config.js
-module.exports = {
-  plugins: [
-    require('@tailwindcss/postcss'),
-  ]
-};
-```
-
-4. **Use the design tokens** in your application:
-
-```html
-<div class="bg-primary-600 text-white px-4 py-2 rounded-lg">
-  Using AEGOV design tokens!
-</div>
-```
-
-### Available Design Tokens
-
-The theme includes:
-
-- **Colors**: Primary, Secondary, Neutral, Success, Warning, Error, Info (50-950 shades)
-- **Typography**: Font families (Sans, Mono, Display), sizes, weights, line heights
-- **Spacing**: Comprehensive spacing scale (px, 0-24)
-- **Border Radius**: From none to full (sm, md, lg, xl, 2xl, 3xl, full)
-- **Shadows**: xs, sm, base, md, lg, xl, 2xl
-- **Transitions**: Duration and timing functions
-- **Z-index**: Semantic z-index scale
-
-See `src/styles/tailwind.css` for the complete theme configuration.
-
-## 📚 Components
-
-### aegov-button
-
-A versatile button component with multiple variants and sizes.
-
-**Props:**
-- `variant`: `'solid'` | `'outline'` (default: `'solid'`)
-- `size`: `'xs'` | `'sm'` | `'base'` | `'lg'` (default: `'base'`)
-- `type`: `'button'` | `'submit'` | `'reset'` (default: `'button'`)
-- `disabled`: `boolean` (default: `false`)
-- `loading`: `boolean` (default: `false`)
-- `fullWidth`: `boolean` (default: `false`)
-
-**Events:**
-- `aegovClick`: Emitted when button is clicked
-- `aegovFocus`: Emitted when button receives focus
-- `aegovBlur`: Emitted when button loses focus
-
-[Full documentation →](src/components/aegov-button/readme.md)
-
-## 🛠️ Development
-
-### Project Structure
-
-```
-aegov-dls-3/
-├── src/
-│   ├── components/           # Component library
-│   │   └── aegov-button/    # Button component
-│   ├── styles/              # Tailwind theme configuration
-│   │   └── tailwind.css     # Main theme file
-│   ├── global/              # Global styles
-│   ├── utils/               # Shared utilities and types
-│   └── index.ts             # Main entry point
-├── stencil.config.ts        # Stencil configuration
-├── postcss.config.js        # PostCSS configuration
-├── tsconfig.json            # TypeScript configuration
-└── package.json             # Dependencies
-```
-
-### Available Scripts
-
-```bash
-# Start development server with hot reload
-npm start
-
-# Build for production
-npm run build
-
-# Run tests
-npm test
-
-# Run tests in watch mode
-npm run test.watch
-
-# Generate a new component
-npm run generate
-```
-
-### Creating New Components
-
-```bash
-# Generate a new component scaffold
-npm run generate
-
-# Follow the prompts to create your component
-```
-
-## 🎯 Design Principles
-
-1. **Accessibility First**: All components are built with WCAG 2.1 AA compliance in mind
-2. **Framework Agnostic**: Works everywhere, no framework lock-in
-3. **Developer Experience**: Excellent TypeScript support and clear documentation
-4. **Performance**: Lazy loading, tree-shaking, and minimal runtime overhead
-5. **Customizable**: Design tokens and CSS custom properties for easy theming
-6. **Scoped Styles**: No style conflicts, but without Shadow DOM restrictions
-
-## 📖 Documentation
-
-- [Component Documentation](src/components/)
-- [Design Tokens](src/styles/tailwind.css)
-- [StencilJS Documentation](https://stenciljs.com/)
-- [Tailwind CSS v4 Documentation](https://tailwindcss.com/)
-
-## 🤝 Contributing
-
-Contributions are welcome! Please read our contributing guidelines before submitting PRs.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-MIT License - see [LICENSE](LICENSE) for details
-
-## 🙏 Acknowledgments
-
-- Built with [StencilJS](https://stenciljs.com/)
-- Styled with [Tailwind CSS](https://tailwindcss.com/)
-- Inspired by modern design systems
 
 ---
 
-**Built with ♥ by the AEGOV Team**
+## Framework packages
+
+| Package | Registration | Props | Events |
+| --- | --- | --- | --- |
+| `@aegov/designsystem` | `defineCustomElements()` | kebab-case attributes | `addEventListener('aegovX')` |
+| `@aegov/designsystem-react` | automatic, per wrapper | **camelCase** | `onAegovX` |
+| `@aegov/designsystem-vue` | `app.use(ComponentLibrary)` | kebab-case | `@aegov-x` |
+| `@aegov/designsystem-angular` | `provideDesignSystem()` or `DesignSystemModule` | **camelCase** | `(aegovX)` |
+
+Per-framework guides, including SSR notes and the known caveats — `v-model` is not supported in Vue, and `ngModel` / `formControlName` are not yet supported in Angular:
+
+- [Using with React](src/docs/markdown/using-with-react.md)
+- [Using with Vue](src/docs/markdown/using-with-vue.md)
+- [Using with Angular](src/docs/markdown/using-with-angular.md)
+
+---
+
+## Design tokens and theming
+
+Importing `@aegov/designsystem/theme` gives you the full token set as Tailwind utilities in your own markup:
+
+```html
+<div class="bg-primary-600 text-whitely-50 px-4 py-2 rounded-lg">
+  Using AEGOV design tokens
+</div>
+```
+
+| Token family | Contents |
+| --- | --- |
+| Colours | `primary` (+ `primary-support`), `secondary` (+ `secondary-support`), `aeblack`, `aered`, `aegreen`, `aegold`, `techblue`, `seablue`, `camel`, `desert`, `whitely`, `fuchsia`, `indigo`, `purple`, `pink`, `lime`, `slate` — each on a 50–950 scale, in OKLCH. |
+| Typography | `--font-roboto`, `--font-inter`, `--font-notokufi`, `--font-alexandria`; sizes `text-xs`–`text-3xl` plus `text-display` and `text-h1`–`text-h6`, each with a paired line height. |
+| Breakpoints | `xs` 480, `sm` 640, `md` 768, `lg` 1024, `xl` 1280, `2xl` 1536. |
+| Transitions | Duration and timing tokens. |
+
+The theme also declares an explicit cascade-layer order:
+
+```css
+@layer theme, base, components, aegov-internals, utilities;
+```
+
+Because `utilities` comes last, your own Tailwind classes always beat the design system's element-level styling — no `!important` needed.
+
+### Dark mode
+
+Class-based, via `@custom-variant dark (&:where(.dark, .dark *))`. Add `dark` to the root element:
+
+```html
+<html class="dark">
+```
+
+### Right-to-left
+
+Set `dir="rtl"` and the whole system flips: layout uses logical properties, and the body and heading font stacks switch to Noto Kufi Arabic and Alexandria automatically.
+
+Set `dir` on `<html>` rather than an inner wrapper — the portal-based components (toast, dropdown, popover, datepicker) and the header's injected skip link render into `document.body` and inherit direction from the document.
+
+---
+
+## Component API conventions
+
+The whole library follows one naming grammar, which makes most of the API predictable:
+
+| Slot in the grammar | Meaning | Values |
+| --- | --- | --- |
+| `variant` | Semantic **colour** | `primary`, `secondary`, `neutral-max`, `neutral-min` (+ `danger` on actions) |
+| `appearance` | Visual **style** | `solid`, `outline`, `soft`, `link` on actions; per-family sets elsewhere |
+| `size` | Size token, **responsive** | `"sm md:base xl:lg"` — resolved at runtime |
+| `is*` | Every boolean | `isDisabled`, `isRequired`, `isOpen`, `isInvalid`, `isLoading`, … |
+| `label*` | User-visible strings | `label`, `labelNav`, `labelButton`, … |
+| `extraClass` | Extra classes on the inner element | not `class` |
+| `fieldId` | Element ID | not `id`; auto-generated |
+
+Responsive size strings work on most components and accept the breakpoint prefixes `xs`, `sm`, `md`, `lg`, `xl` and `2xl`:
+
+```html
+<aegov-button size="sm md:base xl:lg">Adapts to the viewport</aegov-button>
+<aegov-bento-grid cols="1 md:2 lg:4"></aegov-bento-grid>
+```
+
+Events are named `aegov` + component + action, and carry structured detail:
+
+```js
+input.addEventListener('aegovInputChange', (e) => console.log(e.detail.value));
+```
+
+---
+
+## Validation
+
+Every form component ships the same surface, with **no dependencies**: `isInvalid`, `errorMessage` and `hint` properties, `error` and `hint` slots, an `aegovValidate` event, and `validate()` / `setCustomValidity()` methods.
+
+```js
+input.addEventListener('aegovValidate', (e) => {
+  if (e.detail.trigger !== 'blur') return;
+  const ok = /\S+@\S+\.\S+/.test(e.detail.value);
+  input.isInvalid = !ok;
+  input.errorMessage = ok ? '' : 'Enter a valid email address';
+});
+```
+
+All 13 form components participate in native `<form>` submission — four of them (`aegov-otp`, `aegov-fileupload`, `aegov-select` in listbox mode, `aegov-datepicker`) as form-associated custom elements using `ElementInternals`.
+
+- [Validation Surface](src/docs/markdown/validation-overview.md) — the full contract, value types and form integration.
+- [Bring Your Own Validator](src/docs/markdown/validation-byo.md) — recipes with no extra package.
+
+For schema-driven validation there is an **optional** companion package, `@aegov/designsystem-validation`, with adapters for Valibot, Zod, Vest and the native Constraint Validation API. Nothing in the design system depends on it.
+
+---
+
+## Accessibility
+
+Built for WCAG 2.2 AA. Every component page documents what the component handles and what you must supply. The highlights:
+
+- Native elements underneath wherever possible — real `<button>`, `<input>`, `<select>`, `<progress>`, `<blockquote>`.
+- `aria-describedby` is **composed**, not overwritten, so your own IDs survive alongside hint, error and counter regions.
+- Error regions announce only after a field's first blur, so screen readers are not flooded mid-typing.
+- Focus is trapped in modals and drawers, and returned to the trigger on close with `preventScroll`.
+- Live-region politeness is derived from meaning: `error` and `warning` interrupt, everything else waits.
+- Component-supplied labels — "Show password", "Clear selection", "Dismiss", size units, file errors — are provided in English and Arabic and selected from the page direction.
+- Focus rings hold a constant high-contrast colour across variants to meet the 3:1 non-text contrast requirement.
+
+---
+
+## Documentation
+
+Run the docs site locally:
+
+```bash
+npm start
+```
+
+Then open `http://localhost:3333`. Sources are in `src/docs/markdown/`; every component has a page covering examples, RTL behaviour, a full API reference, and accessibility obligations.
+
+---
+
+## Development
+
+```bash
+npm start              # dev server with hot reload, on port 3333
+npm run build          # docs markdown → Stencil build → docs CSS → copy CSS to dist
+npm run build:prod     # production build (minified)
+npm test               # unit + e2e
+npm run test:unit      # unit only
+npm run test:e2e       # e2e only
+npm run test:coverage  # coverage report
+npx stencil generate   # scaffold a new component
+```
+
+This package lives in a Lerna + Nx monorepo. Building it also regenerates the React, Vue and Angular wrapper sources, so run builds from the repository root to get everything in the right order:
+
+```bash
+npm run build          # from the repo root: core + all three wrappers
+```
+
+Accessibility tests use Playwright against the built site:
+
+```bash
+npx http-server www -p 3333 --cors
+npx playwright test tests/a11y/
+```
+
+See [DEVELOPER.md](../../DEVELOPER.md) at the repository root for the full command reference and the publish flow.
+
+### Project structure
+
+```
+src/
+├── components/     # 55 component directories
+├── utils/          # types, validation, portals, focus, responsive props, a11y helpers
+├── styles/
+│   └── tailwind.css  # the @theme token definitions
+├── global/
+│   ├── global.css    # global stylesheet shipped as ./base
+│   ├── app.ts        # Stencil globalScript
+│   └── toast-helper.ts
+├── docs/           # documentation site (markdown/ + pages/)
+└── index.ts        # library entry — exports all public types
+```
+
+---
+
+## Browser support
+
+| Browser | Minimum |
+| --- | --- |
+| Chrome / Edge | 77 |
+| Firefox | 98 |
+| Safari | **16.4** |
+
+Safari 16.4 is a hard floor: `aegov-otp`, `aegov-fileupload`, `aegov-select` in listbox mode and `aegov-datepicker` are form-associated custom elements and require `ElementInternals`.
+
+Components are client-side only — they rely on the Custom Elements API, which has no server implementation. Under SSR, render them on the client; the CSS import is SSR-safe.
+
+---
+
+## License
+
+MIT — see [LICENSE.md](LICENSE.md).

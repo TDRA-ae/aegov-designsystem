@@ -21,68 +21,79 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Using with Angular</h1>
-<p class="text-lg text-aeblack-500 mb-8">The AEGOV Design System ships first-class Angular wrappers for every component. They auto-generate from the Stencil web components and give you typed inputs, typed outputs, Angular change detection integration, and standard Angular template ergonomics. This page covers installation, setup for both standalone and module-based Angular apps, and common gotchas.</p>
+<p class="text-lg text-aeblack-500 mb-8">The AEGOV Design System ships generated Angular wrappers for every component — standalone components with typed inputs, typed outputs and <code>OnPush</code> change detection. This page covers installing the Angular package, configuring Tailwind under the Angular CLI, initialising the design system for both standalone and module-based apps, and the Angular-specific conventions: camelCase inputs, required inputs, and how form binding works today.</p>
 
-<blockquote>
-<p><strong>Requires Angular 19+.</strong> The Angular wrappers are generated with <code>@stencil/angular-output-target</code> v1.x which targets Angular 19 and above.</p>
-</blockquote>
-<hr>
-<h2>What you install</h2>
+<h2>Introduction</h2>
+<p>Two packages, both required:</p>
 <table>
 <thead>
 <tr>
 <th>Package</th>
-<th>Purpose</th>
+<th>Role</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>@aegov/designsystem</code></td>
-<td>The web components — Stencil bundles, CSS, and types. Required at runtime.</td>
+<td>The web components — implementations, CSS and TypeScript types. Required at runtime.</td>
 </tr>
 <tr>
 <td><code>@aegov/designsystem-angular</code></td>
-<td>Angular directive wrappers, <code>DesignSystemModule</code>, and <code>provideDesignSystem()</code>.</td>
+<td>Generated standalone component wrappers, the <code>DIRECTIVES</code> array, <code>DesignSystemModule</code> and <code>provideDesignSystem()</code>.</td>
 </tr>
 </tbody></table>
-<hr>
-<h2>Step 1 — Install the packages</h2>
+<p>Declared peer dependencies are <code>@angular/core</code> and <code>@angular/common</code> at <strong>18.0.0 or newer</strong>.</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovButton</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-angular&#x27;</span>;
+
+<span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-root&#x27;</span>,
+  <span class="hljs-attr">imports</span>: [<span class="hljs-title class_">AegovButton</span>],
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
+    &lt;aegov-button variant=&quot;primary&quot; (aegovButtonClick)=&quot;submit()&quot;&gt;
+      Submit application
+    &lt;/aegov-button&gt;
+  `</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppComponent</span> {
+  <span class="hljs-title function_">submit</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">/* … */</span> }
+}</code></pre><hr>
+<h2>Step 1 — Install</h2>
 <pre><code class="hljs language-bash">npm install @aegov/designsystem @aegov/designsystem-angular</code></pre><hr>
-<h2>Step 2 — Set up Tailwind CSS</h2>
-<p>The design system ships source CSS that requires Tailwind v4 to compile.</p>
+<h2>Step 2 — Set up Tailwind</h2>
+<p>The design system ships <strong>source</strong> CSS, so Tailwind v4 must run in your build.</p>
 <h3>If you selected Tailwind during <code>ng new</code></h3>
-<p>Angular CLI already installed <code>@tailwindcss/postcss</code>, created <code>postcss.config.json</code>, and added <code>@import &quot;tailwindcss&quot;</code> to <code>src/styles.css</code>. Just add the two design system imports after it:</p>
+<p>The CLI already installed <code>@tailwindcss/postcss</code>, created <code>postcss.config.json</code>, and put <code>@import &quot;tailwindcss&quot;</code> in <code>src/styles.css</code>. Add the two design system imports after it:</p>
 <pre><code class="hljs language-css"><span class="hljs-comment">/* src/styles.css */</span>
 <span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/base&quot;</span>;   <span class="hljs-comment">/* ← add this */</span>
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;  <span class="hljs-comment">/* ← add this */</span></code></pre><h3>If you did not select Tailwind during <code>ng new</code></h3>
-<p><strong>Install Tailwind PostCSS:</strong></p>
-<pre><code class="hljs language-bash">npm install -D @tailwindcss/postcss postcss</code></pre><p><strong>Create <code>postcss.config.json</code> at the project root</strong> (Angular reads this automatically):</p>
+<span class="hljs-keyword">@source</span> <span class="hljs-string">&quot;./**/*.{ts,html}&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/base&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;</code></pre><h3>If you did not select Tailwind during <code>ng new</code></h3>
+<pre><code class="hljs language-bash">npm install -D @tailwindcss/postcss postcss</code></pre><p>Create <code>postcss.config.json</code> at the project root — the Angular CLI picks it up automatically:</p>
 <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">&quot;plugins&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
     <span class="hljs-attr">&quot;@tailwindcss/postcss&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-punctuation">}</span>
   <span class="hljs-punctuation">}</span>
-<span class="hljs-punctuation">}</span></code></pre><p><strong>Add all three imports to <code>src/styles.css</code>:</strong></p>
-<pre><code class="hljs language-css"><span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/base&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;</code></pre><p>Order matters — Tailwind first, then <code>base</code> (component styles and fonts), then <code>theme</code> (design tokens).</p>
+<span class="hljs-punctuation">}</span></code></pre><p>Then add all four lines to <code>src/styles.css</code> as shown above.</p>
+<h3>Why <code>@source</code></h3>
+<p>Tailwind v4 discovers the utility classes you use by scanning your source files. Under the Angular CLI the stylesheet is compiled from <code>src/styles.css</code>, so declare explicitly where your templates live:</p>
+<pre><code class="hljs language-css"><span class="hljs-keyword">@source</span> <span class="hljs-string">&quot;./**/*.{ts,html}&quot;</span>;</code></pre><p>Without it, utilities used only inside inline <code>template:</code> strings or <code>.html</code> files may not be generated, and you will see classes present in the DOM with no matching CSS rule.</p>
+<p>Import order matters: Tailwind first, then <code>base</code> (fonts, resets, global element styles), then <code>theme</code> (design tokens).</p>
 <hr>
-<h2>Step 3 — Initialize the design system</h2>
-<p><code>provideDesignSystem()</code> registers all web components via Angular&#39;s <code>APP_INITIALIZER</code> — the same pattern used by Ionic. This ensures all <code>aegov-*</code> elements are defined in the browser before the app renders.</p>
-<p>Choose the setup that matches your Angular app type.</p>
-<h3>Standalone Angular (Angular 17+)</h3>
-<p>Add <code>provideDesignSystem()</code> to your <code>app.config.ts</code>:</p>
+<h2>Step 3 — Initialise the design system</h2>
+<p>The wrappers render the custom element tags but do not register them. Registration happens once at bootstrap, via an <code>APP_INITIALIZER</code> that calls <code>defineCustomElements()</code> — the same pattern Ionic uses. This guarantees every <code>aegov-*</code> element is defined before your first template renders.</p>
+<h3>Standalone applications</h3>
 <pre><code class="hljs language-ts"><span class="hljs-comment">// src/app/app.config.ts</span>
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">ApplicationConfig</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
 <span class="hljs-keyword">import</span> { provideRouter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/router&#x27;</span>;
 <span class="hljs-keyword">import</span> { provideDesignSystem } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-angular&#x27;</span>;
+<span class="hljs-keyword">import</span> { routes } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./app.routes&#x27;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-attr">appConfig</span>: <span class="hljs-title class_">ApplicationConfig</span> = {
   <span class="hljs-attr">providers</span>: [
     <span class="hljs-title function_">provideRouter</span>(routes),
-    <span class="hljs-title function_">provideDesignSystem</span>()
-  ]
-};</code></pre><h3>Module-based Angular</h3>
-<p>Import <code>DesignSystemModule</code> in your root <code>AppModule</code>:</p>
+    <span class="hljs-title function_">provideDesignSystem</span>(),
+  ],
+};</code></pre><h3>Module-based applications</h3>
 <pre><code class="hljs language-ts"><span class="hljs-comment">// src/app/app.module.ts</span>
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">NgModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">BrowserModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/platform-browser&#x27;</span>;
@@ -92,43 +103,17 @@
 <span class="hljs-meta">@NgModule</span>({
   <span class="hljs-attr">declarations</span>: [<span class="hljs-title class_">AppComponent</span>],
   <span class="hljs-attr">imports</span>: [<span class="hljs-title class_">BrowserModule</span>, <span class="hljs-title class_">DesignSystemModule</span>],
-  <span class="hljs-attr">bootstrap</span>: [<span class="hljs-title class_">AppComponent</span>]
+  <span class="hljs-attr">bootstrap</span>: [<span class="hljs-title class_">AppComponent</span>],
 })
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppModule</span> {}</code></pre><hr>
-<h2>Step 4 — Use components</h2>
-<p>You have two options for importing components into your Angular components.</p>
-<h3>Option A — <code>DesignSystemModule</code> (all components at once)</h3>
-<p>Good for prototyping or when you use many components. Gives you all 50+ components without listing them individually:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">DesignSystemModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-angular&#x27;</span>;
-
-<span class="hljs-meta">@Component</span>({
-  <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-root&#x27;</span>,
-  <span class="hljs-attr">imports</span>: [<span class="hljs-title class_">DesignSystemModule</span>],
-  <span class="hljs-attr">template</span>: <span class="hljs-string">`
-    &lt;aegov-button variant=&quot;primary&quot;&gt;Submit&lt;/aegov-button&gt;
-    &lt;aegov-badge color=&quot;success&quot;&gt;Active&lt;/aegov-badge&gt;
-  `</span>
-})
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppComponent</span> {}</code></pre><h3>Option B — Individual imports (recommended for production)</h3>
-<p>Import only what you use. Better for tree-shaking and makes component dependencies explicit:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovButton</span>, <span class="hljs-title class_">AegovBadge</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-angular&#x27;</span>;
-
-<span class="hljs-meta">@Component</span>({
-  <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-root&#x27;</span>,
-  <span class="hljs-attr">imports</span>: [<span class="hljs-title class_">AegovButton</span>, <span class="hljs-title class_">AegovBadge</span>],
-  <span class="hljs-attr">template</span>: <span class="hljs-string">`
-    &lt;aegov-button variant=&quot;primary&quot;&gt;Submit&lt;/aegov-button&gt;
-    &lt;aegov-badge color=&quot;success&quot;&gt;Active&lt;/aegov-badge&gt;
-  `</span>
-})
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppComponent</span> {}</code></pre><p>All components follow the same naming convention — <code>Aegov</code> + PascalCase:</p>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppModule</span> {}</code></pre><p><code>DesignSystemModule</code> both registers the elements and re-exports every wrapper, so components declared in that module can use any <code>aegov-*</code> tag without further imports.</p>
+<hr>
+<h2>Step 4 — Import the components you use</h2>
+<p>Every tag has a standalone wrapper named <code>Aegov</code> + PascalCase.</p>
 <table>
 <thead>
 <tr>
 <th>Tag</th>
-<th>Import name</th>
+<th>Import</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -140,26 +125,52 @@
 <td><code>AegovInput</code></td>
 </tr>
 <tr>
-<td><code>&lt;aegov-badge&gt;</code></td>
-<td><code>AegovBadge</code></td>
-</tr>
-<tr>
-<td><code>&lt;aegov-modal&gt;</code></td>
-<td><code>AegovModal</code></td>
-</tr>
-<tr>
 <td><code>&lt;aegov-select&gt;</code></td>
 <td><code>AegovSelect</code></td>
 </tr>
+<tr>
+<td><code>&lt;aegov-form-field&gt;</code></td>
+<td><code>AegovFormField</code></td>
+</tr>
+<tr>
+<td><code>&lt;aegov-header-banner&gt;</code></td>
+<td><code>AegovHeaderBanner</code></td>
+</tr>
 </tbody></table>
-<p>Always use the <strong>HTML tag</strong> (<code>&lt;aegov-button&gt;</code>) in templates — never the class name (<code>&lt;AegovButton&gt;</code>).</p>
-<hr>
-<h2>Props — use camelCase in Angular templates</h2>
-<p>Angular inputs use <strong>camelCase</strong>. Unlike plain HTML (which uses <code>kebab-case</code> attributes), Angular&#39;s template compiler resolves props by their camelCase input name:</p>
-<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- HTML / Vue / React --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span>
+<h3>Option A — individual imports (recommended)</h3>
+<p>Explicit dependencies, best tree-shaking:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovFormField</span>, <span class="hljs-title class_">AegovLabel</span>, <span class="hljs-title class_">AegovInput</span>, <span class="hljs-title class_">AegovButton</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-angular&#x27;</span>;
 
-<span class="hljs-comment">&lt;!-- Angular — use camelCase --&gt;</span>
+<span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-contact-step&#x27;</span>,
+  <span class="hljs-attr">imports</span>: [<span class="hljs-title class_">AegovFormField</span>, <span class="hljs-title class_">AegovLabel</span>, <span class="hljs-title class_">AegovInput</span>, <span class="hljs-title class_">AegovButton</span>],
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
+    &lt;aegov-form-field&gt;
+      &lt;aegov-label&gt;Email address&lt;/aegov-label&gt;
+      &lt;aegov-input fieldId=&quot;email&quot; type=&quot;email&quot; placeholder=&quot;name@example.ae&quot; /&gt;
+    &lt;/aegov-form-field&gt;
+
+    &lt;aegov-button variant=&quot;primary&quot; size=&quot;lg&quot;&gt;Continue&lt;/aegov-button&gt;
+  `</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ContactStepComponent</span> {}</code></pre><h3>Option B — everything at once</h3>
+<p>For prototyping, <code>DesignSystemModule</code> brings in all wrappers, or import the <code>DIRECTIVES</code> array directly into a standalone component:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-variable constant_">DIRECTIVES</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-angular&#x27;</span>;
+
+<span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-kitchen-sink&#x27;</span>,
+  <span class="hljs-attr">imports</span>: [...<span class="hljs-variable constant_">DIRECTIVES</span>],
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`…`</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">KitchenSinkComponent</span> {}</code></pre><p>Always use the <strong>HTML tag</strong> in templates (<code>&lt;aegov-button&gt;</code>), never the class name.</p>
+<hr>
+<h2>Inputs — camelCase in templates</h2>
+<p>This is the main difference from plain HTML and Vue. Angular&#39;s template compiler resolves inputs by their declared name, and the generated wrappers declare them in camelCase.</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Plain HTML / Vue --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">is-required</span> /&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Angular --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">fieldId</span>=<span class="hljs-string">&quot;email&quot;</span> [<span class="hljs-attr">isRequired</span>]=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span></code></pre><table>
 <thead>
 <tr>
@@ -180,101 +191,276 @@
 <td><code>isRequired</code></td>
 </tr>
 <tr>
-<td><code>card-title</code></td>
-<td><code>cardTitle</code></td>
+<td><code>is-invalid</code></td>
+<td><code>isInvalid</code></td>
+</tr>
+<tr>
+<td><code>error-message</code></td>
+<td><code>errorMessage</code></td>
 </tr>
 <tr>
 <td><code>default-open</code></td>
 <td><code>defaultOpen</code></td>
 </tr>
+<tr>
+<td><code>addon-prefix</code></td>
+<td><code>addonPrefix</code></td>
+</tr>
+<tr>
+<td><code>label-nav</code></td>
+<td><code>labelNav</code></td>
+</tr>
+<tr>
+<td><code>page-current</code></td>
+<td><code>pageCurrent</code></td>
+</tr>
 </tbody></table>
-<blockquote>
-<p><strong>Required inputs:</strong> Some inputs are marked required by the component — Angular will throw a build error (<code>NG8008</code>) if you omit them or use the wrong case. Affected inputs: <code>tabId</code> on <code>&lt;aegov-tab&gt;</code> and <code>&lt;aegov-tab-panel&gt;</code>, <code>href</code> on <code>&lt;aegov-link&gt;</code>, <code>name</code> on <code>&lt;aegov-radio-group&gt;</code>.</p>
-</blockquote>
-<hr>
-<h2>Events — use Angular output syntax</h2>
-<p>Bind to component events with Angular&#39;s <code>(eventName)</code> syntax:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> (<span class="hljs-attr">aegovButtonClick</span>)=<span class="hljs-string">&quot;onButtonClick($event)&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<p>Bind anything that is not a literal string, so Angular passes a real value rather than the string form:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> [<span class="hljs-attr">isRequired</span>]=<span class="hljs-string">&quot;true&quot;</span> [<span class="hljs-attr">isDisabled</span>]=<span class="hljs-string">&quot;form.locked&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> [<span class="hljs-attr">pages</span>]=<span class="hljs-string">&quot;totalPages&quot;</span> [<span class="hljs-attr">pageCurrent</span>]=<span class="hljs-string">&quot;page&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span>&gt;</span>Responsive size string<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span></code></pre><h3>Required inputs</h3>
+<p>Four inputs are marked required by their components. Omitting one — or spelling it in kebab-case — is a compile-time error, <code>NG8008</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Required input</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegov-tab</code></td>
+<td><code>tabId</code></td>
+</tr>
+<tr>
+<td><code>aegov-tab-panel</code></td>
+<td><code>tabId</code></td>
+</tr>
+<tr>
+<td><code>aegov-link</code></td>
+<td><code>href</code></td>
+</tr>
+<tr>
+<td><code>aegov-radio-group</code></td>
+<td><code>name</code></td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- NG8008: Required input &#x27;tabId&#x27; from component AegovTab must be specified --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;</span>Overview<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Correct --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">tabId</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;</span>Overview<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span></code></pre><hr>
+<h2>Outputs — <code>(aegovEvent)</code> syntax</h2>
+<p>Component events are declared as Angular outputs, keeping the original event name. The <code>$event</code> you receive is the <code>CustomEvent</code>, so the payload is on <code>$event.detail</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> (<span class="hljs-attr">aegovButtonClick</span>)=<span class="hljs-string">&quot;submit($event)&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span>
-  (<span class="hljs-attr">aegovInputChange</span>)=<span class="hljs-string">&quot;onInputChange($event)&quot;</span>
-  (<span class="hljs-attr">aegovValidate</span>)=<span class="hljs-string">&quot;onValidate($event)&quot;</span>
+  (<span class="hljs-attr">aegovInputChange</span>)=<span class="hljs-string">&quot;email = $event.detail.value&quot;</span>
+  (<span class="hljs-attr">aegovInputBlur</span>)=<span class="hljs-string">&quot;touched = true&quot;</span>
 /&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> (<span class="hljs-attr">aegovSelectChange</span>)=<span class="hljs-string">&quot;onSelectChange($event)&quot;</span> /&gt;</span></code></pre><hr>
-<h2>Tabs — use camelCase tabId</h2>
-<p><code>tabId</code> is a required input on <code>&lt;aegov-tab&gt;</code> and <code>&lt;aegov-tab-panel&gt;</code>. Use camelCase in Angular templates:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">defaultOpen</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tabId</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;</span>Overview<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tabId</span>=<span class="hljs-string">&quot;details&quot;</span>&gt;</span>Details<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tabId</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;</span>Overview content<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tabId</span>=<span class="hljs-string">&quot;details&quot;</span>&gt;</span>Details content<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span></code></pre><hr>
-<h2>Full example — a form with input and button</h2>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span>, signal } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovButton</span>, <span class="hljs-title class_">AegovInput</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-angular&#x27;</span>;
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> (<span class="hljs-attr">aegovSelectChange</span>)=<span class="hljs-string">&quot;onEmirate($event)&quot;</span> /&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> [<span class="hljs-attr">isDismissible</span>]=<span class="hljs-string">&quot;true&quot;</span> (<span class="hljs-attr">aegovBadgeDismiss</span>)=<span class="hljs-string">&quot;removeFilter(id)&quot;</span> /&gt;</span></code></pre><pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">SelectChangeDetail</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem&#x27;</span>;
+
+<span class="hljs-title function_">onEmirate</span>(<span class="hljs-params"><span class="hljs-attr">e</span>: <span class="hljs-title class_">CustomEvent</span>&lt;<span class="hljs-title class_">SelectChangeDetail</span>&gt;</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">label</span>);
+}</code></pre><hr>
+<h2>Template refs and imperative methods</h2>
+<p>Use <code>ElementRef</code> with <code>viewChild</code> to reach the underlying custom element. Methods are async.</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span>, <span class="hljs-title class_">ElementRef</span>, viewChild } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovModal</span>, <span class="hljs-title class_">AegovButton</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-angular&#x27;</span>;
 
 <span class="hljs-meta">@Component</span>({
-  <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-contact-form&#x27;</span>,
-  <span class="hljs-attr">imports</span>: [<span class="hljs-title class_">AegovButton</span>, <span class="hljs-title class_">AegovInput</span>],
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-confirm&#x27;</span>,
+  <span class="hljs-attr">imports</span>: [<span class="hljs-title class_">AegovModal</span>, <span class="hljs-title class_">AegovButton</span>],
   <span class="hljs-attr">template</span>: <span class="hljs-string">`
-    &lt;aegov-input
-      fieldId=&quot;email&quot;
-      type=&quot;email&quot;
-      placeholder=&quot;Enter your email&quot;
-      [value]=&quot;email()&quot;
-      (aegovInputChange)=&quot;email.set($event.detail.value)&quot;
-    /&gt;
-    &lt;aegov-button
-      variant=&quot;primary&quot;
-      [isLoading]=&quot;isLoading()&quot;
-      [isDisabled]=&quot;isLoading()&quot;
-      (aegovButtonClick)=&quot;onSubmit()&quot;
-    &gt;
-      Submit
-    &lt;/aegov-button&gt;
-  `</span>
-})
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ContactFormComponent</span> {
-  email = <span class="hljs-title function_">signal</span>(<span class="hljs-string">&#x27;&#x27;</span>);
-  isLoading = <span class="hljs-title function_">signal</span>(<span class="hljs-literal">false</span>);
+    &lt;aegov-button (aegovButtonClick)=&quot;open()&quot;&gt;Review submission&lt;/aegov-button&gt;
 
-  <span class="hljs-keyword">async</span> <span class="hljs-title function_">onSubmit</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">isLoading</span>.<span class="hljs-title function_">set</span>(<span class="hljs-literal">true</span>);
+    &lt;aegov-modal #modal label=&quot;Confirm submission&quot;&gt;
+      &lt;p&gt;Submit your application for review?&lt;/p&gt;
+      &lt;aegov-button variant=&quot;primary&quot; (aegovButtonClick)=&quot;close()&quot;&gt;Confirm&lt;/aegov-button&gt;
+    &lt;/aegov-modal&gt;
+  `</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ConfirmComponent</span> {
+  <span class="hljs-keyword">private</span> modal = viewChild&lt;<span class="hljs-title class_">ElementRef</span>&lt;<span class="hljs-title class_">HTMLAegovModalElement</span>&gt;&gt;(<span class="hljs-string">&#x27;modal&#x27;</span>);
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">open</span>(<span class="hljs-params"></span>) { <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">modal</span>()?.<span class="hljs-property">nativeElement</span>.<span class="hljs-title function_">show</span>(); }
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">close</span>(<span class="hljs-params"></span>) { <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">modal</span>()?.<span class="hljs-property">nativeElement</span>.<span class="hljs-title function_">close</span>(); }
+}</code></pre><p>For form components:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emiratesId</span>()?.<span class="hljs-property">nativeElement</span>.<span class="hljs-title function_">validate</span>(<span class="hljs-string">&#x27;manual&#x27;</span>);
+<span class="hljs-keyword">if</span> (!result?.<span class="hljs-property">valid</span>) <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emiratesId</span>()?.<span class="hljs-property">nativeElement</span>.<span class="hljs-title function_">focus</span>();</code></pre><hr>
+<h2>Form binding</h2>
+<p>The components are web components with their own internal value, and they participate in <strong>native</strong> form submission. They are not yet wired into Angular&#39;s forms API.</p>
+<h3>What works today</h3>
+<p>Bind the value in, listen for changes out — the same pattern as any custom element:</p>
+<pre><code class="hljs language-ts"><span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-application-form&#x27;</span>,
+  <span class="hljs-attr">imports</span>: [<span class="hljs-title class_">AegovFormField</span>, <span class="hljs-title class_">AegovLabel</span>, <span class="hljs-title class_">AegovInput</span>, <span class="hljs-title class_">AegovButton</span>],
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
+    &lt;form (submit)=&quot;onSubmit($event)&quot;&gt;
+      &lt;aegov-form-field&gt;
+        &lt;aegov-label&gt;Emirates ID&lt;/aegov-label&gt;
+        &lt;aegov-input
+          fieldId=&quot;emirates-id&quot;
+          name=&quot;emiratesId&quot;
+          [isRequired]=&quot;true&quot;
+          hint=&quot;15 digits, as printed on your card&quot;
+          [value]=&quot;emiratesId()&quot;
+          (aegovInputChange)=&quot;emiratesId.set($event.detail.value)&quot;
+        /&gt;
+      &lt;/aegov-form-field&gt;
+
+      &lt;aegov-button type=&quot;submit&quot; variant=&quot;primary&quot; [isLoading]=&quot;isSubmitting()&quot;&gt;
+        Submit application
+      &lt;/aegov-button&gt;
+    &lt;/form&gt;
+  `</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ApplicationFormComponent</span> {
+  emiratesId = <span class="hljs-title function_">signal</span>(<span class="hljs-string">&#x27;&#x27;</span>);
+  isSubmitting = <span class="hljs-title function_">signal</span>(<span class="hljs-literal">false</span>);
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">onSubmit</span>(<span class="hljs-params"><span class="hljs-attr">e</span>: <span class="hljs-title class_">Event</span></span>) {
+    e.<span class="hljs-title function_">preventDefault</span>();
+    <span class="hljs-keyword">const</span> data = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">fromEntries</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(e.<span class="hljs-property">target</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">HTMLFormElement</span>));
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">isSubmitting</span>.<span class="hljs-title function_">set</span>(<span class="hljs-literal">true</span>);
     <span class="hljs-keyword">try</span> {
-      <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;/api/submit&#x27;</span>, { <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span> });
+      <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">api</span>.<span class="hljs-title function_">submit</span>(data);
     } <span class="hljs-keyword">finally</span> {
-      <span class="hljs-variable language_">this</span>.<span class="hljs-property">isLoading</span>.<span class="hljs-title function_">set</span>(<span class="hljs-literal">false</span>);
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">isSubmitting</span>.<span class="hljs-title function_">set</span>(<span class="hljs-literal">false</span>);
     }
   }
-}</code></pre><hr>
+}</code></pre><p>Because the controls submit natively, <code>new FormData(form)</code> is often all you need and you can skip per-field signals entirely.</p>
+<h3>What is not supported yet</h3>
+<p><code>[(ngModel)]</code> and <code>formControlName</code> do <strong>not</strong> bind to <code>aegov-*</code> components. There is no <code>ControlValueAccessor</code> bridge in the current release — the optional validation package ships the per-field CVA as an explicit stub slated for a later milestone. Do not reach for Reactive Forms bindings on these tags; use the value-in / event-out pattern above, or wrap a component in your own thin Angular component that implements <code>ControlValueAccessor</code> if you need Reactive Forms integration in the meantime.</p>
+<hr>
 <h2>TypeScript</h2>
-<p>Import types from the core package:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">Components</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/components&#x27;</span>;
+<p>Token and payload types come from the core package:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> {
+  <span class="hljs-title class_">ButtonVariant</span>,
+  <span class="hljs-title class_">ButtonAppearance</span>,
+  <span class="hljs-title class_">InputType</span>,
+  <span class="hljs-title class_">SelectChangeDetail</span>,
+  <span class="hljs-title class_">AegovValidationDetail</span>,
+  <span class="hljs-title class_">Components</span>,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem&#x27;</span>;
 
-<span class="hljs-keyword">const</span> <span class="hljs-attr">variant</span>: <span class="hljs-title class_">Components</span>.<span class="hljs-property">AegovButton</span>[<span class="hljs-string">&#x27;variant&#x27;</span>] = <span class="hljs-string">&#x27;primary&#x27;</span>;</code></pre><hr>
+<span class="hljs-keyword">const</span> <span class="hljs-attr">variant</span>: <span class="hljs-title class_">ButtonVariant</span> = <span class="hljs-string">&#x27;primary&#x27;</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-attr">size</span>: <span class="hljs-title class_">Components</span>.<span class="hljs-property">AegovInput</span>[<span class="hljs-string">&#x27;size&#x27;</span>] = <span class="hljs-string">&#x27;lg&#x27;</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onValidate</span>(<span class="hljs-params"><span class="hljs-attr">e</span>: <span class="hljs-title class_">CustomEvent</span>&lt;<span class="hljs-title class_">AegovValidationDetail</span>&lt;<span class="hljs-built_in">string</span>&gt;&gt;</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">validity</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">trigger</span>);
+}</code></pre><hr>
+<h2>RTL support</h2>
+<p>Set <code>dir</code> on the document or a subtree. The components use logical properties throughout, and the <code>base</code> stylesheet switches the body and heading font stacks to Noto Kufi Arabic and Alexandria automatically.</p>
+<pre><code class="hljs language-ts"><span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-shell&#x27;</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
+    &lt;div [attr.dir]=&quot;locale() === &#x27;ar&#x27; ? &#x27;rtl&#x27; : &#x27;ltr&#x27;&quot; [attr.lang]=&quot;locale()&quot;&gt;
+      &lt;router-outlet /&gt;
+    &lt;/div&gt;
+  `</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ShellComponent</span> {
+  locale = signal&lt;<span class="hljs-string">&#x27;en&#x27;</span> | <span class="hljs-string">&#x27;ar&#x27;</span>&gt;(<span class="hljs-string">&#x27;en&#x27;</span>);
+}</code></pre><p>When locale is switchable at runtime, set it on the document element as well. Portal-based components — toast, dropdown, popover, datepicker — render into <code>document.body</code>, outside your Angular component tree, and inherit direction from the document:</p>
+<pre><code class="hljs language-ts"><span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-meta">@Inject</span>(DOCUMENT) <span class="hljs-keyword">private</span> <span class="hljs-attr">doc</span>: <span class="hljs-title class_">Document</span></span>) {
+  <span class="hljs-title function_">effect</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">doc</span>.<span class="hljs-property">documentElement</span>.<span class="hljs-property">dir</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">locale</span>() === <span class="hljs-string">&#x27;ar&#x27;</span> ? <span class="hljs-string">&#x27;rtl&#x27;</span> : <span class="hljs-string">&#x27;ltr&#x27;</span>;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">doc</span>.<span class="hljs-property">documentElement</span>.<span class="hljs-property">lang</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">locale</span>();
+  });
+}</code></pre><hr>
+<h2>Server-side rendering</h2>
+<p>Custom elements are browser-only. Under Angular SSR, <code>provideDesignSystem()</code> runs its initialiser on the client; guard any code that touches component methods with a platform check.</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { isPlatformBrowser } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/common&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-variable constant_">PLATFORM_ID</span>, inject } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@angular/core&#x27;</span>;
+
+<span class="hljs-keyword">const</span> isBrowser = <span class="hljs-title function_">isPlatformBrowser</span>(<span class="hljs-title function_">inject</span>(<span class="hljs-variable constant_">PLATFORM_ID</span>));
+<span class="hljs-keyword">if</span> (isBrowser) {
+  <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">modal</span>()?.<span class="hljs-property">nativeElement</span>.<span class="hljs-title function_">show</span>();
+}</code></pre><p>The global stylesheet is SSR-safe and should stay in <code>src/styles.css</code> so the server-rendered markup is styled on first paint.</p>
+<hr>
+<h2>Validation</h2>
+<p>Form components ship the validation surface described in <a href="validation-overview.html">Validation Surface</a>: <code>isInvalid</code>, <code>errorMessage</code> and <code>hint</code> inputs, <code>error</code> and <code>hint</code> slots, the <code>aegovValidate</code> output, and <code>validate()</code> / <code>setCustomValidity()</code> methods.</p>
+<p>Driving it from signals needs nothing extra:</p>
+<pre><code class="hljs language-ts"><span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">imports</span>: [<span class="hljs-title class_">AegovInput</span>],
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
+    &lt;aegov-input
+      name=&quot;email&quot;
+      type=&quot;email&quot;
+      [isInvalid]=&quot;!!error()&quot;
+      [errorMessage]=&quot;error()&quot;
+      (aegovValidate)=&quot;onValidate($event)&quot;
+    /&gt;
+  `</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">EmailFieldComponent</span> {
+  error = <span class="hljs-title function_">signal</span>(<span class="hljs-string">&#x27;&#x27;</span>);
+
+  <span class="hljs-title function_">onValidate</span>(<span class="hljs-params"><span class="hljs-attr">e</span>: <span class="hljs-title class_">CustomEvent</span>&lt;<span class="hljs-title class_">AegovValidationDetail</span>&lt;<span class="hljs-built_in">string</span>&gt;&gt;</span>) {
+    <span class="hljs-keyword">if</span> (e.<span class="hljs-property">detail</span>.<span class="hljs-property">trigger</span> !== <span class="hljs-string">&#x27;blur&#x27;</span>) <span class="hljs-keyword">return</span>;
+    <span class="hljs-keyword">const</span> ok = <span class="hljs-regexp">/\S+@\S+\.\S+/</span>.<span class="hljs-title function_">test</span>(<span class="hljs-title class_">String</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>));
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">error</span>.<span class="hljs-title function_">set</span>(ok ? <span class="hljs-string">&#x27;&#x27;</span> : <span class="hljs-string">&#x27;Enter a valid email address&#x27;</span>);
+  }
+}</code></pre><h3>Optional — <code>@aegov/designsystem-validation</code></h3>
+<p>For schema-driven forms there is an <strong>optional</strong> companion package with an Angular directive. Nothing in the design system requires it.</p>
+<pre><code class="hljs language-bash">npm install @aegov/designsystem-validation valibot</code></pre><p>It exposes a standalone <code>[aegovForm]</code> directive that you put on the <code>&lt;form&gt;</code> element. Valid submissions emit through <code>(submitValid)</code>, and the errors map through <code>(errorsChange)</code>.</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovFormDirective</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/angular&#x27;</span>;
+<span class="hljs-keyword">import</span> { valibotAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/adapters/valibot&#x27;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> v <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;valibot&#x27;</span>;
+
+<span class="hljs-keyword">const</span> schema = v.<span class="hljs-title function_">object</span>({
+  <span class="hljs-attr">email</span>: v.<span class="hljs-title function_">pipe</span>(v.<span class="hljs-title function_">string</span>(), v.<span class="hljs-title function_">email</span>(<span class="hljs-string">&#x27;Enter a valid email address&#x27;</span>)),
+  <span class="hljs-attr">password</span>: v.<span class="hljs-title function_">pipe</span>(v.<span class="hljs-title function_">string</span>(), v.<span class="hljs-title function_">minLength</span>(<span class="hljs-number">8</span>, <span class="hljs-string">&#x27;At least 8 characters&#x27;</span>)),
+});
+
+<span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">&#x27;app-login&#x27;</span>,
+  <span class="hljs-attr">imports</span>: [<span class="hljs-title class_">AegovFormDirective</span>, <span class="hljs-title class_">AegovInput</span>, <span class="hljs-title class_">AegovButton</span>],
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
+    &lt;form [aegovForm]=&quot;{ schema, adapter, mode: &#x27;onBlur&#x27; }&quot; (submitValid)=&quot;login($event)&quot;&gt;
+      &lt;aegov-input name=&quot;email&quot; type=&quot;email&quot; /&gt;
+      &lt;aegov-input name=&quot;password&quot; type=&quot;password&quot; [isRevealable]=&quot;true&quot; /&gt;
+      &lt;aegov-button type=&quot;submit&quot; variant=&quot;primary&quot;&gt;Sign in&lt;/aegov-button&gt;
+    &lt;/form&gt;
+  `</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LoginComponent</span> {
+  schema = schema;
+  adapter = <span class="hljs-title function_">valibotAdapter</span>();
+
+  <span class="hljs-title function_">login</span>(<span class="hljs-params"><span class="hljs-attr">values</span>: { email: <span class="hljs-built_in">string</span>; password: <span class="hljs-built_in">string</span> }</span>) { <span class="hljs-comment">/* … */</span> }
+}</code></pre><p>The directive writes <code>isInvalid</code> and <code>errorMessage</code> back onto each component as the user interacts. Note that this is form-level orchestration — the per-field <code>ControlValueAccessor</code> bridge for Reactive Forms is not implemented in the current release.</p>
+<hr>
 <h2>Troubleshooting</h2>
 <h3>Components render unstyled</h3>
-<p>The CSS is not being processed. Check the following:</p>
+<p>Check, in order:</p>
 <ol>
-<li><code>src/styles.css</code> has the design system imports after <code>@import &quot;tailwindcss&quot;</code>:</li>
+<li><code>src/styles.css</code> contains all four lines — <code>@import &quot;tailwindcss&quot;</code>, <code>@source</code>, <code>base</code>, <code>theme</code> — in that order.</li>
+<li><code>postcss.config.json</code> exists at the project root with <code>{ &quot;plugins&quot;: { &quot;@tailwindcss/postcss&quot;: {} } }</code>.</li>
+<li>DevTools → Elements → <code>:root</code> lists <code>--color-primary-600</code>. If not, the design system CSS never went through Tailwind.</li>
 </ol>
-<pre><code class="hljs language-css"><span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/base&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;</code></pre><ol start="2">
-<li>If you did <strong>not</strong> select Tailwind during <code>ng new</code>, make sure <code>@tailwindcss/postcss</code> and <code>postcss</code> are installed and <code>postcss.config.json</code> exists at the project root:</li>
-</ol>
-<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;plugins&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;@tailwindcss/postcss&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-punctuation">}</span> <span class="hljs-punctuation">}</span> <span class="hljs-punctuation">}</span></code></pre><h3><code>NG8008: Required input &#39;tabId&#39; must be specified</code></h3>
-<p>You are using <code>tab-id</code> (kebab-case) instead of <code>tabId</code> (camelCase). Change to:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">tabId</span>=<span class="hljs-string">&quot;my-tab&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tabId</span>=<span class="hljs-string">&quot;my-tab&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span></code></pre><h3><code>Module has no exported member &#39;DesignSystemModule&#39;</code></h3>
-<p>You are using an older version of the Angular package (<code>&lt; 0.2.1</code>). Update to the latest:</p>
-<pre><code class="hljs language-bash">npm install @aegov/designsystem-angular@latest</code></pre><hr>
+<h3><code>NG8008: Required input &#39;tabId&#39; must be specified</code></h3>
+<p>You wrote <code>tab-id</code> instead of <code>tabId</code>. Angular resolves inputs by camelCase name. Same applies to <code>href</code> on <code>aegov-link</code> and <code>name</code> on <code>aegov-radio-group</code>.</p>
+<h3><code>&#39;aegov-button&#39; is not a known element</code></h3>
+<p>The wrapper is not imported into that component&#39;s <code>imports</code> array, or the module does not import <code>DesignSystemModule</code>. Note this is a template compile error and distinct from registration — importing the wrapper satisfies the compiler, and <code>provideDesignSystem()</code> handles the browser-side element definition.</p>
+<h3>Components render as plain text</h3>
+<p><code>provideDesignSystem()</code> or <code>DesignSystemModule</code> is missing from bootstrap. The wrappers render the tags; only the initialiser defines them.</p>
+<h3><code>Module has no exported member &#39;DesignSystemModule&#39;</code></h3>
+<p>An older version of the Angular package. Update:</p>
+<pre><code class="hljs language-bash">npm install @aegov/designsystem-angular@latest</code></pre><h3>A utility class in an inline template has no effect</h3>
+<p>Tailwind did not scan the file. Add or widen the <code>@source</code> glob in <code>src/styles.css</code>.</p>
+<h3><code>ngModel</code> on an aegov component does nothing</h3>
+<p>Expected — see <a href="#form-binding">Form binding</a>. Use value-in / event-out, or write your own <code>ControlValueAccessor</code> wrapper.</p>
+<hr>
 <h2>Where to next</h2>
 <ul>
-<li><a href="validation-overview.html">Validation Surface</a> — unified <code>isInvalid</code> / <code>errorMessage</code> / <code>hint</code> API across all form components.</li>
-<li><a href="validation-byo.html">Bring Your Own Validator</a> — manual validation patterns with no external library.</li>
-<li>Per-component docs in the left navigation — every page lists props, events, methods, and accessibility notes.</li>
+<li><a href="installation.html">Installation</a> — build tool configuration, dark mode, the CSS layer model.</li>
+<li><a href="using-with-react.html">Using with React</a> and <a href="using-with-vue.html">Using with Vue</a>.</li>
+<li><a href="validation-overview.html">Validation Surface</a> — the full form contract.</li>
+<li><a href="validation-byo.html">Bring Your Own Validator</a> — manual patterns, no extra package.</li>
 </ul>
 <!-- DOC:END -->
           </section>

@@ -15,13 +15,35 @@
   @apply mb-0 cursor-pointer pt-px;
 }
 
-.aegov-form-field:has(aegov-input[disabled]) .aegov-label,
-.aegov-form-field:has(aegov-textarea[disabled]) .aegov-label,
-.aegov-form-field:has(aegov-select[disabled]) .aegov-label,
-.aegov-form-field:has(aegov-checkbox[disabled]) .aegov-label {
+/*
+ * Dim the label when the control it names is disabled.
+ *
+ * Keyed off the *inner native control*, not a host attribute. Every aegov form control
+ * renders a light-DOM <input>/<textarea>/<select>/<button> with `disabled={this.isDisabled}`,
+ * so `:disabled` here stays correct when the prop is toggled at runtime.
+ *
+ * Host attributes are deliberately not used:
+ *   - `disabled` never appears — the prop is `isDisabled` (this is what previously broke);
+ *   - `is-disabled` is only reflected on some controls, and Stencil does not clear a
+ *     reflected boolean when it becomes false, so a re-enabled field would stay dimmed.
+ *
+ * Button matches are scoped to the two controls whose trigger is a button, so an
+ * unrelated disabled aegov-button inside the field cannot dim the label.
+ */
+.aegov-form-field:has(input:disabled) .aegov-label,
+.aegov-form-field:has(textarea:disabled) .aegov-label,
+.aegov-form-field:has(select:disabled) .aegov-label,
+.aegov-form-field:has(aegov-select button:disabled) .aegov-label,
+.aegov-form-field:has(aegov-datepicker button:disabled) .aegov-label {
   @apply text-aeblack-200 dark:text-aeblack-600;
 }
 
 .aegov-form-field:has(aegov-checkbox[disabled]) .aegov-label {
-  cursor: not-allowed;
+  @apply cursor-not-allowed;
+}
+/* Controls whose label is also the click target lose the pointer cursor. */
+.aegov-form-field:has(aegov-checkbox input:disabled) .aegov-label,
+.aegov-form-field:has(aegov-radio input:disabled) .aegov-label,
+.aegov-form-field:has(aegov-toggle input:disabled) .aegov-label {
+  @apply cursor-not-allowed;
 }

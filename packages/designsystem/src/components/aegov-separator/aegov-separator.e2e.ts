@@ -23,7 +23,8 @@ describe('aegov-separator e2e', () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-separator orientation="vertical"></aegov-separator>`);
     const hr = await page.find('aegov-separator hr');
-    expect(hr.getAttribute('aria-orientation')).toBe('vertical');
+    // Decorative by default, so aria-orientation is omitted (only valid on role=separator).
+    expect(hr.getAttribute('aria-orientation')).toBeNull();
     expect(hr.className).toContain('separator--vertical');
   });
 

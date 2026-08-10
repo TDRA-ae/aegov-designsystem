@@ -127,7 +127,7 @@ describe('aegov-modal', () => {
     expect(page.rootInstance.isOpen).toBe(false);
   });
 
-  it('emits aegovModalBeforeClose with preventDefault on close()', async () => {
+  it('emits a cancellable aegovModalBeforeClose on close()', async () => {
     const page = await newSpecPage({
       components: [AegovModal],
       html: `<aegov-modal is-open="true"></aegov-modal>`,
@@ -136,8 +136,10 @@ describe('aegov-modal', () => {
     page.root.addEventListener('aegovModalBeforeClose', spy);
     await page.rootInstance.close();
     expect(spy).toHaveBeenCalled();
+    // Cancelled via preventDefault() on the event itself, not a closure in detail.
     const event = spy.mock.calls[0][0];
-    expect(typeof event.detail.preventDefault).toBe('function');
+    expect(event.cancelable).toBe(true);
+    expect(event.detail?.preventDefault).toBeUndefined();
   });
 
   it('passes through aria-labelledby attribute', async () => {

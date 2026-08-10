@@ -9,10 +9,10 @@ const baseHtml = `
 `;
 
 describe('aegov-timeline (e2e)', () => {
-  it('renders nav and list with steps', async () => {
+  it('renders a labelled section and list with steps', async () => {
     const page = await newE2EPage();
     await page.setContent(baseHtml);
-    const nav = await page.find('aegov-timeline nav.aegov-timeline');
+    const nav = await page.find('aegov-timeline section.aegov-timeline');
     expect(nav).not.toBeNull();
     expect(nav.getAttribute('aria-label')).toBe('Timeline');
     const steps = await page.findAll('aegov-timeline aegov-timeline-step');
@@ -26,7 +26,7 @@ describe('aegov-timeline (e2e)', () => {
         <aegov-timeline-step>One</aegov-timeline-step>
       </aegov-timeline>
     `);
-    const nav = await page.find('aegov-timeline nav.aegov-timeline');
+    const nav = await page.find('aegov-timeline section.aegov-timeline');
     expect(nav).toHaveClass('aegov-timeline--compact');
   });
 

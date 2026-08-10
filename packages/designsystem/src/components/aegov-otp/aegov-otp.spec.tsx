@@ -200,12 +200,15 @@ describe('aegov-otp', () => {
       expect(page.root.querySelector('.aegov-otp__hint')).toBeNull();
     });
 
-    it('aria-describedby on group includes error id', async () => {
+    it('aria-describedby on the first cell includes error id', async () => {
       const page = await newSpecPage({
         components: [AegovOtp],
         html: `<aegov-otp field-id="o1" length="4" is-invalid="true" error-message="msg"></aegov-otp>`,
       });
-      expect(page.root.querySelector('.otp__wrapper').getAttribute('aria-describedby')).toContain('o1-error');
+      // aria-describedby is attached to the first cell only — repeating it on every cell
+      // would make the hint and error be read once per cell.
+      const firstCell = page.root.querySelector('input');
+      expect(firstCell.getAttribute('aria-describedby')).toContain('o1-error');
     });
 
     it('validate() resolves valid for empty optional otp', async () => {

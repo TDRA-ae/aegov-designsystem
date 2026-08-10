@@ -99,7 +99,7 @@ describe('aegov-select (e2e)', () => {
       const trigger = await page.find('aegov-select button[role="combobox"]');
       await trigger.click();
       await page.waitForChanges();
-      const search = await page.find('aegov-select input[role="searchbox"]');
+      const search = await page.find('aegov-select .select__search-input');
       await search.type('an');
       await page.waitForChanges();
       const opts = await page.findAll('aegov-select [role="listbox"] [role="option"]');

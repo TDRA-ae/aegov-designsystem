@@ -346,6 +346,7 @@ export class AegovModal {
         ></div>
         <div class={`aegov-modal-container ${this.getPositionClass()}`} onClick={this.handleBackdropClick}>
           <div
+            {...passThroughAttributes}
             id={this.fieldId}
             class={`aegov-modal-content ${this.getSizeClass()} ${this.isPadding ? 'modal--padded' : ''}`}
             data-state={this.animationState}
@@ -353,7 +354,6 @@ export class AegovModal {
             aria-modal="true"
             aria-label={this.label || undefined}
             tabindex={-1}
-            {...passThroughAttributes}
           >
             <slot></slot>
           </div>

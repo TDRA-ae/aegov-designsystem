@@ -83,7 +83,7 @@ describe('aegov-modal (e2e)', () => {
     await page.setContent('<aegov-modal is-open="true"></aegov-modal>');
     await page.evaluate(() => {
       const m = document.querySelector('aegov-modal') as HTMLElement;
-      m.addEventListener('aegovModalBeforeClose', (e: any) => e.detail.preventDefault());
+      m.addEventListener('aegovModalBeforeClose', (e: Event) => e.preventDefault());
     });
     const el = await page.find('aegov-modal');
     const closeSpy = await el.spyOnEvent('aegovModalClose');

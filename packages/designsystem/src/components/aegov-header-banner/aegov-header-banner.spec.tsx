@@ -72,15 +72,15 @@ describe('aegov-header-banner', () => {
     expect(document.querySelector('.aegov-skip-content')).toBeNull();
   });
 
-  it('exposes actions slot and renders default fallback nav (two links) when nothing assigned', async () => {
+  it('exposes an actions slot with no built-in fallback links', async () => {
     const page = await newSpecPage({
       components: [AegovHeaderBanner],
       html: `<aegov-header-banner entity-name="N" entity-domain="https://x.gov.ae"></aegov-header-banner>`,
     });
     const slot = page.root.shadowRoot.querySelector('slot[name="actions"]');
     expect(slot).not.toBeNull();
-    const fallbackLinks = page.root.shadowRoot.querySelectorAll('nav ul li a');
-    expect(fallbackLinks.length).toBe(2);
+    // The component ships no placeholder utility links — consumers supply their own.
+    expect(page.root.shadowRoot.querySelectorAll('nav ul li a').length).toBe(0);
   });
 
   it('accepts slotted actions content', async () => {
