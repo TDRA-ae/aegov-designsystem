@@ -124,18 +124,20 @@ The `position` property selects which edge the drawer slides from. `right` is th
 
 ## Sizes
 
-The `size` property sets the panel **width** for left/right drawers and **height** for top/bottom drawers. It also scales the inner padding and, when `is-pinned="false"`, the edge gap and corner radius.
+The `size` property controls the panel **width** for left/right drawers. It also scales the inner padding and, when `is-pinned="false"`, the edge gap and corner radius.
 
-| Size | Width (left/right) | Height (top/bottom) | Padding | Typical use |
-| ---- | ------------------ | ------------------- | ------- | ----------- |
-| `xs` | 320px | 25vh | p-3 | Notification strip, icon sidebar |
-| `sm` | 384px | 40vh | p-4 | Filter panel, narrow navigation |
-| `base` | 480px _(default)_ | 50vh | p-5 | Settings panel, detail view |
-| `lg` | 640px | 66vh | p-6 | Multi-field form, data table |
-| `xl` | 800px | 85vh | p-8 | Wide wizard, rich detail panel |
-| `full` | 100vw | 100dvh | p-8 | Full-screen takeover |
+| Size | Width (left/right) | Padding | Typical use |
+| ---- | ------------------ | ------- | ----------- |
+| `xs` | 320px | p-3 | Notification strip, icon sidebar |
+| `sm` | 384px | p-4 | Filter panel, narrow navigation |
+| `base` | 480px _(default)_ | p-5 | Settings panel, detail view |
+| `lg` | 640px | p-6 | Multi-field form, data table |
+| `xl` | 800px | p-8 | Wide wizard, rich detail panel |
+| `full` | 100vw | p-8 | Full-screen takeover |
 
 > On viewports narrower than 640 px all left/right sizes collapse to full width automatically.
+
+> **Top/bottom drawers:** height is `auto` — the drawer grows to fit its slotted content (up to `100dvh`). See [Controlling top/bottom height](#controlling-topbottom-height) below.
 
 ```html
 <aegov-drawer size="xs"   is-open="true">…</aegov-drawer>
@@ -198,6 +200,102 @@ The `size` property sets the panel **width** for left/right drawers and **height
         const d = document.querySelector('#demo-drawer-size-' + s);
         document.querySelector('#demo-drawer-size-' + s + '-btn').addEventListener('click', () => d.show());
         document.querySelector('#demo-drawer-size-' + s + '-close').addEventListener('click', () => d.close());
+      });
+    })();
+  </script>
+</div>
+
+---
+
+## Controlling top/bottom height
+
+Top and bottom drawers have `height: auto` by default — the panel grows to fit whatever you put inside it, up to `100dvh`. There is no fixed height per `size` tier.
+
+To set a specific height, wrap your content in a `div` and apply the height there. Because the wrapper is in the **light DOM** (your own HTML), all standard CSS and Tailwind classes work on it directly.
+
+```html
+<!-- auto height — fits content -->
+<aegov-drawer position="bottom" is-open="true" label="Quick actions">
+  <div>
+    <p>This drawer is as tall as this content.</p>
+    <aegov-button>Close</aegov-button>
+  </div>
+</aegov-drawer>
+
+<!-- fixed 50vh — inner wrapper drives the height -->
+<aegov-drawer position="bottom" is-open="true" label="Filter panel">
+  <div class="h-[50vh]">
+    <p>Always half the viewport height.</p>
+    <aegov-button>Close</aegov-button>
+  </div>
+</aegov-drawer>
+
+<!-- responsive — full on mobile, half on desktop -->
+<aegov-drawer position="bottom" is-open="true" label="Share sheet">
+  <div class="h-dvh md:h-[50vh]">
+    <p>Full on mobile, half-screen on desktop.</p>
+    <aegov-button>Close</aegov-button>
+  </div>
+</aegov-drawer>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-3">
+    <aegov-button id="demo-height-auto-btn">Auto (content height)</aegov-button>
+    <aegov-button id="demo-height-200-btn">Fixed 200px</aegov-button>
+    <aegov-button id="demo-height-50vh-btn">50vh</aegov-button>
+    <aegov-button id="demo-height-80vh-btn">80vh</aegov-button>
+  </div>
+
+  <aegov-drawer id="demo-height-auto" position="bottom" aria-label="Auto height">
+    <div>
+      <p class="text-xs font-bold uppercase tracking-wide opacity-50 mb-1">height: auto (default)</p>
+      <p class="font-semibold mb-2">Drawer grows to fit content</p>
+      <p class="text-sm opacity-65 mb-4">No height set on the wrapper — the drawer is exactly as tall as this content.</p>
+      <aegov-button id="demo-height-auto-close" size="sm">Close</aegov-button>
+    </div>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-height-200" position="bottom" aria-label="200px height">
+    <div style="height:200px;display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wide opacity-50 mb-1">Inner wrapper: height 200px</p>
+        <p class="font-semibold mb-2">Fixed 200px — small action sheet</p>
+        <p class="text-sm opacity-65">Cookie consent, quick confirm, minimal actions.</p>
+      </div>
+      <aegov-button id="demo-height-200-close" size="sm">Close</aegov-button>
+    </div>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-height-50vh" position="bottom" aria-label="50vh height">
+    <div style="height:50vh;display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wide opacity-50 mb-1">Inner wrapper: height 50vh</p>
+        <p class="font-semibold mb-2">Half-screen sheet — 50vh</p>
+        <p class="text-sm opacity-65">Share sheet, filter panel, product preview.</p>
+      </div>
+      <aegov-button id="demo-height-50vh-close" size="sm">Close</aegov-button>
+    </div>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-height-80vh" position="bottom" aria-label="80vh height">
+    <div style="height:80vh;display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wide opacity-50 mb-1">Inner wrapper: height 80vh</p>
+        <p class="font-semibold mb-2">Near full-screen sheet — 80vh</p>
+        <p class="text-sm opacity-65">Complex form, multi-step wizard, long filter list.</p>
+      </div>
+      <aegov-button id="demo-height-80vh-close" size="sm">Close</aegov-button>
+    </div>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      const variants = ['auto', '200', '50vh', '80vh'];
+      variants.forEach(v => {
+        const d = document.querySelector('#demo-height-' + v);
+        document.querySelector('#demo-height-' + v + '-btn').addEventListener('click', () => d.show());
+        document.querySelector('#demo-height-' + v + '-close').addEventListener('click', () => d.close());
       });
     })();
   </script>
@@ -531,7 +629,7 @@ The drawer is direction-agnostic. The `position` values are absolute viewport ed
 | `overlayOpacity`      | `overlay-opacity`        | Backdrop dim level (only applies when `is-overlay="true"`).                                       | `'light' \| 'base' \| 'dark'`              | `'base'`    |
 | `isCloseWithOverlay`  | `is-close-with-overlay`  | Close the drawer when the backdrop is clicked. Works even when `is-overlay="false"`.              | `boolean`                                  | `true`      |
 | `isPreventScroll`     | `is-prevent-scroll`      | Lock body scroll while the drawer is open.                                                        | `boolean`                                  | `true`      |
-| `size`                | `size`                   | Panel width (left/right: 320–800px/100vw) or height (top/bottom: 25–85vh/100dvh). Also scales padding and, when `is-pinned="false"`, the edge gap and corner radius. | `'xs' \| 'sm' \| 'base' \| 'lg' \| 'xl' \| 'full'` | `'base'` |
+| `size`                | `size`                   | Panel width for left/right drawers (320–800px/100vw). Also scales padding and, when `is-pinned="false"`, the edge gap and corner radius. Top/bottom height is always `auto` (content-driven). | `'xs' \| 'sm' \| 'base' \| 'lg' \| 'xl' \| 'full'` | `'base'` |
 | `isPadding`           | `is-padding`             | Apply inner content padding. Turn off for full-bleed content.                                     | `boolean`                                  | `true`      |
 | `label`               | `label`                  | Accessible label for the drawer dialog. Prefer `aria-labelledby` pointing at a heading inside the drawer; use `label` only when no visible heading is present. | `string` | `undefined` |
 

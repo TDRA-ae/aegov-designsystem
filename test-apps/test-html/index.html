@@ -11133,6 +11133,17 @@
         </div>
       </div>
 
+      <!-- custom height via inner wrapper -->
+      <div style="grid-column:1/-1">
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Bottom drawer — custom height via inner wrapper</p>
+        <div class="flex flex-wrap gap-3">
+          <aegov-button variant="secondary" appearance="soft" size="sm" id="btn-drawer-height-auto">Auto (content height)</aegov-button>
+          <aegov-button variant="secondary" appearance="soft" size="sm" id="btn-drawer-height-200">Fixed 200px</aegov-button>
+          <aegov-button variant="secondary" appearance="soft" size="sm" id="btn-drawer-height-50vh">50vh</aegov-button>
+          <aegov-button variant="secondary" appearance="soft" size="sm" id="btn-drawer-height-80vh">80vh</aegov-button>
+        </div>
+      </div>
+
       <!-- drawer instances -->
       <aegov-drawer field-id="drawer-right" position="right" animation="slide" size="base" is-overlay is-close-with-overlay label="Right drawer">
         <div style="padding:24px;height:100%">
@@ -11163,6 +11174,53 @@
           <h3 style="margin:0 0 8px;font-weight:600">Bottom Drawer</h3>
           <p style="font-size:0.875rem;margin:0 0 16px">Slides up from the bottom — used for action sheets on mobile.</p>
           <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-bottom-close">Close</aegov-button>
+        </div>
+      </aegov-drawer>
+
+      <!-- ─── CUSTOM HEIGHT DEMOS (inner wrapper approach) ─── -->
+      <!-- Auto: no wrapper height set — drawer fits its content -->
+      <aegov-drawer field-id="drawer-height-auto" position="bottom" animation="slide" size="base" is-overlay is-close-with-overlay label="Auto height bottom drawer">
+        <div>
+          <p style="margin:0 0 4px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;opacity:0.5">Height: auto (default)</p>
+          <p style="margin:0 0 12px;font-size:0.95rem;font-weight:600">Drawer grows to fit content — no wrapper height set</p>
+          <p style="margin:0 0 16px;font-size:0.85rem;opacity:0.65">This is the default behaviour. The drawer is exactly as tall as what you put inside it, up to 100dvh.</p>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-height-auto-close">Close</aegov-button>
+        </div>
+      </aegov-drawer>
+
+      <!-- Fixed 200px: inner wrapper sets height -->
+      <aegov-drawer field-id="drawer-height-200" position="bottom" animation="slide" size="base" is-overlay is-close-with-overlay label="200px height bottom drawer">
+        <div style="height:200px;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <p style="margin:0 0 4px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;opacity:0.5">Height: 200px — set on inner wrapper div</p>
+            <p style="margin:0 0 12px;font-size:0.95rem;font-weight:600">Small action sheet — fixed 200px</p>
+            <p style="margin:0;font-size:0.85rem;opacity:0.65">The inner <code>&lt;div style="height:200px"&gt;</code> drives the drawer height. Cookie consent, quick confirm.</p>
+          </div>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-height-200-close">Close</aegov-button>
+        </div>
+      </aegov-drawer>
+
+      <!-- 50vh: inner wrapper sets height -->
+      <aegov-drawer field-id="drawer-height-50vh" position="bottom" animation="slide" size="base" is-overlay is-close-with-overlay label="50vh height bottom drawer">
+        <div style="height:50vh;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <p style="margin:0 0 4px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;opacity:0.5">Height: 50vh — set on inner wrapper div</p>
+            <p style="margin:0 0 12px;font-size:0.95rem;font-weight:600">Half-screen sheet — 50vh</p>
+            <p style="margin:0;font-size:0.85rem;opacity:0.65">The inner <code>&lt;div style="height:50vh"&gt;</code> drives the drawer height. Share sheet, filter panel, product preview.</p>
+          </div>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-height-50vh-close">Close</aegov-button>
+        </div>
+      </aegov-drawer>
+
+      <!-- 80vh: inner wrapper sets height -->
+      <aegov-drawer field-id="drawer-height-80vh" position="bottom" animation="slide" size="base" is-overlay is-close-with-overlay label="80vh height bottom drawer">
+        <div style="height:80vh;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <p style="margin:0 0 4px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;opacity:0.5">Height: 80vh — set on inner wrapper div</p>
+            <p style="margin:0 0 12px;font-size:0.95rem;font-weight:600">Near full-screen sheet — 80vh</p>
+            <p style="margin:0;font-size:0.85rem;opacity:0.65">The inner <code>&lt;div style="height:80vh"&gt;</code> drives the drawer height. Complex form, multi-step wizard, long filter list.</p>
+          </div>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-height-80vh-close">Close</aegov-button>
         </div>
       </aegov-drawer>
 
@@ -11815,6 +11873,10 @@
     ['btn-drawer-overlay-dark', 'drawer-overlay-dark'],
     ['btn-drawer-noscroll', 'drawer-noscroll'],
     ['btn-drawer-nopad', 'drawer-nopad'],
+    ['btn-drawer-height-auto', 'drawer-height-auto'],
+    ['btn-drawer-height-200', 'drawer-height-200'],
+    ['btn-drawer-height-50vh', 'drawer-height-50vh'],
+    ['btn-drawer-height-80vh', 'drawer-height-80vh'],
   ];
   drawerTriggers.forEach(([btnId, drawerId]) => {
     const btn = document.getElementById(btnId);
@@ -11841,6 +11903,10 @@
     'btn-drawer-overlay-dark-close': 'drawer-overlay-dark',
     'btn-drawer-noscroll-close': 'drawer-noscroll',
     'btn-drawer-nopad-close': 'drawer-nopad',
+    'btn-drawer-height-auto-close': 'drawer-height-auto',
+    'btn-drawer-height-200-close': 'drawer-height-200',
+    'btn-drawer-height-50vh-close': 'drawer-height-50vh',
+    'btn-drawer-height-80vh-close': 'drawer-height-80vh',
   };
   Object.entries(drawerCloseMap).forEach(([btnId, drawerId]) => {
     const btn = document.getElementById(btnId);
