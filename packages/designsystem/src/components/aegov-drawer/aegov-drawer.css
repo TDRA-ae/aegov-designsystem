@@ -96,11 +96,13 @@
 
 .drawer-container--top {
   @apply top-0 left-0 right-0;
+  height: auto;
   max-height: 100dvh;
 }
 
 .drawer-container--bottom {
   @apply bottom-0 left-0 right-0;
+  height: auto;
   max-height: 100dvh;
 }
 
@@ -136,27 +138,11 @@
 
 /* ============================================
    Size: Height (top / bottom drawers)
-   xs=25vh · sm=40vh · base=50vh
-   lg=66vh · xl=85vh · full=100dvh
+   Height is auto (content-driven). The drawer
+   grows to fit its slotted content up to 100dvh.
+   To set a fixed height, wrap content in a div
+   with the desired height using Tailwind classes.
    ============================================ */
-
-.drawer-container--top.drawer-size-xs,
-.drawer-container--bottom.drawer-size-xs  { height: 25vh; }
-
-.drawer-container--top.drawer-size-sm,
-.drawer-container--bottom.drawer-size-sm  { height: 40vh; }
-
-.drawer-container--top.drawer-size-base,
-.drawer-container--bottom.drawer-size-base { height: 50vh; }
-
-.drawer-container--top.drawer-size-lg,
-.drawer-container--bottom.drawer-size-lg  { height: 66vh; }
-
-.drawer-container--top.drawer-size-xl,
-.drawer-container--bottom.drawer-size-xl  { height: 85vh; }
-
-.drawer-container--top.drawer-size-full,
-.drawer-container--bottom.drawer-size-full { height: 100dvh; }
 
 /* ============================================
    Unpinned Mode (size-aware gap + rounded
