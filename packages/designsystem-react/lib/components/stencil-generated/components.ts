@@ -308,7 +308,7 @@ export const AegovDatepicker: StencilReactComponent<AegovDatepickerElement, Aego
 type AegovDrawerEvents = {
     onAegovDrawerOpen: EventName<CustomEvent<void>>,
     onAegovDrawerClose: EventName<CustomEvent<void>>,
-    onAegovDrawerBeforeClose: EventName<CustomEvent<{ preventDefault: () => void }>>,
+    onAegovDrawerBeforeClose: EventName<CustomEvent<void>>,
     onAegovDrawerBackdropClick: EventName<AegovDrawerCustomEvent<MouseEvent>>,
     onAegovDrawerEscapePress: EventName<AegovDrawerCustomEvent<KeyboardEvent>>
 };

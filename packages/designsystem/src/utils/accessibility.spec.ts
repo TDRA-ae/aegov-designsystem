@@ -249,7 +249,8 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovButton],
         html: `<aegov-button is-disabled="true">Save</aegov-button>`,
       });
-      const btn = page.root.querySelector('button, a');
+      // aegov-button is shadow:true, so the native control lives in the shadow root.
+      const btn = page.root.shadowRoot.querySelector('button, a');
       expect(btn.hasAttribute('disabled') || btn.getAttribute('aria-disabled') === 'true').toBe(true);
     });
 
@@ -472,7 +473,9 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
       await page.waitForChanges();
       const region = page.root.querySelector('.aegov-input__error');
       expect(region?.getAttribute('role')).toBe('alert');
-      expect(region?.getAttribute('aria-live')).toBe('polite');
+      // No explicit aria-live: role="alert" already implies an assertive live region, and
+      // forcing aria-live="polite" on top of it behaves inconsistently across screen readers.
+      expect(region?.getAttribute('aria-live')).toBeNull();
     });
   });
 

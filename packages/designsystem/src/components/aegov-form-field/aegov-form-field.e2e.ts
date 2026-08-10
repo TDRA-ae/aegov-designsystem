@@ -57,4 +57,79 @@ describe('aegov-form-field (e2e)', () => {
     expect(wrapper.getAttribute('aria-label')).toBe('form');
     expect(wrapper.getAttribute('data-foo')).toBe('bar');
   });
+
+  /**
+   * The dimmed-label rules in aegov-form-field.css are `:has(input:disabled)` selectors.
+   * They previously targeted `aegov-input[disabled]` on the host, which never matched —
+   * the prop is `isDisabled`, so no `disabled` attribute is ever set on the host.
+   *
+   * These run in a real browser, so they exercise the actual `:disabled` pseudo-class and
+   * the computed colour rather than just the attribute the spec tests can see.
+   */
+  describe('dimmed label when the control is disabled', () => {
+    const MARKUP = (attr: string) => `
+      <aegov-form-field>
+        <aegov-label>Email address</aegov-label>
+        <aegov-input ${attr}></aegov-input>
+      </aegov-form-field>`;
+
+    it('the :has(input:disabled) selector matches a disabled control', async () => {
+      const page = await newE2EPage();
+      await page.setContent(MARKUP('is-disabled="true"'));
+      await page.waitForChanges();
+
+      const matches = await page.evaluate(() =>
+        !!document.querySelector('.aegov-form-field:has(input:disabled) .aegov-label'),
+      );
+      expect(matches).toBe(true);
+    });
+
+    it('does not match an enabled control', async () => {
+      const page = await newE2EPage();
+      await page.setContent(MARKUP(''));
+      await page.waitForChanges();
+
+      const matches = await page.evaluate(() =>
+        !!document.querySelector('.aegov-form-field:has(input:disabled) .aegov-label'),
+      );
+      expect(matches).toBe(false);
+    });
+
+    it('renders the label in a different colour when disabled', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        ${MARKUP('')}
+        ${MARKUP('is-disabled="true"')}`);
+      await page.waitForChanges();
+
+      const [enabled, disabled] = await page.evaluate(() =>
+        Array.from(document.querySelectorAll('aegov-form-field label.aegov-label'))
+          .map((el) => getComputedStyle(el).color),
+      );
+
+      expect(enabled).toBeTruthy();
+      expect(disabled).toBeTruthy();
+      expect(disabled).not.toBe(enabled);
+    });
+
+    it('un-dims the label when the control is re-enabled at runtime', async () => {
+      const page = await newE2EPage();
+      await page.setContent(MARKUP('is-disabled="true"'));
+      await page.waitForChanges();
+
+      const dimmed = await page.evaluate(
+        () => getComputedStyle(document.querySelector('label.aegov-label')!).color,
+      );
+
+      const input = await page.find('aegov-input');
+      input.setProperty('isDisabled', false);
+      await page.waitForChanges();
+
+      const restored = await page.evaluate(
+        () => getComputedStyle(document.querySelector('label.aegov-label')!).color,
+      );
+
+      expect(restored).not.toBe(dimmed);
+    });
+  });
 });

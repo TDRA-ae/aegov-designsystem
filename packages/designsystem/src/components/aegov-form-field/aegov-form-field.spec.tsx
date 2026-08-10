@@ -162,4 +162,90 @@ describe('aegov-form-field', () => {
       expect(input.errorMessage).toBe('From wrapper');
     });
   });
+
+  /**
+   * Regression guard for the dimmed-label rules in aegov-form-field.css.
+   *
+   * Those rules are `:has(input:disabled) .aegov-label` selectors keyed off the inner
+   * native control. They previously targeted the host as `aegov-input[disabled]`, which
+   * never matched: the prop is `isDisabled`, so no `disabled` attribute is ever set on
+   * the host. CSS cannot be asserted in a spec, but the selector's precondition can.
+   */
+  describe('dimmed label when the control is disabled', () => {
+    // Note: mock-doc supports the `[disabled]` attribute selector but not the
+    // `:disabled` pseudo-class on every element type, so these assert the attribute.
+    // The real `:disabled` selector is covered in aegov-form-field.e2e.ts.
+    it('disables the inner input, so the dimmed-label rule can match', async () => {
+      const page = await newSpecPage({
+        components: [AegovFormField, AegovLabel, AegovInput],
+        html: `<aegov-form-field>
+          <aegov-label>Email</aegov-label>
+          <aegov-input is-disabled="true"></aegov-input>
+        </aegov-form-field>`,
+      });
+      await page.waitForChanges();
+
+      expect(page.root.querySelector('aegov-input input[disabled]')).not.toBeNull();
+      expect(
+        page.root.querySelector('.aegov-form-field:has(input[disabled]) .aegov-label'),
+      ).not.toBeNull();
+    });
+
+    it('disables the inner textarea', async () => {
+      const page = await newSpecPage({
+        components: [AegovFormField, AegovLabel, AegovTextarea],
+        html: `<aegov-form-field>
+          <aegov-label>Reason</aegov-label>
+          <aegov-textarea is-disabled="true"></aegov-textarea>
+        </aegov-form-field>`,
+      });
+      await page.waitForChanges();
+
+      expect(
+        page.root.querySelector('.aegov-form-field:has(textarea[disabled]) .aegov-label'),
+      ).not.toBeNull();
+    });
+
+    it('stops matching when the control is re-enabled at runtime', async () => {
+      const page = await newSpecPage({
+        components: [AegovFormField, AegovLabel, AegovInput],
+        html: `<aegov-form-field>
+          <aegov-label>Email</aegov-label>
+          <aegov-input is-disabled="true"></aegov-input>
+        </aegov-form-field>`,
+      });
+      await page.waitForChanges();
+      expect(page.root.querySelector('.aegov-form-field:has(input[disabled])')).not.toBeNull();
+
+      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      input.isDisabled = false;
+      await page.waitForChanges();
+
+      // The native control drops `disabled`, so the label un-dims. A host-attribute
+      // selector could not do this — Stencil leaves a reflected boolean stale on false.
+      expect(page.root.querySelector('.aegov-form-field:has(input[disabled])')).toBeNull();
+    });
+
+    it('does not match an enabled control', async () => {
+      const page = await newSpecPage({
+        components: [AegovFormField, AegovLabel, AegovInput],
+        html: `<aegov-form-field>
+          <aegov-label>Email</aegov-label>
+          <aegov-input></aegov-input>
+        </aegov-form-field>`,
+      });
+      await page.waitForChanges();
+      expect(page.root.querySelector('.aegov-form-field:has(input[disabled])')).toBeNull();
+    });
+
+    it('never relies on a `disabled` attribute on the host — that was the original bug', async () => {
+      const page = await newSpecPage({
+        components: [AegovFormField, AegovInput],
+        html: `<aegov-form-field><aegov-input is-disabled="true"></aegov-input></aegov-form-field>`,
+      });
+      await page.waitForChanges();
+      // Guards against re-introducing `:has(aegov-input[disabled])`.
+      expect(page.root.querySelector('aegov-input[disabled]')).toBeNull();
+    });
+  });
 });

@@ -1,40 +1,70 @@
 # Using with React
 
-<p class="text-lg text-aeblack-500 mb-8">The AEGOV Design System ships first-class React wrappers for every component. They auto-generate from the Stencil web components and give you typed props, typed event handlers, refs, and standard JSX ergonomics — no <code>customElements.define</code> calls, no kebab-case attribute juggling, no event listener boilerplate. This page walks through installing the React package, wiring its global styles, and dropping a real <code>aegov-button</code> into a React app end to end.</p>
+<p class="text-lg text-aeblack-500 mb-8">The AEGOV Design System ships a typed React wrapper for every component. The wrappers are generated from the web components themselves, so props, events and refs stay in lockstep with the source — you get camelCase props, <code>onAegov*</code> event handlers, refs to the underlying element, and no <code>customElements.define</code> plumbing of your own. This page covers installing the React package, wiring the stylesheet, and the handful of conventions that differ from plain HTML.</p>
 
-## What you install
+## Introduction
 
-There are two npm packages:
+There are two packages, and you need both:
 
-| Package | Purpose |
+| Package | Role |
 | --- | --- |
-| `@aegov/designsystem` | The web components themselves — Stencil bundles, CSS, and types. Required at runtime. |
-| `@aegov/designsystem-react` | React wrappers + TypeScript types. Imports the web component classes from the core package and registers each one's custom element on first render. |
+| `@aegov/designsystem` | The web components — implementations, CSS and TypeScript types. Required at runtime. |
+| `@aegov/designsystem-react` | Thin React wrappers plus types. Registers each component's custom element the first time that wrapper renders. |
 
-The React package depends on the core package as a peer — install both.
+Because the wrappers register their own elements, **you never call `defineCustomElements()` in a React app**. Importing `AegovButton` is enough to define `<aegov-button>`.
+
+```tsx
+import { AegovButton } from '@aegov/designsystem-react';
+
+export default function App() {
+  return (
+    <AegovButton variant="primary" onAegovButtonClick={() => console.log('clicked')}>
+      Submit application
+    </AegovButton>
+  );
+}
+```
 
 ---
 
-## Step 1 — Install the packages
+## Step 1 — Install
 
 ```bash
 npm install @aegov/designsystem @aegov/designsystem-react
 ```
 
-Or with yarn / pnpm:
-
 ```bash
 yarn add @aegov/designsystem @aegov/designsystem-react
+```
+
+```bash
 pnpm add @aegov/designsystem @aegov/designsystem-react
 ```
 
-If your project already uses React 18+, no extra peer dependencies are needed. For React 16.8–17, the wrappers still work — they target React's stable hooks API.
+React 18 or newer is expected. The wrappers use only the stable hooks API, so React 16.8–17 also work, but React 18+ is what the package is tested against.
 
 ---
 
-## Step 2 — Import the styles
+## Step 2 — Set up Tailwind and the stylesheet
 
-Add all three imports to your main CSS file. Order matters — Tailwind first, then `base` (component styles and fonts), then `theme` (design tokens):
+The design system ships **source** CSS, so your project must run Tailwind v4. For Vite:
+
+```bash
+npm install -D @tailwindcss/vite
+```
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+});
+```
+
+Create the stylesheet. Order matters — Tailwind first, then `base` (fonts, resets, global element styles), then `theme` (design tokens):
 
 ```css
 /* src/styles.css */
@@ -43,18 +73,405 @@ Add all three imports to your main CSS file. Order matters — Tailwind first, t
 @import "@aegov/designsystem/theme";
 ```
 
-Then import the CSS file once in your entry file:
+Import it once from your entry file:
 
-```ts
-// src/main.tsx (Vite)  or  src/index.tsx (CRA)
+```tsx
+// src/main.tsx
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import './styles.css';
+import App from './App';
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+);
 ```
 
-If you're on Next.js App Router, import the CSS in your root layout:
+For Create React App, Next.js or Remix the only difference is where the stylesheet import lives — see [Installation](installation.html) for Webpack and PostCSS configurations.
+
+---
+
+## Step 3 — Use a component
+
+Every tag has a wrapper named `Aegov` + PascalCase:
+
+| Tag | Import |
+| --- | --- |
+| `<aegov-button>` | `AegovButton` |
+| `<aegov-input>` | `AegovInput` |
+| `<aegov-form-field>` | `AegovFormField` |
+| `<aegov-select-option>` | `AegovSelectOption` |
+| `<aegov-header-banner>` | `AegovHeaderBanner` |
+
+```tsx
+import { AegovFormField, AegovLabel, AegovInput, AegovButton } from '@aegov/designsystem-react';
+
+export function ContactStep() {
+  return (
+    <div className="max-w-md">
+      <AegovFormField>
+        <AegovLabel>Email address</AegovLabel>
+        <AegovInput fieldId="email" type="email" placeholder="name@example.ae" />
+      </AegovFormField>
+
+      <AegovButton variant="primary" size="lg" className="mt-4">
+        Continue
+      </AegovButton>
+    </div>
+  );
+}
+```
+
+Each wrapper does four things: registers its custom element, renders the underlying tag, forwards props to DOM properties, and adapts the component's `CustomEvent`s into React handler props.
+
+---
+
+## Props — camelCase, not kebab-case
+
+Plain HTML uses kebab-case attributes. The React wrappers expose the camelCase property names instead.
+
+```tsx
+{/* Correct */}
+<AegovInput fieldId="email" isRequired isDisabled={false} />
+
+{/* Wrong — kebab-case is for raw HTML only */}
+<AegovInput field-id="email" is-required />
+```
+
+| HTML attribute | React prop |
+| --- | --- |
+| `field-id` | `fieldId` |
+| `is-disabled` | `isDisabled` |
+| `is-required` | `isRequired` |
+| `is-invalid` | `isInvalid` |
+| `error-message` | `errorMessage` |
+| `default-open` | `defaultOpen` |
+| `addon-prefix` | `addonPrefix` |
+| `label-nav` | `labelNav` |
+
+### Booleans
+
+Pass real booleans. A string is truthy and will silently enable the flag:
+
+```tsx
+<AegovButton isDisabled>Disabled</AegovButton>
+<AegovButton isDisabled={true}>Disabled</AegovButton>
+<AegovButton isDisabled={isSubmitting}>Conditional</AegovButton>
+
+{/* Wrong — always disabled, because "false" is a non-empty string */}
+<AegovButton isDisabled="false">Not what you meant</AegovButton>
+```
+
+### `className`, not `class`
+
+JSX conventions apply; the wrapper forwards `className` to the host element correctly.
+
+```tsx
+<AegovButton className="mt-4 w-full sm:w-auto">Submit</AegovButton>
+```
+
+Components that expose an `extraClass` property accept it as a prop too — that one targets an inner element rather than the host, and each component page documents which.
+
+### Responsive size strings
+
+`size` still takes the responsive string form; it is just a string prop.
+
+```tsx
+<AegovButton size="sm md:base xl:lg">Adapts to the viewport</AegovButton>
+```
+
+---
+
+## Events — `onAegov*` handlers
+
+Component events arrive as camelCased props with an `onAegov` prefix, typed as `CustomEvent` handlers. Read the payload from `event.detail`.
+
+```tsx
+<AegovInput
+  name="emiratesId"
+  onAegovInputChange={(e) => setValue(e.detail.value)}
+  onAegovInputBlur={() => setTouched(true)}
+/>
+
+<AegovSelect onAegovSelectChange={(e) => console.log(e.detail.value, e.detail.label)} />
+
+<AegovBadge isDismissible onAegovBadgeDismiss={() => removeFilter(id)} />
+```
+
+Native React events still work where the DOM emits them — `onClick`, `onFocus`, `onKeyDown` — but prefer the `onAegov*` handler whenever one exists, because it carries structured detail that the native event does not.
+
+```tsx
+{/* Rich detail — preferred */}
+<AegovButton onAegovButtonClick={(e) => track(e.detail)} />
+
+{/* Bare DOM click — only if you genuinely need nothing more */}
+<AegovButton onClick={() => track()} />
+```
+
+---
+
+## Refs and imperative methods
+
+`ref` gives you the underlying custom element, typed as `HTMLAegov*Element`. Component methods are async.
+
+```tsx
+import { useRef } from 'react';
+import { AegovModal, AegovButton } from '@aegov/designsystem-react';
+import type { HTMLAegovModalElement } from '@aegov/designsystem';
+
+export function ConfirmDialog() {
+  const modal = useRef<HTMLAegovModalElement>(null);
+
+  return (
+    <>
+      <AegovButton onAegovButtonClick={() => modal.current?.show()}>
+        Review submission
+      </AegovButton>
+
+      <AegovModal ref={modal} label="Confirm submission">
+        <p>Submit your application for review?</p>
+        <AegovButton variant="primary" onAegovButtonClick={() => modal.current?.close()}>
+          Confirm
+        </AegovButton>
+      </AegovModal>
+    </>
+  );
+}
+```
+
+For form components, `validate()` and `setCustomValidity()` are the two you will reach for most:
+
+```tsx
+const input = useRef<HTMLAegovInputElement>(null);
+
+const check = async () => {
+  const result = await input.current?.validate('manual');
+  if (!result?.valid) input.current?.focus();
+};
+```
+
+---
+
+## Controlled and uncontrolled inputs
+
+The components own their internal value, so they behave like uncontrolled inputs by default. Passing `value` sets the initial value; keep your state in sync from the change event rather than expecting React to drive every keystroke.
+
+```tsx
+const [email, setEmail] = useState('');
+
+<AegovInput
+  name="email"
+  type="email"
+  value={email}
+  onAegovInputChange={(e) => setEmail(e.detail.value)}
+/>
+```
+
+For form submission you often do not need React state at all — the components participate in native `<form>` submission, so `new FormData(form)` returns everything:
+
+```tsx
+function ApplicationForm() {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.currentTarget));
+    api.submit(data);
+  };
+
+  return (
+    <form onSubmit={onSubmit}>
+      <AegovInput name="fullName" isRequired />
+      <AegovSelect name="emirate" appearance="listbox">
+        <AegovSelectOption value="AZ">Abu Dhabi</AegovSelectOption>
+        <AegovSelectOption value="DU">Dubai</AegovSelectOption>
+      </AegovSelect>
+      <AegovButton type="submit" variant="primary">Submit</AegovButton>
+    </form>
+  );
+}
+```
+
+---
+
+## Composite example — service application step
+
+```tsx
+import { useRef, useState } from 'react';
+import {
+  AegovFormField, AegovLabel, AegovInput, AegovSelect, AegovSelectOption,
+  AegovCheckbox, AegovButton, AegovCallout,
+} from '@aegov/designsystem-react';
+import type { HTMLAegovInputElement } from '@aegov/designsystem';
+
+export function ApplicationStep() {
+  const [isSubmitting, setSubmitting] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const emiratesId = useRef<HTMLAegovInputElement>(null);
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const result = await emiratesId.current?.validate('submit');
+    if (!result?.valid) {
+      emiratesId.current?.focus();
+      return;
+    }
+
+    setSubmitting(true);
+    setFailed(false);
+    try {
+      await api.submitApplication(Object.fromEntries(new FormData(e.currentTarget)));
+    } catch {
+      setFailed(true);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <form onSubmit={onSubmit} className="max-w-lg">
+      {failed && (
+        <AegovCallout variant="error" className="mb-6">
+          We could not submit your application. Please try again.
+        </AegovCallout>
+      )}
+
+      <AegovFormField>
+        <AegovLabel>Emirates ID</AegovLabel>
+        <AegovInput
+          ref={emiratesId}
+          fieldId="emirates-id"
+          name="emiratesId"
+          isRequired
+          hint="15 digits, as printed on your card"
+        />
+      </AegovFormField>
+
+      <AegovFormField>
+        <AegovLabel>Emirate of residence</AegovLabel>
+        <AegovSelect name="emirate" appearance="listbox" isRequired placeholder="Select an emirate">
+          <AegovSelectOption value="AZ">Abu Dhabi</AegovSelectOption>
+          <AegovSelectOption value="DU">Dubai</AegovSelectOption>
+          <AegovSelectOption value="SH">Sharjah</AegovSelectOption>
+        </AegovSelect>
+      </AegovFormField>
+
+      <AegovCheckbox
+        name="terms"
+        isRequired
+        label="I confirm the information provided is accurate"
+      />
+
+      <AegovButton
+        type="submit"
+        variant="primary"
+        size="lg"
+        isLoading={isSubmitting}
+        isDisabled={isSubmitting}
+        className="mt-6"
+      >
+        Submit application
+      </AegovButton>
+    </form>
+  );
+}
+```
+
+---
+
+## TypeScript
+
+Component prop types come from the wrapper automatically — your editor autocompletes `variant`, `appearance`, `size` and the rest. Shared payload and token types are exported from the **core** package:
+
+```tsx
+import type {
+  ButtonVariant,
+  ButtonAppearance,
+  InputType,
+  SelectChangeDetail,
+  AegovValidationDetail,
+  HTMLAegovInputElement,
+} from '@aegov/designsystem';
+
+const variant: ButtonVariant = 'primary';
+const appearance: ButtonAppearance = 'outline';
+
+function onValidate(e: CustomEvent<AegovValidationDetail<string>>) {
+  console.log(e.detail.value, e.detail.validity, e.detail.trigger);
+}
+
+function onSelect(e: CustomEvent<SelectChangeDetail>) {
+  console.log(e.detail.value, e.detail.label);
+}
+```
+
+The `Components` namespace gives you a component's full prop interface when you need to build your own wrapper around one:
+
+```tsx
+import type { Components } from '@aegov/designsystem';
+
+type MyButtonProps = Pick<Components.AegovButton, 'variant' | 'appearance' | 'size'>;
+```
+
+---
+
+## RTL support
+
+Direction is a DOM concern, so nothing React-specific is required — set `dir` on the document or on a subtree and the components flip, including the font stacks.
+
+```tsx
+export function Layout({ locale, children }: { locale: 'en' | 'ar'; children: React.ReactNode }) {
+  return (
+    <div dir={locale === 'ar' ? 'rtl' : 'ltr'} lang={locale}>
+      {children}
+    </div>
+  );
+}
+```
+
+If you toggle locale at runtime, set it on `document.documentElement` so portal-based components — toast, dropdown, popover, datepicker — inherit it too, since they render into `document.body` rather than inside your React tree:
+
+```tsx
+useEffect(() => {
+  document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
+  document.documentElement.lang = locale;
+}, [locale]);
+```
+
+---
+
+## Server-side rendering and Next.js
+
+Custom elements are a browser API — there is no server implementation. The generated wrapper module is already marked `'use client'`, so it cannot be imported into a React Server Component.
+
+In the Next.js App Router, mark the file that uses design system components as a client component:
+
+```tsx
+'use client';
+
+import { AegovButton } from '@aegov/designsystem-react';
+
+export function SubmitButton() {
+  return <AegovButton variant="primary">Submit</AegovButton>;
+}
+```
+
+Or load it lazily with SSR disabled:
+
+```tsx
+import dynamic from 'next/dynamic';
+
+const AegovButton = dynamic(
+  () => import('@aegov/designsystem-react').then((m) => m.AegovButton),
+  { ssr: false },
+);
+```
+
+The **CSS import is SSR-safe** and belongs in your root layout — keep it there so the first paint is styled:
 
 ```tsx
 // app/layout.tsx
-import './globals.css'; // contains the three @import lines above
+import './globals.css'; // contains the three @import lines
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -67,138 +484,35 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ---
 
-## Step 4 — Use a component
+## Validation
 
-Import the React wrapper and render it like any other component. Props are typed; events are camelCase `onAegov*` handlers.
+Form components ship the validation surface described in [Validation Surface](validation-overview.html): `isInvalid`, `errorMessage` and `hint` props, `error` and `hint` slots, an `onAegovValidate` handler, and `validate()` / `setCustomValidity()` methods.
 
-```tsx
-// src/App.tsx
-import { AegovButton } from '@aegov/designsystem-react';
-
-export default function App() {
-  return (
-    <div className="p-6">
-      <AegovButton onAegovButtonClick={(e) => console.log('clicked', e)}>
-        Submit application
-      </AegovButton>
-    </div>
-  );
-}
-```
-
-That's it. The wrapper:
-
-1. Registers the `<aegov-button>` custom element on first render.
-2. Renders the underlying `<aegov-button>` tag.
-3. Forwards all React props as kebab-case HTML attributes / DOM properties.
-4. Adapts native CustomEvents into typed React handlers (`onAegovButtonClick`, etc.).
-
----
-
-## Full example — a "Submit application" button with loading state
-
-This component shows the typical patterns: typed props, ref to the underlying element, typed event handlers, and a loading state controlled by React state.
+Driving it from React state needs nothing extra:
 
 ```tsx
-import { useRef, useState } from 'react';
-import { AegovButton } from '@aegov/designsystem-react';
-import type { HTMLAegovButtonElement } from '@aegov/designsystem';
+const [error, setError] = useState('');
 
-export function SubmitApplicationButton() {
-  const ref = useRef<HTMLAegovButtonElement>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubmit = async () => {
-    setIsLoading(true);
-    try {
-      await fetch('/api/submit', { method: 'POST' });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return (
-    <AegovButton
-      ref={ref}
-      variant="primary"
-      appearance="solid"
-      size="lg"
-      isLoading={isLoading}
-      isDisabled={isLoading}
-      onAegovButtonClick={handleSubmit}
-    >
-      Submit application
-    </AegovButton>
-  );
-}
+<AegovInput
+  name="email"
+  type="email"
+  isInvalid={!!error}
+  errorMessage={error}
+  onAegovValidate={(e) => {
+    if (e.detail.trigger !== 'blur') return;
+    const ok = /\S+@\S+\.\S+/.test(String(e.detail.value));
+    setError(ok ? '' : 'Enter a valid email address');
+  }}
+/>
 ```
 
-Notes on the example:
+### Optional — `@aegov/designsystem-validation`
 
-- `variant` / `appearance` / `size` are typed string-union props — your editor autocompletes them.
-- `isLoading` swaps the button content for a spinner while keeping width stable.
-- `onAegovButtonClick` is a `CustomEvent<MouseEvent>` typed handler — no manual `addEventListener`.
-- `ref` gives direct access to the underlying `<aegov-button>` HTMLElement — useful for calling imperative methods or focusing.
-
----
-
-## Available components
-
-Every web component has a corresponding React wrapper. The most-used ones for forms:
-
-```ts
-import {
-  AegovButton,
-  AegovInput,
-  AegovTextarea,
-  AegovSelect,
-  AegovSelectOption,
-  AegovCheckbox,
-  AegovRadio,
-  AegovRadioGroup,
-  AegovToggle,
-  AegovRange,
-  AegovOtp,
-  AegovFileupload,
-  AegovDatepicker,
-  AegovFormField,
-  AegovLabel,
-} from '@aegov/designsystem-react';
-```
-
-Layout / surface components (cards, modals, drawers, navigation, banners, toasts) are imported the same way — see the per-component docs in the left navigation.
-
----
-
-## TypeScript
-
-All wrappers are fully typed. Import payload types from `@aegov/designsystem`:
-
-```tsx
-import type {
-  AegovValidationDetail,
-  ButtonVariant,
-  InputType,
-} from '@aegov/designsystem';
-
-const variant: ButtonVariant = 'primary';
-
-function onValidate(e: CustomEvent<AegovValidationDetail<string>>) {
-  console.log(e.detail.value, e.detail.validity);
-}
-```
-
----
-
-## Validation in React
-
-Form components ship a unified validation surface — `isInvalid`, `errorMessage`, `hint` props, `onAegovValidate` event, plus imperative `validate()` and `setCustomValidity()` methods. The full reference is in [Validation Surface](validation-overview.html). For schema-driven validation (Valibot / Zod / Vest) using a typed React hook, install the optional add-on:
+For schema-driven forms there is an **optional** companion package with a React hook. Nothing in the design system requires it.
 
 ```bash
 npm install @aegov/designsystem-validation valibot
 ```
-
-Quick example:
 
 ```tsx
 import { useAegovForm } from '@aegov/designsystem-validation/react';
@@ -207,107 +521,66 @@ import { AegovInput, AegovButton } from '@aegov/designsystem-react';
 import * as v from 'valibot';
 
 const schema = v.object({
-  email: v.pipe(v.string(), v.email('Invalid email')),
+  email: v.pipe(v.string(), v.email('Enter a valid email address')),
+  password: v.pipe(v.string(), v.minLength(8, 'At least 8 characters')),
 });
 
 export function LoginForm() {
-  const { formRef, handleSubmit, isValid } = useAegovForm({
+  const { formRef, handleSubmit, errors, isValid } = useAegovForm({
     schema,
     adapter: valibotAdapter(),
+    mode: 'onBlur',
   });
+
   return (
     <form ref={formRef} onSubmit={handleSubmit((values) => api.login(values))}>
       <AegovInput name="email" type="email" />
+      <AegovInput name="password" type="password" isRevealable />
       <AegovButton type="submit" isDisabled={!isValid}>Sign in</AegovButton>
     </form>
   );
 }
 ```
 
+`values` is typed from the schema, and the hook writes `is-invalid` and `error-message` onto each component for you. Full reference: [Validation Surface](validation-overview.html).
+
 ---
 
 ## Common gotchas
 
-### Props are camelCase, not kebab-case
+### Do not call `defineCustomElements()`
 
-Web components accept `field-id`, `is-disabled`, etc. as HTML attributes — but the React wrapper exposes them as camelCase props.
+The wrappers register their own elements. Calling the loader as well is harmless but pointless, and it pulls in the lazy-loading runtime you were avoiding by using the wrappers.
 
-```tsx
-// ✅ React wrapper — camelCase props
-<AegovInput fieldId="email" isDisabled={true} />
+### `<AegovButton>` in a template string is not a component
 
-// ❌ This won't work — kebab-case is for raw HTML
-<AegovInput field-id="email" is-disabled={true} />
-```
-
-### Boolean props must be explicit
-
-Pass booleans as JSX boolean attributes, not strings:
+In Angular and Vue templates you write the HTML tag. In React you write the wrapper. Do not mix them:
 
 ```tsx
-<AegovButton isDisabled={true}>Disabled</AegovButton>
-<AegovButton isDisabled>Also disabled</AegovButton>
-<AegovButton isDisabled="true">Wrong — this is a string</AegovButton>
+{/* Correct in React */}
+<AegovButton variant="primary">Submit</AegovButton>
+
+{/* Works, but you lose typing and the onAegov* handlers */}
+<aegov-button variant="primary">Submit</aegov-button>
 ```
 
-### Use `onAegov*` for component events; `onClick` for native ones
+### Children of shadow-DOM components still work
 
-Component custom events are camelCased with the `onAegov` prefix:
+`aegov-button`, `aegov-modal`, `aegov-drawer` and the header components use shadow DOM. React children are projected into slots as normal — but utility classes you put on children are styled by your app's CSS, not the component's, and you cannot restyle the component's internals from outside.
 
-```tsx
-<AegovButton onAegovButtonClick={(e) => /* CustomEvent<MouseEvent> */}>Go</AegovButton>
-<AegovInput onAegovValidate={(e) => /* CustomEvent<AegovValidationDetail> */} />
-```
+### `StrictMode` double-invokes effects
 
-Use the standard React `onClick` for the bubbling native click event if all you need is the click coordinate — but most aegov components emit a richer custom event with structured detail. Prefer the `onAegov*` handler.
+That is React, not the design system. Components are idempotent on re-registration, so double mounting in development is safe.
 
-### `class` vs `className`
+### Portal components render outside your React tree
 
-JSX uses `className`. The wrapper forwards it correctly:
-
-```tsx
-<AegovButton className="my-button-class">Go</AegovButton>
-```
-
-### Refs return the custom element
-
-`ref` gives you the underlying `HTMLAegovButtonElement` (etc.) — call its imperative methods directly:
-
-```tsx
-const ref = useRef<HTMLAegovButtonElement>(null);
-// later
-ref.current?.focus();
-```
-
-For form components: `ref.current?.validate('manual')` runs validation and emits `aegovValidate`.
-
----
-
-## SSR / Next.js
-
-The web components are client-side only — they rely on Custom Elements API which doesn't run in Node. Mark consumer pages or specific components as client-rendered:
-
-```tsx
-'use client';
-import { AegovButton } from '@aegov/designsystem-react';
-```
-
-Or wrap in `next/dynamic` with `{ ssr: false }`:
-
-```tsx
-import dynamic from 'next/dynamic';
-const AegovButton = dynamic(
-  () => import('@aegov/designsystem-react').then((m) => m.AegovButton),
-  { ssr: false },
-);
-```
-
-The CSS import is SSR-safe and should stay in your root layout.
+Toast, dropdown, popover and datepicker move content into `document.body`. React refs to the host still work, but do not expect `document.querySelector` inside a React container to find the portalled content.
 
 ---
 
 ## Where to next
 
-- [Validation Surface](validation-overview.html) — unified `isInvalid` / `errorMessage` / `hint` API across all form components.
-- [Bring Your Own Validator](validation-byo.html) — manual validation patterns (no add-on package required).
-- Per-component docs in the left navigation — every page lists props, events, methods, and accessibility notes.
+- [Installation](installation.html) — build tool configuration, dark mode, the CSS layer model.
+- [Using with Vue](using-with-vue.html) and [Using with Angular](using-with-angular.html).
+- [Validation Surface](validation-overview.html) — the full form contract.
+- [Bring Your Own Validator](validation-byo.html) — manual patterns, no extra package.

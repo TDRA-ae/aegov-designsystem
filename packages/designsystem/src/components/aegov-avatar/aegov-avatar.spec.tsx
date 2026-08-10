@@ -41,7 +41,11 @@ describe('aegov-avatar', () => {
     const img = page.root.querySelector('img');
     expect(img).not.toBeNull();
     expect(img.getAttribute('src')).toBe('/x.jpg');
-    expect(img.getAttribute('alt')).toBe('Person');
+    // The accessible name lives on the wrapper's aria-label; the inner <img> is
+    // deliberately alt="" and aria-hidden so the avatar is not announced twice.
+    expect(img.getAttribute('alt')).toBe('');
+    expect(img.getAttribute('aria-hidden')).toBe('true');
+    expect(page.root.querySelector('[part="avatar"]').getAttribute('aria-label')).toBe('Person');
     expect(page.root.querySelector('[part="avatar"]').className).not.toContain('no-user');
   });
 
@@ -98,7 +102,11 @@ describe('aegov-avatar', () => {
     expect(dot).not.toBeNull();
     expect(dot.className).toContain('avatar-indicator');
     expect(dot.className).toContain('avatar-online');
-    expect(dot.getAttribute('aria-label')).toBe('Status: online');
+    // The dot is decorative; the status is folded into the wrapper's accessible name so
+    // it is conveyed without relying on the indicator colour.
+    expect(dot.getAttribute('aria-hidden')).toBe('true');
+    expect(page.root.querySelector('[part="avatar"]').getAttribute('aria-label'))
+      .toBe('User avatar, status: online');
   });
 
   it('does not render status when set to an unknown value', async () => {

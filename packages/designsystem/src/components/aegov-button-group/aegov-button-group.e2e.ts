@@ -24,7 +24,7 @@ describe('aegov-button-group e2e', () => {
       <aegov-button>3</aegov-button>
     </aegov-button-group>`);
     await page.waitForChanges();
-    const buttons = await page.findAll('aegov-button-group aegov-button button');
+    const buttons = await page.findAll('aegov-button-group aegov-button >>> button');
     expect(buttons[0].className).toContain('btn-grouped-first-horizontal');
     expect(buttons[1].className).toContain('btn-grouped-middle-horizontal');
     expect(buttons[2].className).toContain('btn-grouped-last-horizontal');
@@ -39,7 +39,7 @@ describe('aegov-button-group e2e', () => {
     const host = await page.find('aegov-button-group');
     host.setProperty('orientation', 'vertical');
     await page.waitForChanges();
-    const btns = await page.findAll('aegov-button-group aegov-button button');
+    const btns = await page.findAll('aegov-button-group aegov-button >>> button');
     expect(btns[0].className).toContain('btn-grouped-vertical');
   });
 
