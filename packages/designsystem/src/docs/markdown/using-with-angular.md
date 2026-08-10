@@ -1,21 +1,39 @@
 # Using with Angular
 
-<p class="text-lg text-aeblack-500 mb-8">The AEGOV Design System ships first-class Angular wrappers for every component. They auto-generate from the Stencil web components and give you typed inputs, typed outputs, Angular change detection integration, and standard Angular template ergonomics. This page covers installation, setup for both standalone and module-based Angular apps, and common gotchas.</p>
+<p class="text-lg text-aeblack-500 mb-8">The AEGOV Design System ships generated Angular wrappers for every component — standalone components with typed inputs, typed outputs and <code>OnPush</code> change detection. This page covers installing the Angular package, configuring Tailwind under the Angular CLI, initialising the design system for both standalone and module-based apps, and the Angular-specific conventions: camelCase inputs, required inputs, and how form binding works today.</p>
 
-> **Requires Angular 19+.** The Angular wrappers are generated with `@stencil/angular-output-target` v1.x which targets Angular 19 and above.
+## Introduction
 
----
+Two packages, both required:
 
-## What you install
-
-| Package | Purpose |
+| Package | Role |
 | --- | --- |
-| `@aegov/designsystem` | The web components — Stencil bundles, CSS, and types. Required at runtime. |
-| `@aegov/designsystem-angular` | Angular directive wrappers, `DesignSystemModule`, and `provideDesignSystem()`. |
+| `@aegov/designsystem` | The web components — implementations, CSS and TypeScript types. Required at runtime. |
+| `@aegov/designsystem-angular` | Generated standalone component wrappers, the `DIRECTIVES` array, `DesignSystemModule` and `provideDesignSystem()`. |
+
+Declared peer dependencies are `@angular/core` and `@angular/common` at **18.0.0 or newer**.
+
+```ts
+import { Component } from '@angular/core';
+import { AegovButton } from '@aegov/designsystem-angular';
+
+@Component({
+  selector: 'app-root',
+  imports: [AegovButton],
+  template: `
+    <aegov-button variant="primary" (aegovButtonClick)="submit()">
+      Submit application
+    </aegov-button>
+  `,
+})
+export class AppComponent {
+  submit() { /* … */ }
+}
+```
 
 ---
 
-## Step 1 — Install the packages
+## Step 1 — Install
 
 ```bash
 npm install @aegov/designsystem @aegov/designsystem-angular
@@ -23,30 +41,29 @@ npm install @aegov/designsystem @aegov/designsystem-angular
 
 ---
 
-## Step 2 — Set up Tailwind CSS
+## Step 2 — Set up Tailwind
 
-The design system ships source CSS that requires Tailwind v4 to compile.
+The design system ships **source** CSS, so Tailwind v4 must run in your build.
 
 ### If you selected Tailwind during `ng new`
 
-Angular CLI already installed `@tailwindcss/postcss`, created `postcss.config.json`, and added `@import "tailwindcss"` to `src/styles.css`. Just add the two design system imports after it:
+The CLI already installed `@tailwindcss/postcss`, created `postcss.config.json`, and put `@import "tailwindcss"` in `src/styles.css`. Add the two design system imports after it:
 
 ```css
 /* src/styles.css */
 @import "tailwindcss";
-@import "@aegov/designsystem/base";   /* ← add this */
-@import "@aegov/designsystem/theme";  /* ← add this */
+@source "./**/*.{ts,html}";
+@import "@aegov/designsystem/base";
+@import "@aegov/designsystem/theme";
 ```
 
 ### If you did not select Tailwind during `ng new`
-
-**Install Tailwind PostCSS:**
 
 ```bash
 npm install -D @tailwindcss/postcss postcss
 ```
 
-**Create `postcss.config.json` at the project root** (Angular reads this automatically):
+Create `postcss.config.json` at the project root — the Angular CLI picks it up automatically:
 
 ```json
 {
@@ -56,45 +73,44 @@ npm install -D @tailwindcss/postcss postcss
 }
 ```
 
-**Add all three imports to `src/styles.css`:**
+Then add all four lines to `src/styles.css` as shown above.
+
+### Why `@source`
+
+Tailwind v4 discovers the utility classes you use by scanning your source files. Under the Angular CLI the stylesheet is compiled from `src/styles.css`, so declare explicitly where your templates live:
 
 ```css
-@import "tailwindcss";
-@import "@aegov/designsystem/base";
-@import "@aegov/designsystem/theme";
+@source "./**/*.{ts,html}";
 ```
 
-Order matters — Tailwind first, then `base` (component styles and fonts), then `theme` (design tokens).
+Without it, utilities used only inside inline `template:` strings or `.html` files may not be generated, and you will see classes present in the DOM with no matching CSS rule.
+
+Import order matters: Tailwind first, then `base` (fonts, resets, global element styles), then `theme` (design tokens).
 
 ---
 
-## Step 3 — Initialize the design system
+## Step 3 — Initialise the design system
 
-`provideDesignSystem()` registers all web components via Angular's `APP_INITIALIZER` — the same pattern used by Ionic. This ensures all `aegov-*` elements are defined in the browser before the app renders.
+The wrappers render the custom element tags but do not register them. Registration happens once at bootstrap, via an `APP_INITIALIZER` that calls `defineCustomElements()` — the same pattern Ionic uses. This guarantees every `aegov-*` element is defined before your first template renders.
 
-Choose the setup that matches your Angular app type.
-
-### Standalone Angular (Angular 17+)
-
-Add `provideDesignSystem()` to your `app.config.ts`:
+### Standalone applications
 
 ```ts
 // src/app/app.config.ts
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideDesignSystem } from '@aegov/designsystem-angular';
+import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideDesignSystem()
-  ]
+    provideDesignSystem(),
+  ],
 };
 ```
 
-### Module-based Angular
-
-Import `DesignSystemModule` in your root `AppModule`:
+### Module-based applications
 
 ```ts
 // src/app/app.module.ts
@@ -106,78 +122,78 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, DesignSystemModule],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
 ```
 
+`DesignSystemModule` both registers the elements and re-exports every wrapper, so components declared in that module can use any `aegov-*` tag without further imports.
+
 ---
 
-## Step 4 — Use components
+## Step 4 — Import the components you use
 
-You have two options for importing components into your Angular components.
+Every tag has a standalone wrapper named `Aegov` + PascalCase.
 
-### Option A — `DesignSystemModule` (all components at once)
-
-Good for prototyping or when you use many components. Gives you all 50+ components without listing them individually:
-
-```ts
-import { Component } from '@angular/core';
-import { DesignSystemModule } from '@aegov/designsystem-angular';
-
-@Component({
-  selector: 'app-root',
-  imports: [DesignSystemModule],
-  template: `
-    <aegov-button variant="primary">Submit</aegov-button>
-    <aegov-badge color="success">Active</aegov-badge>
-  `
-})
-export class AppComponent {}
-```
-
-### Option B — Individual imports (recommended for production)
-
-Import only what you use. Better for tree-shaking and makes component dependencies explicit:
-
-```ts
-import { Component } from '@angular/core';
-import { AegovButton, AegovBadge } from '@aegov/designsystem-angular';
-
-@Component({
-  selector: 'app-root',
-  imports: [AegovButton, AegovBadge],
-  template: `
-    <aegov-button variant="primary">Submit</aegov-button>
-    <aegov-badge color="success">Active</aegov-badge>
-  `
-})
-export class AppComponent {}
-```
-
-All components follow the same naming convention — `Aegov` + PascalCase:
-
-| Tag | Import name |
+| Tag | Import |
 | --- | --- |
 | `<aegov-button>` | `AegovButton` |
 | `<aegov-input>` | `AegovInput` |
-| `<aegov-badge>` | `AegovBadge` |
-| `<aegov-modal>` | `AegovModal` |
 | `<aegov-select>` | `AegovSelect` |
+| `<aegov-form-field>` | `AegovFormField` |
+| `<aegov-header-banner>` | `AegovHeaderBanner` |
 
-Always use the **HTML tag** (`<aegov-button>`) in templates — never the class name (`<AegovButton>`).
+### Option A — individual imports (recommended)
+
+Explicit dependencies, best tree-shaking:
+
+```ts
+import { Component } from '@angular/core';
+import { AegovFormField, AegovLabel, AegovInput, AegovButton } from '@aegov/designsystem-angular';
+
+@Component({
+  selector: 'app-contact-step',
+  imports: [AegovFormField, AegovLabel, AegovInput, AegovButton],
+  template: `
+    <aegov-form-field>
+      <aegov-label>Email address</aegov-label>
+      <aegov-input fieldId="email" type="email" placeholder="name@example.ae" />
+    </aegov-form-field>
+
+    <aegov-button variant="primary" size="lg">Continue</aegov-button>
+  `,
+})
+export class ContactStepComponent {}
+```
+
+### Option B — everything at once
+
+For prototyping, `DesignSystemModule` brings in all wrappers, or import the `DIRECTIVES` array directly into a standalone component:
+
+```ts
+import { DIRECTIVES } from '@aegov/designsystem-angular';
+
+@Component({
+  selector: 'app-kitchen-sink',
+  imports: [...DIRECTIVES],
+  template: `…`,
+})
+export class KitchenSinkComponent {}
+```
+
+Always use the **HTML tag** in templates (`<aegov-button>`), never the class name.
 
 ---
 
-## Props — use camelCase in Angular templates
+## Inputs — camelCase in templates
 
-Angular inputs use **camelCase**. Unlike plain HTML (which uses `kebab-case` attributes), Angular's template compiler resolves props by their camelCase input name:
+This is the main difference from plain HTML and Vue. Angular's template compiler resolves inputs by their declared name, and the generated wrappers declare them in camelCase.
 
 ```html
-<!-- HTML / Vue / React -->
-<aegov-input field-id="email" is-required="true" />
+<!-- Plain HTML / Vue -->
+<aegov-input field-id="email" is-required />
 
-<!-- Angular — use camelCase -->
+<!-- Angular -->
 <aegov-input fieldId="email" [isRequired]="true" />
 ```
 
@@ -186,98 +202,306 @@ Angular inputs use **camelCase**. Unlike plain HTML (which uses `kebab-case` att
 | `field-id` | `fieldId` |
 | `is-disabled` | `isDisabled` |
 | `is-required` | `isRequired` |
-| `card-title` | `cardTitle` |
+| `is-invalid` | `isInvalid` |
+| `error-message` | `errorMessage` |
 | `default-open` | `defaultOpen` |
+| `addon-prefix` | `addonPrefix` |
+| `label-nav` | `labelNav` |
+| `page-current` | `pageCurrent` |
 
-> **Required inputs:** Some inputs are marked required by the component — Angular will throw a build error (`NG8008`) if you omit them or use the wrong case. Affected inputs: `tabId` on `<aegov-tab>` and `<aegov-tab-panel>`, `href` on `<aegov-link>`, `name` on `<aegov-radio-group>`.
+Bind anything that is not a literal string, so Angular passes a real value rather than the string form:
+
+```html
+<aegov-input [isRequired]="true" [isDisabled]="form.locked" />
+<aegov-pagination [pages]="totalPages" [pageCurrent]="page" />
+<aegov-button size="sm md:base xl:lg">Responsive size string</aegov-button>
+```
+
+### Required inputs
+
+Four inputs are marked required by their components. Omitting one — or spelling it in kebab-case — is a compile-time error, `NG8008`.
+
+| Component | Required input |
+| --- | --- |
+| `aegov-tab` | `tabId` |
+| `aegov-tab-panel` | `tabId` |
+| `aegov-link` | `href` |
+| `aegov-radio-group` | `name` |
+
+```html
+<!-- NG8008: Required input 'tabId' from component AegovTab must be specified -->
+<aegov-tab tab-id="overview">Overview</aegov-tab>
+
+<!-- Correct -->
+<aegov-tab tabId="overview">Overview</aegov-tab>
+```
 
 ---
 
-## Events — use Angular output syntax
+## Outputs — `(aegovEvent)` syntax
 
-Bind to component events with Angular's `(eventName)` syntax:
+Component events are declared as Angular outputs, keeping the original event name. The `$event` you receive is the `CustomEvent`, so the payload is on `$event.detail`.
 
 ```html
-<aegov-button (aegovButtonClick)="onButtonClick($event)">Submit</aegov-button>
+<aegov-button (aegovButtonClick)="submit($event)">Submit</aegov-button>
 
 <aegov-input
-  (aegovInputChange)="onInputChange($event)"
-  (aegovValidate)="onValidate($event)"
+  (aegovInputChange)="email = $event.detail.value"
+  (aegovInputBlur)="touched = true"
 />
 
-<aegov-select (aegovSelectChange)="onSelectChange($event)" />
+<aegov-select (aegovSelectChange)="onEmirate($event)" />
+
+<aegov-badge [isDismissible]="true" (aegovBadgeDismiss)="removeFilter(id)" />
 ```
-
----
-
-## Tabs — use camelCase tabId
-
-`tabId` is a required input on `<aegov-tab>` and `<aegov-tab-panel>`. Use camelCase in Angular templates:
-
-```html
-<aegov-tabs defaultOpen="overview">
-  <aegov-tab slot="tabs" tabId="overview">Overview</aegov-tab>
-  <aegov-tab slot="tabs" tabId="details">Details</aegov-tab>
-  <aegov-tab-panel tabId="overview">Overview content</aegov-tab-panel>
-  <aegov-tab-panel tabId="details">Details content</aegov-tab-panel>
-</aegov-tabs>
-```
-
----
-
-## Full example — a form with input and button
 
 ```ts
-import { Component, signal } from '@angular/core';
-import { AegovButton, AegovInput } from '@aegov/designsystem-angular';
+import type { SelectChangeDetail } from '@aegov/designsystem';
 
-@Component({
-  selector: 'app-contact-form',
-  imports: [AegovButton, AegovInput],
-  template: `
-    <aegov-input
-      fieldId="email"
-      type="email"
-      placeholder="Enter your email"
-      [value]="email()"
-      (aegovInputChange)="email.set($event.detail.value)"
-    />
-    <aegov-button
-      variant="primary"
-      [isLoading]="isLoading()"
-      [isDisabled]="isLoading()"
-      (aegovButtonClick)="onSubmit()"
-    >
-      Submit
-    </aegov-button>
-  `
-})
-export class ContactFormComponent {
-  email = signal('');
-  isLoading = signal(false);
-
-  async onSubmit() {
-    this.isLoading.set(true);
-    try {
-      await fetch('/api/submit', { method: 'POST' });
-    } finally {
-      this.isLoading.set(false);
-    }
-  }
+onEmirate(e: CustomEvent<SelectChangeDetail>) {
+  console.log(e.detail.value, e.detail.label);
 }
 ```
 
 ---
 
-## TypeScript
+## Template refs and imperative methods
 
-Import types from the core package:
+Use `ElementRef` with `viewChild` to reach the underlying custom element. Methods are async.
 
 ```ts
-import type { Components } from '@aegov/designsystem/components';
+import { Component, ElementRef, viewChild } from '@angular/core';
+import { AegovModal, AegovButton } from '@aegov/designsystem-angular';
 
-const variant: Components.AegovButton['variant'] = 'primary';
+@Component({
+  selector: 'app-confirm',
+  imports: [AegovModal, AegovButton],
+  template: `
+    <aegov-button (aegovButtonClick)="open()">Review submission</aegov-button>
+
+    <aegov-modal #modal label="Confirm submission">
+      <p>Submit your application for review?</p>
+      <aegov-button variant="primary" (aegovButtonClick)="close()">Confirm</aegov-button>
+    </aegov-modal>
+  `,
+})
+export class ConfirmComponent {
+  private modal = viewChild<ElementRef<HTMLAegovModalElement>>('modal');
+
+  async open() { await this.modal()?.nativeElement.show(); }
+  async close() { await this.modal()?.nativeElement.close(); }
+}
 ```
+
+For form components:
+
+```ts
+const result = await this.emiratesId()?.nativeElement.validate('manual');
+if (!result?.valid) this.emiratesId()?.nativeElement.focus();
+```
+
+---
+
+## Form binding
+
+The components are web components with their own internal value, and they participate in **native** form submission. They are not yet wired into Angular's forms API.
+
+### What works today
+
+Bind the value in, listen for changes out — the same pattern as any custom element:
+
+```ts
+@Component({
+  selector: 'app-application-form',
+  imports: [AegovFormField, AegovLabel, AegovInput, AegovButton],
+  template: `
+    <form (submit)="onSubmit($event)">
+      <aegov-form-field>
+        <aegov-label>Emirates ID</aegov-label>
+        <aegov-input
+          fieldId="emirates-id"
+          name="emiratesId"
+          [isRequired]="true"
+          hint="15 digits, as printed on your card"
+          [value]="emiratesId()"
+          (aegovInputChange)="emiratesId.set($event.detail.value)"
+        />
+      </aegov-form-field>
+
+      <aegov-button type="submit" variant="primary" [isLoading]="isSubmitting()">
+        Submit application
+      </aegov-button>
+    </form>
+  `,
+})
+export class ApplicationFormComponent {
+  emiratesId = signal('');
+  isSubmitting = signal(false);
+
+  async onSubmit(e: Event) {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target as HTMLFormElement));
+    this.isSubmitting.set(true);
+    try {
+      await this.api.submit(data);
+    } finally {
+      this.isSubmitting.set(false);
+    }
+  }
+}
+```
+
+Because the controls submit natively, `new FormData(form)` is often all you need and you can skip per-field signals entirely.
+
+### What is not supported yet
+
+`[(ngModel)]` and `formControlName` do **not** bind to `aegov-*` components. There is no `ControlValueAccessor` bridge in the current release — the optional validation package ships the per-field CVA as an explicit stub slated for a later milestone. Do not reach for Reactive Forms bindings on these tags; use the value-in / event-out pattern above, or wrap a component in your own thin Angular component that implements `ControlValueAccessor` if you need Reactive Forms integration in the meantime.
+
+---
+
+## TypeScript
+
+Token and payload types come from the core package:
+
+```ts
+import type {
+  ButtonVariant,
+  ButtonAppearance,
+  InputType,
+  SelectChangeDetail,
+  AegovValidationDetail,
+  Components,
+} from '@aegov/designsystem';
+
+const variant: ButtonVariant = 'primary';
+const size: Components.AegovInput['size'] = 'lg';
+
+function onValidate(e: CustomEvent<AegovValidationDetail<string>>) {
+  console.log(e.detail.value, e.detail.validity, e.detail.trigger);
+}
+```
+
+---
+
+## RTL support
+
+Set `dir` on the document or a subtree. The components use logical properties throughout, and the `base` stylesheet switches the body and heading font stacks to Noto Kufi Arabic and Alexandria automatically.
+
+```ts
+@Component({
+  selector: 'app-shell',
+  template: `
+    <div [attr.dir]="locale() === 'ar' ? 'rtl' : 'ltr'" [attr.lang]="locale()">
+      <router-outlet />
+    </div>
+  `,
+})
+export class ShellComponent {
+  locale = signal<'en' | 'ar'>('en');
+}
+```
+
+When locale is switchable at runtime, set it on the document element as well. Portal-based components — toast, dropdown, popover, datepicker — render into `document.body`, outside your Angular component tree, and inherit direction from the document:
+
+```ts
+constructor(@Inject(DOCUMENT) private doc: Document) {
+  effect(() => {
+    this.doc.documentElement.dir = this.locale() === 'ar' ? 'rtl' : 'ltr';
+    this.doc.documentElement.lang = this.locale();
+  });
+}
+```
+
+---
+
+## Server-side rendering
+
+Custom elements are browser-only. Under Angular SSR, `provideDesignSystem()` runs its initialiser on the client; guard any code that touches component methods with a platform check.
+
+```ts
+import { isPlatformBrowser } from '@angular/common';
+import { PLATFORM_ID, inject } from '@angular/core';
+
+const isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+if (isBrowser) {
+  await this.modal()?.nativeElement.show();
+}
+```
+
+The global stylesheet is SSR-safe and should stay in `src/styles.css` so the server-rendered markup is styled on first paint.
+
+---
+
+## Validation
+
+Form components ship the validation surface described in [Validation Surface](validation-overview.html): `isInvalid`, `errorMessage` and `hint` inputs, `error` and `hint` slots, the `aegovValidate` output, and `validate()` / `setCustomValidity()` methods.
+
+Driving it from signals needs nothing extra:
+
+```ts
+@Component({
+  imports: [AegovInput],
+  template: `
+    <aegov-input
+      name="email"
+      type="email"
+      [isInvalid]="!!error()"
+      [errorMessage]="error()"
+      (aegovValidate)="onValidate($event)"
+    />
+  `,
+})
+export class EmailFieldComponent {
+  error = signal('');
+
+  onValidate(e: CustomEvent<AegovValidationDetail<string>>) {
+    if (e.detail.trigger !== 'blur') return;
+    const ok = /\S+@\S+\.\S+/.test(String(e.detail.value));
+    this.error.set(ok ? '' : 'Enter a valid email address');
+  }
+}
+```
+
+### Optional — `@aegov/designsystem-validation`
+
+For schema-driven forms there is an **optional** companion package with an Angular directive. Nothing in the design system requires it.
+
+```bash
+npm install @aegov/designsystem-validation valibot
+```
+
+It exposes a standalone `[aegovForm]` directive that you put on the `<form>` element. Valid submissions emit through `(submitValid)`, and the errors map through `(errorsChange)`.
+
+```ts
+import { AegovFormDirective } from '@aegov/designsystem-validation/angular';
+import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot';
+import * as v from 'valibot';
+
+const schema = v.object({
+  email: v.pipe(v.string(), v.email('Enter a valid email address')),
+  password: v.pipe(v.string(), v.minLength(8, 'At least 8 characters')),
+});
+
+@Component({
+  selector: 'app-login',
+  imports: [AegovFormDirective, AegovInput, AegovButton],
+  template: `
+    <form [aegovForm]="{ schema, adapter, mode: 'onBlur' }" (submitValid)="login($event)">
+      <aegov-input name="email" type="email" />
+      <aegov-input name="password" type="password" [isRevealable]="true" />
+      <aegov-button type="submit" variant="primary">Sign in</aegov-button>
+    </form>
+  `,
+})
+export class LoginComponent {
+  schema = schema;
+  adapter = valibotAdapter();
+
+  login(values: { email: string; password: string }) { /* … */ }
+}
+```
+
+The directive writes `isInvalid` and `errorMessage` back onto each component as the user interacts. Note that this is form-level orchestration — the per-field `ControlValueAccessor` bridge for Reactive Forms is not implemented in the current release.
 
 ---
 
@@ -285,38 +509,45 @@ const variant: Components.AegovButton['variant'] = 'primary';
 
 ### Components render unstyled
 
-The CSS is not being processed. Check the following:
+Check, in order:
 
-1. `src/styles.css` has the design system imports after `@import "tailwindcss"`:
-```css
-@import "tailwindcss";
-@import "@aegov/designsystem/base";
-@import "@aegov/designsystem/theme";
-```
-2. If you did **not** select Tailwind during `ng new`, make sure `@tailwindcss/postcss` and `postcss` are installed and `postcss.config.json` exists at the project root:
-```json
-{ "plugins": { "@tailwindcss/postcss": {} } }
-```
+1. `src/styles.css` contains all four lines — `@import "tailwindcss"`, `@source`, `base`, `theme` — in that order.
+2. `postcss.config.json` exists at the project root with `{ "plugins": { "@tailwindcss/postcss": {} } }`.
+3. DevTools → Elements → `:root` lists `--color-primary-600`. If not, the design system CSS never went through Tailwind.
 
 ### `NG8008: Required input 'tabId' must be specified`
 
-You are using `tab-id` (kebab-case) instead of `tabId` (camelCase). Change to:
-```html
-<aegov-tab tabId="my-tab">...</aegov-tab>
-<aegov-tab-panel tabId="my-tab">...</aegov-tab-panel>
-```
+You wrote `tab-id` instead of `tabId`. Angular resolves inputs by camelCase name. Same applies to `href` on `aegov-link` and `name` on `aegov-radio-group`.
+
+### `'aegov-button' is not a known element`
+
+The wrapper is not imported into that component's `imports` array, or the module does not import `DesignSystemModule`. Note this is a template compile error and distinct from registration — importing the wrapper satisfies the compiler, and `provideDesignSystem()` handles the browser-side element definition.
+
+### Components render as plain text
+
+`provideDesignSystem()` or `DesignSystemModule` is missing from bootstrap. The wrappers render the tags; only the initialiser defines them.
 
 ### `Module has no exported member 'DesignSystemModule'`
 
-You are using an older version of the Angular package (`< 0.2.1`). Update to the latest:
+An older version of the Angular package. Update:
+
 ```bash
 npm install @aegov/designsystem-angular@latest
 ```
+
+### A utility class in an inline template has no effect
+
+Tailwind did not scan the file. Add or widen the `@source` glob in `src/styles.css`.
+
+### `ngModel` on an aegov component does nothing
+
+Expected — see [Form binding](#form-binding). Use value-in / event-out, or write your own `ControlValueAccessor` wrapper.
 
 ---
 
 ## Where to next
 
-- [Validation Surface](validation-overview.html) — unified `isInvalid` / `errorMessage` / `hint` API across all form components.
-- [Bring Your Own Validator](validation-byo.html) — manual validation patterns with no external library.
-- Per-component docs in the left navigation — every page lists props, events, methods, and accessibility notes.
+- [Installation](installation.html) — build tool configuration, dark mode, the CSS layer model.
+- [Using with React](using-with-react.html) and [Using with Vue](using-with-vue.html).
+- [Validation Surface](validation-overview.html) — the full form contract.
+- [Bring Your Own Validator](validation-byo.html) — manual patterns, no extra package.

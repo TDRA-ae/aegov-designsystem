@@ -65,9 +65,21 @@ describe('aegov-button-group', () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     await newSpecPage({
       components: [AegovButtonGroup, AegovButton],
-      html: `<aegov-button-group><div>Bad</div><aegov-button>Ok</aegov-button></aegov-button-group>`,
+      html: `<aegov-button-group><span>Bad</span><aegov-button>Ok</aegov-button></aegov-button-group>`,
     });
     expect(warn).toHaveBeenCalled();
+    warn.mockRestore();
+  });
+
+  it('tolerates a wrapping <div> without warning', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    await newSpecPage({
+      components: [AegovButtonGroup, AegovButton],
+      html: `<aegov-button-group><div><aegov-button>Ok</aegov-button></div></aegov-button-group>`,
+    });
+    // `div` is explicitly allowed by validateChildren so consumers can group buttons
+    // inside a layout wrapper.
+    expect(warn).not.toHaveBeenCalled();
     warn.mockRestore();
   });
 

@@ -94,7 +94,9 @@ describe('aegov-badge', () => {
     });
     const btn = page.root.querySelector('button.badge-dismiss');
     expect(btn).not.toBeNull();
-    expect(btn.getAttribute('aria-label')).toBe('Badge dismiss button');
+    // The dismiss label is context-aware: it incorporates the badge's own text so screen
+    // reader users hear which badge they are removing.
+    expect(btn.getAttribute('aria-label')).toBe('Dismiss X');
   });
 
   it('emits aegovBadgeDismiss when dismiss clicked', async () => {

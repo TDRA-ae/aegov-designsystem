@@ -29,11 +29,13 @@
         { label: 'Accordion', href: '/docs/pages/aegov-accordion.html' },
         { label: 'Aspect Ratio', href: '/docs/pages/aegov-aspect-ratio.html' },
         { label: 'Avatar', href: '/docs/pages/aegov-avatar.html' },
+        { label: 'Avatar Group', href: '/docs/pages/aegov-avatar-group.html' },
         { label: 'Badge', href: '/docs/pages/aegov-badge.html' },
         { label: 'Banner', href: '/docs/pages/aegov-banner.html' },
         { label: 'Blockquote', href: '/docs/pages/aegov-blockquote.html' },
         { label: 'Breadcrumbs', href: '/docs/pages/aegov-breadcrumbs.html' },
         { label: 'Button', href: '/docs/pages/aegov-button.html' },
+        { label: 'Button Group', href: '/docs/pages/aegov-button-group.html' },
         { label: 'Callout', href: '/docs/pages/aegov-callout.html' },
         { label: 'Card', href: '/docs/pages/aegov-card.html' },
         { label: 'Drawer', href: '/docs/pages/aegov-drawer.html' },
@@ -88,12 +90,6 @@
       items: [
         { label: 'Validation overview', href: '/docs/pages/validation-overview.html' },
         { label: 'Build your own', href: '/docs/pages/validation-byo.html' },
-      ],
-    },
-    {
-      heading: 'Frameworks',
-      items: [
-        { label: 'Using React', href: '/docs/pages/using-with-react.html' },
       ],
     },
   ];

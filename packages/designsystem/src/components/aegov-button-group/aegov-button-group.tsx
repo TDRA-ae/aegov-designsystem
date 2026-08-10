@@ -56,14 +56,23 @@ export class AegovButtonGroup {
   }
 
   /**
-   * Validates that all direct children are aegov-button elements
+   * Validates that all slotted children are aegov-button elements.
+   *
+   * Reads the children of the rendered wrapper, not `this.el.children`: this component is
+   * not shadow-encapsulated, so Stencil's slot handling moves the authored light-DOM
+   * children *into* `.aegov-button-group`. Inspecting the host's own children would only
+   * ever see that wrapper, so the check never fired.
+   *
+   * A wrapping `div` stays allowed so consumers can group buttons inside a layout element.
    */
   private validateChildren() {
-    const directChildren = Array.from(this.el.children).filter(
+    const container = this.el.querySelector('.aegov-button-group') ?? this.el;
+
+    const slottedChildren = Array.from(container.children).filter(
       (child) => child.tagName !== 'STYLE' && child.tagName !== 'SCRIPT'
     );
 
-    const invalidChildren = directChildren.filter(
+    const invalidChildren = slottedChildren.filter(
       (child) => child.tagName.toLowerCase() !== 'aegov-button' && child.tagName.toLowerCase() !== 'div'
     );
 

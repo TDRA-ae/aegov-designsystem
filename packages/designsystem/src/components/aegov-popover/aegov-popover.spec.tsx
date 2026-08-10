@@ -9,8 +9,11 @@ describe('aegov-popover', () => {
     });
     const trigger = page.root.querySelector('.aegov-popover-trigger');
     expect(trigger).not.toBeNull();
-    expect(trigger.getAttribute('aria-haspopup')).toBe('dialog');
-    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    // Per WCAG 4.1.2 the ARIA state goes on the first focusable child inside the trigger
+    // wrapper — the element that actually receives focus — not on the wrapper itself.
+    const inner = trigger.querySelector('button');
+    expect(inner.getAttribute('aria-haspopup')).toBe('dialog');
+    expect(inner.getAttribute('aria-expanded')).toBe('false');
   });
 
   it('auto-generates fieldId', async () => {
@@ -71,8 +74,8 @@ describe('aegov-popover', () => {
     });
     page.rootInstance.isOpen = true;
     await page.waitForChanges();
-    const trigger = page.root.querySelector('.aegov-popover-trigger');
-    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    const inner = page.root.querySelector('.aegov-popover-trigger button');
+    expect(inner.getAttribute('aria-expanded')).toBe('true');
   });
 
   it('accepts position, align, gap and trigger props', async () => {

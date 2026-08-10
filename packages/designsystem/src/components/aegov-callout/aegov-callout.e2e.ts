@@ -7,7 +7,8 @@ describe('aegov-callout (e2e)', () => {
     const root = await page.find('aegov-callout [data-aegov-callout]');
     expect(root).not.toBeNull();
     expect(root).toHaveClass('aegov-callout');
-    expect(root.getAttribute('role')).toBe('alert');
+    // Politeness derives from variant: default is polite (status).
+    expect(root.getAttribute('role')).toBe('status');
   });
 
   it('applies variant class', async () => {

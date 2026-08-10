@@ -3023,7 +3023,7 @@ declare global {
     interface HTMLAegovDrawerElementEventMap {
         "aegovDrawerOpen": void;
         "aegovDrawerClose": void;
-        "aegovDrawerBeforeClose": { preventDefault: () => void };
+        "aegovDrawerBeforeClose": void;
         "aegovDrawerBackdropClick": MouseEvent;
         "aegovDrawerEscapePress": KeyboardEvent;
     }
@@ -4531,9 +4531,9 @@ declare namespace LocalJSX {
          */
         "onAegovDrawerBackdropClick"?: (event: AegovDrawerCustomEvent<MouseEvent>) => void;
         /**
-          * Emitted before drawer closes (cancellable)
+          * Emitted before the drawer closes. Cancel by calling `preventDefault()` on the event itself — matching `aegovModalBeforeClose`.
          */
-        "onAegovDrawerBeforeClose"?: (event: AegovDrawerCustomEvent<{ preventDefault: () => void }>) => void;
+        "onAegovDrawerBeforeClose"?: (event: AegovDrawerCustomEvent<void>) => void;
         /**
           * Emitted when drawer is closed
          */

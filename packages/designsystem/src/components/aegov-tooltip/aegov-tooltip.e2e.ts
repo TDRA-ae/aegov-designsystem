@@ -23,8 +23,9 @@ describe('aegov-tooltip (e2e)', () => {
     await page.hover('#t');
     await new Promise(resolve => setTimeout(resolve, 50));
     await page.waitForChanges();
-    const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-    expect(trigger.getAttribute('aria-describedby')).not.toBeNull();
+    // aria-describedby is applied to the slotted trigger, not the wrapper.
+    const slotted = await page.find('aegov-tooltip .aegov-tooltip-trigger button');
+    expect(slotted.getAttribute('aria-describedby')).not.toBeNull();
   });
 
   it('shows tooltip on click when trigger="click"', async () => {
@@ -32,8 +33,9 @@ describe('aegov-tooltip (e2e)', () => {
     await page.setContent('<aegov-tooltip content="Hi" trigger="click"><button id="t">t</button></aegov-tooltip>');
     await page.click('#t');
     await page.waitForChanges();
-    const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    // A tooltip is a description, not a disclosure — visibility is the observable state.
+    const tip = await page.find('aegov-tooltip .aegov-tooltip');
+    expect((await tip.getComputedStyle()).visibility).toBe('visible');
   });
 
   it('Escape hides the tooltip', async () => {
@@ -43,8 +45,8 @@ describe('aegov-tooltip (e2e)', () => {
     await page.waitForChanges();
     await page.keyboard.press('Escape');
     await page.waitForChanges();
-    const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    const tip = await page.find('aegov-tooltip .aegov-tooltip');
+    expect((await tip.getComputedStyle()).visibility).toBe('hidden');
   });
 
   it('outside click closes click-triggered tooltip', async () => {
@@ -59,8 +61,8 @@ describe('aegov-tooltip (e2e)', () => {
     await page.waitForChanges();
     await page.click('#outside');
     await page.waitForChanges();
-    const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    const tip = await page.find('aegov-tooltip .aegov-tooltip');
+    expect((await tip.getComputedStyle()).visibility).toBe('hidden');
   });
 
   it('disabled tooltip does not show on hover', async () => {

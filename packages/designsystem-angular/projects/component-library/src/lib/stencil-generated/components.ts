@@ -631,7 +631,7 @@ export class AegovDrawer {
   protected el: HTMLAegovDrawerElement;
   @Output() aegovDrawerOpen = new EventEmitter<AegovDrawerCustomEvent<void>>();
   @Output() aegovDrawerClose = new EventEmitter<AegovDrawerCustomEvent<void>>();
-  @Output() aegovDrawerBeforeClose = new EventEmitter<AegovDrawerCustomEvent<{ preventDefault: () => void }>>();
+  @Output() aegovDrawerBeforeClose = new EventEmitter<AegovDrawerCustomEvent<void>>();
   @Output() aegovDrawerBackdropClick = new EventEmitter<AegovDrawerCustomEvent<MouseEvent>>();
   @Output() aegovDrawerEscapePress = new EventEmitter<AegovDrawerCustomEvent<KeyboardEvent>>();
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
@@ -653,9 +653,10 @@ export declare interface AegovDrawer extends Components.AegovDrawer {
    */
   aegovDrawerClose: EventEmitter<AegovDrawerCustomEvent<void>>;
   /**
-   * Emitted before drawer closes (cancellable)
+   * Emitted before the drawer closes. Cancel by calling `preventDefault()` on the
+event itself — matching `aegovModalBeforeClose`.
    */
-  aegovDrawerBeforeClose: EventEmitter<AegovDrawerCustomEvent<{ preventDefault: () => void }>>;
+  aegovDrawerBeforeClose: EventEmitter<AegovDrawerCustomEvent<void>>;
   /**
    * Emitted when backdrop is clicked
    */

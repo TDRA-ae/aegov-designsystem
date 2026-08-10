@@ -1,312 +1,206 @@
-# AEGOV Design System - Project Context
+# AEGOV Design System — Project Context
 
 ## Overview
 
-**Package:** `@aegov/designsystem` v0.1.0
-**Stack:** StencilJS v4.29.1 + Tailwind CSS v4.1.3 + TypeScript 5.8.3
-**Namespace:** `aegov` — build outputs: `aegov.js`, `aegov.esm.js`, `aegov.css`
+**Package:** `@aegov/designsystem` v0.2.4
+**Stack:** StencilJS 4.43.5 + Tailwind CSS 4.3.2 + TypeScript 5.8.3
+**Namespace:** `aegov` — build outputs `aegov.js`, `aegov.esm.js`, `aegov.css`
 **Dev server:** port 3333
 
-A framework-agnostic web component design system. Components work in React, Angular, Vue, and plain HTML.
+Framework-agnostic Web Components implementing the UAE Government Design System. **This package is one of four in a Lerna + Nx monorepo** — see [DEVELOPER.md](../../DEVELOPER.md) at the repo root. Building this package regenerates the React, Vue and Angular wrapper sources in the sibling packages.
 
 ---
 
-## Quick Reference
+## Quick reference
 
 ```bash
-npm start              # Dev: watch docs + Tailwind + Stencil
-npm run build          # Full build with docs
-npm run build:prod     # Production (minified, stripped)
-npm test               # Unit + E2E tests
-npm run test:unit      # Unit only
-npm run test:e2e       # E2E only
-npm run test:coverage  # Coverage report
-npm run generate       # Scaffold new component
+npm start              # docs watcher + Tailwind watcher + Stencil dev server
+npm run build          # build:docs-md → stencil build --docs → build:docs-css → build:copy-css
+npm run build:prod     # NODE_ENV=production
+npm test               # unit + e2e
+npm run test:unit      # spec only
+npm run test:e2e       # e2e only
+npm run build:docs-md  # regenerate doc pages from src/docs/markdown/
+npx stencil generate   # scaffold a component
 ```
+
+Build from the **repo root** (`npm run build`) when wrapper packages need regenerating.
 
 ---
 
-## Project Structure
+## Component inventory — 55 directories
 
-```
-src/
-├── components/          # 56 component directories (~42 unique components)
-├── utils/               # Shared utilities (see below)
-│   ├── types.ts         # All shared TypeScript types (470+ lines)
-│   ├── attributes.ts    # Pass-through attribute extraction (aria-*, data-*)
-│   ├── focus-management.ts  # Focus trap, cycle, shadow DOM queries
-│   ├── keyboard-handler.ts  # Configurable keyboard event handling
-│   ├── id-generator.ts  # Auto-increment ID generation for form fields
-│   ├── portal-manager.ts    # Portal DOM lifecycle (create/remove)
-│   ├── scroll-lock.ts   # Reference-counted body scroll locking
-│   ├── z-index-manager.ts   # Overlay stacking management
-│   ├── icons.tsx         # Shared variant SVG icons (getVariantIcon)
-│   ├── test-helpers.ts   # Test utilities (events, mocks, a11y helpers)
-│   ├── accessibility.spec.ts  # WCAG 2.1 AA cross-component tests
-│   └── index.ts          # Re-exports types
-├── styles/
-│   └── tailwind.css      # Tailwind @theme config (OKLCH colors, fonts, tokens)
-├── global/
-│   ├── global.css        # Global styles (typography, links, form controls)
-│   ├── fonts.css         # Font definitions
-│   ├── form.css          # Reference-only form styles (not imported)
-│   ├── app.ts            # Stencil globalScript (inits toast-helper)
-│   └── toast-helper.ts   # Toast manager (stacking/racking)
-├── doc-style/
-│   └── doc-style.css     # Source CSS for documentation site
-├── docs/                 # Generated documentation site
-│   ├── index.html        # Landing page (dev server entry)
-│   ├── doc-style.css     # Compiled doc styles
-│   ├── hljs.css          # Syntax highlighting
-│   ├── layout.js         # Navigation JS
-│   ├── markdown/         # 36 source markdown files
-│   └── pages/            # 36 generated HTML pages
-└── index.ts              # Library entry point (exports all types)
+**Actions:** button, button-group, link
+**Forms:** form-field, label, input, input-group, textarea, select (+ select-option, select-option-group), checkbox (+ group), radio (+ group), toggle, range, otp, fileupload, datepicker, progress
+**Navigation:** breadcrumbs (+ item), pagination, tabs (+ tab, tab-panel), accordion (+ item), navbar (+ item), navblock (+ item), timeline (+ step)
+**Overlays:** modal, drawer, dropdown, popover, tooltip
+**Feedback:** badge, callout, banner, toast
+**Layout / content:** card, bento-grid, aspect-ratio, separator, avatar (+ group), blockquote, text, title
+**Site chrome:** header, header-banner
 
-docs/
-└── STENCIL.md            # StencilJS v4.42+ complete reference guide
-
-scripts/
-├── build-docs.js         # Markdown → HTML doc builder (marked + highlight.js)
-└── verify-build.js       # Build verification
-```
+`aegov-context-menu` was removed (March 2026). `aegov-progress` / `aegov-progress-step` were renamed to `aegov-timeline` / `aegov-timeline-step`; the current `aegov-progress` wraps the native `<progress>`.
 
 ---
 
-## Build Configuration
+## API conventions — read this before touching any prop
 
-### stencil.config.ts
+The whole library follows one grammar. Breaking it is the most likely way to introduce an inconsistency.
 
-Critical settings:
+| Slot | Meaning | Values |
+| --- | --- | --- |
+| `variant` | Semantic **colour** | `primary \| secondary \| neutral-max \| neutral-min` (+ `danger` on button/link). Exception: `aegov-badge`, where `variant` is a palette token. |
+| `appearance` | Visual **style** | button/link `solid\|outline\|soft\|link`; badge/banner/callout/toast `soft\|solid`; card `solid\|light\|creative`; select `default\|listbox`; fileupload `default\|button\|dropzone`; otp `continuous\|individual`; datepicker `single\|range`; checkbox/radio group `default\|list\|cards\|pills` |
+| `size` | Responsive string | `"sm md:base xl:lg"` — see [Responsive props](#responsive-props) |
+| `is*` | **Every** boolean | `isDisabled`, `isRequired`, `isChecked`, `isOpen`, `isInvalid`, `isMultiple`, `isLoading`, `isPadding`, … |
+| `label*` | User-visible / a11y strings | `label`, `labelNav`, `labelButton`, `labelHelp`, `labelPrev`, `labelRangeStart`, `logoLabel`, `groupLabel` |
+| `count*` | Numeric counts | `countBoundary`, `countSibling`, `moreCount` |
+| `extraClass` | Consumer class hook | **not** `class` |
+| `fieldId` | Element ID | **not** `id`; auto-generated via `src/utils/id-generator.ts` |
 
-```typescript
-namespace: 'aegov'                    // Determines ALL output filenames
-globalScript: 'src/global/app.ts'
-globalStyle: 'src/global/global.css'
-indexHtml: 'src/docs/index.html'      // Dev server entry
-invisiblePrehydration: false          // Prevents FOUC (revert if issues)
+Known deviations, kept for compatibility — do not copy the pattern:
+- `aegov-navblock` has `activeBorder` (no `is` prefix).
+- `aegov-badge` has a deprecated `color` prop that **overrides** `variant` when set.
 
-// Plugin order MUST be maintained:
-plugins: [
-  sass(),             // 1. Sass preprocessing
-  tailwindGlobal(),   // 2. Global Tailwind styles
-  tailwindPlugin(),   // 3. Component-scoped Tailwind
-  tailwindHMR()       // 4. Hot Module Reloading (dev)
-]
+### Size scales
 
-devServer: { reloadStrategy: 'pageReload' }  // Required for Web Components
-```
+- **Button / link:** `xs` h-9, `sm` h-10, `base` h-11, `lg` h-12, `xl` h-13 — from `SIZE_CLASSES` in `src/utils/action-classes.ts`, shared by both components.
+- **Form controls:** five tokens `xs sm base lg xl` (input, textarea, select, checkbox, radio, toggle, range, fileupload). **Not three.**
+- **OTP:** six — adds `2xl`.
+- **Avatar:** seven — `xs sm base lg xl 2xl 3xl`.
+- **Accordion, banner, callout, badge, pagination, tabs, timeline, navbar, navblock, drawer, card:** three — `sm base lg`.
 
-### Output Targets
+### Responsive props
 
-| Target | Purpose |
-|--------|---------|
-| `dist` | Standard distribution |
-| `dist-custom-elements` | Tree-shakeable custom elements |
-| `docs-readme` | Auto-generated README.md per component |
-| `docs-json` | API documentation JSON (`dist/docs.json`) |
-| `www` | Development server (copies `src/docs/`) |
-| `reactOutputTarget` | React wrappers → `../aegov-dls-3-react/` |
+`src/utils/responsive-prop.ts` → `watchResponsiveProp(raw, validate, defaultValue, onChange)`. 32 components use it for `size`, plus `cols` on bento-grid and `ratio` on aspect-ratio.
 
-Angular and Vue output targets are configured but commented out.
-
----
-
-## Component Inventory
-
-### 56 Directories, ~42 Unique Components
-
-**UI Components:**
-aegov-accordion (+ item), aegov-aspect-ratio, aegov-avatar (+ group), aegov-badge, aegov-banner, aegov-bento-grid, aegov-blockquote, aegov-breadcrumbs (+ item), aegov-button (+ group), aegov-callout, aegov-card, aegov-drawer, aegov-dropdown, aegov-link, aegov-modal, aegov-navbar (+ item), aegov-navblock (+ item), aegov-pagination, aegov-popover, aegov-progress, aegov-separator, aegov-tabs (+ tab + tab-panel), aegov-timeline (+ step), aegov-toast, aegov-tooltip
-
-**Form Components:**
-aegov-checkbox (+ group), aegov-datepicker, aegov-fileupload, aegov-form-field, aegov-input (+ group), aegov-label, aegov-otp, aegov-radio (+ group), aegov-range, aegov-select (+ option + option-group), aegov-textarea, aegov-toggle
-
-**Typography:**
-aegov-text, aegov-title
-
-**Layout:**
-aegov-header, aegov-header-banner, aegov-responsive-nav (placeholder — no component implementation yet)
+- Parses `"sm md:base xl:lg"`, resolves largest matching min-width first via `matchMedia`.
+- Breakpoint px read from `--breakpoint-*` on `:root`, with a hardcoded Tailwind fallback map.
+- **`tailwind.css` re-declares all six `--breakpoint-*` on plain `:root` outside `@theme`** — Tailwind v4 tree-shakes unused theme tokens, so `getComputedStyle` would return `''` → NaN → media queries never match.
+- Invalid tokens are silently ignored. Always `destroy()` the watcher in `disconnectedCallback`.
 
 ---
 
-## Encapsulation Rules
+## Encapsulation
 
-| Mode | Components | E2E Selectors |
-|------|-----------|---------------|
-| `scoped: false` (default) | Most components | `'component .inner'` |
-| `scoped: true` | dropdown, toast, popover, datepicker | `'component .inner'` |
-| `shadow: true` | modal, drawer, header-banner | `'component >>> .inner'` |
+| Mode | Components | E2E selector |
+| --- | --- | --- |
+| none (`scoped: false`) | everything not listed below | `'component .inner'` |
+| `scoped: true` | dropdown, popover, toast, datepicker | `'component .inner'` |
+| `shadow: true` | button, modal, drawer, header, header-banner | `'component >>> .inner'` |
 
-**Why scoped: true for portals?** Stencil's scoped mode provides event re-targeting needed for custom events to bubble correctly after DOM portal moves. Portal components also inject `<style>` via JS since scoped CSS can't reach portal elements.
+**Why `scoped: true` for portals?** Scoped mode re-targets events so custom events still bubble after the DOM portal move. Portal components must also inject `<style>` via JS, because scoped CSS cannot reach a `document.body` descendant.
 
 ---
 
-## Architecture Patterns
+## Architecture patterns
 
-### CSS Naming Convention
+### CSS naming
 
-- **Primary class:** `aegov-*` prefix (e.g., `.aegov-toast`, `.aegov-tabs`, `.aegov-card`)
-- **Modifier classes:** shorter prefix (e.g., `.toast--error`, `.tabs--simple`)
-- **Element classes:** shorter prefix (e.g., `.toast__icon`, `.card--border-1`)
-- **Tailwind-only components:** aegov-link, aegov-text, aegov-title (no base class)
+- Primary class `aegov-*` (`.aegov-toast`, `.aegov-card`).
+- Modifiers and elements keep the short prefix (`.toast--error`, `.card__body`, `.input--lg`).
+- Tailwind-only components: link, text, title.
 
-### Parent-Child Communication
+### Cascade layers
 
-Parent sets props on children via direct DOM property assignment:
+`src/styles/tailwind.css:8` declares `@layer theme, base, components, aegov-internals, utilities;`. `global.css` is wrapped in `@layer base`.
 
-```typescript
-componentDidLoad() {
-  const children = this.el.querySelectorAll('aegov-child');
-  children.forEach(child => { child.parentProp = this.someValue; });
-}
-```
+Consequence: **consumer utilities always win** over the design system's element styling. `stencil.config.ts` rewrites the component-CSS Tailwind import from `layer(utilities)` to `layer(base)` so runtime-injected component styles cannot outrank consumer utilities. Verify with `grep '@layer utilities' dist/aegov/*.entry.js` — should be empty.
 
-Used in: breadcrumbs, accordion, button-group, tabs, form-field, input-group, checkbox-group, timeline, radio-group.
+### Parent → child prop cascade
 
-### Slot Content Extraction
+Parents assign props directly on child elements in `componentDidLoad` / `componentDidUpdate`. Used by: breadcrumbs, accordion, tabs, button-group, input-group, avatar-group, timeline, checkbox-group, radio-group, select, navbar, navblock, toast, header, fileupload, form-field.
 
-Prevents text duplication bug when manually rendering slot content:
+Children receiving cascaded props mark them `@Prop({ mutable: true })` with an `@internal` JSDoc tag — **`@internal` props are excluded from `dist/docs.json`**, which is what makes docs.json the public API surface.
 
-```typescript
-@State() slotContent: string = '';
+### Portals
+
+dropdown, popover, toast, datepicker append to `document.body`.
+
+- Portals: `.aegov-dropdown-portal`, `.aegov-popover-portal`, `.aegov-toast-container--{position}`, `.aegov-datepicker-portal`.
+- **Never `cloneNode(true)`** on DOM containing Stencil components — it double-renders. Dropdown *moves* the slot element and moves it back on close, with `connectedCallback()` re-creating the portal so nested dropdowns survive the parent's move.
+- Portals inject their own CSS including `<a>` display overrides and dark-mode colours.
+- Focus restore uses `focus({ preventScroll: true })`.
+- Toast keeps two persistent visually-hidden live regions on the body (`#aegov-toast-live-region`, `…-assertive`) and routes announcements by variant.
+
+### Slot content extraction
+
+```tsx
+@State() slotContent = '';
 componentWillLoad() { this.slotContent = this.el.textContent?.trim() || ''; }
 ```
 
-### Portal Pattern
+### Pass-through attributes
 
-Used by: dropdown, toast, datepicker. Content appended to `document.body`.
-- Singleton: only one dropdown open at a time
-- Move-not-clone: slot content physically moved (never `cloneNode` on Stencil components)
-- Style injection via JS for portal elements (scoped CSS can't reach them)
-- Must override global `<a>` styles (`display: block; margin: 0;`) inside portals
+`getPassThroughAttributes(el, additionalAttrs)` in `src/utils/attributes.ts` collects `aria-*`, `data-*` plus the named extras. Form components **delete `aria-invalid` and `aria-describedby`** from the result — Layer 1 owns both, and `composeDescribedBy()` preserves author IDs while appending hint/error/counter IDs.
 
-### Pass-Through Attributes
+### i18n
 
-Uses `@Element()` + `getPassThroughAttributes()` from `src/utils/attributes.ts`:
+Components with their own UI strings keep a `STRINGS = { en, ar }` map and select with `isRtl(this.el)` from `src/utils/rtl.ts`. Fully translated: input (reveal/copy), select (search, empty, clear), fileupload (all strings incl. errors and size units), otp (cell labels), range (thumb labels), avatar (status, fallback), callout/banner/toast/badge (dismiss), breadcrumbs/pagination (nav labels), header-banner (trust copy).
 
-```typescript
-const attrs = getPassThroughAttributes(this.el, new Set(['id']));
-// Extracts aria-*, data-*, and specified additional attributes
-```
-
-### Form Element ID Pattern
-
-```typescript
-import { generateId } from '../../utils/id-generator';
-if (!this.fieldId) this.fieldId = generateId('aegov-input');
-```
-
-### Event Naming
-
-Custom events include component name: `aegovCalloutDismiss`, `aegovBadgeDismiss`, `aegovInputChange`.
+**Known untranslated:** `aegov-select` multiple-mode "N selected" trigger text; the 27 `aegov-datepicker` preset labels; `aegov-pagination` page numerals.
 
 ---
 
-## Tailwind CSS v4 Integration
+## Validation surface (Layer 1)
 
-- **CSS-first config** via `@theme` block in `src/styles/tailwind.css` (no JavaScript config)
-- **OKLCH color space** for all custom colors
-- **Color palette:** primary, secondary, aeblack, aered, aegreen, aegold, techblue, seablue, camel, desert, whitely, fuchsia, slate, purple, pink, indigo, lime (each with 50-950 shades)
-- **Fonts:** Roboto (body), Inter (headings), Noto Kufi Arabic (RTL body), Alexandria (RTL headings)
-- Use `@apply` for Tailwind utilities in component CSS files
+Spec: [validation-engine-addon.md](validation-engine-addon.md). Shared helpers in `src/utils/validation.ts`.
 
----
+13 components: input, textarea, select, checkbox, checkbox-group, radio, radio-group, toggle, range, otp, fileupload, datepicker, form-field.
 
-## Known Gotchas
+- **Props:** `isInvalid`, `errorMessage`, `hint`. **Slots:** `error`, `hint`. **Event:** `aegovValidate` (`AegovValidationDetail<T>`). **Methods:** `validate(trigger)`, `setCustomValidity(msg)`.
+- Host class `.is-invalid`.
+- `aria-live` on the error region is gated behind `hasBlurredOnce` to avoid AT spam during typing.
+- **FormAssociated** via manual `attachInternals()` (not the decorator): otp, fileupload, select (listbox), datepicker. This is why Safari ≥16.4 is the floor.
+- **Pure aggregators** (children submit natively): checkbox-group, radio-group.
+- Removed events: `aegovOtpInvalid` → `validity.patternMismatch`; `aegovFileuploadError` → `tooLong` / `typeMismatch` / `customError`.
+- `aegov-form-field` cascades `isInvalid`/`errorMessage`/`hint`/`variant` to the first form-control descendant, only where the child has no own value; a truthy wrapper `isInvalid` always wins.
 
-1. **Namespace is "aegov"** — HTML imports must use `/build/aegov.esm.js` and `/build/aegov.js`, NOT "aegov-designsystem"
-2. **Global `<a>` styles are unlayered** — always beat Tailwind utility classes. Portal components must inject explicit overrides
-3. **Reserved HTML attributes** — never use `id`, `title`, `class`, `style` as `@Prop`. Use alternatives: `fieldId`, `authorTitle`. Pass `title` via pass-through attributes
-4. **Stencil JSX `for` attribute** — cannot use `htmlFor={value}`, renders as `htmlfor` literally. Must use `{...{ for: value }}` spread pattern
-5. **`scoped: false` slot visibility** — light DOM children with `slot="..."` stay visible even when `<slot>` isn't rendered. Use CSS `display: none` to hide them
-6. **Portal cloneNode breaks Stencil** — never `cloneNode(true)` on DOM containing Stencil web components. Use DOM move (`appendChild`) instead
-7. **Host display matters** — block-level semantic elements need `:host { display: block; }`
-8. **Button sizes**: sm=`h-10`, base=`h-12`, lg=`h-13` — form inputs must match
-9. **`description` prop renamed to `hint`** on aegov-checkbox / aegov-radio / aegov-toggle / aegov-fileupload (Layer 1 validation surface). Pre-production rename, no compat shim. CSS class renamed `*__description` → `*__hint`.
-10. **`aegovOtpInvalid` and `aegovFileuploadError` events removed** in favor of unified `aegovValidate` (carries `validity` flags: `patternMismatch`, `tooLong`, `typeMismatch`, `customError` etc.).
-11. **`aegov-form-field` cascade** — sets `isInvalid`/`errorMessage`/`hint` on first form-control descendant only if child has no own value. Does NOT clobber author-supplied props.
+Optional Layer 2: `@aegov/designsystem-validation` lives in a **separate repo** at `../../../aegov-designsystem-validation` (not in this monorepo). Docs must present it as optional.
 
 ---
 
-## Validation Surface (Layer 1)
+## Documentation
 
-All 13 form components expose a uniform validation surface — see [`validation-engine-addon.md`](validation-engine-addon.md):
+- **Markdown source:** `src/docs/markdown/*.md` — 47 files.
+- **Pages:** `src/docs/pages/*.html`. `scripts/build-docs.js` renders markdown via `marked` + `highlight.js` and injects between `<!-- DOC:START -->` / `<!-- DOC:END -->` inside `#content-area`. Idempotent.
+- **Nav:** `src/docs/layout.js` — `NAV_SECTIONS`. Add an entry when you add a page.
+- **Doc CSS:** `src/doc-style/doc-style.css` → `src/docs/doc-style.css` via Tailwind CLI.
+- Style contract: every page follows Introduction → feature sections with live preview blocks → RTL Support → API Reference → Accessibility (built-in / developer responsibilities / keyboard). Preview blocks use `<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">`.
 
-**Props:** `isInvalid` (boolean), `errorMessage` (string), `hint` (string)
-**Slots:** `error`, `hint`
-**Event:** `aegovValidate` carrying `AegovValidationDetail<T>` with `{ name, value, validity, validationMessage, customError, trigger }`
-**Methods:** `validate(trigger?)` returns `Promise<AegovValidationResult>`; `setCustomValidity(message)` mirrors native API
-**Host class:** `.is-invalid` toggled by `isInvalid`
-**ARIA:** `aria-invalid` on inner control; `aria-describedby` chain composes existing IDs (e.g. textarea counter) + error/hint IDs without clobbering author values
+**`aegov-header-ministry.html` and `aegov-header-authority.html` are NOT doc pages.** They are bare iframe embed targets — transparent body, `overflow: hidden`, no `#content-area`, and they read a `?dir=rtl` query param. `aegov-header.md` loads them at fixed widths to preview the full-width header. Do not give them markdown; `build-docs.js` would warn and they must stay out of nav.
 
-**FormAssociated components** (use ElementInternals for `<form>` participation): `aegov-otp`, `aegov-fileupload`, `aegov-select` (listbox variant), `aegov-datepicker`. Manual `attachInternals()` per host element (not the `@AttachInternals` decorator) due to Stencil 4.38 / tailwind-plugin compatibility constraint — see plan §6.8.
+---
 
-**Pure aggregator groups** (NOT FormAssociated — children submit individually): `aegov-checkbox-group`, `aegov-radio-group`. Group emits aggregate `aegovValidate` with array/string value.
+## Known gotchas
 
-**Value type per component** (FormData payload):
-| Component | JS type | FormData |
-|---|---|---|
-| input/textarea/select(single)/otp/datepicker(single) | string | string |
-| select(multiple)/checkbox-group/fileupload | array | per-value FormData entries |
-| range(range mode) | `{ low, high }` | `name-low`, `name-high` |
-| datepicker(range) | `{ start, end }` | `name-start`, `name-end` |
-| checkbox/toggle | boolean | `'on'` if checked |
-
-**aria-live gate (gap §7.10)**: error region's `role="alert" aria-live="polite"` activates only after first blur to avoid AT spam during typing.
+1. **Namespace is `aegov`** — HTML must load `/build/aegov.esm.js`, not any package name.
+2. **Stencil JSX `for`** — `htmlFor={v}` renders literally as `htmlfor`. Use `{...{ for: v }}`.
+3. **Reserved attribute names** — never `@Prop() id | class | title | style | prefix | suffix`. Use `fieldId`, `extraClass`, `authorTitle`, `addonPrefix`, `addonSuffix`.
+4. **`scoped: false` slot visibility** — light-DOM children with `slot="…"` stay visible even when the `<slot>` is not rendered. Hide with CSS, not a conditional `<slot>`.
+5. **Portal `cloneNode` double-renders** Stencil components. Move the DOM instead.
+6. **Runtime-only Tailwind classes are never generated.** The Stencil Tailwind plugin scans a component's own CSS, not its `.tsx`. Utilities named only in JS class strings (e.g. `action-classes.ts`) land on the element with no rule behind them — this is why focus-ring `outline-*` colours live in `aegov-button-shared.css`.
+7. **`aegov-title` renders `<p>` unless `headingType` is set**, and offers no `h1`. A title without `headingType` is not a heading.
+8. **Never key CSS off a reflected boolean prop.** Stencil sets the attribute when the prop becomes `true` but **does not remove it when it becomes `false`** — the stale previous value remains, so `[is-disabled]` keeps matching after a re-enable. `isDisabled` also only reflects on some controls. Style from the **inner native control** instead (`:has(input:disabled)`), which every form control renders in the light DOM with `disabled={this.isDisabled}` and which is therefore reactive. This is what the dimmed-label rules in `form-field.css` do; they previously targeted `aegov-input[disabled]` on the host and silently matched nothing.
+9. **before-close events are aligned** — `aegovModalBeforeClose` and `aegovDrawerBeforeClose` are both `@Event({ cancelable: true })`, cancelled with `e.preventDefault()`. The drawer previously passed a `preventDefault` closure in `e.detail`; do not reintroduce that split.
+10. **`invisiblePrehydration: false`** in `stencil.config.ts` prevents a FOUC flash; revert if hydration artefacts appear.
+11. **Plugin order in `stencil.config.ts` matters:** sass → tailwindGlobal → tailwindPlugin → tailwindHMR.
+12. **Callout self-validates its slots** — `link` + `actions` together, or a non-button/link child of `actions`, renders a visible configuration error instead of the callout.
 
 ---
 
 ## Testing
 
-- **Unit tests:** `newSpecPage()` from `@stencil/core/testing`
-- **E2E tests:** `newE2EPage()` with Puppeteer
-- **Cross-component a11y:** `src/utils/accessibility.spec.ts` (WCAG 2.1 AA)
-- **Test helpers:** `src/utils/test-helpers.ts` (event creation, DOM inspection, mocks, a11y utilities)
-- **Shadow DOM E2E:** `'component >>> .inner-selector'` (triple-angle)
-- **Non-shadow E2E:** `'component .inner-selector'` (regular descendant)
-- **Target:** 100% coverage, 2,700+ tests
+- Unit: `newSpecPage()` from `@stencil/core/testing`. E2E: `newE2EPage()` with Puppeteer.
+- Shadow DOM E2E needs `>>>`: `page.find('aegov-modal >>> [role="dialog"]')`.
+- Portal E2E must wait on the body portal: `page.waitForSelector('.aegov-dropdown-portal .aegov-dropdown')`.
+- Cross-component a11y: `src/utils/accessibility.spec.ts`. Playwright a11y suites in `tests/a11y/` need `npx http-server www -p 3333 --cors` running first.
+- Baseline: 847 unit + 365 e2e.
 
 ---
 
-## Documentation Build System
+## Reference
 
-Documentation is generated from markdown source files:
-
-1. **Source:** `src/docs/markdown/*.md` (36 files)
-2. **Build:** `node scripts/build-docs.js` converts markdown to HTML via `marked` + `highlight.js`
-3. **Output:** Injected into `src/docs/pages/*.html` between `<!-- DOC:START -->` / `<!-- DOC:END -->` markers
-4. **Doc styles:** `src/doc-style/doc-style.css` compiled to `src/docs/doc-style.css` via Tailwind CLI
-5. **Watch mode:** `node scripts/build-docs.js --watch`
-
-The `npm start` command runs doc builder, Tailwind CSS watcher, and Stencil dev server concurrently.
-
----
-
-## Reference Documentation
-
-- **StencilJS reference:** `docs/STENCIL.md` — comprehensive StencilJS v4.42+ API guide
-- **Component docs:** `src/docs/markdown/aegov-*.md` — per-component documentation
-- **Type definitions:** `src/utils/types.ts` — all shared TypeScript types (470+ lines)
-- **Tailwind theme:** `src/styles/tailwind.css` — complete design token configuration
-
----
-
-## React Package
-
-**Location:** `../aegov-dls-3-react/`
-**Configured via:** `@stencil/react-output-target` in stencil.config.ts
-**Auto-generates:** React wrappers for all components during Stencil build
-
----
-
-## Per-Component File Structure
-
-```
-aegov-{name}/
-├── aegov-{name}.tsx          # Component implementation
-├── aegov-{name}.css          # Component styles
-├── aegov-{name}.spec.tsx     # Unit tests
-├── aegov-{name}.e2e.ts       # E2E tests
-└── README.md                 # Auto-generated API docs
-```
+- `dist/docs.json` — generated public API for every tag. The source of truth for props/events/methods/slots.
+- `src/utils/types.ts` — all shared types and the `*_SIZES` / `*_VARIANTS` const arrays used by `warnIfInvalidEnumProp`.
+- `src/styles/tailwind.css` — the `@theme` token definitions.
+- [DEVELOPER.md](../../DEVELOPER.md) — monorepo commands and the publish flow.

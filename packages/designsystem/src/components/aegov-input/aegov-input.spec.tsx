@@ -83,13 +83,13 @@ describe('aegov-input', () => {
     expect(input.name).toBe('field');
   });
 
-  it('emits aegovInputInput on input event', async () => {
+  it('emits aegovInputValue on input event', async () => {
     const page = await newSpecPage({
       components: [AegovInput],
       html: `<aegov-input></aegov-input>`,
     });
     const spy = jest.fn();
-    page.root.addEventListener('aegovInputInput', spy);
+    page.root.addEventListener('aegovInputValue', spy);
     const input = page.root.querySelector('input');
     input.value = 'abc';
     input.dispatchEvent(new Event('input'));
@@ -366,7 +366,9 @@ describe('aegov-input', () => {
       await page.waitForChanges();
       const region = page.root.querySelector('.aegov-input__error');
       expect(region.getAttribute('role')).toBe('alert');
-      expect(region.getAttribute('aria-live')).toBe('polite');
+      // No explicit aria-live: role="alert" already implies an assertive live region, and
+      // forcing aria-live="polite" on top of it behaves inconsistently across screen readers.
+      expect(region.getAttribute('aria-live')).toBeNull();
     });
   });
 });
