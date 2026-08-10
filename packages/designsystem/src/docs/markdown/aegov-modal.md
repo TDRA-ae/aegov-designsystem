@@ -1,326 +1,427 @@
 # Modal
 
-<p class="text-lg text-aeblack-500 mb-8">A Modal interrupts the user to ask for a decision or show content that requires their full attention. It traps focus, blocks the page behind it, and must be dismissed before anything else can happen — which is precisely why it should be used sparingly. Every modal is an interruption you are choosing to impose.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Modal is a dialog window that overlays the page to focus attention on a single, important task — confirming a destructive action, completing a short form, or surfacing a critical message. While the modal is open, the rest of the page is inert: scroll is locked, focus is trapped inside, and the user must complete or dismiss the task before continuing.</p>
 
 ## Introduction
 
-`aegov-modal` uses shadow DOM and moves itself to the end of `document.body` when it initialises, so it always renders above the page regardless of where you declared it. It is closed by default and opened imperatively or by setting `is-open`.
+The `aegov-modal` component renders a centred (or top/bottom) dialog over a backdrop. It uses Shadow DOM for full style isolation and is moved to `document.body` automatically so it always stacks above the rest of the page. Open and close it declaratively with `is-open`, or imperatively via the `show()`, `close()`, and `toggle()` methods. Body scroll is locked, ESC closes the dialog, and focus is returned to the element that opened it.
 
 ```html
-<aegov-button id="open">Review submission</aegov-button>
+<aegov-button id="open-confirm">Delete application</aegov-button>
 
-<aegov-modal id="confirm" label="Confirm submission">
-  <h2>Submit your application?</h2>
-  <p>You will not be able to change your answers after submitting.</p>
-  <aegov-button variant="primary">Submit application</aegov-button>
-  <aegov-button appearance="outline">Keep editing</aegov-button>
+<aegov-modal id="confirm-modal" aria-labelledby="confirm-title">
+  <h3 id="confirm-title" class="text-xl font-bold mb-2">Delete this application?</h3>
+  <p class="text-aeblack-500 mb-6">
+    This will permanently remove your draft application for the Emirates ID renewal service. This action cannot be undone.
+  </p>
+  <div class="flex justify-end gap-3">
+    <aegov-button variant="secondary" id="cancel-confirm">Cancel</aegov-button>
+    <aegov-button variant="danger" id="confirm-delete">Delete</aegov-button>
+  </div>
 </aegov-modal>
 
-<script type="module">
-  const modal = document.querySelector('#confirm');
-  document.querySelector('#open').addEventListener('aegovButtonClick', () => modal.show());
+<script>
+  const modal = document.querySelector('#confirm-modal');
+  document.querySelector('#open-confirm').addEventListener('click', () => modal.show());
+  document.querySelector('#cancel-confirm').addEventListener('click', () => modal.close());
+  document.querySelector('#confirm-delete').addEventListener('click', () => modal.close());
 </script>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-button id="md-demo-open">Review submission</aegov-button>
-  <aegov-modal id="md-demo" label="Confirm submission">
-    <h2 class="text-h5 font-bold mb-2">Submit your application?</h2>
-    <p class="mb-5">You will not be able to change your answers after submitting.</p>
-    <div class="flex flex-wrap gap-3">
-      <aegov-button variant="primary" onclick="document.querySelector('#md-demo').close()">Submit application</aegov-button>
-      <aegov-button appearance="outline" onclick="document.querySelector('#md-demo').close()">Keep editing</aegov-button>
+  <aegov-button id="demo-open-confirm">Delete application</aegov-button>
+
+  <aegov-modal id="demo-confirm-modal" aria-labelledby="demo-confirm-title">
+    <h3 id="demo-confirm-title" class="text-xl font-bold mb-2">Delete this application?</h3>
+    <p class="text-aeblack-500 mb-6">
+      This will permanently remove your draft application for the Emirates ID renewal service. This action cannot be undone.
+    </p>
+    <div class="flex justify-end gap-3">
+      <aegov-button variant="secondary" id="demo-cancel-confirm">Cancel</aegov-button>
+      <aegov-button variant="danger" id="demo-confirm-delete">Delete</aegov-button>
     </div>
   </aegov-modal>
-  <script>document.querySelector('#md-demo-open').addEventListener('aegovButtonClick', () => document.querySelector('#md-demo').show());</script>
+
+  <script>
+    (function() {
+      const modal = document.querySelector('#demo-confirm-modal');
+      document.querySelector('#demo-open-confirm').addEventListener('click', () => modal.show());
+      document.querySelector('#demo-cancel-confirm').addEventListener('click', () => modal.close());
+      document.querySelector('#demo-confirm-delete').addEventListener('click', () => modal.close());
+    })();
+  </script>
 </div>
 
-Set `label` — it becomes the dialog's accessible name, and a modal without one is announced as an unnamed dialog.
-
 ---
 
-## When not to use a modal
+## Opening and Closing
 
-Modals are the most disruptive component in the library. Prefer an alternative when:
+A modal can be controlled in two ways. Choose whichever fits your application's state model.
 
-| Situation | Use instead |
-| --- | --- |
-| Showing supplementary detail | [Popover](aegov-popover.html) or [Drawer](aegov-drawer.html) |
-| Confirming something reversible | Act immediately and offer Undo in a [Toast](aegov-toast.html) |
-| Reporting an error | [Callout](aegov-callout.html) in the page |
-| A form of more than a few fields | Its own page |
-| Site-wide notice | [Banner](aegov-banner.html) |
+### Imperative — `show()` / `close()` / `toggle()`
 
-A modal is right when the user genuinely cannot proceed without answering — a destructive confirmation, a required legal acceptance, a step that must complete atomically.
-
----
-
-## Opening and closing
-
-### Imperatively
-
-Three async methods:
-
-```js
-await modal.show();
-await modal.close();
-await modal.toggle();
-```
-
-### Declaratively
-
-`isOpen` is reflected, so you can drive it from state or markup.
+Call these methods on the element directly. The component manages the `is-open` flag for you and emits the matching events.
 
 ```html
-<aegov-modal is-open label="Session expiring">…</aegov-modal>
+<aegov-button id="trigger">Open dialog</aegov-button>
+<aegov-modal id="dialog" aria-labelledby="dialog-title">
+  <h3 id="dialog-title" class="text-xl font-bold mb-4">Service notice</h3>
+  <p class="mb-6">Online appointments will be unavailable on Friday between 02:00 and 04:00 for scheduled maintenance.</p>
+  <div class="flex justify-end">
+    <aegov-button id="ack">Acknowledged</aegov-button>
+  </div>
+</aegov-modal>
+
+<script>
+  const dialog = document.querySelector('#dialog');
+  document.querySelector('#trigger').addEventListener('click', () => dialog.show());
+  document.querySelector('#ack').addEventListener('click', () => dialog.close());
+</script>
 ```
 
-```js
-modal.isOpen = true;
-```
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button id="demo-trigger-imperative">Open dialog</aegov-button>
+  <aegov-modal id="demo-dialog-imperative" aria-labelledby="demo-dialog-title-imperative">
+    <h3 id="demo-dialog-title-imperative" class="text-xl font-bold mb-4">Service notice</h3>
+    <p class="mb-6">Online appointments will be unavailable on Friday between 02:00 and 04:00 for scheduled maintenance.</p>
+    <div class="flex justify-end">
+      <aegov-button id="demo-ack-imperative">Acknowledged</aegov-button>
+    </div>
+  </aegov-modal>
+  <script>
+    (function() {
+      const dialog = document.querySelector('#demo-dialog-imperative');
+      document.querySelector('#demo-trigger-imperative').addEventListener('click', () => dialog.show());
+      document.querySelector('#demo-ack-imperative').addEventListener('click', () => dialog.close());
+    })();
+  </script>
+</div>
 
-Both routes run the same animation and emit the same events. `isOpen` is also updated when the user closes the modal, so it stays an accurate reflection of state.
+### Declarative — `is-open` attribute
+
+Toggle the `is-open` attribute (or property) from your framework's reactive state. The watcher runs the same open/close sequence used by the methods.
+
+```html
+<aegov-modal is-open="true" aria-label="Welcome">
+  <h3 class="text-xl font-bold mb-2">Welcome back</h3>
+  <p>Your last sign-in was 3 days ago from a UAE-based device.</p>
+</aegov-modal>
+```
 
 ---
 
-## Size
+## Sizes
 
-Four tokens controlling maximum width.
+The `size` property scales padding and corner radius. `sm` suits short confirmations; `base` is the default; `lg` gives extra breathing room for forms or rich content; `xl` is extra-wide for complex layouts or data-heavy dialogs.
 
 ```html
-<aegov-modal size="sm" label="Small">…</aegov-modal>
-<aegov-modal size="base" label="Base">…</aegov-modal>
-<aegov-modal size="lg" label="Large">…</aegov-modal>
-<aegov-modal size="xl" label="Extra large">…</aegov-modal>
+<aegov-modal size="sm" is-open="true">…</aegov-modal>
+<aegov-modal size="base" is-open="true">…</aegov-modal>
+<aegov-modal size="lg" is-open="true">…</aegov-modal>
+<aegov-modal size="xl" is-open="true">…</aegov-modal>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-3">
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-sm').show()">sm</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-base').show()">base</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-lg').show()">lg</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-xl').show()">xl</aegov-button>
+    <aegov-button id="demo-size-sm">Open small</aegov-button>
+    <aegov-button id="demo-size-base">Open base</aegov-button>
+    <aegov-button id="demo-size-lg">Open large</aegov-button>
+    <aegov-button id="demo-size-xl">Open extra large</aegov-button>
   </div>
-  <aegov-modal id="md-sm" size="sm" label="Small modal"><h2 class="text-h6 font-bold mb-2">Small</h2><p class="mb-4">For a short confirmation.</p><aegov-button size="sm" onclick="document.querySelector('#md-sm').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-base" size="base" label="Base modal"><h2 class="text-h6 font-bold mb-2">Base</h2><p class="mb-4">The default width.</p><aegov-button size="sm" onclick="document.querySelector('#md-base').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-lg" size="lg" label="Large modal"><h2 class="text-h6 font-bold mb-2">Large</h2><p class="mb-4">For content with more structure.</p><aegov-button size="sm" onclick="document.querySelector('#md-lg').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-xl" size="xl" label="Extra large modal"><h2 class="text-h6 font-bold mb-2">Extra large</h2><p class="mb-4">Approaching the point where a page would be better.</p><aegov-button size="sm" onclick="document.querySelector('#md-xl').close()">Close</aegov-button></aegov-modal>
-</div>
 
-If you reach for `xl` because the content does not fit, the content probably wants a page or a [Drawer](aegov-drawer.html).
+  <aegov-modal id="demo-modal-sm" size="sm" aria-label="Small modal">
+    <h3 class="text-lg font-bold mb-2">Compact dialog</h3>
+    <p class="mb-6">Small size is best for short yes/no confirmations.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-sm" size="sm">Close</aegov-button></div>
+  </aegov-modal>
+
+  <aegov-modal id="demo-modal-base" size="base" aria-label="Base modal">
+    <h3 class="text-xl font-bold mb-2">Standard dialog</h3>
+    <p class="mb-6">Base size is the default and works for most cases — short forms, notices, and confirmations.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-base">Close</aegov-button></div>
+  </aegov-modal>
+
+  <aegov-modal id="demo-modal-lg" size="lg" aria-label="Large modal">
+    <h3 class="text-2xl font-bold mb-2">Spacious dialog</h3>
+    <p class="mb-6">Large size offers generous padding for long-form content, multi-step flows, or service forms inside a dialog.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-lg">Close</aegov-button></div>
+  </aegov-modal>
+ 
+  <aegov-modal id="demo-modal-xl" size="xl" aria-label="Extra large modal">
+    <h3 class="text-2xl font-bold mb-2">Extra large dialog</h3>
+    <p class="mb-6">Extra large size is suited for complex layouts, data tables, or multi-column content that needs maximum width.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-xl">Close</aegov-button></div>
+  </aegov-modal>
+
+  <script>
+    (function() {
+      ['sm','base','lg','xl'].forEach(s => {
+        const m = document.querySelector('#demo-modal-' + s);
+        document.querySelector('#demo-size-' + s).addEventListener('click', () => m.show());
+        document.querySelector('#demo-close-' + s).addEventListener('click', () => m.close());
+      });
+    })();
+  </script>
+</div>
 
 ---
 
 ## Position
 
+Use `position` to dock the modal to the top, bottom, or centre of the viewport. Top is useful for system notices that should not steal full attention; bottom suits mobile-style action sheets.
+
 ```html
-<aegov-modal position="center" label="Centred">…</aegov-modal>
-<aegov-modal position="top" label="Top">…</aegov-modal>
-<aegov-modal position="bottom" label="Bottom">…</aegov-modal>
+<aegov-modal position="center" is-open="true">…</aegov-modal>
+<aegov-modal position="top" is-open="true">…</aegov-modal>
+<aegov-modal position="bottom" is-open="true">…</aegov-modal>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-3">
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-pc').show()">center</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-pt').show()">top</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-pb').show()">bottom</aegov-button>
+    <aegov-button id="demo-pos-center">Centre</aegov-button>
+    <aegov-button id="demo-pos-top">Top</aegov-button>
+    <aegov-button id="demo-pos-bottom">Bottom</aegov-button>
   </div>
-  <aegov-modal id="md-pc" position="center" label="Centred modal"><p class="mb-4">Centred — the default.</p><aegov-button size="sm" onclick="document.querySelector('#md-pc').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-pt" position="top" label="Top modal"><p class="mb-4">Anchored near the top.</p><aegov-button size="sm" onclick="document.querySelector('#md-pt').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-pb" position="bottom" label="Bottom modal"><p class="mb-4">Anchored near the bottom — reads as a sheet on mobile.</p><aegov-button size="sm" onclick="document.querySelector('#md-pb').close()">Close</aegov-button></aegov-modal>
-</div>
 
-`top` suits a tall modal that would otherwise be vertically cramped; `bottom` reads as a sheet on touch devices.
+  <aegov-modal id="demo-modal-center" position="center" aria-label="Centre modal">
+    <h3 class="text-xl font-bold mb-2">Centre position</h3>
+    <p class="mb-6">The default — anchored to the centre of the viewport.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-center">Close</aegov-button></div>
+  </aegov-modal>
+
+  <aegov-modal id="demo-modal-top" position="top" aria-label="Top modal">
+    <h3 class="text-xl font-bold mb-2">Top position</h3>
+    <p class="mb-6">Useful for non-blocking notices that appear near the page header.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-top">Close</aegov-button></div>
+  </aegov-modal>
+
+  <aegov-modal id="demo-modal-bottom" position="bottom" aria-label="Bottom modal">
+    <h3 class="text-xl font-bold mb-2">Bottom position</h3>
+    <p class="mb-6">Mobile-friendly action sheet style — perfect for thumb-zone actions.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-bottom">Close</aegov-button></div>
+  </aegov-modal>
+
+  <script>
+    (function() {
+      ['center','top','bottom'].forEach(p => {
+        const m = document.querySelector('#demo-modal-' + p);
+        document.querySelector('#demo-pos-' + p).addEventListener('click', () => m.show());
+        document.querySelector('#demo-close-' + p).addEventListener('click', () => m.close());
+      });
+    })();
+  </script>
+</div>
 
 ---
 
-## Overlay
+## Overlay Opacity
 
-`overlayOpacity` sets how strongly the page behind is dimmed.
+`overlay-opacity` controls how much of the page behind the modal is dimmed — `light` for a subtle wash, `base` (default) for a balanced contrast, and `dark` for high-attention dialogs such as destructive confirmations.
 
 ```html
-<aegov-modal overlay-opacity="light" label="Light">…</aegov-modal>
-<aegov-modal overlay-opacity="base" label="Base">…</aegov-modal>
-<aegov-modal overlay-opacity="dark" label="Dark">…</aegov-modal>
+<aegov-modal overlay-opacity="light" is-open="true">…</aegov-modal>
+<aegov-modal overlay-opacity="base" is-open="true">…</aegov-modal>
+<aegov-modal overlay-opacity="dark" is-open="true">…</aegov-modal>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-3">
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-ol').show()">light</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-ob').show()">base</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-od').show()">dark</aegov-button>
+    <aegov-button id="demo-op-light">Light backdrop</aegov-button>
+    <aegov-button id="demo-op-base">Base backdrop</aegov-button>
+    <aegov-button id="demo-op-dark">Dark backdrop</aegov-button>
   </div>
-  <aegov-modal id="md-ol" overlay-opacity="light" label="Light overlay"><p class="mb-4">Light overlay.</p><aegov-button size="sm" onclick="document.querySelector('#md-ol').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-ob" overlay-opacity="base" label="Base overlay"><p class="mb-4">Base overlay.</p><aegov-button size="sm" onclick="document.querySelector('#md-ob').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-od" overlay-opacity="dark" label="Dark overlay"><p class="mb-4">Dark overlay — strongest separation.</p><aegov-button size="sm" onclick="document.querySelector('#md-od').close()">Close</aegov-button></aegov-modal>
-</div>
 
-A darker overlay separates the modal more clearly, which helps comprehension. `light` is only appropriate when the user needs to refer to the content behind — and if they do, consider a [Drawer](aegov-drawer.html) with `is-overlay="false"` instead.
+  <aegov-modal id="demo-modal-light" overlay-opacity="light" aria-label="Light backdrop">
+    <h3 class="text-xl font-bold mb-2">Light backdrop</h3>
+    <p class="mb-6">A gentle dim, suitable for low-stakes notifications.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-light">Close</aegov-button></div>
+  </aegov-modal>
+
+  <aegov-modal id="demo-modal-base-op" overlay-opacity="base" aria-label="Base backdrop">
+    <h3 class="text-xl font-bold mb-2">Base backdrop</h3>
+    <p class="mb-6">The default — clear separation from the page without being heavy.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-base-op">Close</aegov-button></div>
+  </aegov-modal>
+
+  <aegov-modal id="demo-modal-dark" overlay-opacity="dark" aria-label="Dark backdrop">
+    <h3 class="text-xl font-bold mb-2">Dark backdrop</h3>
+    <p class="mb-6">High contrast — use for destructive confirmations or critical alerts.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-dark">Close</aegov-button></div>
+  </aegov-modal>
+
+  <script>
+    (function() {
+      [['light','light'],['base','base-op'],['dark','dark']].forEach(([key, id]) => {
+        const m = document.querySelector('#demo-modal-' + id);
+        document.querySelector('#demo-op-' + key).addEventListener('click', () => m.show());
+        document.querySelector('#demo-close-' + id).addEventListener('click', () => m.close());
+      });
+    })();
+  </script>
+</div>
 
 ---
 
-## Dismiss behaviour
+## Dismiss Behaviour
 
-| Property | Effect |
-| --- | --- |
-| `isCloseWithOverlay` | Clicking the overlay closes the modal. Default `true`. |
-| `isPreventScroll` | Locks page scroll while open. Default `true`. |
+By default, clicking the backdrop and pressing `Escape` both close the modal. Set `is-close-with-overlay="false"` to require an explicit action — useful for forms where an accidental click outside should not lose data. The `Escape` key always closes the modal for accessibility and cannot be disabled.
 
 ```html
-<!-- A destructive confirmation: force a deliberate choice -->
-<aegov-modal
-  label="Withdraw application"
-  is-close-with-overlay="false"
->…</aegov-modal>
+<aegov-modal is-close-with-overlay="false" aria-labelledby="form-title">
+  <h3 id="form-title" class="text-xl font-bold mb-4">Update mobile number</h3>
+  <aegov-form-field>
+    <aegov-label>New mobile number</aegov-label>
+    <aegov-input field-id="mobile" type="tel" placeholder="+971 50 000 0000"></aegov-input>
+  </aegov-form-field>
+  <div class="flex justify-end gap-3 mt-6">
+    <aegov-button variant="secondary" id="form-cancel">Cancel</aegov-button>
+    <aegov-button id="form-save">Save</aegov-button>
+  </div>
+</aegov-modal>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap gap-3">
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-dis1').show()">Overlay closes (default)</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-dis2').show()">Overlay does not close</aegov-button>
-  </div>
-  <aegov-modal id="md-dis1" label="Closes on overlay click"><p class="mb-4">Click the dimmed area to close.</p><aegov-button size="sm" onclick="document.querySelector('#md-dis1').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-dis2" label="Requires a choice" is-close-with-overlay="false"><p class="mb-4">Clicking outside will not close this. Use a button.</p><div class="flex gap-3"><aegov-button size="sm" variant="danger" onclick="document.querySelector('#md-dis2').close()">Withdraw</aegov-button><aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-dis2').close()">Cancel</aegov-button></div></aegov-modal>
+  <aegov-button id="demo-form-open">Update mobile number</aegov-button>
+  <aegov-modal id="demo-form-modal" is-close-with-overlay="false" aria-labelledby="demo-form-title">
+    <h3 id="demo-form-title" class="text-xl font-bold mb-4">Update mobile number</h3>
+    <aegov-form-field>
+      <aegov-label>New mobile number</aegov-label>
+      <aegov-input field-id="demo-form-mobile" type="tel" placeholder="+971 50 000 0000"></aegov-input>
+    </aegov-form-field>
+    <div class="flex justify-end gap-3 mt-6">
+      <aegov-button variant="secondary" id="demo-form-cancel">Cancel</aegov-button>
+      <aegov-button id="demo-form-save">Save</aegov-button>
+    </div>
+  </aegov-modal>
+  <script>
+    (function() {
+      const m = document.querySelector('#demo-form-modal');
+      document.querySelector('#demo-form-open').addEventListener('click', () => m.show());
+      document.querySelector('#demo-form-cancel').addEventListener('click', () => m.close());
+      document.querySelector('#demo-form-save').addEventListener('click', () => m.close());
+    })();
+  </script>
 </div>
-
-Note that `Escape` always closes the modal, even with `is-close-with-overlay="false"` — that is deliberate, because a dialog with no keyboard escape is a trap. If you need to guard against accidental loss, use the before-close event rather than removing the escape route.
-
----
-
-## Preventing close
-
-`aegovModalBeforeClose` is a **cancellable event**. Call `preventDefault()` on the event to keep the modal open.
-
-```html
-<aegov-modal id="editor" label="Edit details">…</aegov-modal>
-
-<script type="module">
-  const modal = document.querySelector('#editor');
-
-  modal.addEventListener('aegovModalBeforeClose', (e) => {
-    if (hasUnsavedChanges()) {
-      e.preventDefault();                        // cancel on the event itself
-      showToast('Save or discard your changes first', 'warning');
-    }
-  });
-</script>
-```
-
-[Drawer](aegov-drawer.html) uses the same contract, so a handler works unchanged on either:
-
-```js
-modal.addEventListener('aegovModalBeforeClose', (e) => e.preventDefault());
-drawer.addEventListener('aegovDrawerBeforeClose', (e) => e.preventDefault());
-```
-
-Use this sparingly. A modal that refuses to close is a trap unless the user is given a clear, immediate way out.
 
 ---
 
 ## Padding
 
-`isPadding` — on by default — applies the standard internal padding. Turn it off when the content manages its own, such as a full-bleed image or a table.
+The `is-padding` property controls whether the dialog applies inner padding. Turn padding off when the slot content provides its own (for example, a full-bleed image or a custom-styled card).
 
 ```html
-<aegov-modal is-padding="false" label="Document preview">
-  <img src="/document.jpg" alt="Scanned tenancy contract" class="w-full" />
+<aegov-modal is-padding="false" is-open="true">
+  <img src="/path/to/banner.jpg" alt="Service banner" class="w-full block">
+  <div class="p-6">
+    <h3 class="text-xl font-bold mb-2">New service available</h3>
+    <p>The Emirates ID renewal service now supports same-day delivery.</p>
+  </div>
 </aegov-modal>
 ```
 
 ---
 
-## Composite example — destructive confirmation
+## Composite Example — Service Confirmation
+
+A realistic confirmation flow combining a labelled trigger button, a titled dialog with an `aria-labelledby` link, and dual actions.
 
 ```html
-<aegov-button id="withdraw-trigger" variant="danger" appearance="outline">Withdraw application</aegov-button>
+<aegov-button id="open-submit">Submit application</aegov-button>
 
-<aegov-modal
-  id="withdraw"
-  size="sm"
-  label="Withdraw application"
-  is-close-with-overlay="false"
->
-  <h2 class="text-h6 font-bold mb-2">Withdraw this application?</h2>
-  <p class="mb-2">Application <strong>APP-2026-0041827</strong> will be withdrawn and cannot be reinstated.</p>
-  <p class="mb-5 text-sm text-aeblack-500">Any fees already paid are non-refundable.</p>
-
-  <div class="flex flex-wrap gap-3">
-    <aegov-button id="confirm-withdraw" variant="danger">Yes, withdraw it</aegov-button>
-    <aegov-button id="cancel-withdraw" appearance="outline">Keep my application</aegov-button>
+<aegov-modal id="submit-modal" size="lg" overlay-opacity="dark" aria-labelledby="submit-title" aria-describedby="submit-desc">
+  <h3 id="submit-title" class="text-2xl font-bold mb-3">Submit your application?</h3>
+  <p id="submit-desc" class="text-aeblack-500 mb-6">
+    Once submitted, your application for the family book renewal will be sent to the General Directorate of Residency and Foreigners Affairs for review.
+    You will receive a confirmation SMS with your reference number.
+  </p>
+  <div class="bg-aeblack-50 rounded-lg p-4 mb-6">
+    <dl class="grid grid-cols-2 gap-2 text-sm">
+      <dt class="font-semibold">Service</dt><dd>Family book renewal</dd>
+      <dt class="font-semibold">Applicant</dt><dd>Ahmed Al Mansoori</dd>
+      <dt class="font-semibold">Fee</dt><dd>AED 150</dd>
+    </dl>
+  </div>
+  <div class="flex justify-end gap-3">
+    <aegov-button variant="secondary" id="submit-cancel">Review again</aegov-button>
+    <aegov-button id="submit-confirm">Confirm and submit</aegov-button>
   </div>
 </aegov-modal>
-
-<script type="module">
-  const modal = document.querySelector('#withdraw');
-  const confirm = document.querySelector('#confirm-withdraw');
-
-  document.querySelector('#withdraw-trigger')
-    .addEventListener('aegovButtonClick', () => modal.show());
-
-  document.querySelector('#cancel-withdraw')
-    .addEventListener('aegovButtonClick', () => modal.close());
-
-  confirm.addEventListener('aegovButtonClick', async () => {
-    confirm.isLoading = true;
-    try {
-      await api.withdraw('APP-2026-0041827');
-      await modal.close();
-      window.aegovToast.show({ message: 'Application withdrawn.', variant: 'success' });
-    } catch {
-      window.aegovToast.show({ message: 'We could not withdraw the application.', variant: 'error' });
-    } finally {
-      confirm.isLoading = false;
-    }
-  });
-</script>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-button id="md-cx-trigger" variant="danger" appearance="outline">Withdraw application</aegov-button>
-  <aegov-modal id="md-cx" size="sm" label="Withdraw application" is-close-with-overlay="false">
-    <h2 class="text-h6 font-bold mb-2">Withdraw this application?</h2>
-    <p class="mb-2">Application <strong>APP-2026-0041827</strong> will be withdrawn and cannot be reinstated.</p>
-    <p class="mb-5 text-sm text-aeblack-500">Any fees already paid are non-refundable.</p>
-    <div class="flex flex-wrap gap-3">
-      <aegov-button variant="danger" onclick="document.querySelector('#md-cx').close()">Yes, withdraw it</aegov-button>
-      <aegov-button appearance="outline" onclick="document.querySelector('#md-cx').close()">Keep my application</aegov-button>
+  <aegov-button id="demo-open-submit">Submit application</aegov-button>
+
+  <aegov-modal id="demo-submit-modal" size="lg" overlay-opacity="dark" aria-labelledby="demo-submit-title" aria-describedby="demo-submit-desc">
+    <h3 id="demo-submit-title" class="text-2xl font-bold mb-3">Submit your application?</h3>
+    <p id="demo-submit-desc" class="text-aeblack-500 mb-6">
+      Once submitted, your application for the family book renewal will be sent to the General Directorate of Residency and Foreigners Affairs for review.
+      You will receive a confirmation SMS with your reference number.
+    </p>
+    <div class="bg-aeblack-50 rounded-lg p-4 mb-6">
+      <dl class="grid grid-cols-2 gap-2 text-sm">
+        <dt class="font-semibold">Service</dt><dd>Family book renewal</dd>
+        <dt class="font-semibold">Applicant</dt><dd>Ahmed Al Mansoori</dd>
+        <dt class="font-semibold">Fee</dt><dd>AED 150</dd>
+      </dl>
+    </div>
+    <div class="flex justify-end gap-3">
+      <aegov-button variant="secondary" id="demo-submit-cancel">Review again</aegov-button>
+      <aegov-button id="demo-submit-confirm">Confirm and submit</aegov-button>
     </div>
   </aegov-modal>
-  <script>document.querySelector('#md-cx-trigger').addEventListener('aegovButtonClick', () => document.querySelector('#md-cx').show());</script>
-</div>
 
-Note the button labels. "Yes, withdraw it" and "Keep my application" describe outcomes; "OK" and "Cancel" force the user to re-read the question to work out which is which.
+  <script>
+    (function() {
+      const m = document.querySelector('#demo-submit-modal');
+      document.querySelector('#demo-open-submit').addEventListener('click', () => m.show());
+      document.querySelector('#demo-submit-cancel').addEventListener('click', () => m.close());
+      document.querySelector('#demo-submit-confirm').addEventListener('click', () => m.close());
+    })();
+  </script>
+</div>
 
 ---
 
 ## RTL Support
 
-The modal is direction-aware. Content, headings and action rows align with the text direction, and the close affordance moves to the inline-start corner in a `dir="rtl"` context.
-
-Because the modal moves itself to `document.body`, **set `dir` on `<html>`** rather than on an inner wrapper — the modal will not inherit direction from the element you declared it inside.
+The modal is direction-agnostic. Set `dir="rtl"` on the document or on a parent element and the layout, content alignment, and dismiss button positioning mirror automatically. Because the dialog uses Shadow DOM, the `dir` attribute is inherited from the host element — so applying it to `<aegov-modal>` (or its ancestor) is enough.
 
 ```html
-<html dir="rtl" lang="ar">
-  <aegov-modal label="تأكيد الإرسال">
-    <h2>هل تريد إرسال طلبك؟</h2>
-    <p>لن تتمكن من تغيير إجاباتك بعد الإرسال.</p>
-    <aegov-button variant="primary">إرسال الطلب</aegov-button>
-    <aegov-button appearance="outline">متابعة التعديل</aegov-button>
+<div dir="rtl">
+  <aegov-button id="open-rtl">حذف الطلب</aegov-button>
+  <aegov-modal id="rtl-modal" aria-labelledby="rtl-title">
+    <h3 id="rtl-title" class="text-xl font-bold mb-2">حذف هذا الطلب؟</h3>
+    <p class="text-aeblack-500 mb-6">
+      سيتم حذف مسوّدة طلبك لخدمة تجديد الهوية الإماراتية بشكل دائم. لا يمكن التراجع عن هذا الإجراء.
+    </p>
+    <div class="flex justify-end gap-3">
+      <aegov-button variant="secondary" id="rtl-cancel">إلغاء</aegov-button>
+      <aegov-button variant="danger" id="rtl-confirm">حذف</aegov-button>
+    </div>
   </aegov-modal>
-</html>
+</div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-button id="md-rtl-trigger">مراجعة الإرسال</aegov-button>
-  <aegov-modal id="md-rtl" label="تأكيد الإرسال">
-    <h2 class="text-h6 font-bold mb-2">هل تريد إرسال طلبك؟</h2>
-    <p class="mb-5">لن تتمكن من تغيير إجاباتك بعد الإرسال.</p>
-    <div class="flex flex-wrap gap-3">
-      <aegov-button variant="primary" onclick="document.querySelector('#md-rtl').close()">إرسال الطلب</aegov-button>
-      <aegov-button appearance="outline" onclick="document.querySelector('#md-rtl').close()">متابعة التعديل</aegov-button>
+  <aegov-button id="demo-rtl-open">حذف الطلب</aegov-button>
+  <aegov-modal id="demo-rtl-modal" aria-labelledby="demo-rtl-title">
+    <h3 id="demo-rtl-title" class="text-xl font-bold mb-2">حذف هذا الطلب؟</h3>
+    <p class="text-aeblack-500 mb-6">
+      سيتم حذف مسوّدة طلبك لخدمة تجديد الهوية الإماراتية بشكل دائم. لا يمكن التراجع عن هذا الإجراء.
+    </p>
+    <div class="flex justify-end gap-3">
+      <aegov-button variant="secondary" id="demo-rtl-cancel">إلغاء</aegov-button>
+      <aegov-button variant="danger" id="demo-rtl-confirm">حذف</aegov-button>
     </div>
   </aegov-modal>
-  <script>document.querySelector('#md-rtl-trigger').addEventListener('aegovButtonClick', () => document.querySelector('#md-rtl').show());</script>
+  <script>
+    (function() {
+      const m = document.querySelector('#demo-rtl-modal');
+      document.querySelector('#demo-rtl-open').addEventListener('click', () => m.show());
+      document.querySelector('#demo-rtl-cancel').addEventListener('click', () => m.close());
+      document.querySelector('#demo-rtl-confirm').addEventListener('click', () => m.close());
+    })();
+  </script>
 </div>
 
 ---
@@ -329,59 +430,57 @@ Because the modal moves itself to `document.body`, **set `dir` on `<html>`** rat
 
 ### Properties
 
-| Property | Attribute | Description | Type | Default |
-| --- | --- | --- | --- | --- |
-| `fieldId` | `field-id` | ID applied to the dialog content. Auto-generated when omitted, reflected. | `string` | _generated_ |
-| `isOpen` | `is-open` | Open state. Mutable and reflected — updated when the user closes it. | `boolean` | `false` |
-| `label` | `label` | Accessible name for the dialog. **Set this.** | `string` | — |
-| `size` | `size` | Maximum width. | `'sm' \| 'base' \| 'lg' \| 'xl'` | `'base'` |
-| `position` | `position` | Vertical placement. | `'center' \| 'top' \| 'bottom'` | `'center'` |
-| `overlayOpacity` | `overlay-opacity` | How strongly the page behind is dimmed. | `'light' \| 'base' \| 'dark'` | `'base'` |
-| `isCloseWithOverlay` | `is-close-with-overlay` | Clicking the overlay closes the modal. | `boolean` | `true` |
-| `isPreventScroll` | `is-prevent-scroll` | Locks page scroll while open. | `boolean` | `true` |
-| `isPadding` | `is-padding` | Applies standard internal padding. | `boolean` | `true` |
+| Property              | Attribute                | Description                                                                          | Type                              | Default     |
+| --------------------- | ------------------------ | ------------------------------------------------------------------------------------ | --------------------------------- | ----------- |
+| `fieldId`             | `field-id`               | DOM `id` for the dialog content element. Auto-generated if omitted.                  | `string`                          | _generated_ |
+| `isOpen`              | `is-open`                | Whether the modal is currently visible.                                              | `boolean`                         | `false`     |
+| `isCloseWithOverlay`  | `is-close-with-overlay`  | Close the modal when the backdrop is clicked.                                        | `boolean`                         | `true`      |
+| `isPreventScroll`     | `is-prevent-scroll`      | Lock body scroll while the modal is open.                                            | `boolean`                         | `true`      |
+| `overlayOpacity`      | `overlay-opacity`        | Backdrop dim level.                                                                  | `'light' \| 'base' \| 'dark'`     | `'base'`    |
+| `position`            | `position`               | Where the dialog is anchored on the viewport.                                        | `'center' \| 'top' \| 'bottom'`   | `'center'`  |
+| `size`                | `size`                   | Padding and corner-radius scale.                                                     | `'sm' \| 'base' \| 'lg' \| 'xl'`  | `'base'`    |
+| `isPadding`           | `is-padding`             | Apply inner content padding. Turn off for full-bleed content.                        | `boolean`                         | `true`      |
+| `label`               | `label`                  | Accessible label for the dialog. Prefer `aria-labelledby` pointing at a heading inside the modal; use `label` only when no visible heading is present. | `string` | `undefined` |
 
 ### Slots
 
-| Slot | Description |
-| --- | --- |
-| _(default)_ | The dialog content — heading, body and actions. |
+| Slot          | Description                                                                  |
+| ------------- | ---------------------------------------------------------------------------- |
+| _(default)_   | The dialog content — heading, body, and any action buttons. There is no separate header/body/footer slot; structure your content with regular HTML inside the default slot. |
 
 ### Events
 
-| Event | Detail | Description |
-| --- | --- | --- |
-| `aegovModalOpen` | `void` | The modal opened. |
-| `aegovModalClose` | `void` | The modal closed. |
-| `aegovModalBeforeClose` | `void` | **Cancellable.** Call `preventDefault()` on the event to keep it open. |
-| `aegovModalBackdropClick` | `MouseEvent` | The overlay was clicked. Fires even when `is-close-with-overlay` is false. |
-| `aegovModalEscapePress` | `KeyboardEvent` | `Escape` was pressed. |
+| Event                      | Detail                                | Description                                                                                  |
+| -------------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `aegovModalOpen`           | `void`                                | Fired after the modal has finished opening.                                                  |
+| `aegovModalClose`          | `void`                                | Fired after the modal has finished closing and focus has been returned.                      |
+| `aegovModalBeforeClose`    | `void`                                | Fired before the modal closes. The event is cancelable — call `event.preventDefault()` on the event to keep it open (e.g., unsaved data). |
+| `aegovModalBackdropClick`  | `MouseEvent`                          | Fired when the backdrop receives a click, regardless of whether dismissal is allowed.        |
+| `aegovModalEscapePress`    | `KeyboardEvent`                       | Fired when the user presses `Escape` while the modal is open.                                |
 
 ### Methods
 
-| Method | Returns | Description |
-| --- | --- | --- |
-| `show()` | `Promise<void>` | Opens the modal. |
-| `close()` | `Promise<void>` | Closes the modal, running the before-close event first. |
-| `toggle()` | `Promise<void>` | Opens or closes. |
+| Method     | Returns          | Description                                              |
+| ---------- | ---------------- | -------------------------------------------------------- |
+| `show()`   | `Promise<void>`  | Open the modal.                                          |
+| `close()`  | `Promise<void>`  | Close the modal (fires `aegovModalBeforeClose` first).   |
+| `toggle()` | `Promise<void>`  | Flip the open state.                                     |
 
 ### Pass-through Attributes
 
-The modal uses **shadow DOM**, so pass-through is how attributes reach the dialog element.
+ARIA attributes set on `<aegov-modal>` are forwarded onto the inner dialog element so screen readers receive the correct labelling. Always provide either `aria-label` or `aria-labelledby`.
 
-| Attribute group | Forwarded? | Notes |
-| --- | --- | --- |
-| `aria-*` | Yes | Forwarded to the `role="dialog"` element. Use `aria-labelledby` here if you prefer referencing a visible heading over `label`. |
-| `data-*` | Yes | Forwarded to the dialog element. |
-| `id` | n/a | Use `field-id`. |
-| `class`, `style` | Allowed | Applied to the host only — they cannot restyle shadow internals. |
+| Attribute group          | Forwarded? | Where it lands                                                    |
+| ------------------------ | ---------- | ----------------------------------------------------------------- |
+| `aria-label`             | Yes        | Applied to the inner `[role="dialog"]` element.                   |
+| `aria-labelledby`        | Yes        | Applied to the inner `[role="dialog"]` element.                   |
+| `aria-describedby`       | Yes        | Applied to the inner `[role="dialog"]` element.                   |
+| Other `aria-*`           | Yes        | Applied to the inner `[role="dialog"]` element.                   |
+| `data-*`                 | Yes        | Applied to the inner `[role="dialog"]` element.                   |
+| `id`                     | n/a        | Use `field-id` — sets the `id` of the dialog content element.    |
+| `class`, `style`         | Allowed    | Applied to the host element (limited reach due to Shadow DOM).    |
 
-### Shadow DOM and stacking
-
-- The component **relocates itself to the end of `document.body`** on initialisation, so it is never clipped or mis-stacked by an ancestor.
-- Each open modal takes a z-index from a shared manager, so stacked modals layer correctly rather than fighting over a hardcoded value.
-- Internals are in shadow DOM: `class` on the host does not reach the dialog, and there are no exposed parts. Style through the documented properties.
-- In E2E tests, pierce the shadow root: `page.find('aegov-modal >>> [role="dialog"]')`.
+> **Shadow DOM note.** Because `aegov-modal` uses Shadow DOM, page-level CSS does not reach the inner backdrop and dialog elements. Style customisation is limited to the host element and any CSS custom properties exposed by the component.
 
 ---
 
@@ -389,42 +488,36 @@ The modal uses **shadow DOM**, so pass-through is how attributes reach the dialo
 
 ### Built-in behaviour
 
-- The dialog element carries `role="dialog"` and `aria-modal="true"`, so assistive technology treats the rest of the page as unavailable.
-- `label` becomes the dialog's accessible name via `aria-label`.
-- **Focus is trapped** inside the modal while open. Focusable elements are collected from the slotted content, so your own buttons and fields participate.
-- Focus moves into the dialog on open, and returns to the element that opened it on close.
-- **`Escape` always closes**, even when overlay dismissal is disabled — a dialog with no keyboard exit is a trap.
-- Page scroll is locked while open, using a reference-counted lock so nested overlays do not unlock each other prematurely.
-- Z-index is assigned from a shared manager, so a modal opened from a modal stacks above it.
-- The modal relocates to `document.body`, which prevents an ancestor's `overflow` or `transform` from clipping it — also avoiding WCAG 2.2 SC 2.4.11 failures where a focused control ends up hidden.
+- The dialog renders with `role="dialog"` and `aria-modal="true"`. `aria-modal="true"` tells modern assistive technology not to expose content behind the dialog in their reading modes.
+- Focus is trapped inside the dialog while it is open. `Tab` and `Shift + Tab` cycle through focusable elements without escaping to the page behind.
+- On open, the first focusable element in the dialog receives focus automatically. If the dialog contains no focusable children, the dialog container itself receives focus (`tabindex="-1"` is set) so assistive technology announces the dialog immediately.
+- On close, focus is returned to the element that opened the dialog.
+- Body scroll is locked while the dialog is open (reference-counted, so nested overlays keep scroll locked correctly).
+- `Escape` always closes the dialog — this behaviour is not configurable.
+- The component is moved to `document.body` automatically, ensuring it stacks above the rest of the page regardless of where it lives in your component tree.
 
 ### Developer responsibilities
 
-- **Always set `label`**, or supply `aria-labelledby` pointing at a visible heading inside the modal.
-- **Include a visible heading** as the first content. The accessible name alone does not give sighted users a title.
-- **Provide an explicit close control.** `Escape` and the overlay are not discoverable on their own, and on touch devices the overlay is the only alternative.
-- **Label buttons with outcomes**, not "OK" and "Cancel".
-- **Do not open a modal without user action.** An unprompted modal steals focus from whatever the user was doing.
-- **Do not nest modals** unless genuinely unavoidable. Each one adds a focus trap the user must escape.
-- **Keep content short.** If the user needs to scroll a modal, consider a page or a [Drawer](aegov-drawer.html).
-- **Set `dir` on `<html>`** for RTL, since the modal lives on the body.
-- **Do not cancel closing without explanation.** If you use `preventDefault()`, say why immediately and give the user a way out.
-- **Return focus somewhere sensible** if the triggering element no longer exists after the action — for instance when the modal deleted the row that contained its own trigger.
+- **Always label the dialog.** Provide either `aria-label` or `aria-labelledby` pointing at the visible heading inside the modal. Without one, screen readers announce only "dialog".
+- Use `aria-describedby` to link supporting body text when the heading alone does not convey the action.
+- For destructive confirmations (delete, cancel application), pair `overlay-opacity="dark"` with a `variant="danger"` confirmation button so the visual weight matches the action.
+- Listen for `aegovModalBeforeClose` and call `preventDefault()` if the user has unsaved changes — then prompt them in-place rather than silently losing data.
+- Keep modal content focused on a single task. If the workflow requires several steps, consider a dedicated page or a multi-step wizard rather than nesting forms inside a dialog.
+- **Background isolation for older assistive technology.** `aria-modal="true"` is respected by all modern screen readers (NVDA 2021+, JAWS 2021+, VoiceOver macOS 12+). For environments where older AT is expected, add the `inert` attribute to all page siblings when the modal opens and remove it on close. This prevents virtual-cursor navigation into background content:
+  ```js
+  modal.addEventListener('aegovModalOpen', () => {
+    document.body.querySelectorAll(':scope > :not(aegov-modal)').forEach(el => el.setAttribute('inert', ''));
+  });
+  modal.addEventListener('aegovModalClose', () => {
+    document.body.querySelectorAll('[inert]').forEach(el => el.removeAttribute('inert'));
+  });
+  ```
 
 ### Keyboard support
 
-| Key | Action |
-| --- | --- |
-| `Escape` | Close the modal. Always available. |
-| `Tab` | Move to the next focusable element inside the modal, cycling at the end. |
-| `Shift` + `Tab` | Move backwards, cycling at the start. |
-| `Enter`, `Space` | Activate the focused control. |
-
----
-
-## Where to next
-
-- [Drawer](aegov-drawer.html) — the same pattern anchored to an edge, and better for longer content.
-- [Popover](aegov-popover.html) — for supplementary detail that does not need to block.
-- [Toast](aegov-toast.html) — for confirming the outcome after the modal closes.
-- [Callout](aegov-callout.html) — for information that belongs in the page instead.
+| Key              | Action                                                          |
+| ---------------- | --------------------------------------------------------------- |
+| `Escape`         | Close the modal and return focus to the trigger element.        |
+| `Tab`            | Move focus to the next focusable element inside the dialog.     |
+| `Shift + Tab`    | Move focus to the previous focusable element inside the dialog. |
+| `Enter`, `Space` | Activate the focused button or control.                         |

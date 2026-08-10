@@ -6,8 +6,6 @@
   font-family: inherit;
   @apply relative w-full bg-transparent leading-6
          motion-reduce:transition-none
-         disabled:pointer-events-none disabled:cursor-not-allowed
-         disabled:select-none disabled:opacity-40
          rounded-lg focus:outline-none;
   @apply placeholder:text-aeblack-300 bg-whitely-50
          border-2
@@ -18,6 +16,12 @@
          dark:focus-visible:ring-primary-support-400;
 }
 
+.aegov-textarea:disabled {
+  cursor: not-allowed;
+  user-select: none;
+  opacity: 0.4;
+}
+
 /* Variant — idle border + value text per colour family (mirrors aegov-input pattern) */
 .aegov-textarea.textarea-variant-primary       { @apply border-primary-600 text-primary-900 dark:border-primary-400 dark:text-whitely-100; }
 .aegov-textarea.textarea-variant-secondary     { @apply border-secondary-600 text-secondary-900 dark:border-secondary-400 dark:text-whitely-100; }
@@ -25,16 +29,16 @@
 .aegov-textarea.textarea-variant-neutral-min   { @apply border-aeblack-300 text-aeblack-700 dark:border-aeblack-600 dark:text-aeblack-200; }
 
 /* Focus ring — overrides variant idle border. Per-variant selector beats variant specificity. */
-.aegov-textarea.textarea-variant-primary:focus {
+.aegov-textarea.textarea-variant-primary:focus-visible {
   @apply ring-1 ring-offset-2 ring-primary-support-400 border-2 border-primary-support-400
          dark:ring-primary-support-400 dark:border-primary-support-400;
 }
-.aegov-textarea.textarea-variant-secondary:focus {
+.aegov-textarea.textarea-variant-secondary:focus-visible {
   @apply ring-1 ring-offset-2 ring-secondary-support-400 border-2 border-secondary-support-400
          dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
-.aegov-textarea.textarea-variant-neutral-max:focus,
-.aegov-textarea.textarea-variant-neutral-min:focus {
+.aegov-textarea.textarea-variant-neutral-max:focus-visible,
+.aegov-textarea.textarea-variant-neutral-min:focus-visible {
   @apply ring-1 ring-offset-2 ring-seablue-400 border-2 border-seablue-400
          dark:ring-seablue-400 dark:border-seablue-400;
 }
@@ -118,13 +122,13 @@
    Validation surface (Layer 1) — see validation-engine-addon.md §2.6
    ───────────────────────────────────────────────────────────────────── */
 
-aegov-textarea.is-invalid .aegov-textarea {
+:host(.is-invalid) .aegov-textarea {
   @apply border-aered-600 dark:border-aered-500;
 }
 
-aegov-textarea.is-invalid .aegov-textarea:focus {
-  /* Override variant focus treatment: red ring with offset.
-     Mirrors the aegov-input invalid:focus treatment. */
+:host(.is-invalid) .aegov-textarea:focus-visible {
+  /* Override variant focus treatment: red outline with offset.
+     Mirrors the aegov-input invalid:focus-visible treatment. */
   @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
 }
 

@@ -731,7 +731,7 @@ export const AegovText: StencilReactComponent<AegovTextElement, AegovTextEvents>
 
 type AegovTextareaEvents = {
     onAegovTextareaChange: EventName<AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>>,
-    onAegovTextareaInput: EventName<AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>>,
+    onAegovTextareaValue: EventName<AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>>,
     onAegovTextareaFocus: EventName<AegovTextareaCustomEvent<FocusEvent>>,
     onAegovTextareaBlur: EventName<AegovTextareaCustomEvent<FocusEvent>>,
     onAegovValidate: EventName<AegovTextareaCustomEvent<AegovValidationDetail<string>>>
@@ -744,7 +744,7 @@ export const AegovTextarea: StencilReactComponent<AegovTextareaElement, AegovTex
     react: React,
     events: {
         onAegovTextareaChange: 'aegovTextareaChange',
-        onAegovTextareaInput: 'aegovTextareaInput',
+        onAegovTextareaValue: 'aegovTextareaValue',
         onAegovTextareaFocus: 'aegovTextareaFocus',
         onAegovTextareaBlur: 'aegovTextareaBlur',
         onAegovValidate: 'aegovValidate'

@@ -1,408 +1,437 @@
 # OTP
 
-<p class="text-lg text-aeblack-500 mb-8">An OTP input collects a short code one character per cell — a one-time password from an SMS, an email verification code, a PIN. Splitting the code into cells makes it easy to read back and to check, and the component handles the auto-advance, paste, and backspace behaviour that users expect from this pattern.</p>
+<p class="text-lg text-aeblack-500 mb-8">An OTP (one-time passcode) input is a row of focused cells used to enter a short verification code received by SMS, email, or an authenticator app. It auto-advances focus as the user types, supports paste-to-fill, and can validate against an alphanumeric or pattern rule. Use it for multi-factor authentication, transaction confirmation, and identity verification flows.</p>
 
 ## Introduction
 
-`aegov-otp` renders one input per character and keeps them in sync with a single value. It is a form-associated custom element, so the assembled code submits with the form under one `name`.
+The `aegov-otp` component renders a configurable number of input cells as a single logical input. Auto-advance moves focus on each character; backspace returns focus and clears the previous cell; paste distributes the clipboard contents from the first cell. It emits a single combined value through change and complete events, and uses `ElementInternals` to participate in standard form submission as a single field.
 
 ```html
-<aegov-form-field>
-  <aegov-label>Verification code</aegov-label>
-  <aegov-otp name="code" length="6" hint="Enter the 6-digit code sent to your mobile"></aegov-otp>
-</aegov-form-field>
+<aegov-otp length="6" name="otp_code"></aegov-otp>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md">
-    <aegov-form-field>
-      <aegov-label>Verification code</aegov-label>
-      <aegov-otp field-id="otp-intro" name="code" length="6" hint="Enter the 6-digit code sent to your mobile"></aegov-otp>
-    </aegov-form-field>
-  </div>
+  <aegov-otp length="6" name="otp_code"></aegov-otp>
 </div>
 
-Typing advances to the next cell automatically, backspace on an empty cell steps back, and pasting a full code fills every cell at once.
+---
+
+## Variants
+
+The `appearance` property selects between two visual layouts.
+
+### Continuous (default)
+
+A single bordered group with thin dividers between cells. Best when the code is read as one logical token (typical SMS or authenticator OTP).
+
+```html
+<aegov-otp appearance="continuous" length="6"></aegov-otp>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp appearance="continuous" length="6"></aegov-otp>
+</div>
+
+### Individual
+
+Each cell is rendered as a fully separated, bordered box. Useful when the code is read as discrete digits — for example PIN-style activation codes printed on a physical voucher.
+
+```html
+<aegov-otp appearance="individual" length="6"></aegov-otp>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp appearance="individual" length="6"></aegov-otp>
+</div>
 
 ---
 
 ## Length
 
-`length` sets the number of cells. Match it exactly to the code your service sends — a mismatch means the user cannot complete the field.
+The `length` property sets the number of cells. Common values are `4` (PIN), `5` (default), `6` (most SMS / TOTP codes), or `8` (longer activation codes).
 
 ```html
-<aegov-otp length="4" name="pin"></aegov-otp>
-<aegov-otp length="5" name="code5"></aegov-otp>
-<aegov-otp length="6" name="code6"></aegov-otp>
-<aegov-otp length="8" name="code8"></aegov-otp>
+<aegov-otp length="4"></aegov-otp>
+<aegov-otp length="5"></aegov-otp>
+<aegov-otp length="6"></aegov-otp>
+<aegov-otp length="8"></aegov-otp>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="space-y-6">
-    <div><p class="text-sm text-aeblack-500 mb-2">length="4"</p><aegov-otp field-id="otp-l-4" length="4"></aegov-otp></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">length="5" (default)</p><aegov-otp field-id="otp-l-5" length="5"></aegov-otp></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">length="6"</p><aegov-otp field-id="otp-l-6" length="6"></aegov-otp></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">length="8"</p><aegov-otp field-id="otp-l-8" length="8"></aegov-otp></div>
-  </div>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-6">
+  <aegov-otp length="4"></aegov-otp>
+  <aegov-otp length="5"></aegov-otp>
+  <aegov-otp length="6"></aegov-otp>
+  <aegov-otp length="8"></aegov-otp>
 </div>
-
-Keep codes short. Beyond eight cells the pattern stops helping — the row wraps awkwardly and the cells become the harder thing to track, not the code.
-
----
-
-## Appearance
-
-`appearance` changes how the cells are grouped.
-
-| Appearance | Look |
-| --- | --- |
-| `continuous` | Default. Cells joined into a single connected field. |
-| `individual` | Separated cells with a divider, which reads as distinct characters. |
-
-```html
-<aegov-otp appearance="continuous" length="6"></aegov-otp>
-<aegov-otp appearance="individual" length="6"></aegov-otp>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="space-y-6">
-    <div><p class="text-sm text-aeblack-500 mb-2">continuous (default)</p><aegov-otp field-id="otp-ap-1" appearance="continuous" length="6" value="123456"></aegov-otp></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">individual</p><aegov-otp field-id="otp-ap-2" appearance="individual" length="6" value="123456"></aegov-otp></div>
-  </div>
-</div>
-
-Note the property is `appearance`, not `style` — `style` is a reserved DOM property and cannot be used as a component property name.
 
 ---
 
 ## Sizes
 
-Six tokens here, one more than the rest of the form family: OTP adds `2xl` for verification screens where the code is the only thing on the page.
+The `size` property scales each cell. Six tokens are available — `xs`, `sm`, `base` (default), `lg`, `xl`, and `2xl`.
 
 ```html
 <aegov-otp size="xs" length="6"></aegov-otp>
+<aegov-otp size="sm" length="6"></aegov-otp>
 <aegov-otp size="base" length="6"></aegov-otp>
+<aegov-otp size="lg" length="6"></aegov-otp>
 <aegov-otp size="xl" length="6"></aegov-otp>
 <aegov-otp size="2xl" length="6"></aegov-otp>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="space-y-6">
-    <div><p class="text-sm text-aeblack-500 mb-2">xs</p><aegov-otp field-id="otp-s-xs" size="xs" length="6" value="123456"></aegov-otp></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">sm</p><aegov-otp field-id="otp-s-sm" size="sm" length="6" value="123456"></aegov-otp></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">base</p><aegov-otp field-id="otp-s-base" size="base" length="6" value="123456"></aegov-otp></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">lg</p><aegov-otp field-id="otp-s-lg" size="lg" length="6" value="123456"></aegov-otp></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">xl</p><aegov-otp field-id="otp-s-xl" size="xl" length="6" value="123456"></aegov-otp></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">2xl</p><aegov-otp field-id="otp-s-2xl" size="2xl" length="6" value="123456"></aegov-otp></div>
-  </div>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-6">
+  <aegov-otp size="xs" length="6"></aegov-otp>
+  <aegov-otp size="sm" length="6"></aegov-otp>
+  <aegov-otp size="base" length="6"></aegov-otp>
+  <aegov-otp size="lg" length="6"></aegov-otp>
+  <aegov-otp size="xl" length="6"></aegov-otp>
+  <aegov-otp size="2xl" length="6"></aegov-otp>
 </div>
 
 ### Responsive sizes
 
-`size` accepts a responsive string with the prefixes `xs`, `sm`, `md`, `lg`, `xl` and `2xl`. This is worth using here — a six-cell row at `xl` does not fit a small phone.
+The `size` property accepts a Tailwind-style responsive string with the breakpoint prefixes `xs`, `sm`, `md`, `lg`, `xl`, and `2xl`.
 
 ```html
-<aegov-otp size="base md:lg xl:2xl" length="6"></aegov-otp>
+<aegov-otp size="sm md:base lg:lg" length="6"></aegov-otp>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-otp field-id="otp-s-resp" size="base md:lg xl:2xl" length="6"></aegov-otp>
+  <aegov-otp size="sm md:base lg:lg" length="6"></aegov-otp>
 </div>
 
 ---
 
-## Alphanumeric codes
+## Variant
 
-By default only digits are accepted. `is-alphanumeric` allows letters as well.
+The `variant` property selects the colour family for the idle cell border, the focused cell border, and the filled cell text. The focus ring uses the variant's support colour (`primary-support-400` for primary, `secondary-support-400` for secondary, `seablue-400` for neutral variants). The error border always stays `aered-600` regardless of variant.
 
-```html
-<aegov-otp length="6" name="numeric"></aegov-otp>
-<aegov-otp length="6" name="alnum" is-alphanumeric></aegov-otp>
-```
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-100 family)
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="space-y-6">
-    <div><p class="text-sm text-aeblack-500 mb-2">Digits only (default)</p><aegov-otp field-id="otp-an-1" length="6"></aegov-otp></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">is-alphanumeric</p><aegov-otp field-id="otp-an-2" length="6" is-alphanumeric value="A7B2K9"></aegov-otp></div>
-  </div>
-</div>
+### Colour matrix
 
-Digits-only is the better default for SMS codes because it lets the numeric keypad appear on mobile. Only enable letters if your codes genuinely contain them, and say so in the hint.
-
----
-
-## Pattern
-
-`pattern` applies a regular expression to the assembled value, feeding the `patternMismatch` validity flag.
+| Variant       | Idle border       | Focused border          | Filled text      |
+| ------------- | ----------------- | ----------------------- | ---------------- |
+| `primary`     | `primary-600`     | `primary-support-400`   | `primary-900`    |
+| `secondary`   | `secondary-600`   | `secondary-support-400` | `secondary-900`  |
+| `neutral-max` | `aeblack-800`     | `seablue-400`           | `aeblack-950`    |
+| `neutral-min` | `aeblack-300`     | `seablue-400`           | `aeblack-700`    |
 
 ```html
-<aegov-otp length="6" name="code" pattern="^\d{6}$" hint="6 digits"></aegov-otp>
-<aegov-otp length="8" name="ref" is-alphanumeric pattern="^[A-Z0-9]{8}$" hint="8 characters, letters and digits"></aegov-otp>
+<aegov-otp variant="primary" length="6"></aegov-otp>
+<aegov-otp variant="secondary" length="6"></aegov-otp>
+<aegov-otp variant="neutral-max" length="6"></aegov-otp>
+<aegov-otp variant="neutral-min" length="6"></aegov-otp>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-6">
-    <aegov-otp field-id="otp-p-1" length="6" name="code" pattern="^\d{6}$" hint="6 digits"></aegov-otp>
-    <aegov-otp field-id="otp-p-2" length="8" name="ref" is-alphanumeric pattern="^[A-Z0-9]{8}$" hint="8 characters, letters and digits"></aegov-otp>
-  </div>
-</div>
-
-If you are migrating from an earlier version: there is no longer a separate `aegovOtpInvalid` event. A pattern failure now surfaces through the unified `aegovValidate` event as `validity.patternMismatch`. See [Validation](#validation).
-
----
-
-## States
-
-```html
-<aegov-otp length="6" is-disabled value="123456"></aegov-otp>
-<aegov-otp length="6" is-required></aegov-otp>
-<aegov-otp length="6" is-invalid error-message="That code is incorrect or has expired" value="123456"></aegov-otp>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-6">
-    <aegov-otp field-id="otp-st-1" length="6" is-disabled value="123456"></aegov-otp>
-    <aegov-otp field-id="otp-st-2" length="6" is-required hint="Required"></aegov-otp>
-    <aegov-otp field-id="otp-st-3" length="6" is-invalid error-message="That code is incorrect or has expired" value="123456"></aegov-otp>
-    <aegov-otp field-id="otp-st-4" length="6" variant="secondary" value="123456"></aegov-otp>
-  </div>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-6">
+  <aegov-otp variant="primary" length="6"></aegov-otp>
+  <aegov-otp variant="secondary" length="6"></aegov-otp>
+  <aegov-otp variant="neutral-max" length="6"></aegov-otp>
+  <aegov-otp variant="neutral-min" length="6"></aegov-otp>
 </div>
 
 ---
 
-## Composite example — verification screen
+## Numeric vs. alphanumeric
 
-The realistic shape: submit as soon as the code is complete, show the failure inline, and clear so the user can retry without deleting six characters by hand.
+By default the component accepts digits only (`0`–`9`) and presents the numeric keyboard on mobile via `inputmode="numeric"`. Set `is-alphanumeric="true"` to accept letters as well — useful for codes that mix digits and letters such as activation tokens.
+
+### Numeric only (default)
 
 ```html
-<div class="max-w-sm text-center">
-  <h2>Verify your mobile number</h2>
-  <p class="text-aeblack-500">We sent a 6-digit code to +971 50 ••• 4567</p>
+<aegov-otp length="6"></aegov-otp>
+```
 
-  <aegov-otp id="code" name="code" length="6" size="lg" pattern="^\d{6}$"></aegov-otp>
-
-  <aegov-button id="verify" variant="primary" size="lg" is-full is-disabled>Verify</aegov-button>
-
-  <aegov-button id="resend" appearance="link">Resend code</aegov-button>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp length="6"></aegov-otp>
 </div>
 
-<script type="module">
-  const otp = document.querySelector('#code');
-  const verify = document.querySelector('#verify');
+### Alphanumeric
 
-  // Enable the button only once the code is complete
-  otp.addEventListener('aegovOtpChange', (e) => {
-    verify.isDisabled = e.detail.value.length !== 6;
+```html
+<aegov-otp length="8" is-alphanumeric="true"></aegov-otp>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp length="8" is-alphanumeric="true"></aegov-otp>
+</div>
+
+---
+
+## Pattern validation
+
+Use the `pattern` property to validate the assembled value. When the user fills the last cell, the component checks the regex; if it fails, `aegovValidate` is emitted with `validity.patternMismatch === true`. Combine with your own UI to surface an inline error.
+
+```html
+<!-- Six digits where the first must be 1, 2, or 3 -->
+<aegov-otp length="6" pattern="^[1-3][0-9]{5}$"></aegov-otp>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp length="6" pattern="^[1-3][0-9]{5}$"></aegov-otp>
+</div>
+
+---
+
+## Disabled
+
+Set `is-disabled="true"` to disable every cell. The component appears muted and does not accept keyboard input or paste.
+
+```html
+<aegov-otp length="6" is-disabled="true" value="123"></aegov-otp>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp length="6" is-disabled="true" value="123"></aegov-otp>
+</div>
+
+---
+
+## Pre-filled value
+
+Set the `value` attribute to seed the cells. Setting the property programmatically also redistributes the value across cells.
+
+```html
+<aegov-otp length="6" value="478129"></aegov-otp>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp length="6" value="478129"></aegov-otp>
+</div>
+
+---
+
+## Paste support
+
+Paste the entire code into any cell — the component distributes characters from cell 0 onwards, ignores spaces, and rejects invalid characters according to the alphanumeric rule. It then focuses the first empty cell, or the last cell if the code is complete. This works equally well with autofill from SMS on iOS / Android (`autocomplete="one-time-code"`).
+
+Try copying `123456` and pasting into the field below.
+
+```html
+<aegov-otp length="6"></aegov-otp>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp length="6"></aegov-otp>
+</div>
+
+---
+
+## Form integration
+
+Provide a `name` to participate in standard form submission. The component uses `ElementInternals` to submit the assembled value as a single field without adding a visible hidden input — `name` is the only requirement.
+
+```html
+<form>
+  <aegov-otp length="6" name="mfa_code"></aegov-otp>
+</form>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp length="6" name="mfa_code"></aegov-otp>
+</div>
+
+---
+
+## UAE Pass MFA verification example
+
+A typical UAE Government scenario: confirming a UAE Pass two-factor authentication code sent by SMS to the citizen's registered mobile number. The example wires the complete and invalid events to update an inline status message.
+
+```html
+<aegov-label field-id="mfa">
+  Enter the 6-digit code sent to your UAE Pass mobile number
+</aegov-label>
+<aegov-otp id="mfa-otp" field-id="mfa" length="6" pattern="^[0-9]{6}$" name="mfa_code"></aegov-otp>
+<p id="mfa-status" class="mt-3 text-sm text-aeblack-600">Waiting for code…</p>
+
+<script>
+  const otp = document.querySelector('#mfa-otp');
+  const status = document.querySelector('#mfa-status');
+  otp.addEventListener('aegovOtpComplete', (e) => {
+    status.textContent = 'Verifying ' + e.detail.value + '…';
+    status.className = 'mt-3 text-sm text-techblue-600';
   });
-
-  // Auto-submit the moment the last cell is filled
-  otp.addEventListener('aegovOtpComplete', () => submit());
-
-  verify.addEventListener('aegovButtonClick', () => submit());
-
-  async function submit() {
-    verify.isLoading = true;
-    try {
-      await api.verifyCode(otp.value);
-      location.assign('/application/next');
-    } catch {
-      await otp.setCustomValidity('That code is incorrect or has expired');
-      await otp.clear();                 // clears the cells and refocuses the first
-    } finally {
-      verify.isLoading = false;
+  otp.addEventListener('aegovValidate', (e) => {
+    if (e.detail.validity.patternMismatch) {
+      status.textContent = 'That code is not valid. Please try again.';
+      status.className = 'mt-3 text-sm text-aered-600';
     }
-  }
+  });
 </script>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-sm mx-auto text-center space-y-5">
-    <p class="font-semibold text-lg">Verify your mobile number</p>
-    <p class="text-sm text-aeblack-500">We sent a 6-digit code to +971 50 ••• 4567</p>
-    <div class="flex justify-center"><aegov-otp field-id="otp-cx" name="code" length="6" size="lg"></aegov-otp></div>
-    <aegov-button variant="primary" size="lg" is-full>Verify</aegov-button>
-    <aegov-button appearance="link">Resend code</aegov-button>
-  </div>
+  <aegov-label field-id="mfa-uae">
+    Enter the 6-digit code sent to your UAE Pass mobile number
+  </aegov-label>
+  <aegov-otp field-id="mfa-uae" length="6" pattern="^[0-9]{6}$"></aegov-otp>
 </div>
-
-`clear()` is the important call here. Without it, a user whose code was rejected has to press backspace six times before they can try again.
-
----
-
-## Listening for events
-
-| Event | Fires |
-| --- | --- |
-| `aegovOtpChange` | On every change to the assembled value. |
-| `aegovOtpComplete` | Once, when every cell is filled. |
-
-```js
-otp.addEventListener('aegovOtpChange', (e) => {
-  console.log(e.detail.value);          // partial or full code
-});
-
-otp.addEventListener('aegovOtpComplete', (e) => {
-  verifyCode(e.detail.value);           // all cells filled
-});
-```
-
-`aegovOtpComplete` is what makes auto-submit possible, which is the behaviour users now expect from a verification screen. Pair it with a visible submit button — auto-submit alone is a trap if the request fails or the user pastes the wrong code.
 
 ---
 
 ## RTL Support
 
-The cells lay out right to left in a `dir="rtl"` container, and auto-advance follows the visual order. Each cell's accessible label is translated automatically, so a screen reader announces the position in Arabic rather than English.
-
-One thing the component does **not** do is reverse the code itself: the value is assembled in DOM order, so the first cell the user types into is the first character of the code regardless of direction. That is correct — a verification code is a sequence of characters, not text with a reading direction.
+The component is direction-agnostic. When the document or any ancestor is set to `dir="rtl"` the cell row mirrors automatically. The first cell sits on the right, focus advances to the left as the user types, and paste continues to fill from the first cell (the rightmost cell in RTL).
 
 ```html
 <div dir="rtl">
-  <aegov-form-field>
-    <aegov-label>رمز التحقق</aegov-label>
-    <aegov-otp name="code" length="6" size="lg" hint="أدخل الرمز المكوّن من ٦ أرقام المُرسل إلى هاتفك"></aegov-otp>
-  </aegov-form-field>
+  <aegov-label field-id="mfa-ar">أدخل الرمز المكوّن من 6 أرقام المرسل إلى رقم هاتفك</aegov-label>
+  <aegov-otp field-id="mfa-ar" length="6"></aegov-otp>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-6">
-    <aegov-form-field>
-      <aegov-label>رمز التحقق</aegov-label>
-      <aegov-otp field-id="otp-rtl-1" name="code" length="6" size="lg" hint="أدخل الرمز المكوّن من ٦ أرقام المُرسل إلى هاتفك"></aegov-otp>
-    </aegov-form-field>
-    <aegov-otp field-id="otp-rtl-2" length="6" appearance="individual" is-invalid error-message="الرمز غير صحيح أو منتهي الصلاحية" value="123456"></aegov-otp>
-  </div>
+  <aegov-label field-id="mfa-ar">أدخل الرمز المكوّن من 6 أرقام المرسل إلى رقم هاتفك</aegov-label>
+  <aegov-otp field-id="mfa-ar" length="6"></aegov-otp>
 </div>
 
-Write hint text in Arabic-Indic numerals where the rest of your Arabic copy uses them — but note the cells accept Western digits, because that is what the numeric keypad produces and what SMS codes contain.
+The same field with the individual appearance in RTL:
+
+```html
+<div dir="rtl">
+  <aegov-otp appearance="individual" length="4" size="lg"></aegov-otp>
+</div>
+```
+
+<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp appearance="individual" length="4" size="lg"></aegov-otp>
+</div>
 
 ---
 
 ## API Reference
 
-### Properties
+### aegov-otp Properties
 
-| Property | Attribute | Description | Type | Default |
-| --- | --- | --- | --- | --- |
-| `fieldId` | `field-id` | ID applied to the first cell, so a label click focuses it. Auto-generated when omitted, reflected. | `string` | _generated_ |
-| `length` | `length` | Number of cells. | `number` | `5` |
-| `appearance` | `appearance` | Cell grouping. Named `appearance` because `style` is reserved. | `'continuous' \| 'individual'` | `'continuous'` |
-| `size` | `size` | Size token or responsive string. **Six tokens** — includes `2xl`. | `string` — `xs \| sm \| base \| lg \| xl \| 2xl` | `'base'` |
-| `variant` | `variant` | Colour family. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
-| `value` | `value` | The assembled code. Mutable. | `string` | `''` |
-| `name` | `name` | Form field name. The whole code submits under this one name. | `string` | — |
-| `isAlphanumeric` | `is-alphanumeric` | Allow letters as well as digits. | `boolean` | `false` |
-| `pattern` | `pattern` | Regular expression applied to the assembled value. Feeds `patternMismatch`. | `string` | — |
-| `isDisabled` | `is-disabled` | Disables every cell. Mutable. | `boolean` | `false` |
-| `isRequired` | `is-required` | Marks the field required. | `boolean` | `false` |
-| `isInvalid` | `is-invalid` | Invalid state. Mutable and reflected. | `boolean` | `false` |
-| `errorMessage` | `error-message` | Error text shown while invalid. | `string` | `''` |
-| `hint` | `hint` | Helper text shown when no error is showing. | `string` | `''` |
-| `extraClass` | `extra-class` | Extra classes on the inner elements. | `string` | — |
-
-### Slots
-
-| Slot | Description |
-| --- | --- |
-| `hint` | Rich hint markup. Takes precedence over the `hint` property. |
-| `error` | Rich error markup. Rendered only while `is-invalid`. |
-
-### Events
-
-| Event | Detail | Description |
-| --- | --- | --- |
-| `aegovOtpChange` | `{ value: string }` | The assembled value changed. |
-| `aegovOtpComplete` | `{ value: string }` | Every cell is now filled. |
-| `aegovValidate` | `AegovValidationDetail<string>` | Unified validation event — see [Validation Surface](validation-overview.html). |
-
-There is no `aegovOtpInvalid` event. Pattern failures arrive through `aegovValidate` as `validity.patternMismatch`.
+| Property         | Attribute         | Description                                                                                  | Type                          | Default       |
+| ---------------- | ----------------- | -------------------------------------------------------------------------------------------- | ----------------------------- | ------------- |
+| `fieldId`        | `field-id`        | DOM `id` for the first input cell. Used by `aegov-label` for linking. Auto-generated if omitted.| `string`                      | _generated_   |
+| `appearance`        | `appearance`         | Visual layout. `continuous` is one bordered group; `individual` is separated cells.           | `'continuous' \| 'individual'`| `'continuous'`|
+| `length`         | `length`          | Number of input cells.                                                                        | `number`                      | `5`           |
+| `size`           | `size`            | Cell size token (`xs`, `sm`, `base`, `lg`, `xl`, `2xl`) or a responsive string.                | `string`                      | `'base'`      |
+| `variant`        | `variant`         | Colour family for idle/focused cell border and filled cell accent. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
+| `isAlphanumeric` | `is-alphanumeric` | Allow letters and numbers when `true`. Numbers only when `false`.                              | `boolean`                     | `false`       |
+| `pattern`        | `pattern`         | Regex string checked when all cells are filled. Failure emits `aegovValidate` with `validity.patternMismatch === true`.    | `string`                      | `undefined`   |
+| `isDisabled`     | `is-disabled`     | Disables all cells.                                                                            | `boolean`                     | `false`       |
+| `isRequired`     | `is-required`     | Marks the field as required. `validity.valueMissing` is true when empty.                       | `boolean`                     | `false`       |
+| `isInvalid`      | `is-invalid`      | Puts all cells in an error state and shows the error message.                                  | `boolean`                     | `false`       |
+| `errorMessage`   | `error-message`   | Inline error text rendered below the cells when `isInvalid` is `true`.                         | `string`                      | `''`          |
+| `hint`           | `hint`            | Hint text rendered below the cells (hidden when `isInvalid` is `true`).                        | `string`                      | `''`          |
+| `name`           | `name`            | Form field name used when the component submits via `ElementInternals`.                        | `string`                      | `undefined`   |
+| `value`          | `value`           | Current value. Setting this redistributes characters across cells.                             | `string`                      | `''`          |
+| `extraClass`     | `extra-class`     | Additional CSS classes appended to the wrapper.                                                | `string`                      | `undefined`   |
 
 ### Methods
 
-| Method | Returns | Description |
-| --- | --- | --- |
-| `clear()` | `Promise<void>` | Clears every cell, emits `aegovOtpChange` with an empty value, and focuses the first cell. |
-| `validate(trigger?)` | `Promise<AegovValidationResult>` | Re-runs validation and emits `aegovValidate`. |
-| `setCustomValidity(message)` | `Promise<void>` | Sets `error-message` and `is-invalid`, and writes the validity through `ElementInternals`. Empty string clears. |
+| Method                          | Returns                       | Description                                              |
+| ------------------------------- | ----------------------------- | -------------------------------------------------------- |
+| `clear()`                       | `Promise<void>`               | Clears every cell, emits `aegovOtpChange`, and focuses the first cell. |
+| `validate(trigger?)`            | `Promise<AegovValidationResult>` | Re-runs validation and emits `aegovValidate`. |
+| `setCustomValidity(message)`    | `Promise<void>`               | Sets a custom error message. Pass `''` to clear. |
+
+```html
+<aegov-otp id="mfa" length="6"></aegov-otp>
+<button onclick="document.querySelector('#mfa').clear()">Reset code</button>
+```
+
+### Slots
+
+| Slot    | Description                                                                                         |
+| ------- | --------------------------------------------------------------------------------------------------- |
+| `error` | Shown when `isInvalid` is true. Use for rich HTML error markup instead of the `errorMessage` prop.  |
+| `hint`  | Shown when not in error state. Use for rich HTML hint markup instead of the `hint` prop.            |
+
+### Events
+
+| Event                | Detail                                  | Description                                                                                  |
+| -------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `aegovOtpChange`     | `{ value: string }`                     | Fires after every character change with the current assembled value.                         |
+| `aegovOtpComplete`   | `{ value: string }`                     | Fires when all cells are filled and the optional `pattern` validates.                        |
+| `aegovValidate`      | `AegovValidationDetail<string>`         | Unified validation event. `validity.patternMismatch` is `true` when `pattern` fails. See the Validation section below. |
+
+#### Listening for completion and pattern failure
+
+```html
+<aegov-otp id="mfa" length="6" pattern="^[0-9]{6}$"></aegov-otp>
+
+<script>
+  const otp = document.querySelector('#mfa');
+  otp.addEventListener('aegovOtpComplete', (e) => {
+    console.log('Submitting code:', e.detail.value);
+  });
+  otp.addEventListener('aegovValidate', (e) => {
+    if (e.detail.validity.patternMismatch) {
+      console.warn('Code did not match pattern:', e.detail.value);
+    }
+  });
+</script>
+```
 
 ### Pass-through Attributes
 
-| Attribute group | Forwarded? | Notes |
-| --- | --- | --- |
-| `aria-*` | Yes | Forwarded — except the attributes the component owns. |
-| `data-*` | Yes | Forwarded. |
-| `aria-invalid`, `aria-describedby`, `aria-required`, `aria-label` on cells | Managed | Owned by the component. Each cell gets its own position label; `aria-describedby` is attached to the first cell and composes your value with the hint and error IDs. |
-| `id` | n/a | Use `field-id`. |
-| `class`, `style` | Allowed | Applied to the host. Use `extra-class` for inner elements. |
+The component forwards `aria-*` and `data-*` attributes onto the inner cell-group wrapper. Apply them on `<aegov-otp>` to extend the group's ARIA semantics or to add test selectors.
 
-### CSS classes
+| Attribute group | Forwarded? | Where applied                                          |
+| --------------- | ---------- | ------------------------------------------------------ |
+| `aria-*`        | Yes        | The inner `role="group"` wrapper around the cells.     |
+| `data-*`        | Yes        | The inner `role="group"` wrapper around the cells.     |
+| `class`, `style`| Allowed    | The host element (use `extra-class` for cell wrapper).  |
 
-| Class | Element |
-| --- | --- |
-| `.aegov-otp` | The component wrapper. |
-| `.otp__wrapper--continuous`, `.otp__wrapper--individual` | Appearance modifier. |
-| `.otp__cell--{size}` | Size modifier on each cell. |
-| `.otp__divider` | The separator in `individual` appearance. Marked `aria-hidden`. |
-| `.is-invalid` | Added to the **host** while `is-invalid`. |
+To set the field's accessible label, pair the OTP with `<aegov-label field-id="...">` rather than relying on `aria-label` on the host.
 
 ---
 
 ## Validation
 
-### Surface
+`aegov-otp` exposes the unified [Validation Surface](validation-overview.html). OTP-specific notes:
 
-`aegov-otp` implements the shared contract, reporting a `string` value. It is a **form-associated custom element** using `ElementInternals.setFormValue()`, so the assembled code submits under a single `name` and `form.checkValidity()` accounts for it. This is why Safari 16.4 is the support floor. Full reference: [Validation Surface](validation-overview.html).
+### FormAssociated
 
-Relevant validity flags:
+The component participates in `<form>` via `ElementInternals` (no inner hidden input). `name` prop is required for form submission.
 
-| Flag | Set when |
+> **Removed event:** `aegovOtpInvalid` was removed in `0.2.0` in favor of the unified `aegovValidate` event with `validity.patternMismatch === true`.
+
+### Validity flags surfaced
+
+| Validity flag | When |
 | --- | --- |
-| `valueMissing` | `is-required` and the code is empty. |
-| `patternMismatch` | The assembled value fails `pattern`. |
-| `customError` | You called `setCustomValidity()` with a message. |
+| `valueMissing` | `is-required` and no characters entered |
+| `tooShort` | partially filled but `value.length < length` |
+| `patternMismatch` | filled value fails the `pattern` regex |
+| `customError` | `setCustomValidity('msg')` invoked |
 
 ### Common recipes
 
-Reject an incomplete code on submit:
+**Required 6-digit OTP:**
+
+```html
+<aegov-otp name="code" length="6" is-required hint="Sent to your phone"></aegov-otp>
+```
+
+**Numeric pattern enforcement:**
+
+```html
+<aegov-otp name="pin" length="4" pattern="^\d{4}$"></aegov-otp>
+```
+
+**Server-rejected code:**
 
 ```js
-otp.addEventListener('aegovValidate', (e) => {
-  if (e.detail.trigger === 'input') return;
-  const complete = e.detail.value.length === 6;
-  otp.isInvalid = !complete;
-  otp.errorMessage = complete ? '' : 'Enter all 6 digits';
+otp.addEventListener('aegovOtpComplete', async (e) => {
+  const res = await api.verifyOtp(e.detail.value);
+  if (!res.ok) {
+    await otp.setCustomValidity('Code expired or incorrect');
+  } else {
+    await otp.setCustomValidity('');
+  }
 });
 ```
 
-A server rejection — the common case, since the component cannot know whether a code is correct:
-
-```js
-try {
-  await api.verifyCode(otp.value);
-} catch (err) {
-  await otp.setCustomValidity(
-    err.expired ? 'That code has expired. Request a new one.' : 'That code is incorrect.'
-  );
-  await otp.clear();
-}
-```
-
-More patterns in [Bring Your Own Validator](validation-byo.html).
-
-### Use with `@aegov/designsystem-validation`
-
-The **optional** companion package drives this surface from a schema.
-
-```ts
-import { createForm } from '@aegov/designsystem-validation';
-import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot';
-import * as v from 'valibot';
-
-createForm(form, v.object({
-  code: v.pipe(v.string(), v.regex(/^\d{6}$/, 'Enter the 6-digit code')),
-}), valibotAdapter());
-```
+See [BYO Validator](validation-byo.html) for more patterns.
 
 ---
 
@@ -410,44 +439,30 @@ createForm(form, v.object({
 
 ### Built-in behaviour
 
-- Each cell is a real `<input>`, so typing, selection and the mobile numeric keypad come from the platform.
-- The cells are wrapped in a `role="group"` labelled by the field's label, so assistive technology announces them as one field rather than six unrelated inputs.
-- Each cell carries its own positional `aria-label`, translated in RTL contexts, so a screen reader user knows which character they are on.
-- `aria-required` and `aria-describedby` are attached to the **first** cell only — repeating them on every cell would make the hint be read six times.
-- `aria-describedby` is composed, preserving your own value alongside the hint and error region IDs.
-- `field-id` lands on the first visible cell, so clicking the label focuses where typing should start.
-- The divider in `individual` appearance is marked `aria-hidden="true"`.
-- The error region takes `role="alert"` only after first blur.
-- Paste strips all whitespace and fills from the first cell, so a code copied out of an SMS with spaces still works.
-- The focus ring is a high-contrast camel outline held constant across variants, meeting the 3:1 requirement of WCAG 2.2 SC 1.4.11.
+- Each cell is a real `<input type="text">` with `inputmode="numeric"` (or `text` when alphanumeric), so mobile devices show the correct keyboard.
+- The first cell carries `autocomplete="one-time-code"` to enable iOS / Android SMS autofill.
+- The cells are wrapped in a `role="group"` element so screen readers treat them as a single field. Each cell has an `aria-label` of the form "Character N of L" (Arabic: "حرف N من L") so users know their position regardless of reading direction.
+- The first cell carries `aria-invalid="true"` (mirrored to all cells when `is-invalid` is set), `aria-required="true"` (when `is-required` is set), and `aria-describedby` pointing to the error and hint regions — so error and hint text are announced by assistive technology when the first cell is focused.
+- Validation (`aria-live` error region) only activates after focus has left the entire OTP group, preventing premature announcements while the user is typing between cells.
+- Focus auto-advances to the next cell after a valid character and returns to the previous cell on backspace when the current cell is empty.
+- Paste fills from the first cell, ignores whitespace, and rejects characters that fail the alphanumeric rule.
+- Form participation is handled via `ElementInternals` — the assembled value is submitted as a single form field without a visible hidden input.
 
 ### Developer responsibilities
 
-- **Always label the field**, via [`aegov-label`](aegov-label.html) inside [`aegov-form-field`](aegov-form-field.html). The group's accessible name comes from it.
-- **Say where the code came from**, in the hint: "Enter the 6-digit code sent to +971 50 ••• 4567". A bare "Verification code" leaves the user hunting.
-- **Match `length` to the real code length.** A six-cell field for a five-digit code cannot be completed.
-- **Keep `is-alphanumeric` off for numeric codes**, so mobile users get the numeric keypad.
-- **Add `autocomplete="one-time-code"`** as a pass-through attribute where the platform supports it — iOS and Android will then offer the code from the SMS directly.
-- **Call `clear()` after a rejected code**, so retrying does not require six backspaces.
-- **Provide a resend path** with a visible countdown. A verification screen with no way forward when the SMS never arrives is a dead end.
-- **Do not auto-submit as the only route.** Keep a visible submit button for anyone who pastes a wrong code or whose request fails.
-- **Never signal an error with colour alone** (WCAG 2.2 SC 1.4.1) — populate `error-message` or the `error` slot.
+- Pair the OTP with an `<aegov-label>` linked through `field-id` — the per-cell `aria-label` describes position, not purpose.
+- Use the optional `pattern` only as a fast failure signal; always verify the code on the server.
+- Set `is-invalid` and `error-message` (or use the `error` slot) to surface inline errors — the component's built-in `aria-live` region announces them automatically after the user leaves the OTP group.
+- Provide a way to resend the code (a button or link) and a way to reset the field — call `.clear()` on the host element.
 
 ### Keyboard support
 
-| Key | Action |
-| --- | --- |
-| `Tab` | Move focus into or out of the group. |
-| Printable character | Fill the focused cell and advance to the next. |
-| `Backspace` | Clear the focused cell, or step back to the previous cell when already empty. |
-| `ArrowLeft`, `ArrowRight` | Move between cells. Follows visual order, so it reverses under `dir="rtl"`. |
-| `Ctrl`/`Cmd` + `V` | Paste a full code — whitespace is stripped and the cells fill from the first. |
-
----
-
-## Where to next
-
-- [Input](aegov-input.html) — for ordinary single-line text.
-- [Button](aegov-button.html) — the verify and resend actions, including the loading state.
-- [Callout](aegov-callout.html) — for explaining a blocked verification at page level.
-- [Validation Surface](validation-overview.html) and [Bring Your Own Validator](validation-byo.html).
+| Key                | Action                                                                  |
+| ------------------ | ----------------------------------------------------------------------- |
+| `0`–`9`, `A`–`Z`   | Enter a character. Auto-advances focus to the next cell.                |
+| `Backspace`        | Clear the current cell, or step back to the previous cell when empty.    |
+| `Arrow Left`       | Move focus to the previous cell.                                        |
+| `Arrow Right`      | Move focus to the next cell.                                            |
+| `Cmd/Ctrl + V`     | Paste the code; characters are distributed across cells from the start.  |
+| `Tab`              | Move focus out of the OTP to the next focusable element.                 |
+| `Shift + Tab`      | Move focus out of the OTP to the previous focusable element.             |

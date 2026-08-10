@@ -21,263 +21,358 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Modal</h1>
-<p class="text-lg text-aeblack-500 mb-8">A Modal interrupts the user to ask for a decision or show content that requires their full attention. It traps focus, blocks the page behind it, and must be dismissed before anything else can happen — which is precisely why it should be used sparingly. Every modal is an interruption you are choosing to impose.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Modal is a dialog window that overlays the page to focus attention on a single, important task — confirming a destructive action, completing a short form, or surfacing a critical message. While the modal is open, the rest of the page is inert: scroll is locked, focus is trapped inside, and the user must complete or dismiss the task before continuing.</p>
 
 <h2>Introduction</h2>
-<p><code>aegov-modal</code> uses shadow DOM and moves itself to the end of <code>document.body</code> when it initialises, so it always renders above the page regardless of where you declared it. It is closed by default and opened imperatively or by setting <code>is-open</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;open&quot;</span>&gt;</span>Review submission<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<p>The <code>aegov-modal</code> component renders a centred (or top/bottom) dialog over a backdrop. It uses Shadow DOM for full style isolation and is moved to <code>document.body</code> automatically so it always stacks above the rest of the page. Open and close it declaratively with <code>is-open</code>, or imperatively via the <code>show()</code>, <code>close()</code>, and <code>toggle()</code> methods. Body scroll is locked, ESC closes the dialog, and focus is returned to the element that opened it.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;open-confirm&quot;</span>&gt;</span>Delete application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;confirm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Confirm submission&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Submit your application?<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>You will not be able to change your answers after submitting.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Submit application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Keep editing<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">const</span> modal = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#confirm&#x27;</span>);
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#open&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovButtonClick&#x27;</span>, <span class="hljs-function">() =&gt;</span> modal.<span class="hljs-title function_">show</span>());
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-button id="md-demo-open">Review submission</aegov-button>
-  <aegov-modal id="md-demo" label="Confirm submission">
-    <h2 class="text-h5 font-bold mb-2">Submit your application?</h2>
-    <p class="mb-5">You will not be able to change your answers after submitting.</p>
-    <div class="flex flex-wrap gap-3">
-      <aegov-button variant="primary" onclick="document.querySelector('#md-demo').close()">Submit application</aegov-button>
-      <aegov-button appearance="outline" onclick="document.querySelector('#md-demo').close()">Keep editing</aegov-button>
-    </div>
-  </aegov-modal>
-  <script>document.querySelector('#md-demo-open').addEventListener('aegovButtonClick', () => document.querySelector('#md-demo').show());</script>
-</div>
-
-<p>Set <code>label</code> — it becomes the dialog&#39;s accessible name, and a modal without one is announced as an unnamed dialog.</p>
-<hr>
-<h2>When not to use a modal</h2>
-<p>Modals are the most disruptive component in the library. Prefer an alternative when:</p>
-<table>
-<thead>
-<tr>
-<th>Situation</th>
-<th>Use instead</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Showing supplementary detail</td>
-<td><a href="aegov-popover.html">Popover</a> or <a href="aegov-drawer.html">Drawer</a></td>
-</tr>
-<tr>
-<td>Confirming something reversible</td>
-<td>Act immediately and offer Undo in a <a href="aegov-toast.html">Toast</a></td>
-</tr>
-<tr>
-<td>Reporting an error</td>
-<td><a href="aegov-callout.html">Callout</a> in the page</td>
-</tr>
-<tr>
-<td>A form of more than a few fields</td>
-<td>Its own page</td>
-</tr>
-<tr>
-<td>Site-wide notice</td>
-<td><a href="aegov-banner.html">Banner</a></td>
-</tr>
-</tbody></table>
-<p>A modal is right when the user genuinely cannot proceed without answering — a destructive confirmation, a required legal acceptance, a step that must complete atomically.</p>
-<hr>
-<h2>Opening and closing</h2>
-<h3>Imperatively</h3>
-<p>Three async methods:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">await</span> modal.<span class="hljs-title function_">show</span>();
-<span class="hljs-keyword">await</span> modal.<span class="hljs-title function_">close</span>();
-<span class="hljs-keyword">await</span> modal.<span class="hljs-title function_">toggle</span>();</code></pre><h3>Declaratively</h3>
-<p><code>isOpen</code> is reflected, so you can drive it from state or markup.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">is-open</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Session expiring&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><pre><code class="hljs language-js">modal.<span class="hljs-property">isOpen</span> = <span class="hljs-literal">true</span>;</code></pre><p>Both routes run the same animation and emit the same events. <code>isOpen</code> is also updated when the user closes the modal, so it stays an accurate reflection of state.</p>
-<hr>
-<h2>Size</h2>
-<p>Four tokens controlling maximum width.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra large&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap gap-3">
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-sm').show()">sm</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-base').show()">base</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-lg').show()">lg</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-xl').show()">xl</aegov-button>
-  </div>
-  <aegov-modal id="md-sm" size="sm" label="Small modal"><h2 class="text-h6 font-bold mb-2">Small</h2><p class="mb-4">For a short confirmation.</p><aegov-button size="sm" onclick="document.querySelector('#md-sm').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-base" size="base" label="Base modal"><h2 class="text-h6 font-bold mb-2">Base</h2><p class="mb-4">The default width.</p><aegov-button size="sm" onclick="document.querySelector('#md-base').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-lg" size="lg" label="Large modal"><h2 class="text-h6 font-bold mb-2">Large</h2><p class="mb-4">For content with more structure.</p><aegov-button size="sm" onclick="document.querySelector('#md-lg').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-xl" size="xl" label="Extra large modal"><h2 class="text-h6 font-bold mb-2">Extra large</h2><p class="mb-4">Approaching the point where a page would be better.</p><aegov-button size="sm" onclick="document.querySelector('#md-xl').close()">Close</aegov-button></aegov-modal>
-</div>
-
-<p>If you reach for <code>xl</code> because the content does not fit, the content probably wants a page or a <a href="aegov-drawer.html">Drawer</a>.</p>
-<hr>
-<h2>Position</h2>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;center&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Centred&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Top&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Bottom&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap gap-3">
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-pc').show()">center</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-pt').show()">top</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-pb').show()">bottom</aegov-button>
-  </div>
-  <aegov-modal id="md-pc" position="center" label="Centred modal"><p class="mb-4">Centred — the default.</p><aegov-button size="sm" onclick="document.querySelector('#md-pc').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-pt" position="top" label="Top modal"><p class="mb-4">Anchored near the top.</p><aegov-button size="sm" onclick="document.querySelector('#md-pt').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-pb" position="bottom" label="Bottom modal"><p class="mb-4">Anchored near the bottom — reads as a sheet on mobile.</p><aegov-button size="sm" onclick="document.querySelector('#md-pb').close()">Close</aegov-button></aegov-modal>
-</div>
-
-<p><code>top</code> suits a tall modal that would otherwise be vertically cramped; <code>bottom</code> reads as a sheet on touch devices.</p>
-<hr>
-<h2>Overlay</h2>
-<p><code>overlayOpacity</code> sets how strongly the page behind is dimmed.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">overlay-opacity</span>=<span class="hljs-string">&quot;light&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Light&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">overlay-opacity</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">overlay-opacity</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Dark&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap gap-3">
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-ol').show()">light</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-ob').show()">base</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-od').show()">dark</aegov-button>
-  </div>
-  <aegov-modal id="md-ol" overlay-opacity="light" label="Light overlay"><p class="mb-4">Light overlay.</p><aegov-button size="sm" onclick="document.querySelector('#md-ol').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-ob" overlay-opacity="base" label="Base overlay"><p class="mb-4">Base overlay.</p><aegov-button size="sm" onclick="document.querySelector('#md-ob').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-od" overlay-opacity="dark" label="Dark overlay"><p class="mb-4">Dark overlay — strongest separation.</p><aegov-button size="sm" onclick="document.querySelector('#md-od').close()">Close</aegov-button></aegov-modal>
-</div>
-
-<p>A darker overlay separates the modal more clearly, which helps comprehension. <code>light</code> is only appropriate when the user needs to refer to the content behind — and if they do, consider a <a href="aegov-drawer.html">Drawer</a> with <code>is-overlay=&quot;false&quot;</code> instead.</p>
-<hr>
-<h2>Dismiss behaviour</h2>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Effect</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>isCloseWithOverlay</code></td>
-<td>Clicking the overlay closes the modal. Default <code>true</code>.</td>
-</tr>
-<tr>
-<td><code>isPreventScroll</code></td>
-<td>Locks page scroll while open. Default <code>true</code>.</td>
-</tr>
-</tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- A destructive confirmation: force a deliberate choice --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Withdraw application&quot;</span>
-  <span class="hljs-attr">is-close-with-overlay</span>=<span class="hljs-string">&quot;false&quot;</span>
-&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap gap-3">
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-dis1').show()">Overlay closes (default)</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-dis2').show()">Overlay does not close</aegov-button>
-  </div>
-  <aegov-modal id="md-dis1" label="Closes on overlay click"><p class="mb-4">Click the dimmed area to close.</p><aegov-button size="sm" onclick="document.querySelector('#md-dis1').close()">Close</aegov-button></aegov-modal>
-  <aegov-modal id="md-dis2" label="Requires a choice" is-close-with-overlay="false"><p class="mb-4">Clicking outside will not close this. Use a button.</p><div class="flex gap-3"><aegov-button size="sm" variant="danger" onclick="document.querySelector('#md-dis2').close()">Withdraw</aegov-button><aegov-button size="sm" appearance="outline" onclick="document.querySelector('#md-dis2').close()">Cancel</aegov-button></div></aegov-modal>
-</div>
-
-<p>Note that <code>Escape</code> always closes the modal, even with <code>is-close-with-overlay=&quot;false&quot;</code> — that is deliberate, because a dialog with no keyboard escape is a trap. If you need to guard against accidental loss, use the before-close event rather than removing the escape route.</p>
-<hr>
-<h2>Preventing close</h2>
-<p><code>aegovModalBeforeClose</code> is a <strong>cancellable event</strong>. Call <code>preventDefault()</code> on the event to keep the modal open.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;editor&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Edit details&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">const</span> modal = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#editor&#x27;</span>);
-
-  modal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovModalBeforeClose&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-keyword">if</span> (<span class="hljs-title function_">hasUnsavedChanges</span>()) {
-      e.<span class="hljs-title function_">preventDefault</span>();                        <span class="hljs-comment">// cancel on the event itself</span>
-      <span class="hljs-title function_">showToast</span>(<span class="hljs-string">&#x27;Save or discard your changes first&#x27;</span>, <span class="hljs-string">&#x27;warning&#x27;</span>);
-    }
-  });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p><a href="aegov-drawer.html">Drawer</a> uses the same contract, so a handler works unchanged on either:</p>
-<pre><code class="hljs language-js">modal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovModalBeforeClose&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> e.<span class="hljs-title function_">preventDefault</span>());
-drawer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovDrawerBeforeClose&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> e.<span class="hljs-title function_">preventDefault</span>());</code></pre><p>Use this sparingly. A modal that refuses to close is a trap unless the user is given a clear, immediate way out.</p>
-<hr>
-<h2>Padding</h2>
-<p><code>isPadding</code> — on by default — applies the standard internal padding. Turn it off when the content manages its own, such as a full-bleed image or a table.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">is-padding</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Document preview&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/document.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Scanned tenancy contract&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;w-full&quot;</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><hr>
-<h2>Composite example — destructive confirmation</h2>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;withdraw-trigger&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;danger&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Withdraw application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;withdraw&quot;</span>
-  <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Withdraw application&quot;</span>
-  <span class="hljs-attr">is-close-with-overlay</span>=<span class="hljs-string">&quot;false&quot;</span>
-&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">h2</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-h6 font-bold mb-2&quot;</span>&gt;</span>Withdraw this application?<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mb-2&quot;</span>&gt;</span>Application <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>APP-2026-0041827<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span> will be withdrawn and cannot be reinstated.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mb-5 text-sm text-aeblack-500&quot;</span>&gt;</span>Any fees already paid are non-refundable.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex flex-wrap gap-3&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;confirm-withdraw&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;danger&quot;</span>&gt;</span>Yes, withdraw it<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;cancel-withdraw&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Keep my application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;confirm-modal&quot;</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">&quot;confirm-title&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;confirm-title&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-xl font-bold mb-2&quot;</span>&gt;</span>Delete this application?<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-aeblack-500 mb-6&quot;</span>&gt;</span>
+    This will permanently remove your draft application for the Emirates ID renewal service. This action cannot be undone.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex justify-end gap-3&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;cancel-confirm&quot;</span>&gt;</span>Cancel<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;danger&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;confirm-delete&quot;</span>&gt;</span>Delete<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">const</span> modal = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#withdraw&#x27;</span>);
-  <span class="hljs-keyword">const</span> confirm = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#confirm-withdraw&#x27;</span>);
-
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#withdraw-trigger&#x27;</span>)
-    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovButtonClick&#x27;</span>, <span class="hljs-function">() =&gt;</span> modal.<span class="hljs-title function_">show</span>());
-
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#cancel-withdraw&#x27;</span>)
-    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovButtonClick&#x27;</span>, <span class="hljs-function">() =&gt;</span> modal.<span class="hljs-title function_">close</span>());
-
-  confirm.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovButtonClick&#x27;</span>, <span class="hljs-title function_">async</span> () =&gt; {
-    confirm.<span class="hljs-property">isLoading</span> = <span class="hljs-literal">true</span>;
-    <span class="hljs-keyword">try</span> {
-      <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">withdraw</span>(<span class="hljs-string">&#x27;APP-2026-0041827&#x27;</span>);
-      <span class="hljs-keyword">await</span> modal.<span class="hljs-title function_">close</span>();
-      <span class="hljs-variable language_">window</span>.<span class="hljs-property">aegovToast</span>.<span class="hljs-title function_">show</span>({ <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;Application withdrawn.&#x27;</span>, <span class="hljs-attr">variant</span>: <span class="hljs-string">&#x27;success&#x27;</span> });
-    } <span class="hljs-keyword">catch</span> {
-      <span class="hljs-variable language_">window</span>.<span class="hljs-property">aegovToast</span>.<span class="hljs-title function_">show</span>({ <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;We could not withdraw the application.&#x27;</span>, <span class="hljs-attr">variant</span>: <span class="hljs-string">&#x27;error&#x27;</span> });
-    } <span class="hljs-keyword">finally</span> {
-      confirm.<span class="hljs-property">isLoading</span> = <span class="hljs-literal">false</span>;
-    }
-  });
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> modal = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#confirm-modal&#x27;</span>);
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#open-confirm&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> modal.<span class="hljs-title function_">show</span>());
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#cancel-confirm&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> modal.<span class="hljs-title function_">close</span>());
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#confirm-delete&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> modal.<span class="hljs-title function_">close</span>());
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-button id="md-cx-trigger" variant="danger" appearance="outline">Withdraw application</aegov-button>
-  <aegov-modal id="md-cx" size="sm" label="Withdraw application" is-close-with-overlay="false">
-    <h2 class="text-h6 font-bold mb-2">Withdraw this application?</h2>
-    <p class="mb-2">Application <strong>APP-2026-0041827</strong> will be withdrawn and cannot be reinstated.</p>
-    <p class="mb-5 text-sm text-aeblack-500">Any fees already paid are non-refundable.</p>
-    <div class="flex flex-wrap gap-3">
-      <aegov-button variant="danger" onclick="document.querySelector('#md-cx').close()">Yes, withdraw it</aegov-button>
-      <aegov-button appearance="outline" onclick="document.querySelector('#md-cx').close()">Keep my application</aegov-button>
+  <aegov-button id="demo-open-confirm">Delete application</aegov-button>
+
+  <aegov-modal id="demo-confirm-modal" aria-labelledby="demo-confirm-title">
+    <h3 id="demo-confirm-title" class="text-xl font-bold mb-2">Delete this application?</h3>
+    <p class="text-aeblack-500 mb-6">
+      This will permanently remove your draft application for the Emirates ID renewal service. This action cannot be undone.
+    </p>
+    <div class="flex justify-end gap-3">
+      <aegov-button variant="secondary" id="demo-cancel-confirm">Cancel</aegov-button>
+      <aegov-button variant="danger" id="demo-confirm-delete">Delete</aegov-button>
     </div>
   </aegov-modal>
-  <script>document.querySelector('#md-cx-trigger').addEventListener('aegovButtonClick', () => document.querySelector('#md-cx').show());</script>
+
+  <script>
+    (function() {
+      const modal = document.querySelector('#demo-confirm-modal');
+      document.querySelector('#demo-open-confirm').addEventListener('click', () => modal.show());
+      document.querySelector('#demo-cancel-confirm').addEventListener('click', () => modal.close());
+      document.querySelector('#demo-confirm-delete').addEventListener('click', () => modal.close());
+    })();
+  </script>
 </div>
 
-<p>Note the button labels. &quot;Yes, withdraw it&quot; and &quot;Keep my application&quot; describe outcomes; &quot;OK&quot; and &quot;Cancel&quot; force the user to re-read the question to work out which is which.</p>
 <hr>
-<h2>RTL Support</h2>
-<p>The modal is direction-aware. Content, headings and action rows align with the text direction, and the close affordance moves to the inline-start corner in a <code>dir=&quot;rtl&quot;</code> context.</p>
-<p>Because the modal moves itself to <code>document.body</code>, <strong>set <code>dir</code> on <code>&lt;html&gt;</code></strong> rather than on an inner wrapper — the modal will not inherit direction from the element you declared it inside.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;ar&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;تأكيد الإرسال&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>هل تريد إرسال طلبك؟<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>لن تتمكن من تغيير إجاباتك بعد الإرسال.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>إرسال الطلب<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>متابعة التعديل<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-button id="md-rtl-trigger">مراجعة الإرسال</aegov-button>
-  <aegov-modal id="md-rtl" label="تأكيد الإرسال">
-    <h2 class="text-h6 font-bold mb-2">هل تريد إرسال طلبك؟</h2>
-    <p class="mb-5">لن تتمكن من تغيير إجاباتك بعد الإرسال.</p>
-    <div class="flex flex-wrap gap-3">
-      <aegov-button variant="primary" onclick="document.querySelector('#md-rtl').close()">إرسال الطلب</aegov-button>
-      <aegov-button appearance="outline" onclick="document.querySelector('#md-rtl').close()">متابعة التعديل</aegov-button>
+<h2>Opening and Closing</h2>
+<p>A modal can be controlled in two ways. Choose whichever fits your application&#39;s state model.</p>
+<h3>Imperative — <code>show()</code> / <code>close()</code> / <code>toggle()</code></h3>
+<p>Call these methods on the element directly. The component manages the <code>is-open</code> flag for you and emits the matching events.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;trigger&quot;</span>&gt;</span>Open dialog<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dialog&quot;</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">&quot;dialog-title&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dialog-title&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-xl font-bold mb-4&quot;</span>&gt;</span>Service notice<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mb-6&quot;</span>&gt;</span>Online appointments will be unavailable on Friday between 02:00 and 04:00 for scheduled maintenance.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex justify-end&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;ack&quot;</span>&gt;</span>Acknowledged<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> dialog = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#dialog&#x27;</span>);
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#trigger&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> dialog.<span class="hljs-title function_">show</span>());
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#ack&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> dialog.<span class="hljs-title function_">close</span>());
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button id="demo-trigger-imperative">Open dialog</aegov-button>
+  <aegov-modal id="demo-dialog-imperative" aria-labelledby="demo-dialog-title-imperative">
+    <h3 id="demo-dialog-title-imperative" class="text-xl font-bold mb-4">Service notice</h3>
+    <p class="mb-6">Online appointments will be unavailable on Friday between 02:00 and 04:00 for scheduled maintenance.</p>
+    <div class="flex justify-end">
+      <aegov-button id="demo-ack-imperative">Acknowledged</aegov-button>
     </div>
   </aegov-modal>
-  <script>document.querySelector('#md-rtl-trigger').addEventListener('aegovButtonClick', () => document.querySelector('#md-rtl').show());</script>
+  <script>
+    (function() {
+      const dialog = document.querySelector('#demo-dialog-imperative');
+      document.querySelector('#demo-trigger-imperative').addEventListener('click', () => dialog.show());
+      document.querySelector('#demo-ack-imperative').addEventListener('click', () => dialog.close());
+    })();
+  </script>
+</div>
+
+<h3>Declarative — <code>is-open</code> attribute</h3>
+<p>Toggle the <code>is-open</code> attribute (or property) from your framework&#39;s reactive state. The watcher runs the same open/close sequence used by the methods.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Welcome&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-xl font-bold mb-2&quot;</span>&gt;</span>Welcome back<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Your last sign-in was 3 days ago from a UAE-based device.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><hr>
+<h2>Sizes</h2>
+<p>The <code>size</code> property scales padding and corner radius. <code>sm</code> suits short confirmations; <code>base</code> is the default; <code>lg</code> gives extra breathing room for forms or rich content; <code>xl</code> is extra-wide for complex layouts or data-heavy dialogs.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-3">
+    <aegov-button id="demo-size-sm">Open small</aegov-button>
+    <aegov-button id="demo-size-base">Open base</aegov-button>
+    <aegov-button id="demo-size-lg">Open large</aegov-button>
+    <aegov-button id="demo-size-xl">Open extra large</aegov-button>
+  </div>
+
+  <aegov-modal id="demo-modal-sm" size="sm" aria-label="Small modal">
+    <h3 class="text-lg font-bold mb-2">Compact dialog</h3>
+    <p class="mb-6">Small size is best for short yes/no confirmations.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-sm" size="sm">Close</aegov-button></div>
+  </aegov-modal>
+
+  <aegov-modal id="demo-modal-base" size="base" aria-label="Base modal">
+    <h3 class="text-xl font-bold mb-2">Standard dialog</h3>
+    <p class="mb-6">Base size is the default and works for most cases — short forms, notices, and confirmations.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-base">Close</aegov-button></div>
+  </aegov-modal>
+
+  <aegov-modal id="demo-modal-lg" size="lg" aria-label="Large modal">
+    <h3 class="text-2xl font-bold mb-2">Spacious dialog</h3>
+    <p class="mb-6">Large size offers generous padding for long-form content, multi-step flows, or service forms inside a dialog.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-lg">Close</aegov-button></div>
+  </aegov-modal>
+ 
+  <aegov-modal id="demo-modal-xl" size="xl" aria-label="Extra large modal">
+    <h3 class="text-2xl font-bold mb-2">Extra large dialog</h3>
+    <p class="mb-6">Extra large size is suited for complex layouts, data tables, or multi-column content that needs maximum width.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-xl">Close</aegov-button></div>
+  </aegov-modal>
+
+  <script>
+    (function() {
+      ['sm','base','lg','xl'].forEach(s => {
+        const m = document.querySelector('#demo-modal-' + s);
+        document.querySelector('#demo-size-' + s).addEventListener('click', () => m.show());
+        document.querySelector('#demo-close-' + s).addEventListener('click', () => m.close());
+      });
+    })();
+  </script>
+</div>
+
+<hr>
+<h2>Position</h2>
+<p>Use <code>position</code> to dock the modal to the top, bottom, or centre of the viewport. Top is useful for system notices that should not steal full attention; bottom suits mobile-style action sheets.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;center&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-3">
+    <aegov-button id="demo-pos-center">Centre</aegov-button>
+    <aegov-button id="demo-pos-top">Top</aegov-button>
+    <aegov-button id="demo-pos-bottom">Bottom</aegov-button>
+  </div>
+
+  <aegov-modal id="demo-modal-center" position="center" aria-label="Centre modal">
+    <h3 class="text-xl font-bold mb-2">Centre position</h3>
+    <p class="mb-6">The default — anchored to the centre of the viewport.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-center">Close</aegov-button></div>
+  </aegov-modal>
+
+  <aegov-modal id="demo-modal-top" position="top" aria-label="Top modal">
+    <h3 class="text-xl font-bold mb-2">Top position</h3>
+    <p class="mb-6">Useful for non-blocking notices that appear near the page header.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-top">Close</aegov-button></div>
+  </aegov-modal>
+
+  <aegov-modal id="demo-modal-bottom" position="bottom" aria-label="Bottom modal">
+    <h3 class="text-xl font-bold mb-2">Bottom position</h3>
+    <p class="mb-6">Mobile-friendly action sheet style — perfect for thumb-zone actions.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-bottom">Close</aegov-button></div>
+  </aegov-modal>
+
+  <script>
+    (function() {
+      ['center','top','bottom'].forEach(p => {
+        const m = document.querySelector('#demo-modal-' + p);
+        document.querySelector('#demo-pos-' + p).addEventListener('click', () => m.show());
+        document.querySelector('#demo-close-' + p).addEventListener('click', () => m.close());
+      });
+    })();
+  </script>
+</div>
+
+<hr>
+<h2>Overlay Opacity</h2>
+<p><code>overlay-opacity</code> controls how much of the page behind the modal is dimmed — <code>light</code> for a subtle wash, <code>base</code> (default) for a balanced contrast, and <code>dark</code> for high-attention dialogs such as destructive confirmations.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">overlay-opacity</span>=<span class="hljs-string">&quot;light&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">overlay-opacity</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">overlay-opacity</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-3">
+    <aegov-button id="demo-op-light">Light backdrop</aegov-button>
+    <aegov-button id="demo-op-base">Base backdrop</aegov-button>
+    <aegov-button id="demo-op-dark">Dark backdrop</aegov-button>
+  </div>
+
+  <aegov-modal id="demo-modal-light" overlay-opacity="light" aria-label="Light backdrop">
+    <h3 class="text-xl font-bold mb-2">Light backdrop</h3>
+    <p class="mb-6">A gentle dim, suitable for low-stakes notifications.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-light">Close</aegov-button></div>
+  </aegov-modal>
+
+  <aegov-modal id="demo-modal-base-op" overlay-opacity="base" aria-label="Base backdrop">
+    <h3 class="text-xl font-bold mb-2">Base backdrop</h3>
+    <p class="mb-6">The default — clear separation from the page without being heavy.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-base-op">Close</aegov-button></div>
+  </aegov-modal>
+
+  <aegov-modal id="demo-modal-dark" overlay-opacity="dark" aria-label="Dark backdrop">
+    <h3 class="text-xl font-bold mb-2">Dark backdrop</h3>
+    <p class="mb-6">High contrast — use for destructive confirmations or critical alerts.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-dark">Close</aegov-button></div>
+  </aegov-modal>
+
+  <script>
+    (function() {
+      [['light','light'],['base','base-op'],['dark','dark']].forEach(([key, id]) => {
+        const m = document.querySelector('#demo-modal-' + id);
+        document.querySelector('#demo-op-' + key).addEventListener('click', () => m.show());
+        document.querySelector('#demo-close-' + id).addEventListener('click', () => m.close());
+      });
+    })();
+  </script>
+</div>
+
+<hr>
+<h2>Dismiss Behaviour</h2>
+<p>By default, clicking the backdrop and pressing <code>Escape</code> both close the modal. Set <code>is-close-with-overlay=&quot;false&quot;</code> to require an explicit action — useful for forms where an accidental click outside should not lose data. The <code>Escape</code> key always closes the modal for accessibility and cannot be disabled.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">is-close-with-overlay</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">&quot;form-title&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;form-title&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-xl font-bold mb-4&quot;</span>&gt;</span>Update mobile number<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>New mobile number<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;mobile&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;tel&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;+971 50 000 0000&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex justify-end gap-3 mt-6&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;form-cancel&quot;</span>&gt;</span>Cancel<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;form-save&quot;</span>&gt;</span>Save<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button id="demo-form-open">Update mobile number</aegov-button>
+  <aegov-modal id="demo-form-modal" is-close-with-overlay="false" aria-labelledby="demo-form-title">
+    <h3 id="demo-form-title" class="text-xl font-bold mb-4">Update mobile number</h3>
+    <aegov-form-field>
+      <aegov-label>New mobile number</aegov-label>
+      <aegov-input field-id="demo-form-mobile" type="tel" placeholder="+971 50 000 0000"></aegov-input>
+    </aegov-form-field>
+    <div class="flex justify-end gap-3 mt-6">
+      <aegov-button variant="secondary" id="demo-form-cancel">Cancel</aegov-button>
+      <aegov-button id="demo-form-save">Save</aegov-button>
+    </div>
+  </aegov-modal>
+  <script>
+    (function() {
+      const m = document.querySelector('#demo-form-modal');
+      document.querySelector('#demo-form-open').addEventListener('click', () => m.show());
+      document.querySelector('#demo-form-cancel').addEventListener('click', () => m.close());
+      document.querySelector('#demo-form-save').addEventListener('click', () => m.close());
+    })();
+  </script>
+</div>
+
+<hr>
+<h2>Padding</h2>
+<p>The <code>is-padding</code> property controls whether the dialog applies inner padding. Turn padding off when the slot content provides its own (for example, a full-bleed image or a custom-styled card).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">is-padding</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/path/to/banner.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Service banner&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;w-full block&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-6&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-xl font-bold mb-2&quot;</span>&gt;</span>New service available<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>The Emirates ID renewal service now supports same-day delivery.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><hr>
+<h2>Composite Example — Service Confirmation</h2>
+<p>A realistic confirmation flow combining a labelled trigger button, a titled dialog with an <code>aria-labelledby</code> link, and dual actions.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;open-submit&quot;</span>&gt;</span>Submit application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;submit-modal&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">overlay-opacity</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">&quot;submit-title&quot;</span> <span class="hljs-attr">aria-describedby</span>=<span class="hljs-string">&quot;submit-desc&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;submit-title&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-2xl font-bold mb-3&quot;</span>&gt;</span>Submit your application?<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;submit-desc&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-aeblack-500 mb-6&quot;</span>&gt;</span>
+    Once submitted, your application for the family book renewal will be sent to the General Directorate of Residency and Foreigners Affairs for review.
+    You will receive a confirmation SMS with your reference number.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;bg-aeblack-50 rounded-lg p-4 mb-6&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dl</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;grid grid-cols-2 gap-2 text-sm&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">dt</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-semibold&quot;</span>&gt;</span>Service<span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span>Family book renewal<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">dt</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-semibold&quot;</span>&gt;</span>Applicant<span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span>Ahmed Al Mansoori<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">dt</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-semibold&quot;</span>&gt;</span>Fee<span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span>AED 150<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dl</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex justify-end gap-3&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;submit-cancel&quot;</span>&gt;</span>Review again<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;submit-confirm&quot;</span>&gt;</span>Confirm and submit<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button id="demo-open-submit">Submit application</aegov-button>
+
+  <aegov-modal id="demo-submit-modal" size="lg" overlay-opacity="dark" aria-labelledby="demo-submit-title" aria-describedby="demo-submit-desc">
+    <h3 id="demo-submit-title" class="text-2xl font-bold mb-3">Submit your application?</h3>
+    <p id="demo-submit-desc" class="text-aeblack-500 mb-6">
+      Once submitted, your application for the family book renewal will be sent to the General Directorate of Residency and Foreigners Affairs for review.
+      You will receive a confirmation SMS with your reference number.
+    </p>
+    <div class="bg-aeblack-50 rounded-lg p-4 mb-6">
+      <dl class="grid grid-cols-2 gap-2 text-sm">
+        <dt class="font-semibold">Service</dt><dd>Family book renewal</dd>
+        <dt class="font-semibold">Applicant</dt><dd>Ahmed Al Mansoori</dd>
+        <dt class="font-semibold">Fee</dt><dd>AED 150</dd>
+      </dl>
+    </div>
+    <div class="flex justify-end gap-3">
+      <aegov-button variant="secondary" id="demo-submit-cancel">Review again</aegov-button>
+      <aegov-button id="demo-submit-confirm">Confirm and submit</aegov-button>
+    </div>
+  </aegov-modal>
+
+  <script>
+    (function() {
+      const m = document.querySelector('#demo-submit-modal');
+      document.querySelector('#demo-open-submit').addEventListener('click', () => m.show());
+      document.querySelector('#demo-submit-cancel').addEventListener('click', () => m.close());
+      document.querySelector('#demo-submit-confirm').addEventListener('click', () => m.close());
+    })();
+  </script>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p>The modal is direction-agnostic. Set <code>dir=&quot;rtl&quot;</code> on the document or on a parent element and the layout, content alignment, and dismiss button positioning mirror automatically. Because the dialog uses Shadow DOM, the <code>dir</code> attribute is inherited from the host element — so applying it to <code>&lt;aegov-modal&gt;</code> (or its ancestor) is enough.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;open-rtl&quot;</span>&gt;</span>حذف الطلب<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;rtl-modal&quot;</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">&quot;rtl-title&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;rtl-title&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-xl font-bold mb-2&quot;</span>&gt;</span>حذف هذا الطلب؟<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-aeblack-500 mb-6&quot;</span>&gt;</span>
+      سيتم حذف مسوّدة طلبك لخدمة تجديد الهوية الإماراتية بشكل دائم. لا يمكن التراجع عن هذا الإجراء.
+    <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex justify-end gap-3&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;rtl-cancel&quot;</span>&gt;</span>إلغاء<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;danger&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;rtl-confirm&quot;</span>&gt;</span>حذف<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button id="demo-rtl-open">حذف الطلب</aegov-button>
+  <aegov-modal id="demo-rtl-modal" aria-labelledby="demo-rtl-title">
+    <h3 id="demo-rtl-title" class="text-xl font-bold mb-2">حذف هذا الطلب؟</h3>
+    <p class="text-aeblack-500 mb-6">
+      سيتم حذف مسوّدة طلبك لخدمة تجديد الهوية الإماراتية بشكل دائم. لا يمكن التراجع عن هذا الإجراء.
+    </p>
+    <div class="flex justify-end gap-3">
+      <aegov-button variant="secondary" id="demo-rtl-cancel">إلغاء</aegov-button>
+      <aegov-button variant="danger" id="demo-rtl-confirm">حذف</aegov-button>
+    </div>
+  </aegov-modal>
+  <script>
+    (function() {
+      const m = document.querySelector('#demo-rtl-modal');
+      document.querySelector('#demo-rtl-open').addEventListener('click', () => m.show());
+      document.querySelector('#demo-rtl-cancel').addEventListener('click', () => m.close());
+      document.querySelector('#demo-rtl-confirm').addEventListener('click', () => m.close());
+    })();
+  </script>
 </div>
 
 <hr>
@@ -296,65 +391,65 @@ drawer.<span class="hljs-title function_">addEventListener</span>(<span class="h
 <tbody><tr>
 <td><code>fieldId</code></td>
 <td><code>field-id</code></td>
-<td>ID applied to the dialog content. Auto-generated when omitted, reflected.</td>
+<td>DOM <code>id</code> for the dialog content element. Auto-generated if omitted.</td>
 <td><code>string</code></td>
 <td><em>generated</em></td>
 </tr>
 <tr>
 <td><code>isOpen</code></td>
 <td><code>is-open</code></td>
-<td>Open state. Mutable and reflected — updated when the user closes it.</td>
+<td>Whether the modal is currently visible.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
-<td><code>label</code></td>
-<td><code>label</code></td>
-<td>Accessible name for the dialog. <strong>Set this.</strong></td>
-<td><code>string</code></td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>size</code></td>
-<td><code>size</code></td>
-<td>Maximum width.</td>
-<td><code>&#39;sm&#39; | &#39;base&#39; | &#39;lg&#39; | &#39;xl&#39;</code></td>
-<td><code>&#39;base&#39;</code></td>
-</tr>
-<tr>
-<td><code>position</code></td>
-<td><code>position</code></td>
-<td>Vertical placement.</td>
-<td><code>&#39;center&#39; | &#39;top&#39; | &#39;bottom&#39;</code></td>
-<td><code>&#39;center&#39;</code></td>
-</tr>
-<tr>
-<td><code>overlayOpacity</code></td>
-<td><code>overlay-opacity</code></td>
-<td>How strongly the page behind is dimmed.</td>
-<td><code>&#39;light&#39; | &#39;base&#39; | &#39;dark&#39;</code></td>
-<td><code>&#39;base&#39;</code></td>
-</tr>
-<tr>
 <td><code>isCloseWithOverlay</code></td>
 <td><code>is-close-with-overlay</code></td>
-<td>Clicking the overlay closes the modal.</td>
+<td>Close the modal when the backdrop is clicked.</td>
 <td><code>boolean</code></td>
 <td><code>true</code></td>
 </tr>
 <tr>
 <td><code>isPreventScroll</code></td>
 <td><code>is-prevent-scroll</code></td>
-<td>Locks page scroll while open.</td>
+<td>Lock body scroll while the modal is open.</td>
 <td><code>boolean</code></td>
 <td><code>true</code></td>
 </tr>
 <tr>
+<td><code>overlayOpacity</code></td>
+<td><code>overlay-opacity</code></td>
+<td>Backdrop dim level.</td>
+<td><code>&#39;light&#39; | &#39;base&#39; | &#39;dark&#39;</code></td>
+<td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
+<td><code>position</code></td>
+<td><code>position</code></td>
+<td>Where the dialog is anchored on the viewport.</td>
+<td><code>&#39;center&#39; | &#39;top&#39; | &#39;bottom&#39;</code></td>
+<td><code>&#39;center&#39;</code></td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>Padding and corner-radius scale.</td>
+<td><code>&#39;sm&#39; | &#39;base&#39; | &#39;lg&#39; | &#39;xl&#39;</code></td>
+<td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
 <td><code>isPadding</code></td>
 <td><code>is-padding</code></td>
-<td>Applies standard internal padding.</td>
+<td>Apply inner content padding. Turn off for full-bleed content.</td>
 <td><code>boolean</code></td>
 <td><code>true</code></td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td><code>label</code></td>
+<td>Accessible label for the dialog. Prefer <code>aria-labelledby</code> pointing at a heading inside the modal; use <code>label</code> only when no visible heading is present.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
 </tr>
 </tbody></table>
 <h3>Slots</h3>
@@ -367,7 +462,7 @@ drawer.<span class="hljs-title function_">addEventListener</span>(<span class="h
 </thead>
 <tbody><tr>
 <td><em>(default)</em></td>
-<td>The dialog content — heading, body and actions.</td>
+<td>The dialog content — heading, body, and any action buttons. There is no separate header/body/footer slot; structure your content with regular HTML inside the default slot.</td>
 </tr>
 </tbody></table>
 <h3>Events</h3>
@@ -382,27 +477,27 @@ drawer.<span class="hljs-title function_">addEventListener</span>(<span class="h
 <tbody><tr>
 <td><code>aegovModalOpen</code></td>
 <td><code>void</code></td>
-<td>The modal opened.</td>
+<td>Fired after the modal has finished opening.</td>
 </tr>
 <tr>
 <td><code>aegovModalClose</code></td>
 <td><code>void</code></td>
-<td>The modal closed.</td>
+<td>Fired after the modal has finished closing and focus has been returned.</td>
 </tr>
 <tr>
 <td><code>aegovModalBeforeClose</code></td>
 <td><code>void</code></td>
-<td><strong>Cancellable.</strong> Call <code>preventDefault()</code> on the event to keep it open.</td>
+<td>Fired before the modal closes. The event is cancelable — call <code>event.preventDefault()</code> on the event to keep it open (e.g., unsaved data).</td>
 </tr>
 <tr>
 <td><code>aegovModalBackdropClick</code></td>
 <td><code>MouseEvent</code></td>
-<td>The overlay was clicked. Fires even when <code>is-close-with-overlay</code> is false.</td>
+<td>Fired when the backdrop receives a click, regardless of whether dismissal is allowed.</td>
 </tr>
 <tr>
 <td><code>aegovModalEscapePress</code></td>
 <td><code>KeyboardEvent</code></td>
-<td><code>Escape</code> was pressed.</td>
+<td>Fired when the user presses <code>Escape</code> while the modal is open.</td>
 </tr>
 </tbody></table>
 <h3>Methods</h3>
@@ -417,82 +512,93 @@ drawer.<span class="hljs-title function_">addEventListener</span>(<span class="h
 <tbody><tr>
 <td><code>show()</code></td>
 <td><code>Promise&lt;void&gt;</code></td>
-<td>Opens the modal.</td>
+<td>Open the modal.</td>
 </tr>
 <tr>
 <td><code>close()</code></td>
 <td><code>Promise&lt;void&gt;</code></td>
-<td>Closes the modal, running the before-close event first.</td>
+<td>Close the modal (fires <code>aegovModalBeforeClose</code> first).</td>
 </tr>
 <tr>
 <td><code>toggle()</code></td>
 <td><code>Promise&lt;void&gt;</code></td>
-<td>Opens or closes.</td>
+<td>Flip the open state.</td>
 </tr>
 </tbody></table>
 <h3>Pass-through Attributes</h3>
-<p>The modal uses <strong>shadow DOM</strong>, so pass-through is how attributes reach the dialog element.</p>
+<p>ARIA attributes set on <code>&lt;aegov-modal&gt;</code> are forwarded onto the inner dialog element so screen readers receive the correct labelling. Always provide either <code>aria-label</code> or <code>aria-labelledby</code>.</p>
 <table>
 <thead>
 <tr>
 <th>Attribute group</th>
 <th>Forwarded?</th>
-<th>Notes</th>
+<th>Where it lands</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>aria-*</code></td>
+<td><code>aria-label</code></td>
 <td>Yes</td>
-<td>Forwarded to the <code>role=&quot;dialog&quot;</code> element. Use <code>aria-labelledby</code> here if you prefer referencing a visible heading over <code>label</code>.</td>
+<td>Applied to the inner <code>[role=&quot;dialog&quot;]</code> element.</td>
+</tr>
+<tr>
+<td><code>aria-labelledby</code></td>
+<td>Yes</td>
+<td>Applied to the inner <code>[role=&quot;dialog&quot;]</code> element.</td>
+</tr>
+<tr>
+<td><code>aria-describedby</code></td>
+<td>Yes</td>
+<td>Applied to the inner <code>[role=&quot;dialog&quot;]</code> element.</td>
+</tr>
+<tr>
+<td>Other <code>aria-*</code></td>
+<td>Yes</td>
+<td>Applied to the inner <code>[role=&quot;dialog&quot;]</code> element.</td>
 </tr>
 <tr>
 <td><code>data-*</code></td>
 <td>Yes</td>
-<td>Forwarded to the dialog element.</td>
+<td>Applied to the inner <code>[role=&quot;dialog&quot;]</code> element.</td>
 </tr>
 <tr>
 <td><code>id</code></td>
 <td>n/a</td>
-<td>Use <code>field-id</code>.</td>
+<td>Use <code>field-id</code> — sets the <code>id</code> of the dialog content element.</td>
 </tr>
 <tr>
 <td><code>class</code>, <code>style</code></td>
 <td>Allowed</td>
-<td>Applied to the host only — they cannot restyle shadow internals.</td>
+<td>Applied to the host element (limited reach due to Shadow DOM).</td>
 </tr>
 </tbody></table>
-<h3>Shadow DOM and stacking</h3>
-<ul>
-<li>The component <strong>relocates itself to the end of <code>document.body</code></strong> on initialisation, so it is never clipped or mis-stacked by an ancestor.</li>
-<li>Each open modal takes a z-index from a shared manager, so stacked modals layer correctly rather than fighting over a hardcoded value.</li>
-<li>Internals are in shadow DOM: <code>class</code> on the host does not reach the dialog, and there are no exposed parts. Style through the documented properties.</li>
-<li>In E2E tests, pierce the shadow root: <code>page.find(&#39;aegov-modal &gt;&gt;&gt; [role=&quot;dialog&quot;]&#39;)</code>.</li>
-</ul>
+<blockquote>
+<p><strong>Shadow DOM note.</strong> Because <code>aegov-modal</code> uses Shadow DOM, page-level CSS does not reach the inner backdrop and dialog elements. Style customisation is limited to the host element and any CSS custom properties exposed by the component.</p>
+</blockquote>
 <hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The dialog element carries <code>role=&quot;dialog&quot;</code> and <code>aria-modal=&quot;true&quot;</code>, so assistive technology treats the rest of the page as unavailable.</li>
-<li><code>label</code> becomes the dialog&#39;s accessible name via <code>aria-label</code>.</li>
-<li><strong>Focus is trapped</strong> inside the modal while open. Focusable elements are collected from the slotted content, so your own buttons and fields participate.</li>
-<li>Focus moves into the dialog on open, and returns to the element that opened it on close.</li>
-<li><strong><code>Escape</code> always closes</strong>, even when overlay dismissal is disabled — a dialog with no keyboard exit is a trap.</li>
-<li>Page scroll is locked while open, using a reference-counted lock so nested overlays do not unlock each other prematurely.</li>
-<li>Z-index is assigned from a shared manager, so a modal opened from a modal stacks above it.</li>
-<li>The modal relocates to <code>document.body</code>, which prevents an ancestor&#39;s <code>overflow</code> or <code>transform</code> from clipping it — also avoiding WCAG 2.2 SC 2.4.11 failures where a focused control ends up hidden.</li>
+<li>The dialog renders with <code>role=&quot;dialog&quot;</code> and <code>aria-modal=&quot;true&quot;</code>. <code>aria-modal=&quot;true&quot;</code> tells modern assistive technology not to expose content behind the dialog in their reading modes.</li>
+<li>Focus is trapped inside the dialog while it is open. <code>Tab</code> and <code>Shift + Tab</code> cycle through focusable elements without escaping to the page behind.</li>
+<li>On open, the first focusable element in the dialog receives focus automatically. If the dialog contains no focusable children, the dialog container itself receives focus (<code>tabindex=&quot;-1&quot;</code> is set) so assistive technology announces the dialog immediately.</li>
+<li>On close, focus is returned to the element that opened the dialog.</li>
+<li>Body scroll is locked while the dialog is open (reference-counted, so nested overlays keep scroll locked correctly).</li>
+<li><code>Escape</code> always closes the dialog — this behaviour is not configurable.</li>
+<li>The component is moved to <code>document.body</code> automatically, ensuring it stacks above the rest of the page regardless of where it lives in your component tree.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li><strong>Always set <code>label</code></strong>, or supply <code>aria-labelledby</code> pointing at a visible heading inside the modal.</li>
-<li><strong>Include a visible heading</strong> as the first content. The accessible name alone does not give sighted users a title.</li>
-<li><strong>Provide an explicit close control.</strong> <code>Escape</code> and the overlay are not discoverable on their own, and on touch devices the overlay is the only alternative.</li>
-<li><strong>Label buttons with outcomes</strong>, not &quot;OK&quot; and &quot;Cancel&quot;.</li>
-<li><strong>Do not open a modal without user action.</strong> An unprompted modal steals focus from whatever the user was doing.</li>
-<li><strong>Do not nest modals</strong> unless genuinely unavoidable. Each one adds a focus trap the user must escape.</li>
-<li><strong>Keep content short.</strong> If the user needs to scroll a modal, consider a page or a <a href="aegov-drawer.html">Drawer</a>.</li>
-<li><strong>Set <code>dir</code> on <code>&lt;html&gt;</code></strong> for RTL, since the modal lives on the body.</li>
-<li><strong>Do not cancel closing without explanation.</strong> If you use <code>preventDefault()</code>, say why immediately and give the user a way out.</li>
-<li><strong>Return focus somewhere sensible</strong> if the triggering element no longer exists after the action — for instance when the modal deleted the row that contained its own trigger.</li>
+<li><strong>Always label the dialog.</strong> Provide either <code>aria-label</code> or <code>aria-labelledby</code> pointing at the visible heading inside the modal. Without one, screen readers announce only &quot;dialog&quot;.</li>
+<li>Use <code>aria-describedby</code> to link supporting body text when the heading alone does not convey the action.</li>
+<li>For destructive confirmations (delete, cancel application), pair <code>overlay-opacity=&quot;dark&quot;</code> with a <code>variant=&quot;danger&quot;</code> confirmation button so the visual weight matches the action.</li>
+<li>Listen for <code>aegovModalBeforeClose</code> and call <code>preventDefault()</code> if the user has unsaved changes — then prompt them in-place rather than silently losing data.</li>
+<li>Keep modal content focused on a single task. If the workflow requires several steps, consider a dedicated page or a multi-step wizard rather than nesting forms inside a dialog.</li>
+<li><strong>Background isolation for older assistive technology.</strong> <code>aria-modal=&quot;true&quot;</code> is respected by all modern screen readers (NVDA 2021+, JAWS 2021+, VoiceOver macOS 12+). For environments where older AT is expected, add the <code>inert</code> attribute to all page siblings when the modal opens and remove it on close. This prevents virtual-cursor navigation into background content:<pre><code class="hljs language-js">modal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovModalOpen&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;:scope &gt; :not(aegov-modal)&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">el</span> =&gt;</span> el.<span class="hljs-title function_">setAttribute</span>(<span class="hljs-string">&#x27;inert&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>));
+});
+modal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovModalClose&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;[inert]&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">el</span> =&gt;</span> el.<span class="hljs-title function_">removeAttribute</span>(<span class="hljs-string">&#x27;inert&#x27;</span>));
+});</code></pre></li>
 </ul>
 <h3>Keyboard support</h3>
 <table>
@@ -504,29 +610,21 @@ drawer.<span class="hljs-title function_">addEventListener</span>(<span class="h
 </thead>
 <tbody><tr>
 <td><code>Escape</code></td>
-<td>Close the modal. Always available.</td>
+<td>Close the modal and return focus to the trigger element.</td>
 </tr>
 <tr>
 <td><code>Tab</code></td>
-<td>Move to the next focusable element inside the modal, cycling at the end.</td>
+<td>Move focus to the next focusable element inside the dialog.</td>
 </tr>
 <tr>
-<td><code>Shift</code> + <code>Tab</code></td>
-<td>Move backwards, cycling at the start.</td>
+<td><code>Shift + Tab</code></td>
+<td>Move focus to the previous focusable element inside the dialog.</td>
 </tr>
 <tr>
 <td><code>Enter</code>, <code>Space</code></td>
-<td>Activate the focused control.</td>
+<td>Activate the focused button or control.</td>
 </tr>
 </tbody></table>
-<hr>
-<h2>Where to next</h2>
-<ul>
-<li><a href="aegov-drawer.html">Drawer</a> — the same pattern anchored to an edge, and better for longer content.</li>
-<li><a href="aegov-popover.html">Popover</a> — for supplementary detail that does not need to block.</li>
-<li><a href="aegov-toast.html">Toast</a> — for confirming the outcome after the modal closes.</li>
-<li><a href="aegov-callout.html">Callout</a> — for information that belongs in the page instead.</li>
-</ul>
 <!-- DOC:END -->
           </section>
       </article>

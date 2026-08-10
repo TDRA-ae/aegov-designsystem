@@ -70,6 +70,8 @@
 
 /* --------------------------------------------------------
    Child overrides: aegov-button inside group
+   NOTE: aegov-button uses shadow:true so this selector cannot pierce its shadow root.
+   The actual fix lives in aegov-button.css via :host-context(.aegov-input-group).
    -------------------------------------------------------- */
 .aegov-input-group .aegov-btn {
   @apply rounded-none border-0;
@@ -81,30 +83,51 @@
 .aegov-input-group select {
   @apply border-0 bg-transparent outline-none cursor-pointer
          focus:ring-0 focus:outline-none;
+  /* Custom chevron matching aegov-select */
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%234b4f58' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 20px 20px;
 }
+
+@media (prefers-color-scheme: dark) {
+  .aegov-input-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23b9bbc1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  }
+}
+:root[data-theme="dark"] .aegov-input-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23b9bbc1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+/* RTL: mirror chevron to the inline-start side */
+[dir="rtl"] .aegov-input-group select {
+  background-position: left 0.5rem center;
+}
+
 .aegov-input-group.input-group-variant-primary select       { @apply text-primary-900 dark:text-whitely-100; }
 .aegov-input-group.input-group-variant-secondary select     { @apply text-secondary-900 dark:text-whitely-100; }
 .aegov-input-group.input-group-variant-neutral-max select   { @apply text-aeblack-950 dark:text-whitely-100; }
 .aegov-input-group.input-group-variant-neutral-min select   { @apply text-aeblack-700 dark:text-aeblack-200; }
 
 .input-group--xs select {
-  @apply text-sm h-9 px-2.5;
+  @apply text-sm h-9 ps-2.5 pe-9;
 }
 
 .input-group--sm select {
-  @apply text-sm h-10 px-3;
+  @apply text-sm h-10 ps-3 pe-9;
 }
 
 .input-group--base select {
-  @apply text-base h-11 px-3.5;
+  @apply text-base h-11 ps-3.5 pe-9;
 }
 
 .input-group--lg select {
-  @apply text-lg h-12 px-4;
+  @apply text-lg h-12 ps-4 pe-9;
 }
 
 .input-group--xl select {
-  @apply text-lg h-13 px-4.5;
+  @apply text-lg h-13 ps-4.5 pe-9;
 }
 
 /* --------------------------------------------------------
@@ -147,4 +170,14 @@
 
 .input-group--xl .input-group__addon {
   @apply text-lg h-13 px-4.5;
+}
+
+/* --------------------------------------------------------
+   Disabled state — dim entire group when child input is disabled.
+   `:has()` checks for is-disabled attribute on slotted aegov-input.
+   aegov-input.css cancels the input's own disabled:opacity-40 inside
+   this context to avoid compound opacity (0.4 × 0.4 = 0.16).
+   -------------------------------------------------------- */
+.aegov-input-group:has(aegov-input[is-disabled]) {
+  @apply opacity-40 pointer-events-none cursor-not-allowed;
 }

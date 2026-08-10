@@ -63,3 +63,8 @@ packages/designsystem/src/components/**/readme.md
 
 # npm pack tarballs
 *.tgz
+
+# Shadow mode investigation artifacts (generated, not for sharing)
+test-apps/test-html/SHADOW-MATRIX-REPORT.md
+test-apps/test-html/run-matrix.mjs
+test-apps/test-html/shadow-matrix.html

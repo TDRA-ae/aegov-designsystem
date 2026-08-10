@@ -1,10 +1,10 @@
 # Badge
 
-<p class="text-lg text-aeblack-500 mb-8">A Badge is a small inline element used to label, classify, or count. Use it to show the status of a row, tag content with metadata, mark a count of unread items, or build removable filter chips. Badges are deliberately compact and read alongside the content they describe rather than standing alone.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Badge is a small inline element used to label, classify, or count items. Use it to communicate status, mark counts of unread notifications, tag list rows with metadata, or annotate content with short context. Badges are intentionally compact and read alongside the content they describe rather than standing alone.</p>
 
 ## Introduction
 
-`aegov-badge` renders a single inline pill containing the slotted text. The full UAE Government palette is available through `variant`, and `appearance` tunes the badge to its surroundings. An optional dismiss button turns it into a removable chip.
+The `aegov-badge` component renders a single inline pill containing the slotted text. The full UAE Government colour palette is available through the `variant` property, and two visual treatments — `soft` and `solid` — let you tune the badge to its surroundings. An optional dismiss button turns the badge into a removable tag for filter chips and similar patterns.
 
 ```html
 <aegov-badge>Default</aegov-badge>
@@ -28,11 +28,17 @@
 
 ## Appearance
 
-`appearance` switches between two treatments. `soft` uses a tinted background with a darker, full-saturation label — quieter, suitable for tables and list rows. `solid` uses a filled panel with light text — louder, suitable for counters and critical statuses.
+The `appearance` property switches between two styles. `soft` (default) uses a tinted background with a darker, full-saturation label — quieter, suitable for tables and list rows. `solid` uses a fully filled colour panel with white text — louder, suitable for emphasised counters or critical statuses.
 
 ```html
 <aegov-badge appearance="soft" variant="aegreen">Approved</aegov-badge>
 <aegov-badge appearance="solid" variant="aegreen">Approved</aegov-badge>
+
+<aegov-badge appearance="soft" variant="aered">Rejected</aegov-badge>
+<aegov-badge appearance="solid" variant="aered">Rejected</aegov-badge>
+
+<aegov-badge appearance="soft" variant="camel">Pending</aegov-badge>
+<aegov-badge appearance="solid" variant="camel">Pending</aegov-badge>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
@@ -52,9 +58,9 @@
 
 ---
 
-## Variant — the colour palette
+## Color Palette
 
-`variant` accepts every token in the UAE Design System palette. Use the brand colours for status aligned with platform identity, and the accent colours for richer category tagging.
+The `variant` property accepts every token in the UAE Design System palette. Use the brand colours (`primary`, `secondary`, `aegold`, `aered`, `aegreen`, `aeblack`) for status that aligns with platform identity, and the accent colours (`techblue`, `seablue`, `camel`, `desert`, `fuchsia`, `slate`, `purple`, `pink`, `indigo`, `lime`) for richer category tagging.
 
 ```html
 <aegov-badge variant="primary">Primary</aegov-badge>
@@ -118,31 +124,17 @@
   </div>
 </div>
 
-### A note on `color`
-
-An older `color` property exists and is **deprecated**. It still works, and if you set both, `color` takes precedence over `variant` — which makes mixed usage confusing. Use `variant` and remove `color` from existing markup.
-
-```html
-<!-- Correct -->
-<aegov-badge variant="aegreen">Active</aegov-badge>
-
-<!-- Deprecated: still works, but overrides variant -->
-<aegov-badge color="aegreen">Active</aegov-badge>
-```
-
-Note that on `aegov-badge`, unlike most components, `variant` selects a **palette colour** rather than one of the four semantic form variants. Badges are classification chrome, so the whole palette is legitimately in scope.
-
 ---
 
 ## Sizes
 
-`size` controls font size, padding and corner radius. The `lg` token also raises the font weight slightly.
+The `size` property controls font size, padding, and corner radius. Three tokens are available: `sm`, `base` (default), and `lg`. The `lg` token additionally bumps the font weight to medium for slightly stronger emphasis.
 
-| Token | Font | Padding | Radius |
-| --- | --- | --- | --- |
-| `sm` | `text-xs` | `py-0.5 px-1.5` | `rounded-sm` |
-| `base` | `text-sm` | `py-0.5 px-1.5` | `rounded-md` |
-| `lg` | `text-sm` | `py-1 px-2` | `rounded-md`, medium weight |
+| Token  | Font      | Padding         | Radius        |
+| ------ | --------- | --------------- | ------------- |
+| `sm`   | `text-xs` | `py-0.5 px-1.5` | `rounded-sm`  |
+| `base` | `text-sm` | `py-0.5 px-1.5` | `rounded-md`  |
+| `lg`   | `text-sm` | `py-1 px-2`     | `rounded-md`, `font-medium` |
 
 ```html
 <aegov-badge size="sm" variant="primary">Small</aegov-badge>
@@ -160,10 +152,12 @@ Note that on `aegov-badge`, unlike most components, `variant` selects a **palett
 
 ### Responsive sizes
 
-`size` accepts a responsive string with the prefixes `xs`, `sm`, `md`, `lg`, `xl` and `2xl`.
+`size` also accepts a Tailwind-style responsive string with breakpoint prefixes `xs`, `sm`, `md`, `lg`, `xl`, and `2xl`. Each segment overrides smaller breakpoints.
 
 ```html
-<aegov-badge size="sm md:base xl:lg" variant="techblue">Resizes with the viewport</aegov-badge>
+<aegov-badge size="sm md:base xl:lg" variant="techblue">
+  Resizes with the viewport
+</aegov-badge>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
@@ -172,16 +166,23 @@ Note that on `aegov-badge`, unlike most components, `variant` selects a **palett
 
 ---
 
-## Dismissible badges
+## Dismissible Badge
 
-`is-dismissible` renders a close button at the trailing edge. Clicking it emits `aegovBadgeDismiss`. **The badge does not remove itself** — your application decides what happens, which is what makes it usable as a filter chip bound to real state.
+Set `is-dismissible` to render a close button at the trailing edge of the badge. Clicking it emits the `aegovBadgeDismiss` event. The badge does not remove itself from the DOM — your application decides what to do (most commonly, remove the host element from a list of active filters).
 
 ```html
-<aegov-badge variant="techblue" is-dismissible>Filter: Abu Dhabi</aegov-badge>
-<aegov-badge variant="techblue" is-dismissible>Filter: Dubai</aegov-badge>
+<aegov-badge variant="techblue" is-dismissible>
+  Filter: Abu Dhabi
+</aegov-badge>
+<aegov-badge variant="techblue" is-dismissible>
+  Filter: Dubai
+</aegov-badge>
+<aegov-badge variant="techblue" is-dismissible>
+  Filter: Sharjah
+</aegov-badge>
 
 <script>
-  document.querySelectorAll('aegov-badge[is-dismissible]').forEach((b) => {
+  document.querySelectorAll('aegov-badge[is-dismissible]').forEach(b => {
     b.addEventListener('aegovBadgeDismiss', () => b.remove());
   });
 </script>
@@ -197,75 +198,176 @@ Note that on `aegov-badge`, unlike most components, `variant` selects a **palett
   </div>
 </div>
 
-The dismiss button's `aria-label` is **context-aware**: it includes the badge's own text, so a screen reader announces "Dismiss Abu Dhabi" rather than a generic "Close". With no text content it falls back to a translated "Dismiss badge".
-
 ---
 
-## Badges with icons
+## Badges with Icons
 
-Slot an inline `<svg>` before the label. The badge sizes leading media from the `size` token — `size-3` at `sm`, `size-3.5` at `base`, `size-4` at `lg` — so you do not declare dimensions.
+Slot an inline `<svg>` or `<img>` before the label to reinforce meaning visually. The badge sizes leading media automatically based on the `size` prop — `size-3` for `sm`, `size-3.5` for `base`, `size-4` for `lg` — so you do not have to declare width/height on the element. Mark decorative icons with `aria-hidden="true"` so screen readers read only the text label.
 
 ```html
 <aegov-badge variant="aegreen">
-  <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-    <path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0l-3.5-3.5a1 1 0 0 1 1.4-1.4l2.8 2.8 6.8-6.8a1 1 0 0 1 1.4 0Z" clip-rule="evenodd" />
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 12.085l6.79-6.795a1 1 0 011.414 0z" clip-rule="evenodd" />
   </svg>
   Active
+</aegov-badge>
+
+<aegov-badge variant="camel">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .2.08.39.22.53l3 3a.75.75 0 101.06-1.06L10.75 9.69V5z" clip-rule="evenodd" />
+  </svg>
+  Pending
+</aegov-badge>
+
+<aegov-badge variant="aered">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd" d="M18 10A8 8 0 11.999 9.999 8 8 0 0118 10zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+  </svg>
+  Rejected
+</aegov-badge>
+
+<aegov-badge variant="techblue">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd" d="M18 10A8 8 0 11.999 9.999 8 8 0 0118 10zM8.94 6.94a.75.75 0 11-1.06-1.06 3 3 0 014.55 3.9c-.27.42-.65.75-.97 1.03-.41.36-.59.55-.63.78-.05.4-.4.69-.78.65-.4-.04-.69-.4-.65-.78.13-1 .81-1.58 1.24-1.94l.18-.16c.62-.61.83-1.5.39-2.16a1.5 1.5 0 00-2.27-.25zM11 13a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd" />
+  </svg>
+  In review
+</aegov-badge>
+
+<aegov-badge appearance="solid" variant="aegreen">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 12.085l6.79-6.795a1 1 0 011.414 0z" clip-rule="evenodd" />
+  </svg>
+  Verified
 </aegov-badge>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="font-medium mb-3">Soft</p>
   <div class="flex flex-wrap items-center gap-3 mb-6">
     <aegov-badge variant="aegreen">
-      <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0l-3.5-3.5a1 1 0 0 1 1.4-1.4l2.8 2.8 6.8-6.8a1 1 0 0 1 1.4 0Z" clip-rule="evenodd" /></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 12.085l6.79-6.795a1 1 0 011.414 0z" clip-rule="evenodd" />
+      </svg>
       Active
     </aegov-badge>
     <aegov-badge variant="camel">
-      <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .2.08.39.22.53l3 3a.75.75 0 1 0 1.06-1.06L10.75 9.69V5Z" clip-rule="evenodd" /></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .2.08.39.22.53l3 3a.75.75 0 101.06-1.06L10.75 9.69V5z" clip-rule="evenodd" />
+      </svg>
       Pending
     </aegov-badge>
     <aegov-badge variant="aered">
-      <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10A8 8 0 1 1 2 10a8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" /></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M18 10A8 8 0 11.999 9.999 8 8 0 0118 10zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+      </svg>
       Rejected
     </aegov-badge>
-    <aegov-badge appearance="solid" variant="aegold">
-      <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10.87 2.88c-.32-.77-1.42-.77-1.74 0l-1.83 4.4-4.75.38c-.83.07-1.17 1.11-.54 1.65l3.62 3.1-1.1 4.64c-.2.81.69 1.46 1.4 1.02L10 15.59l4.07 2.49c.71.43 1.6-.21 1.4-1.02l-1.1-4.64 3.62-3.1c.63-.55.3-1.59-.54-1.65l-4.75-.38-1.83-4.4Z" /></svg>
+    <aegov-badge variant="techblue">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M18 10A8 8 0 11.999 9.999 8 8 0 0118 10zM8.94 6.94a.75.75 0 11-1.06-1.06 3 3 0 014.55 3.9c-.27.42-.65.75-.97 1.03-.41.36-.59.55-.63.78-.05.4-.4.69-.78.65-.4-.04-.69-.4-.65-.78.13-1 .81-1.58 1.24-1.94l.18-.16c.62-.61.83-1.5.39-2.16a1.5 1.5 0 00-2.27-.25zM11 13a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd" />
+      </svg>
+      In review
+    </aegov-badge>
+    <aegov-badge variant="aegold">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.651l-4.752-.381-1.831-4.401z" />
+      </svg>
       Featured
     </aegov-badge>
   </div>
-  <div class="flex flex-wrap items-center gap-3">
+  <div class="flex flex-wrap items-center gap-3 mb-6">
     <aegov-badge variant="aegreen" size="sm">
-      <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0l-3.5-3.5a1 1 0 0 1 1.4-1.4l2.8 2.8 6.8-6.8a1 1 0 0 1 1.4 0Z" clip-rule="evenodd" /></svg>
-      Small
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 12.085l6.79-6.795a1 1 0 011.414 0z" clip-rule="evenodd" />
+      </svg>
+      Active
     </aegov-badge>
-    <aegov-badge variant="techblue" size="lg">
-      <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10A8 8 0 1 1 2 10a8 8 0 0 1 16 0Zm-9-3a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V10.75a.75.75 0 0 0-.75-.75h-.75Z" clip-rule="evenodd" /></svg>
-      Large
+    <aegov-badge variant="camel" size="sm">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .2.08.39.22.53l3 3a.75.75 0 101.06-1.06L10.75 9.69V5z" clip-rule="evenodd" />
+      </svg>
+      Pending
+    </aegov-badge>
+    <aegov-badge variant="aered" size="sm">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M18 10A8 8 0 11.999 9.999 8 8 0 0118 10zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+      </svg>
+      Rejected
+    </aegov-badge>
+    <aegov-badge variant="techblue" size="sm">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M18 10A8 8 0 11.999 9.999 8 8 0 0118 10zM8.94 6.94a.75.75 0 11-1.06-1.06 3 3 0 014.55 3.9c-.27.42-.65.75-.97 1.03-.41.36-.59.55-.63.78-.05.4-.4.69-.78.65-.4-.04-.69-.4-.65-.78.13-1 .81-1.58 1.24-1.94l.18-.16c.62-.61.83-1.5.39-2.16a1.5 1.5 0 00-2.27-.25zM11 13a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd" />
+      </svg>
+      In review
+    </aegov-badge>
+    <aegov-badge variant="aegold" size="sm">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.651l-4.752-.381-1.831-4.401z" />
+      </svg>
+      Featured
+    </aegov-badge>
+  </div>
+  <p class="font-medium mb-3">Solid</p>
+  <div class="flex flex-wrap items-center gap-3">
+    <aegov-badge appearance="solid" variant="aegreen">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 12.085l6.79-6.795a1 1 0 011.414 0z" clip-rule="evenodd" />
+      </svg>
+      Verified
+    </aegov-badge>
+    <aegov-badge appearance="solid" variant="aered">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+      </svg>
+      Blocked
+    </aegov-badge>
+    <aegov-badge appearance="solid" variant="techblue">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+      </svg>
+      Public
+    </aegov-badge>
+    <aegov-badge appearance="solid" variant="aegold">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.651l-4.752-.381-1.831-4.401z" clip-rule="evenodd" />
+      </svg>
+      Featured
     </aegov-badge>
   </div>
 </div>
 
-Mark decorative icons `aria-hidden="true"` — the badge text is the accessible label.
-
 ---
 
-## Status indicators
+## Status Indicators
 
-The most common use: marking the state of a row in a service list. Pair colours consistently across a service so users learn the meaning at a glance.
+A common badge use is to mark the status of a row in a service list — application progress, account state, document validity, and so on. Pair colours consistently across your application so users learn the meaning at a glance.
 
 ```html
 <aegov-badge variant="aegreen">Active</aegov-badge>
 <aegov-badge variant="camel">Pending</aegov-badge>
-<aegov-badge variant="aered">Expired</aegov-badge>
+<aegov-badge variant="aered">Suspended</aegov-badge>
 <aegov-badge variant="slate">Archived</aegov-badge>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <ul class="divide-y divide-aeblack-100">
-    <li class="flex items-center justify-between py-3"><span>Emirates ID renewal</span><aegov-badge variant="aegreen">Active</aegov-badge></li>
-    <li class="flex items-center justify-between py-3"><span>Driving licence transfer</span><aegov-badge variant="camel">Pending</aegov-badge></li>
-    <li class="flex items-center justify-between py-3"><span>Vehicle registration</span><aegov-badge variant="aered">Expired</aegov-badge></li>
-    <li class="flex items-center justify-between py-3"><span>Old passport application</span><aegov-badge variant="slate">Archived</aegov-badge></li>
+    <li class="flex items-center justify-between py-3">
+      <span>Emirates ID renewal</span>
+      <aegov-badge variant="aegreen">Active</aegov-badge>
+    </li>
+    <li class="flex items-center justify-between py-3">
+      <span>Driving licence transfer</span>
+      <aegov-badge variant="camel">Pending</aegov-badge>
+    </li>
+    <li class="flex items-center justify-between py-3">
+      <span>Vehicle registration</span>
+      <aegov-badge variant="aered">Expired</aegov-badge>
+    </li>
+    <li class="flex items-center justify-between py-3">
+      <span>Old passport application</span>
+      <aegov-badge variant="slate">Archived</aegov-badge>
+    </li>
   </ul>
 </div>
 
@@ -273,31 +375,37 @@ The most common use: marking the state of a row in a service list. Pair colours 
 
 ## Counters
 
-Small solid badges work as counters beside navigation items, tabs or icons. `size="sm"` is the usual footprint.
+Small solid badges work well as numerical counters next to navigation items, tabs, or icons. Use `size="sm"` for the most common counter footprint.
 
 ```html
-<span class="inline-flex items-center gap-2">
+<button class="relative">
   Inbox
-  <aegov-badge appearance="solid" variant="aered" size="sm" aria-label="12 unread messages">12</aegov-badge>
-</span>
+  <aegov-badge appearance="solid" variant="aered" size="sm">12</aegov-badge>
+</button>
+<button class="relative">
+  Notifications
+  <aegov-badge appearance="solid" variant="primary" size="sm">3</aegov-badge>
+</button>
+<button class="relative">
+  Pending tasks
+  <aegov-badge appearance="solid" variant="camel" size="sm">5</aegov-badge>
+</button>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap items-center gap-6">
-    <span class="inline-flex items-center gap-2">Inbox <aegov-badge appearance="solid" variant="aered" size="sm" aria-label="12 unread messages">12</aegov-badge></span>
-    <span class="inline-flex items-center gap-2">Notifications <aegov-badge appearance="solid" variant="primary" size="sm" aria-label="3 new notifications">3</aegov-badge></span>
-    <span class="inline-flex items-center gap-2">Pending tasks <aegov-badge appearance="solid" variant="camel" size="sm" aria-label="5 pending tasks">5</aegov-badge></span>
-    <span class="inline-flex items-center gap-2">Drafts <aegov-badge appearance="solid" variant="slate" size="sm" aria-label="2 drafts">2</aegov-badge></span>
+    <span class="inline-flex items-center gap-2">Inbox <aegov-badge appearance="solid" variant="aered" size="sm">12</aegov-badge></span>
+    <span class="inline-flex items-center gap-2">Notifications <aegov-badge appearance="solid" variant="primary" size="sm">3</aegov-badge></span>
+    <span class="inline-flex items-center gap-2">Pending tasks <aegov-badge appearance="solid" variant="camel" size="sm">5</aegov-badge></span>
+    <span class="inline-flex items-center gap-2">Drafts <aegov-badge appearance="solid" variant="slate" size="sm">2</aegov-badge></span>
   </div>
 </div>
-
-A bare number is meaningless out of context, so set `aria-label` on the host — it is forwarded to the rendered element — giving the count its subject: "12 unread messages".
 
 ---
 
 ## RTL Support
 
-The badge is direction-agnostic. The dismiss button uses logical inline padding, so in a `dir="rtl"` container it renders on the inline-end edge — visually the left — with no configuration. Leading icons flip with the content. The dismiss button's fallback `aria-label` is translated automatically ("إغلاق الشارة").
+The badge is direction-agnostic. The dismiss button uses logical inline padding, so in `dir="rtl"` containers it automatically renders on the inline-end (visually the left side). No extra configuration is required — pass real Arabic content into the slot and the layout flips correctly.
 
 ```html
 <div dir="rtl">
@@ -323,59 +431,58 @@ The badge is direction-agnostic. The dismiss button uses logical inline padding,
   </div>
 </div>
 
-Counter numerals are your content — use Arabic-Indic digits where the rest of your Arabic copy does.
-
 ---
 
 ## API Reference
 
 ### Properties
 
-| Property | Attribute | Description | Type | Default |
-| --- | --- | --- | --- | --- |
-| `fieldId` | `field-id` | ID applied to the inner `<span>`. Auto-generated when omitted. | `string` | _generated_ |
-| `appearance` | `appearance` | Visual treatment. | `'soft' \| 'solid'` | `'soft'` |
-| `variant` | `variant` | Palette colour token. | `'default' \| 'primary' \| 'secondary' \| 'aegold' \| 'aered' \| 'aegreen' \| 'aeblack' \| 'techblue' \| 'seablue' \| 'camel' \| 'desert' \| 'fuchsia' \| 'slate' \| 'purple' \| 'pink' \| 'indigo' \| 'lime'` | `'default'` |
-| `color` | `color` | **Deprecated** — use `variant`. Overrides `variant` when set. | same as `variant` | — |
-| `size` | `size` | Size token or responsive string. | `string` — `sm \| base \| lg` | `'base'` |
-| `isDismissible` | `is-dismissible` | Renders a close button. | `boolean` | `false` |
-
-An invalid `variant` falls back to `default` and logs a console warning in development.
+| Property        | Attribute        | Description                                                          | Type                                                                                                                                                                       | Default     |
+| --------------- | ---------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `fieldId`       | `field-id`       | Unique ID for the badge element. Auto-generated if omitted.          | `string`                                                                                                                                                                   | _generated_ |
+| `variant`       | `variant`        | Colour token from the UAE Design System palette.                     | `'default' \| 'primary' \| 'secondary' \| 'aegold' \| 'aered' \| 'aegreen' \| 'aeblack' \| 'techblue' \| 'seablue' \| 'camel' \| 'desert' \| 'fuchsia' \| 'slate' \| 'purple' \| 'pink' \| 'indigo' \| 'lime'` | `'default'` |
+| `appearance`    | `appearance`     | Visual style — `soft` (tinted) or `solid` (filled).                  | `'soft' \| 'solid'`                                                                                                                                                        | `'soft'`    |
+| `size`          | `size`           | Size token (`sm`, `base`, `lg`) or responsive string.                | `string`                                                                                                                                                                   | `'base'`    |
+| `isDismissible` | `is-dismissible` | When `true`, renders a close button.                                 | `boolean`                                                                                                                                                                  | `false`     |
+| `color`         | `color`          | **Deprecated** — use `variant` instead. Accepts the same colour tokens. | `'default' \| 'primary' \| 'secondary' \| 'aegold' \| 'aered' \| 'aegreen' \| 'aeblack' \| 'techblue' \| 'seablue' \| 'camel' \| 'desert' \| 'fuchsia' \| 'slate' \| 'purple' \| 'pink' \| 'indigo' \| 'lime'` | `undefined` |
 
 ### Slots
 
-| Slot | Description |
-| --- | --- |
-| _(default)_ | The badge label — plain text, or an inline `<svg>` followed by text. |
+| Slot        | Description                                       |
+| ----------- | ------------------------------------------------- |
+| _(default)_ | The badge label. Plain text or simple inline HTML. |
 
 ### Events
 
-| Event | Detail | Description |
-| --- | --- | --- |
-| `aegovBadgeDismiss` | `void` | The dismiss button was activated. The badge does **not** remove itself. |
+| Event                | Detail | Description                                         |
+| -------------------- | ------ | --------------------------------------------------- |
+| `aegovBadgeDismiss`  | `void` | Fired when the dismiss button is clicked.           |
+
+#### Listening for dismiss events
 
 ```html
-<aegov-badge id="filter-region" variant="techblue" is-dismissible>Region: Abu Dhabi</aegov-badge>
+<aegov-badge id="filter-region" variant="techblue" is-dismissible>
+  Region: Abu Dhabi
+</aegov-badge>
 
-<script type="module">
-  const badge = document.querySelector('#filter-region');
-  badge.addEventListener('aegovBadgeDismiss', () => {
-    removeFilter('region');
-    badge.remove();
+<script>
+  document.querySelector('#filter-region').addEventListener('aegovBadgeDismiss', () => {
+    // Remove the badge from the DOM, or update application state
+    document.querySelector('#filter-region').remove();
   });
 </script>
 ```
 
 ### Pass-through Attributes
 
-Attributes set on the host are forwarded to the inner `<span>`, so they land on the rendered badge rather than the wrapper.
+Pass-through attributes set on `<aegov-badge>` are forwarded to the inner `<span>` so they end up on the rendered badge element rather than the host wrapper.
 
-| Attribute group | Forwarded? | Notes |
-| --- | --- | --- |
-| `aria-*` | Yes | Forwarded to the inner `<span>` — this is how `aria-label` gives a counter its subject. |
-| `data-*` | Yes | Forwarded for analytics or styling hooks. |
-| `id` | n/a | Use `field-id`; the inner `<span>` reflects it. |
-| `class`, `style` | Allowed | Applied to the host element only. |
+| Attribute group  | Forwarded? | Notes                                                                  |
+| ---------------- | ---------- | ---------------------------------------------------------------------- |
+| `aria-*`         | Yes        | Forwarded to the inner `<span>` for accessibility annotations.         |
+| `data-*`         | Yes        | Forwarded to the inner `<span>` for analytics or styling hooks.        |
+| `id`             | n/a        | Use `field-id` on the host. The inner `<span>` reflects that value.    |
+| `class`, `style` | Allowed    | Applied to the host element only.                                      |
 
 ---
 
@@ -383,36 +490,23 @@ Attributes set on the host are forwarded to the inner `<span>`, so they land on 
 
 ### Built-in behaviour
 
-- The dismiss button is a real `<button type="button">` and is fully keyboard operable.
-- Its `aria-label` is **context-aware**, incorporating the badge's own text so a screen reader announces "Dismiss Approved" rather than a generic label. With no text it falls back to a translated "Dismiss badge".
-- The dismiss button has a minimum target of **24 × 24 CSS px** at every size token, satisfying WCAG 2.2 SC 2.5.8.
-- The dismiss icon is marked `aria-hidden="true"` — all meaning is in the button's label.
-- The dismiss handler calls `stopPropagation()`, so a click handler on a parent row does not also fire when the badge is dismissed.
-- `aria-*` attributes on the host reach the rendered element.
+- The dismiss button is a real `<button type="button">` and is fully keyboard accessible.
+- The dismiss button `aria-label` is **context-aware**: it automatically includes the badge text, so screen reader users hear `"Dismiss Error"`, `"Dismiss Approved"`, etc. rather than a generic label. When the badge has no text content it falls back to `"Dismiss badge"` (`"إغلاق الشارة"` in RTL).
+- The dismiss button has a minimum touch target of **24 × 24 CSS px** on all sizes (sm, base, lg), satisfying WCAG SC 2.5.8.
+- The dismiss SVG icon is marked `aria-hidden="true"` — all meaning is carried by the button's `aria-label`.
+- The dismiss-click handler calls `event.stopPropagation()`, so a parent click handler does not also fire when the badge is dismissed.
 
 ### Developer responsibilities
 
-- **Never rely on colour alone to convey status** (WCAG 2.2 SC 1.4.1). Pair the colour with an explicit word — "Active", "Pending", "Suspended". A green dot with no text is not a status.
-- **Give counters an `aria-label`** on the host, so "12" is announced as "12 unread messages".
-- **Wrap changing values in a live region** — the badge itself does not announce updates. A count that changes silently is invisible to a screen reader user.
-- **Remove the badge yourself** after `aegovBadgeDismiss`; the component only reports the intent.
-- **Mark decorative icons `aria-hidden="true"`.**
-- **Do not use a badge as a button.** If it performs an action, use a [Button](aegov-button.html) — a badge is not focusable and has no role.
-- **Keep labels short.** A badge that wraps to two lines is a [Callout](aegov-callout.html) in the wrong clothes.
-- **Verify contrast if you diverge from the palette.** The built-in pairings are checked; a custom background is your responsibility (4.5:1 for text at these sizes).
+- Provide meaningful text inside the badge — colour alone is not sufficient to convey status. Pair colour with explicit words such as "Active", "Pending", or "Suspended".
+- For badges acting as numerical counters (e.g. unread messages), set a more descriptive `aria-label` on the host so the count is announced in context: `<aegov-badge aria-label="3 unread messages">3</aegov-badge>`.
+- If the badge represents a value that changes over time, consider wrapping it (or its surrounding container) in an `aria-live="polite"` region so assistive technology announces the update.
+- Removing the badge from the DOM after dismiss is the consumer's responsibility — the component emits `aegovBadgeDismiss` but does not auto-remove itself.
+- Mark decorative inline icons with `aria-hidden="true"` — the badge text is the sole accessible label.
 
 ### Keyboard support
 
-| Key | Action |
-| --- | --- |
-| `Tab` | Move focus to the dismiss button, when present. The badge itself is not focusable. |
-| `Enter`, `Space` | Activate the dismiss button. |
-
----
-
-## Where to next
-
-- [Callout](aegov-callout.html) — for a message that needs more than a word.
-- [Banner](aegov-banner.html) — for page-level announcements.
-- [Toast](aegov-toast.html) — for transient confirmations.
-- [Button](aegov-button.html) — when the chip needs to be actionable.
+| Key              | Action                                           |
+| ---------------- | ------------------------------------------------ |
+| `Tab`            | Move focus to the dismiss button (when present). |
+| `Enter`, `Space` | Activate the dismiss button.                     |

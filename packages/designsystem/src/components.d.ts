@@ -217,10 +217,6 @@ export namespace Components {
          */
         "fieldId"?: string;
         /**
-          * Optional visible heading label for the banner. When provided, a `<span id="${fieldId}-heading">` is rendered inside the banner and the wrapper receives `aria-labelledby="${fieldId}-heading"`. Required for role="status" banners that need an accessible name.
-         */
-        "heading"?: string;
-        /**
           * Whether the banner can be dismissed/closed.
           * @default true
          */
@@ -497,6 +493,11 @@ export namespace Components {
     }
     interface AegovCheckbox {
         /**
+          * Visual appearance set by a parent aegov-checkbox-group. Not meant to be set directly.
+          * @default 'default'
+         */
+        "appearance": string;
+        /**
           * Inline error message. Use `error` slot for rich markup.
           * @default ''
          */
@@ -548,7 +549,7 @@ export namespace Components {
          */
         "label"?: string;
         /**
-          * The name attribute for the checkbox.
+          * The name attribute for the checkbox. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**
@@ -869,7 +870,7 @@ export namespace Components {
          */
         "show": () => Promise<void>;
         /**
-          * Size: 'sm' (compact padding), 'base' (default), or 'lg' (generous padding). Mirrors aegov-card sizing tokens. When `is-pinned="false"`, size also drives the edge gap and border-radius. When pinned, no border-radius is applied regardless of size.
+          * Panel width for left/right drawers, or panel height for top/bottom drawers. xs=320px · sm=384px · base=480px (default) · lg=640px · xl=800px · full=100vw/100dvh. Also scales padding and, when `is-pinned="false"`, the edge gap and border-radius. On viewports narrower than 640px all left/right sizes collapse to full width.
           * @default 'base'
          */
         "size": DrawerSize;
@@ -1159,7 +1160,7 @@ export namespace Components {
          */
         "isRevealable": boolean;
         /**
-          * The name attribute for the input.
+          * The name attribute for the input. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**
@@ -1263,7 +1264,7 @@ export namespace Components {
         "href": string;
         /**
           * Bold text.
-          * @default false
+          * @default true
          */
         "isBold": boolean;
         /**
@@ -1797,6 +1798,11 @@ export namespace Components {
     }
     interface AegovRadio {
         /**
+          * Visual appearance set by a parent aegov-radio-group. Not meant to be set directly.
+          * @default 'default'
+         */
+        "appearance": string;
+        /**
           * Inline error message. Use `error` slot for rich markup.
           * @default ''
          */
@@ -1838,7 +1844,7 @@ export namespace Components {
          */
         "label"?: string;
         /**
-          * The name attribute for the radio. Required for native radio grouping.
+          * The name attribute for the radio. Reflected so ElementInternals reads it for form submission, and so radio-group can propagate it via JS property assignment.
          */
         "name"?: string;
         /**
@@ -1990,7 +1996,7 @@ export namespace Components {
          */
         "mode": RangeMode;
         /**
-          * The name attribute for the range.
+          * The name attribute for the range. Reflected so ElementInternals reads it for form submission.
          */
         "name"?: string;
         /**
@@ -2366,7 +2372,7 @@ export namespace Components {
          */
         "maxlength"?: number;
         /**
-          * The name attribute for the textarea.
+          * The name attribute for the textarea. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**
@@ -2569,7 +2575,7 @@ export namespace Components {
          */
         "label"?: string;
         /**
-          * The name attribute for the toggle.
+          * The name attribute for the toggle. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**
@@ -3498,7 +3504,7 @@ declare global {
     };
     interface HTMLAegovTextareaElementEventMap {
         "aegovTextareaChange": { value: string; event: globalThis.Event };
-        "aegovTextareaInput": { value: string; event: globalThis.Event };
+        "aegovTextareaValue": { value: string; event: globalThis.Event };
         "aegovTextareaFocus": FocusEvent;
         "aegovTextareaBlur": FocusEvent;
         "aegovValidate": AegovValidationDetail<string>;
@@ -3857,10 +3863,6 @@ declare namespace LocalJSX {
          */
         "fieldId"?: string;
         /**
-          * Optional visible heading label for the banner. When provided, a `<span id="${fieldId}-heading">` is rendered inside the banner and the wrapper receives `aria-labelledby="${fieldId}-heading"`. Required for role="status" banners that need an accessible name.
-         */
-        "heading"?: string;
-        /**
           * Whether the banner can be dismissed/closed.
           * @default true
          */
@@ -4165,6 +4167,15 @@ declare namespace LocalJSX {
     }
     interface AegovCheckbox {
         /**
+          * Visual appearance set by a parent aegov-checkbox-group. Not meant to be set directly.
+          * @default 'default'
+         */
+        "appearance"?: string;
+        /**
+          * If `true`, the user cannot interact with the element.
+         */
+        "disabled"?: boolean;
+        /**
           * Inline error message. Use `error` slot for rich markup.
           * @default ''
          */
@@ -4177,6 +4188,10 @@ declare namespace LocalJSX {
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
         /**
           * Helper hint text displayed below the label. Only rendered when label is provided and no error is shown. Renamed from `description` (decision §6.6).
          */
@@ -4216,7 +4231,7 @@ declare namespace LocalJSX {
          */
         "label"?: string;
         /**
-          * The name attribute for the checkbox.
+          * The name attribute for the checkbox. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**
@@ -4542,7 +4557,7 @@ declare namespace LocalJSX {
          */
         "position"?: DrawerPosition;
         /**
-          * Size: 'sm' (compact padding), 'base' (default), or 'lg' (generous padding). Mirrors aegov-card sizing tokens. When `is-pinned="false"`, size also drives the edge gap and border-radius. When pinned, no border-radius is applied regardless of size.
+          * Panel width for left/right drawers, or panel height for top/bottom drawers. xs=320px · sm=384px · base=480px (default) · lg=640px · xl=800px · full=100vw/100dvh. Also scales padding and, when `is-pinned="false"`, the edge gap and border-radius. On viewports narrower than 640px all left/right sizes collapse to full width.
           * @default 'base'
          */
         "size"?: DrawerSize;
@@ -4783,6 +4798,10 @@ declare namespace LocalJSX {
          */
         "describedBySuffix"?: string;
         /**
+          * If `true`, the user cannot interact with the element.
+         */
+        "disabled"?: boolean;
+        /**
           * Inline error message rendered below the control when `isInvalid` is true. Auto-wires `aria-describedby` on the inner input. Use the `error` slot for richer markup.
           * @default ''
          */
@@ -4795,6 +4814,10 @@ declare namespace LocalJSX {
           * Unique ID for the native input element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
         /**
           * Helper hint rendered below the control. Hidden when an error is shown so the two text regions don't compete for the user's attention. Use the `hint` slot for richer markup.
           * @default ''
@@ -4831,7 +4854,7 @@ declare namespace LocalJSX {
          */
         "isRevealable"?: boolean;
         /**
-          * The name attribute for the input.
+          * The name attribute for the input. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**
@@ -4946,7 +4969,7 @@ declare namespace LocalJSX {
         "href": string;
         /**
           * Bold text.
-          * @default false
+          * @default true
          */
         "isBold"?: boolean;
         /**
@@ -5515,6 +5538,15 @@ declare namespace LocalJSX {
     }
     interface AegovRadio {
         /**
+          * Visual appearance set by a parent aegov-radio-group. Not meant to be set directly.
+          * @default 'default'
+         */
+        "appearance"?: string;
+        /**
+          * If `true`, the user cannot interact with the element.
+         */
+        "disabled"?: boolean;
+        /**
           * Inline error message. Use `error` slot for rich markup.
           * @default ''
          */
@@ -5527,6 +5559,10 @@ declare namespace LocalJSX {
           * Unique ID for the native radio element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
         /**
           * Helper hint text displayed below the label. Renamed from `description` per §6.6. Hidden when an error is shown.
          */
@@ -5556,7 +5592,7 @@ declare namespace LocalJSX {
          */
         "label"?: string;
         /**
-          * The name attribute for the radio. Required for native radio grouping.
+          * The name attribute for the radio. Reflected so ElementInternals reads it for form submission, and so radio-group can propagate it via JS property assignment.
          */
         "name"?: string;
         /**
@@ -5651,6 +5687,10 @@ declare namespace LocalJSX {
     }
     interface AegovRange {
         /**
+          * If `true`, the user cannot interact with the element.
+         */
+        "disabled"?: boolean;
+        /**
           * Value display mode.
           * @default 'none'
          */
@@ -5668,6 +5708,10 @@ declare namespace LocalJSX {
           * Unique ID for the native range input element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
         /**
           * Helper hint shown below the control. Hidden when an error is shown.
           * @default ''
@@ -5708,7 +5752,7 @@ declare namespace LocalJSX {
          */
         "mode"?: RangeMode;
         /**
-          * The name attribute for the range.
+          * The name attribute for the range. Reflected so ElementInternals reads it for form submission.
          */
         "name"?: string;
         /**
@@ -6067,6 +6111,10 @@ declare namespace LocalJSX {
     }
     interface AegovTextarea {
         /**
+          * If `true`, the user cannot interact with the element.
+         */
+        "disabled"?: boolean;
+        /**
           * Inline error message rendered below the control when `isInvalid` is true. Use `error` slot for richer markup.
           * @default ''
          */
@@ -6079,6 +6127,10 @@ declare namespace LocalJSX {
           * Unique ID for the native textarea element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
         /**
           * Helper hint rendered below the control. Hidden when an error is shown. Use `hint` slot for richer markup.
           * @default ''
@@ -6114,7 +6166,7 @@ declare namespace LocalJSX {
          */
         "maxlength"?: number;
         /**
-          * The name attribute for the textarea.
+          * The name attribute for the textarea. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**
@@ -6132,7 +6184,7 @@ declare namespace LocalJSX {
         /**
           * Emitted on every keystroke.
          */
-        "onAegovTextareaInput"?: (event: AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>) => void;
+        "onAegovTextareaValue"?: (event: AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>) => void;
         /**
           * Unified validation event. See validation-engine-addon.md §2.3.
          */
@@ -6296,6 +6348,10 @@ declare namespace LocalJSX {
     }
     interface AegovToggle {
         /**
+          * If `true`, the user cannot interact with the element.
+         */
+        "disabled"?: boolean;
+        /**
           * Inline error message. Use `error` slot for rich markup.
           * @default ''
          */
@@ -6304,6 +6360,10 @@ declare namespace LocalJSX {
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
         /**
           * Helper hint text displayed below the label. Renamed from `description` per §6.6. Hidden when an error is shown.
          */
@@ -6333,7 +6393,7 @@ declare namespace LocalJSX {
          */
         "label"?: string;
         /**
-          * The name attribute for the toggle.
+          * The name attribute for the toggle. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**
@@ -6463,7 +6523,6 @@ declare namespace LocalJSX {
         "display": BannerDisplay;
         "mode": BannerMode;
         "isDismissible": boolean;
-        "heading": string;
         "size": string;
         "isFocusable": boolean;
     }
@@ -6537,6 +6596,7 @@ declare namespace LocalJSX {
         "isChecked": boolean;
         "size": string;
         "variant": FormVariant;
+        "appearance": string;
         "isDisabled": boolean;
         "isRequired": boolean;
         "label": string;
@@ -6811,6 +6871,7 @@ declare namespace LocalJSX {
         "isChecked": boolean;
         "size": string;
         "variant": FormVariant;
+        "appearance": string;
         "isDisabled": boolean;
         "isRequired": boolean;
         "label": string;

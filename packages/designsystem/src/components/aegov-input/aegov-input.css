@@ -25,16 +25,16 @@
 .aegov-input.input-variant-neutral-min   { @apply border-aeblack-300 text-aeblack-700 dark:border-aeblack-600 dark:text-aeblack-200 }
 
 /* Focus ring — overrides variant idle border. Specificity (0,2,1) beats variant (0,2,0). */
-.aegov-input.input-variant-primary:focus {
+.aegov-input.input-variant-primary:focus-visible {
   @apply ring-1 ring-offset-2 ring-primary-support-400 border-2 border-primary-support-400
          dark:ring-primary-support-400 dark:border-primary-support-400;
 }
-.aegov-input.input-variant-secondary:focus {
+.aegov-input.input-variant-secondary:focus-visible {
   @apply ring-1 ring-offset-2 ring-secondary-support-400 border-2 border-secondary-support-400
          dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
-.aegov-input.input-variant-neutral-max:focus,
-.aegov-input.input-variant-neutral-min:focus { @apply ring-1 ring-offset-2 ring-seablue-400 dark:ring-seablue-400 border-2 border-seablue-400 dark:border-seablue-400; }
+.aegov-input.input-variant-neutral-max:focus-visible,
+.aegov-input.input-variant-neutral-min:focus-visible { @apply ring-1 ring-offset-2 ring-seablue-400 dark:ring-seablue-400 border-2 border-seablue-400 dark:border-seablue-400; }
 
 /* Size variants */
 .input--xs {
@@ -216,13 +216,13 @@
    NOTE: `:host` only matches in shadow DOM. This component is
    `scoped: false, shadow: false`, so the host is a normal light-DOM custom
    element — selector must target it by tag name + class. */
-aegov-input.is-invalid .aegov-input {
+:host(.is-invalid) .aegov-input {
   @apply border-aered-600 dark:border-aered-500;
 }
 
-aegov-input.is-invalid .aegov-input:focus {
+:host(.is-invalid) .aegov-input:focus-visible {
   /* Override variant focus treatment: red ring with offset.
-     Without this, the variant rule (e.g. .input-variant-primary:focus)
+     Without this, the variant rule (e.g. .input-variant-primary:focus-visible)
      leaks its support-colour ring through the invalid state.
      Same selector specificity (0,2,1) — placed after the variant rules so
      source order wins. */
@@ -243,4 +243,141 @@ aegov-input.is-invalid .aegov-input:focus {
 .input__wrapper--sm .input__icon > svg { @apply w-4 h-4; }        /* 16px */
 .input__wrapper--base .input__icon > svg { @apply w-[18px] h-[18px]; }
 .input__wrapper--lg .input__icon > svg { @apply w-5 h-5; }        /* 20px */
+
+/* --------------------------------------------------------
+   aegov-input-group context: strip own border/ring/rounding
+   so the group wrapper is the single visual boundary.
+   `:host-context()` pierces from outside the shadow root.
+   -------------------------------------------------------- */
+:host-context(.aegov-input-group) .aegov-input {
+  @apply border-0 rounded-none bg-transparent shadow-none;
+}
+:host-context(.aegov-input-group) .aegov-input:focus,
+:host-context(.aegov-input-group) .aegov-input:focus-visible {
+  @apply border-0 ring-0 ring-offset-0 shadow-none;
+}
+:host-context(.aegov-input-group) .input__wrapper {
+  @apply rounded-none;
+}
+/* Hint and error belong outside the group's bordered container — hide when inside a group */
+:host-context(.aegov-input-group) .aegov-input__hint,
+:host-context(.aegov-input-group) .aegov-input__error {
+  @apply hidden;
+}
+/* Cancel own disabled opacity when the group wrapper already handles it (avoids 0.4×0.4=0.16 compound) */
+:host-context(.aegov-input-group:has([is-disabled])) .aegov-input:disabled {
+  opacity: 1;
+}
 .input__wrapper--xl .input__icon > svg { @apply w-[22px] h-[22px]; }
+
+/* ── Icon-end: inset buttons with clipping ─────────────────────────────
+   The clip size is set as a CSS custom property on the shadow container.
+   It propagates to slotted elements through the slot flat-tree so
+   ::slotted() can use it to constrain and clip the aegov-button host.
+
+   Per-size clip = input_height − 2×4px inset:
+     xs(36px)→28px  sm(40px)→32px  base(44px)→36px  lg(48px)→40px  xl(52px)→44px
+──────────────────────────────────────────────────────────────────────── */
+.input__wrapper--xs   .input__icon--end { --ae-icon-clip: calc(var(--spacing) * 7);  }
+.input__wrapper--sm   .input__icon--end { --ae-icon-clip: calc(var(--spacing) * 8);  }
+.input__wrapper--base .input__icon--end { --ae-icon-clip: calc(var(--spacing) * 9);  }
+.input__wrapper--lg   .input__icon--end { --ae-icon-clip: calc(var(--spacing) * 10); }
+.input__wrapper--xl   .input__icon--end { --ae-icon-clip: calc(var(--spacing) * 11); }
+
+/* 4px right inset (overrides end-0 from .input__icon--end — same spec, placed after) */
+.input__icon--end {
+  @apply end-1;
+}
+
+/* top+bottom inset for vertical centering; width auto so multi-button grows freely.
+   min-width ensures a single SVG/img icon still gets the full clip-sized zone (same
+   visual weight as icon-start) — the SVG is then centered inside by flex. */
+.input__wrapper--xs   .input__icon.input__icon--end,
+.input__wrapper--sm   .input__icon.input__icon--end,
+.input__wrapper--base .input__icon.input__icon--end,
+.input__wrapper--lg   .input__icon.input__icon--end,
+.input__wrapper--xl   .input__icon.input__icon--end {
+  top: calc(var(--spacing) * 1) !important;
+  bottom: calc(var(--spacing) * 1) !important;
+  height: auto !important;
+  width: auto !important;
+  min-width: var(--ae-icon-clip, calc(var(--spacing) * 7));
+  overflow: hidden;
+  @apply gap-1;
+}
+
+/* Base layout for slotted icon-start — color (text-aeblack-500) inherits from .input__icon */
+::slotted([slot="icon-start"]) {
+  flex-shrink: 0;
+  display: block;
+}
+
+/* Clip slotted icon-end buttons: width+height from inherited --ae-icon-clip;
+   overflow:hidden clips the button's shadow-DOM content to that size.
+   svg/img/span are overridden to the correct icon size by the per-size rules below. */
+::slotted([slot="icon-end"]) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--ae-icon-clip, calc(var(--spacing) * 11));
+  height: var(--ae-icon-clip, calc(var(--spacing) * 11));
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+/* ── Per-size icon sizing for BOTH slots ────────────────────────────────────
+   Specificity (0,2,1) beats both ::slotted rules (0,1,0).
+   Covers: bare <svg>, <img>, and <span>-wrapped icons.
+   aegov-button in icon-end is NOT svg/img/span so it keeps the clip size above.
+   Color inherits from .input__icon { text-aeblack-500 dark:text-aeblack-400 }.
+────────────────────────────────────────────────────────────────────────────── */
+.input__wrapper--xs   .input__icon--start ::slotted(svg),
+.input__wrapper--xs   .input__icon--start ::slotted(img),
+.input__wrapper--xs   .input__icon--start ::slotted(span),
+.input__wrapper--xs   .input__icon--end   ::slotted(svg),
+.input__wrapper--xs   .input__icon--end   ::slotted(img),
+.input__wrapper--xs   .input__icon--end   ::slotted(span) { @apply w-3.5 h-3.5; }
+
+.input__wrapper--sm   .input__icon--start ::slotted(svg),
+.input__wrapper--sm   .input__icon--start ::slotted(img),
+.input__wrapper--sm   .input__icon--start ::slotted(span),
+.input__wrapper--sm   .input__icon--end   ::slotted(svg),
+.input__wrapper--sm   .input__icon--end   ::slotted(img),
+.input__wrapper--sm   .input__icon--end   ::slotted(span) { @apply w-4 h-4; }
+
+.input__wrapper--base .input__icon--start ::slotted(svg),
+.input__wrapper--base .input__icon--start ::slotted(img),
+.input__wrapper--base .input__icon--start ::slotted(span),
+.input__wrapper--base .input__icon--end   ::slotted(svg),
+.input__wrapper--base .input__icon--end   ::slotted(img),
+.input__wrapper--base .input__icon--end   ::slotted(span) { @apply w-[18px] h-[18px]; }
+
+.input__wrapper--lg   .input__icon--start ::slotted(svg),
+.input__wrapper--lg   .input__icon--start ::slotted(img),
+.input__wrapper--lg   .input__icon--start ::slotted(span),
+.input__wrapper--lg   .input__icon--end   ::slotted(svg),
+.input__wrapper--lg   .input__icon--end   ::slotted(img),
+.input__wrapper--lg   .input__icon--end   ::slotted(span) { @apply w-5 h-5; }
+
+.input__wrapper--xl   .input__icon--start ::slotted(svg),
+.input__wrapper--xl   .input__icon--start ::slotted(img),
+.input__wrapper--xl   .input__icon--start ::slotted(span),
+.input__wrapper--xl   .input__icon--end   ::slotted(svg),
+.input__wrapper--xl   .input__icon--end   ::slotted(img),
+.input__wrapper--xl   .input__icon--end   ::slotted(span) { @apply w-[22px] h-[22px]; }
+
+/* Override single-icon-end input padding (spec 0,2,0, placed after existing rules).
+   Formula: 4px right-inset + button-clip */
+.input--has-icon-end.input--xs   { padding-inline-end: calc(var(--spacing) * 8);  }
+.input--has-icon-end.input--sm   { padding-inline-end: calc(var(--spacing) * 9);  }
+.input--has-icon-end.input--base { padding-inline-end: calc(var(--spacing) * 10); }
+.input--has-icon-end.input--lg   { padding-inline-end: calc(var(--spacing) * 11); }
+.input--has-icon-end.input--xl   { padding-inline-end: calc(var(--spacing) * 12); }
+
+/* Multi icon-end: btn + gap(4px) + btn; spec (0,3,0) beats single-btn rules. */
+.input--has-icon-end.input--has-multi-icon-end.input--xs   { padding-inline-end: calc(var(--spacing) * 16); }
+.input--has-icon-end.input--has-multi-icon-end.input--sm   { padding-inline-end: calc(var(--spacing) * 18); }
+.input--has-icon-end.input--has-multi-icon-end.input--base { padding-inline-end: calc(var(--spacing) * 20); }
+.input--has-icon-end.input--has-multi-icon-end.input--lg   { padding-inline-end: calc(var(--spacing) * 22); }
+.input--has-icon-end.input--has-multi-icon-end.input--xl   { padding-inline-end: calc(var(--spacing) * 24); }

@@ -1,75 +1,65 @@
 # Button
 
-<p class="text-lg text-aeblack-500 mb-8">A Button triggers an action. Use it to submit a form, confirm a decision, open a dialog, or start a process — anything that changes state rather than navigating somewhere. Buttons carry the strongest interaction affordance in the system, so the number of them on a screen, and their relative weight, is how a user works out what they are meant to do next.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Button is the primary call-to-action element of any UAE Government service — submit an application, confirm a payment, cancel a request, or move to the next step. The <code>aegov-button</code> component renders a real native <code>&lt;button&gt;</code> internally and exposes a rich set of properties for variant, appearance, size, icon, loading, disabled, and grouping behaviour, so a single component covers every action style in the design system.</p>
 
 ## Introduction
 
-`aegov-button` renders a real `<button>` inside a shadow root and projects your content into it. Two properties do most of the work: `variant` chooses the semantic colour and `appearance` chooses the visual treatment. Everything else — size, loading, icon-only, full width — layers on top.
+The `aegov-button` component composes a single native `<button>` element with full keyboard, focus, and screen-reader support. Its visual style is driven by three orthogonal properties: `variant` (the colour family — primary, secondary, danger, neutral), `appearance` (the visual treatment — solid, outline, soft, link), and `size` (`xs` through `xl`). Additional state props handle loading, disabled, full-width, icon-only, and group positioning.
 
 ```html
 <aegov-button>Submit application</aegov-button>
-<aegov-button variant="secondary">Save draft</aegov-button>
-<aegov-button appearance="outline">Cancel</aegov-button>
-<aegov-button appearance="soft">Learn more</aegov-button>
-<aegov-button variant="danger">Delete request</aegov-button>
+<aegov-button variant="secondary" appearance="outline">Save as draft</aegov-button>
+<aegov-button variant="danger" appearance="soft">Cancel request</aegov-button>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap items-center gap-3">
-    <aegov-button>Submit application</aegov-button>
-    <aegov-button variant="secondary">Save draft</aegov-button>
-    <aegov-button appearance="outline">Cancel</aegov-button>
-    <aegov-button appearance="soft">Learn more</aegov-button>
-    <aegov-button variant="danger">Delete request</aegov-button>
-  </div>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3">
+  <aegov-button>Submit application</aegov-button>
+  <aegov-button variant="secondary" appearance="outline">Save as draft</aegov-button>
+  <aegov-button variant="danger" appearance="soft">Cancel request</aegov-button>
 </div>
-
-Because the component wraps a native `<button>`, keyboard activation, form submission, and the button role all come from the platform rather than being re-implemented.
 
 ---
 
-## Variant
+## Variants
 
-`variant` sets the semantic colour. It answers "how important is this, and is it destructive?" — never "what should it look like".
+The `variant` property selects the colour family. Use `primary` for the main positive action on a screen, `secondary` for supporting actions, `danger` for destructive actions, and the two neutral variants when the button needs to recede on a dense interface.
 
-| Variant | Use for |
-| --- | --- |
-| `primary` | The main action on the screen. One per view, as a rule. |
-| `secondary` | A supporting action of real importance — "Save draft" next to "Submit". |
-| `neutral-max` | High-contrast neutral, for toolbars and dense UI where colour would be noise. |
-| `neutral-min` | Low-contrast neutral, for the quietest actions in a group. |
-| `danger` | Destructive and irreversible actions — delete, withdraw, cancel a submitted request. |
+| Variant       | Typical use                                                                              |
+| ------------- | ---------------------------------------------------------------------------------------- |
+| `primary`     | The single most important action on the screen (Submit, Pay, Continue).                  |
+| `secondary`   | Supporting actions on the same screen (Save draft, Add another).                         |
+| `danger`      | Irreversible or destructive actions (Delete, Cancel application).                        |
+| `neutral-min`  | Low-emphasis utility action that should fade into the background.                        |
+| `neutral-max`  | Low-emphasis action with slightly stronger visual weight than `neutral-min`.              |
 
 ```html
 <aegov-button variant="primary">Primary</aegov-button>
 <aegov-button variant="secondary">Secondary</aegov-button>
-<aegov-button variant="neutral-max">Neutral max</aegov-button>
-<aegov-button variant="neutral-min">Neutral min</aegov-button>
 <aegov-button variant="danger">Danger</aegov-button>
+<aegov-button variant="neutral-min">Neutral min</aegov-button>
+<aegov-button variant="neutral-max">Neutral max</aegov-button>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap items-center gap-3">
-    <aegov-button variant="primary">Primary</aegov-button>
-    <aegov-button variant="secondary">Secondary</aegov-button>
-    <aegov-button variant="neutral-max">Neutral max</aegov-button>
-    <aegov-button variant="neutral-min">Neutral min</aegov-button>
-    <aegov-button variant="danger">Danger</aegov-button>
-  </div>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3">
+  <aegov-button variant="primary">Primary</aegov-button>
+  <aegov-button variant="secondary">Secondary</aegov-button>
+  <aegov-button variant="danger">Danger</aegov-button>
+  <aegov-button variant="neutral-min">Neutral min</aegov-button>
+  <aegov-button variant="neutral-max">Neutral max</aegov-button>
 </div>
 
 ---
 
-## Appearance
+## Appearances
 
-`appearance` sets the visual treatment at a given variant. Weight descends from `solid` to `link`, which is how you build a visual hierarchy without changing colour.
+The `appearance` property selects the visual treatment that wraps the variant colour. Each variant works with every appearance — pair the variant with the appearance that matches the button's emphasis on the page.
 
-| Appearance | Treatment | Use for |
-| --- | --- | --- |
-| `solid` | Filled panel with a subtle inset highlight and a 1px border. | The action you want taken. |
-| `outline` | Transparent fill, 2px border. | A secondary action that still needs a clear boundary. |
-| `soft` | Tinted fill, no border. | Quiet actions inside dense surfaces such as cards and table rows. |
-| `link` | No fill, no border, underline on hover. | The lightest possible action, when a button must sit inline with text. |
+| Appearance | Treatment                                                                                  |
+| ---------- | ------------------------------------------------------------------------------------------ |
+| `solid`    | Filled background, white text. Highest emphasis. Use for the primary action only.           |
+| `outline`  | Transparent background with a 2px border in the variant colour. Strong but not dominant.    |
+| `soft`     | Light tinted background with the variant colour text. Friendly and lower-emphasis.          |
+| `link`     | Text-only with an underline on hover. Use when the button must look like inline text.       |
 
 ```html
 <aegov-button appearance="solid">Solid</aegov-button>
@@ -78,448 +68,530 @@ Because the component wraps a native `<button>`, keyboard activation, form submi
 <aegov-button appearance="link">Link</aegov-button>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <p class="font-medium mb-3">Primary</p>
-  <div class="flex flex-wrap items-center gap-3 mb-6">
-    <aegov-button appearance="solid">Solid</aegov-button>
-    <aegov-button appearance="outline">Outline</aegov-button>
-    <aegov-button appearance="soft">Soft</aegov-button>
-    <aegov-button appearance="link">Link</aegov-button>
-  </div>
-  <p class="font-medium mb-3">Secondary</p>
-  <div class="flex flex-wrap items-center gap-3 mb-6">
-    <aegov-button variant="secondary" appearance="solid">Solid</aegov-button>
-    <aegov-button variant="secondary" appearance="outline">Outline</aegov-button>
-    <aegov-button variant="secondary" appearance="soft">Soft</aegov-button>
-    <aegov-button variant="secondary" appearance="link">Link</aegov-button>
-  </div>
-  <p class="font-medium mb-3">Danger</p>
-  <div class="flex flex-wrap items-center gap-3 mb-6">
-    <aegov-button variant="danger" appearance="solid">Solid</aegov-button>
-    <aegov-button variant="danger" appearance="outline">Outline</aegov-button>
-    <aegov-button variant="danger" appearance="soft">Soft</aegov-button>
-    <aegov-button variant="danger" appearance="link">Link</aegov-button>
-  </div>
-  <p class="font-medium mb-3">Neutral max / Neutral min</p>
-  <div class="flex flex-wrap items-center gap-3">
-    <aegov-button variant="neutral-max" appearance="solid">Solid</aegov-button>
-    <aegov-button variant="neutral-max" appearance="outline">Outline</aegov-button>
-    <aegov-button variant="neutral-min" appearance="solid">Solid</aegov-button>
-    <aegov-button variant="neutral-min" appearance="outline">Outline</aegov-button>
-  </div>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3 items-center">
+  <aegov-button appearance="solid">Solid</aegov-button>
+  <aegov-button appearance="outline">Outline</aegov-button>
+  <aegov-button appearance="soft">Soft</aegov-button>
+  <aegov-button appearance="link">Link</aegov-button>
 </div>
 
-### Choosing a combination
+### Variant + appearance matrix
 
-The pairing carries meaning, so keep it consistent across a service:
+Every combination of `variant` (5) × `appearance` (4) produces a distinct visual style. Use this matrix to pick the right button for each context — rows fix the semantic intent (variant), columns fix the visual weight (appearance).
 
-- **One `primary` + `solid` per view.** Two competing solid primaries force the user to decide which one you meant.
-- **Pair the primary action with an `outline` or `soft` sibling**, not a second solid.
-- **`danger` + `solid`** only when the destructive action is the expected one — a confirmation dialog. In a list of rows, `danger` + `soft` or `outline` reads better and misfires less.
+```html
+<aegov-button variant="primary" appearance="solid">Save</aegov-button>
+<aegov-button variant="danger"  appearance="outline">Delete</aegov-button>
+<aegov-button variant="neutral-max" appearance="link">Learn more</aegov-button>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov overflow-x-auto">
+  <div class="grid gap-3 items-center" style="grid-template-columns: 9rem repeat(4, minmax(8rem, 1fr));">
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500"></div>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">solid</div>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">outline</div>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">soft</div>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">link</div>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">primary</div>
+    <aegov-button variant="primary" appearance="solid">Action</aegov-button>
+    <aegov-button variant="primary" appearance="outline">Action</aegov-button>
+    <aegov-button variant="primary" appearance="soft">Action</aegov-button>
+    <aegov-button variant="primary" appearance="link">Action</aegov-button>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">secondary</div>
+    <aegov-button variant="secondary" appearance="solid">Action</aegov-button>
+    <aegov-button variant="secondary" appearance="outline">Action</aegov-button>
+    <aegov-button variant="secondary" appearance="soft">Action</aegov-button>
+    <aegov-button variant="secondary" appearance="link">Action</aegov-button>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">danger</div>
+    <aegov-button variant="danger" appearance="solid">Action</aegov-button>
+    <aegov-button variant="danger" appearance="outline">Action</aegov-button>
+    <aegov-button variant="danger" appearance="soft">Action</aegov-button>
+    <aegov-button variant="danger" appearance="link">Action</aegov-button>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">neutral-min</div>
+    <aegov-button variant="neutral-min" appearance="solid">Action</aegov-button>
+    <aegov-button variant="neutral-min" appearance="outline">Action</aegov-button>
+    <aegov-button variant="neutral-min" appearance="soft">Action</aegov-button>
+    <aegov-button variant="neutral-min" appearance="link">Action</aegov-button>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">neutral-max</div>
+    <aegov-button variant="neutral-max" appearance="solid">Action</aegov-button>
+    <aegov-button variant="neutral-max" appearance="outline">Action</aegov-button>
+    <aegov-button variant="neutral-max" appearance="soft">Action</aegov-button>
+    <aegov-button variant="neutral-max" appearance="link">Action</aegov-button>
+  </div>
+</div>
 
 ---
 
 ## Sizes
 
-`size` controls height, horizontal padding, gap, font size and corner radius together.
+The `size` property accepts `xs`, `sm`, `base` (default), `lg`, and `xl`. It also accepts a Tailwind-style responsive string with the breakpoint prefixes `xs`, `sm`, `md`, `lg`, `xl`, and `2xl`.
 
-| Token | Height | Radius | Padding | Font |
-| --- | --- | --- | --- | --- |
-| `xs` | `h-9` (36px) | `rounded-md` | `px-2.5` | `text-sm` |
-| `sm` | `h-10` (40px) | `rounded-md` | `px-3` | `text-base` |
-| `base` | `h-11` (44px) | `rounded-md` | `px-3.5` | `text-base` |
-| `lg` | `h-12` (48px) | `rounded-lg` | `px-4` | `text-lg` |
-| `xl` | `h-13` (52px) | `rounded-lg` | `px-4.5` | `text-lg` |
+| Token   | Height            | Typical use                                                       |
+| ------- | ----------------- | ----------------------------------------------------------------- |
+| `xs`    | 36 px (`h-9`)     | Compact toolbars, table-row inline actions.                       |
+| `sm`    | 40 px (`h-10`)    | Dense forms; matches `aegov-input size="sm"`.                     |
+| `base`  | 44 px (`h-11`)    | Default for most page-level actions.                              |
+| `lg`    | 48 px (`h-12`)    | Hero sections; matches `aegov-input size="base"`.                 |
+| `xl`    | 52 px (`h-13`)    | Marketing landing pages; pairs with `aegov-input size="lg"`.      |
 
 ```html
-<aegov-button size="xs">Extra small</aegov-button>
-<aegov-button size="sm">Small</aegov-button>
+<aegov-button size="xs">XS</aegov-button>
+<aegov-button size="sm">SM</aegov-button>
 <aegov-button size="base">Base</aegov-button>
-<aegov-button size="lg">Large</aegov-button>
-<aegov-button size="xl">Extra large</aegov-button>
+<aegov-button size="lg">LG</aegov-button>
+<aegov-button size="xl">XL</aegov-button>
+
+<!-- Responsive: small on phones, base from md, large from xl -->
+<aegov-button size="sm md:base xl:lg">Resize me</aegov-button>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap items-center gap-3">
-    <aegov-button size="xs">Extra small</aegov-button>
-    <aegov-button size="sm">Small</aegov-button>
-    <aegov-button size="base">Base</aegov-button>
-    <aegov-button size="lg">Large</aegov-button>
-    <aegov-button size="xl">Extra large</aegov-button>
-  </div>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3 items-center">
+  <aegov-button size="xs">XS</aegov-button>
+  <aegov-button size="sm">SM</aegov-button>
+  <aegov-button size="base">Base</aegov-button>
+  <aegov-button size="lg">LG</aegov-button>
+  <aegov-button size="xl">XL</aegov-button>
 </div>
-
-Form controls share this scale, so a button placed beside an input at the same size token lines up exactly. Use `lg` for both when building the primary path through a service form.
 
 ### Responsive sizes
 
-`size` accepts a Tailwind-style responsive string. The first token is the base value and each `breakpoint:value` segment takes over at that breakpoint and above. Available prefixes are `xs`, `sm`, `md`, `lg`, `xl` and `2xl`.
-
 ```html
-<aegov-button size="sm md:base xl:lg">Adapts to the viewport</aegov-button>
-<aegov-button size="base lg:xl" is-full>Full width, grows on desktop</aegov-button>
+<aegov-button size="sm md:base xl:lg">Sized to viewport</aegov-button>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-button size="sm md:base xl:lg">Adapts to the viewport</aegov-button>
+  <aegov-button size="sm md:base xl:lg">Resize the viewport to see the size adapt</aegov-button>
 </div>
-
-Resolution happens at runtime through `matchMedia`, so the size changes live as the viewport changes. An unrecognised token is ignored rather than throwing, and the base value is used.
 
 ---
 
-## States
+## Buttons with Icons
 
-### Disabled
+The default slot accepts any inline content, including SVG icons. Place an icon before the label for a "leading" icon, after the label for a "trailing" icon, or use `is-icon` to render a square icon-only button.
 
-`is-disabled` sets the native `disabled` attribute on the inner button, so it leaves the tab order and stops emitting events. `aegovButtonClick` is not emitted while disabled.
-
-```html
-<aegov-button is-disabled>Submit application</aegov-button>
-<aegov-button appearance="outline" is-disabled>Cancel</aegov-button>
-<aegov-button variant="danger" is-disabled>Delete</aegov-button>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap items-center gap-3">
-    <aegov-button is-disabled>Submit application</aegov-button>
-    <aegov-button appearance="outline" is-disabled>Cancel</aegov-button>
-    <aegov-button appearance="soft" is-disabled>Soft</aegov-button>
-    <aegov-button variant="danger" is-disabled>Delete</aegov-button>
-  </div>
-</div>
-
-Prefer not to use a disabled submit button as the only signal that a form is incomplete — a disabled control gives a keyboard or screen reader user nothing to act on and no explanation of what is missing. Let them submit and then tell them what failed. See [Bring Your Own Validator](validation-byo.html).
-
-### Loading
-
-`is-loading` swaps in a spinner ahead of the label and disables the button for the duration. The button reports `aria-busy="true"`, the spinner itself is `aria-hidden`, and a visually hidden live region announces "Loading" — so the state reaches assistive technology without the spinner being read as content.
-
-```html
-<aegov-button is-loading>Submitting…</aegov-button>
-<aegov-button variant="secondary" is-loading>Saving</aegov-button>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap items-center gap-3">
-    <aegov-button is-loading>Submitting…</aegov-button>
-    <aegov-button variant="secondary" is-loading>Saving</aegov-button>
-    <aegov-button appearance="outline" is-loading>Checking</aegov-button>
-  </div>
-</div>
-
-Drive it around your async work and always restore it in a `finally`, so a failed request does not leave a permanently spinning button:
-
-```html
-<aegov-button id="submit" variant="primary" size="lg">Submit application</aegov-button>
-
-<script type="module">
-  const button = document.querySelector('#submit');
-
-  button.addEventListener('aegovButtonClick', async () => {
-    button.isLoading = true;
-    try {
-      await api.submitApplication();
-      showToast('Application submitted');
-    } catch {
-      showToast('Submission failed. Try again.', 'error');
-    } finally {
-      button.isLoading = false;
-    }
-  });
-</script>
-```
-
-Keep the label stable, or change it to a present-tense equivalent — do not empty it. The label is the accessible name, and a spinner with no text is an unnamed button.
-
----
-
-## Buttons with icons
-
-Slot an inline `<svg>` before or after the label. The button lays out its content with a flex gap sized to the `size` token, so no positioning is needed. Mark decorative icons `aria-hidden="true"` — the label is the accessible name.
+### Leading icon
 
 ```html
 <aegov-button>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" aria-hidden="true">
-    <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-  </svg>
-  New application
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  Contact support
 </aegov-button>
+```
 
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    Contact support
+  </aegov-button>
+</div>
+
+### Trailing icon
+
+```html
 <aegov-button appearance="outline">
-  Download receipt
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" aria-hidden="true">
-    <path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.19L6.28 7.97a.75.75 0 0 0-1.06 1.06l4.25 4.25a.75.75 0 0 0 1.06 0l4.25-4.25a.75.75 0 0 0-1.06-1.06l-2.97 2.97V2.75Z" />
-    <path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z" />
-  </svg>
+  Continue
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
 </aegov-button>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap items-center gap-3">
-    <aegov-button>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" aria-hidden="true"><path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" /></svg>
-      New application
-    </aegov-button>
-    <aegov-button appearance="outline">
-      Download receipt
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" aria-hidden="true"><path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.19L6.28 7.97a.75.75 0 0 0-1.06 1.06l4.25 4.25a.75.75 0 0 0 1.06 0l4.25-4.25a.75.75 0 0 0-1.06-1.06l-2.97 2.97V2.75Z" /><path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z" /></svg>
-    </aegov-button>
-    <aegov-button variant="secondary" appearance="soft">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" /></svg>
-      Mark as complete
-    </aegov-button>
-  </div>
+  <aegov-button appearance="outline">
+    Continue
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </aegov-button>
 </div>
 
-### Icon-only buttons
+### Icon-only
 
-`is-icon` makes the button square at the current size. An icon-only button has no text to act as its accessible name, so you **must** supply `aria-label` — it is forwarded to the inner button.
+Set `is-icon="true"` to render a square button. Always supply an `aria-label` so screen readers announce the button's purpose.
 
 ```html
-<aegov-button is-icon aria-label="Print application">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" aria-hidden="true">
-    <path fill-rule="evenodd" d="M5 2.75A2.75 2.75 0 0 1 7.75 0h4.5A2.75 2.75 0 0 1 15 2.75v.5h.25A3.75 3.75 0 0 1 19 7v4.25a2.75 2.75 0 0 1-2.75 2.75H15v2.75A2.75 2.75 0 0 1 12.25 20h-4.5A2.75 2.75 0 0 1 5 17.25V14H3.75A2.75 2.75 0 0 1 1 11.25V7a3.75 3.75 0 0 1 3.75-3.75H5v-.5Z" clip-rule="evenodd" />
-  </svg>
+<aegov-button is-icon="true" aria-label="Open settings" appearance="outline">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
 </aegov-button>
-
-<aegov-button is-icon appearance="outline" aria-label="Edit details">…</aegov-button>
-<aegov-button is-icon variant="danger" appearance="soft" aria-label="Delete draft">…</aegov-button>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap items-center gap-3">
-    <aegov-button is-icon aria-label="Add">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" aria-hidden="true"><path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" /></svg>
-    </aegov-button>
-    <aegov-button is-icon appearance="outline" aria-label="Edit details">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" aria-hidden="true"><path d="M13.586 3.586a2 2 0 1 1 2.828 2.828l-.793.793-2.828-2.828.793-.793ZM11.379 5.793 3 14.172V17h2.828l8.38-8.379-2.83-2.828Z" /></svg>
-    </aegov-button>
-    <aegov-button is-icon variant="danger" appearance="soft" aria-label="Delete draft">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" aria-hidden="true"><path fill-rule="evenodd" d="M8.75 1a1.75 1.75 0 0 0-1.75 1.75V3.5H4.25a.75.75 0 0 0 0 1.5h11.5a.75.75 0 0 0 0-1.5H13v-.75A1.75 1.75 0 0 0 11.25 1h-2.5ZM5.5 6.5h9l-.63 9.44A2.25 2.25 0 0 1 11.63 18H8.37a2.25 2.25 0 0 1-2.24-2.06L5.5 6.5Z" clip-rule="evenodd" /></svg>
-    </aegov-button>
-    <aegov-button is-icon size="sm" appearance="soft" aria-label="More options">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" aria-hidden="true"><path d="M3 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm5.5 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM14 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" /></svg>
-    </aegov-button>
-  </div>
-</div>
-
-Note that at `xs` the button is 36 × 36 CSS px and at `sm` it is 40 × 40, both comfortably above the 24 × 24 minimum target size required by WCAG 2.2 SC 2.5.8. If you shrink an icon button with your own CSS, do not go below that floor.
-
----
-
-## Full width
-
-`is-full` stretches the button to fill its container. Useful on mobile layouts and inside narrow cards.
-
-```html
-<aegov-button is-full size="lg">Continue to payment</aegov-button>
-<aegov-button is-full appearance="outline">Back</aegov-button>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-sm space-y-3">
-    <aegov-button is-full size="lg">Continue to payment</aegov-button>
-    <aegov-button is-full appearance="outline">Back</aegov-button>
-  </div>
-</div>
-
-A common responsive pattern is full width on small screens only, which you get by combining `is-full` with your own utility on the host:
-
-```html
-<aegov-button is-full class="sm:w-auto">Continue</aegov-button>
-```
-
----
-
-## Font weight
-
-Labels are semibold by default. Set `is-bold="false"` for a lighter label where a button sits in dense, text-heavy UI.
-
-```html
-<aegov-button>Bold label (default)</aegov-button>
-<aegov-button is-bold="false">Regular label</aegov-button>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap items-center gap-3">
-    <aegov-button>Bold label (default)</aegov-button>
-    <aegov-button is-bold="false">Regular label</aegov-button>
-  </div>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-3">
+  <aegov-button is-icon="true" aria-label="Open settings" appearance="outline">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+  </aegov-button>
+  <aegov-button is-icon="true" aria-label="Download receipt" variant="secondary" appearance="soft">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+  </aegov-button>
+  <aegov-button is-icon="true" aria-label="Delete request" variant="danger" appearance="outline">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>
+  </aegov-button>
 </div>
 
 ---
 
-## Button type and forms
+## Loading State
 
-`type` maps to the native attribute: `button` (default), `submit` or `reset`. Because the inner element is a real `<button>`, `type="submit"` submits the surrounding form with no wiring on your part.
+Set `is-loading="true"` to show a spinner, disable the button, and set `aria-busy="true"`. Use this during asynchronous operations such as form submission or payment processing. The button remains in place — its width does not change — so the surrounding layout stays stable.
 
 ```html
-<form id="application">
-  <aegov-input name="fullName" is-required></aegov-input>
+<aegov-button is-loading="true">Submitting…</aegov-button>
+<aegov-button is-loading="true" appearance="outline">Saving draft…</aegov-button>
+<aegov-button is-loading="true" variant="danger">Cancelling…</aegov-button>
+```
 
-  <aegov-button type="submit" variant="primary">Submit</aegov-button>
-  <aegov-button type="reset" appearance="outline">Clear form</aegov-button>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3">
+  <aegov-button is-loading="true">Submitting…</aegov-button>
+  <aegov-button is-loading="true" appearance="outline">Saving draft…</aegov-button>
+  <aegov-button is-loading="true" variant="danger">Cancelling…</aegov-button>
+</div>
+
+---
+
+## Disabled State
+
+Set `is-disabled="true"` to prevent interaction. The native `disabled` attribute is applied to the inner `<button>` element and click events are suppressed. Use this when the action is contextually unavailable — for example, a "Pay now" button with no items in the cart.
+
+```html
+<aegov-button is-disabled="true">Continue</aegov-button>
+<aegov-button is-disabled="true" appearance="outline">Cancel</aegov-button>
+<aegov-button is-disabled="true" variant="danger" appearance="soft">Delete</aegov-button>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3">
+  <aegov-button is-disabled="true">Continue</aegov-button>
+  <aegov-button is-disabled="true" appearance="outline">Cancel</aegov-button>
+  <aegov-button is-disabled="true" variant="danger" appearance="soft">Delete</aegov-button>
+</div>
+
+---
+
+## Full Width
+
+Set `is-full="true"` to stretch the button to the full width of its container. This is the recommended layout for primary actions in mobile forms, modals, and authentication flows.
+
+```html
+<aegov-button is-full="true">Sign in to UAE Pass</aegov-button>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov max-w-sm">
+  <aegov-button is-full="true">Sign in to UAE Pass</aegov-button>
+  <div class="mt-3">
+    <aegov-button is-full="true" appearance="outline">Create new account</aegov-button>
+  </div>
+</div>
+
+---
+
+## Bold vs Regular Weight
+
+Buttons are bold (semibold) by default. Set `is-bold="false"` for normal-weight text — useful when the button must blend into surrounding text, particularly with the `link` appearance.
+
+```html
+<aegov-button is-bold="false" appearance="link">Read the privacy policy</aegov-button>
+<aegov-button is-bold="true" appearance="link">Read the privacy policy</aegov-button>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-4 items-center">
+  <aegov-button is-bold="false" appearance="link">Regular weight</aegov-button>
+  <aegov-button is-bold="true" appearance="link">Bold weight (default)</aegov-button>
+</div>
+
+---
+
+## Form Submission
+
+Set `type="submit"` to submit the parent form, or `type="reset"` to reset it. The default is `type="button"` so the button never submits a form unintentionally.
+
+```html
+<form>
+  <input type="email" name="email" placeholder="Email address" />
+  <aegov-button type="submit">Submit</aegov-button>
+  <aegov-button type="reset" appearance="outline">Reset</aegov-button>
 </form>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md">
-    <aegov-input field-id="btn-form-name" name="fullName" placeholder="Full name"></aegov-input>
-    <div class="flex gap-3 mt-4">
-      <aegov-button type="submit" variant="primary">Submit</aegov-button>
-      <aegov-button type="reset" appearance="outline">Clear form</aegov-button>
-    </div>
-  </div>
-</div>
-
-The default is deliberately `button`, not `submit` — so a button dropped into a form does not submit it by accident. Set `type="submit"` explicitly on the one that should.
-
 ---
 
-## Composite example — service action bar
+## Practical Example: Multi-Step Service Workflow
+
+A typical UAE Government service journey ends with a confirmation screen — the user reviews their details, then confirms or goes back to edit. Combine `variant`, `appearance`, and a leading icon to give the primary action clear visual emphasis.
 
 ```html
-<div class="flex flex-wrap items-center justify-between gap-4">
-  <div class="flex flex-wrap items-center gap-3">
-    <aegov-button variant="primary" size="lg">Submit application</aegov-button>
-    <aegov-button variant="secondary" appearance="outline" size="lg">Save draft</aegov-button>
-  </div>
-
-  <div class="flex flex-wrap items-center gap-2">
-    <aegov-button appearance="soft" size="sm">
-      <svg class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">…</svg>
-      Print
+<div class="rounded-lg border border-aeblack-200 p-6 bg-whitely-50">
+  <h3 class="text-xl font-semibold mb-2">Confirm your application</h3>
+  <p class="text-aeblack-500 mb-6">
+    Service: Driving licence renewal · Fee: AED 300 · Channel: Card
+  </p>
+  <div class="flex flex-wrap gap-3">
+    <aegov-button variant="primary">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Confirm and pay
     </aegov-button>
-    <aegov-button variant="danger" appearance="link" size="sm">Withdraw request</aegov-button>
+    <aegov-button variant="secondary" appearance="outline">Edit details</aegov-button>
+    <aegov-button variant="danger" appearance="link">Cancel application</aegov-button>
   </div>
 </div>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap items-center justify-between gap-4">
-    <div class="flex flex-wrap items-center gap-3">
-      <aegov-button variant="primary" size="lg">Submit application</aegov-button>
-      <aegov-button variant="secondary" appearance="outline" size="lg">Save draft</aegov-button>
-    </div>
-    <div class="flex flex-wrap items-center gap-2">
-      <aegov-button appearance="soft" size="sm">
-        <svg class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5 2.75A1.75 1.75 0 0 1 6.75 1h6.5A1.75 1.75 0 0 1 15 2.75v1.5h.5A2.5 2.5 0 0 1 18 6.75v4.5a2.5 2.5 0 0 1-2.5 2.5H15v3.5A1.75 1.75 0 0 1 13.25 19h-6.5A1.75 1.75 0 0 1 5 17.25v-3.5h-.5A2.5 2.5 0 0 1 2 11.25v-4.5a2.5 2.5 0 0 1 2.5-2.5H5v-1.5Z" clip-rule="evenodd" /></svg>
-        Print
+  <div class="rounded-lg border border-aeblack-200 p-6 bg-whitely-50">
+    <h3 class="text-xl font-semibold mb-2">Confirm your application</h3>
+    <p class="text-aeblack-500 mb-6">
+      Service: Driving licence renewal · Fee: AED 300 · Channel: Card
+    </p>
+    <div class="flex flex-wrap gap-3">
+      <aegov-button variant="primary">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Confirm and pay
       </aegov-button>
-      <aegov-button variant="danger" appearance="link" size="sm">Withdraw request</aegov-button>
+      <aegov-button variant="secondary" appearance="outline">Edit details</aegov-button>
+      <aegov-button variant="danger" appearance="link">Cancel application</aegov-button>
     </div>
   </div>
 </div>
 
-Note the hierarchy: one solid primary, an outline sibling, and the low-stakes utilities dropped to `soft` and `link`. The destructive action is present but deliberately the lightest thing on the row.
+---
+
+## Sub-component: aegov-button-group
+
+The `aegov-button-group` component visually joins two or more `aegov-button` children edge-to-edge by collapsing internal borders and adjusting corner radii. It supports horizontal (default) and vertical orientations, and works with every variant, appearance, and size. The group automatically writes a `groupPosition` (`first` / `middle` / `last` / `single`) and `groupOrientation` (`horizontal` / `vertical`) onto each direct child button so the correct border and radius styles are applied.
+
+### Basic group
+
+```html
+<aegov-button-group>
+  <aegov-button>Day</aegov-button>
+  <aegov-button>Week</aegov-button>
+  <aegov-button>Month</aegov-button>
+</aegov-button-group>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button-group>
+    <aegov-button>Day</aegov-button>
+    <aegov-button>Week</aegov-button>
+    <aegov-button>Month</aegov-button>
+  </aegov-button-group>
+</div>
+
+### Vertical orientation
+
+```html
+<aegov-button-group orientation="vertical">
+  <aegov-button appearance="soft">Edit details</aegov-button>
+  <aegov-button appearance="soft">Duplicate request</aegov-button>
+  <aegov-button appearance="soft" variant="danger">Delete request</aegov-button>
+</aegov-button-group>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button-group orientation="vertical">
+    <aegov-button appearance="soft">Edit details</aegov-button>
+    <aegov-button appearance="soft">Duplicate request</aegov-button>
+    <aegov-button appearance="soft" variant="danger">Delete request</aegov-button>
+  </aegov-button-group>
+</div>
+
+### Group of icon buttons (toolbar)
+
+Combine `is-icon` with a button group to create a compact toolbar. Always provide an `aria-label` on each icon-only button so screen readers can announce its purpose, and an `aria-label` on the group to describe the toolbar.
+
+```html
+<aegov-button-group aria-label="Text formatting">
+  <aegov-button is-icon="true" appearance="outline" aria-label="Bold">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/></svg>
+  </aegov-button>
+  <aegov-button is-icon="true" appearance="outline" aria-label="Italic">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/></svg>
+  </aegov-button>
+  <aegov-button is-icon="true" appearance="outline" aria-label="Underline">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"/><line x1="4" y1="21" x2="20" y2="21"/></svg>
+  </aegov-button>
+</aegov-button-group>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button-group aria-label="Text formatting">
+    <aegov-button is-icon="true" appearance="outline" aria-label="Bold">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/></svg>
+    </aegov-button>
+    <aegov-button is-icon="true" appearance="outline" aria-label="Italic">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/></svg>
+    </aegov-button>
+    <aegov-button is-icon="true" appearance="outline" aria-label="Underline">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"/><line x1="4" y1="21" x2="20" y2="21"/></svg>
+    </aegov-button>
+  </aegov-button-group>
+</div>
+
+### Mixed appearances within a group
+
+You can mix variants and appearances inside a group to create visual hierarchy — for example, a primary "Publish" button next to an outline "Save draft" button.
+
+```html
+<aegov-button-group>
+  <aegov-button appearance="outline">Save draft</aegov-button>
+  <aegov-button appearance="solid">Publish</aegov-button>
+</aegov-button-group>
+
+<aegov-button-group>
+  <aegov-button appearance="outline">Cancel</aegov-button>
+  <aegov-button appearance="solid" variant="danger">Delete request</aegov-button>
+</aegov-button-group>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-4">
+  <aegov-button-group>
+    <aegov-button appearance="outline">Save draft</aegov-button>
+    <aegov-button appearance="solid">Publish</aegov-button>
+  </aegov-button-group>
+  <aegov-button-group>
+    <aegov-button appearance="outline">Cancel</aegov-button>
+    <aegov-button appearance="solid" variant="danger">Delete request</aegov-button>
+  </aegov-button-group>
+</div>
+
+---
+
+## Listening for Events
+
+The button emits three events. The most common is `aegovButtonClick`, which fires on every click except when the button is disabled or loading. `aegovButtonFocus` and `aegovButtonBlur` fire when the inner `<button>` gains or loses focus.
+
+```html
+<aegov-button id="cta">Submit application</aegov-button>
+
+<script>
+  const cta = document.getElementById('cta');
+  cta.addEventListener('aegovButtonClick', () => {
+    console.log('User clicked Submit');
+  });
+  cta.addEventListener('aegovButtonFocus', () => {
+    console.log('Button focused');
+  });
+  cta.addEventListener('aegovButtonBlur', () => {
+    console.log('Button blurred');
+  });
+</script>
+```
 
 ---
 
 ## RTL Support
 
-The button is direction-agnostic. Content is laid out with flexbox and logical spacing, so slotted icons and labels reverse automatically in a `dir="rtl"` container — a leading icon becomes a trailing one visually without any change to your markup. The loading spinner follows the same flow.
+The button is direction-agnostic. When the document or any ancestor has `dir="rtl"`, leading and trailing icons swap visually, gap and padding flip via CSS logical properties, and grouped border radii mirror correctly. Provide Arabic labels and the layout adapts.
 
 ```html
 <div dir="rtl">
-  <aegov-button variant="primary" size="lg">إرسال الطلب</aegov-button>
-  <aegov-button variant="secondary" appearance="outline" size="lg">حفظ كمسودة</aegov-button>
-  <aegov-button is-loading>جارٍ الإرسال…</aegov-button>
-  <aegov-button variant="danger" appearance="soft">سحب الطلب</aegov-button>
+  <aegov-button>تأكيد الطلب</aegov-button>
+  <aegov-button variant="secondary" appearance="outline">حفظ كمسودة</aegov-button>
+  <aegov-button variant="danger" appearance="soft">إلغاء الطلب</aegov-button>
+</div>
+```
+
+<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3">
+  <aegov-button>تأكيد الطلب</aegov-button>
+  <aegov-button variant="secondary" appearance="outline">حفظ كمسودة</aegov-button>
+  <aegov-button variant="danger" appearance="soft">إلغاء الطلب</aegov-button>
+</div>
+
+A button group in RTL — the first button retains its start radii on the right, and the last button retains its end radii on the left:
+
+```html
+<div dir="rtl">
+  <aegov-button-group>
+    <aegov-button>اليوم</aegov-button>
+    <aegov-button>الأسبوع</aegov-button>
+    <aegov-button>الشهر</aegov-button>
+  </aegov-button-group>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap items-center gap-3 mb-6">
-    <aegov-button variant="primary" size="lg">إرسال الطلب</aegov-button>
-    <aegov-button variant="secondary" appearance="outline" size="lg">حفظ كمسودة</aegov-button>
-    <aegov-button appearance="soft">اعرف المزيد</aegov-button>
-    <aegov-button variant="danger" appearance="soft">سحب الطلب</aegov-button>
-  </div>
-  <div class="flex flex-wrap items-center gap-3">
-    <aegov-button is-loading>جارٍ الإرسال…</aegov-button>
-    <aegov-button>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5" aria-hidden="true"><path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" /></svg>
-      طلب جديد
-    </aegov-button>
-  </div>
+  <aegov-button-group>
+    <aegov-button>اليوم</aegov-button>
+    <aegov-button>الأسبوع</aegov-button>
+    <aegov-button>الشهر</aegov-button>
+  </aegov-button-group>
 </div>
-
-Directional icons are the one thing to check yourself. An arrow that means "next" points right in English and left in Arabic; a chevron in a "back" button mirrors too. Either use a logical icon that reads the same both ways, or swap the glyph based on direction — the component cannot know which of your icons are directional.
 
 ---
 
 ## API Reference
 
-### Properties
+### aegov-button Properties
 
-| Property | Attribute | Description | Type | Default |
-| --- | --- | --- | --- | --- |
-| `fieldId` | `field-id` | ID applied to the inner `<button>`. Auto-generated when omitted, and reflected to the host. | `string` | _generated_ |
-| `variant` | `variant` | Semantic colour. | `'primary' \| 'secondary' \| 'danger' \| 'neutral-min' \| 'neutral-max'` | `'primary'` |
-| `appearance` | `appearance` | Visual treatment. | `'solid' \| 'outline' \| 'soft' \| 'link'` | `'solid'` |
-| `size` | `size` | Size token, or a responsive string such as `"sm md:base xl:lg"`. | `string` | `'base'` |
-| `type` | `type` | Native button type. | `'button' \| 'submit' \| 'reset'` | `'button'` |
-| `isDisabled` | `is-disabled` | Disables the inner button and suppresses events. | `boolean` | `false` |
-| `isLoading` | `is-loading` | Shows a spinner, sets `aria-busy`, and disables the button. | `boolean` | `false` |
-| `isIcon` | `is-icon` | Renders a square, icon-only button. Requires `aria-label`. | `boolean` | `false` |
-| `isFull` | `is-full` | Stretches the button to the container width. | `boolean` | `false` |
-| `isBold` | `is-bold` | Semibold label. | `boolean` | `true` |
+| Property            | Attribute            | Description                                                                                              | Type                                                                       | Default     |
+| ------------------- | -------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------- |
+| `fieldId`           | `field-id`           | DOM `id` for the inner `<button>` element. Auto-generated as `aegov-button-{n}` if omitted.               | `string`                                                                   | _generated_ |
+| `variant`           | `variant`            | Colour family.                                                                                           | `'primary' \| 'secondary' \| 'danger' \| 'neutral-min' \| 'neutral-max'`     | `'primary'` |
+| `appearance`        | `appearance`         | Visual treatment.                                                                                        | `'solid' \| 'outline' \| 'soft' \| 'link'`                                 | `'solid'`   |
+| `size`              | `size`               | Size token. Accepts a single token or a Tailwind-style responsive string.                                | `'xs' \| 'sm' \| 'base' \| 'lg' \| 'xl'`                                   | `'base'`    |
+| `type`              | `type`               | Native `type` attribute on the inner `<button>`.                                                         | `'button' \| 'submit' \| 'reset'`                                          | `'button'`  |
+| `isDisabled`        | `is-disabled`        | Disables interaction. Sets the native `disabled` attribute on the inner `<button>` element.              | `boolean`                                                                  | `false`     |
+| `isLoading`         | `is-loading`         | Shows a spinner, disables the button, and sets `aria-busy="true"`.                                       | `boolean`                                                                  | `false`     |
+| `isIcon`            | `is-icon`            | Renders the button as a square icon-only button. Always pair with `aria-label`.                          | `boolean`                                                                  | `false`     |
+| `isFull`            | `is-full`            | Stretches the button to the full width of its container.                                                 | `boolean`                                                                  | `false`     |
+| `isBold`            | `is-bold`            | Bold (semibold) text. Set to `false` for normal weight.                                                  | `boolean`                                                                  | `true`      |
+| `groupPosition`     | `group-position`     | _Set by `aegov-button-group`._ The button's position within the group.                                    | `'first' \| 'middle' \| 'last' \| 'single'`                                | `undefined` |
+| `groupOrientation`  | `group-orientation`  | _Set by `aegov-button-group`._ The orientation of the surrounding group.                                  | `'horizontal' \| 'vertical'`                                               | `undefined` |
 
-Invalid values for `variant`, `appearance` and `type` fall back to the default and log a console warning in development rather than throwing.
+> Properties marked _Set by `aegov-button-group`_ are written automatically by the parent group. Setting them on a button directly will be overridden on the next sync.
 
-Position within an `aegov-button-group` is handled by internal properties that the group sets automatically — you never set them yourself. See [Button Group](aegov-button-group.html).
+### aegov-button-group Properties
+
+| Property      | Attribute     | Description                       | Type                              | Default        |
+| ------------- | ------------- | --------------------------------- | --------------------------------- | -------------- |
+| `orientation` | `orientation` | Layout direction of the group.     | `'horizontal' \| 'vertical'`      | `'horizontal'` |
 
 ### Slots
 
-| Slot | Description |
-| --- | --- |
-| _(default)_ | Button content — label text, and optionally inline `<svg>` icons before or after it. |
+| Component             | Slot        | Description                                                                                  |
+| --------------------- | ----------- | -------------------------------------------------------------------------------------------- |
+| `aegov-button`        | _(default)_ | Button content — text, an inline icon, or a combination.                                     |
+| `aegov-button-group`  | _(default)_ | Two or more direct `aegov-button` children. Non-button children produce a console warning.   |
+
+### Shadow Parts
+
+| Component       | Part     | Description                                  |
+| --------------- | -------- | -------------------------------------------- |
+| `aegov-button`  | `button` | The inner native `<button>` element.         |
+
+```css
+/* Customise the inner button — for example uppercase its text */
+aegov-button::part(button) {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+```
 
 ### Events
 
-| Event | Detail | Description |
-| --- | --- | --- |
-| `aegovButtonClick` | `MouseEvent` | Fired on click. **Not** emitted while `is-disabled` or `is-loading`. |
-| `aegovButtonFocus` | `FocusEvent` | Fired when the inner button receives focus. |
-| `aegovButtonBlur` | `FocusEvent` | Fired when the inner button loses focus. |
+| Event              | Component       | Detail        | Description                                                                                  |
+| ------------------ | --------------- | ------------- | -------------------------------------------------------------------------------------------- |
+| `aegovButtonClick` | `aegov-button`  | `MouseEvent`  | Fired when the button is clicked. Suppressed when the button is disabled or loading.         |
+| `aegovButtonFocus` | `aegov-button`  | `FocusEvent`  | Fired when the inner button receives focus.                                                  |
+| `aegovButtonBlur`  | `aegov-button`  | `FocusEvent`  | Fired when the inner button loses focus.                                                     |
+
+`aegov-button-group` emits no events of its own.
+
+#### Listening for click events
 
 ```html
 <aegov-button id="confirm" variant="primary">Confirm</aegov-button>
 
-<script type="module">
-  const button = document.querySelector('#confirm');
-  button.addEventListener('aegovButtonClick', (e) => {
-    console.log('clicked', e.detail);   // the original MouseEvent
+<script>
+  document.querySelector('#confirm').addEventListener('aegovButtonClick', (e) => {
+    console.log('Confirmed at', new Date().toISOString());
   });
 </script>
 ```
 
-The native `click` event still bubbles from the host as well, so a delegated listener on an ancestor keeps working. Prefer `aegovButtonClick` in component code because it is suppressed correctly during loading and disabled states.
-
-### Parts
-
-| Part | Description |
-| --- | --- |
-| `button` | The inner `<button>` element. Target it with `::part(button)` when you need to reach past the shadow boundary. |
-
-```css
-aegov-button::part(button) {
-  letter-spacing: 0.01em;
-}
-```
-
 ### Pass-through Attributes
 
-`aegov-button` uses shadow DOM, so pass-through matters more here than elsewhere: attributes you set on the host are forwarded to the inner `<button>` where they can take effect.
+| Attribute group  | Forwarded to       | Notes                                                                                              |
+| ---------------- | ------------------ | -------------------------------------------------------------------------------------------------- |
+| `aria-*`         | inner `<button>`   | Use `aria-label` on icon-only buttons; use `aria-describedby` to link to additional descriptions.   |
+| `data-*`         | inner `<button>`   | Useful for analytics hooks.                                                                        |
+| `class`, `style` | host element       | Applied to the host `<aegov-button>` element directly.                                             |
+| `id`             | n/a                | Use `field-id` to set the inner `<button>` id; the host `id` is reflected from `field-id`.          |
 
-| Attribute group | Forwarded? | Notes |
-| --- | --- | --- |
-| `aria-*` | Yes | Forwarded to the inner `<button>`. This is how `aria-label`, `aria-expanded`, `aria-controls` and `aria-haspopup` reach the real control. |
-| `data-*` | Yes | Forwarded to the inner `<button>` for analytics and testing hooks. |
-| `id` | n/a | Use `field-id`. It lands on the inner `<button>` and is reflected on the host. |
-| `class`, `style` | Allowed | Applied to the host element only — they cannot restyle the shadow internals. Use `::part(button)` for that. |
-| `type`, `disabled` | n/a | Use the `type` and `is-disabled` properties. |
+`aegov-button-group` does not forward attributes — set `aria-*` and `data-*` directly on the host. The wrapping `<div>` always carries `role="group"`.
 
 ---
 
@@ -527,38 +599,36 @@ aegov-button::part(button) {
 
 ### Built-in behaviour
 
-- The inner element is a real `<button>`, so the button role, `Enter` / `Space` activation, focus behaviour and form participation all come from the platform.
-- `is-disabled` sets the native `disabled` attribute — the button leaves the tab order and stops firing events, rather than merely looking inactive.
-- `is-loading` sets `aria-busy="true"` on the button, keeps the label in place, marks the spinner `aria-hidden="true"`, and adds a visually hidden `aria-live="polite"` region announcing "Loading".
-- `aria-*` attributes on the host are forwarded to the inner button, so ARIA relationships you declare actually apply to the focusable element.
-- A visible focus ring is rendered with a 2px outline in a per-variant colour chosen to meet the 3:1 non-text contrast requirement of WCAG 2.2 SC 1.4.11 against each variant's own background.
-- Every size token is at least 36 CSS px tall, above the 24 × 24 minimum target size of WCAG 2.2 SC 2.5.8.
+- Renders a real `<button>` element, so it is focusable, keyboard-activatable, and exposed correctly to assistive technologies by default.
+- When disabled or loading, the native `disabled` attribute is set on the inner `<button>` element — not `aria-disabled`. The native disabled state is correct here because the button has an accessible name and role already provided by the element itself.
+- `aria-busy="true"` is set only while loading — omitted otherwise. Screen readers announce the button as busy until the operation completes.
+- The loading spinner SVG is `aria-hidden="true"` — the button's visible label (slot content) is the sole accessible announcement; the spinner is purely visual.
+- `focus-visible` outline is tuned per appearance: solid and soft buttons get an offset outline; outline buttons get an inset outline.
+- All `aria-*` and `data-*` attributes set on the host are forwarded to the inner `<button>`.
+- `aegov-button-group` wraps its buttons in `<div role="group">` and forwards all `aria-*` and `data-*` attributes from the host to that div, so `aria-label` on the host reaches the group landmark correctly.
 
 ### Developer responsibilities
 
-- **Give icon-only buttons an `aria-label`.** With `is-icon` there is no text to name the button, and an unnamed button is unusable with a screen reader.
-- **Mark decorative icons `aria-hidden="true"`** so they are not announced alongside the label.
-- **Keep the label meaningful in isolation.** "Submit application" works out of context; "Submit", "Click here" and "OK" do not. Screen reader users often navigate by a list of buttons with no surrounding text.
-- **Do not use colour alone to convey that an action is destructive** (WCAG 2.2 SC 1.4.1). `variant="danger"` is a reinforcement of the word "Delete", not a replacement for it.
-- **Keep the label stable during loading.** Replacing it with an empty spinner removes the accessible name mid-interaction.
-- **Use a button for actions and a link for navigation.** If it changes the URL, it should be an [`aegov-link`](aegov-link.html), which gives the user middle-click, right-click and copy-link behaviour that a button cannot.
-- **Declare `aria-expanded` and `aria-controls` yourself** when a button toggles a disclosure you built by hand. Components that own their own disclosure — dropdown, popover, accordion — already do this.
-- **Check that a focused button is not obscured** by sticky headers or banners (WCAG 2.2 SC 2.4.11).
+- Provide an `aria-label` on every icon-only button (`is-icon="true"`) — the slot content alone is not enough for AT.
+- For loading buttons whose visible label does not change (e.g. "Save" stays "Save" while loading), either update the slot content to "Saving…" or pass `aria-label="Saving…"` so screen reader users know what is in progress.
+- Verify colour contrast if you override colours via `::part(button)` or custom CSS.
+- Do not wrap `aegov-button` inside another `<button>` — nesting interactive elements is invalid HTML.
+- For `aegov-button-group`, supply an `aria-label` on the host whenever the group's purpose is not obvious from its button labels alone (e.g. `<aegov-button-group aria-label="View range">`). This label is forwarded to the `role="group"` div automatically.
+- Use a real anchor (`<a>`) for navigation. The `link` appearance still renders a `<button>` — it does not navigate on its own.
+- Inside a button group, every direct child must be an `aegov-button`. Other elements produce a console warning.
 
 ### Keyboard support
 
-| Key | Action |
-| --- | --- |
-| `Tab` | Move focus to the button. Skipped when `is-disabled` or `is-loading`. |
-| `Shift` + `Tab` | Move focus to the previous focusable element. |
-| `Enter` | Activate the button. |
-| `Space` | Activate the button. |
+| Key             | Action                                                              |
+| --------------- | ------------------------------------------------------------------- |
+| `Tab`           | Move focus to the button (or to the next button in a group).        |
+| `Shift + Tab`   | Move focus to the previous focusable element.                       |
+| `Enter`         | Activate the focused button.                                        |
+| `Space`         | Activate the focused button.                                        |
 
----
+### Notes
 
-## Where to next
-
-- [Button Group](aegov-button-group.html) — joining related buttons into a single segmented control.
-- [Link](aegov-link.html) — navigation, including links styled to look exactly like buttons.
-- [Input](aegov-input.html) — the matching size scale for form controls.
-- [Modal](aegov-modal.html) and [Drawer](aegov-drawer.html) — components a button commonly opens.
+- The loading state already disables interaction — you do not also need to set `is-disabled`.
+- Icons placed inside the slot inherit the current text size automatically.
+- Nesting an `aegov-button-group` inside another `aegov-button-group` produces invalid structure and is not supported.
+- For consistent visuals inside a group, use the same `size` on every child button. Mixed sizes are technically allowed but produce uneven results.

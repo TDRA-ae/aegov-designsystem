@@ -11,7 +11,7 @@
 }
 
 .fileupload--disabled {
-  @apply pointer-events-none;
+  pointer-events: none;
 }
 
 /* ============================================
@@ -27,11 +27,11 @@
 }
 
 .fileupload__hint {
-  @apply text-aeblack-500 mb-2 dark:text-aeblack-400;
+  @apply text-sm text-aeblack-600 mt-1.5 mb-2 dark:text-aeblack-300 leading-snug;
 }
 
 .fileupload__helper {
-  @apply text-aeblack-500 pt-1.5 dark:text-aeblack-400;
+  @apply text-aeblack-600 mt-1.5 dark:text-aeblack-300 leading-snug;
 }
 
 /* Size-specific label & helper text */
@@ -120,14 +120,14 @@
 /* Variant — wrapper border, filename text, browse button per colour family */
 .aegov-fileupload.fileupload-variant-primary .fileupload__input-wrapper       { @apply border-primary-600 dark:border-primary-400; }
 .aegov-fileupload.fileupload-variant-primary .fileupload__filename            { @apply text-primary-900 dark:text-whitely-100; }
-.aegov-fileupload.fileupload-variant-primary .fileupload__browse-btn          { @apply text-primary-950 bg-primary-400 border-s-primary-400 hover:border-s-primary-500 hover:bg-primary-500 hover:text-primary-50 dark:text-primary-50 dark:bg-primary-600 dark:border-s-primary-600 dark:hover:bg-primary-500 dark:hover:border-s-primary-500 dark:hover:text-primary-50; }
+.aegov-fileupload.fileupload-variant-primary .fileupload__browse-btn          { @apply text-primary-50 bg-primary-600 border-s-primary-600 hover:border-s-primary-700 hover:bg-primary-700 hover:text-primary-50 dark:text-primary-50 dark:bg-primary-600 dark:border-s-primary-400 dark:hover:bg-primary-700 dark:hover:border-s-primary-400 dark:hover:text-primary-50; }
 .aegov-fileupload.fileupload-variant-primary .fileupload__dropzone            { @apply border-primary-300 dark:border-primary-700; }
 .aegov-fileupload.fileupload-variant-primary .fileupload__dropzone--dragover  { @apply border-primary-500 bg-primary-50 dark:border-primary-400 dark:bg-primary-900/30; }
 .aegov-fileupload.fileupload-variant-primary .fileupload__drop-icon           { @apply text-primary-600 dark:text-primary-400; }
 
 .aegov-fileupload.fileupload-variant-secondary .fileupload__input-wrapper       { @apply border-secondary-600 dark:border-secondary-400; }
 .aegov-fileupload.fileupload-variant-secondary .fileupload__filename            { @apply text-secondary-900 dark:text-whitely-100; }
-.aegov-fileupload.fileupload-variant-secondary .fileupload__browse-btn          { @apply text-secondary-950 bg-secondary-400 border-s-secondary-400 hover:border-s-secondary-500 hover:bg-secondary-500 hover:text-secondary-50 dark:text-secondary-50 dark:bg-secondary-600 dark:border-s-secondary-600 dark:hover:bg-secondary-500 dark:hover:border-s-secondary-500 dark:hover:text-secondary-50; }
+.aegov-fileupload.fileupload-variant-secondary .fileupload__browse-btn          { @apply text-secondary-50 bg-secondary-600 border-s-secondary-600 hover:border-s-secondary-700 hover:bg-secondary-700 hover:text-secondary-50 dark:text-secondary-50 dark:bg-secondary-600 dark:border-s-secondary-400 dark:hover:bg-secondary-700 dark:hover:border-s-secondary-400 dark:hover:text-secondary-50; }
 
 .aegov-fileupload.fileupload-variant-secondary .fileupload__dropzone            { @apply border-secondary-300 dark:border-secondary-700; }
 .aegov-fileupload.fileupload-variant-secondary .fileupload__dropzone--dragover  { @apply border-secondary-500 bg-secondary-50 dark:border-secondary-400 dark:bg-secondary-900/30; }
@@ -135,7 +135,7 @@
 
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__input-wrapper       { @apply border-aeblack-800 dark:border-aeblack-300; }
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__filename            { @apply text-aeblack-950 dark:text-whitely-100; }
-.aegov-fileupload.fileupload-variant-neutral-max .fileupload__browse-btn          { @apply text-aeblack-50 bg-aeblack-400 border-s-aeblack-400 hover:border-s-aeblack-500 hover:bg-aeblack-500 hover:text-aeblack-50 dark:text-aeblack-900 dark:bg-aeblack-300 dark:border-s-aeblack-300 dark:hover:bg-aeblack-200 dark:hover:border-s-aeblack-200 dark:hover:text-aeblack-900; }
+.aegov-fileupload.fileupload-variant-neutral-max .fileupload__browse-btn          { @apply text-aeblack-50 bg-aeblack-800 border-s-aeblack-800 hover:border-s-aeblack-900 hover:bg-aeblack-900 hover:text-aeblack-50 dark:text-aeblack-900 dark:bg-aeblack-300 dark:border-s-aeblack-300 dark:hover:bg-aeblack-200 dark:hover:border-s-aeblack-200 dark:hover:text-aeblack-900; }
 
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__dropzone            { @apply border-aeblack-300 dark:border-aeblack-600; }
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__dropzone--dragover  { @apply border-aeblack-500 bg-aeblack-50 dark:border-aeblack-300 dark:bg-aeblack-700; }
@@ -143,7 +143,7 @@
 
 .aegov-fileupload.fileupload-variant-neutral-min .fileupload__input-wrapper       { @apply border-aeblack-300 dark:border-aeblack-600; }
 .aegov-fileupload.fileupload-variant-neutral-min .fileupload__filename            { @apply text-aeblack-700 dark:text-aeblack-200; }
-.aegov-fileupload.fileupload-variant-neutral-min .fileupload__browse-btn          { @apply text-aeblack-950 bg-aeblack-200 border-s-aeblack-200 hover:border-s-aeblack-300 hover:bg-aeblack-300 hover:text-aeblack-900 dark:text-whitely-100 dark:bg-aeblack-700 dark:border-s-aeblack-700 dark:hover:bg-aeblack-600 dark:hover:border-s-aeblack-600 dark:hover:text-whitely-100; }
+.aegov-fileupload.fileupload-variant-neutral-min .fileupload__browse-btn          { @apply text-aeblack-950 bg-aeblack-200 border-s-aeblack-300 hover:border-s-aeblack-400 hover:bg-aeblack-300 hover:text-aeblack-900 dark:text-whitely-100 dark:bg-aeblack-700 dark:border-s-aeblack-600 dark:hover:bg-aeblack-600 dark:hover:border-s-aeblack-600 dark:hover:text-whitely-100; }
 
 .aegov-fileupload.fileupload-variant-neutral-min .fileupload__dropzone            { @apply border-aeblack-200 dark:border-aeblack-700; }
 .aegov-fileupload.fileupload-variant-neutral-min .fileupload__dropzone--dragover  { @apply border-aeblack-300 bg-aeblack-50 dark:border-aeblack-500 dark:bg-aeblack-700; }
@@ -180,7 +180,8 @@
 }
 
 .fileupload--disabled .fileupload__input-wrapper {
-  @apply opacity-40 cursor-not-allowed;
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .fileupload__filename {
@@ -277,7 +278,8 @@
 }
 
 .fileupload--disabled .fileupload__dropzone {
-  @apply opacity-40 cursor-not-allowed;
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .fileupload__drop-prompt {
@@ -344,6 +346,14 @@
 .fileupload__file-name {
   @apply flex-1 truncate text-primary-900 font-medium dark:text-whitely-100;
 }
+
+/* Variant-aware file list icon + name colours */
+.aegov-fileupload.fileupload-variant-secondary .fileupload__file-icon   { @apply text-secondary-500 dark:text-secondary-400; }
+.aegov-fileupload.fileupload-variant-secondary .fileupload__file-name   { @apply text-secondary-900 dark:text-whitely-100; }
+.aegov-fileupload.fileupload-variant-neutral-max .fileupload__file-icon { @apply text-aeblack-700 dark:text-aeblack-300; }
+.aegov-fileupload.fileupload-variant-neutral-max .fileupload__file-name { @apply text-aeblack-950 dark:text-whitely-100; }
+.aegov-fileupload.fileupload-variant-neutral-min .fileupload__file-icon { @apply text-aeblack-400 dark:text-aeblack-400; }
+.aegov-fileupload.fileupload-variant-neutral-min .fileupload__file-name { @apply text-aeblack-700 dark:text-aeblack-200; }
 
 .fileupload__file-size {
   @apply shrink-0 text-aeblack-500 dark:text-aeblack-400;
@@ -459,14 +469,14 @@
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
 /* Invalid idle — red border on wrapper + dropzone (mirrors aegov-input). */
-aegov-fileupload.is-invalid .fileupload__input-wrapper,
-aegov-fileupload.is-invalid .fileupload__dropzone {
+:host(.is-invalid) .fileupload__input-wrapper,
+:host(.is-invalid) .fileupload__dropzone {
   @apply border-aered-600 dark:border-aered-500;
 }
 
 /* Invalid + focus — red ring with offset (mirrors aegov-input). */
-aegov-fileupload.is-invalid .fileupload__input-wrapper:has(:focus-visible),
-aegov-fileupload.is-invalid .fileupload__dropzone:has(:focus-visible) {
+:host(.is-invalid) .fileupload__input-wrapper:has(:focus-visible),
+:host(.is-invalid) .fileupload__dropzone:has(:focus-visible) {
   @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
 }
 

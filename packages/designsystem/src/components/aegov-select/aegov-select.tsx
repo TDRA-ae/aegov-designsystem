@@ -48,8 +48,7 @@ interface OptionItem {
 @Component({
   tag: 'aegov-select',
   styleUrl: 'aegov-select.css',
-  scoped: false,
-  shadow: false,
+  shadow: { delegatesFocus: true },
   formAssociated: true, // §2.5: listbox appearance uses ElementInternals; native appearance keeps inner <select name> behavior
 })
 export class AegovSelect {
@@ -78,7 +77,7 @@ export class AegovSelect {
   @Prop() isMultiple: boolean = false;
 
   /** Whether the select is disabled. */
-  @Prop() isDisabled: boolean = false;
+  @Prop({ mutable: true }) isDisabled: boolean = false;
 
   /** Placeholder text shown when nothing is selected. */
   @Prop() placeholder?: string;
@@ -87,7 +86,7 @@ export class AegovSelect {
   @Prop({ mutable: true }) value: string = '';
 
   /** The name attribute for form submission. */
-  @Prop() name?: string;
+  @Prop({ reflect: true }) name?: string;
 
   /** Whether the select is required. */
   @Prop() isRequired: boolean = false;
@@ -185,6 +184,8 @@ export class AegovSelect {
   formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
   formResetCallback() {
     this.value = '';
+    this.errorMessage = '';
+    this.isInvalid = false;
     this.runValidationSync();
   }
 
@@ -236,7 +237,32 @@ export class AegovSelect {
   }
 
   private runValidationSync() {
-    if (!this.useListbox) return; // native appearance relies on inner <select> for native form participation
+    if (!this.useListbox) {
+      // In shadow:true the inner <select> is inside the shadow root and invisible to FormData.
+      // Mirror its value via ElementInternals so native-mode select participates in form submission.
+      try {
+        if (this.internals && typeof this.internals.setFormValue === 'function') {
+          if (this.isMultiple) {
+            const fd = new FormData();
+            for (const v of this.selectedValues) if (this.name) fd.append(this.name, v);
+            this.internals.setFormValue(fd);
+          } else {
+            this.internals.setFormValue(this.value || null);
+          }
+        }
+        // Sync native <select> validity to ElementInternals so form.checkValidity() sees required etc.
+        if (this.internals && this.nativeSelectEl) {
+          const v = this.nativeSelectEl.validity;
+          if (v.valid) {
+            setInternalsValidity(this.internals, { valid: true }, '');
+          } else {
+            const message = this.errorMessage || this.nativeSelectEl.validationMessage || '';
+            setInternalsValidity(this.internals, fromNativeValidity(v), message, this.nativeSelectEl);
+          }
+        }
+      } catch { /* jsdom mock */ }
+      return;
+    }
     const { validity, message } = this.computeListboxValidity();
     setInternalsValidity(this.internals, validity, message, this.triggerRef?.querySelector('button') ?? undefined);
     try {
@@ -419,6 +445,7 @@ export class AegovSelect {
   private handleNativeChange = (event: Event) => {
     const select = event.target as HTMLSelectElement;
     this.value = select.value;
+    this.runValidationSync();
     const opt = this.parsedOptions.find(o => o.value === select.value);
     this.aegovSelectChange.emit({
       value: this.value,

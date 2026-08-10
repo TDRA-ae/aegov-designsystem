@@ -19,8 +19,7 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 @Component({
   tag: 'aegov-checkbox-group',
   styleUrl: 'aegov-checkbox-group.css',
-  scoped: false,
-  shadow: false,
+  shadow: { delegatesFocus: true },
 })
 export class AegovCheckboxGroup {
   @Element() el: HTMLElement;
@@ -43,7 +42,7 @@ export class AegovCheckboxGroup {
   @Prop() variant: FormVariant = 'primary';
 
   /** Disables all checkboxes within the group via native fieldset disabled. */
-  @Prop() isDisabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
 
   /** Group is required — at least one child checkbox must be checked. Aggregate-level only. */
   @Prop() isRequired: boolean = false;
@@ -129,7 +128,10 @@ export class AegovCheckboxGroup {
   }
 
   @Watch('appearance')
-  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, CHECKBOX_GROUP_VARIANTS, 'default', ctx('appearance')); }
+  onVariantChange(v: unknown) {
+    warnIfInvalidEnumProp(v, CHECKBOX_GROUP_VARIANTS, 'default', ctx('appearance'));
+    if (this.el.isConnected) { this.syncChildren(); }
+  }
 
   @Watch('orientation')
   onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, CHECKBOX_GROUP_ORIENTATIONS, 'vertical', ctx('orientation')); }
@@ -158,6 +160,10 @@ export class AegovCheckboxGroup {
     const checkboxes = Array.from(this.el.querySelectorAll('aegov-checkbox')) as HTMLAegovCheckboxElement[];
     checkboxes.forEach(cb => {
       cb.size = this._resolvedSize;
+      cb.appearance = this.appearance;
+      // Also set host class directly — Stencil's async re-render may not fire in time
+      (cb as HTMLElement).classList.toggle('checkbox-appearance-cards', this.appearance === 'cards');
+      (cb as HTMLElement).classList.toggle('checkbox-appearance-pills', this.appearance === 'pills');
       // Cascade variant only if child has no own value (still default 'primary')
       if (!cb.variant || cb.variant === 'primary') {
         cb.variant = this.variant;
@@ -171,6 +177,14 @@ export class AegovCheckboxGroup {
 
   private getCheckAllCheckbox(): HTMLAegovCheckboxElement | null {
     return this.el.querySelector('aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement | null;
+  }
+
+  @Listen('focusout')
+  handleGroupBlur(event: FocusEvent) {
+    if (!this.el.contains(event.relatedTarget as Node)) {
+      this.hasInteractedOnce = true;
+      this.runAndEmitValidation('blur');
+    }
   }
 
   @Listen('aegovCheckboxChange')
@@ -262,7 +276,7 @@ export class AegovCheckboxGroup {
     delete passThroughAttrs['aria-required'];
 
     return (
-      <Host class={{ 'is-invalid': this.isInvalid }}>
+      <Host class={{ 'is-invalid': this.isInvalid }} data-appearance={this.appearance}>
         <fieldset
           class={this.getGroupClasses()}
           disabled={this.isDisabled}
@@ -276,6 +290,9 @@ export class AegovCheckboxGroup {
               {this.isRequired && <span class="sr-only"> (required)</span>}
             </legend>
           )}
+          <div class="checkbox-group__items">
+            <slot />
+          </div>
           {showHint && (
             <div id={this.hintId} class="aegov-checkbox-group__hint">
               {hasHintSlot ? <slot name="hint" /> : this.hint}
@@ -290,9 +307,6 @@ export class AegovCheckboxGroup {
               {hasErrorSlot ? <slot name="error" /> : this.errorMessage}
             </div>
           )}
-          <div class="checkbox-group__items">
-            <slot />
-          </div>
         </fieldset>
       </Host>
     );

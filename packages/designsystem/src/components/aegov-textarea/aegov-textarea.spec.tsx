@@ -82,13 +82,13 @@ describe('aegov-textarea', () => {
     expect(ta.getAttribute("name")).toBe("msg");
   });
 
-  it('emits aegovTextareaInput on input event', async () => {
+  it('emits aegovTextareaValue on input event', async () => {
     const page = await newSpecPage({
       components: [AegovTextarea],
       html: `<aegov-textarea></aegov-textarea>`,
     });
     const spy = jest.fn();
-    page.root.addEventListener('aegovTextareaInput', spy);
+    page.root.addEventListener('aegovTextareaValue', spy);
     const ta = page.root.querySelector('textarea');
     ta.value = 'abc';
     ta.dispatchEvent(new Event('input'));

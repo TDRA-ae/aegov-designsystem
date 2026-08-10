@@ -21,238 +21,169 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Aspect Ratio</h1>
-<p class="text-lg text-aeblack-500 mb-8">Aspect Ratio reserves a fixed shape for media before it loads. Wrapping an image, video or iframe in it stops the page reflowing when the media arrives — which is both a usability improvement and the main defence against a shifting layout under Cumulative Layout Shift.</p>
+<p class="text-lg text-aeblack-500 mb-8">An Aspect Ratio component enforces a specific width-to-height ratio on its slotted content. Use it to wrap images, videos, iframes (maps, embeds), or arbitrary containers that should hold a consistent shape regardless of viewport size — preventing layout shift and reflow as media loads. It is a layout primitive with no visual styling of its own.</p>
 
 <h2>Introduction</h2>
+<p>The <code>aegov-aspect-ratio</code> component wraps any media or content and constrains it to a chosen ratio using the native CSS <code>aspect-ratio</code> property. It accepts named presets (<code>auto</code>, <code>square</code>, <code>video</code>) or any custom <code>n/m</code> ratio string, and exposes a <code>fit</code> property that mirrors the CSS <code>object-fit</code> values — making it a drop-in solution for responsive imagery and embedded video.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;video&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/service-centre.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Reception at the Al Barsha service centre&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://images.unsplash.com/photo-1518684079-3c830dcef090?w=1200&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Skyline of Abu Dhabi at dusk&quot;</span> /&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md">
-    <aegov-aspect-ratio ratio="video">
-      <div class="size-full bg-primary-100 flex items-center justify-center text-primary-800">16 / 9</div>
-    </aegov-aspect-ratio>
-  </div>
+  <aegov-aspect-ratio ratio="video">
+    <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=1200" alt="Skyline of Abu Dhabi at dusk" />
+  </aegov-aspect-ratio>
 </div>
 
-<p>The component sets the shape; the width comes from its container. Put it inside a sized wrapper — a card, a grid cell, a <code>max-w-*</code> container.</p>
 <hr>
-<h2>Ratio</h2>
-<p><code>ratio</code> accepts named presets or any <code>width/height</code> pair.</p>
+<h2>Named Presets</h2>
+<p>Six named presets cover the most common cases. <code>auto</code> lets the slotted content size itself naturally; <code>square</code> enforces a 1:1 box; <code>video</code> enforces the standard 16:9 widescreen ratio; <code>4/3</code> targets traditional television and photo formats; <code>3/2</code> matches classic 35 mm film and DSLR output; <code>21/9</code> enforces an ultrawide cinematic ratio.</p>
 <table>
 <thead>
 <tr>
 <th>Preset</th>
-<th>Ratio</th>
+<th>Resolved CSS aspect-ratio</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>auto</code></td>
-<td>Default. No ratio enforced — the content&#39;s own dimensions apply.</td>
+<td><code>auto</code></td>
 </tr>
 <tr>
 <td><code>square</code></td>
-<td>1 / 1</td>
+<td><code>1 / 1</code></td>
 </tr>
 <tr>
 <td><code>video</code></td>
-<td>16 / 9</td>
+<td><code>16 / 9</code></td>
 </tr>
 <tr>
 <td><code>4/3</code></td>
-<td>4 / 3</td>
+<td><code>4 / 3</code></td>
 </tr>
 <tr>
 <td><code>3/2</code></td>
-<td>3 / 2</td>
+<td><code>3 / 2</code></td>
 </tr>
 <tr>
 <td><code>21/9</code></td>
-<td>21 / 9</td>
+<td><code>21 / 9</code></td>
 </tr>
 </tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;video&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;4/3&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;21/9&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span>
-
-<span class="hljs-comment">&lt;!-- Any custom pair works --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;5/2&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid gap-4 sm:grid-cols-2 max-w-xl">
-    <div><p class="text-sm text-aeblack-500 mb-2">square</p><aegov-aspect-ratio ratio="square"><div class="size-full bg-primary-100 flex items-center justify-center text-primary-800 text-sm">1 / 1</div></aegov-aspect-ratio></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">video</p><aegov-aspect-ratio ratio="video"><div class="size-full bg-secondary-100 flex items-center justify-center text-secondary-800 text-sm">16 / 9</div></aegov-aspect-ratio></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">4/3</p><aegov-aspect-ratio ratio="4/3"><div class="size-full bg-techblue-100 flex items-center justify-center text-techblue-800 text-sm">4 / 3</div></aegov-aspect-ratio></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">3/2</p><aegov-aspect-ratio ratio="3/2"><div class="size-full bg-camel-100 flex items-center justify-center text-camel-800 text-sm">3 / 2</div></aegov-aspect-ratio></div>
-  </div>
-  <div class="mt-4 max-w-xl">
-    <p class="text-sm text-aeblack-500 mb-2">21/9</p>
-    <aegov-aspect-ratio ratio="21/9"><div class="size-full bg-aegreen-100 flex items-center justify-center text-aegreen-800 text-sm">21 / 9</div></aegov-aspect-ratio>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://images.unsplash.com/photo-1546412414-e1885259563a?w=600&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Sheikh Zayed Grand Mosque dome detail&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <aegov-aspect-ratio ratio="square">
+      <img src="https://images.unsplash.com/photo-1546412414-e1885259563a?w=600" alt="Sheikh Zayed Grand Mosque dome" />
+    </aegov-aspect-ratio>
+    <aegov-aspect-ratio ratio="video">
+      <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=800" alt="Abu Dhabi skyline" />
+    </aegov-aspect-ratio>
+    <aegov-aspect-ratio ratio="4/3">
+      <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600" alt="Dubai cityscape" />
+    </aegov-aspect-ratio>
   </div>
 </div>
 
-<h3>Responsive ratios</h3>
-<p><code>ratio</code> accepts a responsive string, with the prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code> and <code>2xl</code>. This is how you give a hero a tall shape on a phone and a wide one on a desktop.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square md:video lg:21/9&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/hero.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;…&quot;</span> /&gt;</span>
+<hr>
+<h2>Custom Ratios</h2>
+<p>Any custom ratio of the form <code>n/m</code> is supported — useful for ultrawide hero images, banner crops, or cinematic media. The component validates the format and falls back to <code>auto</code> if the string is malformed.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;21/9&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1600&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Panoramic view of the Burj Khalifa at night&quot;</span> /&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-aspect-ratio ratio="square md:video lg:21/9">
-    <div class="size-full bg-primary-100 flex items-center justify-center text-primary-800">Square on mobile · 16/9 from md · 21/9 from lg</div>
+  <aegov-aspect-ratio ratio="21/9">
+    <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1600" alt="Panoramic view of the Burj Khalifa at night" />
   </aegov-aspect-ratio>
 </div>
 
-<p>A 21/9 hero on a 320px viewport is about 137px tall, which is not enough for a legible image — a responsive ratio avoids that.</p>
 <hr>
-<h2>Fit</h2>
-<p><code>fit</code> controls how slotted media fills the box. It maps to <code>object-fit</code>, applied to <code>img</code>, <code>video</code> and <code>iframe</code> children.</p>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Behaviour</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>cover</code></td>
-<td>Default. Fills the box, cropping overflow.</td>
-</tr>
-<tr>
-<td><code>contain</code></td>
-<td>Fits entirely inside, leaving empty space.</td>
-</tr>
-<tr>
-<td><code>fill</code></td>
-<td>Stretches to fill, distorting the media.</td>
-</tr>
-<tr>
-<td><code>none</code></td>
-<td>Original size, cropped by the box.</td>
-</tr>
-<tr>
-<td><code>scale-down</code></td>
-<td>The smaller of <code>none</code> and <code>contain</code>.</td>
-</tr>
-</tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;video&quot;</span> <span class="hljs-attr">fit</span>=<span class="hljs-string">&quot;cover&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;video&quot;</span> <span class="hljs-attr">fit</span>=<span class="hljs-string">&quot;contain&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid gap-4 sm:grid-cols-2 max-w-xl">
+<h2>Fit Modes</h2>
+<p>The <code>fit</code> property controls how slotted media is sized inside the container. It maps directly to CSS <code>object-fit</code> and accepts <code>cover</code> (default), <code>contain</code>, <code>fill</code>, <code>none</code>, and <code>scale-down</code>. Use <code>cover</code> for hero imagery that should fill the box and crop as needed; use <code>contain</code> to show the full image with letterboxing when the source ratio differs.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">fit</span>=<span class="hljs-string">&quot;cover&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Cover fit&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">fit</span>=<span class="hljs-string">&quot;contain&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Contain fit&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div>
-      <p class="text-sm text-aeblack-500 mb-2">fit="cover" — fills, crops</p>
-      <aegov-aspect-ratio ratio="video" fit="cover">
-        <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="" class="bg-whitely-100" />
+      <p class="text-sm text-aeblack-600 mb-2">fit="cover" — fills the box, crops as needed</p>
+      <aegov-aspect-ratio ratio="square" fit="cover" extra-class="bg-aeblack-100 rounded-lg">
+        <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600" alt="Cover fit example" />
       </aegov-aspect-ratio>
     </div>
     <div>
-      <p class="text-sm text-aeblack-500 mb-2">fit="contain" — fits, letterboxes</p>
-      <aegov-aspect-ratio ratio="video" fit="contain">
-        <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="" class="bg-whitely-100" />
+      <p class="text-sm text-aeblack-600 mb-2">fit="contain" — shows the whole image, letterboxes</p>
+      <aegov-aspect-ratio ratio="square" fit="contain" extra-class="bg-aeblack-100 rounded-lg">
+        <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600" alt="Contain fit example" />
       </aegov-aspect-ratio>
     </div>
   </div>
 </div>
 
-<p>Use <code>cover</code> for photographs, where cropping is acceptable. Use <code>contain</code> for logos, diagrams and screenshots, where cropping would remove meaning. Avoid <code>fill</code> — a distorted photograph of a person is worse than a cropped one.</p>
 <hr>
-<h2>Video and iframes</h2>
-<p>The same wrapper works for embedded media, which is where a fixed ratio matters most — an iframe with no reserved space collapses to nothing until it loads.</p>
+<h2>Embedded Video and Iframes</h2>
+<p>The component is the recommended way to embed responsive video players, YouTube embeds, and Google Maps iframes. It guarantees the embed fills its container at the chosen ratio without the legacy padding-bottom hack.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;video&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">iframe</span>
-    <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://www.youtube.com/embed/…&quot;</span>
-    <span class="hljs-attr">title</span>=<span class="hljs-string">&quot;How to renew your Emirates ID&quot;</span>
-    <span class="hljs-attr">allowfullscreen</span>
-  &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span>
+    <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://www.youtube.com/embed/dQw4w9WgXcQ&quot;</span>
+    <span class="hljs-attr">title</span>=<span class="hljs-string">&quot;Embedded video&quot;</span>
+    <span class="hljs-attr">allowfullscreen</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-lg">
-    <aegov-aspect-ratio ratio="video">
-      <div class="size-full bg-aeblack-800 text-whitely-100 flex items-center justify-center">Video embed placeholder — 16/9</div>
+  <aegov-aspect-ratio ratio="video">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57804.81244422895!2d54.30796434863281!3d24.466667099999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5e66b51c4b8a91%3A0x9c8b9f5fcb6b5c5a!2sAbu%20Dhabi!5e0!3m2!1sen!2sae" title="Map of Abu Dhabi" allowfullscreen></iframe>
+  </aegov-aspect-ratio>
+</div>
+
+<hr>
+<h2>Responsive Ratios</h2>
+<p>The <code>ratio</code> property accepts a Tailwind-style responsive string with the breakpoint prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, and <code>2xl</code>. Each segment overrides smaller breakpoints, so the example below renders as <code>square</code> on phones, <code>video</code> from the <code>md</code> breakpoint up, and <code>21/9</code> from <code>lg</code> up — perfect for a hero banner that adapts from mobile portrait to desktop ultrawide.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square md:video lg:21/9&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1600&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hero image&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="text-sm text-aeblack-600 mb-3">Resize the browser to see the ratio adapt.</p>
+  <aegov-aspect-ratio ratio="square md:video lg:21/9" extra-class="rounded-lg">
+    <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1600" alt="Burj Khalifa panoramic" />
+  </aegov-aspect-ratio>
+</div>
+
+<hr>
+<h2>Avatar Tile</h2>
+<p>Combine <code>extra-class</code> with rounded corners to produce square avatar tiles for staff directories or service team listings.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;rounded-lg&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Staff portrait&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <aegov-aspect-ratio ratio="square" extra-class="rounded-lg">
+      <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400" alt="Staff portrait" />
+    </aegov-aspect-ratio>
+    <aegov-aspect-ratio ratio="square" extra-class="rounded-lg">
+      <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400" alt="Staff portrait" />
+    </aegov-aspect-ratio>
+    <aegov-aspect-ratio ratio="square" extra-class="rounded-lg">
+      <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400" alt="Staff portrait" />
+    </aegov-aspect-ratio>
+    <aegov-aspect-ratio ratio="square" extra-class="rounded-lg">
+      <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400" alt="Staff portrait" />
     </aegov-aspect-ratio>
   </div>
 </div>
 
-<p>Always give an <code>&lt;iframe&gt;</code> a <code>title</code>. It is the frame&#39;s accessible name, and without one a screen reader announces only &quot;frame&quot;.</p>
-<hr>
-<h2>Inside cards and grids</h2>
-<p>Combining this with <a href="aegov-card.html"><code>aegov-card</code></a> and <code>is-padding=&quot;false&quot;</code> produces a media card with a flush image.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">is-padding</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;video&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/service-centre.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Reception at the Al Barsha service centre&quot;</span> /&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-4&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h6&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h3&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;mb-1&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/centres/al-barsha&quot;</span>&gt;</span>Al Barsha service centre<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Open until 22:00, seven days a week.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid gap-4 sm:grid-cols-3">
-    <aegov-card field-id="ar-c1" is-padding="false" appearance="light" variant="neutral-min" hover="standard">
-      <aegov-aspect-ratio ratio="video"><div class="size-full bg-primary-100"></div></aegov-aspect-ratio>
-      <div class="p-4">
-        <aegov-title size="text-h6" heading-type="h3" extra-class="mb-1"><aegov-link href="#">Al Barsha</aegov-link></aegov-title>
-        <aegov-text size="sm">Open until 22:00.</aegov-text>
-      </div>
-    </aegov-card>
-    <aegov-card field-id="ar-c2" is-padding="false" appearance="light" variant="neutral-min" hover="standard">
-      <aegov-aspect-ratio ratio="video"><div class="size-full bg-secondary-100"></div></aegov-aspect-ratio>
-      <div class="p-4">
-        <aegov-title size="text-h6" heading-type="h3" extra-class="mb-1"><aegov-link href="#">Al Karama</aegov-link></aegov-title>
-        <aegov-text size="sm">Open until 20:00.</aegov-text>
-      </div>
-    </aegov-card>
-    <aegov-card field-id="ar-c3" is-padding="false" appearance="light" variant="neutral-min" hover="standard">
-      <aegov-aspect-ratio ratio="video"><div class="size-full bg-techblue-100"></div></aegov-aspect-ratio>
-      <div class="p-4">
-        <aegov-title size="text-h6" heading-type="h3" extra-class="mb-1"><aegov-link href="#">Al Majaz</aegov-link></aegov-title>
-        <aegov-text size="sm">Closed today.</aegov-text>
-      </div>
-    </aegov-card>
-  </div>
-</div>
-
-<p>A consistent ratio across a grid of media cards is what makes the row line up — without it, images of different proportions produce ragged card heights.</p>
-<hr>
-<h2>Arbitrary content</h2>
-<p>The wrapper is not limited to media. Any content can be given a fixed shape — a map placeholder, a colour swatch, a chart container.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;size-full bg-primary-50 flex items-center justify-center&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Map loading…<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-xs">
-    <aegov-aspect-ratio ratio="square">
-      <div class="size-full bg-primary-50 border border-primary-200 rounded-md flex items-center justify-center">
-        <aegov-text size="sm" extra-class="text-primary-800">Map loading…</aegov-text>
-      </div>
-    </aegov-aspect-ratio>
-  </div>
-</div>
-
-<p>Note <code>fit</code> only applies to <code>img</code>, <code>video</code> and <code>iframe</code> children — for other content, size it yourself with <code>size-full</code> or equivalent.</p>
 <hr>
 <h2>RTL Support</h2>
-<p>Aspect Ratio is direction-agnostic. It sets a shape and nothing else — no padding, no borders, no directional spacing — so it behaves identically in both directions. Anything directional comes from the content inside.</p>
+<p>Aspect ratio is a purely geometric wrapper — it has no directional layout, no padding, and no margin of its own. It renders identically inside <code>dir=&quot;rtl&quot;</code> containers. This example shows a media card in an Arabic context.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;video&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/service-centre.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;قاعة الاستقبال في مركز خدمة البرشاء&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;video&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;rounded-lg&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://images.unsplash.com/photo-1518684079-3c830dcef090?w=1200&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;منظر أبوظبي عند المساء&quot;</span> /&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid gap-4 sm:grid-cols-2 max-w-xl">
-    <aegov-card field-id="ar-rtl-1" is-padding="false" appearance="light" variant="neutral-min">
-      <aegov-aspect-ratio ratio="video"><div class="size-full bg-primary-100"></div></aegov-aspect-ratio>
-      <div class="p-4">
-        <aegov-title size="text-h6" heading-type="h3" extra-class="mb-1">مركز خدمة البرشاء</aegov-title>
-        <aegov-text size="sm">مفتوح حتى الساعة ٢٢:٠٠.</aegov-text>
-      </div>
-    </aegov-card>
-    <aegov-card field-id="ar-rtl-2" is-padding="false" appearance="light" variant="neutral-min">
-      <aegov-aspect-ratio ratio="video"><div class="size-full bg-secondary-100"></div></aegov-aspect-ratio>
-      <div class="p-4">
-        <aegov-title size="text-h6" heading-type="h3" extra-class="mb-1">مركز خدمة الكرامة</aegov-title>
-        <aegov-text size="sm">مفتوح حتى الساعة ٢٠:٠٠.</aegov-text>
-      </div>
-    </aegov-card>
-  </div>
+  <h3 class="text-lg font-semibold mb-3">معرض الخدمات الحكومية</h3>
+  <aegov-aspect-ratio ratio="video" extra-class="rounded-lg">
+    <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=1200" alt="منظر أبوظبي عند المساء" />
+  </aegov-aspect-ratio>
+  <p class="mt-3 text-sm text-aeblack-600">صورة بانورامية لمدينة أبوظبي تستخدم نسبة العرض إلى الارتفاع 16:9.</p>
 </div>
 
-<p>One thing to consider: an image containing text or a directional diagram may need a mirrored variant for Arabic. The component cannot know that — supply a different <code>src</code> per direction where the image itself is directional.</p>
 <hr>
 <h2>API Reference</h2>
 <h3>Properties</h3>
@@ -269,23 +200,23 @@
 <tbody><tr>
 <td><code>ratio</code></td>
 <td><code>ratio</code></td>
-<td>Named preset, a <code>width/height</code> pair, or a responsive string.</td>
-<td><code>string</code> — <code>auto | square | video | 4/3 | 3/2 | 21/9 | n/m</code></td>
+<td>Aspect ratio to apply. Named preset (<code>auto</code>, <code>square</code>, <code>video</code>) or any custom <code>n/m</code> string. Accepts a responsive string.</td>
+<td><code>string</code></td>
 <td><code>&#39;auto&#39;</code></td>
 </tr>
 <tr>
 <td><code>fit</code></td>
 <td><code>fit</code></td>
-<td><code>object-fit</code> applied to <code>img</code>, <code>video</code> and <code>iframe</code> children.</td>
+<td>How slotted media (<code>&lt;img&gt;</code>, <code>&lt;video&gt;</code>, <code>&lt;iframe&gt;</code>) fits inside the container. Mirrors CSS <code>object-fit</code>.</td>
 <td><code>&#39;cover&#39; | &#39;contain&#39; | &#39;fill&#39; | &#39;none&#39; | &#39;scale-down&#39;</code></td>
 <td><code>&#39;cover&#39;</code></td>
 </tr>
 <tr>
 <td><code>extraClass</code></td>
 <td><code>extra-class</code></td>
-<td>Extra classes on the wrapper.</td>
+<td>Additional CSS classes merged onto the inner aspect-ratio container.</td>
 <td><code>string</code></td>
-<td>—</td>
+<td><code>undefined</code></td>
 </tr>
 </tbody></table>
 <h3>Slots</h3>
@@ -298,64 +229,57 @@
 </thead>
 <tbody><tr>
 <td><em>(default)</em></td>
-<td>The content to shape — an image, video, iframe, or arbitrary markup.</td>
+<td>Media or content to be sized to the configured aspect ratio.</td>
 </tr>
 </tbody></table>
 <h3>Events</h3>
-<p>None.</p>
-<h3>Methods</h3>
-<p>None.</p>
+<p>The component emits no custom events — it is a layout primitive.</p>
 <h3>Pass-through Attributes</h3>
 <table>
 <thead>
 <tr>
 <th>Attribute group</th>
 <th>Forwarded?</th>
-<th>Notes</th>
+<th>Where to apply</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>aria-*</code></td>
-<td>Yes</td>
-<td>Forwarded to the wrapper.</td>
+<td>No</td>
+<td>Apply to the host <code>&lt;aegov-aspect-ratio&gt;</code> if needed for the wrapping element.</td>
 </tr>
 <tr>
 <td><code>data-*</code></td>
-<td>Yes</td>
-<td>Forwarded to the wrapper.</td>
+<td>No</td>
+<td>Apply to the host <code>&lt;aegov-aspect-ratio&gt;</code>.</td>
 </tr>
 <tr>
 <td><code>class</code>, <code>style</code></td>
 <td>Allowed</td>
-<td>Applied to the host. Use <code>extra-class</code> for the wrapper.</td>
+<td>Applied to the host. Use <code>extra-class</code> to add classes to the inner container.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>Allowed</td>
+<td>Applied to the host element.</td>
 </tr>
 </tbody></table>
 <hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The wrapper is a plain container with no ARIA role, so it adds nothing to the accessibility tree and does not interfere with the semantics of the media inside it.</li>
-<li>Reserving the shape before the media loads prevents layout shift, which is a genuine accessibility benefit — content moving under the pointer or the reading position is disorienting, and particularly disruptive for screen magnifier users.</li>
-<li>Responsive ratios resolve at runtime, so the shape adapts to viewport changes and zoom.</li>
+<li>The component introduces no roles, landmarks, or ARIA attributes — it is purely a layout primitive.</li>
+<li>Slotted content (<code>&lt;img&gt;</code>, <code>&lt;iframe&gt;</code>, <code>&lt;video&gt;</code>) retains its native semantics.</li>
+<li>Invalid <code>ratio</code> strings silently fall back to <code>auto</code>; invalid <code>fit</code> values fall back to <code>cover</code> and emit a console warning.</li>
+<li>The inner container uses <code>overflow: clip</code> with <code>overflow-clip-margin: 4px</code> instead of <code>overflow: hidden</code>. This means focus rings on slotted interactive elements remain visible up to 4 px outside the clipping boundary, satisfying WCAG SC 2.4.11 (Focus Not Obscured). Unlike <code>overflow: hidden</code>, <code>overflow: clip</code> does not create a scroll container or a new stacking context.</li>
+<li>At <code>componentDidLoad</code>, the component checks all slotted <code>&lt;iframe&gt;</code> elements for a <code>title</code> attribute and emits a <code>console.warn</code> if any are missing. This surfaces the WCAG SC 4.1.2 requirement during development without breaking the page.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li><strong>Give every image an <code>alt</code>.</strong> Descriptive for meaningful images, <code>alt=&quot;&quot;</code> for decorative ones. The wrapper does not and cannot supply it.</li>
-<li><strong>Give every <code>&lt;iframe&gt;</code> a <code>title</code>.</strong></li>
-<li><strong>Choose <code>fit</code> for the content.</strong> <code>cover</code> crops — never use it for a logo, diagram or screenshot where the cropped part carries meaning. <code>contain</code> is the safe choice for those.</li>
-<li><strong>Avoid <code>fill</code>.</strong> It distorts, and a stretched photograph of a person or a document is both ugly and misleading.</li>
-<li><strong>Use a responsive <code>ratio</code> for hero media.</strong> A 21/9 box is roughly 137px tall at 320px wide, which is too short to be legible.</li>
-<li><strong>Provide a mirrored image for RTL</strong> when the image itself contains text or directional content.</li>
-<li><strong>Do not put essential text inside an image.</strong> It does not scale, does not translate, and is not selectable — put it in the page and use the image as support.</li>
-<li><strong>Keep ratios consistent across a grid</strong>, so rows align.</li>
-</ul>
-<hr>
-<h2>Where to next</h2>
-<ul>
-<li><a href="aegov-card.html">Card</a> — media cards with <code>is-padding=&quot;false&quot;</code>.</li>
-<li><a href="aegov-bento-grid.html">Bento Grid</a> — grids of media tiles.</li>
-<li><a href="aegov-avatar.html">Avatar</a> — for people, which has its own sizing and fallback.</li>
-<li><a href="installation.html">Installation</a> — how responsive property strings are resolved.</li>
+<li>Provide meaningful <code>alt</code> text on slotted <code>&lt;img&gt;</code> elements. For purely decorative imagery use <code>alt=&quot;&quot;</code> so screen readers skip the image.</li>
+<li>Provide a <code>title</code> attribute on every embedded <code>&lt;iframe&gt;</code> (maps, video players) so assistive technology can announce the embed. The component will warn in the browser console if this is missing.</li>
+<li>Provide accessible captions or transcripts for <code>&lt;video&gt;</code> content where required.</li>
+<li>Focus rings on slotted interactive elements remain visible up to 4 px outside the container boundary thanks to <code>overflow-clip-margin</code>. Controls that need focus rings wider than 4 px should increase their own <code>outline-offset</code> accordingly.</li>
 </ul>
 <!-- DOC:END -->
           </section>
