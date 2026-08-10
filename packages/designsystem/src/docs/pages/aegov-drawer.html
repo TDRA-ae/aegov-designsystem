@@ -130,13 +130,12 @@
 
 <hr>
 <h2>Sizes</h2>
-<p>The <code>size</code> property sets the panel <strong>width</strong> for left/right drawers and <strong>height</strong> for top/bottom drawers. It also scales the inner padding and, when <code>is-pinned=&quot;false&quot;</code>, the edge gap and corner radius.</p>
+<p>The <code>size</code> property controls the panel <strong>width</strong> for left/right drawers. It also scales the inner padding and, when <code>is-pinned=&quot;false&quot;</code>, the edge gap and corner radius.</p>
 <table>
 <thead>
 <tr>
 <th>Size</th>
 <th>Width (left/right)</th>
-<th>Height (top/bottom)</th>
 <th>Padding</th>
 <th>Typical use</th>
 </tr>
@@ -144,48 +143,45 @@
 <tbody><tr>
 <td><code>xs</code></td>
 <td>320px</td>
-<td>25vh</td>
 <td>p-3</td>
 <td>Notification strip, icon sidebar</td>
 </tr>
 <tr>
 <td><code>sm</code></td>
 <td>384px</td>
-<td>40vh</td>
 <td>p-4</td>
 <td>Filter panel, narrow navigation</td>
 </tr>
 <tr>
 <td><code>base</code></td>
 <td>480px <em>(default)</em></td>
-<td>50vh</td>
 <td>p-5</td>
 <td>Settings panel, detail view</td>
 </tr>
 <tr>
 <td><code>lg</code></td>
 <td>640px</td>
-<td>66vh</td>
 <td>p-6</td>
 <td>Multi-field form, data table</td>
 </tr>
 <tr>
 <td><code>xl</code></td>
 <td>800px</td>
-<td>85vh</td>
 <td>p-8</td>
 <td>Wide wizard, rich detail panel</td>
 </tr>
 <tr>
 <td><code>full</code></td>
 <td>100vw</td>
-<td>100dvh</td>
 <td>p-8</td>
 <td>Full-screen takeover</td>
 </tr>
 </tbody></table>
 <blockquote>
 <p>On viewports narrower than 640 px all left/right sizes collapse to full width automatically.</p>
+</blockquote>
+<blockquote>
+<p><strong>Top/bottom drawers:</strong> height is <code>auto</code> — the drawer grows to fit its slotted content (up to <code>100dvh</code>). See <a href="#controlling-topbottom-height">Controlling top/bottom height</a> below.</p>
 </blockquote>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>   <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>   <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
@@ -244,6 +240,94 @@
         const d = document.querySelector('#demo-drawer-size-' + s);
         document.querySelector('#demo-drawer-size-' + s + '-btn').addEventListener('click', () => d.show());
         document.querySelector('#demo-drawer-size-' + s + '-close').addEventListener('click', () => d.close());
+      });
+    })();
+  </script>
+</div>
+
+<hr>
+<h2>Controlling top/bottom height</h2>
+<p>Top and bottom drawers have <code>height: auto</code> by default — the panel grows to fit whatever you put inside it, up to <code>100dvh</code>. There is no fixed height per <code>size</code> tier.</p>
+<p>To set a specific height, wrap your content in a <code>div</code> and apply the height there. Because the wrapper is in the <strong>light DOM</strong> (your own HTML), all standard CSS and Tailwind classes work on it directly.</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- auto height — fits content --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Quick actions&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>This drawer is as tall as this content.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Close<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- fixed 50vh — inner wrapper drives the height --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Filter panel&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;h-[50vh]&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Always half the viewport height.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Close<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- responsive — full on mobile, half on desktop --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Share sheet&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;h-dvh md:h-[50vh]&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Full on mobile, half-screen on desktop.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Close<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-3">
+    <aegov-button id="demo-height-auto-btn">Auto (content height)</aegov-button>
+    <aegov-button id="demo-height-200-btn">Fixed 200px</aegov-button>
+    <aegov-button id="demo-height-50vh-btn">50vh</aegov-button>
+    <aegov-button id="demo-height-80vh-btn">80vh</aegov-button>
+  </div>
+
+  <aegov-drawer id="demo-height-auto" position="bottom" aria-label="Auto height">
+    <div>
+      <p class="text-xs font-bold uppercase tracking-wide opacity-50 mb-1">height: auto (default)</p>
+      <p class="font-semibold mb-2">Drawer grows to fit content</p>
+      <p class="text-sm opacity-65 mb-4">No height set on the wrapper — the drawer is exactly as tall as this content.</p>
+      <aegov-button id="demo-height-auto-close" size="sm">Close</aegov-button>
+    </div>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-height-200" position="bottom" aria-label="200px height">
+    <div style="height:200px;display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wide opacity-50 mb-1">Inner wrapper: height 200px</p>
+        <p class="font-semibold mb-2">Fixed 200px — small action sheet</p>
+        <p class="text-sm opacity-65">Cookie consent, quick confirm, minimal actions.</p>
+      </div>
+      <aegov-button id="demo-height-200-close" size="sm">Close</aegov-button>
+    </div>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-height-50vh" position="bottom" aria-label="50vh height">
+    <div style="height:50vh;display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wide opacity-50 mb-1">Inner wrapper: height 50vh</p>
+        <p class="font-semibold mb-2">Half-screen sheet — 50vh</p>
+        <p class="text-sm opacity-65">Share sheet, filter panel, product preview.</p>
+      </div>
+      <aegov-button id="demo-height-50vh-close" size="sm">Close</aegov-button>
+    </div>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-height-80vh" position="bottom" aria-label="80vh height">
+    <div style="height:80vh;display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wide opacity-50 mb-1">Inner wrapper: height 80vh</p>
+        <p class="font-semibold mb-2">Near full-screen sheet — 80vh</p>
+        <p class="text-sm opacity-65">Complex form, multi-step wizard, long filter list.</p>
+      </div>
+      <aegov-button id="demo-height-80vh-close" size="sm">Close</aegov-button>
+    </div>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      const variants = ['auto', '200', '50vh', '80vh'];
+      variants.forEach(v => {
+        const d = document.querySelector('#demo-height-' + v);
+        document.querySelector('#demo-height-' + v + '-btn').addEventListener('click', () => d.show());
+        document.querySelector('#demo-height-' + v + '-close').addEventListener('click', () => d.close());
       });
     })();
   </script>
@@ -598,7 +682,7 @@
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Panel width (left/right: 320–800px/100vw) or height (top/bottom: 25–85vh/100dvh). Also scales padding and, when <code>is-pinned=&quot;false&quot;</code>, the edge gap and corner radius.</td>
+<td>Panel width for left/right drawers (320–800px/100vw). Also scales padding and, when <code>is-pinned=&quot;false&quot;</code>, the edge gap and corner radius. Top/bottom height is always <code>auto</code> (content-driven).</td>
 <td><code>&#39;xs&#39; | &#39;sm&#39; | &#39;base&#39; | &#39;lg&#39; | &#39;xl&#39; | &#39;full&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
