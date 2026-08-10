@@ -11,14 +11,14 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
 } from '../../utils/validation';
 
 @Component({
   tag: 'aegov-radio',
   styleUrl: 'aegov-radio.css',
-  scoped: false,
-  shadow: false,
+  formAssociated: true,
+  shadow: { delegatesFocus: true },
 })
 export class AegovRadio {
   @Element() el: HTMLElement;
@@ -26,8 +26,8 @@ export class AegovRadio {
   /** Unique ID for the native radio element. Auto-generated if not provided. */
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
-  /** The name attribute for the radio. Required for native radio grouping. */
-  @Prop() name?: string;
+  /** The name attribute for the radio. Reflected so ElementInternals reads it for form submission, and so radio-group can propagate it via JS property assignment. */
+  @Prop({ reflect: true }) name?: string;
 
   /** The value attribute for the radio. */
   @Prop() value?: string;
@@ -41,11 +41,15 @@ export class AegovRadio {
   /** Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered. */
   @Prop() variant: FormVariant = 'primary';
 
+  /** Visual appearance set by a parent aegov-radio-group. Not meant to be set directly. */
+  @Prop({ reflect: true }) appearance: string = 'default';
+
   @State() private _resolvedSize: RadioSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
+  private _defaultChecked: boolean = false;
 
   /** Whether the radio is disabled. */
-  @Prop({ reflect: true }) isDisabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
 
   /** Whether the radio is required. */
   @Prop() isRequired: boolean = false;
@@ -78,13 +82,21 @@ export class AegovRadio {
   @State() private hasBlurredOnce: boolean = false;
 
   private inputEl?: HTMLInputElement;
+  private internals: ElementInternals | null = null;
   private errorId: string = '';
   private hintId: string = '';
 
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', { component: 'aegov-radio', prop: 'variant' }); }
 
+  @Watch('appearance')
+  onAppearanceChange(newVal: string) {
+    (this.el as HTMLElement).classList.toggle('radio-appearance-cards', newVal === 'cards');
+    (this.el as HTMLElement).classList.toggle('radio-appearance-pills', newVal === 'pills');
+  }
+
   componentWillLoad() {
+    this._defaultChecked = this.isChecked;
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', { component: 'aegov-radio', prop: 'variant' });
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-radio');
@@ -95,10 +107,67 @@ export class AegovRadio {
       this._resolvedSize = v as RadioSize;
     });
     this._resolvedSize = this._sizeWatcher.current as RadioSize;
+    const host = this.el as unknown as HTMLElement & { attachInternals?: () => ElementInternals };
+    if (typeof host.attachInternals === 'function') {
+      try {
+        this.internals = host.attachInternals();
+        this.internals.setFormValue(this.isChecked ? (this.value ?? null) : null);
+      } catch {
+        this.internals = null;
+      }
+    }
+  }
+
+  formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
+  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formResetCallback() {
+    this.isChecked = this._defaultChecked;
+    this.errorMessage = '';
+    this.isInvalid = false;
+    if (this.inputEl) this.inputEl.setCustomValidity('');
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? null) : null);
+    if (this.isRequired && !this.isChecked) {
+      setInternalsValidity(this.internals, synthesizeValidity({ valueMissing: true }), 'Please select an option');
+    } else {
+      setInternalsValidity(this.internals, { valid: true }, '');
+    }
+  }
+
+  componentDidLoad() {
+    this.syncInternalsValidity();
+    // Self-detect parent group appearance — bypasses syncChildren() timing dependency.
+    const group = this.el.closest('aegov-radio-group');
+    if (group) {
+      const groupAppearance = group.getAttribute('appearance') || 'default';
+      if (groupAppearance !== 'default' && groupAppearance !== this.appearance) {
+        this.appearance = groupAppearance;
+        (this.el as HTMLElement).classList.toggle('radio-appearance-cards', groupAppearance === 'cards');
+        (this.el as HTMLElement).classList.toggle('radio-appearance-pills', groupAppearance === 'pills');
+      }
+      // List separator: classes drive :host(.class) .aegov-radio CSS rules.
+      if (groupAppearance === 'list') {
+        const siblings = Array.from(group.children).filter(
+          el => el.tagName === 'AEGOV-RADIO' && !el.hasAttribute('slot'),
+        );
+        const isHorizontal = (group.getAttribute('orientation') || 'vertical') === 'horizontal';
+        const host = this.el as HTMLElement;
+        host.classList.add('radio-in-list');
+        host.classList.toggle('radio-list-horizontal', isHorizontal);
+        host.classList.toggle('radio-list-first', siblings[0] === host);
+        host.classList.toggle('radio-list-last', siblings[siblings.length - 1] === host);
+      }
+    }
   }
 
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
+  }
+
+  @Watch('isChecked')
+  onIsCheckedChange() {
+    // Fires when radio-group programmatically deselects this radio (no DOM event fires).
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? null) : null);
+    this.syncInternalsValidity();
   }
 
   @Watch('size')
@@ -132,11 +201,29 @@ export class AegovRadio {
     if (this.inputEl && typeof this.inputEl.setCustomValidity === 'function') {
       this.inputEl.setCustomValidity(message);
     }
+    if (this.internals) {
+      if (message) {
+        setInternalsValidity(this.internals, synthesizeValidity({ customError: true }), message, this.inputEl);
+      } else {
+        setInternalsValidity(this.internals, { valid: true }, '');
+      }
+    }
   }
 
   private readValidity() {
     const v = this.inputEl?.validity;
     return v ? fromNativeValidity(v) : VALID_STATE;
+  }
+
+  private syncInternalsValidity(): void {
+    if (!this.internals || !this.inputEl) return;
+    const v = this.inputEl.validity;
+    if (v.valid) {
+      setInternalsValidity(this.internals, { valid: true }, '');
+    } else {
+      const message = this.errorMessage || this.inputEl.validationMessage || '';
+      setInternalsValidity(this.internals, fromNativeValidity(v), message, this.inputEl);
+    }
   }
 
   private emitValidate(trigger: AegovValidationTrigger) {
@@ -153,6 +240,8 @@ export class AegovRadio {
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
     this.isChecked = input.checked;
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? null) : null);
+    this.syncInternalsValidity();
     this.aegovRadioChange.emit({ checked: this.isChecked, value: this.value });
     this.emitValidate('change');
   };
@@ -193,7 +282,6 @@ export class AegovRadio {
         ref={(el) => this.inputEl = el}
         type="radio"
         id={this.fieldId}
-        name={this.name}
         value={this.value}
         checked={this.isChecked}
         disabled={this.isDisabled}
@@ -217,7 +305,11 @@ export class AegovRadio {
       </div>
     ) : null;
 
-    const hostClass = { 'is-invalid': this.isInvalid };
+    const hostClass = {
+      'is-invalid': this.isInvalid,
+      'radio-appearance-cards': this.appearance === 'cards',
+      'radio-appearance-pills': this.appearance === 'pills',
+    };
 
     if (this.label) {
       return (
@@ -244,6 +336,11 @@ export class AegovRadio {
       <Host class={hostClass}>
         <div class={wrapperClasses.join(' ')}>
           {radioInput}
+          {showHint && (
+            <span id={this.hintId} class="radio__hint">
+              {hasHintSlot ? <slot name="hint" /> : this.hint}
+            </span>
+          )}
         </div>
         {errorRegion}
       </Host>

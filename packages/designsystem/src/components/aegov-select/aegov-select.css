@@ -20,8 +20,6 @@
   font-family: inherit;
   @apply relative w-full bg-transparent leading-6
          motion-reduce:transition-none
-         disabled:pointer-events-none disabled:cursor-not-allowed
-         disabled:select-none disabled:opacity-40
          rounded-lg focus:outline-none cursor-pointer;
   @apply placeholder:text-aeblack-300 bg-whitely-50
          border-2
@@ -38,9 +36,19 @@
   background-size: 20px 20px;
 }
 
-/* Dark mode arrow — lighter stroke for legibility on dark bg */
-.dark .aegov-select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23b9bbc1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+/* Native select disabled state */
+.aegov-select:disabled {
+  cursor: not-allowed;
+  user-select: none;
+  opacity: 0.4;
+}
+
+/* Dark mode arrow — lighter stroke for legibility on dark bg.
+   Uses @media for spec-compliant shadow DOM dark detection. */
+@media (prefers-color-scheme: dark) {
+  .aegov-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23b9bbc1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  }
 }
 
 /* Variant — idle border + value text per colour family (mirrors aegov-input pattern) */
@@ -50,22 +58,22 @@
 .aegov-select.select-variant-neutral-min   { @apply border-aeblack-300 text-aeblack-700 dark:border-aeblack-600 dark:text-aeblack-200; }
 
 /* Focus ring — overrides variant idle border. Per-variant selector beats variant specificity. */
-.aegov-select.select-variant-primary:focus {
+.aegov-select.select-variant-primary:focus-visible {
   @apply ring-1 ring-offset-2 ring-primary-support-400 border-2 border-primary-support-400
          dark:ring-primary-support-400 dark:border-primary-support-400;
 }
-.aegov-select.select-variant-secondary:focus {
+.aegov-select.select-variant-secondary:focus-visible {
   @apply ring-1 ring-offset-2 ring-secondary-support-400 border-2 border-secondary-support-400
          dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
-.aegov-select.select-variant-neutral-max:focus,
-.aegov-select.select-variant-neutral-min:focus {
+.aegov-select.select-variant-neutral-max:focus-visible,
+.aegov-select.select-variant-neutral-min:focus-visible {
   @apply ring-1 ring-offset-2 ring-seablue-400 border-2 border-seablue-400
          dark:ring-seablue-400 dark:border-seablue-400;
 }
 
-:host-context([dir="rtl"]) .aegov-select,
-[dir="rtl"] .aegov-select {
+:host(:dir(rtl)) .aegov-select,
+:host-context([dir="rtl"]) .aegov-select {
   background-position: left 0.5rem center;
 }
 
@@ -132,7 +140,9 @@ button.aegov-select {
 .aegov-select.select-variant-neutral-min.select--open   { @apply border-seablue-400 dark:border-seablue-400; }
 
 .select--disabled {
-  @apply opacity-40 pointer-events-none cursor-not-allowed;
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 .select__value {
@@ -282,7 +292,8 @@ button.aegov-select {
 }
 
 .select__option--disabled {
-  @apply opacity-40 cursor-not-allowed;
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* Checkbox for multiple select */
@@ -353,14 +364,14 @@ button.aegov-select {
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
 /* Invalid idle — red border (mirrors aegov-input pattern). */
-aegov-select.is-invalid .aegov-select,
-aegov-select.is-invalid .select__trigger {
+:host(.is-invalid) .aegov-select,
+:host(.is-invalid) .select__trigger {
   @apply border-aered-600 dark:border-aered-500;
 }
 
-/* Invalid + focus — red ring with offset (mirrors aegov-input). */
-aegov-select.is-invalid .aegov-select:focus,
-aegov-select.is-invalid .select__trigger:focus {
+/* Invalid + focus — red outline with offset (mirrors aegov-input). */
+:host(.is-invalid) .aegov-select:focus-visible,
+:host(.is-invalid) .select__trigger:focus-visible {
   @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
 }
 

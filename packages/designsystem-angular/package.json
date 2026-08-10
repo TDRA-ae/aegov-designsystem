@@ -1,6 +1,6 @@
 {
   "name": "@aegov/designsystem-angular",
-  "version": "0.2.3",
+  "version": "0.2.11",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -14,7 +14,7 @@
     "directory": "dist/component-library"
   },
   "dependencies": {
-    "@aegov/designsystem": "^0.2.3",
+    "@aegov/designsystem": "^0.2.11",
     "@angular/common": "^22.0.0",
     "@angular/compiler": "^22.0.0",
     "@angular/core": "^22.0.0",
@@ -34,5 +34,5 @@
     "typescript": "~6.0.2",
     "vitest": "^4.0.8"
   },
-  "gitHead": "6e5d6f9f6239e70be0c84c5c4418a3fb642404c3"
+  "gitHead": "cb9cbea55adbeb993074c9b61ca6b19c49a7abc1"
 }

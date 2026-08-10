@@ -21,183 +21,256 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Title</h1>
-<p class="text-lg text-aeblack-500 mb-8">Title applies the design system's heading typography to a piece of text. It is a styling component rather than a semantic one: it renders a paragraph by default, and only becomes a heading when you tell it which level to use. That separation is deliberate — it lets you match a visual scale without disturbing your document outline.</p>
+<p class="text-lg text-aeblack-500 mb-8">A typographic component for rendering visually-prominent titles that follow the design system's heading scale. Use it for section titles, card titles, and hero headings — and choose between a semantic heading tag (<code>h2</code>–<code>h6</code>) or a plain <code>p</code> when the title is purely decorative.</p>
 
 <h2>Introduction</h2>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h3&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span>&gt;</span>Renew your Emirates ID<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Most renewals are processed within five working days.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-title size="text-h3" heading-type="h2">Renew your Emirates ID</aegov-title>
-  <aegov-text>Most renewals are processed within five working days.</aegov-text>
+<p>The <code>aegov-title</code> component pairs the design system&#39;s title sizing with a flexible semantic wrapper. By default it renders a <code>&lt;p&gt;</code> so visual styling does not pollute the document outline; pass <code>heading-type</code> to render a real <code>h2</code>, <code>h3</code>, <code>h4</code>, <code>h5</code>, or <code>h6</code> when the title represents a true section heading. Sizes accept a single token or a responsive string, and the component automatically swaps to the Alexandria typeface in RTL contexts.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>
+  Ministry of Interior services
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-title heading-type="h2" size="xl">
+    Ministry of Interior services
+  </aegov-title>
 </div>
 
 <hr>
-<h2>It renders a paragraph by default</h2>
-<p><strong>Without <code>headingType</code>, <code>aegov-title</code> renders a <code>&lt;p&gt;</code>.</strong> It looks like a heading and is not one — it will not appear in a screen reader&#39;s heading list, and it does not contribute to the document outline.</p>
-<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- A styled paragraph. Not a heading. --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h4&quot;</span>&gt;</span>Looks like a heading<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-
-<span class="hljs-comment">&lt;!-- A real heading --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h4&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span>&gt;</span>Is a heading<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="space-y-4">
-    <div>
-      <p class="text-sm text-aeblack-500 mb-1">No heading-type — renders &lt;p&gt;</p>
-      <aegov-title size="text-h4">Looks like a heading</aegov-title>
-    </div>
-    <div>
-      <p class="text-sm text-aeblack-500 mb-1">heading-type="h2" — renders &lt;h2&gt;</p>
-      <aegov-title size="text-h4" heading-type="h2">Is a heading</aegov-title>
-    </div>
-  </div>
-</div>
-
-<p>This is useful when you want heading-sized text that is genuinely not a section heading — a large figure in a statistics card, a name in a profile panel. For anything that titles a section, <strong>set <code>headingType</code></strong>.</p>
-<h3>There is no h1</h3>
-<p><code>headingType</code> accepts <code>h2</code> through <code>h6</code>, and <code>p</code>. It deliberately does not offer <code>h1</code>, because a page has exactly one <code>&lt;h1&gt;</code> and it should be authored directly:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-h1&quot;</span>&gt;</span>Renew your Emirates ID<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></code></pre><p>The global stylesheet already styles native <code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code> with the design system&#39;s scale, so a plain heading element needs no component at all. Reach for <code>aegov-title</code> when you need a size that differs from the level.</p>
-<hr>
-<h2>Size</h2>
-<p><code>size</code> accepts two families of token.</p>
+<h2>Sizes</h2>
+<p>The <code>size</code> property sets the title typography. Numeric scale tokens (<code>xs</code> through <code>3xl</code>) cover component-level titles and hero headings. Semantic heading aliases (<code>text-h1</code> through <code>text-h6</code>) map to the design system&#39;s heading type scale.</p>
+<h3>Numeric scale</h3>
 <table>
 <thead>
 <tr>
-<th>Family</th>
-<th>Tokens</th>
-<th>Use for</th>
+<th>Token</th>
+<th>Tailwind class</th>
+<th>Approximate size</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>Heading scale</td>
-<td><code>text-h1</code>, <code>text-h2</code>, <code>text-h3</code>, <code>text-h4</code>, <code>text-h5</code>, <code>text-h6</code></td>
-<td>Matching the heading typography exactly.</td>
+<td><code>xs</code></td>
+<td><code>text-sm!</code></td>
+<td>14 px</td>
 </tr>
 <tr>
-<td>Text scale</td>
-<td><code>xs</code>, <code>sm</code>, <code>base</code>, <code>lg</code>, <code>xl</code>, <code>2xl</code>, <code>3xl</code></td>
-<td>Sizes between or below the heading steps.</td>
+<td><code>sm</code></td>
+<td><code>text-base!</code></td>
+<td>16 px</td>
+</tr>
+<tr>
+<td><code>base</code></td>
+<td><code>text-lg!</code></td>
+<td>18 px (default)</td>
+</tr>
+<tr>
+<td><code>lg</code></td>
+<td><code>text-xl!</code></td>
+<td>20 px</td>
+</tr>
+<tr>
+<td><code>xl</code></td>
+<td><code>text-2xl!</code></td>
+<td>24 px</td>
+</tr>
+<tr>
+<td><code>2xl</code></td>
+<td><code>text-3xl!</code></td>
+<td>30 px</td>
+</tr>
+<tr>
+<td><code>3xl</code></td>
+<td><code>text-4xl!</code></td>
+<td>36 px</td>
 </tr>
 </tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h1&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span>&gt;</span>Heading 1 scale<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h3&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span>&gt;</span>Heading 3 scale<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h6&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h3&quot;</span>&gt;</span>Heading 6 scale<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;2xl&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h3&quot;</span>&gt;</span>Text 2xl<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h4&quot;</span>&gt;</span>Text lg<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="space-y-3">
-    <aegov-title size="text-h1" heading-type="h2">Heading 1 scale — 48px</aegov-title>
-    <aegov-title size="text-h2" heading-type="h2">Heading 2 scale — 40px</aegov-title>
-    <aegov-title size="text-h3" heading-type="h2">Heading 3 scale — 34px</aegov-title>
-    <aegov-title size="text-h4" heading-type="h3">Heading 4 scale — 28px</aegov-title>
-    <aegov-title size="text-h5" heading-type="h3">Heading 5 scale — 24px</aegov-title>
-    <aegov-title size="text-h6" heading-type="h4">Heading 6 scale — 20px</aegov-title>
-    <aegov-title size="3xl" heading-type="h4">Text 3xl — 30px</aegov-title>
-    <aegov-title size="2xl" heading-type="h4">Text 2xl — 24px</aegov-title>
-    <aegov-title size="xl" heading-type="h5">Text xl — 20px</aegov-title>
-    <aegov-title size="lg" heading-type="h5">Text lg — 18px</aegov-title>
-    <aegov-title size="base" heading-type="h6">Text base — 16px</aegov-title>
-  </div>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span>Compact label<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Card title<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Section subtitle<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Sub-section heading<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Page section<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;2xl&quot;</span>&gt;</span>Hero heading<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;3xl&quot;</span>&gt;</span>Display heading<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-title size="xs" extra-class="mb-3">Compact label (xs)</aegov-title>
+  <aegov-title size="sm" extra-class="mb-3">Apply for Emirates ID (sm)</aegov-title>
+  <aegov-title size="base" extra-class="mb-3">Renew your residence visa (base)</aegov-title>
+  <aegov-title size="lg" extra-class="mb-3">Federal authority services (lg)</aegov-title>
+  <aegov-title size="xl" extra-class="mb-3">Government services portal (xl)</aegov-title>
+  <aegov-title size="2xl" extra-class="mb-3">Welcome to the United Arab Emirates (2xl)</aegov-title>
+  <aegov-title size="3xl">UAE National Services (3xl)</aegov-title>
 </div>
 
-<p>The heading scale is a minor-third progression rounded to even pixels, with line heights that tighten as size increases — which is why a large heading set in the text scale looks subtly wrong.</p>
+<h3>Semantic heading aliases</h3>
+<p>Use the <code>text-h1</code>–<code>text-h6</code> tokens when you want the title to carry the design system&#39;s typographic heading scale exactly. These map to the design system&#39;s heading type ramp rather than the Tailwind numeric scale.</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Tailwind class</th>
+<th>Approximate size</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>text-h1</code></td>
+<td><code>text-h1!</code></td>
+<td>48 px</td>
+</tr>
+<tr>
+<td><code>text-h2</code></td>
+<td><code>text-h2!</code></td>
+<td>40 px</td>
+</tr>
+<tr>
+<td><code>text-h3</code></td>
+<td><code>text-h3!</code></td>
+<td>34 px</td>
+</tr>
+<tr>
+<td><code>text-h4</code></td>
+<td><code>text-h4!</code></td>
+<td>28 px</td>
+</tr>
+<tr>
+<td><code>text-h5</code></td>
+<td><code>text-h5!</code></td>
+<td>24 px</td>
+</tr>
+<tr>
+<td><code>text-h6</code></td>
+<td><code>text-h6!</code></td>
+<td>20 px</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h1&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h1&quot;</span>&gt;</span>Page title<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h2&quot;</span>&gt;</span>Section heading<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h3&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h3&quot;</span>&gt;</span>Sub-section<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-title heading-type="h2" size="text-h1" extra-class="mb-3">Page title (text-h1, 48 px)</aegov-title>
+  <aegov-title heading-type="h2" size="text-h2" extra-class="mb-3">Section heading (text-h2, 40 px)</aegov-title>
+  <aegov-title heading-type="h3" size="text-h3" extra-class="mb-3">Sub-section (text-h3, 34 px)</aegov-title>
+  <aegov-title heading-type="h4" size="text-h4" extra-class="mb-3">Card heading (text-h4, 28 px)</aegov-title>
+  <aegov-title heading-type="h5" size="text-h5" extra-class="mb-3">Label (text-h5, 24 px)</aegov-title>
+  <aegov-title heading-type="h6" size="text-h6">Micro label (text-h6, 20 px)</aegov-title>
+</div>
+
 <h3>Responsive sizes</h3>
-<p><code>size</code> accepts a responsive string with the prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code> and <code>2xl</code>. This is the cleanest way to scale a page title down on small screens.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h4 md:text-h3 lg:text-h2&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span>&gt;</span>
-  Adapts to the viewport
+<p><code>size</code> also accepts a Tailwind-style responsive string. Each segment overrides smaller breakpoints, so a single title can scale from compact on phones to a hero size on large displays.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg md:xl xl:2xl&quot;</span>&gt;</span>
+  Welcome to the UAE Government Services Portal
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-title size="text-h4 md:text-h3 lg:text-h2" heading-type="h2">Adapts to the viewport</aegov-title>
+  <aegov-title heading-type="h2" size="lg md:xl xl:2xl">
+    Welcome to the UAE Government Services Portal
+  </aegov-title>
+  <aegov-text size="sm" extra-class="text-aeblack-500 mt-2">
+    Resize the window to see the title scale across the <code>md</code> and <code>xl</code> breakpoints.
+  </aegov-text>
 </div>
 
-<p>Note the collision of vocabulary: <code>lg</code> is both a text-scale size and a breakpoint prefix, so <code>size=&quot;lg md:text-h4&quot;</code> means &quot;text-lg by default, heading-4 scale from 768px&quot;.</p>
 <hr>
-<h2>Levels and sizes are independent</h2>
-<p>This is the point of the component. Choose <code>headingType</code> from the document structure and <code>size</code> from the visual design.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-h1&quot;</span>&gt;</span>Emirates ID services<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h3&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span>&gt;</span>Renew your card<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h5&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h3&quot;</span>&gt;</span>Before you start<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-
-<span class="hljs-comment">&lt;!-- A deep heading that needs to look prominent --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h4&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h4&quot;</span>&gt;</span>Fees<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-prose">
-    <p class="text-h2 font-extrabold mb-4">Emirates ID services</p>
-    <aegov-title size="text-h4" heading-type="h2" extra-class="mb-2">Renew your card</aegov-title>
-    <aegov-text extra-class="mb-5">Renew up to six months before expiry. Most renewals are processed within five working days.</aegov-text>
-    <aegov-title size="text-h5" heading-type="h3" extra-class="mb-2">Before you start</aegov-title>
-    <aegov-text extra-class="mb-5">You will need a valid passport copy and your current Emirates ID.</aegov-text>
-    <aegov-title size="text-h6" heading-type="h3" extra-class="mb-2">Fees</aegov-title>
-    <aegov-text>AED 270, payable at the end of the application.</aegov-text>
-  </div>
+<h2>Heading Type</h2>
+<p>The <code>heading-type</code> property controls the semantic wrapper element. Use a real heading tag (<code>h2</code>–<code>h6</code>) whenever the title represents a section in the document outline; leave it unset or set it to <code>&quot;p&quot;</code> (both render a <code>&lt;p&gt;</code>) when the title is purely decorative or used as a card label that should not appear in a screen reader&#39;s heading list.</p>
+<p><code>h1</code> is intentionally excluded — pages should have exactly one <code>h1</code>, sourced from the page-level layout.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Latest news<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h3&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Press releases<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h4&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Federal updates<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Card label (renders as <span class="hljs-symbol">&amp;lt;</span>p<span class="hljs-symbol">&amp;gt;</span>)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- equivalent to leaving heading-type unset: --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;p&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Card label<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-title heading-type="h2" size="xl" extra-class="mb-2">Latest news</aegov-title>
+  <aegov-title heading-type="h3" size="lg" extra-class="mb-2">Press releases</aegov-title>
+  <aegov-title heading-type="h4" size="base" extra-class="mb-2">Federal updates</aegov-title>
+  <aegov-title size="sm">Issued today (renders as a paragraph, not a heading)</aegov-title>
 </div>
 
-<p>Never pick a level for its size. Heading level communicates structure to screen reader and keyboard users navigating by heading; jumping from <code>h2</code> to <code>h4</code> because <code>h4</code> looked right breaks that navigation for no visual benefit — <code>size</code> exists precisely so you do not have to.</p>
 <hr>
-<h2>Extra classes</h2>
-<p><code>extraClass</code> appends classes to the rendered element, which is how you add spacing, alignment or colour.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h3&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;mb-4 text-center&quot;</span>&gt;</span>
-  Centred with a margin
+<h2>Field ID</h2>
+<p>Each title automatically receives a generated <code>id</code> attribute, which makes it straightforward to link a region&#39;s <code>aria-labelledby</code> to the title. Set <code>field-id</code> explicitly when you need a stable, predictable identifier — for example, when linking from in-page navigation.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;terms&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h3&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>
+  Terms and conditions
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h5&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h3&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-primary-700&quot;</span>&gt;</span>
-  Coloured heading
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="space-y-4">
-    <aegov-title size="text-h4" heading-type="h2" extra-class="text-center">Centred</aegov-title>
-    <aegov-title size="text-h5" heading-type="h3" extra-class="text-primary-700">Coloured</aegov-title>
-    <aegov-title size="text-h5" heading-type="h3" extra-class="border-s-4 border-primary-600 ps-4">With an inline-start rule</aegov-title>
-  </div>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#terms&quot;</span>&gt;</span>Jump to terms<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-title field-id="terms-demo" heading-type="h3" size="lg" extra-class="mb-2">
+    Terms and conditions
+  </aegov-title>
+  <aegov-text size="sm">
+    A stable <code>id</code> lets you anchor an in-page link or wire up <code>aria-labelledby</code> from a related region.
+  </aegov-text>
 </div>
 
-<p>Note <code>border-s-4</code> and <code>ps-4</code> in the last example — logical properties, so the rule stays on the reading-start side in both directions.</p>
 <hr>
-<h2>Composite example — service page header</h2>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;max-w-prose&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs</span> <span class="hljs-attr">separator</span>=<span class="hljs-string">&quot;chevron&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Emirates ID<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span>
+<h2>Custom Styling</h2>
+<p>Use <code>extra-class</code> to merge additional Tailwind utilities for colour, alignment, or spacing. The utility classes added by the component carry the <code>!</code> suffix to override global heading styles — your overrides should usually use plain utilities and will sit beside the defaults.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;2xl&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-primary-700 text-center mb-4&quot;</span>&gt;</span>
+  Spirit of the Union
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-center text-aeblack-600&quot;</span>&gt;</span>
+  Celebrating 50 years of progress and unity across the Emirates.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-title size="2xl" extra-class="text-primary-700 text-center mb-4">
+    Spirit of the Union
+  </aegov-title>
+  <aegov-text extra-class="text-center text-aeblack-600">
+    Celebrating 50 years of progress and unity across the Emirates.
+  </aegov-text>
+</div>
 
-  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-h2 md:text-h1 mt-4&quot;</span>&gt;</span>Renew your Emirates ID<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
-
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aeblack-500 mt-3&quot;</span>&gt;</span>
-    Renew up to six months before your card expires.
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h4&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;mt-10 mb-3&quot;</span>&gt;</span>Before you start<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>You will need a valid passport copy and your current Emirates ID.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-prose">
-    <aegov-breadcrumbs field-id="ti-cx-bc" separator="chevron">
-      <aegov-breadcrumbs-item href="#">Home</aegov-breadcrumbs-item>
-      <aegov-breadcrumbs-item>Emirates ID</aegov-breadcrumbs-item>
-    </aegov-breadcrumbs>
-    <p class="text-h3 md:text-h2 font-extrabold mt-4">Renew your Emirates ID</p>
-    <aegov-text size="lg" extra-class="text-aeblack-500 mt-3">Renew up to six months before your card expires.</aegov-text>
-    <aegov-title size="text-h5" heading-type="h2" extra-class="mt-8 mb-3">Before you start</aegov-title>
-    <aegov-text>You will need a valid passport copy and your current Emirates ID.</aegov-text>
-  </div>
+<hr>
+<h2>Combined Example</h2>
+<p>A page section typically pairs an <code>aegov-title</code> heading with one or more <code>aegov-text</code> paragraphs. The example below uses a responsive <code>h2</code> followed by a lead paragraph and a smaller note.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl md:2xl&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;mb-4&quot;</span>&gt;</span>
+  Apply for an Emirates ID
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>
+  All UAE nationals and residents are required to hold a valid Emirates ID.
+  Apply online or at an authorised typing centre.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
+  Bring your passport, a recent photograph, and proof of address. Most
+  applications are processed within five working days.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aeblack-500&quot;</span>&gt;</span>
+  Service fees apply. Payment is taken at the end of the application.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-title heading-type="h2" size="xl md:2xl" extra-class="mb-4">
+    Apply for an Emirates ID
+  </aegov-title>
+  <aegov-text size="lg">
+    All UAE nationals and residents are required to hold a valid Emirates ID. Apply online or at an authorised typing centre.
+  </aegov-text>
+  <aegov-text>
+    Bring your passport, a recent photograph, and proof of address. Most applications are processed within five working days.
+  </aegov-text>
+  <aegov-text size="sm" extra-class="text-aeblack-500">
+    Service fees apply. Payment is taken at the end of the application.
+  </aegov-text>
 </div>
 
 <hr>
 <h2>RTL Support</h2>
-<p>Title is direction-agnostic — it inherits alignment from its container, and the <code>base</code> stylesheet switches the heading font stack to Alexandria automatically in Arabic. Nothing needs configuring.</p>
+<p>The component automatically swaps the heading typeface for RTL contexts: it applies <code>font-inter</code> for LTR and <code>font-alexandria</code> for RTL via Tailwind&#39;s <code>rtl:</code> variant. Wrap the page (or any ancestor) with <code>dir=&quot;rtl&quot;</code> and the title font, alignment, and reading direction adjust automatically — no additional configuration is required.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;text-h3&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span>&gt;</span>تجديد الهوية الإماراتية<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>تُعالج معظم عمليات التجديد خلال خمسة أيام عمل.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl md:2xl&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;mb-4&quot;</span>&gt;</span>
+    تقديم طلب الهوية الإماراتية
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>
+    يُطلب من جميع المواطنين والمقيمين في دولة الإمارات الحصول على هوية إماراتية
+    سارية المفعول. يمكنك التقديم عبر الإنترنت أو من خلال أحد مراكز الطباعة المعتمدة.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
+    أحضر جواز سفرك وصورة شخصية حديثة وإثبات عنوان السكن. تتم معالجة معظم الطلبات
+    خلال خمسة أيام عمل.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-prose">
-    <aegov-title size="text-h3" heading-type="h2" extra-class="mb-3">تجديد الهوية الإماراتية</aegov-title>
-    <aegov-text extra-class="mb-6">تُعالج معظم عمليات التجديد خلال خمسة أيام عمل.</aegov-text>
-    <aegov-title size="text-h5" heading-type="h3" extra-class="mb-2 border-s-4 border-primary-600 ps-4">قبل أن تبدأ</aegov-title>
-    <aegov-text>ستحتاج إلى صورة جواز سفر صالح وهويتك الإماراتية الحالية.</aegov-text>
-  </div>
+  <aegov-title heading-type="h2" size="xl md:2xl" extra-class="mb-4">
+    تقديم طلب الهوية الإماراتية
+  </aegov-title>
+  <aegov-text size="lg">
+    يُطلب من جميع المواطنين والمقيمين في دولة الإمارات الحصول على هوية إماراتية سارية المفعول. يمكنك التقديم عبر الإنترنت أو من خلال أحد مراكز الطباعة المعتمدة.
+  </aegov-text>
+  <aegov-text>
+    أحضر جواز سفرك وصورة شخصية حديثة وإثبات عنوان السكن. تتم معالجة معظم الطلبات خلال خمسة أيام عمل.
+  </aegov-text>
+  <aegov-text size="sm" extra-class="text-aeblack-500">
+    تُطبَّق رسوم الخدمة. يتم الدفع في نهاية عملية التقديم.
+  </aegov-text>
 </div>
 
-<p>Two things to watch in your own classes:</p>
-<ul>
-<li><strong>Use logical utilities</strong> — <code>ps-*</code>, <code>pe-*</code>, <code>border-s-*</code>, <code>text-start</code> — so decoration follows the reading direction. <code>pl-4</code> and <code>text-left</code> do not mirror.</li>
-<li><strong>Do not justify text.</strong> The UAE Design System typography guidance prohibits justified text in both English and Arabic, because it slows reading.</li>
-</ul>
 <hr>
 <h2>API Reference</h2>
 <h3>Properties</h3>
@@ -212,35 +285,34 @@
 </tr>
 </thead>
 <tbody><tr>
+<td><code>fieldId</code></td>
+<td><code>field-id</code></td>
+<td>DOM <code>id</code> for the rendered element. Auto-generated if omitted.</td>
+<td><code>string</code></td>
+<td><em>generated</em></td>
+</tr>
+<tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Typography scale token, or a responsive string.</td>
-<td><code>string</code> — <code>xs | sm | base | lg | xl | 2xl | 3xl | text-h1 … text-h6</code></td>
+<td>Title typography size. Accepts a numeric scale token (<code>xs</code>–<code>3xl</code>), a semantic heading alias (<code>text-h1</code>–<code>text-h6</code>), or a Tailwind-style responsive string.</td>
+<td><code>string</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
 <td><code>headingType</code></td>
 <td><code>heading-type</code></td>
-<td>Which element to render. <strong>Omitting this renders a <code>&lt;p&gt;</code>.</strong></td>
+<td>Semantic wrapper element. Renders a real heading tag when set to <code>h2</code>–<code>h6</code>; <code>&#39;p&#39;</code> or omitted renders a <code>&lt;p&gt;</code>.</td>
 <td><code>&#39;h2&#39; | &#39;h3&#39; | &#39;h4&#39; | &#39;h5&#39; | &#39;h6&#39; | &#39;p&#39;</code></td>
-<td>— (renders <code>p</code>)</td>
-</tr>
-<tr>
-<td><code>fieldId</code></td>
-<td><code>field-id</code></td>
-<td>ID applied to the rendered element. Auto-generated when omitted, reflected.</td>
-<td><code>string</code></td>
-<td><em>generated</em></td>
+<td><code>undefined</code> (renders <code>&lt;p&gt;</code>)</td>
 </tr>
 <tr>
 <td><code>extraClass</code></td>
 <td><code>extra-class</code></td>
-<td>Extra classes appended to the rendered element.</td>
+<td>Additional Tailwind / CSS classes merged onto the rendered element.</td>
 <td><code>string</code></td>
-<td>—</td>
+<td><code>undefined</code></td>
 </tr>
 </tbody></table>
-<p>There is deliberately no <code>h1</code> option — see <a href="#there-is-no-h1">There is no h1</a>.</p>
 <h3>Slots</h3>
 <table>
 <thead>
@@ -251,71 +323,60 @@
 </thead>
 <tbody><tr>
 <td><em>(default)</em></td>
-<td>The title text.</td>
+<td>The title text content to render.</td>
 </tr>
 </tbody></table>
 <h3>Events</h3>
-<p>None.</p>
-<h3>Methods</h3>
-<p>None.</p>
+<p><code>aegov-title</code> emits no custom events.</p>
 <h3>Pass-through Attributes</h3>
+<p>The host forwards <code>aria-*</code> and <code>data-*</code> attributes to the inner heading or paragraph element so you can wire up labelling and analytics without extra markup.</p>
 <table>
 <thead>
 <tr>
 <th>Attribute group</th>
 <th>Forwarded?</th>
-<th>Notes</th>
+<th>Where it lands</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>aria-*</code></td>
 <td>Yes</td>
-<td>Forwarded to the rendered element.</td>
+<td>Inner heading / <code>&lt;p&gt;</code>.</td>
 </tr>
 <tr>
 <td><code>data-*</code></td>
 <td>Yes</td>
-<td>Forwarded to the rendered element.</td>
+<td>Inner heading / <code>&lt;p&gt;</code>.</td>
 </tr>
 <tr>
 <td><code>id</code></td>
 <td>n/a</td>
-<td>Use <code>field-id</code> — useful for <code>aria-labelledby</code> references.</td>
+<td>Use <code>field-id</code> instead.</td>
 </tr>
 <tr>
 <td><code>class</code>, <code>style</code></td>
 <td>Allowed</td>
-<td>Applied to the host. Use <code>extra-class</code> to reach the rendered element.</td>
+<td>Host element.</td>
 </tr>
 </tbody></table>
 <hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The rendered element is a real <code>&lt;h2&gt;</code>–<code>&lt;h6&gt;</code> or <code>&lt;p&gt;</code>, so heading semantics come from the platform rather than from <code>role=&quot;heading&quot;</code>.</li>
-<li><code>fieldId</code> lands on the rendered element, so it can be referenced by <code>aria-labelledby</code> from a region, dialog or group.</li>
-<li>Font stacks switch to Alexandria for Arabic headings via the global stylesheet.</li>
-<li>The heading scale uses <code>rem</code> units with paired line heights, so it scales with the user&#39;s font-size preference and holds up at 200% zoom (WCAG 2.2 SC 1.4.4).</li>
+<li>Renders a real heading tag (<code>h2</code>–<code>h6</code>) when <code>heading-type</code> is set, contributing to the document outline that assistive technology uses to navigate.</li>
+<li>An auto-generated <code>id</code> is always present, so the title can be referenced from <code>aria-labelledby</code> on a related region without extra wiring.</li>
+<li>The <code>font-bold</code> weight and explicit size classes ensure visual prominence is consistent across the system.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li><strong>Set <code>headingType</code> for anything that titles a section.</strong> Without it you get a styled paragraph, which is invisible to heading navigation — the single most common mistake with this component.</li>
-<li><strong>Choose the level from document structure, not size.</strong> Do not skip levels; <code>h2</code> should be followed by <code>h3</code>, not <code>h4</code>. Use <code>size</code> to control appearance.</li>
-<li><strong>Use a native <code>&lt;h1&gt;</code> for the page title.</strong> There is exactly one per page, and the global stylesheet already styles it.</li>
-<li><strong>Do not use <code>aegov-title</code> where a heading is not wanted</strong> — for body copy use <a href="aegov-text.html">Text</a>.</li>
-<li><strong>Keep line length between 60 and 100 characters</strong> for readable prose beneath a heading, per the design system&#39;s typography guidance.</li>
-<li><strong>Do not justify text</strong>, in either language.</li>
-<li><strong>Add a paragraph margin of about twice the font size</strong> after body copy; the design system bakes in line height but not block spacing.</li>
-<li><strong>Use logical spacing utilities</strong> in <code>extraClass</code> so decoration mirrors in RTL.</li>
-<li><strong>Do not rely on size alone to convey hierarchy.</strong> Two headings at the same size but different levels are indistinguishable visually; if the distinction matters to the reader, make it visible too.</li>
+<li>Choose <code>heading-type</code> to match the page&#39;s heading hierarchy. Skipping levels (for example, <code>h2</code> directly to <code>h4</code>) breaks the document outline for screen reader users.</li>
+<li>When a title is decorative or used purely as a card label, leave <code>heading-type</code> unset so it renders a <code>&lt;p&gt;</code> and does not appear in heading navigation.</li>
+<li>Do not rely on <code>size</code> alone to communicate hierarchy — visual size and semantic level are independent. A small <code>h2</code> is still a section heading.</li>
+<li>Maintain sufficient colour contrast (at least 3 : 1 for large text, 4.5 : 1 for normal-size titles) when overriding colour via <code>extra-class</code>.</li>
 </ul>
-<hr>
-<h2>Where to next</h2>
+<h3>Notes</h3>
 <ul>
-<li><a href="aegov-text.html">Text</a> — body copy, and the sibling of this component.</li>
-<li><a href="aegov-blockquote.html">Blockquote</a> — quoted content with attribution.</li>
-<li><a href="aegov-card.html">Card</a> — where titles commonly sit.</li>
-<li><a href="installation.html">Installation</a> — the type scale and font stacks in the theme.</li>
+<li><code>heading-type</code> does not include <code>h1</code> — pages should have exactly one <code>h1</code>, owned by the page layout, not a reusable component.</li>
 </ul>
 <!-- DOC:END -->
           </section>

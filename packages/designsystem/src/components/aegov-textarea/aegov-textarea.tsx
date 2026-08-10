@@ -12,7 +12,7 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
 } from '../../utils/validation';
 
 const TAG = 'aegov-textarea';
@@ -26,8 +26,8 @@ const STRINGS = {
 @Component({
   tag: 'aegov-textarea',
   styleUrl: 'aegov-textarea.css',
-  scoped: false,
-  shadow: false,
+  formAssociated: true,
+  shadow: { delegatesFocus: true },
 })
 export class AegovTextarea {
   @Element() el: HTMLElement;
@@ -44,7 +44,7 @@ export class AegovTextarea {
   @Prop() variant: FormVariant = 'primary';
 
   /** Whether the textarea is disabled. */
-  @Prop() isDisabled: boolean = false;
+  @Prop({ mutable: true }) isDisabled: boolean = false;
 
   /** Whether the textarea is readonly. */
   @Prop() isReadonly: boolean = false;
@@ -55,8 +55,8 @@ export class AegovTextarea {
   /** The current value of the textarea. */
   @Prop({ mutable: true }) value: string = '';
 
-  /** The name attribute for the textarea. */
-  @Prop() name?: string;
+  /** The name attribute for the textarea. Reflected so ElementInternals can read it for form submission. */
+  @Prop({ reflect: true }) name?: string;
 
   /** Whether the textarea is required. */
   @Prop() isRequired: boolean = false;
@@ -89,12 +89,13 @@ export class AegovTextarea {
   @State() charCount: number = 0;
 
   private textareaEl?: HTMLTextAreaElement;
+  private internals: ElementInternals | null = null;
 
   /** Emitted when the textarea value changes (on blur). */
   @Event() aegovTextareaChange: EventEmitter<{ value: string; event: globalThis.Event }>;
 
   /** Emitted on every keystroke. */
-  @Event() aegovTextareaInput: EventEmitter<{ value: string; event: globalThis.Event }>;
+  @Event() aegovTextareaValue: EventEmitter<{ value: string; event: globalThis.Event }>;
 
   /** Emitted when the textarea gains focus. */
   @Event() aegovTextareaFocus: EventEmitter<FocusEvent>;
@@ -124,6 +125,34 @@ export class AegovTextarea {
     this.errorId = `${this.fieldId}-error`;
     this.hintId = `${this.fieldId}-hint`;
     this.charCount = (this.value || '').length;
+    const host = this.el as unknown as HTMLElement & { attachInternals?: () => ElementInternals };
+    if (typeof host.attachInternals === 'function') {
+      try {
+        this.internals = host.attachInternals();
+        this.internals.setFormValue(this.value || null);
+      } catch {
+        this.internals = null;
+      }
+    }
+  }
+
+  formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
+  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formResetCallback() {
+    this.value = '';
+    this.errorMessage = '';
+    this.isInvalid = false;
+    if (this.textareaEl) this.textareaEl.setCustomValidity('');
+    this.internals?.setFormValue(null);
+    if (this.isRequired) {
+      setInternalsValidity(this.internals, synthesizeValidity({ valueMissing: true }), 'Please fill in this field');
+    } else {
+      setInternalsValidity(this.internals, { valid: true }, '');
+    }
+  }
+
+  componentDidLoad() {
+    this.syncInternalsValidity();
   }
 
   /** Imperatively re-run validation. */
@@ -148,11 +177,29 @@ export class AegovTextarea {
     if (this.textareaEl && typeof this.textareaEl.setCustomValidity === 'function') {
       this.textareaEl.setCustomValidity(message);
     }
+    if (this.internals) {
+      if (message) {
+        setInternalsValidity(this.internals, synthesizeValidity({ customError: true }), message, this.textareaEl);
+      } else {
+        setInternalsValidity(this.internals, { valid: true }, '');
+      }
+    }
   }
 
   private readValidity() {
     const v = this.textareaEl?.validity;
     return v ? fromNativeValidity(v) : VALID_STATE;
+  }
+
+  private syncInternalsValidity(): void {
+    if (!this.internals || !this.textareaEl) return;
+    const v = this.textareaEl.validity;
+    if (v.valid) {
+      setInternalsValidity(this.internals, { valid: true }, '');
+    } else {
+      const message = this.errorMessage || this.textareaEl.validationMessage || '';
+      setInternalsValidity(this.internals, fromNativeValidity(v), message, this.textareaEl);
+    }
   }
 
   private emitValidate(trigger: AegovValidationTrigger) {
@@ -246,6 +293,8 @@ export class AegovTextarea {
   private handleChange = (event: Event) => {
     const textarea = event.target as HTMLTextAreaElement;
     this.value = textarea.value;
+    this.internals?.setFormValue(this.value || null);
+    this.syncInternalsValidity();
     this.aegovTextareaChange.emit({ value: this.value, event });
     this.emitValidate('change');
   };
@@ -253,7 +302,9 @@ export class AegovTextarea {
   private handleInput = (event: Event) => {
     const textarea = event.target as HTMLTextAreaElement;
     this.value = textarea.value;
-    this.aegovTextareaInput.emit({ value: this.value, event });
+    this.internals?.setFormValue(this.value || null);
+    this.syncInternalsValidity();
+    this.aegovTextareaValue.emit({ value: this.value, event });
     if (this.resize === 'auto') {
       this.autoResize();
     }
@@ -286,9 +337,8 @@ export class AegovTextarea {
         this.justCopied = false;
       }, 2000);
     } catch {
-      const textarea = this.el.querySelector('textarea');
-      if (textarea) {
-        textarea.select();
+      if (this.textareaEl) {
+        this.textareaEl.select();
         document.execCommand('copy');
         this.justCopied = true;
         setTimeout(() => {
@@ -372,7 +422,6 @@ export class AegovTextarea {
         readOnly={this.isReadonly}
         placeholder={this.placeholder}
         value={this.value}
-        name={this.name}
         required={this.isRequired}
         maxLength={this.maxlength}
         aria-invalid={this.isInvalid ? 'true' : null}

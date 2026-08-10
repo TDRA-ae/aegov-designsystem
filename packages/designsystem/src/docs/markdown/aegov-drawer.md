@@ -1,323 +1,615 @@
 # Drawer
 
-<p class="text-lg text-aeblack-500 mb-8">A Drawer slides in from an edge of the screen to show content alongside the page rather than on top of it. Use it for filters, secondary navigation, a details panel, or a form that is too long for a modal. Unlike a modal, a drawer can be shown without an overlay, letting the user keep working with the page behind it.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Drawer is a panel that slides in from the edge of the viewport — left, right, top, or bottom — to surface secondary content without leaving the current page. Use it for filter panels, navigation menus, settings, shopping baskets, or supplementary detail views where the underlying page should remain visible and easy to return to.</p>
 
 ## Introduction
 
-`aegov-drawer` uses shadow DOM and relocates itself to `document.body`, so it renders above the page regardless of where you declared it.
+The `aegov-drawer` component renders a panel anchored to one edge of the viewport, optionally over a backdrop. Like the modal, it uses Shadow DOM, is moved to `document.body` for correct stacking, traps focus inside, and locks body scroll while open. The drawer offers a richer animation and pinning model than the modal — choose `slide` or `fade` motion, attach the panel flush to the edge or float it with rounded corners, and optionally render without an overlay for non-blocking experiences.
 
 ```html
 <aegov-button id="open-filters">Filters</aegov-button>
 
-<aegov-drawer id="filters" label="Search filters" position="right">
-  <h2>Filters</h2>
-  <aegov-checkbox-group label="Emirate">
-    <aegov-checkbox name="emirate" value="AZ" label="Abu Dhabi"></aegov-checkbox>
-    <aegov-checkbox name="emirate" value="DU" label="Dubai"></aegov-checkbox>
+<aegov-drawer id="filters-drawer" position="right" aria-labelledby="filters-title">
+  <h3 id="filters-title" class="text-xl font-bold mb-4">Filter services</h3>
+  <p class="text-aeblack-500 mb-6">Refine the list of available government services.</p>
+
+  <aegov-checkbox-group label="Service category" class="mb-6">
+    <aegov-checkbox value="identity">Identity &amp; residency</aegov-checkbox>
+    <aegov-checkbox value="health">Health</aegov-checkbox>
+    <aegov-checkbox value="transport">Transport</aegov-checkbox>
+    <aegov-checkbox value="business">Business &amp; licensing</aegov-checkbox>
   </aegov-checkbox-group>
-  <aegov-button variant="primary">Apply filters</aegov-button>
+
+  <div class="flex justify-end gap-3 mt-8">
+    <aegov-button variant="secondary" id="filters-clear">Clear all</aegov-button>
+    <aegov-button id="filters-apply">Apply filters</aegov-button>
+  </div>
 </aegov-drawer>
 
-<script type="module">
-  const drawer = document.querySelector('#filters');
-  document.querySelector('#open-filters').addEventListener('aegovButtonClick', () => drawer.show());
+<script>
+  const drawer = document.querySelector('#filters-drawer');
+  document.querySelector('#open-filters').addEventListener('click', () => drawer.show());
+  document.querySelector('#filters-clear').addEventListener('click', () => drawer.close());
+  document.querySelector('#filters-apply').addEventListener('click', () => drawer.close());
 </script>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-button id="dr-demo-open">Filters</aegov-button>
-  <aegov-drawer id="dr-demo" label="Search filters" position="right">
-    <h2 class="text-h6 font-bold mb-4">Filters</h2>
-    <aegov-checkbox-group label="Emirate" appearance="list">
-      <aegov-checkbox name="dr-emirate" value="AZ" label="Abu Dhabi"></aegov-checkbox>
-      <aegov-checkbox name="dr-emirate" value="DU" label="Dubai"></aegov-checkbox>
-      <aegov-checkbox name="dr-emirate" value="SH" label="Sharjah"></aegov-checkbox>
+  <aegov-button id="demo-open-filters">
+    <span>Filters</span>
+  </aegov-button>
+
+  <aegov-drawer id="demo-filters-drawer" position="right" aria-labelledby="demo-filters-title">
+    <h3 id="demo-filters-title" class="text-xl font-bold mb-4">Filter services</h3>
+    <p class="text-aeblack-500 mb-6">Refine the list of available government services.</p>
+    <aegov-checkbox-group label="Service category" class="mb-6">
+      <aegov-checkbox value="identity">Identity &amp; residency</aegov-checkbox>
+      <aegov-checkbox value="health">Health</aegov-checkbox>
+      <aegov-checkbox value="transport">Transport</aegov-checkbox>
+      <aegov-checkbox value="business">Business &amp; licensing</aegov-checkbox>
     </aegov-checkbox-group>
-    <div class="mt-6 flex gap-3">
-      <aegov-button variant="primary" onclick="document.querySelector('#dr-demo').close()">Apply filters</aegov-button>
-      <aegov-button appearance="outline" onclick="document.querySelector('#dr-demo').close()">Cancel</aegov-button>
+    <div class="flex justify-end gap-3 mt-8">
+      <aegov-button variant="secondary" id="demo-filters-clear">Clear all</aegov-button>
+      <aegov-button id="demo-filters-apply">Apply filters</aegov-button>
     </div>
   </aegov-drawer>
-  <script>document.querySelector('#dr-demo-open').addEventListener('aegovButtonClick', () => document.querySelector('#dr-demo').show());</script>
+
+  <script>
+    (function() {
+      const drawer = document.querySelector('#demo-filters-drawer');
+      document.querySelector('#demo-open-filters').addEventListener('click', () => drawer.show());
+      document.querySelector('#demo-filters-clear').addEventListener('click', () => drawer.close());
+      document.querySelector('#demo-filters-apply').addEventListener('click', () => drawer.close());
+    })();
+  </script>
 </div>
-
-Set `label` — it becomes the dialog's accessible name.
-
----
-
-## Drawer or modal?
-
-| Use a **drawer** when | Use a [**modal**](aegov-modal.html) when |
-| --- | --- |
-| The content is long or has many fields. | The content is a short question. |
-| The user may want to see the page behind it. | The user must deal with it before anything else. |
-| It is a panel — filters, navigation, details. | It is a decision — confirm, accept, delete. |
-| It may stay open while the user works. | It must be dismissed to continue. |
 
 ---
 
 ## Position
 
-`position` sets the edge the drawer slides from.
+The `position` property selects which edge the drawer slides from. `right` is the default and is conventional for filters and detail panels; `left` is conventional for primary navigation; `top` and `bottom` work well on mobile or for transient toolbars.
 
 ```html
-<aegov-drawer position="right" label="Right">…</aegov-drawer>
-<aegov-drawer position="left" label="Left">…</aegov-drawer>
-<aegov-drawer position="top" label="Top">…</aegov-drawer>
-<aegov-drawer position="bottom" label="Bottom">…</aegov-drawer>
+<aegov-drawer position="right" is-open="true">…</aegov-drawer>
+<aegov-drawer position="left" is-open="true">…</aegov-drawer>
+<aegov-drawer position="top" is-open="true">…</aegov-drawer>
+<aegov-drawer position="bottom" is-open="true">…</aegov-drawer>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-3">
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-pr').show()">right</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-pl').show()">left</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-pt').show()">top</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-pb').show()">bottom</aegov-button>
+    <aegov-button id="demo-pos-right-btn">Right</aegov-button>
+    <aegov-button id="demo-pos-left-btn">Left</aegov-button>
+    <aegov-button id="demo-pos-top-btn">Top</aegov-button>
+    <aegov-button id="demo-pos-bottom-btn">Bottom</aegov-button>
   </div>
-  <aegov-drawer id="dr-pr" position="right" label="Right drawer"><p class="mb-4">Slides in from the right — the default, and conventional for filters and details.</p><aegov-button size="sm" onclick="document.querySelector('#dr-pr').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer id="dr-pl" position="left" label="Left drawer"><p class="mb-4">Slides in from the left — conventional for navigation.</p><aegov-button size="sm" onclick="document.querySelector('#dr-pl').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer id="dr-pt" position="top" label="Top drawer"><p class="mb-4">Slides down from the top.</p><aegov-button size="sm" onclick="document.querySelector('#dr-pt').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer id="dr-pb" position="bottom" label="Bottom drawer"><p class="mb-4">Slides up from the bottom — reads as a sheet on mobile.</p><aegov-button size="sm" onclick="document.querySelector('#dr-pb').close()">Close</aegov-button></aegov-drawer>
-</div>
 
-Conventions worth following: `left` for navigation, `right` for filters and detail panels, `bottom` for mobile sheets. Note these are physical edges, not logical ones — see [RTL Support](#rtl-support).
+  <aegov-drawer id="demo-drawer-right" position="right" aria-label="Right drawer">
+    <h3 class="text-xl font-bold mb-2">Right-side drawer</h3>
+    <p class="mb-6">Slides in from the right — best for filters and detail panels.</p>
+    <aegov-button id="demo-drawer-right-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-left" position="left" aria-label="Left drawer">
+    <h3 class="text-xl font-bold mb-2">Left-side drawer</h3>
+    <p class="mb-6">Slides in from the left — best for primary navigation.</p>
+    <aegov-button id="demo-drawer-left-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-top" position="top" aria-label="Top drawer">
+    <h3 class="text-xl font-bold mb-2">Top drawer</h3>
+    <p class="mb-6">Drops in from the top — useful for transient toolbars and announcements.</p>
+    <aegov-button id="demo-drawer-top-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-bottom" position="bottom" aria-label="Bottom drawer">
+    <h3 class="text-xl font-bold mb-2">Bottom drawer</h3>
+    <p class="mb-6">Slides in from the bottom — common on mobile for action sheets.</p>
+    <aegov-button id="demo-drawer-bottom-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      ['right','left','top','bottom'].forEach(p => {
+        const d = document.querySelector('#demo-drawer-' + p);
+        document.querySelector('#demo-pos-' + p + '-btn').addEventListener('click', () => d.show());
+        document.querySelector('#demo-drawer-' + p + '-close').addEventListener('click', () => d.close());
+      });
+    })();
+  </script>
+</div>
 
 ---
 
-## Size
+## Sizes
 
-Three tokens, controlling width for side drawers and height for top and bottom ones.
+The `size` property controls the panel **width** for left/right drawers. It also scales the inner padding and, when `is-pinned="false"`, the edge gap and corner radius.
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap gap-3">
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-ssm').show()">sm</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-sb').show()">base</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-slg').show()">lg</aegov-button>
-  </div>
-  <aegov-drawer id="dr-ssm" size="sm" label="Small drawer"><p class="mb-4">Small — a narrow panel.</p><aegov-button size="sm" onclick="document.querySelector('#dr-ssm').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer id="dr-sb" size="base" label="Base drawer"><p class="mb-4">Base — the default.</p><aegov-button size="sm" onclick="document.querySelector('#dr-sb').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer id="dr-slg" size="lg" label="Large drawer"><p class="mb-4">Large — for forms and dense content.</p><aegov-button size="sm" onclick="document.querySelector('#dr-slg').close()">Close</aegov-button></aegov-drawer>
-</div>
+| Size | Width (left/right) | Padding | Typical use |
+| ---- | ------------------ | ------- | ----------- |
+| `xs` | 320px | p-3 | Notification strip, icon sidebar |
+| `sm` | 384px | p-4 | Filter panel, narrow navigation |
+| `base` | 480px _(default)_ | p-5 | Settings panel, detail view |
+| `lg` | 640px | p-6 | Multi-field form, data table |
+| `xl` | 800px | p-8 | Wide wizard, rich detail panel |
+| `full` | 100vw | p-8 | Full-screen takeover |
 
----
+> On viewports narrower than 640 px all left/right sizes collapse to full width automatically.
 
-## Pinned
-
-`isPinned` — on by default — sits the drawer flush against the viewport edges. Setting it to `false` insets it slightly and rounds its corners, so it reads as a floating panel.
+> **Top/bottom drawers:** height is `auto` — the drawer grows to fit its slotted content (up to `100dvh`). See [Controlling top/bottom height](#controlling-topbottom-height) below.
 
 ```html
-<aegov-drawer is-pinned label="Flush to the edge">…</aegov-drawer>
-<aegov-drawer is-pinned="false" label="Floating panel">…</aegov-drawer>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap gap-3">
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-pin').show()">Pinned (default)</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-unpin').show()">Unpinned</aegov-button>
-  </div>
-  <aegov-drawer id="dr-pin" is-pinned label="Pinned drawer"><p class="mb-4">Flush against the viewport edges.</p><aegov-button size="sm" onclick="document.querySelector('#dr-pin').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer id="dr-unpin" is-pinned="false" label="Unpinned drawer"><p class="mb-4">Inset with rounded corners — reads as a floating panel.</p><aegov-button size="sm" onclick="document.querySelector('#dr-unpin').close()">Close</aegov-button></aegov-drawer>
-</div>
-
----
-
-## Overlay
-
-`isOverlay` — on by default — dims the page behind. **Turning it off is what makes a drawer non-blocking**, letting the user interact with the page while the drawer stays open.
-
-```html
-<!-- A filter panel the user can work alongside -->
-<aegov-drawer
-  label="Filters"
-  is-overlay="false"
-  is-prevent-scroll="false"
->…</aegov-drawer>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap gap-3">
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-ov').show()">With overlay (default)</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-noov').show()">Without overlay</aegov-button>
-  </div>
-  <aegov-drawer id="dr-ov" label="With overlay"><p class="mb-4">The page behind is dimmed and inert.</p><aegov-button size="sm" onclick="document.querySelector('#dr-ov').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer id="dr-noov" label="Without overlay" is-overlay="false" is-prevent-scroll="false"><p class="mb-4">The page behind stays visible and scrollable.</p><aegov-button size="sm" onclick="document.querySelector('#dr-noov').close()">Close</aegov-button></aegov-drawer>
-</div>
-
-Pair `is-overlay="false"` with `is-prevent-scroll="false"` — leaving scroll locked while the page is visibly available is confusing.
-
-Note that the drawer still declares `aria-modal="true"` and traps focus even without an overlay, so assistive technology treats it as modal regardless. If you genuinely need a non-modal panel that the user can tab out of, a drawer is the wrong component — build an inline panel instead.
-
-`overlayOpacity` sets the dim strength: `light`, `base` or `dark`.
-
----
-
-## Animation
-
-```html
-<aegov-drawer animation="slide" label="Slide">…</aegov-drawer>
-<aegov-drawer animation="fade" label="Fade">…</aegov-drawer>
-<aegov-drawer animation="none" label="Instant">…</aegov-drawer>
+<aegov-drawer size="xs"   is-open="true">…</aegov-drawer>
+<aegov-drawer size="sm"   is-open="true">…</aegov-drawer>
+<aegov-drawer size="base" is-open="true">…</aegov-drawer>
+<aegov-drawer size="lg"   is-open="true">…</aegov-drawer>
+<aegov-drawer size="xl"   is-open="true">…</aegov-drawer>
+<aegov-drawer size="full" is-open="true">…</aegov-drawer>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-3">
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-as').show()">slide</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-af').show()">fade</aegov-button>
-    <aegov-button size="sm" appearance="outline" onclick="document.querySelector('#dr-an').show()">none</aegov-button>
+    <aegov-button id="demo-drawer-size-xs-btn">XS — 320px</aegov-button>
+    <aegov-button id="demo-drawer-size-sm-btn">SM — 384px</aegov-button>
+    <aegov-button id="demo-drawer-size-base-btn">Base — 480px</aegov-button>
+    <aegov-button id="demo-drawer-size-lg-btn">LG — 640px</aegov-button>
+    <aegov-button id="demo-drawer-size-xl-btn">XL — 800px</aegov-button>
+    <aegov-button id="demo-drawer-size-full-btn">Full — 100vw</aegov-button>
   </div>
-  <aegov-drawer id="dr-as" animation="slide" label="Slide animation"><p class="mb-4">Transforms in from the edge.</p><aegov-button size="sm" onclick="document.querySelector('#dr-as').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer id="dr-af" animation="fade" label="Fade animation"><p class="mb-4">Fades in place.</p><aegov-button size="sm" onclick="document.querySelector('#dr-af').close()">Close</aegov-button></aegov-drawer>
-  <aegov-drawer id="dr-an" animation="none" label="No animation"><p class="mb-4">Appears instantly.</p><aegov-button size="sm" onclick="document.querySelector('#dr-an').close()">Close</aegov-button></aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-size-xs" size="xs" aria-label="XS drawer">
+    <h3 class="text-base font-bold mb-2">XS drawer — 320px</h3>
+    <p class="mb-6">Compact strip for notifications, icon sidebars, and quick-action panels.</p>
+    <aegov-button id="demo-drawer-size-xs-close" size="sm">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-size-sm" size="sm" aria-label="SM drawer">
+    <h3 class="text-lg font-bold mb-2">SM drawer — 384px</h3>
+    <p class="mb-6">Narrow panel for filter sidebars and compact navigation.</p>
+    <aegov-button id="demo-drawer-size-sm-close" size="sm">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-size-base" size="base" aria-label="Base drawer">
+    <h3 class="text-xl font-bold mb-2">Base drawer — 480px (default)</h3>
+    <p class="mb-6">Standard panel for settings panels and detail views.</p>
+    <aegov-button id="demo-drawer-size-base-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-size-lg" size="lg" aria-label="LG drawer">
+    <h3 class="text-2xl font-bold mb-2">LG drawer — 640px</h3>
+    <p class="mb-6">Wide panel for multi-field forms and data tables.</p>
+    <aegov-button id="demo-drawer-size-lg-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-size-xl" size="xl" aria-label="XL drawer">
+    <h3 class="text-2xl font-bold mb-2">XL drawer — 800px</h3>
+    <p class="mb-6">Extra-wide panel for complex wizards and rich detail views.</p>
+    <aegov-button id="demo-drawer-size-xl-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-size-full" size="full" aria-label="Full drawer">
+    <h3 class="text-2xl font-bold mb-2">Full drawer — 100vw</h3>
+    <p class="mb-6">Full-screen takeover for immersive workflows.</p>
+    <aegov-button id="demo-drawer-size-full-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      ['xs','sm','base','lg','xl','full'].forEach(s => {
+        const d = document.querySelector('#demo-drawer-size-' + s);
+        document.querySelector('#demo-drawer-size-' + s + '-btn').addEventListener('click', () => d.show());
+        document.querySelector('#demo-drawer-size-' + s + '-close').addEventListener('click', () => d.close());
+      });
+    })();
+  </script>
 </div>
 
-`slide` is the default and reinforces where the panel came from, which helps orientation. Use `none` where motion is undesirable — though note this is a per-instance choice, not a substitute for respecting `prefers-reduced-motion` globally.
-
 ---
 
-## Opening and closing
+## Controlling top/bottom height
 
-```js
-await drawer.show();
-await drawer.close();
-await drawer.toggle();
-```
+Top and bottom drawers have `height: auto` by default — the panel grows to fit whatever you put inside it, up to `100dvh`. There is no fixed height per `size` tier.
 
-`isOpen` is reflected and mutable, so declarative control works too:
+To set a specific height, wrap your content in a `div` and apply the height there. Because the wrapper is in the **light DOM** (your own HTML), all standard CSS and Tailwind classes work on it directly.
 
 ```html
-<aegov-drawer is-open label="Filters">…</aegov-drawer>
-```
+<!-- auto height — fits content -->
+<aegov-drawer position="bottom" is-open="true" label="Quick actions">
+  <div>
+    <p>This drawer is as tall as this content.</p>
+    <aegov-button>Close</aegov-button>
+  </div>
+</aegov-drawer>
 
-### Preventing close
+<!-- fixed 50vh — inner wrapper drives the height -->
+<aegov-drawer position="bottom" is-open="true" label="Filter panel">
+  <div class="h-[50vh]">
+    <p>Always half the viewport height.</p>
+    <aegov-button>Close</aegov-button>
+  </div>
+</aegov-drawer>
 
-`aegovDrawerBeforeClose` is a **cancellable event**. Call `preventDefault()` on the event to keep the drawer open.
-
-```js
-drawer.addEventListener('aegovDrawerBeforeClose', (e) => {
-  if (hasUnsavedChanges()) {
-    e.preventDefault();
-    window.aegovToast.show({ message: 'Save or discard your changes first', variant: 'warning' });
-  }
-});
-```
-
-This is the same contract as [Modal](aegov-modal.html), so a handler works unchanged on either:
-
-```js
-drawer.addEventListener('aegovDrawerBeforeClose', (e) => e.preventDefault());
-modal.addEventListener('aegovModalBeforeClose', (e) => e.preventDefault());
-```
-
-> **Changed:** this event previously carried a `preventDefault` function in `event.detail`,
-> and cancelling required `e.detail.preventDefault()`. It is now a standard cancellable
-> event. Update any handler using the old form — `e.detail` is no longer an object.
-
-Use this sparingly. A drawer that refuses to close is a trap unless the user is given a clear, immediate way out.
-
----
-
-## Padding
-
-`isPadding` — on by default — applies standard internal padding. Turn it off for content that manages its own, such as a full-bleed list.
-
----
-
-## Composite example — filter panel
-
-```html
-<div class="flex items-center justify-between">
-  <p class="text-sm text-aeblack-500">248 service centres</p>
-  <aegov-button id="open-filters" size="sm" appearance="outline">
-    Filters
-    <aegov-badge appearance="solid" variant="primary" size="sm">3</aegov-badge>
-  </aegov-button>
-</div>
-
-<aegov-drawer
-  id="filters"
-  label="Filter service centres"
-  position="right"
-  size="base"
->
-  <h2 class="text-h6 font-bold mb-5">Filters</h2>
-
-  <aegov-checkbox-group label="Emirate" appearance="list">
-    <aegov-checkbox name="emirate" value="AZ" label="Abu Dhabi" is-checked></aegov-checkbox>
-    <aegov-checkbox name="emirate" value="DU" label="Dubai" is-checked></aegov-checkbox>
-    <aegov-checkbox name="emirate" value="SH" label="Sharjah"></aegov-checkbox>
-  </aegov-checkbox-group>
-
-  <aegov-range name="radius" label="Within (km)" min="1" max="50" value="10" display="full"></aegov-range>
-
-  <div class="mt-6 flex flex-wrap gap-3">
-    <aegov-button variant="primary">Show results</aegov-button>
-    <aegov-button appearance="link">Clear all</aegov-button>
+<!-- responsive — full on mobile, half on desktop -->
+<aegov-drawer position="bottom" is-open="true" label="Share sheet">
+  <div class="h-dvh md:h-[50vh]">
+    <p>Full on mobile, half-screen on desktop.</p>
+    <aegov-button>Close</aegov-button>
   </div>
 </aegov-drawer>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex items-center justify-between max-w-md">
-    <p class="text-sm text-aeblack-500">248 service centres</p>
-    <aegov-button id="dr-cx-open" size="sm" appearance="outline">Filters <aegov-badge appearance="solid" variant="primary" size="sm">3</aegov-badge></aegov-button>
+  <div class="flex flex-wrap gap-3">
+    <aegov-button id="demo-height-auto-btn">Auto (content height)</aegov-button>
+    <aegov-button id="demo-height-200-btn">Fixed 200px</aegov-button>
+    <aegov-button id="demo-height-50vh-btn">50vh</aegov-button>
+    <aegov-button id="demo-height-80vh-btn">80vh</aegov-button>
   </div>
-  <aegov-drawer id="dr-cx" label="Filter service centres" position="right" size="base">
-    <h2 class="text-h6 font-bold mb-5">Filters</h2>
-    <aegov-checkbox-group label="Emirate" appearance="list">
-      <aegov-checkbox name="dr-cx-em" value="AZ" label="Abu Dhabi" is-checked></aegov-checkbox>
-      <aegov-checkbox name="dr-cx-em" value="DU" label="Dubai" is-checked></aegov-checkbox>
-      <aegov-checkbox name="dr-cx-em" value="SH" label="Sharjah"></aegov-checkbox>
-    </aegov-checkbox-group>
-    <div class="mt-6">
-      <aegov-range field-id="dr-cx-rad" name="radius" label="Within (km)" min="1" max="50" value="10" display="full"></aegov-range>
-    </div>
-    <div class="mt-6 flex flex-wrap gap-3">
-      <aegov-button variant="primary" onclick="document.querySelector('#dr-cx').close()">Show results</aegov-button>
-      <aegov-button appearance="link" onclick="document.querySelector('#dr-cx').close()">Clear all</aegov-button>
+
+  <aegov-drawer id="demo-height-auto" position="bottom" aria-label="Auto height">
+    <div>
+      <p class="text-xs font-bold uppercase tracking-wide opacity-50 mb-1">height: auto (default)</p>
+      <p class="font-semibold mb-2">Drawer grows to fit content</p>
+      <p class="text-sm opacity-65 mb-4">No height set on the wrapper — the drawer is exactly as tall as this content.</p>
+      <aegov-button id="demo-height-auto-close" size="sm">Close</aegov-button>
     </div>
   </aegov-drawer>
-  <script>document.querySelector('#dr-cx-open').addEventListener('aegovButtonClick', () => document.querySelector('#dr-cx').show());</script>
+
+  <aegov-drawer id="demo-height-200" position="bottom" aria-label="200px height">
+    <div style="height:200px;display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wide opacity-50 mb-1">Inner wrapper: height 200px</p>
+        <p class="font-semibold mb-2">Fixed 200px — small action sheet</p>
+        <p class="text-sm opacity-65">Cookie consent, quick confirm, minimal actions.</p>
+      </div>
+      <aegov-button id="demo-height-200-close" size="sm">Close</aegov-button>
+    </div>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-height-50vh" position="bottom" aria-label="50vh height">
+    <div style="height:50vh;display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wide opacity-50 mb-1">Inner wrapper: height 50vh</p>
+        <p class="font-semibold mb-2">Half-screen sheet — 50vh</p>
+        <p class="text-sm opacity-65">Share sheet, filter panel, product preview.</p>
+      </div>
+      <aegov-button id="demo-height-50vh-close" size="sm">Close</aegov-button>
+    </div>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-height-80vh" position="bottom" aria-label="80vh height">
+    <div style="height:80vh;display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wide opacity-50 mb-1">Inner wrapper: height 80vh</p>
+        <p class="font-semibold mb-2">Near full-screen sheet — 80vh</p>
+        <p class="text-sm opacity-65">Complex form, multi-step wizard, long filter list.</p>
+      </div>
+      <aegov-button id="demo-height-80vh-close" size="sm">Close</aegov-button>
+    </div>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      const variants = ['auto', '200', '50vh', '80vh'];
+      variants.forEach(v => {
+        const d = document.querySelector('#demo-height-' + v);
+        document.querySelector('#demo-height-' + v + '-btn').addEventListener('click', () => d.show());
+        document.querySelector('#demo-height-' + v + '-close').addEventListener('click', () => d.close());
+      });
+    })();
+  </script>
+</div>
+
+---
+
+## Pinned vs. Floating
+
+`is-pinned="true"` (the default) attaches the drawer flush against the edge with no border-radius. Set `is-pinned="false"` to float the panel with a small gap and rounded corners — a softer, more contained look that pairs well with `size="lg"`.
+
+```html
+<aegov-drawer is-pinned="true" is-open="true">Pinned (default)</aegov-drawer>
+<aegov-drawer is-pinned="false" is-open="true">Floating with gap</aegov-drawer>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-3">
+    <aegov-button id="demo-pinned-btn">Pinned</aegov-button>
+    <aegov-button id="demo-unpinned-btn">Floating</aegov-button>
+  </div>
+
+  <aegov-drawer id="demo-drawer-pinned" is-pinned="true" aria-label="Pinned drawer">
+    <h3 class="text-xl font-bold mb-2">Pinned drawer</h3>
+    <p class="mb-6">Flush against the edge — the default style.</p>
+    <aegov-button id="demo-pinned-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-unpinned" is-pinned="false" size="lg" aria-label="Floating drawer">
+    <h3 class="text-xl font-bold mb-2">Floating drawer</h3>
+    <p class="mb-6">A small gap from the viewport edge with rounded corners. Pairs well with size="lg".</p>
+    <aegov-button id="demo-unpinned-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      const p = document.querySelector('#demo-drawer-pinned');
+      const u = document.querySelector('#demo-drawer-unpinned');
+      document.querySelector('#demo-pinned-btn').addEventListener('click', () => p.show());
+      document.querySelector('#demo-unpinned-btn').addEventListener('click', () => u.show());
+      document.querySelector('#demo-pinned-close').addEventListener('click', () => p.close());
+      document.querySelector('#demo-unpinned-close').addEventListener('click', () => u.close());
+    })();
+  </script>
+</div>
+
+---
+
+## Animation
+
+The `animation` property controls the open/close transition. `slide` (default) uses a directional translate matching the drawer's edge; `fade` cross-fades the panel; `none` disables transitions entirely — useful for tests or when motion should be suppressed at the OS level.
+
+```html
+<aegov-drawer animation="slide" is-open="true">…</aegov-drawer>
+<aegov-drawer animation="fade" is-open="true">…</aegov-drawer>
+<aegov-drawer animation="none" is-open="true">…</aegov-drawer>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-3">
+    <aegov-button id="demo-anim-slide-btn">Slide</aegov-button>
+    <aegov-button id="demo-anim-fade-btn">Fade</aegov-button>
+    <aegov-button id="demo-anim-none-btn">None</aegov-button>
+  </div>
+
+  <aegov-drawer id="demo-drawer-anim-slide" animation="slide" aria-label="Slide animation drawer">
+    <h3 class="text-xl font-bold mb-2">Slide animation</h3>
+    <p class="mb-6">The panel translates in from the drawer's edge — the default transition.</p>
+    <aegov-button id="demo-anim-slide-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-anim-fade" animation="fade" aria-label="Fade animation drawer">
+    <h3 class="text-xl font-bold mb-2">Fade animation</h3>
+    <p class="mb-6">The panel cross-fades in without directional motion.</p>
+    <aegov-button id="demo-anim-fade-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-anim-none" animation="none" aria-label="No animation drawer">
+    <h3 class="text-xl font-bold mb-2">No animation</h3>
+    <p class="mb-6">The panel appears and disappears instantly — no transition.</p>
+    <aegov-button id="demo-anim-none-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      ['slide','fade','none'].forEach(a => {
+        const d = document.querySelector('#demo-drawer-anim-' + a);
+        document.querySelector('#demo-anim-' + a + '-btn').addEventListener('click', () => d.show());
+        document.querySelector('#demo-anim-' + a + '-close').addEventListener('click', () => d.close());
+      });
+    })();
+  </script>
+</div>
+
+---
+
+## No Overlay
+
+Set `is-overlay="false"` to render the drawer without a dimming backdrop. The page behind remains fully visible and (with `is-prevent-scroll="false"`) scrollable. This is useful for inspector-style panels that should not interrupt the user's workflow.
+
+```html
+<aegov-drawer is-overlay="false" is-prevent-scroll="false" is-pinned="false" position="right">
+  <h3 class="text-lg font-bold mb-2">Quick info</h3>
+  <p>This panel coexists with the page — no backdrop, no scroll lock.</p>
+</aegov-drawer>
+```
+
+> Even without the visible overlay, clicking outside still closes the drawer when `is-close-with-overlay="true"` (the default), via an invisible click-catching layer.
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button id="demo-no-overlay-open">Open inspector panel</aegov-button>
+
+  <aegov-drawer id="demo-no-overlay-drawer" is-overlay="false" is-prevent-scroll="false" is-pinned="false" position="right" aria-label="No overlay drawer">
+    <h3 class="text-lg font-bold mb-2">Quick info</h3>
+    <p class="mb-6">This panel coexists with the page — no backdrop, no scroll lock.</p>
+    <aegov-button id="demo-no-overlay-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      const d = document.querySelector('#demo-no-overlay-drawer');
+      document.querySelector('#demo-no-overlay-open').addEventListener('click', () => d.show());
+      document.querySelector('#demo-no-overlay-close').addEventListener('click', () => d.close());
+    })();
+  </script>
+</div>
+
+---
+
+## Overlay Opacity
+
+The `overlay-opacity` attribute controls how dark the backdrop appears when `is-overlay="true"`. Use `light` for a subtle hint, `base` (the default) for standard dimming, and `dark` for maximum focus on the drawer panel.
+
+```html
+<aegov-drawer overlay-opacity="light" is-open="true">…</aegov-drawer>
+<aegov-drawer overlay-opacity="base" is-open="true">…</aegov-drawer>
+<aegov-drawer overlay-opacity="dark" is-open="true">…</aegov-drawer>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-3">
+    <aegov-button id="demo-opacity-light-btn">Light</aegov-button>
+    <aegov-button id="demo-opacity-base-btn">Base</aegov-button>
+    <aegov-button id="demo-opacity-dark-btn">Dark</aegov-button>
+  </div>
+
+  <aegov-drawer id="demo-drawer-opacity-light" overlay-opacity="light" aria-label="Light overlay drawer">
+    <h3 class="text-xl font-bold mb-2">Light overlay</h3>
+    <p class="mb-6">A subtle dim — the page behind remains quite visible.</p>
+    <aegov-button id="demo-opacity-light-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-opacity-base" overlay-opacity="base" aria-label="Base overlay drawer">
+    <h3 class="text-xl font-bold mb-2">Base overlay</h3>
+    <p class="mb-6">The default dimming level.</p>
+    <aegov-button id="demo-opacity-base-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-opacity-dark" overlay-opacity="dark" aria-label="Dark overlay drawer">
+    <h3 class="text-xl font-bold mb-2">Dark overlay</h3>
+    <p class="mb-6">A strong dim — focuses maximum attention on the drawer panel.</p>
+    <aegov-button id="demo-opacity-dark-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      ['light','base','dark'].forEach(o => {
+        const d = document.querySelector('#demo-drawer-opacity-' + o);
+        document.querySelector('#demo-opacity-' + o + '-btn').addEventListener('click', () => d.show());
+        document.querySelector('#demo-opacity-' + o + '-close').addEventListener('click', () => d.close());
+      });
+    })();
+  </script>
+</div>
+
+---
+
+## Composite Example — Service Detail Panel
+
+A right-side drawer used to surface the full detail of a government service from a list view, complete with a heading, structured content, and a primary action.
+
+```html
+<aegov-button id="open-detail">View service details</aegov-button>
+
+<aegov-drawer id="detail-drawer" position="right" size="lg" is-pinned="false" aria-labelledby="detail-title">
+  <header class="mb-6 pb-6 border-b border-aeblack-100">
+    <aegov-badge variant="success" size="sm" class="mb-2">Available online</aegov-badge>
+    <h3 id="detail-title" class="text-2xl font-bold">Renew Emirates ID</h3>
+    <p class="text-aeblack-500">Federal Authority for Identity, Citizenship, Customs &amp; Port Security</p>
+  </header>
+
+  <dl class="space-y-4 mb-6">
+    <div>
+      <dt class="text-sm font-semibold text-aeblack-500">Processing time</dt>
+      <dd>3 to 5 working days</dd>
+    </div>
+    <div>
+      <dt class="text-sm font-semibold text-aeblack-500">Fees</dt>
+      <dd>AED 270 (5 years) · AED 370 (10 years)</dd>
+    </div>
+    <div>
+      <dt class="text-sm font-semibold text-aeblack-500">Required documents</dt>
+      <dd>Existing Emirates ID, recent personal photo, proof of residence.</dd>
+    </div>
+  </dl>
+
+  <div class="flex justify-end gap-3">
+    <aegov-button variant="secondary" id="detail-close">Close</aegov-button>
+    <aegov-button id="detail-start">Start application</aegov-button>
+  </div>
+</aegov-drawer>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button id="demo-open-detail">View service details</aegov-button>
+
+  <aegov-drawer id="demo-detail-drawer" position="right" size="lg" is-pinned="false" aria-labelledby="demo-detail-title">
+    <header class="mb-6 pb-6 border-b border-aeblack-100">
+      <aegov-badge variant="success" size="sm" class="mb-2">Available online</aegov-badge>
+      <h3 id="demo-detail-title" class="text-2xl font-bold">Renew Emirates ID</h3>
+      <p class="text-aeblack-500">Federal Authority for Identity, Citizenship, Customs &amp; Port Security</p>
+    </header>
+    <dl class="space-y-4 mb-6">
+      <div>
+        <dt class="text-sm font-semibold text-aeblack-500">Processing time</dt>
+        <dd>3 to 5 working days</dd>
+      </div>
+      <div>
+        <dt class="text-sm font-semibold text-aeblack-500">Fees</dt>
+        <dd>AED 270 (5 years) · AED 370 (10 years)</dd>
+      </div>
+      <div>
+        <dt class="text-sm font-semibold text-aeblack-500">Required documents</dt>
+        <dd>Existing Emirates ID, recent personal photo, proof of residence.</dd>
+      </div>
+    </dl>
+    <div class="flex justify-end gap-3">
+      <aegov-button variant="secondary" id="demo-detail-close">Close</aegov-button>
+      <aegov-button id="demo-detail-start">Start application</aegov-button>
+    </div>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      const d = document.querySelector('#demo-detail-drawer');
+      document.querySelector('#demo-open-detail').addEventListener('click', () => d.show());
+      document.querySelector('#demo-detail-close').addEventListener('click', () => d.close());
+      document.querySelector('#demo-detail-start').addEventListener('click', () => d.close());
+    })();
+  </script>
 </div>
 
 ---
 
 ## RTL Support
 
-Content inside the drawer is direction-aware — headings, form fields and action rows all align with the text direction, and the close affordance moves to the inline-start corner.
-
-**`position` is physical, not logical.** `position="right"` means the right edge of the viewport in both directions. For a navigation drawer that should come from the reading-start edge, swap the position with direction:
-
-```js
-const isRtl = document.documentElement.dir === 'rtl';
-navDrawer.position = isRtl ? 'right' : 'left';
-```
-
-Because the drawer relocates itself to `document.body`, **set `dir` on `<html>`** rather than on an inner wrapper.
+The drawer is direction-agnostic. The `position` values are absolute viewport edges (`left`, `right`, `top`, `bottom`), so a drawer with `position="right"` always slides in from the visual right of the screen, regardless of `dir`. The internal layout, text alignment, and any nested form controls automatically adapt to `dir="rtl"`.
 
 ```html
-<html dir="rtl" lang="ar">
-  <aegov-drawer label="تصفية مراكز الخدمة" position="left">
-    <h2>الفلاتر</h2>
-    …
+<div dir="rtl">
+  <aegov-button id="rtl-open">عرض تفاصيل الخدمة</aegov-button>
+  <aegov-drawer id="rtl-drawer" position="right" aria-labelledby="rtl-title">
+    <h3 id="rtl-title" class="text-xl font-bold mb-4">تجديد الهوية الإماراتية</h3>
+    <p class="text-aeblack-500 mb-6">
+      الهيئة الاتحادية للهوية والجنسية والجمارك وأمن المنافذ
+    </p>
+    <dl class="space-y-4 mb-6">
+      <div>
+        <dt class="text-sm font-semibold text-aeblack-500">مدة الإنجاز</dt>
+        <dd>من 3 إلى 5 أيام عمل</dd>
+      </div>
+      <div>
+        <dt class="text-sm font-semibold text-aeblack-500">الرسوم</dt>
+        <dd>270 درهماً (5 سنوات) · 370 درهماً (10 سنوات)</dd>
+      </div>
+    </dl>
+    <div class="flex justify-end gap-3">
+      <aegov-button variant="secondary" id="rtl-close">إغلاق</aegov-button>
+      <aegov-button id="rtl-start">بدء الطلب</aegov-button>
+    </div>
   </aegov-drawer>
-</html>
+</div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-button id="dr-rtl-open">الفلاتر</aegov-button>
-  <aegov-drawer id="dr-rtl" label="تصفية مراكز الخدمة" position="left">
-    <h2 class="text-h6 font-bold mb-5">الفلاتر</h2>
-    <aegov-checkbox-group label="الإمارة" appearance="list">
-      <aegov-checkbox name="dr-rtl-em" value="AZ" label="أبوظبي" is-checked></aegov-checkbox>
-      <aegov-checkbox name="dr-rtl-em" value="DU" label="دبي"></aegov-checkbox>
-      <aegov-checkbox name="dr-rtl-em" value="SH" label="الشارقة"></aegov-checkbox>
-    </aegov-checkbox-group>
-    <div class="mt-6 flex flex-wrap gap-3">
-      <aegov-button variant="primary" onclick="document.querySelector('#dr-rtl').close()">إظهار النتائج</aegov-button>
-      <aegov-button appearance="link" onclick="document.querySelector('#dr-rtl').close()">مسح الكل</aegov-button>
+  <aegov-button id="demo-rtl-drawer-open">عرض تفاصيل الخدمة</aegov-button>
+  <aegov-drawer id="demo-rtl-drawer" position="right" aria-labelledby="demo-rtl-drawer-title">
+    <h3 id="demo-rtl-drawer-title" class="text-xl font-bold mb-4">تجديد الهوية الإماراتية</h3>
+    <p class="text-aeblack-500 mb-6">
+      الهيئة الاتحادية للهوية والجنسية والجمارك وأمن المنافذ
+    </p>
+    <dl class="space-y-4 mb-6">
+      <div>
+        <dt class="text-sm font-semibold text-aeblack-500">مدة الإنجاز</dt>
+        <dd>من 3 إلى 5 أيام عمل</dd>
+      </div>
+      <div>
+        <dt class="text-sm font-semibold text-aeblack-500">الرسوم</dt>
+        <dd>270 درهماً (5 سنوات) · 370 درهماً (10 سنوات)</dd>
+      </div>
+    </dl>
+    <div class="flex justify-end gap-3">
+      <aegov-button variant="secondary" id="demo-rtl-drawer-close">إغلاق</aegov-button>
+      <aegov-button id="demo-rtl-drawer-start">بدء الطلب</aegov-button>
     </div>
   </aegov-drawer>
-  <script>document.querySelector('#dr-rtl-open').addEventListener('aegovButtonClick', () => document.querySelector('#dr-rtl').show());</script>
+  <script>
+    (function() {
+      const d = document.querySelector('#demo-rtl-drawer');
+      document.querySelector('#demo-rtl-drawer-open').addEventListener('click', () => d.show());
+      document.querySelector('#demo-rtl-drawer-close').addEventListener('click', () => d.close());
+      document.querySelector('#demo-rtl-drawer-start').addEventListener('click', () => d.close());
+    })();
+  </script>
 </div>
 
 ---
@@ -326,61 +618,60 @@ Because the drawer relocates itself to `document.body`, **set `dir` on `<html>`*
 
 ### Properties
 
-| Property | Attribute | Description | Type | Default |
-| --- | --- | --- | --- | --- |
-| `fieldId` | `field-id` | ID applied to the drawer content. Auto-generated when omitted, reflected. | `string` | _generated_ |
-| `isOpen` | `is-open` | Open state. Mutable and reflected. | `boolean` | `false` |
-| `label` | `label` | Accessible name for the dialog. **Set this.** | `string` | — |
-| `position` | `position` | Which **physical** edge the drawer slides from. | `'left' \| 'right' \| 'top' \| 'bottom'` | `'right'` |
-| `size` | `size` | Width for side drawers, height for top and bottom. | `'sm' \| 'base' \| 'lg'` | `'base'` |
-| `animation` | `animation` | Entry and exit transition. | `'slide' \| 'fade' \| 'none'` | `'slide'` |
-| `isPinned` | `is-pinned` | Flush to the viewport edges. `false` insets and rounds it. | `boolean` | `true` |
-| `isOverlay` | `is-overlay` | Dims the page behind. | `boolean` | `true` |
-| `overlayOpacity` | `overlay-opacity` | Dim strength. | `'light' \| 'base' \| 'dark'` | `'base'` |
-| `isCloseWithOverlay` | `is-close-with-overlay` | Clicking the overlay closes the drawer. | `boolean` | `true` |
-| `isPreventScroll` | `is-prevent-scroll` | Locks page scroll while open. | `boolean` | `true` |
-| `isPadding` | `is-padding` | Applies standard internal padding. | `boolean` | `true` |
+| Property              | Attribute                | Description                                                                                       | Type                                       | Default     |
+| --------------------- | ------------------------ | ------------------------------------------------------------------------------------------------- | ------------------------------------------ | ----------- |
+| `fieldId`             | `field-id`               | DOM `id` for the dialog element. Auto-generated if omitted.                                       | `string`                                   | _generated_ |
+| `isOpen`              | `is-open`                | Whether the drawer is currently visible.                                                          | `boolean`                                  | `false`     |
+| `position`            | `position`               | Edge from which the drawer slides in.                                                             | `'left' \| 'right' \| 'top' \| 'bottom'`   | `'right'`   |
+| `animation`           | `animation`              | Open/close transition style.                                                                      | `'slide' \| 'fade' \| 'none'`              | `'slide'`   |
+| `isPinned`            | `is-pinned`              | Pin to the edge (no gap, no border-radius). Set to `false` for a floating panel.                  | `boolean`                                  | `true`      |
+| `isOverlay`           | `is-overlay`             | Show a dimming backdrop behind the drawer.                                                        | `boolean`                                  | `true`      |
+| `overlayOpacity`      | `overlay-opacity`        | Backdrop dim level (only applies when `is-overlay="true"`).                                       | `'light' \| 'base' \| 'dark'`              | `'base'`    |
+| `isCloseWithOverlay`  | `is-close-with-overlay`  | Close the drawer when the backdrop is clicked. Works even when `is-overlay="false"`.              | `boolean`                                  | `true`      |
+| `isPreventScroll`     | `is-prevent-scroll`      | Lock body scroll while the drawer is open.                                                        | `boolean`                                  | `true`      |
+| `size`                | `size`                   | Panel width for left/right drawers (320–800px/100vw). Also scales padding and, when `is-pinned="false"`, the edge gap and corner radius. Top/bottom height is always `auto` (content-driven). | `'xs' \| 'sm' \| 'base' \| 'lg' \| 'xl' \| 'full'` | `'base'` |
+| `isPadding`           | `is-padding`             | Apply inner content padding. Turn off for full-bleed content.                                     | `boolean`                                  | `true`      |
+| `label`               | `label`                  | Accessible label for the drawer dialog. Prefer `aria-labelledby` pointing at a heading inside the drawer; use `label` only when no visible heading is present. | `string` | `undefined` |
 
 ### Slots
 
-| Slot | Description |
-| --- | --- |
-| _(default)_ | The drawer content. |
+| Slot          | Description                                                                  |
+| ------------- | ---------------------------------------------------------------------------- |
+| _(default)_   | The drawer content. Structure your own header, body, and action area inside. |
 
 ### Events
 
-| Event | Detail | Description |
-| --- | --- | --- |
-| `aegovDrawerOpen` | `void` | The drawer opened. |
-| `aegovDrawerClose` | `void` | The drawer closed. |
-| `aegovDrawerBeforeClose` | `void` | **Cancellable.** Call `preventDefault()` on the event to keep the drawer open. |
-| `aegovDrawerBackdropClick` | `MouseEvent` | The overlay was clicked. |
-| `aegovDrawerEscapePress` | `KeyboardEvent` | `Escape` was pressed. |
+| Event                       | Detail                              | Description                                                                                  |
+| --------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------- |
+| `aegovDrawerOpen`           | `void`                              | Fired immediately when the drawer begins opening.                                            |
+| `aegovDrawerClose`          | `void`                              | Fired after the close animation completes and focus has been returned.                       |
+| `aegovDrawerBeforeClose`    | `{ preventDefault: () => void }`    | Fired before the drawer closes. Call `preventDefault()` to keep it open.                     |
+| `aegovDrawerBackdropClick`  | `MouseEvent`                        | Fired when the backdrop receives a click, regardless of whether dismissal is allowed.        |
+| `aegovDrawerEscapePress`    | `KeyboardEvent`                     | Fired when the user presses `Escape` while the drawer is open.                               |
 
 ### Methods
 
-| Method | Returns | Description |
-| --- | --- | --- |
-| `show()` | `Promise<void>` | Opens the drawer. |
-| `close()` | `Promise<void>` | Closes the drawer, running the before-close event first. |
-| `toggle()` | `Promise<void>` | Opens or closes. |
+| Method     | Returns          | Description                                                |
+| ---------- | ---------------- | ---------------------------------------------------------- |
+| `show()`   | `Promise<void>`  | Open the drawer.                                           |
+| `close()`  | `Promise<void>`  | Close the drawer (fires `aegovDrawerBeforeClose` first).   |
+| `toggle()` | `Promise<void>`  | Flip the open state.                                       |
 
 ### Pass-through Attributes
 
-The drawer uses **shadow DOM**.
+ARIA and `data-*` attributes set on `<aegov-drawer>` are forwarded onto the inner dialog element so screen readers and analytics receive the correct labels. Always provide either `aria-label` or `aria-labelledby`.
 
-| Attribute group | Forwarded? | Notes |
-| --- | --- | --- |
-| `aria-*` | Yes | Forwarded to the `role="dialog"` element. Use `aria-labelledby` here to reference a visible heading instead of `label`. |
-| `data-*` | Yes | Forwarded to the dialog element. |
-| `id` | n/a | Use `field-id`. |
-| `class`, `style` | Allowed | Applied to the host only — they cannot restyle shadow internals. |
+| Attribute group          | Forwarded? | Where it lands                                                    |
+| ------------------------ | ---------- | ----------------------------------------------------------------- |
+| `aria-label`             | Yes        | Applied to the inner `[role="dialog"]` element.                   |
+| `aria-labelledby`        | Yes        | Applied to the inner `[role="dialog"]` element.                   |
+| `aria-describedby`       | Yes        | Applied to the inner `[role="dialog"]` element.                   |
+| Other `aria-*`           | Yes        | Applied to the inner `[role="dialog"]` element.                   |
+| `data-*`                 | Yes        | Applied to the inner `[role="dialog"]` element.                   |
+| `id`                     | n/a        | Use `field-id` — sets the `id` of the dialog element.            |
+| `class`, `style`         | Allowed    | Applied to the host element (limited reach due to Shadow DOM).    |
 
-### Shadow DOM and stacking
-
-- The component **relocates itself to `document.body`** on initialisation, so no ancestor can clip or mis-stack it.
-- Drawers use their own z-index counter, separate from modals, incrementing per open drawer so stacked drawers layer correctly.
-- Internals are in shadow DOM. In E2E tests, pierce it: `page.find('aegov-drawer >>> [role="dialog"]')`.
+> **Shadow DOM note.** Because `aegov-drawer` uses Shadow DOM, page-level CSS does not reach the backdrop and panel elements. Style customisation is limited to the host element and any CSS custom properties exposed by the component.
 
 ---
 
@@ -388,41 +679,27 @@ The drawer uses **shadow DOM**.
 
 ### Built-in behaviour
 
-- The panel carries `role="dialog"` and `aria-modal="true"`, and `label` becomes its accessible name.
-- **Focus is trapped** inside the drawer while open, collected from the slotted content so your own controls participate.
-- Focus moves into the drawer on open and returns to the trigger on close.
-- `Escape` closes the drawer.
-- Page scroll is locked while open by default, using a reference-counted lock so nested overlays behave.
-- Relocating to `document.body` prevents an ancestor `overflow` or `transform` from clipping the panel, which also avoids WCAG 2.2 SC 2.4.11 failures where a focused control is hidden.
-- The animation is CSS-driven, so it is cheap and interruptible.
+- The panel renders with `role="dialog"` and `aria-modal="true"`.
+- Focus is trapped inside the drawer while it is open. `Tab` and `Shift + Tab` cycle through focusable elements.
+- On open, the first focusable element in the panel receives focus.
+- On close, focus is returned to the element that opened the drawer.
+- Body scroll is locked while the drawer is open (reference-counted across nested overlays).
+- `Escape` always closes the drawer.
+- The component is moved to `document.body`, ensuring correct stacking above the rest of the page.
 
 ### Developer responsibilities
 
-- **Always set `label`**, or provide `aria-labelledby` pointing at a visible heading.
-- **Include a visible heading** as the first content — the accessible name is not visible.
-- **Provide an explicit close control.** `Escape` and the overlay are not discoverable.
-- **Swap `position` for RTL** when the edge is semantically "start" rather than physically right or left.
-- **Set `dir` on `<html>`** for RTL, since the drawer lives on the body.
-- **Pair `is-overlay="false"` with `is-prevent-scroll="false"`.** A visible but unscrollable page reads as broken.
-- **Do not expect a non-modal drawer.** Even without an overlay the drawer is `aria-modal` and traps focus; if the user must be able to tab out to the page, build an inline panel instead.
-- **Respect reduced motion globally.** `animation="none"` is a per-instance setting, not a `prefers-reduced-motion` implementation.
-- **Cancel closing only with an explanation.** If you call `event.preventDefault()`, say why immediately.
-- **Keep the trigger's state honest.** If the drawer is a filter panel, reflect the active filter count on the trigger so its effect is visible once closed.
+- **Always label the drawer.** Provide either `aria-label` or `aria-labelledby` pointing at the visible heading inside the panel. Without one, screen readers announce only "dialog".
+- For navigation drawers, use `<nav>` inside the panel and ensure each link is keyboard-reachable.
+- Prefer the right-edge drawer for filter and detail panels in LTR, and the left-edge drawer for primary navigation. The convention is mirrored automatically in RTL by your overall page layout.
+- Keep the drawer's primary action visible — long lists should scroll inside the panel rather than push the action out of view.
+- Listen for `aegovDrawerBeforeClose` and call `preventDefault()` if the panel contains unsaved changes.
 
 ### Keyboard support
 
-| Key | Action |
-| --- | --- |
-| `Escape` | Close the drawer. |
-| `Tab` | Move to the next focusable element inside the drawer, cycling at the end. |
-| `Shift` + `Tab` | Move backwards, cycling at the start. |
-| `Enter`, `Space` | Activate the focused control. |
-
----
-
-## Where to next
-
-- [Modal](aegov-modal.html) — for short, blocking decisions.
-- [Popover](aegov-popover.html) — for small anchored panels.
-- [Navblock](aegov-navblock.html) — commonly placed inside a navigation drawer.
-- [Checkbox](aegov-checkbox.html) and [Range](aegov-range.html) — the usual contents of a filter drawer.
+| Key              | Action                                                          |
+| ---------------- | --------------------------------------------------------------- |
+| `Escape`         | Close the drawer and return focus to the trigger element.       |
+| `Tab`            | Move focus to the next focusable element inside the panel.      |
+| `Shift + Tab`    | Move focus to the previous focusable element inside the panel.  |
+| `Enter`, `Space` | Activate the focused button or control.                         |

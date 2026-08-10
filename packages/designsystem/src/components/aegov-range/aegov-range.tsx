@@ -12,7 +12,7 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
 } from '../../utils/validation';
 
 /** Range value type — number for single mode, { low, high } for range mode. See §2.4.1. */
@@ -35,8 +35,8 @@ const STRINGS = {
 @Component({
   tag: 'aegov-range',
   styleUrl: 'aegov-range.css',
-  scoped: false,
-  shadow: false,
+  formAssociated: true,
+  shadow: { delegatesFocus: true },
 })
 export class AegovRange {
   @Element() el: HTMLElement;
@@ -44,8 +44,8 @@ export class AegovRange {
   /** Unique ID for the native range input element. Auto-generated if not provided. */
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
-  /** The name attribute for the range. */
-  @Prop() name?: string;
+  /** The name attribute for the range. Reflected so ElementInternals reads it for form submission. */
+  @Prop({ reflect: true }) name?: string;
 
   /** Current value (single mode). */
   @Prop({ mutable: true }) value: number = 50;
@@ -83,7 +83,7 @@ export class AegovRange {
   @Prop() variant: FormVariant = 'primary';
 
   /** Whether the range is disabled. */
-  @Prop({ reflect: true }) isDisabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
 
   /** Whether the range is required. */
   @Prop() isRequired: boolean = false;
@@ -120,11 +120,18 @@ export class AegovRange {
   private trackWrapperEl?: HTMLElement;
   private nativeRef?: HTMLInputElement;
   private highRef?: HTMLInputElement;
+  private internals: ElementInternals | null = null;
   private errorId: string = '';
   private hintId: string = '';
   private labelId: string = '';
+  private _defaultValue: number = 50;
+  private _defaultValueLow: number = 25;
+  private _defaultValueHigh: number = 75;
 
   componentWillLoad() {
+    this._defaultValue = this.value;
+    this._defaultValueLow = this.valueLow;
+    this._defaultValueHigh = this.valueHigh;
     this._sizeWatcher = watchResponsiveProp(this.size, RANGE_SIZES, 'base', v => {
       this._resolvedSize = v as RangeSize;
     });
@@ -139,6 +146,38 @@ export class AegovRange {
     this.errorId = `${this.fieldId}-error`;
     this.hintId = `${this.fieldId}-hint`;
     this.labelId = `${this.fieldId}-label`;
+    const host = this.el as unknown as HTMLElement & { attachInternals?: () => ElementInternals };
+    if (typeof host.attachInternals === 'function') {
+      try {
+        this.internals = host.attachInternals();
+        this.syncFormValue();
+      } catch {
+        this.internals = null;
+      }
+    }
+  }
+
+  formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
+  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formResetCallback() {
+    this.value = this._defaultValue;
+    this.valueLow = this._defaultValueLow;
+    this.valueHigh = this._defaultValueHigh;
+    this.internals?.setFormValue(null);
+  }
+
+  private syncFormValue() {
+    if (!this.internals) return;
+    try {
+      if (this.mode === 'range' && this.name) {
+        const fd = new FormData();
+        fd.append(`${this.name}-low`, String(this.valueLow));
+        fd.append(`${this.name}-high`, String(this.valueHigh));
+        this.internals.setFormValue(fd);
+      } else {
+        this.internals.setFormValue(String(this.value));
+      }
+    } catch { /* jsdom mock */ }
   }
 
   /** Imperatively re-run validation. */
@@ -163,6 +202,13 @@ export class AegovRange {
     this.isInvalid = !!message;
     if (this.nativeRef && typeof this.nativeRef.setCustomValidity === 'function') {
       this.nativeRef.setCustomValidity(message);
+    }
+    if (this.internals) {
+      if (message) {
+        setInternalsValidity(this.internals, synthesizeValidity({ customError: true }), message, this.nativeRef);
+      } else {
+        setInternalsValidity(this.internals, { valid: true }, '');
+      }
     }
   }
 
@@ -263,12 +309,14 @@ export class AegovRange {
   private handleSingleInput = (e: Event) => {
     const input = e.target as HTMLInputElement;
     this.value = this.snapToStep(parseFloat(input.value));
+    this.syncFormValue();
     this.emitInput();
   };
 
   private handleSingleChange = (e: Event) => {
     const input = e.target as HTMLInputElement;
     this.value = this.snapToStep(parseFloat(input.value));
+    this.syncFormValue();
     this.emitChange();
   };
 
@@ -277,6 +325,7 @@ export class AegovRange {
     const newVal = this.snapToStep(Math.min(parseFloat(input.value), this.valueHigh - this.step));
     this.valueLow = newVal;
     input.value = String(newVal);
+    this.syncFormValue();
     this.emitInput();
   };
 
@@ -285,6 +334,7 @@ export class AegovRange {
     const newVal = this.snapToStep(Math.min(parseFloat(input.value), this.valueHigh - this.step));
     this.valueLow = newVal;
     input.value = String(newVal);
+    this.syncFormValue();
     this.emitChange();
   };
 
@@ -293,6 +343,7 @@ export class AegovRange {
     const newVal = this.snapToStep(Math.max(parseFloat(input.value), this.valueLow + this.step));
     this.valueHigh = newVal;
     input.value = String(newVal);
+    this.syncFormValue();
     this.emitInput();
   };
 
@@ -301,22 +352,29 @@ export class AegovRange {
     const newVal = this.snapToStep(Math.max(parseFloat(input.value), this.valueLow + this.step));
     this.valueHigh = newVal;
     input.value = String(newVal);
+    this.syncFormValue();
     this.emitChange();
   };
 
   // ── Pointer drag handlers ──
 
-  private updateValueFromPointer(clientX: number, clientY: number, which: 'single' | 'low' | 'high') {
+  private updateValueFromPointer(
+    clientX: number,
+    clientY: number,
+    which: 'single' | 'low' | 'high',
+    cachedRect?: DOMRect,
+    cachedIsRtl?: boolean,
+  ) {
     const wrapper = this.trackWrapperEl;
     if (!wrapper) return;
-    const rect = wrapper.getBoundingClientRect();
+    const rect = cachedRect ?? wrapper.getBoundingClientRect();
 
     let percent: number;
     if (this.orientation === 'vertical') {
       // Bottom = min, top = max
       percent = 1 - (clientY - rect.top) / rect.height;
     } else {
-      const isRtl = getComputedStyle(this.el).direction === 'rtl';
+      const isRtl = cachedIsRtl ?? getComputedStyle(this.el).direction === 'rtl';
       percent = isRtl
         ? 1 - (clientX - rect.left) / rect.width
         : (clientX - rect.left) / rect.width;
@@ -357,8 +415,13 @@ export class AegovRange {
     this.activeThumb = which;
     this.focusNativeInput(which);
 
+    // Cache rect + RTL once at drag start — neither changes during a drag.
+    // Avoids getBoundingClientRect + getComputedStyle on every mousemove.
+    const dragRect = this.trackWrapperEl?.getBoundingClientRect();
+    const dragIsRtl = getComputedStyle(this.el).direction === 'rtl';
+
     const moveHandler = (moveEvent: MouseEvent) => {
-      this.updateValueFromPointer(moveEvent.clientX, moveEvent.clientY, which);
+      this.updateValueFromPointer(moveEvent.clientX, moveEvent.clientY, which, dragRect, dragIsRtl);
     };
     const upHandler = () => {
       this.activeThumb = null;
@@ -376,9 +439,13 @@ export class AegovRange {
     this.activeThumb = which;
     this.focusNativeInput(which);
 
+    // Cache rect + RTL once at touch-start — same rationale as mouse drag.
+    const dragRect = this.trackWrapperEl?.getBoundingClientRect();
+    const dragIsRtl = getComputedStyle(this.el).direction === 'rtl';
+
     const moveHandler = (moveEvent: TouchEvent) => {
       const touch = moveEvent.touches[0];
-      this.updateValueFromPointer(touch.clientX, touch.clientY, which);
+      this.updateValueFromPointer(touch.clientX, touch.clientY, which, dragRect, dragIsRtl);
     };
     const endHandler = () => {
       this.activeThumb = null;
@@ -539,7 +606,6 @@ export class AegovRange {
                 type="range"
                 class="range__input"
                 id={this.fieldId}
-                name={this.name}
                 min={this.min}
                 max={this.max}
                 step={this.step}
@@ -566,7 +632,6 @@ export class AegovRange {
                 type="range"
                 class="range__input range__input--low"
                 id={`${this.fieldId}-low`}
-                name={this.name ? `${this.name}-low` : undefined}
                 min={this.min}
                 max={this.max}
                 step={this.step}
@@ -589,7 +654,6 @@ export class AegovRange {
                 type="range"
                 class="range__input range__input--high"
                 id={`${this.fieldId}-high`}
-                name={this.name ? `${this.name}-high` : undefined}
                 min={this.min}
                 max={this.max}
                 step={this.step}

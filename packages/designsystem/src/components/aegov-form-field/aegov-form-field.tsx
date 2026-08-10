@@ -34,7 +34,7 @@ export class AegovFormField {
    * Wrapper-level invalid state. Cascades to the first form-control descendant if the
    * child has not set its own value. See validation-engine-addon.md §2.7.
    */
-  @Prop({ mutable: true }) isInvalid: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
 
   /** Wrapper-level error message — cascaded to first form-control descendant. */
   @Prop({ mutable: true }) errorMessage: string = '';
@@ -92,26 +92,38 @@ export class AegovFormField {
     const toggle = this.el.querySelector('aegov-toggle') as HTMLAegovToggleElement | null;
 
     if (label) {
+      // For shadow:true components the browser cannot follow <label for="..."> into the
+      // shadow root. We must ensure the HOST element has an id attribute that the label
+      // can target from the document. delegatesFocus:true then routes browser focus to
+      // the first focusable element inside the shadow root automatically.
+      const ensureHostId = (el: HTMLElement & { fieldId?: string }): string => {
+        if (el.shadowRoot && el.fieldId) {
+          if (!el.id) el.id = el.fieldId; // stamp id on host so <label for> can reach it
+          return el.id;
+        }
+        return el.fieldId ?? '';
+      };
+
       if (input && input.fieldId) {
-        label.htmlFor = input.fieldId;
+        label.htmlFor = ensureHostId(input);
       } else if (textarea && textarea.fieldId) {
-        label.htmlFor = textarea.fieldId;
+        label.htmlFor = ensureHostId(textarea);
       } else if (select && select.fieldId) {
-        label.htmlFor = select.fieldId;
+        label.htmlFor = ensureHostId(select);
       } else if (checkbox && checkbox.fieldId) {
-        label.htmlFor = checkbox.fieldId;
+        label.htmlFor = ensureHostId(checkbox);
       } else if (range && range.fieldId) {
-        label.htmlFor = range.fieldId;
+        label.htmlFor = ensureHostId(range);
       } else if (progress && progress.fieldId) {
         label.htmlFor = progress.fieldId;
       } else if (otp && otp.fieldId) {
-        label.htmlFor = otp.fieldId;
+        label.htmlFor = ensureHostId(otp);
       } else if (fileupload && fileupload.fieldId) {
-        label.htmlFor = fileupload.fieldId;
+        label.htmlFor = ensureHostId(fileupload);
       } else if (radio && radio.fieldId) {
-        label.htmlFor = radio.fieldId;
+        label.htmlFor = ensureHostId(radio);
       } else if (toggle && toggle.fieldId) {
-        label.htmlFor = toggle.fieldId;
+        label.htmlFor = ensureHostId(toggle);
       }
       // Cascade variant to label only if it hasn't authored its own value
       if (this.variant && this.variant !== 'primary' && (!(label as any).variant || (label as any).variant === 'primary')) {
@@ -173,7 +185,7 @@ export class AegovFormField {
 
     return (
       <Host>
-        <div id={this.fieldId} class={this.getFieldClasses()} {...passThroughAttributes}>
+        <div class={this.getFieldClasses()} {...passThroughAttributes}>
           <slot />
           <slot name="hint" />
         </div>

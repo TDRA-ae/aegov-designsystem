@@ -22,8 +22,8 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 @Component({
   tag: 'aegov-otp',
   styleUrl: 'aegov-otp.css',
-  scoped: false,
   formAssociated: true, // §2.5: OTP participates in <form> via ElementInternals (replaces hidden input)
+  shadow: { delegatesFocus: true },
 })
 export class AegovOtp {
   @Element() el: HTMLElement;
@@ -56,13 +56,13 @@ export class AegovOtp {
   @Prop() pattern?: string;
 
   /** Disables all input cells. */
-  @Prop({ mutable: true }) isDisabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
 
   /** Marks the field as required for form submission. Used by FormAssociated for `valueMissing`. */
   @Prop() isRequired: boolean = false;
 
   /** Form field name for FormAssociated submission. */
-  @Prop() name?: string;
+  @Prop({ reflect: true }) name?: string;
 
   /** Current OTP value. Can be set externally to pre-fill cells. */
   @Prop({ mutable: true }) value: string = '';
@@ -352,10 +352,10 @@ export class AegovOtp {
         this.cellRefs[index - 1].focus();
         this.emitChange();
       }
-    } else if (e.key === 'ArrowLeft' && index > 0) {
+    } else if (e.key === (isRtl(this.el) ? 'ArrowRight' : 'ArrowLeft') && index > 0) {
       e.preventDefault();
       this.cellRefs[index - 1].focus();
-    } else if (e.key === 'ArrowRight' && index < this.length - 1) {
+    } else if (e.key === (isRtl(this.el) ? 'ArrowLeft' : 'ArrowRight') && index < this.length - 1) {
       e.preventDefault();
       this.cellRefs[index + 1].focus();
     } else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
@@ -462,7 +462,7 @@ export class AegovOtp {
                   ? `حرف ${index + 1} من ${this.length}`
                   : `Character ${index + 1} of ${this.length}`}
                 aria-invalid={this.isInvalid ? 'true' : undefined}
-                aria-required={index === 0 && this.isRequired ? 'true' : undefined}
+                aria-required={this.isRequired ? 'true' : undefined}
                 aria-describedby={index === 0 ? describedBy : undefined}
                 onInput={(e) => this.handleInput(index, e)}
                 onKeyDown={(e) => this.handleKeyDown(index, e)}

@@ -1,379 +1,503 @@
 # Dropdown
 
-<p class="text-lg text-aeblack-500 mb-8">A Dropdown reveals a menu of actions or links from a trigger. Use it to collapse a set of related commands behind one control — a row's actions, an account menu, a language switcher. It is for <em>navigation and commands</em>, not for form values: choosing a value that gets submitted belongs in a <a href="aegov-select.html">Select</a>.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Dropdown reveals a menu of actions, navigation links, or grouped commands anchored to a trigger element. It is ideal for user account menus, bulk-action lists, ministry switchers, and secondary navigation. Content is rendered into a portal at the document body so the menu can escape ancestor clipping and stacking contexts.</p>
 
 ## Introduction
 
-Put the trigger in the default slot and the menu in the `dropdown-content` slot. The content is moved into a portal on `document.body` when the menu opens, so it is never clipped by a scrolling container or a table cell.
+The `aegov-dropdown` component pairs a trigger (placed in the default slot) with a `dropdown-content` slot containing the menu items. When the dropdown opens, the content slot is moved into a fixed-position portal at `document.body`, positioned relative to the trigger, and animated in. Only one dropdown can be open at a time — opening another automatically closes the previous one (nested dropdowns are exempt).
 
 ```html
 <aegov-dropdown>
-  <aegov-button appearance="outline">Actions</aegov-button>
-
+  <aegov-button variant="primary" appearance="outline">Account actions</aegov-button>
   <div slot="dropdown-content">
-    <a href="/view">View application</a>
-    <a href="/edit">Edit details</a>
-    <aegov-separator></aegov-separator>
-    <a href="/withdraw">Withdraw application</a>
+    <a href="#profile">View profile</a>
+    <a href="#settings">Account settings</a>
+    <hr />
+    <a href="#signout">Sign out</a>
   </div>
 </aegov-dropdown>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-dropdown field-id="dd-intro">
-    <aegov-button appearance="outline">Actions</aegov-button>
+  <aegov-dropdown>
+    <aegov-button variant="primary" appearance="outline">Account actions</aegov-button>
     <div slot="dropdown-content">
-      <a href="#">View application</a>
-      <a href="#">Edit details</a>
-      <a href="#">Download receipt</a>
-      <aegov-separator></aegov-separator>
-      <a href="#">Withdraw application</a>
+      <a href="#profile">View profile</a>
+      <a href="#settings">Account settings</a>
+      <hr />
+      <a href="#signout">Sign out</a>
     </div>
   </aegov-dropdown>
 </div>
 
-Only one dropdown can be open at a time. Opening a second closes the first.
-
 ---
 
-## Trigger
+## Trigger Type
 
-`trigger` chooses how the menu opens.
+The `trigger` property controls how the dropdown opens. `click` (default) toggles the dropdown on click and closes it on outside click or `Escape`. `hover` opens on pointer-enter after `delay-start` and closes on pointer-leave with a 100 ms grace period so the cursor can cross the gap between trigger and panel.
 
-| Value | Opens on |
-| --- | --- |
-| `click` | Click, `Enter`, `Space` or arrow keys. |
-| `hover` | Pointer hover, after `delayStart`. Still opens on click and keyboard. |
+### Click trigger (default)
 
 ```html
-<aegov-dropdown trigger="click">…</aegov-dropdown>
-<aegov-dropdown trigger="hover">…</aegov-dropdown>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap gap-4">
-    <aegov-dropdown field-id="dd-tc" trigger="click">
-      <aegov-button appearance="outline" size="sm">Click to open</aegov-button>
-      <div slot="dropdown-content"><a href="#">First item</a><a href="#">Second item</a></div>
-    </aegov-dropdown>
-    <aegov-dropdown field-id="dd-th" trigger="hover">
-      <aegov-button appearance="outline" size="sm">Hover to open</aegov-button>
-      <div slot="dropdown-content"><a href="#">First item</a><a href="#">Second item</a></div>
-    </aegov-dropdown>
-  </div>
-</div>
-
-Prefer `click`. Hover menus are unreachable by touch as a hover, fire accidentally when the pointer passes over, and are difficult for users with motor impairments to keep open. `hover` remains keyboard- and click-operable, but it should be a deliberate choice for desktop-first navigation, not a default.
-
-`delayStart` (default 200ms) and `delayEnd` (default 0) control the hover open and close delays.
-
----
-
-## Position and alignment
-
-`position` picks the side, `align` picks the alignment along that side.
-
-```html
-<aegov-dropdown position="bottom" align="start">…</aegov-dropdown>
-<aegov-dropdown position="bottom" align="end">…</aegov-dropdown>
-<aegov-dropdown position="top" align="center">…</aegov-dropdown>
-<aegov-dropdown position="right" align="start">…</aegov-dropdown>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap gap-4">
-    <aegov-dropdown field-id="dd-p1" position="bottom" align="start">
-      <aegov-button size="sm" appearance="outline">bottom / start</aegov-button>
-      <div slot="dropdown-content"><a href="#">Item one</a><a href="#">Item two</a></div>
-    </aegov-dropdown>
-    <aegov-dropdown field-id="dd-p2" position="bottom" align="end">
-      <aegov-button size="sm" appearance="outline">bottom / end</aegov-button>
-      <div slot="dropdown-content"><a href="#">Item one</a><a href="#">Item two</a></div>
-    </aegov-dropdown>
-    <aegov-dropdown field-id="dd-p3" position="top" align="center">
-      <aegov-button size="sm" appearance="outline">top / center</aegov-button>
-      <div slot="dropdown-content"><a href="#">Item one</a><a href="#">Item two</a></div>
-    </aegov-dropdown>
-    <aegov-dropdown field-id="dd-p4" position="right" align="start">
-      <aegov-button size="sm" appearance="outline">right / start</aegov-button>
-      <div slot="dropdown-content"><a href="#">Item one</a><a href="#">Item two</a></div>
-    </aegov-dropdown>
-  </div>
-</div>
-
-`gap` (default 8) sets the distance from the trigger; `offset` (default 0) nudges the menu along the alignment axis. Both are in pixels.
-
----
-
-## Tab behaviour
-
-`tabBehavior` selects which ARIA pattern the dropdown follows. This changes both the roles applied and what `Tab` does — get it right for the content you are putting in the menu.
-
-| Value | Pattern | Roles | `Tab` |
-| --- | --- | --- | --- |
-| `menu-button` | WAI-ARIA Menu Button | `role="menu"` on the panel, `role="menuitem"` on items, `aria-haspopup` on the trigger | Closes the menu and moves focus to the next element on the page. |
-| `disclosure` | WAI-ARIA Disclosure | `aria-expanded` only, no menu roles | Moves focus through the links inside the open menu. |
-
-```html
-<!-- A menu of commands -->
-<aegov-dropdown tab-behavior="menu-button">…</aegov-dropdown>
-
-<!-- A panel of navigation links -->
-<aegov-dropdown tab-behavior="disclosure">…</aegov-dropdown>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap gap-4">
-    <aegov-dropdown field-id="dd-tb1" tab-behavior="menu-button">
-      <aegov-button size="sm" appearance="outline">menu-button</aegov-button>
-      <div slot="dropdown-content"><a href="#">Print</a><a href="#">Export</a><a href="#">Duplicate</a></div>
-    </aegov-dropdown>
-    <aegov-dropdown field-id="dd-tb2" tab-behavior="disclosure">
-      <aegov-button size="sm" appearance="outline">disclosure</aegov-button>
-      <div slot="dropdown-content"><a href="#">Services</a><a href="#">Open data</a><a href="#">About us</a></div>
-    </aegov-dropdown>
-  </div>
-</div>
-
-Rule of thumb: **commands are a menu, links are a disclosure.** A screen reader user hearing "menu, three items" expects to operate a menu with arrow keys; hearing that about a group of page links is misleading. `menu-button` is the default because the most common use is a row-actions menu.
-
----
-
-## Menu content
-
-The `dropdown-content` slot takes ordinary markup. Links, buttons and separators are all styled by the portal's injected CSS.
-
-```html
-<aegov-dropdown>
-  <aegov-button appearance="outline">Account</aegov-button>
-
+<aegov-dropdown trigger="click">
+  <aegov-button variant="primary">Service actions</aegov-button>
   <div slot="dropdown-content">
-    <div class="px-4 py-2">
-      <p class="font-semibold">Ahmed Al Mansouri</p>
-      <p class="text-sm text-aeblack-500">ahmed@example.ae</p>
+    <a href="#renew">Renew application</a>
+    <a href="#duplicate">Request duplicate</a>
+    <a href="#cancel">Cancel application</a>
+  </div>
+</aegov-dropdown>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-dropdown trigger="click">
+    <aegov-button variant="primary">Service actions</aegov-button>
+    <div slot="dropdown-content">
+      <a href="#renew">Renew application</a>
+      <a href="#duplicate">Request duplicate</a>
+      <a href="#cancel">Cancel application</a>
     </div>
-    <aegov-separator></aegov-separator>
+  </aegov-dropdown>
+</div>
+
+### Hover trigger
+
+```html
+<aegov-dropdown trigger="hover" position="bottom" align="start">
+  <aegov-button variant="secondary" appearance="soft">Services</aegov-button>
+  <div slot="dropdown-content">
+    <a href="/visa">Visa services</a>
+    <a href="/passport">Passport services</a>
+    <a href="/emirates-id">Emirates ID services</a>
+  </div>
+</aegov-dropdown>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-dropdown trigger="hover" position="bottom" align="start">
+    <aegov-button variant="secondary" appearance="soft">Services</aegov-button>
+    <div slot="dropdown-content">
+      <a href="/visa">Visa services</a>
+      <a href="/passport">Passport services</a>
+      <a href="/emirates-id">Emirates ID services</a>
+    </div>
+  </aegov-dropdown>
+</div>
+
+---
+
+## Position
+
+`position` sets the preferred placement of the panel relative to the trigger: `top`, `right`, `bottom` (default), or `left`. If there isn't enough room on the preferred edge, the dropdown auto-flips to the opposite edge.
+
+```html
+<aegov-dropdown position="top">
+  <aegov-button>Top</aegov-button>
+  <div slot="dropdown-content">
+    <a href="#a">First option</a>
+    <a href="#b">Second option</a>
+  </div>
+</aegov-dropdown>
+
+<aegov-dropdown position="right">
+  <aegov-button>Right</aegov-button>
+  <div slot="dropdown-content">
+    <a href="#a">First option</a>
+    <a href="#b">Second option</a>
+  </div>
+</aegov-dropdown>
+
+<aegov-dropdown position="bottom">
+  <aegov-button>Bottom</aegov-button>
+  <div slot="dropdown-content">
+    <a href="#a">First option</a>
+    <a href="#b">Second option</a>
+  </div>
+</aegov-dropdown>
+
+<aegov-dropdown position="left">
+  <aegov-button>Left</aegov-button>
+  <div slot="dropdown-content">
+    <a href="#a">First option</a>
+    <a href="#b">Second option</a>
+  </div>
+</aegov-dropdown>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-4">
+    <aegov-dropdown position="top">
+      <aegov-button>Top</aegov-button>
+      <div slot="dropdown-content">
+        <a href="#a">First option</a>
+        <a href="#b">Second option</a>
+      </div>
+    </aegov-dropdown>
+    <aegov-dropdown position="right">
+      <aegov-button>Right</aegov-button>
+      <div slot="dropdown-content">
+        <a href="#a">First option</a>
+        <a href="#b">Second option</a>
+      </div>
+    </aegov-dropdown>
+    <aegov-dropdown position="bottom">
+      <aegov-button>Bottom</aegov-button>
+      <div slot="dropdown-content">
+        <a href="#a">First option</a>
+        <a href="#b">Second option</a>
+      </div>
+    </aegov-dropdown>
+    <aegov-dropdown position="left">
+      <aegov-button>Left</aegov-button>
+      <div slot="dropdown-content">
+        <a href="#a">First option</a>
+        <a href="#b">Second option</a>
+      </div>
+    </aegov-dropdown>
+  </div>
+</div>
+
+---
+
+## Alignment
+
+The `align` property positions the panel along the cross axis of the placement. For `position="bottom"` and `position="top"` this is horizontal alignment; for `position="left"` and `position="right"` it is vertical alignment.
+
+| Value     | Behaviour                                                          |
+| --------- | ------------------------------------------------------------------ |
+| `start`   | Aligns to the inline-start edge of the trigger (default).          |
+| `center`  | Centres the panel against the trigger.                             |
+| `end`     | Aligns to the inline-end edge — useful for right-anchored avatars. |
+
+```html
+<aegov-dropdown align="end" position="bottom">
+  <aegov-avatar src="/profile.jpg" alt="Hassan Al Mansoori" size="sm"></aegov-avatar>
+  <div slot="dropdown-content">
     <a href="/profile">My profile</a>
     <a href="/applications">My applications</a>
-    <a href="/settings">Settings</a>
-    <aegov-separator></aegov-separator>
-    <button type="button">Sign out</button>
+    <hr />
+    <a href="/signout">Sign out</a>
   </div>
 </aegov-dropdown>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-dropdown field-id="dd-acct" align="end">
-    <aegov-button appearance="outline">
-      <aegov-avatar size="xs" alt="Ahmed Al Mansouri"></aegov-avatar>
-      Account
-    </aegov-button>
-    <div slot="dropdown-content">
-      <div class="px-4 py-2">
-        <p class="font-semibold">Ahmed Al Mansouri</p>
-        <p class="text-sm text-aeblack-500">ahmed@example.ae</p>
-      </div>
-      <aegov-separator></aegov-separator>
-      <a href="#">My profile</a>
-      <a href="#">My applications</a>
-      <a href="#">Settings</a>
-      <aegov-separator></aegov-separator>
-      <button type="button">Sign out</button>
-    </div>
-  </aegov-dropdown>
-</div>
-
-Disabled items are respected: an `<a aria-disabled="true">` or a `<button disabled>` is styled as unavailable and skipped by keyboard navigation.
-
-### Nested dropdowns
-
-A dropdown can contain another dropdown, producing a submenu.
-
-```html
-<aegov-dropdown>
-  <aegov-button appearance="outline">Export</aegov-button>
-  <div slot="dropdown-content">
-    <a href="#">Download PDF</a>
-    <aegov-dropdown position="right" align="start">
-      <a href="#" class="aegov-dropdown-trigger">More formats</a>
+  <div class="flex justify-end">
+    <aegov-dropdown align="end" position="bottom">
+      <aegov-avatar initials="HM" size="sm"></aegov-avatar>
       <div slot="dropdown-content">
-        <a href="#">CSV</a>
-        <a href="#">JSON</a>
+        <a href="/profile">My profile</a>
+        <a href="/applications">My applications</a>
+        <hr />
+        <a href="/signout">Sign out</a>
       </div>
     </aegov-dropdown>
   </div>
+</div>
+
+---
+
+## Gap and Offset
+
+`gap` controls the pixel distance between the trigger and the panel along the placement axis. `offset` shifts the panel along the cross axis without affecting alignment.
+
+```html
+<aegov-dropdown gap="16" offset="0">
+  <aegov-button>Wider gap</aegov-button>
+  <div slot="dropdown-content">
+    <a href="#">Notifications</a>
+    <a href="#">Messages</a>
+  </div>
 </aegov-dropdown>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-dropdown field-id="dd-nest">
-    <aegov-button appearance="outline">Export</aegov-button>
+  <aegov-dropdown gap="16" offset="0">
+    <aegov-button>Wider gap (16 px)</aegov-button>
     <div slot="dropdown-content">
-      <a href="#">Download PDF</a>
-      <a href="#">Download XLSX</a>
-      <aegov-dropdown field-id="dd-nest-sub" position="right" align="start">
-        <a href="#">More formats</a>
+      <a href="#">Notifications</a>
+      <a href="#">Messages</a>
+    </div>
+  </aegov-dropdown>
+</div>
+
+---
+
+## Disabled State
+
+Set `is-disabled="true"` to make the trigger inert. The dropdown will not open via click, hover, or keyboard until the property is removed.
+
+```html
+<aegov-dropdown is-disabled="true">
+  <aegov-button>Unavailable actions</aegov-button>
+  <div slot="dropdown-content">
+    <a href="#">This menu is disabled</a>
+  </div>
+</aegov-dropdown>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-dropdown is-disabled="true">
+    <aegov-button is-disabled="true">Unavailable actions</aegov-button>
+    <div slot="dropdown-content">
+      <a href="#">This menu is disabled</a>
+    </div>
+  </aegov-dropdown>
+</div>
+
+---
+
+## User Profile Menu
+
+A real-world example anchored to an avatar in the header. Use `align="end"` so the panel hugs the right edge of the trigger, and `position="bottom"` so it drops below.
+
+```html
+<aegov-dropdown align="end" position="bottom">
+  <aegov-button appearance="soft">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=47" alt="Fatima Al Hammadi" size="sm" appearance="rounded"></aegov-avatar>
+    Fatima Al Hammadi
+  </aegov-button>
+  <div slot="dropdown-content">
+    <a href="/profile">My profile</a>
+    <a href="/applications">My applications</a>
+    <a href="/notifications">Notifications</a>
+    <hr />
+    <a href="/help">Help &amp; support</a>
+    <a href="/signout">Sign out</a>
+  </div>
+</aegov-dropdown>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex justify-end">
+    <aegov-dropdown align="end" position="bottom">
+      <aegov-button appearance="soft">
+        <aegov-avatar src="https://i.pravatar.cc/150?img=47" alt="Fatima Al Hammadi" size="sm" appearance="rounded"></aegov-avatar>
+        Fatima Al Hammadi
+      </aegov-button>
+      <div slot="dropdown-content">
+        <a href="/profile">My profile</a>
+        <a href="/applications">My applications</a>
+        <a href="/notifications">Notifications</a>
+        <hr />
+        <a href="/help">Help &amp; support</a>
+        <a href="/signout">Sign out</a>
+      </div>
+    </aegov-dropdown>
+  </div>
+</div>
+
+---
+
+## Action Menu on a Table Row
+
+Bulk action menus are a common pattern in administrative views. Anchor the dropdown to a kebab-style icon button at the end of each row.
+
+```html
+<aegov-dropdown align="end" position="bottom">
+  <aegov-button appearance="soft" size="sm" aria-label="Row actions">
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <circle cx="3" cy="8" r="1.5" fill="currentColor"/>
+      <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
+      <circle cx="13" cy="8" r="1.5" fill="currentColor"/>
+    </svg>
+  </aegov-button>
+  <div slot="dropdown-content">
+    <a href="#view">View details</a>
+    <a href="#edit">Edit application</a>
+    <a href="#download">Download receipt</a>
+    <hr />
+    <a href="#cancel">Cancel application</a>
+  </div>
+</aegov-dropdown>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex items-center justify-between border border-aeblack-200 rounded p-4">
+    <div>
+      <div class="font-medium">Passport renewal &mdash; APP-2026-00482</div>
+      <div class="text-sm text-aeblack-500">Submitted 12 April 2026</div>
+    </div>
+    <aegov-dropdown align="end" position="bottom">
+      <aegov-button appearance="soft" size="sm" aria-label="Row actions">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="3" cy="8" r="1.5" fill="currentColor"/>
+          <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
+          <circle cx="13" cy="8" r="1.5" fill="currentColor"/>
+        </svg>
+      </aegov-button>
+      <div slot="dropdown-content">
+        <a href="#view">View details</a>
+        <a href="#edit">Edit application</a>
+        <a href="#download">Download receipt</a>
+        <hr />
+        <a href="#cancel">Cancel application</a>
+      </div>
+    </aegov-dropdown>
+  </div>
+</div>
+
+---
+
+## Nested Dropdowns
+
+A nested dropdown is a child `aegov-dropdown` placed inside the `dropdown-content` slot of a parent. The component supports any depth: opening a nested dropdown does not close its parent, and the parent stays open while the cursor is over the child or its panel. Each level is rendered into its own portal.
+
+```html
+<aegov-dropdown>
+  <aegov-button variant="primary">Apply for service</aegov-button>
+  <div slot="dropdown-content">
+    <a href="#new">New application</a>
+    <aegov-dropdown trigger="hover" position="right">
+      <a href="#">Visa services &rsaquo;</a>
+      <div slot="dropdown-content">
+        <a href="/visa/visit">Visit visa</a>
+        <a href="/visa/work">Work visa</a>
+        <a href="/visa/golden">Golden visa</a>
+      </div>
+    </aegov-dropdown>
+    <aegov-dropdown trigger="hover" position="right">
+      <a href="#">Passport services &rsaquo;</a>
+      <div slot="dropdown-content">
+        <a href="/passport/new">Issue new passport</a>
+        <a href="/passport/renew">Renew passport</a>
+        <a href="/passport/replace">Replace lost passport</a>
+      </div>
+    </aegov-dropdown>
+    <hr />
+    <a href="#status">Check application status</a>
+  </div>
+</aegov-dropdown>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-dropdown>
+    <aegov-button variant="primary">Apply for service</aegov-button>
+    <div slot="dropdown-content">
+      <a href="#new">New application</a>
+      <aegov-dropdown trigger="hover" position="right">
+        <a href="#">Visa services &rsaquo;</a>
         <div slot="dropdown-content">
-          <a href="#">CSV</a>
-          <a href="#">JSON</a>
-          <a href="#">XML</a>
+          <a href="/visa/visit">Visit visa</a>
+          <a href="/visa/work">Work visa</a>
+          <a href="/visa/golden">Golden visa</a>
         </div>
       </aegov-dropdown>
+      <aegov-dropdown trigger="hover" position="right">
+        <a href="#">Passport services &rsaquo;</a>
+        <div slot="dropdown-content">
+          <a href="/passport/new">Issue new passport</a>
+          <a href="/passport/renew">Renew passport</a>
+          <a href="/passport/replace">Replace lost passport</a>
+        </div>
+      </aegov-dropdown>
+      <hr />
+      <a href="#status">Check application status</a>
     </div>
   </aegov-dropdown>
 </div>
 
-Nesting works because the component re-establishes its portal when it is re-inserted into the DOM — the parent moving its content triggers a disconnect and reconnect on the nested dropdown, and it recovers. Keep nesting to one level: a second submenu is very difficult to operate on touch and with a keyboard.
-
-Note the trigger inside a submenu carries `aria-haspopup` under the `menu-button` pattern, and items that open a submenu are deliberately not treated as activatable menu items.
-
 ---
 
-## Disabled
+## Programmatic Control
+
+Call the public `toggle()` method on the host element to open or close the dropdown from your own code. Pass `true` if the call originated from a keyboard handler so the first menu item receives focus per the WAI-ARIA menu pattern.
 
 ```html
-<aegov-dropdown is-disabled>
-  <aegov-button appearance="outline" is-disabled>Actions</aegov-button>
-  <div slot="dropdown-content">…</div>
+<aegov-dropdown id="ministry-switcher" align="end">
+  <aegov-button variant="secondary">Switch ministry</aegov-button>
+  <div slot="dropdown-content">
+    <a href="#moi">Ministry of Interior</a>
+    <a href="#mofa">Ministry of Foreign Affairs</a>
+    <a href="#moh">Ministry of Health</a>
+  </div>
 </aegov-dropdown>
+
+<aegov-button variant="secondary" id="open-from-outside">Open ministry switcher</aegov-button>
+
+<script>
+  document.getElementById('open-from-outside').addEventListener('click', async () => {
+    const dd = document.getElementById('ministry-switcher');
+    await dd.toggle(false);
+  });
+
+  const dd = document.getElementById('ministry-switcher');
+  dd.addEventListener('aegovDropdownOpen', () => console.log('Opened'));
+  dd.addEventListener('aegovDropdownClose', () => console.log('Closed'));
+</script>
 ```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-dropdown field-id="dd-dis" is-disabled>
-    <aegov-button appearance="outline" is-disabled>Actions</aegov-button>
-    <div slot="dropdown-content"><a href="#">Item one</a></div>
-  </aegov-dropdown>
-</div>
-
-Disable the trigger as well — `is-disabled` on the dropdown stops it opening, but the trigger still looks interactive without it.
-
----
-
-## Controlling it in code
-
-```js
-await dropdown.toggle();          // pointer-style toggle
-await dropdown.toggle(true);      // keyboard-style: focuses the first item on open
-await dropdown.closeDropdown();
-```
-
-The `viaKeyboard` argument matters for accessibility: passing `true` moves focus into the menu on open, which is what the menu pattern requires for keyboard activation. Pass `false` — or omit it — from pointer handlers, where stealing focus would be wrong.
-
-This is how an external control, such as a chevron inside an [`aegov-navbar-item`](aegov-navbar.html), can drive a dropdown that is otherwise hover-triggered.
-
----
-
-## Composite example — table row actions
-
-```html
-<td class="text-end">
-  <aegov-dropdown align="end">
-    <aegov-button is-icon size="sm" appearance="soft" variant="neutral-max" aria-label="Actions for APP-2026-0041827">
-      <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-        <path d="M3 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm5.5 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM14 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" />
-      </svg>
-    </aegov-button>
-
-    <div slot="dropdown-content">
-      <a href="/applications/41827">View</a>
-      <a href="/applications/41827/edit">Edit</a>
-      <a href="/applications/41827/receipt">Download receipt</a>
-      <aegov-separator></aegov-separator>
-      <button type="button" data-action="withdraw">Withdraw</button>
-    </div>
-  </aegov-dropdown>
-</td>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <ul class="divide-y divide-aeblack-100 max-w-lg">
-    <li class="flex items-center justify-between py-3">
-      <div><p class="font-medium">APP-2026-0041827</p><p class="text-sm text-aeblack-500">Emirates ID renewal</p></div>
-      <div class="flex items-center gap-3">
-        <aegov-badge variant="aegreen">Active</aegov-badge>
-        <aegov-dropdown field-id="dd-row-1" align="end">
-          <aegov-button is-icon size="sm" appearance="soft" variant="neutral-max" aria-label="Actions for APP-2026-0041827">
-            <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M3 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm5.5 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM14 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" /></svg>
-          </aegov-button>
-          <div slot="dropdown-content">
-            <a href="#">View</a>
-            <a href="#">Edit</a>
-            <a href="#">Download receipt</a>
-            <aegov-separator></aegov-separator>
-            <button type="button">Withdraw</button>
-          </div>
-        </aegov-dropdown>
-      </div>
-    </li>
-    <li class="flex items-center justify-between py-3">
-      <div><p class="font-medium">APP-2026-0039114</p><p class="text-sm text-aeblack-500">Residency visa renewal</p></div>
-      <div class="flex items-center gap-3">
-        <aegov-badge variant="camel">Pending</aegov-badge>
-        <aegov-dropdown field-id="dd-row-2" align="end">
-          <aegov-button is-icon size="sm" appearance="soft" variant="neutral-max" aria-label="Actions for APP-2026-0039114">
-            <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M3 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm5.5 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM14 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" /></svg>
-          </aegov-button>
-          <div slot="dropdown-content">
-            <a href="#">View</a>
-            <a href="#">Edit</a>
-            <aegov-separator></aegov-separator>
-            <button type="button">Withdraw</button>
-          </div>
-        </aegov-dropdown>
-      </div>
-    </li>
-  </ul>
-</div>
-
-Note the `aria-label` on each icon trigger includes the row's reference. Ten identical "Actions" buttons in a list are indistinguishable to a screen reader user.
 
 ---
 
 ## RTL Support
 
-The dropdown is direction-aware. Alignment is logical, so `align="start"` follows the reading direction, and the portal's injected CSS includes explicit `[dir="rtl"]` rules for text alignment inside the menu. Nested submenus open toward the reading direction.
-
-**Set `dir` on `<html>`**, not on an inner wrapper. The menu content is moved into a portal on `document.body`, so it inherits direction from the document.
+Dropdowns are direction-agnostic. When the document or any ancestor is `dir="rtl"`, `align="start"` resolves to the right edge of the trigger and `align="end"` to the left edge. Position values (`top`/`bottom`/`left`/`right`) remain physical — they describe the preferred edge, not the inline/block axis. Slot content inherits the host document's direction, including text alignment inside menu items.
 
 ```html
-<html dir="rtl" lang="ar">
-  <aegov-dropdown align="start">
-    <aegov-button appearance="outline">الإجراءات</aegov-button>
+<div dir="rtl">
+  <aegov-dropdown align="end" position="bottom">
+    <aegov-button variant="primary">إجراءات الحساب</aegov-button>
     <div slot="dropdown-content">
-      <a href="#">عرض الطلب</a>
-      <a href="#">تعديل البيانات</a>
-      <aegov-separator></aegov-separator>
-      <a href="#">سحب الطلب</a>
+      <a href="/profile">الملف الشخصي</a>
+      <a href="/applications">طلباتي</a>
+      <a href="/notifications">الإشعارات</a>
+      <hr />
+      <a href="/signout">تسجيل الخروج</a>
     </div>
   </aegov-dropdown>
-</html>
+</div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="flex flex-wrap gap-4">
-    <aegov-dropdown field-id="dd-rtl-1" align="start">
-      <aegov-button appearance="outline">الإجراءات</aegov-button>
-      <div slot="dropdown-content">
-        <a href="#">عرض الطلب</a>
-        <a href="#">تعديل البيانات</a>
-        <a href="#">تحميل الإيصال</a>
-        <aegov-separator></aegov-separator>
-        <a href="#">سحب الطلب</a>
-      </div>
-    </aegov-dropdown>
-    <aegov-dropdown field-id="dd-rtl-2" align="end">
-      <aegov-button appearance="outline" size="sm">الحساب</aegov-button>
-      <div slot="dropdown-content">
-        <a href="#">ملفي الشخصي</a>
-        <a href="#">طلباتي</a>
-        <aegov-separator></aegov-separator>
-        <button type="button">تسجيل الخروج</button>
-      </div>
-    </aegov-dropdown>
-  </div>
+  <aegov-dropdown align="end" position="bottom">
+    <aegov-button variant="primary">إجراءات الحساب</aegov-button>
+    <div slot="dropdown-content">
+      <a href="/profile">الملف الشخصي</a>
+      <a href="/applications">طلباتي</a>
+      <a href="/notifications">الإشعارات</a>
+      <hr />
+      <a href="/signout">تسجيل الخروج</a>
+    </div>
+  </aegov-dropdown>
 </div>
 
-Directional icons in the trigger — a chevron, a caret — are yours to mirror if they point sideways. A down-chevron needs no change.
+The same dropdown with a hover trigger and nested submenu, in RTL:
+
+```html
+<div dir="rtl">
+  <aegov-dropdown trigger="hover">
+    <aegov-button>الخدمات</aegov-button>
+    <div slot="dropdown-content">
+      <a href="/visa">خدمات التأشيرات</a>
+      <aegov-dropdown trigger="hover" position="right">
+        <a href="#">خدمات الجوازات &rsaquo;</a>
+        <div slot="dropdown-content">
+          <a href="/passport/new">إصدار جواز جديد</a>
+          <a href="/passport/renew">تجديد جواز السفر</a>
+        </div>
+      </aegov-dropdown>
+      <a href="/eid">خدمات الهوية الإماراتية</a>
+    </div>
+  </aegov-dropdown>
+</div>
+```
+
+<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-dropdown trigger="hover">
+    <aegov-button>الخدمات</aegov-button>
+    <div slot="dropdown-content">
+      <a href="/visa">خدمات التأشيرات</a>
+      <aegov-dropdown trigger="hover" position="right">
+        <a href="#">خدمات الجوازات &rsaquo;</a>
+        <div slot="dropdown-content">
+          <a href="/passport/new">إصدار جواز جديد</a>
+          <a href="/passport/renew">تجديد جواز السفر</a>
+        </div>
+      </aegov-dropdown>
+      <a href="/eid">خدمات الهوية الإماراتية</a>
+    </div>
+  </aegov-dropdown>
+</div>
 
 ---
 
@@ -381,66 +505,68 @@ Directional icons in the trigger — a chevron, a caret — are yours to mirror 
 
 ### Properties
 
-| Property | Attribute | Description | Type | Default |
-| --- | --- | --- | --- | --- |
-| `fieldId` | `field-id` | ID for the dropdown. Auto-generated when omitted, reflected. | `string` | _generated_ |
-| `trigger` | `trigger` | How the menu opens. | `'click' \| 'hover'` | `'click'` |
-| `tabBehavior` | `tab-behavior` | Which ARIA pattern to follow — see [Tab behaviour](#tab-behaviour). | `'menu-button' \| 'disclosure'` | `'menu-button'` |
-| `position` | `position` | Which side of the trigger the menu appears on. | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` |
-| `align` | `align` | Alignment along that side. Logical, so it follows text direction. | `'start' \| 'center' \| 'end'` | `'start'` |
-| `gap` | `gap` | Distance from the trigger, in pixels. | `number` | `8` |
-| `offset` | `offset` | Nudge along the alignment axis, in pixels. | `number` | `0` |
-| `delayStart` | `delay-start` | Hover open delay, in milliseconds. | `number` | `200` |
-| `delayEnd` | `delay-end` | Hover close delay, in milliseconds. | `number` | `0` |
-| `isDisabled` | `is-disabled` | Prevents opening. | `boolean` | `false` |
+| Property      | Attribute      | Description                                                                                       | Type                                       | Default     |
+| ------------- | -------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------ | ----------- |
+| `fieldId`     | `field-id`     | DOM `id` for the menu element. Auto-generated if omitted. The trigger receives `${fieldId}-trigger`. | `string`                                   | _generated_ |
+| `trigger`     | `trigger`      | How the dropdown opens.                                                                            | `'click' \| 'hover'`                       | `'click'`   |
+| `position`    | `position`     | Preferred placement relative to the trigger. Auto-flips if there isn't room.                      | `'top' \| 'right' \| 'bottom' \| 'left'`   | `'bottom'`  |
+| `align`       | `align`        | Cross-axis alignment of the panel against the trigger.                                            | `'start' \| 'center' \| 'end'`             | `'start'`   |
+| `gap`         | `gap`          | Pixel distance between the trigger and the panel along the placement axis.                        | `number`                                   | `8`         |
+| `offset`      | `offset`       | Additional pixel offset along the cross axis.                                                     | `number`                                   | `0`         |
+| `tabBehavior` | `tab-behavior` | ARIA keyboard pattern — `menu-button` (roving tab, arrow keys move focus inside) or `disclosure` (Tab moves focus, no roving). | `'menu-button' \| 'disclosure'` | `'menu-button'` |
+| `isDisabled`  | `is-disabled`  | When `true`, the trigger is inert and the dropdown will not open.                                 | `boolean`                                  | `false`     |
+| `delayStart`  | `delay-start`  | Milliseconds to wait before opening (mainly relevant for `trigger="hover"`).                      | `number`                                   | `200`       |
+| `delayEnd`    | `delay-end`    | Milliseconds to wait before closing on hover-out. A 100 ms grace period applies to hover.         | `number`                                   | `0`         |
 
 ### Slots
 
-| Slot | Description |
-| --- | --- |
-| _(default)_ | The trigger. Usually an `aegov-button`, or a link inside a submenu. |
-| `dropdown-content` | The menu. Links, buttons and separators. |
+| Slot                | Description                                                                                                  |
+| ------------------- | ------------------------------------------------------------------------------------------------------------ |
+| _(default)_         | Trigger element. Should be a single focusable element such as `aegov-button`, `<button>`, link, or avatar.    |
+| `dropdown-content`  | Menu contents. Use anchors, buttons, `<hr>` separators, or any HTML. Moved into the portal on open.           |
 
 ### Events
 
-| Event | Detail | Description |
-| --- | --- | --- |
-| `aegovDropdownOpen` | `void` | The menu opened. |
-| `aegovDropdownClose` | `void` | The menu closed. |
+| Event                  | Detail | Description                                                |
+| ---------------------- | ------ | ---------------------------------------------------------- |
+| `aegovDropdownOpen`    | `void` | Fired when the dropdown opens.                              |
+| `aegovDropdownClose`   | `void` | Fired when the dropdown closes (any reason).                |
+
+#### Listening for events
+
+```html
+<aegov-dropdown id="account-menu">
+  <aegov-button>Account</aegov-button>
+  <div slot="dropdown-content">
+    <a href="/profile">Profile</a>
+    <a href="/signout">Sign out</a>
+  </div>
+</aegov-dropdown>
+
+<script>
+  const dd = document.querySelector('#account-menu');
+  dd.addEventListener('aegovDropdownOpen', () => analytics.track('account_menu_open'));
+  dd.addEventListener('aegovDropdownClose', () => console.log('Closed'));
+</script>
+```
 
 ### Methods
 
-| Method | Returns | Description |
-| --- | --- | --- |
-| `toggle(viaKeyboard?, viaArrow?)` | `Promise<void>` | Opens or closes regardless of `trigger`. Pass `true` for `viaKeyboard` from keyboard handlers so focus moves into the menu. |
-| `closeDropdown()` | `Promise<void>` | Closes the menu. |
-
-### The portal — move, not clone
-
-When the menu opens, the element in the `dropdown-content` slot is **physically moved** into a portal on `document.body`, and moved back on close.
-
-This matters:
-
-- **It is a move, not a copy.** Any element references you hold stay valid, and web components inside the menu keep their state. Cloning would double-render nested Stencil components, which is why moving is used.
-- **Host styles do not reach the menu while open.** The portal injects its own CSS, including overrides for `<a>` display and dark-mode colours, because scoped component CSS cannot reach a body descendant.
-- **`document.querySelector` inside your container will not find the open menu.** In tests, wait for `.aegov-dropdown-portal .aegov-dropdown`.
-- **Direction is inherited from the document.**
-
-| Selector | Element |
-| --- | --- |
-| `.aegov-dropdown-portal` | The portal container on the body. |
-| `.aegov-dropdown` | The menu panel inside the portal. |
-| `.aegov-dropdown-trigger` | The trigger wrapper in place. |
-| `[data-state="open"]` | On the panel while open. |
+| Method                                               | Returns         | Description                                                                                                                |
+| ---------------------------------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `toggle(viaKeyboard?: boolean, viaArrow?: boolean)`  | `Promise<void>` | Toggle the dropdown open/closed. Pass `viaKeyboard: true` from keyboard handlers so the first item receives focus; `viaArrow: true` when opened with ArrowDown/ArrowUp. |
+| `closeDropdown()`                                    | `Promise<void>` | Close the dropdown programmatically.                                                                                       |
 
 ### Pass-through Attributes
 
-| Attribute group | Forwarded? | Notes |
-| --- | --- | --- |
-| `aria-*` | Yes | Forwarded to the trigger wrapper. Put `aria-label` on the trigger button itself for icon triggers. |
-| `data-*` | Yes | Forwarded to the trigger wrapper. |
-| `id` | n/a | Use `field-id`. |
-| `class`, `style` | Allowed | Applied to the host. The open menu is in the portal and unaffected. |
+`aria-*` and `data-*` attributes set on `<aegov-dropdown>` are forwarded onto the trigger wrapper element so they can describe the trigger semantically.
+
+| Attribute group  | Forwarded? | Where it lands                                                                          |
+| ---------------- | ---------- | --------------------------------------------------------------------------------------- |
+| `aria-*`         | Yes        | Applied to the trigger wrapper (`.aegov-dropdown-trigger`).                              |
+| `data-*`         | Yes        | Applied to the trigger wrapper.                                                          |
+| `id`             | n/a        | Use `field-id` instead — it sets the menu id and derives the trigger id.                 |
+| `class`, `style` | Allowed    | Applied to the host element.                                                             |
 
 ---
 
@@ -448,47 +574,39 @@ This matters:
 
 ### Built-in behaviour
 
-- **The ARIA pattern follows `tabBehavior`.** Under `menu-button` the panel gets `role="menu"` with an accessible name, focusable children get `role="menuitem"`, and the trigger gets `aria-haspopup`. Under `disclosure` only `aria-expanded` is used — no menu roles, because a group of page links is not a menu.
-- `aria-expanded` on the trigger tracks the open state in both patterns.
-- The trigger is resolved intelligently: a real `<button>` or `[role="button"]` inside the slot is preferred over a navigating `<a>`, so `aria-haspopup` and `aria-expanded` land on the right element. A plain navigation link is deliberately left without `aria-haspopup` so screen readers do not announce a menu that is really a link.
-- **Full keyboard operation**, including arrow keys, `Home`, `End` and typeahead-free item traversal — see the table below.
-- Arrow-key opens always move focus into the menu. `Enter` and `Space` opens leave focus on the trigger in `disclosure` mode, per the WAI-ARIA Disclosure pattern.
-- Only one dropdown is open at a time, so menus cannot pile up.
-- Disabled items — `aria-disabled="true"` or `disabled` — are skipped by keyboard navigation.
-- Focus returns to the trigger on close, using `preventScroll` so the page does not jump when a dropdown closes because the trigger scrolled out of view.
-- Items that open a submenu are not treated as activatable, so `Enter` on them opens the submenu rather than firing an action.
-- The portal keeps the menu out of any clipping ancestor, which also avoids WCAG 2.2 SC 2.4.11 failures where a focused item is hidden.
+- The first focusable element inside the trigger slot (e.g. `<aegov-button>`) automatically receives `aria-haspopup="menu"`, `aria-expanded`, and `aria-controls` (pointing at the menu's `id` when open). These attributes are set imperatively so they live on the element AT actually reads, not the wrapper div.
+- The menu element has `role="menu"` and `aria-labelledby` linking back to the trigger wrapper's `id`.
+- Focusable children inside the menu without an explicit `role` automatically receive `role="menuitem"`.
+- `Escape` closes the dropdown and returns focus to the trigger. `Arrow Up` / `Arrow Down` move focus through menu items.
+- Keyboard-triggered opens (`Enter`/`Space` on the focused trigger) move focus into the menu; pointer opens leave focus on the trigger, matching the WAI-ARIA menu pattern.
+- Focus returns to the trigger on close using `preventScroll`, so the page does not jump if the trigger has scrolled out of view.
+- Only one dropdown is open at a time. Nested dropdowns are exempt — opening a child does not close its parent.
+- The dropdown auto-closes if the trigger scrolls out of the viewport.
 
 ### Developer responsibilities
 
-- **Choose `tabBehavior` deliberately.** Commands are a menu; links are a disclosure. The wrong choice misdescribes the content to screen reader users.
-- **Give icon-only triggers a specific `aria-label`**, including the row or object they act on. Ten "Actions" buttons are indistinguishable.
-- **Prefer `trigger="click"`.** Hover menus are unusable on touch and hostile to motor-impaired users.
-- **Do not use a dropdown for form values.** Use [Select](aegov-select.html), which is form-associated and validated.
-- **Keep menus short.** Beyond about ten items, use a page or a [Drawer](aegov-drawer.html).
-- **Limit nesting to one level.**
-- **Disable the trigger too** when you set `is-disabled`.
-- **Set `dir` on `<html>`** for RTL, since the menu is portalled to the body.
-- **Do not put form fields in a dropdown.** The menu roles conflict with form controls, and the portal move complicates focus. Use a [Popover](aegov-popover.html) for a small panel with inputs.
-- **Mirror sideways-pointing trigger icons** in RTL.
+- Place a single focusable element in the default slot (button, link, avatar with role/tabindex).
+- Provide an accessible name on the trigger — visible text, `aria-label`, or `aria-labelledby`.
+- Ensure menu items are keyboard activatable (links, buttons, or elements with `tabindex`).
+- For destructive items (delete, cancel) include text that makes the consequence clear; do not rely on colour alone.
 
 ### Keyboard support
 
-| Key | Action |
-| --- | --- |
-| `Enter`, `Space` | Open the menu from the trigger, or activate the focused item. In `disclosure` mode, opening leaves focus on the trigger. |
-| `ArrowDown` | Open the menu and focus the first item, or move to the next item. |
-| `ArrowUp` | Open the menu and focus the last item, or move to the previous item. |
-| `Home` | Move to the first item. |
-| `End` | Move to the last item. |
-| `Escape` | Close the menu and return focus to the trigger. |
-| `Tab` | In `menu-button` mode, close the menu and move on. In `disclosure` mode, move through the items. |
+| Key                          | Action                                                              |
+| ---------------------------- | ------------------------------------------------------------------- |
+| `Enter`, `Space`             | Toggle the dropdown when the trigger has focus.                     |
+| `Escape`                     | Close the open dropdown and return focus to the trigger.            |
+| `Tab`                        | Close the menu and move focus to the next focusable element on the page. |
+| `Shift + Tab`                | Close the menu and move focus to the previous focusable element on the page. |
+| `Arrow Down`                 | Move focus to the next menu item.                                   |
+| `Arrow Up`                   | Move focus to the previous menu item.                               |
+| `Home`                       | Move focus to the first menu item.                                  |
+| `End`                        | Move focus to the last menu item.                                   |
+| `A–Z`, `0–9`                 | Typeahead: jump focus to the first menu item whose label starts with the typed character(s). |
 
----
+### Implementation notes
 
-## Where to next
-
-- [Select](aegov-select.html) — for form values rather than commands.
-- [Popover](aegov-popover.html) — for a small anchored panel that may contain fields.
-- [Navbar](aegov-navbar.html) — which uses dropdowns for sub-navigation.
-- [Button](aegov-button.html) — the usual trigger.
+- `scoped: true` encapsulation: events from inside the menu re-target correctly even after the slot is moved into the portal.
+- The `dropdown-content` element is **moved** (not cloned) into the portal on open and moved back to a hidden host wrapper on close. This preserves Stencil hydration for nested web components.
+- Inside the portal, `<a>` styles are reset (`display: block; margin: 0`) to override unlayered global anchor styles.
+- A nested dropdown re-creates its portal in `connectedCallback()` because its parent's portal-move triggers `disconnectedCallback` then `connectedCallback` on the child.

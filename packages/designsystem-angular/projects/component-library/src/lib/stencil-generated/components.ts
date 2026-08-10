@@ -228,14 +228,14 @@ export declare interface AegovBadge extends Components.AegovBadge {
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovBanner,
-  inputs: ['appearance', 'display', 'fieldId', 'heading', 'isDismissible', 'isFocusable', 'mode', 'position', 'size', 'variant']
+  inputs: ['appearance', 'display', 'fieldId', 'isDismissible', 'isFocusable', 'mode', 'position', 'size', 'variant']
 })
 @Component({
   selector: 'aegov-banner',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['appearance', 'display', 'fieldId', 'heading', 'isDismissible', 'isFocusable', 'mode', 'position', 'size', 'variant'],
+  inputs: ['appearance', 'display', 'fieldId', 'isDismissible', 'isFocusable', 'mode', 'position', 'size', 'variant'],
   outputs: ['aegovBannerDismiss', 'aegovBannerHeightChange'],
 })
 export class AegovBanner {
@@ -486,7 +486,7 @@ export declare interface AegovCard extends Components.AegovCard {}
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovCheckbox,
-  inputs: ['errorMessage', 'extraClass', 'fieldId', 'hint', 'isCheckAll', 'isChecked', 'isDisabled', 'isIndeterminate', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
+  inputs: ['appearance', 'errorMessage', 'extraClass', 'fieldId', 'hint', 'isCheckAll', 'isChecked', 'isDisabled', 'isIndeterminate', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
   methods: ['validate', 'setCustomValidity']
 })
 @Component({
@@ -494,7 +494,7 @@ export declare interface AegovCard extends Components.AegovCard {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['errorMessage', 'extraClass', 'fieldId', 'hint', 'isCheckAll', 'isChecked', 'isDisabled', 'isIndeterminate', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
+  inputs: ['appearance', 'errorMessage', 'extraClass', 'fieldId', 'hint', 'isCheckAll', 'isChecked', 'isDisabled', 'isIndeterminate', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
   outputs: ['aegovCheckboxChange', 'aegovValidate'],
 })
 export class AegovCheckbox {
@@ -1248,7 +1248,7 @@ export declare interface AegovProgress extends Components.AegovProgress {}
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovRadio,
-  inputs: ['errorMessage', 'extraClass', 'fieldId', 'hint', 'isChecked', 'isDisabled', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
+  inputs: ['appearance', 'errorMessage', 'extraClass', 'fieldId', 'hint', 'isChecked', 'isDisabled', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
   methods: ['validate', 'setCustomValidity']
 })
 @Component({
@@ -1256,7 +1256,7 @@ export declare interface AegovProgress extends Components.AegovProgress {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['errorMessage', 'extraClass', 'fieldId', 'hint', 'isChecked', 'isDisabled', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
+  inputs: ['appearance', 'errorMessage', 'extraClass', 'fieldId', 'hint', 'isChecked', 'isDisabled', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
   outputs: ['aegovRadioChange', 'aegovValidate'],
 })
 export class AegovRadio {
@@ -1611,12 +1611,12 @@ export declare interface AegovText extends Components.AegovText {}
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: ['errorMessage', 'extraClass', 'fieldId', 'hint', 'isCopyable', 'isDisabled', 'isInvalid', 'isReadonly', 'isRequired', 'maxlength', 'name', 'placeholder', 'resize', 'size', 'value', 'variant'],
-  outputs: ['aegovTextareaChange', 'aegovTextareaInput', 'aegovTextareaFocus', 'aegovTextareaBlur', 'aegovValidate'],
+  outputs: ['aegovTextareaChange', 'aegovTextareaValue', 'aegovTextareaFocus', 'aegovTextareaBlur', 'aegovValidate'],
 })
 export class AegovTextarea {
   protected el: HTMLAegovTextareaElement;
   @Output() aegovTextareaChange = new EventEmitter<AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>>();
-  @Output() aegovTextareaInput = new EventEmitter<AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>>();
+  @Output() aegovTextareaValue = new EventEmitter<AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>>();
   @Output() aegovTextareaFocus = new EventEmitter<AegovTextareaCustomEvent<FocusEvent>>();
   @Output() aegovTextareaBlur = new EventEmitter<AegovTextareaCustomEvent<FocusEvent>>();
   @Output() aegovValidate = new EventEmitter<AegovTextareaCustomEvent<IAegovTextareaAegovValidationDetail<string>>>();
@@ -1638,7 +1638,7 @@ export declare interface AegovTextarea extends Components.AegovTextarea {
   /**
    * Emitted on every keystroke.
    */
-  aegovTextareaInput: EventEmitter<AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>>;
+  aegovTextareaValue: EventEmitter<AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>>;
   /**
    * Emitted when the textarea gains focus.
    */

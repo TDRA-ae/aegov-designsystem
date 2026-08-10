@@ -1,263 +1,193 @@
 # Bento Grid
 
-<p class="text-lg text-aeblack-500 mb-8">A Bento Grid arranges tiles in a responsive grid where individual tiles can span multiple columns or rows. Use it for a landing page's service overview, a dashboard of summary panels, or any layout where some items deserve more room than others.</p>
+<p class="text-lg text-aeblack-500 mb-8">A layout container that arranges <code>aegov-card</code> children into a balanced-but-non-uniform &ldquo;bento box&rdquo; grid. It owns the column count, the gap between tiles, and the responsive stacking behaviour, while each card declares its own column and row span via simple data attributes.</p>
 
 ## Introduction
 
-Put [`aegov-card`](aegov-card.html) elements — or any children — inside the grid, and set `data-col-span` or `data-row-span` on the ones that should be larger.
+The `aegov-bento-grid` component wraps a group of `aegov-card` elements (or any direct children) and lays them out using CSS Grid. Use it for marketing landing pages, feature showcases, dashboards, or anywhere you need several cards composed into a deliberate, irregular pattern.
 
 ```html
 <aegov-bento-grid cols="1 md:2 lg:4" gap="md">
-  <aegov-card data-col-span="2" data-row-span="2" appearance="light">Hero tile</aegov-card>
-  <aegov-card appearance="light">Tile 2</aegov-card>
-  <aegov-card appearance="light">Tile 3</aegov-card>
-  <aegov-card data-col-span="2" appearance="light">Wide tile</aegov-card>
-  <aegov-card appearance="light">Tile 5</aegov-card>
+  <aegov-card data-col-span="2" data-row-span="2" appearance="light">
+    <aegov-title level="3">Hero tile</aegov-title>
+    <aegov-text>Spans 2 columns × 2 rows on large screens.</aegov-text>
+  </aegov-card>
+  <aegov-card appearance="light"><aegov-text>Tile 2</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Tile 3</aegov-text></aegov-card>
+  <aegov-card data-col-span="2" appearance="light"><aegov-text>Wide tile</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Tile 5</aegov-text></aegov-card>
 </aegov-bento-grid>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-bento-grid field-id="bg-intro" cols="1 md:2 lg:4" gap="md">
-    <aegov-card data-col-span="2" data-row-span="2" appearance="light" variant="neutral-min">
-      <aegov-title size="text-h5" heading-type="h3" extra-class="mb-2">Hero tile</aegov-title>
-      <aegov-text size="sm">Spans two columns and two rows on large screens.</aegov-text>
+  <aegov-bento-grid cols="1 md:2 lg:4" gap="md">
+    <aegov-card data-col-span="2" data-row-span="2" appearance="light">
+      <aegov-title level="3">Hero tile</aegov-title>
+      <aegov-text>Spans 2 columns × 2 rows on large screens.</aegov-text>
     </aegov-card>
-    <aegov-card appearance="light" variant="neutral-min"><aegov-text size="sm">Tile 2</aegov-text></aegov-card>
-    <aegov-card appearance="light" variant="neutral-min"><aegov-text size="sm">Tile 3</aegov-text></aegov-card>
-    <aegov-card data-col-span="2" appearance="light" variant="neutral-min"><aegov-text size="sm">Wide tile</aegov-text></aegov-card>
-    <aegov-card appearance="light" variant="neutral-min"><aegov-text size="sm">Tile 5</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Tile 2</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Tile 3</aegov-text></aegov-card>
+    <aegov-card data-col-span="2" appearance="light"><aegov-text>Wide tile</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Tile 5</aegov-text></aegov-card>
   </aegov-bento-grid>
 </div>
 
 ---
 
-## Responsive columns
+## Responsive Columns
 
-`cols` accepts either a single integer or a Tailwind-style responsive string. Values are clamped to 1–12.
+The `cols` prop accepts a single positive integer (`cols="3"`) or a Tailwind-style responsive string (`cols="1 md:2 lg:4"`). Values are clamped to the range 1–12. The first token is the base value; each `bp:n` segment overrides it once the viewport meets the named breakpoint.
+
+To stack cards vertically on small viewports, set the base value to `1`:
 
 ```html
-<aegov-bento-grid cols="3">…</aegov-bento-grid>
-<aegov-bento-grid cols="1 md:2 lg:4">…</aegov-bento-grid>
-<aegov-bento-grid cols="2 lg:3 2xl:6">…</aegov-bento-grid>
+<aegov-bento-grid cols="1 md:2 lg:3" gap="md">
+  <aegov-card appearance="light"><aegov-text>One</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Two</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Three</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Four</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Five</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Six</aegov-text></aegov-card>
+</aegov-bento-grid>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="space-y-8">
-    <div>
-      <p class="text-sm text-aeblack-500 mb-2">cols="3" — fixed</p>
-      <aegov-bento-grid field-id="bg-c1" cols="3" gap="sm">
-        <aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">1</aegov-text></aegov-card>
-        <aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">2</aegov-text></aegov-card>
-        <aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">3</aegov-text></aegov-card>
-      </aegov-bento-grid>
-    </div>
-    <div>
-      <p class="text-sm text-aeblack-500 mb-2">cols="1 md:2 lg:4" — responsive</p>
-      <aegov-bento-grid field-id="bg-c2" cols="1 md:2 lg:4" gap="sm">
-        <aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">1</aegov-text></aegov-card>
-        <aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">2</aegov-text></aegov-card>
-        <aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">3</aegov-text></aegov-card>
-        <aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">4</aegov-text></aegov-card>
-      </aegov-bento-grid>
-    </div>
-  </div>
+  <aegov-bento-grid cols="1 md:2 lg:3" gap="md">
+    <aegov-card appearance="light"><aegov-text>One</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Two</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Three</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Four</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Five</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Six</aegov-text></aegov-card>
+  </aegov-bento-grid>
 </div>
 
-**Set the base value to `1`** so tiles stack on small screens. `cols="4"` with no responsive segments produces four columns at 320px, which is unusable and fails WCAG 2.2 SC 1.4.10 on reflow.
+When the resolved column count drops below a card's `data-col-span`, the parent automatically clamps the span — at `cols="1"`, every tile occupies the full row.
 
-The breakpoint prefixes are `xs`, `sm`, `md`, `lg`, `xl` and `2xl`, resolved at runtime through `matchMedia` — so the column count changes live as the viewport changes.
+---
+
+## Per-Card Spans
+
+Each direct child can opt into a larger footprint with two data attributes:
+
+- `data-col-span="N"` — number of columns to occupy (1–12). Capped to the current `cols` value.
+- `data-row-span="N"` — number of rows to occupy (1–6).
+
+Both attributes also support responsive syntax, mirroring `cols`:
+
+```html
+<aegov-card data-col-span="1 md:2 lg:3" data-row-span="2">…</aegov-card>
+```
+
+Unset attributes fall back to span 1.
+
+```html
+<aegov-bento-grid cols="1 md:3" gap="md">
+  <aegov-card data-col-span="2" data-row-span="2" appearance="light" hover="standard">
+    <aegov-title level="3">Featured</aegov-title>
+    <aegov-text size="sm">A larger tile draws the eye to the most important content.</aegov-text>
+  </aegov-card>
+  <aegov-card appearance="light"><aegov-text>Quick stat</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Quick stat</aegov-text></aegov-card>
+  <aegov-card data-col-span="3" appearance="light"><aegov-text>Wide footer tile</aegov-text></aegov-card>
+</aegov-bento-grid>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-bento-grid cols="1 md:3" gap="md">
+    <aegov-card data-col-span="2" data-row-span="2" appearance="light" hover="standard">
+      <aegov-title level="3">Featured</aegov-title>
+      <aegov-text size="sm">A larger tile draws the eye to the most important content.</aegov-text>
+    </aegov-card>
+    <aegov-card appearance="light"><aegov-text>Quick stat</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Quick stat</aegov-text></aegov-card>
+    <aegov-card data-col-span="3" appearance="light"><aegov-text>Wide footer tile</aegov-text></aegov-card>
+  </aegov-bento-grid>
+</div>
 
 ---
 
 ## Gap
 
-`gap` takes a size token rather than a raw value.
-
-| Token | Spacing |
-| --- | --- |
-| `none` | No gap — tiles touch. |
-| `xs` | Tightest. |
-| `sm` | Compact. |
-| `md` | Default. |
-| `lg` | Roomy. |
-| `xl` | Widest. |
+The `gap` prop accepts a named size — `none`, `xs`, `sm`, `md` (default), `lg`, `xl` — and supports responsive syntax. Sizes map to a fixed token: `none=0`, `xs=0.25rem`, `sm=0.5rem`, `md=1rem`, `lg=1.5rem`, `xl=2rem`.
 
 ```html
-<aegov-bento-grid cols="3" gap="none">…</aegov-bento-grid>
+<aegov-bento-grid cols="3" gap="sm">…</aegov-bento-grid>
+<aegov-bento-grid cols="3" gap="md">…</aegov-bento-grid>
 <aegov-bento-grid cols="3" gap="lg">…</aegov-bento-grid>
+<aegov-bento-grid cols="3" gap="sm md:lg">…</aegov-bento-grid>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="space-y-6">
-    <div><p class="text-sm text-aeblack-500 mb-2">gap="xs"</p><aegov-bento-grid field-id="bg-g1" cols="3" gap="xs"><aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">1</aegov-text></aegov-card><aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">2</aegov-text></aegov-card><aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">3</aegov-text></aegov-card></aegov-bento-grid></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">gap="md" (default)</p><aegov-bento-grid field-id="bg-g2" cols="3" gap="md"><aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">1</aegov-text></aegov-card><aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">2</aegov-text></aegov-card><aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">3</aegov-text></aegov-card></aegov-bento-grid></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">gap="xl"</p><aegov-bento-grid field-id="bg-g3" cols="3" gap="xl"><aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">1</aegov-text></aegov-card><aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">2</aegov-text></aegov-card><aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">3</aegov-text></aegov-card></aegov-bento-grid></div>
-  </div>
-</div>
+  <p class="mb-2 text-sm text-aeblack-500">gap="sm"</p>
+  <aegov-bento-grid cols="3" gap="sm">
+    <aegov-card appearance="light"><aegov-text>One</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Two</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Three</aegov-text></aegov-card>
+  </aegov-bento-grid>
 
-Note this differs from [`aegov-navbar`](aegov-navbar.html), whose `gap` takes a Tailwind class name. Here it is a token.
+  <p class="mt-6 mb-2 text-sm text-aeblack-500">gap="md"</p>
+  <aegov-bento-grid cols="3" gap="md">
+    <aegov-card appearance="light"><aegov-text>One</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Two</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Three</aegov-text></aegov-card>
+  </aegov-bento-grid>
+
+  <p class="mt-6 mb-2 text-sm text-aeblack-500">gap="lg"</p>
+  <aegov-bento-grid cols="3" gap="lg">
+    <aegov-card appearance="light"><aegov-text>One</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Two</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Three</aegov-text></aegov-card>
+  </aegov-bento-grid>
+</div>
 
 ---
 
-## Spanning tiles
+## Auto-flow — Dense vs. Row
 
-`data-col-span` and `data-row-span` on a child set how many cells it occupies. On `aegov-card` these are also available as the `dataColSpan` and `dataRowSpan` properties, which is what you use from JSX or a framework template.
+The `flow` prop controls how the browser places tiles when spans leave gaps in the grid.
+
+- `dense` (default) — the browser back-fills earlier holes with later, smaller tiles. This produces the classic bento packing where the grid is fully tessellated.
+- `row` — strict DOM order. A larger tile that would not fit on the current row pushes to the next, leaving the gap behind it.
+
+```html
+<aegov-bento-grid cols="3" gap="md" flow="dense">…</aegov-bento-grid>
+<aegov-bento-grid cols="3" gap="md" flow="row">…</aegov-bento-grid>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="mb-2 text-sm text-aeblack-500">flow="dense" — back-fills holes</p>
+  <aegov-bento-grid cols="3" gap="md" flow="dense">
+    <aegov-card data-col-span="2" appearance="light"><aegov-text>A (span 2)</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>B</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>C</aegov-text></aegov-card>
+    <aegov-card data-col-span="2" appearance="light"><aegov-text>D (span 2)</aegov-text></aegov-card>
+  </aegov-bento-grid>
+
+  <p class="mt-6 mb-2 text-sm text-aeblack-500">flow="row" — strict order, may leave gaps</p>
+  <aegov-bento-grid cols="3" gap="md" flow="row">
+    <aegov-card data-col-span="2" appearance="light"><aegov-text>A (span 2)</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>B</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>C</aegov-text></aegov-card>
+    <aegov-card data-col-span="2" appearance="light"><aegov-text>D (span 2)</aegov-text></aegov-card>
+  </aegov-bento-grid>
+</div>
+
+---
+
+## Stacking on Mobile
+
+Bento grids should collapse to a single column on narrow viewports so cards stay readable. The recommended pattern is to start `cols` at `1` and step up at the appropriate breakpoint:
 
 ```html
 <aegov-bento-grid cols="1 md:2 lg:4" gap="md">
-  <!-- 2 wide, 2 tall -->
-  <aegov-card data-col-span="2" data-row-span="2">…</aegov-card>
-
-  <!-- 2 wide -->
-  <aegov-card data-col-span="2">…</aegov-card>
-
-  <!-- 2 tall -->
-  <aegov-card data-row-span="2">…</aegov-card>
-
-  <!-- 1 × 1 -->
-  <aegov-card>…</aegov-card>
+  <aegov-card data-col-span="2" appearance="light">…</aegov-card>
+  <aegov-card appearance="light">…</aegov-card>
+  <aegov-card appearance="light">…</aegov-card>
 </aegov-bento-grid>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-bento-grid field-id="bg-span" cols="1 md:2 lg:4" gap="md">
-    <aegov-card data-col-span="2" data-row-span="2" appearance="light" variant="neutral-min"><aegov-text size="sm">2 × 2</aegov-text></aegov-card>
-    <aegov-card data-col-span="2" appearance="light" variant="neutral-min"><aegov-text size="sm">2 wide</aegov-text></aegov-card>
-    <aegov-card data-row-span="2" appearance="light" variant="neutral-min"><aegov-text size="sm">2 tall</aegov-text></aegov-card>
-    <aegov-card appearance="light" variant="neutral-min"><aegov-text size="sm">1 × 1</aegov-text></aegov-card>
-    <aegov-card appearance="light" variant="neutral-min"><aegov-text size="sm">1 × 1</aegov-text></aegov-card>
-  </aegov-bento-grid>
-</div>
-
-A span larger than the current column count is clamped to the available width, so a `data-col-span="2"` tile still fits when the grid drops to a single column.
-
----
-
-## Flow
-
-`flow` controls how the browser fills gaps left by spanning tiles.
-
-| Value | Behaviour |
-| --- | --- |
-| `dense` | Default. Later tiles backfill earlier gaps, so the grid has no holes. |
-| `row` | Tiles are placed strictly in source order, leaving gaps where a tile does not fit. |
-
-```html
-<aegov-bento-grid flow="dense">…</aegov-bento-grid>
-<aegov-bento-grid flow="row">…</aegov-bento-grid>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="space-y-8">
-    <div>
-      <p class="text-sm text-aeblack-500 mb-2">flow="dense" — gaps are backfilled</p>
-      <aegov-bento-grid field-id="bg-f1" cols="3" gap="sm" flow="dense">
-        <aegov-card data-col-span="2" appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">A (2 wide)</aegov-text></aegov-card>
-        <aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">B</aegov-text></aegov-card>
-        <aegov-card data-col-span="2" appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">C (2 wide)</aegov-text></aegov-card>
-        <aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">D</aegov-text></aegov-card>
-      </aegov-bento-grid>
-    </div>
-    <div>
-      <p class="text-sm text-aeblack-500 mb-2">flow="row" — strict source order</p>
-      <aegov-bento-grid field-id="bg-f2" cols="3" gap="sm" flow="row">
-        <aegov-card data-col-span="2" appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">A (2 wide)</aegov-text></aegov-card>
-        <aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">B</aegov-text></aegov-card>
-        <aegov-card data-col-span="2" appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">C (2 wide)</aegov-text></aegov-card>
-        <aegov-card appearance="light" variant="neutral-min" size="sm"><aegov-text size="sm">D</aegov-text></aegov-card>
-      </aegov-bento-grid>
-    </div>
-  </div>
-</div>
-
-`dense` produces a tidier layout but **can reorder tiles visually relative to the DOM**, which means the visual order no longer matches the reading and tab order. Where the order carries meaning — a ranked list, a sequence of steps — use `flow="row"` instead. This is a WCAG 2.2 SC 1.3.2 concern, not just an aesthetic one.
-
----
-
-## Composite example — services overview
-
-```html
-<aegov-bento-grid cols="1 md:2 lg:3" gap="md" flow="row">
-  <aegov-card data-col-span="2" appearance="creative" hover="standard">
-    <aegov-title size="text-h4" heading-type="h2" extra-class="mb-2">
-      <aegov-link href="/services/emirates-id">Emirates ID services</aegov-link>
-    </aegov-title>
-    <aegov-text>New cards, renewals, replacements and lost-card reports.</aegov-text>
-  </aegov-card>
-
-  <aegov-card appearance="light" hover="standard">
-    <aegov-title size="text-h6" heading-type="h2" extra-class="mb-1">
-      <aegov-link href="/services/residency">Residency</aegov-link>
-    </aegov-title>
-    <aegov-text size="sm">Visa applications and renewals.</aegov-text>
-  </aegov-card>
-
-  <aegov-card appearance="light" hover="standard">…</aegov-card>
-  <aegov-card appearance="light" hover="standard">…</aegov-card>
-  <aegov-card appearance="light" hover="standard">…</aegov-card>
-</aegov-bento-grid>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-bento-grid field-id="bg-cx" cols="1 md:2 lg:3" gap="md" flow="row">
-    <aegov-card data-col-span="2" appearance="creative" hover="standard">
-      <aegov-title size="text-h5" heading-type="h2" extra-class="mb-2"><aegov-link href="#">Emirates ID services</aegov-link></aegov-title>
-      <aegov-text>New cards, renewals, replacements and lost-card reports.</aegov-text>
-    </aegov-card>
-    <aegov-card appearance="light" variant="neutral-min" hover="standard">
-      <aegov-title size="text-h6" heading-type="h2" extra-class="mb-1"><aegov-link href="#">Residency</aegov-link></aegov-title>
-      <aegov-text size="sm">Visa applications and renewals.</aegov-text>
-    </aegov-card>
-    <aegov-card appearance="light" variant="neutral-min" hover="standard">
-      <aegov-title size="text-h6" heading-type="h2" extra-class="mb-1"><aegov-link href="#">Vehicles</aegov-link></aegov-title>
-      <aegov-text size="sm">Registration, licences and fines.</aegov-text>
-    </aegov-card>
-    <aegov-card appearance="light" variant="neutral-min" hover="standard">
-      <aegov-title size="text-h6" heading-type="h2" extra-class="mb-1"><aegov-link href="#">Business</aegov-link></aegov-title>
-      <aegov-text size="sm">Licensing and commercial registration.</aegov-text>
-    </aegov-card>
-    <aegov-card appearance="light" variant="neutral-min" hover="standard">
-      <aegov-title size="text-h6" heading-type="h2" extra-class="mb-1"><aegov-link href="#">Open data</aegov-link></aegov-title>
-      <aegov-text size="sm">Datasets and API documentation.</aegov-text>
-    </aegov-card>
-  </aegov-bento-grid>
-</div>
-
----
-
-## RTL Support
-
-The grid is direction-aware. In a `dir="rtl"` container tiles are placed from the right, so the first tile in the DOM appears in the top-right cell and spans extend leftward. Nothing needs configuring — CSS Grid handles the inline axis logically.
-
-```html
-<div dir="rtl">
-  <aegov-bento-grid cols="1 md:2 lg:3" gap="md" flow="row">
-    <aegov-card data-col-span="2" appearance="creative">
-      <aegov-title size="text-h5" heading-type="h2">خدمات الهوية الإماراتية</aegov-title>
-    </aegov-card>
-    <aegov-card appearance="light">
-      <aegov-title size="text-h6" heading-type="h2">الإقامة</aegov-title>
-    </aegov-card>
-  </aegov-bento-grid>
-</div>
-```
-
-<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-bento-grid field-id="bg-rtl" cols="1 md:2 lg:3" gap="md" flow="row">
-    <aegov-card data-col-span="2" appearance="creative">
-      <aegov-title size="text-h5" heading-type="h2" extra-class="mb-2"><aegov-link href="#">خدمات الهوية الإماراتية</aegov-link></aegov-title>
-      <aegov-text>بطاقات جديدة، تجديد، بدل فاقد وتقارير الفقدان.</aegov-text>
-    </aegov-card>
-    <aegov-card appearance="light" variant="neutral-min">
-      <aegov-title size="text-h6" heading-type="h2" extra-class="mb-1"><aegov-link href="#">الإقامة</aegov-link></aegov-title>
-      <aegov-text size="sm">طلبات التأشيرات والتجديد.</aegov-text>
-    </aegov-card>
-    <aegov-card appearance="light" variant="neutral-min">
-      <aegov-title size="text-h6" heading-type="h2" extra-class="mb-1"><aegov-link href="#">المركبات</aegov-link></aegov-title>
-      <aegov-text size="sm">التسجيل والرخص والمخالفات.</aegov-text>
-    </aegov-card>
-  </aegov-bento-grid>
-</div>
+Below `md`, the grid resolves to `cols="1"`, all `data-col-span` values are clamped to 1, and the cards stack vertically — no extra prop needed.
 
 ---
 
@@ -265,46 +195,35 @@ The grid is direction-aware. In a `dir="rtl"` container tiles are placed from th
 
 ### Properties
 
-| Property | Attribute | Description | Type | Default |
-| --- | --- | --- | --- | --- |
-| `fieldId` | `field-id` | ID applied to the grid. Auto-generated when omitted, reflected. | `string` | _generated_ |
-| `cols` | `cols` | Column count, or a responsive string. Clamped to 1–12. | `string` | `'1 md:2 lg:3'` |
-| `gap` | `gap` | Spacing token between tiles. | `'none' \| 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
-| `flow` | `flow` | Whether later tiles backfill gaps. | `'dense' \| 'row'` | `'dense'` |
+| Property  | Attribute  | Description                                                                                                                  | Type                  | Default       |
+| --------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------------- |
+| `cols`    | `cols`     | Number of columns. Accepts a single positive integer or a Tailwind-style responsive string. Clamped to 1–12.                  | `string`              | `'1 md:2 lg:3'` |
+| `gap`     | `gap`      | Gap between tiles. Named sizes — `none`, `xs`, `sm`, `md`, `lg`, `xl`. Supports responsive syntax.                            | `string`              | `'md'`        |
+| `flow`    | `flow`     | Auto-flow mode — `dense` (back-fills holes) or `row` (strict DOM order).                                                     | `'dense' \| 'row'`    | `'dense'`     |
+| `fieldId` | `field-id` | Reflected `id` on the inner wrapper. Auto-generated if not provided.                                                         | `string`              | _generated_   |
 
-### Child attributes
+### Per-Child Data Attributes
 
-Set these on the tiles, not the grid:
+These are read by `aegov-bento-grid` and applied as inline grid spans on each direct child:
 
-| Attribute | Description |
-| --- | --- |
-| `data-col-span` | Columns the tile occupies. Clamped to the current column count. |
-| `data-row-span` | Rows the tile occupies. |
-
-On `aegov-card` these are also the `dataColSpan` / `dataRowSpan` properties, for use from JSX and framework templates.
+| Attribute        | Description                                                                       | Range        |
+| ---------------- | --------------------------------------------------------------------------------- | ------------ |
+| `data-col-span`  | Columns to span. Clamped to the resolved `cols` value. Supports responsive syntax. | `1`–`12`     |
+| `data-row-span`  | Rows to span. Supports responsive syntax.                                         | `1`–`6`      |
 
 ### Slots
 
-| Slot | Description |
-| --- | --- |
-| _(default)_ | The tiles. Usually `aegov-card` elements, but any children work. |
-
-### Events
-
-None.
-
-### Methods
-
-None.
+| Component          | Slot        | Description                                                                                |
+| ------------------ | ----------- | ------------------------------------------------------------------------------------------ |
+| `aegov-bento-grid` | _(default)_ | Place one or more `aegov-card` elements (or any direct children) here.                     |
 
 ### Pass-through Attributes
 
-| Attribute group | Forwarded? | Notes |
-| --- | --- | --- |
-| `aria-*` | Yes | Forwarded to the grid element, which carries `role="group"`. |
-| `data-*` | Yes | Forwarded to the grid element. |
-| `id` | n/a | Use `field-id`. |
-| `class`, `style` | Allowed | Applied to the host element. |
+| Attribute group  | Forwarded? | Notes                                                                          |
+| ---------------- | ---------- | ------------------------------------------------------------------------------ |
+| `aria-*`         | Yes        | Forwarded to the inner grid wrapper. Use `aria-label` to describe the cluster. |
+| `data-*`         | Yes        | Forwarded to the inner wrapper (excluding the per-child span attributes).      |
+| `id`             | No         | Use `field-id` instead — the `id` HTML attribute is not forwarded through.     |
 
 ---
 
@@ -312,29 +231,18 @@ None.
 
 ### Built-in behaviour
 
-- The grid element carries `role="group"`, so it is announced as a related set of tiles rather than as unconnected content.
-- Layout is CSS Grid on the inline axis, so tile placement and spans mirror correctly under `dir="rtl"` without any configuration.
-- Column resolution happens at runtime through `matchMedia`, so the layout responds to viewport changes and to zoom.
+- The inner wrapper has `role="group"` so assistive technologies announce the cluster as a single unit.
+- Tab order follows DOM order. Cards remain individually focusable and operate exactly as outside a grid.
+- The grid itself is a non-interactive container — there is no keyboard semantics layered on top of the cards.
 
 ### Developer responsibilities
 
-- **Name the group.** `role="group"` without an accessible name tells the user there is a boundary but not what it contains. Add `aria-label`, or `aria-labelledby` pointing at a visible heading above the grid.
-- **Set the base column count to `1`.** A fixed multi-column grid does not reflow at 320px, failing WCAG 2.2 SC 1.4.10.
-- **Use `flow="row"` when order matters.** `dense` backfilling can make the visual order diverge from the DOM order, breaking the correspondence that WCAG 2.2 SC 1.3.2 requires — and confusing keyboard users, whose tab order follows the DOM.
-- **Keep the DOM order meaningful.** Put the most important tile first, rather than relying on a span to make it look first.
-- **Structure tiles with real headings** so the grid is navigable by heading — see [Title](aegov-title.html).
-- **Do not use a bento grid for tabular data.** A grid of tiles is not a table; if the content has rows and columns of comparable values, use a `<table>`.
-- **Test at 320px and at 200% zoom.** Spanning tiles are the most common source of overflow in these layouts.
+- Provide an `aria-label` (or `aria-labelledby`) on the host when the cluster has a meaningful name (e.g. `aria-label="Service highlights"`). The default `role="group"` alone is generic.
+- If a card is a clickable surface, ensure it is itself a focusable element (link or button) — the bento grid does not wrap children in a button.
+- Avoid relying on visual ordering alone to communicate priority. Screen readers follow DOM order regardless of how `flow="dense"` re-shuffles the visual layout.
 
-### Keyboard support
+### Notes
 
-The grid is not interactive and is not a focus stop. Focusable content inside the tiles follows DOM order — which is exactly why `flow="dense"` needs care.
-
----
-
-## Where to next
-
-- [Card](aegov-card.html) — the usual tile, and the span properties.
-- [Aspect Ratio](aegov-aspect-ratio.html) — for consistent media inside tiles.
-- [Title](aegov-title.html) — heading structure inside tiles.
-- [Installation](installation.html) — how responsive property strings are resolved.
+- Per-card spans are applied as inline styles on each direct child (`grid-column`, `grid-row`). They are removed/cleared when the resolved span is `1`.
+- The grid observes `data-col-span` / `data-row-span` attribute mutations on direct children, so dynamically updating spans (e.g. from JavaScript) re-applies layout automatically.
+- Only direct children receive layout treatment. Nested `aegov-card` elements inside a tile are unaffected.

@@ -69,8 +69,8 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 @Component({
   tag: 'aegov-fileupload',
   styleUrl: 'aegov-fileupload.css',
-  scoped: false,
   formAssociated: true, // §2.5: appearance abstraction needs ElementInternals to participate in <form>
+  shadow: { delegatesFocus: true },
 })
 export class AegovFileupload {
   @Element() el!: HTMLElement;
@@ -125,7 +125,7 @@ export class AegovFileupload {
   /**
    * Disables the file upload.
    */
-  @Prop({ reflect: true }) isDisabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
 
   /**
    * Marks the field as required.
@@ -141,7 +141,7 @@ export class AegovFileupload {
   /**
    * Form field name.
    */
-  @Prop() name?: string;
+  @Prop({ reflect: true }) name?: string;
 
   /**
    * Label text displayed above the control.
@@ -184,7 +184,7 @@ export class AegovFileupload {
   /** Unified validation event. See §2.3. */
   @Event() aegovValidate!: EventEmitter<AegovValidationDetail<File[]>>;
 
-  @State() private hasBlurredOnce: boolean = false;
+  @State() private hasInteractedOnce: boolean = false;
 
   private internals: ElementInternals | null = null;
   private errorId: string = '';
@@ -353,7 +353,7 @@ export class AegovFileupload {
   };
 
   private processFiles(newFiles: File[]) {
-    this.hasBlurredOnce = true;
+    this.hasInteractedOnce = true;
     const validFiles: File[] = [];
 
     let pendingFlag: Partial<AegovValidityState> = {};
@@ -627,37 +627,42 @@ export class AegovFileupload {
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );
-    return [
-      <input
-        type="file"
-        ref={(el) => this.inputEl = el as HTMLInputElement}
-        {...passThroughAttrs}
-        id={this.fieldId}
-        name={this.name}
-        accept={this.accept}
-        multiple={this.isMultiple}
-        disabled={this.isDisabled}
-        required={this.isRequired}
-        class="fileupload__hidden-input"
-        onChange={this.handleFileChange}
-        tabIndex={-1}
-        aria-hidden="true"
-      />,
-      <aegov-button
-        class="fileupload__trigger-btn"
-        variant={this.variant}
-        size={this._resolvedSize}
-        appearance="solid"
-        is-disabled={this.isDisabled}
+    return (
+      <div
+        role="group"
         aria-invalid={this.isInvalid ? 'true' : undefined}
         aria-describedby={describedBy || undefined}
-        onClick={() => this.triggerFileDialog()}
+        class="fileupload__btn-group"
       >
-        {this.renderBtnUploadIcon()}
-        {this.getDefaultButtonText()}
-      </aegov-button>,
-      this.renderFileList(),
-    ];
+        <input
+          type="file"
+          ref={(el) => this.inputEl = el as HTMLInputElement}
+          {...passThroughAttrs}
+          id={this.fieldId}
+          name={this.name}
+          accept={this.accept}
+          multiple={this.isMultiple}
+          disabled={this.isDisabled}
+          required={this.isRequired}
+          class="fileupload__hidden-input"
+          onChange={this.handleFileChange}
+          tabIndex={-1}
+          aria-hidden="true"
+        />
+        <aegov-button
+          class="fileupload__trigger-btn"
+          variant={this.variant}
+          size={this._resolvedSize}
+          appearance="solid"
+          is-disabled={this.isDisabled}
+          onClick={() => this.triggerFileDialog()}
+        >
+          {this.renderBtnUploadIcon()}
+          {this.getDefaultButtonText()}
+        </aegov-button>
+        {this.renderFileList()}
+      </div>
+    );
   }
 
   private renderDropzone(passThroughAttrs: Record<string, string>, showError: boolean, showHint: boolean) {
@@ -687,7 +692,10 @@ export class AegovFileupload {
         aria-hidden="true"
       />,
       <div
+        role="group"
         class={dropzoneClasses}
+        aria-invalid={this.isInvalid ? 'true' : undefined}
+        aria-describedby={describedBy || undefined}
         onDragOver={this.handleDragOver}
         onDragLeave={this.handleDragLeave}
         onDrop={this.handleDrop}
@@ -703,8 +711,6 @@ export class AegovFileupload {
             size={this._resolvedSize}
             appearance="outline"
             is-disabled={this.isDisabled}
-            aria-invalid={this.isInvalid ? 'true' : undefined}
-            aria-describedby={describedBy || undefined}
             onClick={() => this.triggerFileDialog()}
           >
             {this.getDefaultButtonText()}
@@ -733,7 +739,7 @@ export class AegovFileupload {
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
     const showHint = !showError && (hasHintSlot || !!this.hint);
-    const announceError = showError && this.hasBlurredOnce;
+    const announceError = showError && this.hasInteractedOnce;
 
     const errorRegion = showError ? (
       <div
@@ -749,10 +755,10 @@ export class AegovFileupload {
       <Host class={{ 'is-invalid': this.isInvalid }}>
         <div class={classes}>
           {this.renderLabel()}
-          {this.renderHint(showHint, hasHintSlot)}
           {appearance === 'default' && this.renderDefault(passThroughAttrs, showError, showHint)}
           {appearance === 'button' && this.renderButton(passThroughAttrs, showError, showHint)}
           {appearance === 'dropzone' && this.renderDropzone(passThroughAttrs, showError, showHint)}
+          {this.renderHint(showHint, hasHintSlot)}
           {this.renderHelperText()}
           {errorRegion}
         </div>

@@ -8,6 +8,8 @@
  * This file contains only host-level rules specific to <aegov-button>.
  */
 
+@source "../../utils/action-classes.ts";
+
 @import './aegov-button-shared.css';
 
 :host {
@@ -16,4 +18,11 @@
 
 :host([full]) {
   display: block;
+}
+
+/* Strip own rounding and border when inside an input-group.
+   Group provides outer border + overflow-hidden clips to rounded-lg.
+   Outline/outline buttons keep their own border-2 which causes double-border with the group. */
+:host-context(.aegov-input-group) .aegov-btn {
+  @apply rounded-none border-0;
 }

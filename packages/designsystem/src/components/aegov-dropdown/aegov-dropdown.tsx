@@ -149,6 +149,7 @@ export class AegovDropdown {
    * the user put it.
    */
   private openedViaKeyboard: boolean = false;
+  private _skipNextDocumentClick: boolean = false;
 
   /**
    * When true, setupFocusTrap will focus the LAST item instead of the first.
@@ -224,7 +225,7 @@ export class AegovDropdown {
    * Whether the dropdown is disabled
    * @default false
    */
-  @Prop() isDisabled: boolean = false;
+  @Prop({ reflect: true }) isDisabled: boolean = false;
 
   /**
    * Delay before showing dropdown (in milliseconds)
@@ -451,6 +452,11 @@ export class AegovDropdown {
     if (this.isDisabled) return;
     this.openedViaKeyboard = viaKeyboard;
     this.openedViaArrowKey = viaArrow;
+    if (!this.isOpen) {
+      // Programmatic open has no stopPropagation on the caller's click event.
+      // Skip the next document click so it doesn't immediately close the dropdown.
+      this._skipNextDocumentClick = true;
+    }
     this.isOpen = !this.isOpen;
   }
 
@@ -748,6 +754,10 @@ export class AegovDropdown {
 
   @Listen('click', { target: 'document' })
   handleDocumentClick(event: MouseEvent) {
+    if (this._skipNextDocumentClick) {
+      this._skipNextDocumentClick = false;
+      return;
+    }
     if (this.isOpen) {
       const target = event.target as Node;
 
@@ -1055,8 +1065,6 @@ export class AegovDropdown {
           {...passThroughAttributes}
           class={{
             'aegov-dropdown-trigger': true,
-            'cursor-not-allowed': this.isDisabled,
-            'pointer-events-none': this.isDisabled,
           }}
           id={this.triggerId}
           ref={(el) => (this.triggerRef = el)}

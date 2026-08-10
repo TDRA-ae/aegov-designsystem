@@ -95,14 +95,14 @@ export class AegovLink {
   @Prop() isFull: boolean = false;
 
   /** Bold text. */
-  @Prop() isBold: boolean = false;
+  @Prop() isBold: boolean = true;
 
   /**
    * Disable navigation and apply disabled styling. Adds `aria-disabled="true"`,
    * removes the link from tab order, and prevents default click navigation.
    * Native `<a>` does not support `disabled`; this is a polyfill.
    */
-  @Prop() isDisabled: boolean = false;
+  @Prop({ reflect: true }) isDisabled: boolean = false;
 
   /**
    * Emitted when the link is clicked.
@@ -172,15 +172,7 @@ export class AegovLink {
    * Tailwind utilities.
    */
   private get isButtonStyled(): boolean {
-    return (
-      this.variant !== undefined ||
-      this.appearance !== undefined ||
-      this.size !== undefined ||
-      this.isIcon ||
-      this.isFull ||
-      this.isBold ||
-      this.isDisabled
-    );
+    return this.variant !== undefined || this.appearance !== undefined;
   }
 
   private handleClick = (event: MouseEvent) => {
@@ -245,7 +237,7 @@ export class AegovLink {
     }
 
     return (
-      <Host class={{ 'is-full': this.isFull, 'is-disabled': this.isDisabled }}>
+      <Host class={{ 'is-full': this.isFull }}>
         <a
           id={this.fieldId}
           href={this.isDisabled ? undefined : this.href}
