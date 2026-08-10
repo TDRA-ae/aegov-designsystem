@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TAWASUL 171</title>
+  <script type="module" src="/src/main.ts"></script>
+  <style>
+    @layer base {
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    }
+
+    :root {
+      --brand-green:      oklch(0.4007 0.085 149.5);
+      --brand-green-deep: oklch(0.2534 0.048 151);
+      --brand-green-soft: oklch(0.769 0.085 150);
+      --brand-red:        oklch(0.7193 0.190 26);
+      --brand-red-deep:   oklch(0.584 0.199 27.5);
+      --hero-bg:          #0c1e12;
+    }
+
+    body {
+      font-family: 'Tajawal', 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      background: #0c1e12;
+    }
+
+    /* ═══════════════════════════════════════════
+       HEADER
+    ═══════════════════════════════════════════ */
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: #ffffff;
+      border-bottom: 3px solid var(--brand-green);
+      height: 68px;
+    }
+    .header-inner {
+      max-width: 1320px; margin: 0 auto;
+      padding: 0 2.5rem; height: 100%;
+      display: flex; align-items: center; gap: 2rem;
+    }
+    .logo-link { text-decoration: none; flex-shrink: 0; }
+    .logo-ring {
+      width: 46px; height: 46px; border-radius: 50%;
+      border: 2.5px solid #0c1e12;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 7.5px; font-weight: 900; line-height: 1.2; text-align: center; color: #0c1e12;
+    }
+    .header-nav { flex: 1; }
+    .header-actions { display: flex; align-items: center; gap: 0.375rem; flex-shrink: 0; }
+    .user-block { display: flex; align-items: center; gap: 0.625rem; cursor: pointer; margin-inline-start: 0.25rem; }
+    .user-text { display: flex; flex-direction: column; }
+    .user-name { font-size: 0.8125rem; font-weight: 600; color: #111; white-space: nowrap; line-height: 1.3; }
+    .verified-row { display: flex; align-items: center; gap: 3px; }
+    .verified-text { font-size: 0.6875rem; color: #16a34a; font-weight: 500; }
+    .flag-uae {
+      width: 36px; height: 36px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      box-shadow: 0 0 0 2px #fff, 0 0 0 3px rgba(0,0,0,0.08);
+      position: relative;
+    }
+    .flag-uae::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, #00732f 33.33%, #fff 33.33% 66.66%, #e03a4a 66.66%);
+    }
+    .flag-uae::after {
+      content: ''; position: absolute; inset-inline-start: 0; top: 0; bottom: 0;
+      width: 25%; background: #c41230;
+    }
+
+    /* ═══════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════ */
+    .hero {
+      position: relative; overflow: hidden;
+      min-height: calc(100vh - 68px);
+      background: #0c1e12;
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+      padding: 4.5rem 1.5rem 8rem;
+    }
+
+    .sunburst {
+      position: absolute; bottom: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 900px; height: 900px;
+      opacity: 0.04; pointer-events: none; color: #fff;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 50% at 20% 0%, rgba(57,130,80,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 40% at 80% 0%, rgba(57,130,80,0.10) 0%, transparent 55%);
+    }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 100px;
+      padding: 0.375rem 1rem;
+      font-size: 0.8125rem; font-weight: 500; color: rgba(255,255,255,0.65);
+      letter-spacing: 0.04em;
+      margin-bottom: 1.75rem;
+      position: relative; z-index: 1;
+    }
+    .eyebrow-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--brand-green-soft);
+      box-shadow: 0 0 6px var(--brand-green-soft);
+    }
+
+    .hero-headline {
+      text-align: center; margin-bottom: 3rem;
+      position: relative; z-index: 1;
+    }
+    .hero-headline aegov-title {
+      display: block;
+      font-size: clamp(3rem, 5.5vw, 4.5rem) !important;
+      font-weight: 900 !important;
+      line-height: 1.07 !important;
+      letter-spacing: -0.035em !important;
+      color: #fff !important;
+    }
+    .hl-green { color: var(--brand-green-soft); }
+    .hl-dot   { color: var(--brand-red); }
+
+    .chat-card-wrap {
+      width: 100%; max-width: 680px;
+      position: relative; z-index: 1; margin-bottom: 2rem;
+    }
+    .chat-card-wrap aegov-input {
+      display: block;
+      box-shadow:
+        0 4px 6px -1px rgba(0,0,0,0.45),
+        0 20px 60px -10px rgba(0,0,0,0.75),
+        0 40px 100px -20px rgba(0,100,50,0.30);
+    }
+
+    .steps-row {
+      display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+      justify-content: center; position: relative; z-index: 1;
+      margin-bottom: 1.75rem;
+    }
+    .step-arrow { color: rgba(255,255,255,0.25); font-size: 0.875rem; letter-spacing: -0.06em; font-weight: 700; }
+
+    .wa-row {
+      display: flex; align-items: center; gap: 0.5rem;
+      position: relative; z-index: 1; margin-bottom: 2.5rem;
+    }
+    .wa-text { font-size: 0.875rem; color: rgba(255,255,255,0.5); }
+
+    .track-cta { position: relative; z-index: 1; }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════ */
+    .footer-sep {
+      height: 3px;
+      background: linear-gradient(90deg,
+        #0c1e12 0%,
+        var(--brand-red-deep) 20%,
+        var(--brand-red) 50%,
+        var(--brand-red-deep) 80%,
+        #0c1e12 100%
+      );
+    }
+
+    .site-footer { background: #0a0a0a; }
+
+    .footer-main {
+      max-width: 1320px; margin: 0 auto;
+      padding: 1.75rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+    }
+
+    .footer-brand { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
+    .footer-logo-ring {
+      width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #3a3a3a;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 6.5px; font-weight: 900; line-height: 1.2; color: #999; text-align: center;
+    }
+    .footer-brand-text { display: flex; flex-direction: column; }
+    .footer-brand-171 { font-size: 1.625rem; font-weight: 900; color: #fff; line-height: 1; }
+    .footer-brand-sub { font-size: 0.625rem; color: #4ade80; font-weight: 600; margin-top: 2px; letter-spacing: 0.03em; }
+    .footer-vdivider { width: 1px; height: 28px; background: #333; flex-shrink: 0; }
+    .footer-hotline { display: flex; flex-direction: column; }
+    .footer-hotline-label {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 0.6rem; color: #999; text-transform: uppercase; letter-spacing: 0.09em; line-height: 1.6;
+    }
+    .footer-hotline-num { font-size: 1rem; font-weight: 700; color: #fff; }
+
+    .footer-nav { display: flex; align-items: center; gap: 1.5rem; }
+    .footer-social { display: flex; align-items: center; gap: 0.25rem; }
+
+    .footer-bottom {
+      border-top: 1px solid #2a2a2a;
+      max-width: 1320px; margin: 0 auto;
+      padding: 0.875rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .footer-legal { display: flex; align-items: center; gap: 1.25rem; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" role="banner">
+  <div class="header-inner">
+
+    <a class="logo-link" href="#" aria-label="TAWASUL 171 — go to homepage">
+      <div class="logo-ring" aria-hidden="true">171<br>تواصل<br>TAWASUL</div>
+    </a>
+
+    <nav class="header-nav" aria-label="Main navigation">
+      <aegov-navbar label-nav="Main" gap="gap-1">
+        <aegov-navbar-item href="#" is-active>Home</aegov-navbar-item>
+        <aegov-navbar-item href="#">
+          My requests
+          <aegov-dropdown slot="dropdown" position="bottom" align="start" trigger="click">
+            <a slot="dropdown-content" href="#">All requests</a>
+            <a slot="dropdown-content" href="#">Pending</a>
+            <a slot="dropdown-content" href="#">Resolved</a>
+          </aegov-dropdown>
+        </aegov-navbar-item>
+      </aegov-navbar>
+    </nav>
+
+    <div class="header-actions">
+      <aegov-separator orientation="vertical" extra-class="h-6"></aegov-separator>
+
+      <aegov-button appearance="ghost" variant="neutral" size="sm" is-icon aria-label="Change language">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </aegov-button>
+
+      <aegov-button appearance="ghost" variant="neutral" size="sm" is-icon aria-label="Saved items">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </aegov-button>
+
+      <aegov-separator orientation="vertical" extra-class="h-6"></aegov-separator>
+
+      <div class="user-block" role="group" aria-label="User account">
+        <aegov-avatar size="sm" appearance="circle">AM</aegov-avatar>
+        <div class="user-text">
+          <span class="user-name">Ahmed Al Mansoori</span>
+          <div class="verified-row">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" fill="#16a34a"/>
+              <polyline points="8 12 11 15 16 9" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="verified-text">Verified</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flag-uae" role="img" aria-label="UAE flag"></div>
+    </div>
+
+  </div>
+</header>
+
+
+<!-- HERO -->
+<main class="hero" id="main-content">
+
+  <svg class="sunburst" viewBox="0 0 900 900" aria-hidden="true" focusable="false">
+    <g stroke="currentColor" stroke-width="1">
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(0 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(10 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(20 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(30 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(40 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(50 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(60 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(70 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(80 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(90 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(100 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(110 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(120 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(130 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(140 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(150 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(160 450 450)"/>
+      <line x1="450" y1="0" x2="450" y2="900" transform="rotate(170 450 450)"/>
+    </g>
+  </svg>
+
+  <div class="hero-eyebrow" aria-hidden="true">
+    <span class="eyebrow-dot"></span>
+    UAE Government · Your voice matters
+  </div>
+
+  <div class="hero-headline">
+    <aegov-title size="text-h1" heading-type="h1">One trusted place to</aegov-title>
+    <aegov-title size="text-h1" heading-type="p">
+      <span class="hl-green">be heard</span><span class="hl-dot">.</span>
+    </aegov-title>
+  </div>
+
+  <div class="chat-card-wrap" role="search" aria-label="Submit your request">
+    <aegov-input
+      placeholder="Message TAWASUL AI…"
+      size="xl"
+      type="text"
+      aria-label="Describe your request"
+    >
+      <aegov-button slot="icon-end" is-icon size="xl" appearance="ghost" variant="neutral" aria-label="Voice message">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+        </svg>
+      </aegov-button>
+      <aegov-button slot="icon-end" is-icon size="xl" appearance="solid" variant="primary" aria-label="Send message">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </aegov-button>
+    </aegov-input>
+  </div>
+
+  <div class="steps-row" role="list" aria-label="How TAWASUL works">
+    <div role="listitem">
+      <aegov-badge appearance="soft" variant="aegreen" size="lg">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Tell us in your words
+      </aegov-badge>
+    </div>
+
+    <span class="step-arrow" aria-hidden="true">›</span>
+
+    <div role="listitem">
+      <aegov-badge appearance="soft" variant="aegreen" size="lg">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+        We route it instantly
+      </aegov-badge>
+    </div>
+
+    <span class="step-arrow" aria-hidden="true">›</span>
+
+    <div role="listitem">
+      <aegov-badge appearance="solid" variant="aegreen" size="lg">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        Track to resolution
+      </aegov-badge>
+    </div>
+
+  </div>
+
+  <div class="wa-row">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+    </svg>
+    <span class="wa-text">Prefer to chat?</span>
+    <aegov-link href="#" extra-class="text-primary-300!">Start on WhatsApp</aegov-link>
+  </div>
+
+  <div class="track-cta">
+    <aegov-button appearance="solid" variant="primary" size="lg" extra-class="rounded-full! px-8!">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      Track a case
+    </aegov-button>
+  </div>
+
+</main>
+
+
+<div class="footer-sep" role="separator" aria-hidden="true"></div>
+
+
+<!-- FOOTER -->
+<footer class="site-footer" role="contentinfo">
+
+  <div class="footer-main">
+
+    <div class="footer-brand">
+      <div class="footer-logo-ring" aria-hidden="true">171<br>تواصل<br>TAWASUL</div>
+      <div class="footer-brand-text">
+        <div class="footer-brand-171">171</div>
+        <div class="footer-brand-sub">24/7 Free</div>
+      </div>
+      <div class="footer-vdivider" aria-hidden="true"></div>
+      <div class="footer-hotline">
+        <div class="footer-hotline-label">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+          </svg>
+          WHATSAPP
+        </div>
+        <div class="footer-hotline-num">04 777 1777</div>
+      </div>
+    </div>
+
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <aegov-link href="#" extra-class="text-neutral-300! hover:text-white!">About</aegov-link>
+      <aegov-link href="#" extra-class="text-neutral-300! hover:text-white!">Contact us</aegov-link>
+    </nav>
+
+    <div class="footer-social" aria-label="Social media links">
+      <aegov-button appearance="soft" variant="neutral" size="sm" is-icon aria-label="X (Twitter)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.26 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </aegov-button>
+      <aegov-button appearance="soft" variant="neutral" size="sm" is-icon aria-label="Instagram">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </aegov-button>
+      <aegov-button appearance="soft" variant="neutral" size="sm" is-icon aria-label="LinkedIn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+      </aegov-button>
+      <aegov-button appearance="soft" variant="neutral" size="sm" is-icon aria-label="WhatsApp">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+        </svg>
+      </aegov-button>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <aegov-text size="xs" extra-class="text-neutral-400!">
+      © 2026 United Arab Emirates Government. All rights reserved.
+    </aegov-text>
+    <div class="footer-legal">
+      <aegov-link href="#" extra-class="text-neutral-400! text-xs!">Privacy Policy</aegov-link>
+      <aegov-link href="#" extra-class="text-neutral-400! text-xs!">Terms of Use</aegov-link>
+      <aegov-link href="#" extra-class="text-neutral-400! text-xs!">Data Protection</aegov-link>
+    </div>
+  </div>
+
+</footer>
+
+</body>
+</html>

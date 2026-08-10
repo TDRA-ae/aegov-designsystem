@@ -6,6 +6,8 @@
  * even when no <aegov-button> instance exists on the page.
  */
 
+@source "../../utils/action-classes.ts";
+
 @import '../aegov-button/aegov-button-shared.css';
 
 :host {
@@ -16,6 +18,11 @@
    to honour `w-full` (is-full prop). The host class is set via <Host>. */
 :host(.is-full) {
   display: block;
+}
+
+:host([is-disabled]) {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* Suppress the global <a> hover underline when the link is rendered as a

@@ -1,14 +1,14 @@
 {
   "name": "test-html",
   "private": true,
-  "version": "0.2.3",
+  "version": "0.2.11",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@aegov/designsystem": "^0.2.4"
+    "@aegov/designsystem": "^0.2.11"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",

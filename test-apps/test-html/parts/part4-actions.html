@@ -1,0 +1,927 @@
+<!-- ═══════════════════════════════════════════════════════════
+     PART 4 — ACTION COMPONENTS
+     button · button-group · link · dropdown · tooltip
+     popover · modal · drawer
+     ═══════════════════════════════════════════════════════════ -->
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-button                ║
+     ╚══════════════════════════════╝ -->
+<section id="button">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Button</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">All variants, appearances, sizes, and states including icon-only, full-width, bold, and loading.</p>
+      </div>
+      <aegov-badge variant="camel" appearance="soft">Actions</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- variant × appearance: solid -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="solid" — all variants</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">variant="primary"</span><aegov-button variant="primary" appearance="solid">Primary</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="secondary"</span><aegov-button variant="secondary" appearance="solid">Secondary</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="danger"</span><aegov-button variant="danger" appearance="solid">Danger</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="neutral-min"</span><aegov-button variant="neutral-min" appearance="solid">Neutral Min</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="neutral-max"</span><aegov-button variant="neutral-max" appearance="solid">Neutral Max</aegov-button></div>
+        </div>
+      </div>
+
+      <!-- appearance: outline -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="outline" — all variants</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">variant="primary"</span><aegov-button variant="primary" appearance="outline">Primary</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="secondary"</span><aegov-button variant="secondary" appearance="outline">Secondary</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="danger"</span><aegov-button variant="danger" appearance="outline">Danger</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="neutral-min"</span><aegov-button variant="neutral-min" appearance="outline">Neutral Min</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="neutral-max"</span><aegov-button variant="neutral-max" appearance="outline">Neutral Max</aegov-button></div>
+        </div>
+      </div>
+
+      <!-- appearance: soft -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="soft" — all variants</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">variant="primary"</span><aegov-button variant="primary" appearance="soft">Primary</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="secondary"</span><aegov-button variant="secondary" appearance="soft">Secondary</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="danger"</span><aegov-button variant="danger" appearance="soft">Danger</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="neutral-min"</span><aegov-button variant="neutral-min" appearance="soft">Neutral Min</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="neutral-max"</span><aegov-button variant="neutral-max" appearance="soft">Neutral Max</aegov-button></div>
+        </div>
+      </div>
+
+      <!-- appearance: link -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="link" — all variants</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">variant="primary"</span><aegov-button variant="primary" appearance="link">Primary</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="secondary"</span><aegov-button variant="secondary" appearance="link">Secondary</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="danger"</span><aegov-button variant="danger" appearance="link">Danger</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="neutral-min"</span><aegov-button variant="neutral-min" appearance="link">Neutral Min</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">variant="neutral-max"</span><aegov-button variant="neutral-max" appearance="link">Neutral Max</aegov-button></div>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — xs / sm / base / lg / xl</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">size="xs"</span><aegov-button variant="primary" appearance="solid" size="xs">XSmall</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">size="sm"</span><aegov-button variant="primary" appearance="solid" size="sm">Small</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">size="base"</span><aegov-button variant="primary" appearance="solid" size="base">Base</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-button variant="primary" appearance="solid" size="lg">Large</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">size="xl"</span><aegov-button variant="primary" appearance="solid" size="xl">XLarge</aegov-button></div>
+        </div>
+      </div>
+
+      <!-- states -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">States — disabled / loading / bold</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">is-disabled</span><aegov-button variant="primary" appearance="solid" is-disabled>Disabled</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">is-disabled outline</span><aegov-button variant="primary" appearance="outline" is-disabled>Disabled Outline</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">is-loading</span><aegov-button variant="primary" appearance="solid" is-loading>Loading</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">is-bold</span><aegov-button variant="primary" appearance="solid" is-bold>Bold Button</aegov-button></div>
+        </div>
+      </div>
+
+      <!-- is-full -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-full — stretch to container width</p>
+        <div class="preview-box">
+          <aegov-button variant="primary" appearance="solid" is-full>Full Width Button</aegov-button>
+        </div>
+      </div>
+
+      <!-- is-icon -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-icon — square icon-only button (all sizes)</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">size="xs" is-icon</span>
+            <aegov-button variant="primary" appearance="solid" is-icon size="xs" aria-label="Search">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"/></svg>
+            </aegov-button>
+          </div>
+          <div class="prop-item"><span class="prop-attr">size="sm" is-icon</span>
+            <aegov-button variant="primary" appearance="solid" is-icon size="sm" aria-label="Search">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"/></svg>
+            </aegov-button>
+          </div>
+          <div class="prop-item"><span class="prop-attr">size="base" is-icon</span>
+            <aegov-button variant="primary" appearance="solid" is-icon size="base" aria-label="Search">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"/></svg>
+            </aegov-button>
+          </div>
+          <div class="prop-item"><span class="prop-attr">outline is-icon</span>
+            <aegov-button variant="primary" appearance="outline" is-icon size="base" aria-label="Edit">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/></svg>
+            </aegov-button>
+          </div>
+        </div>
+      </div>
+
+      <!-- type: submit, reset -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">type — button / submit / reset</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">type="button" (default)</span><aegov-button variant="neutral-min" appearance="outline" type="button">Button</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">type="submit"</span><aegov-button variant="primary" appearance="solid" type="submit">Submit</aegov-button></div>
+          <div class="prop-item"><span class="prop-attr">type="reset"</span><aegov-button variant="neutral-min" appearance="outline" type="reset">Reset</aegov-button></div>
+        </div>
+      </div>
+      <!-- @Event: aegovButtonClick, aegovButtonFocus, aegovButtonBlur -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-button-group          ║
+     ╚══════════════════════════════╝ -->
+<section id="button-group">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Button Group</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Group related buttons horizontally or vertically as a connected unit.</p>
+      </div>
+      <aegov-badge variant="camel" appearance="soft">Actions</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- horizontal -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">orientation="horizontal" (default)</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">solid outline mix</span>
+            <aegov-button-group orientation="horizontal">
+              <aegov-button variant="primary" appearance="solid">Save</aegov-button>
+              <aegov-button variant="primary" appearance="outline">Preview</aegov-button>
+              <aegov-button variant="danger" appearance="outline">Delete</aegov-button>
+            </aegov-button-group>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">icon buttons</span>
+            <aegov-button-group orientation="horizontal">
+              <aegov-button variant="neutral-min" appearance="outline" is-icon aria-label="Align left">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/></svg>
+              </aegov-button>
+              <aegov-button variant="neutral-min" appearance="outline" is-icon aria-label="Align center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M4 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/></svg>
+              </aegov-button>
+              <aegov-button variant="neutral-min" appearance="outline" is-icon aria-label="Align right">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm4-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/></svg>
+              </aegov-button>
+            </aegov-button-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- vertical -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">orientation="vertical"</p>
+        <div class="preview-box">
+          <aegov-button-group orientation="vertical" style="max-width:180px">
+            <aegov-button variant="primary" appearance="solid">Dashboard</aegov-button>
+            <aegov-button variant="primary" appearance="outline">Reports</aegov-button>
+            <aegov-button variant="primary" appearance="outline">Settings</aegov-button>
+          </aegov-button-group>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-link                  ║
+     ╚══════════════════════════════╝ -->
+<section id="link">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Link</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Styled anchor with button-style props, target, and disabled state.</p>
+      </div>
+      <aegov-badge variant="camel" appearance="soft">Actions</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- plain link -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Plain link — inline text use</p>
+        <div class="preview-box">
+          <aegov-text>Visit our <aegov-link href="/services">services portal</aegov-link> for a complete list of available digital services.</aegov-text>
+        </div>
+      </div>
+
+      <!-- button-style variants -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Button-styled links — variant × appearance</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">variant="primary" solid</span><aegov-link href="#" variant="primary" appearance="solid">Primary Link</aegov-link></div>
+          <div class="prop-item"><span class="prop-attr">variant="secondary" solid</span><aegov-link href="#" variant="secondary" appearance="solid">Secondary Link</aegov-link></div>
+          <div class="prop-item"><span class="prop-attr">variant="danger" outline</span><aegov-link href="#" variant="danger" appearance="outline">Danger Link</aegov-link></div>
+          <div class="prop-item"><span class="prop-attr">variant="neutral-min" soft</span><aegov-link href="#" variant="neutral-min" appearance="soft">Neutral Min Link</aegov-link></div>
+          <div class="prop-item"><span class="prop-attr">appearance="link"</span><aegov-link href="#" variant="primary" appearance="link">Link appearance</aegov-link></div>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — xs / sm / base / lg / xl</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">size="xs"</span><aegov-link href="#" variant="primary" appearance="solid" size="xs">XSmall</aegov-link></div>
+          <div class="prop-item"><span class="prop-attr">size="sm"</span><aegov-link href="#" variant="primary" appearance="solid" size="sm">Small</aegov-link></div>
+          <div class="prop-item"><span class="prop-attr">size="base"</span><aegov-link href="#" variant="primary" appearance="solid" size="base">Base</aegov-link></div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-link href="#" variant="primary" appearance="solid" size="lg">Large</aegov-link></div>
+          <div class="prop-item"><span class="prop-attr">size="xl"</span><aegov-link href="#" variant="primary" appearance="solid" size="xl">XLarge</aegov-link></div>
+        </div>
+      </div>
+
+      <!-- target / disabled -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">target + is-disabled</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">target="_blank"</span><aegov-link href="https://www.u.ae" target="_blank" rel="noopener noreferrer">UAE Portal (new tab)</aegov-link></div>
+          <div class="prop-item"><span class="prop-attr">is-disabled</span><aegov-link href="#" is-disabled variant="primary" appearance="solid">Disabled Link</aegov-link></div>
+        </div>
+      </div>
+      <!-- @Event: aegovLinkClick fires on click -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-dropdown              ║
+     ╚══════════════════════════════╝ -->
+<section id="dropdown">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Dropdown</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Portal-positioned dropdown with trigger modes, positions, alignment, and tab behaviours.</p>
+      </div>
+      <aegov-badge variant="camel" appearance="soft">Actions</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- trigger: click -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">trigger="click" — all positions × alignments</p>
+        <div class="flex flex-wrap gap-4 items-start preview-box" style="min-height:220px">
+          <div class="prop-item">
+            <span class="prop-attr">position="bottom" align="start"</span>
+            <aegov-dropdown trigger="click" position="bottom" align="start">
+              <aegov-button slot variant="primary" appearance="solid">Bottom Start ▾</aegov-button>
+              <div slot="dropdown-content" style="min-width:180px;padding:8px 0">
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Edit profile</a>
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Account settings</a>
+                <aegov-separator></aegov-separator>
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem;color:#c0392b">Sign out</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">position="bottom" align="end"</span>
+            <aegov-dropdown trigger="click" position="bottom" align="end">
+              <aegov-button slot variant="secondary" appearance="outline">Bottom End ▾</aegov-button>
+              <div slot="dropdown-content" style="min-width:180px;padding:8px 0">
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Action A</a>
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Action B</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">position="bottom" align="center"</span>
+            <aegov-dropdown trigger="click" position="bottom" align="center">
+              <aegov-button slot variant="neutral-min" appearance="outline">Bottom Center ▾</aegov-button>
+              <div slot="dropdown-content" style="min-width:160px;padding:8px 0">
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Centered item</a>
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Another item</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">position="top" align="start"</span>
+            <aegov-dropdown trigger="click" position="top" align="start">
+              <aegov-button slot variant="primary" appearance="soft">Top Start ▴</aegov-button>
+              <div slot="dropdown-content" style="min-width:160px;padding:8px 0">
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Up item 1</a>
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Up item 2</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+        </div>
+      </div>
+
+      <!-- trigger: hover -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">trigger="hover" — opens on mouse-over</p>
+        <div class="flex flex-wrap gap-4 preview-box" style="min-height:160px">
+          <div class="prop-item">
+            <span class="prop-attr">trigger="hover"</span>
+            <aegov-dropdown trigger="hover" position="bottom" align="start">
+              <aegov-button slot variant="primary" appearance="outline">Hover me ▾</aegov-button>
+              <div slot="dropdown-content" style="min-width:160px;padding:8px 0">
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Hover item 1</a>
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Hover item 2</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">trigger="hover" with delays</span>
+            <aegov-dropdown trigger="hover" position="bottom" align="start" delay-start="200" delay-end="300">
+              <aegov-button slot variant="secondary" appearance="soft">Delayed Hover ▾</aegov-button>
+              <div slot="dropdown-content" style="min-width:160px;padding:8px 0">
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Delayed item</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+        </div>
+      </div>
+
+      <!-- tabBehavior -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">tab-behavior — menu-button / disclosure</p>
+        <div class="flex flex-wrap gap-4 preview-box" style="min-height:160px">
+          <div class="prop-item">
+            <span class="prop-attr">tab-behavior="menu-button" (default)</span>
+            <aegov-dropdown trigger="click" tab-behavior="menu-button" position="bottom" align="start">
+              <aegov-button slot variant="primary" appearance="solid">Menu Button ▾</aegov-button>
+              <div slot="dropdown-content" style="min-width:180px;padding:8px 0">
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Option 1</a>
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Option 2</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">tab-behavior="disclosure"</span>
+            <aegov-dropdown trigger="click" tab-behavior="disclosure" position="bottom" align="start">
+              <aegov-button slot variant="secondary" appearance="outline">Disclosure ▾</aegov-button>
+              <div slot="dropdown-content" style="min-width:180px;padding:8px 0">
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Nav link A</a>
+                <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Nav link B</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+        </div>
+      </div>
+
+      <!-- is-disabled -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-disabled</p>
+        <div class="preview-box">
+          <aegov-dropdown trigger="click" is-disabled>
+            <aegov-button slot variant="primary" appearance="solid" is-disabled>Disabled Dropdown ▾</aegov-button>
+            <div slot="dropdown-content" style="min-width:160px;padding:8px 0">
+              <a href="#" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Item</a>
+            </div>
+          </aegov-dropdown>
+        </div>
+      </div>
+      <!-- @Event: aegovDropdownOpen, aegovDropdownClose -->
+      <!-- @Method: closeDropdown(), toggle(viaKeyboard, viaArrow) -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-tooltip               ║
+     ╚══════════════════════════════╝ -->
+<section id="tooltip">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Tooltip</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Floating contextual hints — all positions, alignments, triggers, and the rich content slot.</p>
+      </div>
+      <aegov-badge variant="camel" appearance="soft">Actions</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- positions -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">position — top / bottom / left / right (hover trigger)</p>
+        <div class="flex flex-wrap gap-6 items-center justify-center preview-box" style="min-height:120px">
+          <div class="prop-item">
+            <span class="prop-attr">position="top"</span>
+            <aegov-tooltip content="This appears above" position="top">
+              <aegov-button variant="neutral-min" appearance="outline" size="sm">Top</aegov-button>
+            </aegov-tooltip>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">position="bottom"</span>
+            <aegov-tooltip content="This appears below" position="bottom">
+              <aegov-button variant="neutral-min" appearance="outline" size="sm">Bottom</aegov-button>
+            </aegov-tooltip>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">position="left"</span>
+            <aegov-tooltip content="This appears to the left" position="left">
+              <aegov-button variant="neutral-min" appearance="outline" size="sm">Left</aegov-button>
+            </aegov-tooltip>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">position="right"</span>
+            <aegov-tooltip content="This appears to the right" position="right">
+              <aegov-button variant="neutral-min" appearance="outline" size="sm">Right</aegov-button>
+            </aegov-tooltip>
+          </div>
+        </div>
+      </div>
+
+      <!-- align -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">align — start / center / end</p>
+        <div class="flex flex-wrap gap-4 items-center preview-box" style="min-height:80px">
+          <div class="prop-item">
+            <span class="prop-attr">align="start"</span>
+            <aegov-tooltip content="Aligned to start" position="bottom" align="start">
+              <aegov-button variant="neutral-min" appearance="outline" size="sm">Start align</aegov-button>
+            </aegov-tooltip>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">align="center"</span>
+            <aegov-tooltip content="Centered alignment" position="bottom" align="center">
+              <aegov-button variant="neutral-min" appearance="outline" size="sm">Center align</aegov-button>
+            </aegov-tooltip>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">align="end"</span>
+            <aegov-tooltip content="Aligned to end" position="bottom" align="end">
+              <aegov-button variant="neutral-min" appearance="outline" size="sm">End align</aegov-button>
+            </aegov-tooltip>
+          </div>
+        </div>
+      </div>
+
+      <!-- trigger: click -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">trigger="click" — click to toggle</p>
+        <div class="preview-box" style="min-height:80px">
+          <aegov-tooltip content="Click-triggered tooltip content" trigger="click" position="top">
+            <aegov-button variant="primary" appearance="soft" size="sm">Click for tooltip</aegov-button>
+          </aegov-tooltip>
+        </div>
+      </div>
+
+      <!-- rich content slot -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">slot="tooltip-content" — rich HTML content</p>
+        <div class="preview-box" style="min-height:80px">
+          <aegov-tooltip position="top">
+            <aegov-button variant="primary" appearance="outline" size="sm">Rich tooltip</aegov-button>
+            <div slot="tooltip-content" style="max-width:220px">
+              <strong>Emirates ID required</strong><br>
+              <span style="font-size:0.8rem">Your Emirates ID is used to verify your identity and retrieve your linked services.</span>
+            </div>
+          </aegov-tooltip>
+        </div>
+      </div>
+
+      <!-- is-disabled -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-disabled — tooltip suppressed</p>
+        <div class="preview-box">
+          <aegov-tooltip content="You won't see this" is-disabled>
+            <aegov-button variant="neutral-min" appearance="outline" size="sm">Tooltip disabled</aegov-button>
+          </aegov-tooltip>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-popover               ║
+     ╚══════════════════════════════╝ -->
+<section id="popover">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Popover</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Rich floating panel attached to a trigger — all positions, alignments, and trigger modes.</p>
+      </div>
+      <aegov-badge variant="camel" appearance="soft">Actions</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- click trigger, all positions -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">trigger="click" — position × alignment</p>
+        <div class="flex flex-wrap gap-4 preview-box" style="min-height:200px">
+          <div class="prop-item">
+            <span class="prop-attr">position="bottom" align="start"</span>
+            <aegov-popover trigger="click" position="bottom" align="start">
+              <aegov-button slot variant="primary" appearance="solid" size="sm">Open Popover</aegov-button>
+              <div slot="popover-content" style="padding:16px;min-width:240px;max-width:320px">
+                <strong>Filter Results</strong>
+                <p style="margin:8px 0;font-size:0.85rem">Narrow down your results using the options below.</p>
+                <aegov-separator></aegov-separator>
+                <div style="margin-top:8px;font-size:0.85rem">
+                  <label>Status</label>
+                  <div style="margin-top:4px">Active / Pending / All</div>
+                </div>
+              </div>
+            </aegov-popover>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">position="top" align="end"</span>
+            <aegov-popover trigger="click" position="top" align="end">
+              <aegov-button slot variant="secondary" appearance="outline" size="sm">Top End ▴</aegov-button>
+              <div slot="popover-content" style="padding:16px;min-width:200px">
+                <strong>Top-end popover</strong>
+                <p style="margin:8px 0 0;font-size:0.85rem">Content positioned above and aligned to the end.</p>
+              </div>
+            </aegov-popover>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">position="right" align="start"</span>
+            <aegov-popover trigger="click" position="right" align="start">
+              <aegov-button slot variant="neutral-min" appearance="outline" size="sm">Right ▶</aegov-button>
+              <div slot="popover-content" style="padding:16px;min-width:200px">
+                <strong>Right-side popover</strong>
+                <p style="margin:8px 0 0;font-size:0.85rem">Content positioned to the right of the trigger.</p>
+              </div>
+            </aegov-popover>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">position="left" align="start"</span>
+            <aegov-popover trigger="click" position="left" align="start">
+              <aegov-button slot variant="neutral-min" appearance="soft" size="sm">◀ Left</aegov-button>
+              <div slot="popover-content" style="padding:16px;min-width:200px">
+                <strong>Left-side popover</strong>
+                <p style="margin:8px 0 0;font-size:0.85rem">Content positioned to the left of the trigger.</p>
+              </div>
+            </aegov-popover>
+          </div>
+        </div>
+      </div>
+
+      <!-- trigger: hover -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">trigger="hover" — opens on mouseover</p>
+        <div class="preview-box" style="min-height:120px">
+          <aegov-popover trigger="hover" position="bottom" align="start">
+            <aegov-button slot variant="primary" appearance="soft" size="sm">Hover popover</aegov-button>
+            <div slot="popover-content" style="padding:12px;min-width:180px">
+              <strong>Hovered!</strong>
+              <p style="margin:6px 0 0;font-size:0.85rem">This popover opens on hover.</p>
+            </div>
+          </aegov-popover>
+        </div>
+      </div>
+
+      <!-- is-disabled -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-disabled</p>
+        <div class="preview-box">
+          <aegov-popover trigger="click" is-disabled>
+            <aegov-button slot variant="neutral-min" appearance="outline" size="sm" is-disabled>Disabled Popover</aegov-button>
+            <div slot="popover-content" style="padding:12px">Content won't appear.</div>
+          </aegov-popover>
+        </div>
+      </div>
+      <!-- @Event: aegovPopoverOpen, aegovPopoverClose -->
+      <!-- @Method: closePopover() -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-modal                 ║
+     ╚══════════════════════════════╝ -->
+<section id="modal">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Modal</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Dialog overlay — all sizes, positions, overlay opacities, and interactive triggers.</p>
+      </div>
+      <aegov-badge variant="camel" appearance="soft">Actions</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- trigger buttons -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Trigger buttons</p>
+        <div class="flex flex-wrap gap-3 preview-box">
+          <aegov-button variant="primary" appearance="solid" size="sm" id="btn-modal-sm">Small modal</aegov-button>
+          <aegov-button variant="primary" appearance="solid" size="sm" id="btn-modal-base">Base modal</aegov-button>
+          <aegov-button variant="primary" appearance="solid" size="sm" id="btn-modal-lg">Large modal</aegov-button>
+          <aegov-button variant="primary" appearance="solid" size="sm" id="btn-modal-xl">XL modal</aegov-button>
+          <aegov-button variant="secondary" appearance="outline" size="sm" id="btn-modal-top">Position top</aegov-button>
+          <aegov-button variant="secondary" appearance="outline" size="sm" id="btn-modal-bottom">Position bottom</aegov-button>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-modal-light-overlay">Overlay: light</aegov-button>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-modal-dark-overlay">Overlay: dark</aegov-button>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-modal-noclose">No overlay close</aegov-button>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-modal-nopad">No padding</aegov-button>
+        </div>
+      </div>
+
+      <!-- modal instances -->
+      <aegov-modal field-id="modal-sm" size="sm" is-close-with-overlay label="Small dialog">
+        <div style="padding:24px">
+          <h3 style="margin:0 0 8px;font-weight:600">Small Modal</h3>
+          <p style="margin:0 0 16px;font-size:0.875rem">Compact dialog for short confirmations or alerts.</p>
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-modal-sm-close">Cancel</aegov-button>
+            <aegov-button variant="primary" appearance="solid" size="sm">Confirm</aegov-button>
+          </div>
+        </div>
+      </aegov-modal>
+
+      <aegov-modal field-id="modal-base" size="base" is-close-with-overlay label="Base dialog">
+        <div style="padding:24px">
+          <h3 style="margin:0 0 8px;font-weight:600">Base Modal — size="base"</h3>
+          <p style="margin:0 0 16px;font-size:0.875rem">Standard dialog for forms, confirmations, and content review. Clicking the backdrop closes this modal.</p>
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-modal-base-close">Cancel</aegov-button>
+            <aegov-button variant="primary" appearance="solid" size="sm">Save Changes</aegov-button>
+          </div>
+        </div>
+      </aegov-modal>
+
+      <aegov-modal field-id="modal-lg" size="lg" is-close-with-overlay label="Large dialog">
+        <div style="padding:24px">
+          <h3 style="margin:0 0 8px;font-weight:600">Large Modal — size="lg"</h3>
+          <p style="margin:0 0 16px;font-size:0.875rem">Used for data tables, multi-step forms, or detailed content previews. Ample horizontal space.</p>
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-modal-lg-close">Close</aegov-button>
+          </div>
+        </div>
+      </aegov-modal>
+
+      <aegov-modal field-id="modal-xl" size="xl" is-close-with-overlay label="Extra large dialog">
+        <div style="padding:24px">
+          <h3 style="margin:0 0 8px;font-weight:600">Extra Large Modal — size="xl"</h3>
+          <p style="margin:0 0 16px;font-size:0.875rem">Maximum width — for document previews, full spreadsheets, or rich editors that need space.</p>
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-modal-xl-close">Close</aegov-button>
+          </div>
+        </div>
+      </aegov-modal>
+
+      <aegov-modal field-id="modal-top" size="base" position="top" is-close-with-overlay label="Top-positioned dialog">
+        <div style="padding:24px">
+          <h3 style="margin:0 0 8px;font-weight:600">Top-positioned Modal</h3>
+          <p style="margin:0 0 16px;font-size:0.875rem">Dialog enters from the top of the viewport.</p>
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-modal-top-close">Close</aegov-button>
+          </div>
+        </div>
+      </aegov-modal>
+
+      <aegov-modal field-id="modal-bottom" size="base" position="bottom" is-close-with-overlay label="Bottom-positioned dialog">
+        <div style="padding:24px">
+          <h3 style="margin:0 0 8px;font-weight:600">Bottom-positioned Modal</h3>
+          <p style="margin:0 0 16px;font-size:0.875rem">Dialog enters from the bottom of the viewport.</p>
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-modal-bottom-close">Close</aegov-button>
+          </div>
+        </div>
+      </aegov-modal>
+
+      <aegov-modal field-id="modal-light-overlay" size="base" overlay-opacity="light" is-close-with-overlay label="Light overlay dialog">
+        <div style="padding:24px">
+          <h3 style="margin:0 0 8px;font-weight:600">Overlay: light</h3>
+          <p style="margin:0 0 16px;font-size:0.875rem">Backdrop uses a lighter opacity — content behind is more visible.</p>
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-modal-lo-close">Close</aegov-button>
+          </div>
+        </div>
+      </aegov-modal>
+
+      <aegov-modal field-id="modal-dark-overlay" size="base" overlay-opacity="dark" is-close-with-overlay label="Dark overlay dialog">
+        <div style="padding:24px">
+          <h3 style="margin:0 0 8px;font-weight:600">Overlay: dark</h3>
+          <p style="margin:0 0 16px;font-size:0.875rem">Backdrop uses a darker opacity — foreground content stands out more.</p>
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-modal-do-close">Close</aegov-button>
+          </div>
+        </div>
+      </aegov-modal>
+
+      <aegov-modal field-id="modal-noclose" size="base" label="Overlay-close disabled dialog">
+        <div style="padding:24px">
+          <h3 style="margin:0 0 8px;font-weight:600">No overlay close</h3>
+          <p style="margin:0 0 16px;font-size:0.875rem">Clicking the backdrop does NOT close this modal. Must use the Close button.</p>
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-modal-nc-close">Close</aegov-button>
+          </div>
+        </div>
+      </aegov-modal>
+
+      <aegov-modal field-id="modal-nopad" size="base" is-close-with-overlay is-padding="false" label="No-padding dialog">
+        <div>
+          <img src="https://picsum.photos/seed/modal/600/300" alt="Modal image" style="width:100%;display:block">
+          <div style="padding:16px">
+            <p style="margin:0 0 12px;font-size:0.875rem">Modal with is-padding="false" — content fills edge to edge.</p>
+            <div style="display:flex;gap:8px;justify-content:flex-end">
+              <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-modal-np-close">Close</aegov-button>
+            </div>
+          </div>
+        </div>
+      </aegov-modal>
+
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-drawer                ║
+     ╚══════════════════════════════╝ -->
+<section id="drawer">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Drawer</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Side panel sliding in from any edge — all positions, sizes, animation, pinned and overlay modes.</p>
+      </div>
+      <aegov-badge variant="camel" appearance="soft">Actions</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- trigger buttons -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Trigger buttons</p>
+        <div class="flex flex-wrap gap-3 preview-box">
+          <aegov-button variant="primary" appearance="solid" size="sm" id="btn-drawer-right">Right (default)</aegov-button>
+          <aegov-button variant="primary" appearance="solid" size="sm" id="btn-drawer-left">Left</aegov-button>
+          <aegov-button variant="primary" appearance="solid" size="sm" id="btn-drawer-top">Top</aegov-button>
+          <aegov-button variant="primary" appearance="solid" size="sm" id="btn-drawer-bottom">Bottom</aegov-button>
+          <aegov-button variant="secondary" appearance="outline" size="sm" id="btn-drawer-sm">Size: sm</aegov-button>
+          <aegov-button variant="secondary" appearance="outline" size="sm" id="btn-drawer-lg">Size: lg</aegov-button>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-noanim">No animation</aegov-button>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-noclose">No overlay close</aegov-button>
+        </div>
+      </div>
+
+      <!-- drawer instances -->
+      <aegov-drawer field-id="drawer-right" position="right" animation="slide" size="base" is-overlay is-close-with-overlay label="Right drawer">
+        <div style="padding:24px;height:100%">
+          <h3 style="margin:0 0 8px;font-weight:600">Right Drawer</h3>
+          <p style="font-size:0.875rem;margin:0 0 16px">Slides in from the right. Standard panel for settings, filters, or detail views.</p>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-right-close">Close</aegov-button>
+        </div>
+      </aegov-drawer>
+
+      <aegov-drawer field-id="drawer-left" position="left" animation="slide" size="base" is-overlay is-close-with-overlay label="Left drawer">
+        <div style="padding:24px;height:100%">
+          <h3 style="margin:0 0 8px;font-weight:600">Left Drawer</h3>
+          <p style="font-size:0.875rem;margin:0 0 16px">Slides in from the left — common for sidebar navigation.</p>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-left-close">Close</aegov-button>
+        </div>
+      </aegov-drawer>
+
+      <aegov-drawer field-id="drawer-top" position="top" animation="slide" size="base" is-overlay is-close-with-overlay label="Top drawer">
+        <div style="padding:24px">
+          <h3 style="margin:0 0 8px;font-weight:600">Top Drawer</h3>
+          <p style="font-size:0.875rem;margin:0 0 16px">Slides down from the top — for search overlays or notification centres.</p>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-top-close">Close</aegov-button>
+        </div>
+      </aegov-drawer>
+
+      <aegov-drawer field-id="drawer-bottom" position="bottom" animation="slide" size="base" is-overlay is-close-with-overlay label="Bottom drawer">
+        <div style="padding:24px">
+          <h3 style="margin:0 0 8px;font-weight:600">Bottom Drawer</h3>
+          <p style="font-size:0.875rem;margin:0 0 16px">Slides up from the bottom — used for action sheets on mobile.</p>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-bottom-close">Close</aegov-button>
+        </div>
+      </aegov-drawer>
+
+      <aegov-drawer field-id="drawer-sm" position="right" animation="slide" size="sm" is-overlay is-close-with-overlay label="Small drawer">
+        <div style="padding:24px;height:100%">
+          <h3 style="margin:0 0 8px;font-weight:600">Small Drawer — size="sm"</h3>
+          <p style="font-size:0.875rem;margin:0 0 16px">Narrower panel for compact sidebars.</p>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-sm-close">Close</aegov-button>
+        </div>
+      </aegov-drawer>
+
+      <aegov-drawer field-id="drawer-lg" position="right" animation="slide" size="lg" is-overlay is-close-with-overlay label="Large drawer">
+        <div style="padding:24px;height:100%">
+          <h3 style="margin:0 0 8px;font-weight:600">Large Drawer — size="lg"</h3>
+          <p style="font-size:0.875rem;margin:0 0 16px">Wide panel for complex forms or data tables.</p>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-lg-close">Close</aegov-button>
+        </div>
+      </aegov-drawer>
+
+      <aegov-drawer field-id="drawer-noanim" position="right" animation="none" size="base" is-overlay is-close-with-overlay label="No animation drawer">
+        <div style="padding:24px;height:100%">
+          <h3 style="margin:0 0 8px;font-weight:600">No Animation — animation="none"</h3>
+          <p style="font-size:0.875rem;margin:0 0 16px">Opens without slide animation — instant appearance.</p>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-noanim-close">Close</aegov-button>
+        </div>
+      </aegov-drawer>
+
+      <aegov-drawer field-id="drawer-noclose" position="right" animation="slide" size="base" is-overlay label="No-overlay-close drawer">
+        <div style="padding:24px;height:100%">
+          <h3 style="margin:0 0 8px;font-weight:600">No Overlay Close</h3>
+          <p style="font-size:0.875rem;margin:0 0 16px">Clicking the backdrop does not close this drawer. Must use the Close button.</p>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-drawer-noclose-close">Close</aegov-button>
+        </div>
+      </aegov-drawer>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  // Utility
+  function showModal(id) {
+    const el = document.getElementById(id);
+    if (el && typeof el.show === 'function') el.show();
+  }
+  function closeModal(id) {
+    const el = document.getElementById(id);
+    if (el && typeof el.close === 'function') el.close();
+  }
+  function showDrawer(id) {
+    const el = document.getElementById(id);
+    if (el && typeof el.show === 'function') el.show();
+  }
+  function closeDrawer(id) {
+    const el = document.getElementById(id);
+    if (el && typeof el.close === 'function') el.close();
+  }
+
+  // Modal open
+  const modalTriggers = [
+    ['btn-modal-sm', 'modal-sm'],
+    ['btn-modal-base', 'modal-base'],
+    ['btn-modal-lg', 'modal-lg'],
+    ['btn-modal-xl', 'modal-xl'],
+    ['btn-modal-top', 'modal-top'],
+    ['btn-modal-bottom', 'modal-bottom'],
+    ['btn-modal-light-overlay', 'modal-light-overlay'],
+    ['btn-modal-dark-overlay', 'modal-dark-overlay'],
+    ['btn-modal-noclose', 'modal-noclose'],
+    ['btn-modal-nopad', 'modal-nopad'],
+  ];
+  modalTriggers.forEach(([btnId, modalId]) => {
+    const btn = document.getElementById(btnId);
+    if (btn) btn.addEventListener('aegovButtonClick', () => showModal(modalId));
+  });
+
+  // Modal close buttons inside modals
+  const modalCloseMap = {
+    'btn-modal-sm-close': 'modal-sm',
+    'btn-modal-base-close': 'modal-base',
+    'btn-modal-lg-close': 'modal-lg',
+    'btn-modal-xl-close': 'modal-xl',
+    'btn-modal-top-close': 'modal-top',
+    'btn-modal-bottom-close': 'modal-bottom',
+    'btn-modal-lo-close': 'modal-light-overlay',
+    'btn-modal-do-close': 'modal-dark-overlay',
+    'btn-modal-nc-close': 'modal-noclose',
+    'btn-modal-np-close': 'modal-nopad',
+  };
+  Object.entries(modalCloseMap).forEach(([btnId, modalId]) => {
+    const btn = document.getElementById(btnId);
+    if (btn) btn.addEventListener('aegovButtonClick', () => closeModal(modalId));
+  });
+
+  // Drawer open
+  const drawerTriggers = [
+    ['btn-drawer-right', 'drawer-right'],
+    ['btn-drawer-left', 'drawer-left'],
+    ['btn-drawer-top', 'drawer-top'],
+    ['btn-drawer-bottom', 'drawer-bottom'],
+    ['btn-drawer-sm', 'drawer-sm'],
+    ['btn-drawer-lg', 'drawer-lg'],
+    ['btn-drawer-noanim', 'drawer-noanim'],
+    ['btn-drawer-noclose', 'drawer-noclose'],
+  ];
+  drawerTriggers.forEach(([btnId, drawerId]) => {
+    const btn = document.getElementById(btnId);
+    if (btn) btn.addEventListener('aegovButtonClick', () => showDrawer(drawerId));
+  });
+
+  // Drawer close buttons
+  const drawerCloseMap = {
+    'btn-drawer-right-close': 'drawer-right',
+    'btn-drawer-left-close': 'drawer-left',
+    'btn-drawer-top-close': 'drawer-top',
+    'btn-drawer-bottom-close': 'drawer-bottom',
+    'btn-drawer-sm-close': 'drawer-sm',
+    'btn-drawer-lg-close': 'drawer-lg',
+    'btn-drawer-noanim-close': 'drawer-noanim',
+    'btn-drawer-noclose-close': 'drawer-noclose',
+  };
+  Object.entries(drawerCloseMap).forEach(([btnId, drawerId]) => {
+    const btn = document.getElementById(btnId);
+    if (btn) btn.addEventListener('aegovButtonClick', () => closeDrawer(drawerId));
+  });
+
+  // @Event: aegovModalOpen, aegovModalClose, aegovModalBeforeClose (cancelable), aegovModalBackdropClick, aegovModalEscapePress
+  // @Event: aegovDrawerOpen, aegovDrawerClose, aegovDrawerBeforeClose, aegovDrawerBackdropClick, aegovDrawerEscapePress
+  // @Method: show(), close(), toggle() on both modal and drawer
+})();
+</script>

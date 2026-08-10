@@ -13,14 +13,15 @@ import { vueOutputTarget } from '@stencil/vue-output-target';
 
 const isProd = process.env.NODE_ENV === 'production';
 
-// Read the single consumer-facing tailwind.css and redirect component utilities
-// into @layer base so runtime-injected <style> tags never override consumer utilities.
 const componentTailwindCss = readFileSync(
   resolve(__dirname, './src/styles/tailwind.css'),
   'utf8'
 ).replace(
   '@import "tailwindcss/utilities.css" layer(utilities)',
   '@import "tailwindcss/utilities.css" layer(base)'
+).replace(
+  '@theme {',
+  '@theme reference {'
 );
 
 setPluginConfigurationDefaults({

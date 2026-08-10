@@ -1,246 +1,347 @@
 # Separator
 
-<p class="text-lg text-aeblack-500 mb-8">A Separator draws a dividing line between sections of content, optionally with a label in the middle. It defaults to being decorative — invisible to assistive technology — because most dividing lines are visual rhythm rather than structure.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Separator is a thin visual divider used to break up sections of content, group related items, or signal a contextual boundary in an interface. Use it to separate form sections, divide list groups, mark a transition between two interaction paths, or insert an &ldquo;OR&rdquo;-style break between alternative actions. Separators support horizontal and vertical orientation, an optional inline label, two appearance treatments (`solid` / `light`), and four colour variants (`primary`, `secondary`, `neutral-max`, `neutral-min`).</p>
 
 ## Introduction
 
+The `aegov-separator` component renders as a native `<hr>` when used without a label, or as a flex layout of line / text / line when a `text` value or slotted label is supplied. It exposes a small surface — `orientation`, `appearance`, `variant`, `text`, `gap`, `extra-class`, and `is-decorative` — and uses logical CSS properties so it works identically in LTR and RTL contexts.
+
 ```html
-<aegov-text>First section.</aegov-text>
 <aegov-separator></aegov-separator>
-<aegov-text>Second section.</aegov-text>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md">
-    <aegov-text>Renew your Emirates ID up to six months before it expires.</aegov-text>
-    <aegov-separator></aegov-separator>
-    <aegov-text>The service fee is AED 270, payable at the end of the application.</aegov-text>
-  </div>
+  <p class="mb-4">Above the separator.</p>
+  <aegov-separator></aegov-separator>
+  <p class="mt-4">Below the separator.</p>
 </div>
 
 ---
 
 ## Orientation
 
+Separators can be rendered horizontally or vertically. Horizontal is the default and fills the full width of its container. Vertical separators require a height context — either a parent with a defined height, or content of a fixed height around the separator.
+
+### Horizontal (default)
+
 ```html
-<aegov-separator orientation="horizontal"></aegov-separator>
-<aegov-separator orientation="vertical"></aegov-separator>
+<aegov-separator></aegov-separator>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="space-y-6">
-    <div>
-      <p class="text-sm text-aeblack-500 mb-2">horizontal (default)</p>
-      <aegov-separator></aegov-separator>
-    </div>
-    <div>
-      <p class="text-sm text-aeblack-500 mb-2">vertical — needs a height from its container</p>
-      <div class="flex items-center gap-4 h-12">
-        <aegov-text size="sm">Print</aegov-text>
-        <aegov-separator orientation="vertical"></aegov-separator>
-        <aegov-text size="sm">Download</aegov-text>
-        <aegov-separator orientation="vertical"></aegov-separator>
-        <aegov-text size="sm">Share</aegov-text>
-      </div>
-    </div>
+  <p class="mb-4">Personal details</p>
+  <aegov-separator></aegov-separator>
+  <p class="mt-4">Contact information</p>
+</div>
+
+### Vertical
+
+Use a vertical separator inside a flex row of links or actions to create a clean visual divider.
+
+```html
+<div class="flex items-center gap-3 h-6">
+  <aegov-link href="/edit">Edit</aegov-link>
+  <aegov-separator orientation="vertical"></aegov-separator>
+  <aegov-link href="/share">Share</aegov-link>
+  <aegov-separator orientation="vertical"></aegov-separator>
+  <aegov-link href="/delete">Delete</aegov-link>
+</div>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex items-center gap-3 h-6">
+    <aegov-link href="javascript:void(0)">Edit</aegov-link>
+    <aegov-separator orientation="vertical"></aegov-separator>
+    <aegov-link href="javascript:void(0)">Share</aegov-link>
+    <aegov-separator orientation="vertical"></aegov-separator>
+    <aegov-link href="javascript:void(0)">Delete</aegov-link>
   </div>
 </div>
 
-A vertical separator has no intrinsic height — it takes its height from a flex or grid parent. Inside a row of toolbar controls it works naturally; on its own in a block container it will be invisible.
-
 ---
 
-## Appearance and variant
+## Appearance
 
-`appearance` chooses the line weight and `variant` chooses its colour family.
+The `appearance` property tunes the line treatment. Use `solid` (full-strength) for clear section breaks, and `light` (subtle) where the separator should recede behind the surrounding content. The actual colour resolves from the `variant` property.
 
 ```html
 <aegov-separator appearance="solid"></aegov-separator>
 <aegov-separator appearance="light"></aegov-separator>
-
-<aegov-separator variant="primary"></aegov-separator>
-<aegov-separator variant="neutral-min"></aegov-separator>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="space-y-5 max-w-md">
-    <div><p class="text-sm text-aeblack-500 mb-2">solid · primary</p><aegov-separator appearance="solid" variant="primary"></aegov-separator></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">light · primary</p><aegov-separator appearance="light" variant="primary"></aegov-separator></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">solid · secondary</p><aegov-separator appearance="solid" variant="secondary"></aegov-separator></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">light · neutral-min</p><aegov-separator appearance="light" variant="neutral-min"></aegov-separator></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">solid · neutral-max</p><aegov-separator appearance="solid" variant="neutral-max"></aegov-separator></div>
-  </div>
+  <p class="text-sm text-aeblack-600 mb-2">Solid</p>
+  <aegov-separator appearance="solid"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Light</p>
+  <aegov-separator appearance="light"></aegov-separator>
 </div>
 
-`light` with `neutral-min` is the quietest and the right default inside dense content such as a list or a card. Save a `primary` solid line for a deliberate section break.
+---
+
+## Variant
+
+The `variant` property selects the colour family for the line and the optional text label.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 / aeblack-400 family)
+- `neutral-min` — quiet neutral (aeblack-100 / aeblack-50 family)
+
+### Colour matrix
+
+| Variant       | Solid           | Light            |
+| ------------- | --------------- | ---------------- |
+| `primary`     | `primary-600`   | `primary-200`    |
+| `secondary`   | `secondary-600` | `secondary-200`  |
+| `neutral-max` | `aeblack-800`   | `aeblack-400`    |
+| `neutral-min` | `aeblack-100`   | `aeblack-50`     |
+
+```html
+<aegov-separator variant="primary" appearance="solid"></aegov-separator>
+<aegov-separator variant="secondary" appearance="light"></aegov-separator>
+<aegov-separator variant="neutral-max" appearance="solid"></aegov-separator>
+<aegov-separator variant="neutral-min" appearance="solid"></aegov-separator>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="text-sm text-aeblack-600 mb-2">Primary · Solid</p>
+  <aegov-separator variant="primary" appearance="solid"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Primary · Light</p>
+  <aegov-separator variant="primary" appearance="light"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Secondary · Solid</p>
+  <aegov-separator variant="secondary" appearance="solid"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Secondary · Light</p>
+  <aegov-separator variant="secondary" appearance="light"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Neutral-max · Solid</p>
+  <aegov-separator variant="neutral-max" appearance="solid"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Neutral-max · Light</p>
+  <aegov-separator variant="neutral-max" appearance="light"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Neutral-min · Solid</p>
+  <aegov-separator variant="neutral-min" appearance="solid"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Neutral-min · Light</p>
+  <aegov-separator variant="neutral-min" appearance="light"></aegov-separator>
+</div>
+
+The text label of a text-bearing separator follows the variant family too — `primary-700`, `secondary-700`, `aeblack-800` (neutral-max), `aeblack-600` (neutral-min for legibility).
+
+```html
+<aegov-separator variant="secondary" text="OR"></aegov-separator>
+<aegov-separator variant="neutral-max" text="Section break"></aegov-separator>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-separator variant="secondary" text="OR"></aegov-separator>
+  <aegov-separator variant="neutral-max" text="Section break"></aegov-separator>
+  <aegov-separator variant="neutral-min" text="Quiet break"></aegov-separator>
+</div>
 
 ---
 
 ## Gap
 
-`gap` adds spacing above and below — or either side, when vertical — as a number.
+The `gap` property accepts any non-negative number and applies that many Tailwind spacing units of padding on either side of the separator line. One unit equals `0.25rem` (4px), so `gap="4"` produces `1rem` (16px) of padding-block on a horizontal separator — same scale as `py-4`.
+
+- Horizontal orientation → padding-block (top + bottom)
+- Vertical orientation → padding-inline (start + end)
+- Default `0` → no padding
 
 ```html
-<aegov-separator gap="0"></aegov-separator>
+<aegov-separator gap="1"></aegov-separator>
+<aegov-separator gap="2"></aegov-separator>
 <aegov-separator gap="4"></aegov-separator>
+<aegov-separator gap="6"></aegov-separator>
 <aegov-separator gap="8"></aegov-separator>
+<aegov-separator gap="12"></aegov-separator>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md">
-    <aegov-text size="sm">Above</aegov-text>
-    <aegov-separator gap="0"></aegov-separator>
-    <aegov-text size="sm">gap="0" — no spacing</aegov-text>
-    <aegov-separator gap="4"></aegov-separator>
-    <aegov-text size="sm">gap="4"</aegov-text>
-    <aegov-separator gap="8"></aegov-separator>
-    <aegov-text size="sm">gap="8"</aegov-text>
+  <p class="text-sm text-aeblack-600 mb-1">Content above</p>
+  <aegov-separator variant="neutral-max" gap="0"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="0" — no padding</p>
+  <aegov-separator variant="neutral-max" gap="1"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="1" — 0.25rem (4px)</p>
+  <aegov-separator variant="neutral-max" gap="2"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="2" — 0.5rem (8px)</p>
+  <aegov-separator variant="neutral-max" gap="4"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="4" — 1rem (16px)</p>
+  <aegov-separator variant="neutral-max" gap="6"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="6" — 1.5rem (24px)</p>
+  <aegov-separator variant="neutral-max" gap="8"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="8" — 2rem (32px)</p>
+  <aegov-separator variant="neutral-max" gap="12"></aegov-separator>
+  <p class="text-sm text-aeblack-600">Content below — gap="12" — 3rem (48px)</p>
+</div>
+
+### Gap with text label
+
+```html
+<aegov-separator gap="6" text="Section break" variant="neutral-max"></aegov-separator>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="text-sm text-aeblack-600">Personal details above</p>
+  <aegov-separator gap="6" text="Contact information" variant="neutral-max"></aegov-separator>
+  <p class="text-sm text-aeblack-600">Contact section below</p>
+</div>
+
+### Gap on vertical separator
+
+For vertical orientation `gap` adds inline-start + inline-end padding.
+
+```html
+<div class="flex items-center h-6">
+  <span>A</span>
+  <aegov-separator orientation="vertical" gap="4" variant="neutral-max"></aegov-separator>
+  <span>B</span>
+  <aegov-separator orientation="vertical" gap="4" variant="neutral-max"></aegov-separator>
+  <span>C</span>
+</div>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex items-center h-6">
+    <span>A</span>
+    <aegov-separator orientation="vertical" gap="4" variant="neutral-max"></aegov-separator>
+    <span>B</span>
+    <aegov-separator orientation="vertical" gap="4" variant="neutral-max"></aegov-separator>
+    <span>C</span>
   </div>
 </div>
 
-Using `gap` keeps the spacing with the separator, rather than scattering margins across the elements around it.
-
 ---
 
-## Labelled separators
+## Separator with Text
 
-`text` puts a label in the middle of the line. The default slot does the same thing with markup.
+Set the `text` property to render an inline label centred between two lines. This pattern is common between two alternative sign-in methods or between a primary action and its alternatives.
 
 ```html
-<aegov-separator text="or"></aegov-separator>
+<aegov-separator text="OR"></aegov-separator>
+```
 
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button appearance="solid" extra-class="w-full">Sign in with Emirates ID</aegov-button>
+  <aegov-separator text="OR"></aegov-separator>
+  <aegov-button appearance="outline" extra-class="w-full">Sign in with UAE Pass</aegov-button>
+</div>
+
+The same pattern with a longer label:
+
+```html
+<aegov-separator text="Continue with another method"></aegov-separator>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-separator text="Continue with another method"></aegov-separator>
+</div>
+
+You can also pass the label as slotted content instead of using the `text` property — useful when the label needs richer markup such as an inline icon.
+
+```html
 <aegov-separator>
-  <span class="text-sm text-aeblack-500">Continue with</span>
+  <strong>Section break</strong>
 </aegov-separator>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-8">
-    <aegov-separator text="or"></aegov-separator>
-    <aegov-separator text="Continue with another method" appearance="light" variant="neutral-min"></aegov-separator>
-    <aegov-separator><span class="text-sm text-aeblack-500">14 March 2026</span></aegov-separator>
-  </div>
-</div>
-
-The classic use is between two alternative routes — a sign-in form and a UAE Pass button, for instance:
-
-```html
-<aegov-button is-full variant="primary">Sign in with UAE Pass</aegov-button>
-
-<aegov-separator text="or" gap="6"></aegov-separator>
-
-<aegov-form-field>
-  <aegov-label>Email address</aegov-label>
-  <aegov-input type="email" name="email"></aegov-input>
-</aegov-form-field>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-sm">
-    <aegov-button is-full variant="primary">Sign in with UAE Pass</aegov-button>
-    <aegov-separator text="or" gap="6" appearance="light" variant="neutral-min"></aegov-separator>
-    <aegov-form-field>
-      <aegov-label>Email address</aegov-label>
-      <aegov-input field-id="sep-email" type="email" name="email"></aegov-input>
-    </aegov-form-field>
-  </div>
+  <aegov-separator>
+    <strong>Section break</strong>
+  </aegov-separator>
 </div>
 
 ---
 
-## Decorative or semantic
+## Decorative vs. Semantic
 
-This is the property that matters most, and the default is deliberate.
-
-| `isDecorative` | Renders | Announced |
-| --- | --- | --- |
-| `true` (default) | `role="presentation"` | No — invisible to assistive technology. |
-| `false` | `role="separator"` with `aria-orientation` | Yes — as a real thematic break. |
+By default the separator is decorative — it renders with `role="presentation"` so assistive technology ignores it. When the divider carries meaning (for example, separating two unrelated content groups in a list or marking a topic shift), set `is-decorative="false"` to expose `role="separator"` instead.
 
 ```html
-<!-- Visual rhythm only — the default -->
-<aegov-separator></aegov-separator>
-
-<!-- A genuine change of topic -->
 <aegov-separator is-decorative="false"></aegov-separator>
 ```
 
-Most separators are decorative. A line between two rows of a list, or between a card's body and its actions, is spacing — announcing it adds noise for a screen reader user without adding information.
-
-Set `is-decorative="false"` only where the line marks a real change of subject that a sighted reader would take meaning from — the boundary between two unrelated sections of a long page, for instance. This is the same distinction as a decorative `<img alt="">` versus a described one.
-
-Note that `aria-orientation` is only emitted for `role="separator"`; it is deliberately omitted on `role="presentation"`, where it would be invalid.
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="mb-3">Active applications</p>
+  <aegov-separator is-decorative="false"></aegov-separator>
+  <p class="mt-3">Archived applications</p>
+</div>
 
 ---
 
-## In lists and cards
+## Common Patterns
 
-Inside a repeated list, prefer a CSS divider such as `divide-y` over one separator per row — it is less markup and does not add elements to the accessibility tree at all.
+### Form section divider
 
 ```html
-<!-- Preferred for repeated rows -->
-<ul class="divide-y divide-aeblack-100">
-  <li class="py-3">…</li>
-  <li class="py-3">…</li>
-</ul>
-
-<!-- Separator suits a one-off division -->
-<aegov-card>
-  <p>Body content</p>
-  <aegov-separator gap="4" appearance="light" variant="neutral-min"></aegov-separator>
-  <aegov-button size="sm">Action</aegov-button>
-</aegov-card>
+<form>
+  <h3>Personal details</h3>
+  <!-- inputs -->
+  <aegov-separator appearance="light" extra-class="my-6"></aegov-separator>
+  <h3>Contact information</h3>
+  <!-- inputs -->
+</form>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md">
-    <aegov-card field-id="sep-card" appearance="light" variant="neutral-min">
-      <aegov-title size="text-h6" heading-type="h3" extra-class="mb-1">Emirates ID renewal</aegov-title>
-      <aegov-text size="sm">Submitted 14 March 2026 · Under review</aegov-text>
-      <aegov-separator gap="4" appearance="light" variant="neutral-min"></aegov-separator>
-      <div class="flex gap-2">
-        <aegov-button size="sm" variant="primary">View</aegov-button>
-        <aegov-button size="sm" appearance="outline">Withdraw</aegov-button>
-      </div>
-    </aegov-card>
-  </div>
+  <h3 class="text-lg font-semibold mb-2">Personal details</h3>
+  <p class="text-sm text-aeblack-600">Emirates ID, full name, date of birth.</p>
+  <aegov-separator appearance="light" extra-class="my-6"></aegov-separator>
+  <h3 class="text-lg font-semibold mb-2">Contact information</h3>
+  <p class="text-sm text-aeblack-600">Mobile number, email address, residential address.</p>
 </div>
 
-Separators are also used inside [`aegov-dropdown`](aegov-dropdown.html) menus to group commands — the portal styles them specifically for that.
+### Footer link list with vertical dividers
+
+```html
+<div class="flex items-center gap-3 h-5">
+  <aegov-link href="/privacy">Privacy</aegov-link>
+  <aegov-separator orientation="vertical"></aegov-separator>
+  <aegov-link href="/terms">Terms</aegov-link>
+  <aegov-separator orientation="vertical"></aegov-separator>
+  <aegov-link href="/contact">Contact</aegov-link>
+</div>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex items-center gap-3 h-5">
+    <aegov-link href="javascript:void(0)">Privacy</aegov-link>
+    <aegov-separator orientation="vertical"></aegov-separator>
+    <aegov-link href="javascript:void(0)">Terms</aegov-link>
+    <aegov-separator orientation="vertical"></aegov-separator>
+    <aegov-link href="javascript:void(0)">Contact</aegov-link>
+  </div>
+</div>
 
 ---
 
 ## RTL Support
 
-The separator is direction-aware. A horizontal line is symmetrical and unaffected. A labelled separator centres its text, so it needs no mirroring either — but the label itself is content and should be translated. A vertical separator's `gap` uses logical inline spacing, so it mirrors correctly.
+The separator is symmetric and direction-agnostic. The horizontal variant fills its container width identically in LTR and RTL. The text-bearing variant centres the label in either direction, with the lines on each side flipping naturally because the component uses flex layout — no manual adjustment is required.
 
 ```html
 <div dir="rtl">
-  <aegov-button is-full variant="primary">تسجيل الدخول بالهوية الرقمية</aegov-button>
-  <aegov-separator text="أو" gap="6"></aegov-separator>
-  <aegov-form-field>
-    <aegov-label>البريد الإلكتروني</aegov-label>
-    <aegov-input type="email" name="email"></aegov-input>
-  </aegov-form-field>
+  <aegov-separator text="أو"></aegov-separator>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-sm">
-    <aegov-button is-full variant="primary">تسجيل الدخول بالهوية الرقمية</aegov-button>
-    <aegov-separator text="أو" gap="6" appearance="light" variant="neutral-min"></aegov-separator>
-    <aegov-form-field>
-      <aegov-label>البريد الإلكتروني</aegov-label>
-      <aegov-input field-id="sep-rtl-email" type="email" name="email"></aegov-input>
-    </aegov-form-field>
-    <div class="flex items-center gap-4 h-12 mt-6">
-      <aegov-text size="sm">طباعة</aegov-text>
-      <aegov-separator orientation="vertical"></aegov-separator>
-      <aegov-text size="sm">تحميل</aegov-text>
-      <aegov-separator orientation="vertical"></aegov-separator>
-      <aegov-text size="sm">مشاركة</aegov-text>
-    </div>
-  </div>
+  <aegov-button appearance="solid" extra-class="w-full">تسجيل الدخول بالهوية الإماراتية</aegov-button>
+  <aegov-separator text="أو"></aegov-separator>
+  <aegov-button appearance="outline" extra-class="w-full">تسجيل الدخول عبر الهوية الرقمية</aegov-button>
+</div>
+
+A subtle horizontal divider between two Arabic sections:
+
+```html
+<div dir="rtl">
+  <p>البيانات الشخصية</p>
+  <aegov-separator appearance="light"></aegov-separator>
+  <p>بيانات التواصل</p>
+</div>
+```
+
+<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="mb-4">البيانات الشخصية</p>
+  <aegov-separator appearance="light"></aegov-separator>
+  <p class="mt-4">بيانات التواصل</p>
 </div>
 
 ---
@@ -249,41 +350,34 @@ The separator is direction-aware. A horizontal line is symmetrical and unaffecte
 
 ### Properties
 
-| Property | Attribute | Description | Type | Default |
-| --- | --- | --- | --- | --- |
-| `orientation` | `orientation` | Line direction. Vertical takes its height from the container. | `'horizontal' \| 'vertical'` | `'horizontal'` |
-| `appearance` | `appearance` | Line weight. | `'solid' \| 'light'` | `'solid'` |
-| `variant` | `variant` | Colour family. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
-| `text` | `text` | Label rendered in the middle of the line. The default slot takes precedence. | `string` | — |
-| `gap` | `gap` | Spacing above and below, or either side when vertical. | `number` | `0` |
-| `isDecorative` | `is-decorative` | `true` renders `role="presentation"`; `false` renders a semantic `role="separator"`. | `boolean` | `true` |
-| `extraClass` | `extra-class` | Extra classes on the separator element. | `string` | — |
+| Property       | Attribute        | Description                                                                                  | Type                         | Default        |
+| -------------- | ---------------- | -------------------------------------------------------------------------------------------- | ---------------------------- | -------------- |
+| `orientation`  | `orientation`    | Direction of the separator.                                                                  | `'horizontal' \| 'vertical'` | `'horizontal'` |
+| `appearance`   | `appearance`     | Line treatment. Colour resolves from `variant`.                                              | `'solid' \| 'light'`          | `'solid'`      |
+| `variant`      | `variant`        | Colour family for line and text label.                                                       | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
+| `text`         | `text`           | Inline label text rendered at the centre of the separator.                                   | `string`                     | `undefined`    |
+| `gap`          | `gap`            | Padding on either side of the line, in Tailwind spacing units (1 unit = 0.25rem = 4px). Horizontal → top + bottom; Vertical → start + end. | `number`                     | `0`            |
+| `isDecorative` | `is-decorative`  | When `true`, exposes `role="presentation"`. When `false`, exposes `role="separator"`. **Note:** when the `text` prop (or slotted content) is present, the component overrides the presentation role regardless of this value — the presence of text content forces meaningful role semantics. | `boolean`                    | `true`         |
+| `extraClass`   | `extra-class`    | Additional CSS classes merged onto the inner separator element.                              | `string`                     | `undefined`    |
 
 ### Slots
 
-| Slot | Description |
-| --- | --- |
-| _(default)_ | Optional label markup, rendered in the middle of the line. Takes precedence over `text`. |
+| Slot        | Description                                                                                                  |
+| ----------- | ------------------------------------------------------------------------------------------------------------ |
+| _(default)_ | Optional inline label, used as an alternative to the `text` property. Accepts arbitrary HTML.                |
 
 ### Events
 
-None.
-
-### Methods
-
-None.
+The component emits no custom events.
 
 ### Pass-through Attributes
 
-| Attribute group | Forwarded? | Notes |
-| --- | --- | --- |
-| `aria-*` | Yes | Forwarded to the separator element. Note the component sets `role` and, when semantic, `aria-orientation`. |
-| `data-*` | Yes | Forwarded. |
-| `class`, `style` | Allowed | Applied to the host. Use `extra-class` for the separator element. |
-
-### Rendered element
-
-With no label, the component renders an `<hr>`. With a label, it renders a `<div>` containing the line segments and the text. Both carry the role determined by `isDecorative`.
+| Attribute group  | Forwarded? | Where to apply                                                                  |
+| ---------------- | ---------- | ------------------------------------------------------------------------------- |
+| `aria-*`         | No         | Apply directly to `<aegov-separator>` — the host element receives them.         |
+| `data-*`         | No         | Apply directly to `<aegov-separator>`.                                          |
+| `class`, `style` | Allowed    | Applied to the host element. Use `extra-class` to add classes to the inner element. |
+| `id`             | Allowed    | Applied to the host element.                                                    |
 
 ---
 
@@ -291,27 +385,13 @@ With no label, the component renders an `<hr>`. With a label, it renders a `<div
 
 ### Built-in behaviour
 
-- **Decorative by default.** `role="presentation"` keeps the line out of the accessibility tree, which is correct for the large majority of dividers — they are visual rhythm, not structure.
-- With `is-decorative="false"` the element becomes `role="separator"` and gains `aria-orientation`, so it is announced as a genuine thematic break.
-- `aria-orientation` is omitted on `role="presentation"`, where it would be invalid — a detail that is easy to get wrong by hand.
-- With no label the rendered element is a real `<hr>`, so the semantics come from the platform.
-- Spacing uses logical properties, so a vertical separator's gap mirrors under `dir="rtl"`.
+- Defaults to `role="presentation"` so decorative dividers do not generate noise for screen readers.
+- When `is-decorative="false"`, exposes `role="separator"` so assistive technology announces it as a structural divider.
+- Sets `aria-orientation` to match the `orientation` property.
+- Without a label, renders the native semantic `<hr>` element. With a label, renders a `<div>` with the appropriate role and aria attributes.
 
 ### Developer responsibilities
 
-- **Leave `isDecorative` alone unless the line means something.** A page full of announced separators is noisy; save the semantic form for real topic changes.
-- **Do not use a separator to convey grouping on its own** (WCAG 2.2 SC 1.4.1). If two sets of controls are different in kind, give them headings or labelled groups — a line between them is a visual hint, not a programmatic one.
-- **Give a vertical separator a sized container.** Without a height from a flex or grid parent it renders as nothing.
-- **Translate label text.**
-- **Prefer `divide-y` for repeated rows.** One separator per row is more markup and more elements for no benefit.
-- **Keep contrast in mind.** A separator is a non-text element; where it carries meaning it should meet the 3:1 non-text contrast requirement of WCAG 2.2 SC 1.4.11. `appearance="light"` on a tinted background can fall below that — check before using it as a meaningful boundary.
-- **Do not use a separator as a heading substitute.** A line plus bold text is not a heading; use [Title](aegov-title.html) with `headingType`.
-
----
-
-## Where to next
-
-- [Card](aegov-card.html) — where separators commonly divide body from actions.
-- [Dropdown](aegov-dropdown.html) — separators between groups of menu commands.
-- [Title](aegov-title.html) — for real section headings.
-- [Text](aegov-text.html) — paragraph spacing, which often removes the need for a separator.
+- Use the default decorative mode for purely visual breaks. Switch to `is-decorative="false"` only when the separator carries meaning for assistive technology — for example, separating two distinct content groups in a list of items.
+- Vertical separators need a height context. Place them inside a parent with a defined height (e.g. a flex row with `h-6`) or set a height directly via `extra-class`.
+- Keep label text short. Long labels in a text-bearing separator can wrap awkwardly on narrow viewports.

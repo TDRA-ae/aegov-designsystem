@@ -38,6 +38,9 @@
   @apply text-aeblack-200 dark:text-aeblack-600;
 }
 
+.aegov-form-field:has(aegov-checkbox[disabled]) .aegov-label {
+  @apply cursor-not-allowed;
+}
 /* Controls whose label is also the click target lose the pointer cursor. */
 .aegov-form-field:has(aegov-checkbox input:disabled) .aegov-label,
 .aegov-form-field:has(aegov-radio input:disabled) .aegov-label,

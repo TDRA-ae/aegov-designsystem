@@ -18,8 +18,8 @@
   @apply flex items-center cursor-pointer;
 }
 
-:host([disabled]) .datepicker__trigger {
-  @apply cursor-not-allowed;
+:host([is-disabled]) .datepicker__trigger {
+  cursor: not-allowed;
 }
 
 /* ── Input Wrapper ──────────────────────────────────── */
@@ -59,8 +59,9 @@
   @apply gap-0;
 }
 
-:host([disabled]) .datepicker__input-wrapper {
-  @apply opacity-40 pointer-events-none;
+:host([is-disabled]) .datepicker__input-wrapper {
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 /* ── Input ──────────────────────────────────────────── */
@@ -71,7 +72,7 @@
 }
 
 .datepicker__input:disabled {
-  @apply cursor-not-allowed;
+  cursor: not-allowed;
 }
 
 /* ── Size: xs ──────────────────────────────────────── */
@@ -197,6 +198,11 @@
 /* ── Range Separator ────────────────────────────────── */
 .datepicker__range-separator {
   @apply flex shrink-0 items-center text-aeblack-500 dark:text-aeblack-400;
+}
+
+:host-context([dir="rtl"]) .datepicker__range-separator,
+:host(:dir(rtl)) .datepicker__range-separator {
+  transform: scaleX(-1);
 }
 
 /* ── Calendar Icon ──────────────────────────────────── */

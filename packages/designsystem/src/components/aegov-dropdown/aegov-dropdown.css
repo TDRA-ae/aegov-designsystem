@@ -5,3 +5,12 @@
 .aegov-dropdown-trigger {
   @apply inline-block cursor-pointer;
 }
+
+:host([is-disabled]) {
+  cursor: not-allowed;
+}
+
+:host([is-disabled]) .aegov-dropdown-trigger {
+  opacity: 0.4;
+  pointer-events: none;
+}

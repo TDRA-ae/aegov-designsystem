@@ -1,0 +1,600 @@
+<!-- ═══════════════════════════════════════════════════════════
+     PART 3 — NAVIGATION COMPONENTS
+     accordion · tabs · navbar · navblock · pagination
+     ═══════════════════════════════════════════════════════════ -->
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-accordion             ║
+     ╚══════════════════════════════╝ -->
+<section id="accordion">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Accordion</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Collapsible content sections — single and multiple open, icon styles, border, and sizes.</p>
+      </div>
+      <aegov-badge variant="seablue" appearance="soft">Nav</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- default, single open -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Default — single open, icon="chevron"</p>
+        <div class="preview-box">
+          <aegov-accordion icon="chevron">
+            <aegov-accordion-item heading="What documents are required for a trade licence?">
+              You will need a completed application form, Emirates ID copy, passport copy, and proof of business address. Additional documents may be required depending on your business activity type.
+            </aegov-accordion-item>
+            <aegov-accordion-item heading="How long does the approval process take?">
+              Standard applications are processed within 5–7 working days. Priority processing is available for an additional fee and reduces the timeline to 2–3 working days.
+            </aegov-accordion-item>
+            <aegov-accordion-item heading="Can I renew my licence online?">
+              Yes. Licence renewal is fully available through the digital portal. You will receive a reminder notification 60 days before your licence expiry date.
+            </aegov-accordion-item>
+            <aegov-accordion-item heading="What happens if my licence lapses?" is-disabled>
+              This item is disabled and cannot be expanded.
+            </aegov-accordion-item>
+          </aegov-accordion>
+        </div>
+      </div>
+
+      <!-- is-multiple -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-multiple — all items can be open simultaneously</p>
+        <div class="preview-box">
+          <aegov-accordion is-multiple default-open="0">
+            <aegov-accordion-item heading="Section A — General Information">
+              Multiple sections can be open at the same time in this mode. Toggle each independently.
+            </aegov-accordion-item>
+            <aegov-accordion-item heading="Section B — Fees and Charges">
+              Application fee: AED 500. Annual renewal: AED 1,200. Expedited processing: AED 300 additional.
+            </aegov-accordion-item>
+            <aegov-accordion-item heading="Section C — Contact Details">
+              For assistance call 800-UAE-GOV (800-823-468) or visit any service centre Monday to Friday, 7:30 AM – 3:30 PM.
+            </aegov-accordion-item>
+          </aegov-accordion>
+        </div>
+      </div>
+
+      <!-- icon: plus -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">icon="plus"</p>
+        <div class="preview-box">
+          <aegov-accordion icon="plus">
+            <aegov-accordion-item heading="Expanding with plus icon">
+              The trigger button uses a + / – icon instead of the chevron.
+            </aegov-accordion-item>
+            <aegov-accordion-item heading="Second item — plus icon">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </aegov-accordion-item>
+          </aegov-accordion>
+        </div>
+      </div>
+
+      <!-- isBordered -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-bordered</p>
+        <div class="preview-box">
+          <aegov-accordion is-bordered icon="chevron">
+            <aegov-accordion-item heading="Bordered accordion item 1">
+              Content inside a bordered accordion container.
+            </aegov-accordion-item>
+            <aegov-accordion-item heading="Bordered accordion item 2">
+              Each item has a visible border surrounding the group.
+            </aegov-accordion-item>
+          </aegov-accordion>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — sm / base / lg</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">size="sm"</span>
+            <aegov-accordion size="sm">
+              <aegov-accordion-item heading="Small accordion">Compact accordion for dense UIs.</aegov-accordion-item>
+              <aegov-accordion-item heading="Another small item">Less vertical space per item.</aegov-accordion-item>
+            </aegov-accordion>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">size="base" (default)</span>
+            <aegov-accordion size="base">
+              <aegov-accordion-item heading="Base accordion">Standard spacing.</aegov-accordion-item>
+              <aegov-accordion-item heading="Another base item">Normal content region.</aegov-accordion-item>
+            </aegov-accordion>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">size="lg"</span>
+            <aegov-accordion size="lg">
+              <aegov-accordion-item heading="Large accordion">Generous padding for spacious layouts.</aegov-accordion-item>
+              <aegov-accordion-item heading="Another large item">More breathing room per item.</aegov-accordion-item>
+            </aegov-accordion>
+          </div>
+        </div>
+      </div>
+
+      <!-- custom heading slot -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">slot="accordion-item-heading" — custom rich heading</p>
+        <div class="preview-box">
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">
+                Custom heading with badge &nbsp;<aegov-badge variant="aered" appearance="soft" size="sm">New</aegov-badge>
+              </span>
+              This item's heading is provided via the named slot instead of the heading prop.
+            </aegov-accordion-item>
+            <aegov-accordion-item heading="Standard prop heading">
+              This one uses the heading prop as normal.
+            </aegov-accordion-item>
+          </aegov-accordion>
+        </div>
+      </div>
+      <!-- @Event: aegovAccordionItemToggle fires with { isOpen, index } when an item opens or closes -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-tabs                  ║
+     ╚══════════════════════════════╝ -->
+<section id="tabs">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Tabs</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Tabbed content panels — simple, segmented, and pill variants; horizontal and vertical.</p>
+      </div>
+      <aegov-badge variant="seablue" appearance="soft">Nav</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- variant: simple -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant="simple" (default)</p>
+        <div class="preview-box">
+          <aegov-tabs variant="simple" default-open="overview">
+            <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="docs">Documentation</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="api">API Reference</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="changelog" is-disabled>Changelog</aegov-tab>
+            <aegov-tab-panel tab-id="overview">
+              <div class="p-4"><p class="text-sm">Overview panel content — general introduction and key features.</p></div>
+            </aegov-tab-panel>
+            <aegov-tab-panel tab-id="docs">
+              <div class="p-4"><p class="text-sm">Documentation panel — guides, tutorials, and how-to articles.</p></div>
+            </aegov-tab-panel>
+            <aegov-tab-panel tab-id="api">
+              <div class="p-4"><p class="text-sm">API Reference panel — endpoints, parameters, and examples.</p></div>
+            </aegov-tab-panel>
+            <aegov-tab-panel tab-id="changelog">
+              <div class="p-4"><p class="text-sm">Changelog — version history and release notes.</p></div>
+            </aegov-tab-panel>
+          </aegov-tabs>
+        </div>
+      </div>
+
+      <!-- variant: segmented -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant="segmented"</p>
+        <div class="preview-box">
+          <aegov-tabs variant="segmented" default-open="monthly">
+            <aegov-tab slot="tabs" tab-id="daily">Daily</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="weekly">Weekly</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="monthly">Monthly</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="yearly">Yearly</aegov-tab>
+            <aegov-tab-panel tab-id="daily"><div class="p-4"><p class="text-sm">Daily report data and statistics.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="weekly"><div class="p-4"><p class="text-sm">Weekly report data and statistics.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="monthly"><div class="p-4"><p class="text-sm">Monthly report data and statistics.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="yearly"><div class="p-4"><p class="text-sm">Yearly report data and statistics.</p></div></aegov-tab-panel>
+          </aegov-tabs>
+        </div>
+      </div>
+
+      <!-- variant: pill -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant="pill"</p>
+        <div class="preview-box">
+          <aegov-tabs variant="pill" default-open="active">
+            <aegov-tab slot="tabs" tab-id="active">Active</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="pending">Pending</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="expired">Expired</aegov-tab>
+            <aegov-tab-panel tab-id="active"><div class="p-4"><p class="text-sm">Active licences list.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="pending"><div class="p-4"><p class="text-sm">Pending applications.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="expired"><div class="p-4"><p class="text-sm">Expired licences.</p></div></aegov-tab-panel>
+          </aegov-tabs>
+        </div>
+      </div>
+
+      <!-- orientation: vertical -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">orientation="vertical"</p>
+        <div class="preview-box">
+          <aegov-tabs variant="simple" orientation="vertical" default-open="profile">
+            <aegov-tab slot="tabs" tab-id="profile">Profile</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="security">Security</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="notifications">Notifications</aegov-tab>
+            <aegov-tab-panel tab-id="profile"><div class="p-4"><p class="text-sm">Profile settings — name, photo, contact information.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="security"><div class="p-4"><p class="text-sm">Security settings — password, 2FA, login history.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="notifications"><div class="p-4"><p class="text-sm">Notification preferences — email, SMS, push alerts.</p></div></aegov-tab-panel>
+          </aegov-tabs>
+        </div>
+      </div>
+
+      <!-- is-stretchable -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-stretchable — tabs fill full width</p>
+        <div class="preview-box">
+          <aegov-tabs variant="segmented" is-stretchable default-open="tab1">
+            <aegov-tab slot="tabs" tab-id="tab1">Tab One</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="tab2">Tab Two</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="tab3">Tab Three</aegov-tab>
+            <aegov-tab-panel tab-id="tab1"><div class="p-4"><p class="text-sm">Content for tab one.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="tab2"><div class="p-4"><p class="text-sm">Content for tab two.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="tab3"><div class="p-4"><p class="text-sm">Content for tab three.</p></div></aegov-tab-panel>
+          </aegov-tabs>
+        </div>
+      </div>
+
+      <!-- tab with icon slots -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">aegov-tab slot="icon" and slot="icon-end"</p>
+        <div class="preview-box">
+          <aegov-tabs variant="simple" default-open="inbox">
+            <aegov-tab slot="tabs" tab-id="inbox">
+              <svg slot="icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/></svg>
+              Inbox
+              <aegov-badge slot="icon-end" variant="aered" appearance="solid" size="sm">5</aegov-badge>
+            </aegov-tab>
+            <aegov-tab slot="tabs" tab-id="sent">Sent</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="drafts">Drafts</aegov-tab>
+            <aegov-tab-panel tab-id="inbox"><div class="p-4"><p class="text-sm">5 unread messages in your inbox.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="sent"><div class="p-4"><p class="text-sm">Sent messages.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="drafts"><div class="p-4"><p class="text-sm">Draft messages.</p></div></aegov-tab-panel>
+          </aegov-tabs>
+        </div>
+      </div>
+      <!-- @Event: aegovTabChange fires with { tabId: string } when the active tab changes -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-navbar                ║
+     ╚══════════════════════════════╝ -->
+<section id="navbar">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Navbar</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Horizontal primary navigation with links, icon prefixes, and dropdown submenus.</p>
+      </div>
+      <aegov-badge variant="seablue" appearance="soft">Nav</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- basic navbar -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Basic navbar — plain links</p>
+        <div class="preview-box">
+          <aegov-navbar label-nav="Main navigation" gap="gap-6">
+            <aegov-navbar-item href="/" is-active>Home</aegov-navbar-item>
+            <aegov-navbar-item href="/services">Services</aegov-navbar-item>
+            <aegov-navbar-item href="/about">About</aegov-navbar-item>
+            <aegov-navbar-item href="/contact">Contact</aegov-navbar-item>
+          </aegov-navbar>
+        </div>
+      </div>
+
+      <!-- with icon-start -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">slot="icon-start" — leading icon per item</p>
+        <div class="preview-box">
+          <aegov-navbar label-nav="Icon navigation" gap="gap-6">
+            <aegov-navbar-item href="/">
+              <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5v-5h3v5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146z"/></svg>
+              Home
+            </aegov-navbar-item>
+            <aegov-navbar-item href="/services">
+              <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/><path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.375l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/></svg>
+              Settings
+            </aegov-navbar-item>
+          </aegov-navbar>
+        </div>
+      </div>
+
+      <!-- with dropdown submenu -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">slot="dropdown" — aegov-dropdown submenu</p>
+        <div class="preview-box">
+          <aegov-navbar label-nav="Dropdown navigation" gap="gap-6">
+            <aegov-navbar-item href="/" is-active>Home</aegov-navbar-item>
+            <aegov-navbar-item>
+              Services
+              <aegov-dropdown slot="dropdown" trigger="click" position="bottom" align="start">
+                <div slot="dropdown-content" style="min-width:200px;padding:8px 0">
+                  <a href="/services/digital" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Digital Services</a>
+                  <a href="/services/licensing" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Business Licensing</a>
+                  <a href="/services/permits" style="display:block;padding:8px 16px;text-decoration:none;font-size:0.875rem">Permits &amp; Approvals</a>
+                </div>
+              </aegov-dropdown>
+            </aegov-navbar-item>
+            <aegov-navbar-item href="/about">About</aegov-navbar-item>
+            <aegov-navbar-item href="/contact">Contact</aegov-navbar-item>
+          </aegov-navbar>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — sm / base / lg</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">size="sm"</span>
+            <aegov-navbar size="sm" label-nav="Small nav" gap="gap-4">
+              <aegov-navbar-item href="/">Home</aegov-navbar-item>
+              <aegov-navbar-item href="/services">Services</aegov-navbar-item>
+              <aegov-navbar-item href="/about">About</aegov-navbar-item>
+            </aegov-navbar>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">size="base" (default)</span>
+            <aegov-navbar size="base" label-nav="Base nav" gap="gap-6">
+              <aegov-navbar-item href="/">Home</aegov-navbar-item>
+              <aegov-navbar-item href="/services">Services</aegov-navbar-item>
+              <aegov-navbar-item href="/about">About</aegov-navbar-item>
+            </aegov-navbar>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">size="lg"</span>
+            <aegov-navbar size="lg" label-nav="Large nav" gap="gap-8">
+              <aegov-navbar-item href="/">Home</aegov-navbar-item>
+              <aegov-navbar-item href="/services">Services</aegov-navbar-item>
+              <aegov-navbar-item href="/about">About</aegov-navbar-item>
+            </aegov-navbar>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-navblock              ║
+     ╚══════════════════════════════╝ -->
+<section id="navblock">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Navblock</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Vertical sidebar navigation with collapsible subnav, icons, flat and collapsible variants.</p>
+      </div>
+      <aegov-badge variant="seablue" appearance="soft">Nav</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- collapsible (default) -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant="collapsible" (default) — nested items accordion</p>
+        <div class="preview-box" style="max-width:280px">
+          <aegov-navblock block-title="Workspace" label-nav="Project sidebar" icon="chevron">
+            <aegov-navblock-item href="/" is-active>
+              <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5v-5h3v5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146z"/></svg>
+              Dashboard
+            </aegov-navblock-item>
+            <aegov-navblock-item>
+              Reports
+              <aegov-navblock-item href="/reports/sales">Sales Report</aegov-navblock-item>
+              <aegov-navblock-item href="/reports/users">User Analytics</aegov-navblock-item>
+              <aegov-navblock-item href="/reports/finance">Finance</aegov-navblock-item>
+            </aegov-navblock-item>
+            <aegov-navblock-item>
+              Settings
+              <aegov-navblock-item href="/settings/profile">Profile</aegov-navblock-item>
+              <aegov-navblock-item href="/settings/security">Security</aegov-navblock-item>
+            </aegov-navblock-item>
+            <aegov-navblock-item href="/logout" is-disabled>Logout (disabled)</aegov-navblock-item>
+          </aegov-navblock>
+        </div>
+      </div>
+
+      <!-- variant: flat -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant="flat" — group headers, no accordion</p>
+        <div class="preview-box" style="max-width:280px">
+          <aegov-navblock block-title="Admin Panel" variant="flat" label-nav="Admin sidebar">
+            <aegov-navblock-item href="/admin">Overview</aegov-navblock-item>
+            <aegov-navblock-item href="/admin/users">Users</aegov-navblock-item>
+            <aegov-navblock-item href="/admin/roles">Roles &amp; Permissions</aegov-navblock-item>
+            <aegov-navblock-item href="/admin/audit">Audit Log</aegov-navblock-item>
+          </aegov-navblock>
+        </div>
+      </div>
+
+      <!-- is-multiple -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-multiple — all groups can expand simultaneously</p>
+        <div class="preview-box" style="max-width:280px">
+          <aegov-navblock block-title="Multi-open" is-multiple label-nav="Multi-open sidebar">
+            <aegov-navblock-item>
+              Products
+              <aegov-navblock-item href="/products/a">Product A</aegov-navblock-item>
+              <aegov-navblock-item href="/products/b">Product B</aegov-navblock-item>
+            </aegov-navblock-item>
+            <aegov-navblock-item>
+              Orders
+              <aegov-navblock-item href="/orders/active">Active Orders</aegov-navblock-item>
+              <aegov-navblock-item href="/orders/history">Order History</aegov-navblock-item>
+            </aegov-navblock-item>
+          </aegov-navblock>
+        </div>
+      </div>
+
+      <!-- icon: plus -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">icon="plus"</p>
+        <div class="preview-box" style="max-width:280px">
+          <aegov-navblock block-title="Plus Icon" icon="plus" label-nav="Plus icon sidebar">
+            <aegov-navblock-item>
+              Documents
+              <aegov-navblock-item href="/docs/forms">Forms</aegov-navblock-item>
+              <aegov-navblock-item href="/docs/reports">Reports</aegov-navblock-item>
+            </aegov-navblock-item>
+            <aegov-navblock-item href="/notifications">
+              Notifications
+              <aegov-badge slot="icon-start" variant="aered" appearance="solid" size="sm">3</aegov-badge>
+            </aegov-navblock-item>
+          </aegov-navblock>
+        </div>
+      </div>
+
+      <!-- is-bordered -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-bordered — bordered container</p>
+        <div class="preview-box" style="max-width:280px">
+          <aegov-navblock block-title="Bordered" is-bordered label-nav="Bordered sidebar">
+            <aegov-navblock-item href="/" is-active>Dashboard</aegov-navblock-item>
+            <aegov-navblock-item href="/analytics">Analytics</aegov-navblock-item>
+            <aegov-navblock-item href="/settings">Settings</aegov-navblock-item>
+          </aegov-navblock>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — sm / base / lg</p>
+        <div class="flex flex-wrap gap-6 preview-box">
+          <div class="prop-item" style="min-width:200px">
+            <span class="prop-attr">size="sm"</span>
+            <aegov-navblock size="sm" label-nav="Small navblock">
+              <aegov-navblock-item href="/">Home</aegov-navblock-item>
+              <aegov-navblock-item href="/about">About</aegov-navblock-item>
+            </aegov-navblock>
+          </div>
+          <div class="prop-item" style="min-width:200px">
+            <span class="prop-attr">size="base"</span>
+            <aegov-navblock size="base" label-nav="Base navblock">
+              <aegov-navblock-item href="/">Home</aegov-navblock-item>
+              <aegov-navblock-item href="/about">About</aegov-navblock-item>
+            </aegov-navblock>
+          </div>
+          <div class="prop-item" style="min-width:200px">
+            <span class="prop-attr">size="lg"</span>
+            <aegov-navblock size="lg" label-nav="Large navblock">
+              <aegov-navblock-item href="/">Home</aegov-navblock-item>
+              <aegov-navblock-item href="/about">About</aegov-navblock-item>
+            </aegov-navblock>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-pagination            ║
+     ╚══════════════════════════════╝ -->
+<section id="pagination">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Pagination</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Page navigation with variants, boundary and sibling counts, first/last, and disabled state.</p>
+      </div>
+      <aegov-badge variant="seablue" appearance="soft">Nav</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- default variant -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant="default" — numbered pages</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">pages="10" page-current="1"</span>
+            <aegov-pagination pages="10" page-current="1"></aegov-pagination>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">pages="10" page-current="5"</span>
+            <aegov-pagination pages="10" page-current="5"></aegov-pagination>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">pages="10" page-current="10"</span>
+            <aegov-pagination pages="10" page-current="10"></aegov-pagination>
+          </div>
+        </div>
+      </div>
+
+      <!-- compact variant -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant="compact" — prev/next only</p>
+        <div class="preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">variant="compact"</span>
+            <aegov-pagination variant="compact" pages="20" page-current="7"></aegov-pagination>
+          </div>
+        </div>
+      </div>
+
+      <!-- is-enabled-first-last -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-enabled-first-last — first and last page buttons</p>
+        <div class="preview-box">
+          <aegov-pagination pages="15" page-current="7" is-enabled-first-last></aegov-pagination>
+        </div>
+      </div>
+
+      <!-- count-sibling and count-boundary -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">count-sibling + count-boundary — visible page range</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">count-sibling="2" count-boundary="2"</span>
+            <aegov-pagination pages="20" page-current="10" count-sibling="2" count-boundary="2"></aegov-pagination>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">count-sibling="1" count-boundary="1"</span>
+            <aegov-pagination pages="20" page-current="10" count-sibling="1" count-boundary="1"></aegov-pagination>
+          </div>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — sm / base / lg</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">size="sm"</span><aegov-pagination pages="8" page-current="3" size="sm"></aegov-pagination></div>
+          <div class="prop-item"><span class="prop-attr">size="base" (default)</span><aegov-pagination pages="8" page-current="3" size="base"></aegov-pagination></div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-pagination pages="8" page-current="3" size="lg"></aegov-pagination></div>
+        </div>
+      </div>
+
+      <!-- is-disabled -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-disabled</p>
+        <div class="preview-box">
+          <aegov-pagination pages="10" page-current="4" is-disabled></aegov-pagination>
+        </div>
+      </div>
+
+      <!-- custom labels -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Custom labels — label-prev / label-next / label-first / label-last</p>
+        <div class="preview-box">
+          <aegov-pagination
+            pages="10"
+            page-current="5"
+            is-enabled-first-last
+            label-prev="Previous"
+            label-next="Next"
+            label-first="First"
+            label-last="Last"
+          ></aegov-pagination>
+        </div>
+      </div>
+      <!-- @Event: aegovPaginationPageChange fires with { page: number } when a page is selected -->
+    </div>
+  </div>
+</section>

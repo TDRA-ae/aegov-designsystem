@@ -73,6 +73,19 @@ export class AppComponent implements AfterViewInit {
     this.#doc.documentElement.lang = e.detail.checked ? 'ar' : 'en';
   }
 
+  ngFormResult = 'Submit the form to see FormData result here';
+
+  handleFormSubmit(e: SubmitEvent) {
+    e.preventDefault();
+    const data = new FormData(e.target as HTMLFormElement);
+    const result: Record<string, string> = {};
+    data.forEach((v, k) => { result[k] = v as string; });
+    const keys = Object.keys(result);
+    this.ngFormResult = keys.length === 0
+      ? '❌ FormData is EMPTY — form submission broken with shadow:true'
+      : '✅ FormData captured:\n' + JSON.stringify(result, null, 2);
+  }
+
   async handleButtonClick() {
     this.isLoading.set(true);
     await new Promise((r) => setTimeout(r, 2000));

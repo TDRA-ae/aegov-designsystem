@@ -1,141 +1,123 @@
 # Input
 
-<p class="text-lg text-aeblack-500 mb-8">An Input collects a single line of text from the user. It is the most-used control in any government service, so it carries the most surface: twelve native types, five sizes, leading and trailing icons, a password reveal toggle, a copy-to-clipboard action, and the full validation contract shared by every form component.</p>
+<p class="text-lg text-aeblack-500 mb-8">An Input is the primary single-line control for collecting short text values across UAE Government service forms — names, email addresses, Emirates ID numbers, reference codes, passwords, and more. The component wraps a native HTML input so every browser feature, autofill behaviour, and assistive-technology hook keeps working, while the design system layers consistent sizing, four colour variants (`primary`, `secondary`, `neutral-max`, `neutral-min`), icons, password reveal, and copy-to-clipboard helpers on top.</p>
 
 ## Introduction
 
-`aegov-input` renders a real `<input>` in the light DOM and manages the label association, hint and error regions, and ARIA wiring around it. Pair it with [`aegov-form-field`](aegov-form-field.html) and [`aegov-label`](aegov-label.html) for a complete, correctly-linked field.
+The `aegov-input` component renders a real `<input>` element styled to the design system. Use it directly when you only need the field, or pair it with `aegov-form-field` and `aegov-label` to wire up label, helper text, and error messaging. Sub-component `aegov-input-group` adds prefix and suffix add-ons (currency symbols, domains, search buttons) and propagates its `size` to nested inputs and buttons.
 
 ```html
 <aegov-form-field>
-  <aegov-label>Full name</aegov-label>
-  <aegov-input name="fullName" placeholder="As printed on your Emirates ID"></aegov-input>
+  <aegov-label>Full name (as per Emirates ID)</aegov-label>
+  <aegov-input name="full-name" placeholder="e.g. Mohammed Ali Al Mansoori" is-required="true"></aegov-input>
 </aegov-form-field>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md">
-    <aegov-form-field>
-      <aegov-label>Full name</aegov-label>
-      <aegov-input field-id="in-intro" name="fullName" placeholder="As printed on your Emirates ID"></aegov-input>
-    </aegov-form-field>
-  </div>
+  <aegov-form-field>
+    <aegov-label>Full name (as per Emirates ID)</aegov-label>
+    <aegov-input name="full-name" placeholder="e.g. Mohammed Ali Al Mansoori" is-required="true"></aegov-input>
+  </aegov-form-field>
 </div>
-
-The wrapper links the label's `for` to the input's generated `field-id`, so clicking the label focuses the field without you writing an ID by hand.
 
 ---
 
-## Input types
+## Input Types
 
-`type` maps to the native input type, which is what gives you the right mobile keyboard, the right browser validation, and the right autofill behaviour.
-
-| Type | Use for |
-| --- | --- |
-| `text` | Default. Names, reference numbers, free text. |
-| `email` | Email addresses. Browser validates the shape and offers an email keyboard. |
-| `password` | Secrets. Pair with `is-revealable`. |
-| `tel` | Phone numbers. Numeric keypad, no browser format validation. |
-| `url` | Web addresses. |
-| `number` | Numeric values where stepping makes sense. |
-| `search` | Search queries. |
-| `date`, `time`, `datetime-local`, `month`, `week` | Native date and time pickers. |
+The `type` property maps directly to the native HTML input type. Use `text` for general fields, `email` for addresses (triggers email keyboards on mobile), `tel` for phone numbers, `number` for fees and amounts, `password` for credentials, `search` for filter bars, and `url`/`date`/`time` for the obvious cases.
 
 ```html
-<aegov-input type="text" placeholder="Text"></aegov-input>
-<aegov-input type="email" placeholder="name@example.ae"></aegov-input>
-<aegov-input type="password" placeholder="Password" is-revealable></aegov-input>
-<aegov-input type="tel" placeholder="+971 50 123 4567"></aegov-input>
+<aegov-input type="text" placeholder="Full name"></aegov-input>
+<aegov-input type="email" placeholder="you@example.gov.ae"></aegov-input>
+<aegov-input type="tel" placeholder="+971 50 000 0000"></aegov-input>
 <aegov-input type="number" placeholder="0"></aegov-input>
-<aegov-input type="date"></aegov-input>
+<aegov-input type="search" placeholder="Search services"></aegov-input>
+<aegov-input type="url" placeholder="https://"></aegov-input>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-4">
-    <aegov-input field-id="in-t-text" type="text" placeholder="Text"></aegov-input>
-    <aegov-input field-id="in-t-email" type="email" placeholder="name@example.ae"></aegov-input>
-    <aegov-input field-id="in-t-pass" type="password" placeholder="Password" is-revealable></aegov-input>
-    <aegov-input field-id="in-t-tel" type="tel" placeholder="+971 50 123 4567"></aegov-input>
-    <aegov-input field-id="in-t-num" type="number" placeholder="0"></aegov-input>
-    <aegov-input field-id="in-t-date" type="date"></aegov-input>
+  <div class="grid gap-4 max-w-md">
+    <aegov-input type="text" placeholder="Full name"></aegov-input>
+    <aegov-input type="email" placeholder="you@example.gov.ae"></aegov-input>
+    <aegov-input type="tel" placeholder="+971 50 000 0000"></aegov-input>
+    <aegov-input type="number" placeholder="0"></aegov-input>
+    <aegov-input type="search" placeholder="Search services"></aegov-input>
+    <aegov-input type="url" placeholder="https://"></aegov-input>
   </div>
 </div>
-
-For a styled, fully-controlled calendar with ranges and presets, use [`aegov-datepicker`](aegov-datepicker.html) rather than `type="date"` — the native control cannot be themed and varies between browsers.
-
-An unrecognised `type` falls back to `text` with a console warning in development.
 
 ---
 
 ## Sizes
 
-`size` controls height, padding and font size. Five tokens are available, and they match the [Button](aegov-button.html) scale so controls line up when placed side by side.
-
-| Token | Height |
-| --- | --- |
-| `xs` | 36px |
-| `sm` | 40px |
-| `base` | 44px |
-| `lg` | 48px |
-| `xl` | 52px |
+The `size` property scales the field height, padding, and font size. Five tokens are available: `xs`, `sm`, `base` (default), `lg`, and `xl`. Match the input size to surrounding controls — most government forms use `base`; dense administrative tables use `sm`; landing-page hero forms use `lg`.
 
 ```html
 <aegov-input size="xs" placeholder="Extra small"></aegov-input>
 <aegov-input size="sm" placeholder="Small"></aegov-input>
-<aegov-input size="base" placeholder="Base"></aegov-input>
+<aegov-input size="base" placeholder="Base (default)"></aegov-input>
 <aegov-input size="lg" placeholder="Large"></aegov-input>
 <aegov-input size="xl" placeholder="Extra large"></aegov-input>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-4">
-    <aegov-input field-id="in-s-xs" size="xs" placeholder="Extra small"></aegov-input>
-    <aegov-input field-id="in-s-sm" size="sm" placeholder="Small"></aegov-input>
-    <aegov-input field-id="in-s-base" size="base" placeholder="Base"></aegov-input>
-    <aegov-input field-id="in-s-lg" size="lg" placeholder="Large"></aegov-input>
-    <aegov-input field-id="in-s-xl" size="xl" placeholder="Extra large"></aegov-input>
+  <div class="grid gap-4 max-w-md">
+    <aegov-input size="xs" placeholder="Extra small"></aegov-input>
+    <aegov-input size="sm" placeholder="Small"></aegov-input>
+    <aegov-input size="base" placeholder="Base (default)"></aegov-input>
+    <aegov-input size="lg" placeholder="Large"></aegov-input>
+    <aegov-input size="xl" placeholder="Extra large">
+    </aegov-input>
   </div>
 </div>
 
 ### Responsive sizes
 
-`size` accepts a Tailwind-style responsive string. Prefixes are `xs`, `sm`, `md`, `lg`, `xl` and `2xl`, and the first token is the base value.
+`size` also accepts a Tailwind-style responsive string with the breakpoint prefixes `xs`, `sm`, `md`, `lg`, `xl`, and `2xl`. The example below renders `sm` on phones, `base` from the `md` breakpoint up, and `lg` from `xl` up.
 
 ```html
-<aegov-input size="base md:lg" placeholder="Grows on larger screens"></aegov-input>
+<aegov-input size="sm md:base xl:lg" placeholder="Resizes with the viewport"></aegov-input>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md">
-    <aegov-input field-id="in-s-resp" size="base md:lg" placeholder="Grows on larger screens"></aegov-input>
-  </div>
+  <aegov-input size="sm md:base xl:lg" placeholder="Resizes with the viewport"></aegov-input>
 </div>
-
-Note the collision of vocabulary here: `xs` is both a size token and a breakpoint prefix. `size="xs md:base"` means "extra-small by default, base from 768px up".
 
 ---
 
 ## Variant
 
-`variant` selects the colour family used for the idle ring, the value text and the accent on hover. Two things deliberately do not follow it: the **focus ring is always camel**, and the **error state is always aered** — so focus and failure remain instantly recognisable regardless of the field's colour.
+The `variant` property selects the colour family for the idle ring/border, the value text, and the focus accent. The focus ring stays `primary-support-600` (camel) and the error border stays `aered-600` regardless of variant — both are accessibility constants.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-100 family)
+
+### Colour matrix
+
+| Variant       | Idle ring        | Value text      | Hover accent    | Subtle bg       |
+| ------------- | ---------------- | --------------- | --------------- | --------------- |
+| `primary`     | `primary-400`    | `primary-900`   | `primary-700`   | `primary-50`    |
+| `secondary`   | `secondary-400`  | `secondary-900` | `secondary-700` | `secondary-50`  |
+| `neutral-max` | `aeblack-400`    | `aeblack-900`   | `aeblack-800`   | `aeblack-50`    |
+| `neutral-min` | `aeblack-200`    | `aeblack-900`   | `aeblack-700`   | `aeblack-50`    |
 
 ```html
 <aegov-input variant="primary" placeholder="Primary"></aegov-input>
 <aegov-input variant="secondary" placeholder="Secondary"></aegov-input>
-<aegov-input variant="neutral-max" placeholder="Neutral max"></aegov-input>
-<aegov-input variant="neutral-min" placeholder="Neutral min"></aegov-input>
+<aegov-input variant="neutral-max" placeholder="Neutral-max"></aegov-input>
+<aegov-input variant="neutral-min" placeholder="Neutral-min"></aegov-input>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-4">
-    <aegov-input field-id="in-v-p" variant="primary" placeholder="Primary" value="Primary"></aegov-input>
-    <aegov-input field-id="in-v-s" variant="secondary" placeholder="Secondary" value="Secondary"></aegov-input>
-    <aegov-input field-id="in-v-nx" variant="neutral-max" placeholder="Neutral max" value="Neutral max"></aegov-input>
-    <aegov-input field-id="in-v-nm" variant="neutral-min" placeholder="Neutral min" value="Neutral min"></aegov-input>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <aegov-input variant="primary" placeholder="Primary"></aegov-input>
+    <aegov-input variant="secondary" placeholder="Secondary"></aegov-input>
+    <aegov-input variant="neutral-max" placeholder="Neutral-max"></aegov-input>
+    <aegov-input variant="neutral-min" placeholder="Neutral-min"></aegov-input>
   </div>
 </div>
-
-`variant` cascades from [`aegov-form-field`](aegov-form-field.html) and [`aegov-input-group`](#input-group), so you can set it once on the wrapper.
 
 ---
 
@@ -143,349 +125,348 @@ Note the collision of vocabulary here: `xs` is both a size token and a breakpoin
 
 ### Disabled
 
+Set `is-disabled="true"` to prevent any interaction. Disabled fields keep their value but are removed from the tab order.
+
 ```html
-<aegov-input is-disabled value="Locked value"></aegov-input>
+<aegov-input is-disabled="true" value="784-1990-1234567-1"></aegov-input>
 ```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-input is-disabled="true" value="784-1990-1234567-1"></aegov-input>
+</div>
 
 ### Read-only
 
-The value stays selectable and copyable but cannot be edited. Read-only fields **are** submitted with the form; disabled fields are not.
+Set `is-readonly="true"` to display a value the user cannot change but can still copy or focus. Use this for system-generated reference numbers or pre-filled details from a verified profile.
 
 ```html
-<aegov-input is-readonly value="784-1990-1234567-1"></aegov-input>
+<aegov-input is-readonly="true" value="APP-2026-008421"></aegov-input>
 ```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-input is-readonly="true" value="APP-2026-008421"></aegov-input>
+</div>
 
 ### Required
 
-`is-required` sets the native `required` attribute, so `valueMissing` is reported by the browser and `form.checkValidity()` accounts for it.
+Set `is-required="true"` to mark the field as mandatory. The native `required` attribute is added to the input, which exposes the requirement to assistive technology and triggers the browser's built-in validation on submit.
 
 ```html
-<aegov-input is-required placeholder="Required field"></aegov-input>
+<aegov-form-field>
+  <aegov-label is-required="true">Emirates ID number</aegov-label>
+  <aegov-input is-required="true" placeholder="784-YYYY-NNNNNNN-N"></aegov-input>
+</aegov-form-field>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-4">
-    <aegov-input field-id="in-st-d" is-disabled value="Locked value"></aegov-input>
-    <aegov-input field-id="in-st-r" is-readonly value="784-1990-1234567-1"></aegov-input>
-    <aegov-input field-id="in-st-req" is-required placeholder="Required field"></aegov-input>
-  </div>
+  <aegov-form-field>
+    <aegov-label is-required="true">Emirates ID number</aegov-label>
+    <aegov-input is-required="true" placeholder="784-YYYY-NNNNNNN-N"></aegov-input>
+  </aegov-form-field>
 </div>
 
-Note that `is-required` does not add a visual asterisk. Mark required fields in the label text — see [Label](aegov-label.html).
+### Invalid (error state)
 
-### Invalid
-
-`is-invalid` plus `error-message` is the full invalid state: red styling, `aria-invalid` on the input, and the message rendered in an associated error region.
+Validation styling is owned by the surrounding `aegov-form-field`. Set `is-invalid="true"` on the form field and provide an error message via the `error` slot (or property). The input itself picks up the error border automatically.
 
 ```html
-<aegov-input
-  type="email"
-  value="not-an-email"
-  is-invalid
-  error-message="Enter a valid email address"
-></aegov-input>
+<aegov-form-field is-invalid="true">
+  <aegov-label is-required="true">Email address</aegov-label>
+  <aegov-input type="email" value="not-an-email"></aegov-input>
+  <span slot="error">Enter a valid email in the format name@example.gov.ae.</span>
+</aegov-form-field>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md">
-    <aegov-input field-id="in-st-inv" type="email" value="not-an-email" is-invalid error-message="Enter a valid email address"></aegov-input>
-  </div>
+  <aegov-form-field is-invalid="true">
+    <aegov-label is-required="true">Email address</aegov-label>
+    <aegov-input type="email" value="not-an-email"></aegov-input>
+    <span slot="error">Enter a valid email in the format name@example.gov.ae.</span>
+  </aegov-form-field>
 </div>
-
-See [Validation](#validation) below and [Validation Surface](validation-overview.html) for the whole contract.
-
----
-
-## Hint text
-
-`hint` renders helper text below the field and links it to the input through `aria-describedby`. The hint is replaced by the error while the field is invalid, so the two never compete — you do not need to clear it yourself.
-
-```html
-<aegov-input name="emiratesId" hint="15 digits, as printed on your card"></aegov-input>
-
-<aegov-input name="username">
-  <span slot="hint">Letters, numbers and underscores. <strong>No spaces.</strong></span>
-</aegov-input>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-6">
-    <aegov-input field-id="in-h-1" name="emiratesId" hint="15 digits, as printed on your card"></aegov-input>
-    <aegov-input field-id="in-h-2" name="username">
-      <span slot="hint">Letters, numbers and underscores. <strong>No spaces.</strong></span>
-    </aegov-input>
-  </div>
-</div>
-
-Use the `hint` slot when the text needs markup or a link; the `hint` property when it is plain text. The slot wins if both are present.
 
 ---
 
 ## Icons
 
-Slot an inline `<svg>` into `icon-start` or `icon-end`. The component detects the slot, adds the padding needed to clear the glyph, and positions it — you do not need absolute positioning of your own.
+Use the `icon-start` slot for a leading icon (search, mail, lock) and `icon-end` for a trailing icon (status, hint). Slot icons sit on the start/end edges and flip automatically in RTL. The SVG is auto-sized to match the input's `size` token (14–22 px) — omit `width`/`height` attributes on the SVG so the component can size it.
 
 ```html
-<aegov-input type="search" placeholder="Search services">
-  <svg slot="icon-start" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-    <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+<aegov-input placeholder="Search services">
+  <svg slot="icon-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="8"></circle>
+    <path d="M21 21l-4.35-4.35"></path>
   </svg>
 </aegov-input>
 
-<aegov-input type="text" placeholder="Amount in AED">
-  <span slot="icon-end" class="text-sm text-aeblack-400">AED</span>
+<aegov-input type="email" placeholder="you@example.gov.ae">
+  <svg slot="icon-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+    <path d="m3 7 9 6 9-6"></path>
+  </svg>
 </aegov-input>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-4">
-    <aegov-input field-id="in-i-1" type="search" placeholder="Search services">
-      <svg slot="icon-start" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
+  <div class="grid gap-4 max-w-md">
+    <aegov-input placeholder="Search services">
+      <svg slot="icon-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="M21 21l-4.35-4.35"></path>
+      </svg>
     </aegov-input>
-    <aegov-input field-id="in-i-2" type="text" placeholder="Amount">
-      <span slot="icon-end" class="text-sm text-aeblack-400">AED</span>
-    </aegov-input>
-    <aegov-input field-id="in-i-3" type="email" placeholder="name@example.ae">
-      <svg slot="icon-start" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 5L2 7" /></svg>
+    <aegov-input type="email" placeholder="you@example.gov.ae">
+      <svg slot="icon-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+        <path d="m3 7 9 6 9-6"></path>
+      </svg>
     </aegov-input>
   </div>
 </div>
 
-Mark icons `aria-hidden="true"`. They are decoration — the label carries the meaning.
-
-**The trailing slot yields to action buttons.** If `is-revealable` or `is-copyable` is active, the `icon-end` content is hidden, because the reveal and copy buttons occupy that position. Do not rely on both being visible at once.
-
 ---
 
-## Password reveal
+## Password Reveal
 
-`is-revealable` adds a toggle button that switches the input between `password` and `text`. It only applies when `type="password"`.
+Set `is-revealable="true"` together with `type="password"` to add an eye icon that toggles between hidden and visible characters. Use this on sign-in screens and password-creation flows where users frequently mistype.
 
 ```html
-<aegov-input type="password" is-revealable placeholder="Enter your password"></aegov-input>
+<aegov-form-field>
+  <aegov-label is-required="true">Password</aegov-label>
+  <aegov-input type="password" is-revealable="true" placeholder="Enter your password"></aegov-input>
+</aegov-form-field>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md">
-    <aegov-input field-id="in-rev" type="password" is-revealable value="my-secret-password"></aegov-input>
-  </div>
+  <aegov-form-field>
+    <aegov-label is-required="true">Password</aegov-label>
+    <aegov-input type="password" is-revealable="true" placeholder="Enter your password"></aegov-input>
+  </aegov-form-field>
 </div>
-
-The button is a real `<button type="button">`, its icon is `aria-hidden`, and its `aria-label` alternates between "Show password" and "Hide password" — automatically translated to Arabic when the field sits inside a `dir="rtl"` container. It is disabled alongside the input.
 
 ---
 
-## Copy to clipboard
+## Copy to Clipboard
 
-`is-copyable` adds a copy button. It only applies when the field is also `is-readonly` — the pattern is for surfacing a generated value such as a reference number, not for copying user input mid-edit.
+Set `is-copyable="true"` together with `is-readonly="true"` to add a copy button that writes the current value to the clipboard. The button briefly switches to a check mark for visual feedback. Use this for application reference numbers, generated tokens, or confirmation codes.
 
 ```html
-<aegov-input
-  is-readonly
-  is-copyable
-  value="APP-2026-0041827"
-  hint="Quote this reference when contacting us"
-></aegov-input>
+<aegov-form-field>
+  <aegov-label>Application reference number</aegov-label>
+  <aegov-input is-readonly="true" is-copyable="true" value="APP-2026-008421"></aegov-input>
+</aegov-form-field>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md">
-    <aegov-input field-id="in-copy" is-readonly is-copyable value="APP-2026-0041827" hint="Quote this reference when contacting us"></aegov-input>
-  </div>
+  <aegov-form-field>
+    <aegov-label>Application reference number</aegov-label>
+    <aegov-input is-readonly="true" is-copyable="true" value="APP-2026-008421"></aegov-input>
+  </aegov-form-field>
 </div>
-
-On click the value is written to the clipboard, the icon becomes a checkmark for two seconds, and a visually hidden `role="status"` live region announces "Copied" — so the confirmation reaches screen reader users, not just sighted ones. Both the label and the announcement are translated in RTL contexts. Where the async Clipboard API is unavailable the component falls back to selecting the text and using `document.execCommand('copy')`.
 
 ---
 
-## Input group
+## Helper Text
 
-`aegov-input-group` joins an input with text add-ons or buttons into one control. It propagates its resolved `size` to child `aegov-input` and `aegov-button` elements, and cascades `variant` to inputs that have not set their own.
+Use the `helper` slot on `aegov-form-field` to provide guidance below the input — formatting hints, examples, or links to documentation. Helper text is automatically associated with the input via `aria-describedby`.
 
 ```html
-<aegov-input-group addon-prefix="https://" group-label="Website address">
-  <aegov-input placeholder="example.ae"></aegov-input>
-</aegov-input-group>
+<aegov-form-field>
+  <aegov-label is-required="true">Emirates ID number</aegov-label>
+  <aegov-input placeholder="784-YYYY-NNNNNNN-N" is-required="true"></aegov-input>
+  <span slot="hint">15 digits in the format 784-YYYY-NNNNNNN-N. Found on the front of your ID card.</span>
+</aegov-form-field>
+```
 
-<aegov-input-group addon-suffix="AED" group-label="Declared amount">
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label is-required="true">Emirates ID number</aegov-label>
+    <aegov-input placeholder="784-YYYY-NNNNNNN-N" is-required="true"></aegov-input>
+    <span slot="hint">15 digits in the format 784-YYYY-NNNNNNN-N. Found on the front of your ID card.</span>
+  </aegov-form-field>
+</div>
+
+---
+
+## Input Group with Add-ons
+
+`aegov-input-group` wraps an `aegov-input` to add a static prefix and/or suffix. Use it for currency symbols, fixed domains, country codes, or unit suffixes. The group propagates its `size` to nested inputs and buttons so everything aligns.
+
+```html
+<aegov-input-group addon-prefix="AED">
   <aegov-input type="number" placeholder="0.00"></aegov-input>
 </aegov-input-group>
 
-<aegov-input-group addon-prefix="+971" group-label="Mobile number">
-  <aegov-input type="tel" placeholder="50 123 4567"></aegov-input>
+<aegov-input-group addon-suffix=".gov.ae">
+  <aegov-input placeholder="myservice"></aegov-input>
+</aegov-input-group>
+
+<aegov-input-group addon-prefix="https://" addon-suffix=".gov.ae">
+  <aegov-input placeholder="myservice"></aegov-input>
 </aegov-input-group>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-4">
-    <aegov-input-group addon-prefix="https://" group-label="Website address">
-      <aegov-input field-id="in-g-1" placeholder="example.ae"></aegov-input>
+  <div class="grid gap-4 max-w-md">
+    <aegov-input-group addon-prefix="AED">
+      <aegov-input type="number" placeholder="0.00"></aegov-input>
     </aegov-input-group>
-    <aegov-input-group addon-suffix="AED" group-label="Declared amount">
-      <aegov-input field-id="in-g-2" type="number" placeholder="0.00"></aegov-input>
+    <aegov-input-group addon-suffix=".gov.ae">
+      <aegov-input placeholder="myservice"></aegov-input>
     </aegov-input-group>
-    <aegov-input-group addon-prefix="+971" group-label="Mobile number">
-      <aegov-input field-id="in-g-3" type="tel" placeholder="50 123 4567"></aegov-input>
+    <aegov-input-group addon-prefix="https://" addon-suffix=".gov.ae">
+      <aegov-input placeholder="myservice"></aegov-input>
     </aegov-input-group>
   </div>
 </div>
 
-Add-on text is not decoration — it changes the meaning of what the user types. The group gives each add-on an ID and adds it to the input's `aria-describedby` chain, so a screen reader announces "Mobile number, +971" rather than leaving the country code invisible.
+### Search bar with button
 
-### With a button
+Compose `aegov-input-group` with `aegov-input` and `aegov-button` to build a search bar. The group propagates the resolved size to both children automatically.
 
 ```html
-<aegov-input-group group-label="Search services">
-  <aegov-input type="search" placeholder="Search services"></aegov-input>
+<aegov-input-group size="lg">
+  <aegov-input type="search" placeholder="Search services, forms, or documents"></aegov-input>
   <aegov-button variant="primary">Search</aegov-button>
 </aegov-input-group>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-lg">
-    <aegov-input-group group-label="Search services">
-      <aegov-input field-id="in-g-btn" type="search" placeholder="Search services"></aegov-input>
-      <aegov-button variant="primary">Search</aegov-button>
-    </aegov-input-group>
-  </div>
+  <aegov-input-group size="lg">
+    <aegov-input type="search" placeholder="Search services, forms, or documents"></aegov-input>
+    <aegov-button variant="primary">Search</aegov-button>
+  </aegov-input-group>
 </div>
-
-Set `size` on the group, not on the children — it cascades, and matching heights are the entire point of the component.
-
-Always give the group a `group-label`. It renders `role="group"`, and an unnamed group tells the user there is a boundary without saying what it contains.
 
 ---
 
-## Composite example — service application form
+## Composite Example — Service Application Form
+
+A realistic snippet from a residency permit application showing labels, helpers, required fields, and an error state.
 
 ```html
-<form id="residency-application" novalidate>
+<form class="grid gap-6 max-w-xl">
   <aegov-form-field>
-    <aegov-label>Full name</aegov-label>
-    <aegov-input name="fullName" is-required hint="As printed on your Emirates ID"></aegov-input>
+    <aegov-label is-required="true">Full name</aegov-label>
+    <aegov-input name="full-name" placeholder="e.g. Fatima Hassan Al Marri" is-required="true"></aegov-input>
   </aegov-form-field>
 
   <aegov-form-field>
-    <aegov-label>Emirates ID</aegov-label>
-    <aegov-input name="emiratesId" is-required inputmode="numeric" maxlength="18" hint="15 digits"></aegov-input>
+    <aegov-label is-required="true">Emirates ID number</aegov-label>
+    <aegov-input name="eid" placeholder="784-YYYY-NNNNNNN-N" is-required="true"></aegov-input>
+    <span slot="hint">15 digits, found on the front of your Emirates ID card.</span>
+  </aegov-form-field>
+
+  <aegov-form-field is-invalid="true">
+    <aegov-label is-required="true">Email address</aegov-label>
+    <aegov-input type="email" name="email" value="user@" is-required="true"></aegov-input>
+    <span slot="error">Enter a valid email in the format name@example.gov.ae.</span>
   </aegov-form-field>
 
   <aegov-form-field>
-    <aegov-label>Email address</aegov-label>
-    <aegov-input name="email" type="email" is-required autocomplete="email"></aegov-input>
+    <aegov-label is-required="true">Mobile number</aegov-label>
+    <aegov-input-group addon-prefix="+971">
+      <aegov-input type="tel" name="mobile" placeholder="50 000 0000" is-required="true"></aegov-input>
+    </aegov-input-group>
   </aegov-form-field>
 
-  <aegov-input-group addon-prefix="+971" group-label="Mobile number">
-    <aegov-input name="mobile" type="tel" is-required placeholder="50 123 4567"></aegov-input>
-  </aegov-input-group>
-
-  <aegov-button type="submit" variant="primary" size="lg">Submit application</aegov-button>
+  <aegov-form-field>
+    <aegov-label>Application reference (auto-generated)</aegov-label>
+    <aegov-input is-readonly="true" is-copyable="true" value="APP-2026-008421"></aegov-input>
+  </aegov-form-field>
 </form>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-5">
+  <form class="grid gap-6 max-w-xl">
     <aegov-form-field>
-      <aegov-label>Full name</aegov-label>
-      <aegov-input field-id="in-cx-1" name="fullName" is-required hint="As printed on your Emirates ID"></aegov-input>
+      <aegov-label is-required="true">Full name</aegov-label>
+      <aegov-input name="full-name" placeholder="e.g. Fatima Hassan Al Marri" is-required="true"></aegov-input>
     </aegov-form-field>
     <aegov-form-field>
-      <aegov-label>Emirates ID</aegov-label>
-      <aegov-input field-id="in-cx-2" name="emiratesId" is-required inputmode="numeric" maxlength="18" hint="15 digits"></aegov-input>
+      <aegov-label is-required="true">Emirates ID number</aegov-label>
+      <aegov-input name="eid" placeholder="784-YYYY-NNNNNNN-N" is-required="true"></aegov-input>
+      <span slot="hint">15 digits, found on the front of your Emirates ID card.</span>
+    </aegov-form-field>
+    <aegov-form-field is-invalid="true">
+      <aegov-label is-required="true">Email address</aegov-label>
+      <aegov-input type="email" name="email" value="user@" is-required="true"></aegov-input>
+      <span slot="error">Enter a valid email in the format name@example.gov.ae.</span>
     </aegov-form-field>
     <aegov-form-field>
-      <aegov-label>Email address</aegov-label>
-      <aegov-input field-id="in-cx-3" name="email" type="email" is-required autocomplete="email"></aegov-input>
-    </aegov-form-field>
-    <div>
-      <aegov-input-group addon-prefix="+971" group-label="Mobile number">
-        <aegov-input field-id="in-cx-4" name="mobile" type="tel" is-required placeholder="50 123 4567"></aegov-input>
+      <aegov-label is-required="true">Mobile number</aegov-label>
+      <aegov-input-group addon-prefix="+971">
+        <aegov-input type="tel" name="mobile" placeholder="50 000 0000" is-required="true"></aegov-input>
       </aegov-input-group>
-    </div>
-    <aegov-button type="submit" variant="primary" size="lg">Submit application</aegov-button>
-  </div>
+    </aegov-form-field>
+    <aegov-form-field>
+      <aegov-label>Application reference (auto-generated)</aegov-label>
+      <aegov-input is-readonly="true" is-copyable="true" value="APP-2026-008421"></aegov-input>
+    </aegov-form-field>
+  </form>
 </div>
-
-Note `inputmode`, `maxlength` and `autocomplete` — these are native attributes passed straight through to the inner input, and they do more for usability than any amount of custom JavaScript.
 
 ---
 
 ## Listening for value events
 
-There are two value events, and picking the right one matters:
-
-| Event | Fires |
-| --- | --- |
-| `aegovInputValue` | On every keystroke. Use for live affordances — character counts, search-as-you-type, strength meters. |
-| `aegovInputChange` | When the value is committed — the native `change` event. Use for state you do not want updated mid-word. |
+The component emits five events: `aegovInputValue` on every keystroke, `aegovInputChange` when the value commits (typically on blur or Enter), `aegovInputFocus`, `aegovInputBlur`, and `aegovValidate` when validation runs. Use `input` for live validation hints and `change` for committed-value side effects.
 
 ```html
-<aegov-input id="search" type="search" placeholder="Search services"></aegov-input>
+<aegov-input id="eid" placeholder="Emirates ID number"></aegov-input>
 
-<script type="module">
-  const input = document.querySelector('#search');
-
-  // Live: every keystroke
-  input.addEventListener('aegovInputValue', (e) => {
-    renderSuggestions(e.detail.value);
+<script>
+  const el = document.getElementById('eid');
+  el.addEventListener('aegovInputValue', (e) => {
+    console.log('Typed:', e.detail.value);
   });
-
-  // Committed
-  input.addEventListener('aegovInputChange', (e) => {
-    runSearch(e.detail.value);
+  el.addEventListener('aegovInputChange', (e) => {
+    console.log('Committed:', e.detail.value);
   });
 </script>
 ```
-
-If you are migrating from an earlier version, note the keystroke event is `aegovInputValue`, not `aegovInputInput`.
 
 ---
 
 ## RTL Support
 
-The input is fully direction-aware. In a `dir="rtl"` container the text aligns to the right, the `icon-start` slot renders on the right and `icon-end` on the left, and the reveal and copy buttons move to the inline-end edge. Input group add-ons swap sides too, so a `+971` prefix stays logically before the number.
-
-The built-in control labels are translated automatically: "Show password" / "Hide password" become "إظهار كلمة المرور" / "إخفاء كلمة المرور", and the copy button and its live-region announcement become "نسخ إلى الحافظة" / "تم النسخ".
+The input uses CSS logical properties throughout, so padding, slot icons, and the reveal/copy buttons swap sides automatically when the document or any ancestor is set to `dir="rtl"`. Add-ons in `aegov-input-group` flip too — `addon-prefix` ends up on the right and `addon-suffix` on the left.
 
 ```html
 <div dir="rtl">
   <aegov-form-field>
-    <aegov-label>الاسم الكامل</aegov-label>
-    <aegov-input name="fullName" is-required hint="كما هو مكتوب في الهوية الإماراتية"></aegov-input>
+    <aegov-label is-required="true">الاسم الكامل (كما في الهوية الإماراتية)</aegov-label>
+    <aegov-input placeholder="مثال: محمد علي المنصوري" is-required="true"></aegov-input>
   </aegov-form-field>
 
-  <aegov-input type="password" is-revealable placeholder="كلمة المرور"></aegov-input>
+  <aegov-form-field>
+    <aegov-label is-required="true">رقم الهوية الإماراتية</aegov-label>
+    <aegov-input placeholder="784-YYYY-NNNNNNN-N" is-required="true"></aegov-input>
+    <span slot="hint">خمسة عشر رقماً موجودة على الجهة الأمامية من بطاقة الهوية.</span>
+  </aegov-form-field>
 
-  <aegov-input-group addon-prefix="+971" group-label="رقم الهاتف المتحرك">
-    <aegov-input type="tel" placeholder="50 123 4567"></aegov-input>
+  <aegov-input-group addon-prefix="+971">
+    <aegov-input type="tel" placeholder="50 000 0000"></aegov-input>
   </aegov-input-group>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-5">
+  <div class="grid gap-6 max-w-xl">
     <aegov-form-field>
-      <aegov-label>الاسم الكامل</aegov-label>
-      <aegov-input field-id="in-rtl-1" name="fullName" is-required hint="كما هو مكتوب في الهوية الإماراتية"></aegov-input>
+      <aegov-label is-required="true">الاسم الكامل (كما في الهوية الإماراتية)</aegov-label>
+      <aegov-input placeholder="مثال: محمد علي المنصوري" is-required="true"></aegov-input>
     </aegov-form-field>
-    <aegov-input field-id="in-rtl-2" type="password" is-revealable value="كلمة-المرور"></aegov-input>
-    <aegov-input field-id="in-rtl-3" type="search" placeholder="ابحث عن الخدمات">
-      <svg slot="icon-start" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
-    </aegov-input>
-    <div>
-      <aegov-input-group addon-prefix="+971" group-label="رقم الهاتف المتحرك">
-        <aegov-input field-id="in-rtl-4" type="tel" placeholder="50 123 4567"></aegov-input>
-      </aegov-input-group>
-    </div>
-    <aegov-input field-id="in-rtl-5" is-readonly is-copyable value="APP-2026-0041827"></aegov-input>
+    <aegov-form-field>
+      <aegov-label is-required="true">رقم الهوية الإماراتية</aegov-label>
+      <aegov-input placeholder="784-YYYY-NNNNNNN-N" is-required="true"></aegov-input>
+      <span slot="hint">خمسة عشر رقماً موجودة على الجهة الأمامية من بطاقة الهوية.</span>
+    </aegov-form-field>
+    <aegov-input-group addon-prefix="+971">
+      <aegov-input type="tel" placeholder="50 000 0000"></aegov-input>
+    </aegov-input-group>
   </div>
 </div>
-
-One thing to handle yourself: values that are inherently left-to-right inside Arabic copy — phone numbers, IBANs, reference codes, email addresses. Set `dir="ltr"` on that individual input so the digits do not reorder:
-
-```html
-<aegov-input dir="ltr" type="tel" name="mobile" placeholder="+971 50 123 4567"></aegov-input>
-```
 
 ---
 
@@ -493,161 +474,151 @@ One thing to handle yourself: values that are inherently left-to-right inside Ar
 
 ### aegov-input Properties
 
-| Property | Attribute | Description | Type | Default |
-| --- | --- | --- | --- | --- |
-| `fieldId` | `field-id` | ID applied to the inner `<input>`. Auto-generated when omitted, reflected to the host. | `string` | _generated_ |
-| `type` | `type` | Native input type. | `'text' \| 'email' \| 'password' \| 'tel' \| 'url' \| 'number' \| 'search' \| 'date' \| 'time' \| 'datetime-local' \| 'month' \| 'week'` | `'text'` |
-| `size` | `size` | Size token or responsive string. | `string` — `xs \| sm \| base \| lg \| xl` | `'base'` |
-| `variant` | `variant` | Colour family for the idle ring, value text and accent. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
-| `value` | `value` | Current value. Mutable — updated as the user types. | `string` | `''` |
-| `name` | `name` | Form field name, used by `FormData`. | `string` | — |
-| `placeholder` | `placeholder` | Placeholder text. Not a substitute for a label. | `string` | — |
-| `isDisabled` | `is-disabled` | Disables the input. Not submitted with the form. | `boolean` | `false` |
-| `isReadonly` | `is-readonly` | Value cannot be edited but is still submitted. | `boolean` | `false` |
-| `isRequired` | `is-required` | Sets the native `required` attribute. | `boolean` | `false` |
-| `isRevealable` | `is-revealable` | Adds a show/hide toggle. Only applies to `type="password"`. | `boolean` | `false` |
-| `isCopyable` | `is-copyable` | Adds a copy-to-clipboard button. Only applies when `is-readonly`. | `boolean` | `false` |
-| `isInvalid` | `is-invalid` | Invalid state — see [Validation](#validation). Reflected to the host. | `boolean` | `false` |
-| `errorMessage` | `error-message` | Error text shown while invalid. | `string` | `''` |
-| `hint` | `hint` | Helper text shown when no error is showing. | `string` | `''` |
-| `extraClass` | `extra-class` | Extra classes appended to the inner `<input>`. | `string` | — |
+| Property       | Attribute       | Description                                                                                  | Type       | Default     |
+| -------------- | --------------- | -------------------------------------------------------------------------------------------- | ---------- | ----------- |
+| `fieldId`      | `field-id`      | DOM `id` for the native `<input>`. Auto-generated as `aegov-input-{n}` if omitted.            | `string`   | _generated_ |
+| `type`         | `type`          | Native input type. See list below.                                                            | `InputType` | `'text'`   |
+| `size`         | `size`          | Field size token or responsive string.                                                        | `string`   | `'base'`    |
+| `variant`      | `variant`       | Colour family for idle ring, value text, and hover accent. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
+| `value`        | `value`         | Current value. Mutable — synced internally on `input` and `change`.                            | `string`   | `''`        |
+| `placeholder`  | `placeholder`   | Placeholder text shown when the field is empty.                                                | `string`   | `undefined` |
+| `name`         | `name`          | Native `name` attribute used during form submission.                                            | `string`   | `undefined` |
+| `isDisabled`   | `is-disabled`   | Disable the input.                                                                              | `boolean`  | `false`     |
+| `isReadonly`   | `is-readonly`   | Mark the input as read-only.                                                                    | `boolean`  | `false`     |
+| `isRequired`   | `is-required`   | Mark the field as required (sets native `required`).                                            | `boolean`  | `false`     |
+| `isRevealable` | `is-revealable` | Show a password reveal toggle. Only takes effect with `type="password"`.                         | `boolean`  | `false`     |
+| `isCopyable`   | `is-copyable`   | Show a copy-to-clipboard button. Only takes effect with `is-readonly="true"`.                    | `boolean`  | `false`     |
+| `isInvalid`    | `is-invalid`    | Puts the field into error state.                                                                  | `boolean`  | `false`     |
+| `errorMessage` | `error-message` | Inline error text shown below the field when `isInvalid` is true.                                | `string`   | `''`        |
+| `hint`         | `hint`          | Inline hint text shown below the field when not in error state.                                   | `string`   | `''`        |
+| `extraClass`   | `extra-class`   | Additional CSS classes applied to the native `<input>`.                                          | `string`   | `undefined` |
+
+`InputType` accepts: `text`, `email`, `password`, `tel`, `url`, `number`, `search`, `date`, `time`, `datetime-local`, `month`, `week`.
 
 ### aegov-input-group Properties
 
-| Property | Attribute | Description | Type | Default |
-| --- | --- | --- | --- | --- |
-| `size` | `size` | Size token or responsive string. Propagated to child `aegov-input` and `aegov-button`. | `string` | `'base'` |
-| `addonPrefix` | `addon-prefix` | Leading add-on text. Added to the input's `aria-describedby`. | `string` | — |
-| `addonSuffix` | `addon-suffix` | Trailing add-on text. Added to the input's `aria-describedby`. | `string` | — |
-| `groupLabel` | `group-label` | Accessible name for the `role="group"` wrapper. | `string` | — |
-| `variant` | `variant` | Colour family. Cascades to child inputs that have not set their own. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
-| `extraClass` | `extra-class` | Extra classes on the group wrapper. | `string` | — |
-
-`prefix` and `suffix` are reserved DOM property names, which is why these are `addonPrefix` / `addonSuffix`.
+| Property      | Attribute       | Description                                                          | Type     | Default     |
+| ------------- | --------------- | -------------------------------------------------------------------- | -------- | ----------- |
+| `size`        | `size`          | Group size, propagated to child `aegov-input` and `aegov-button`.    | `string` | `'base'`    |
+| `variant`     | `variant`       | Colour family, cascades to inner `aegov-input` and shifts the addon stripe colour. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
+| `groupLabel`  | `group-label`   | Accessible label for the input group wrapper.                         | `string`  | `undefined` |
+| `addonPrefix` | `addon-prefix`  | Static text shown before the input (logical start).                   | `string` | `undefined` |
+| `addonSuffix` | `addon-suffix`  | Static text shown after the input (logical end).                      | `string` | `undefined` |
+| `extraClass`  | `extra-class`   | Additional CSS classes on the wrapper.                                | `string` | `undefined` |
 
 ### Slots
 
-| Slot | Description |
-| --- | --- |
-| `icon-start` | Leading icon or short text. Rendered at the inline-start edge. |
-| `icon-end` | Trailing icon or short text. **Hidden when `is-revealable` or `is-copyable` is active.** |
-| `hint` | Rich hint markup. Takes precedence over the `hint` property. |
-| `error` | Rich error markup. Takes precedence over `error-message`. Rendered only while `is-invalid`. |
+| Component           | Slot         | Description                                                                            |
+| ------------------- | ------------ | -------------------------------------------------------------------------------------- |
+| `aegov-input`       | `icon-start` | Icon shown before the input value (logical start).                                      |
+| `aegov-input`       | `icon-end`   | Icon shown after the input value (hidden when a reveal/copy button is active).           |
+| `aegov-input`       | `error`      | Rich HTML error markup shown when `isInvalid` is true. Supersedes `error-message` prop. |
+| `aegov-input`       | `hint`       | Rich HTML hint markup shown when not in error state. Supersedes `hint` prop.             |
+| `aegov-input-group` | _(default)_  | Place an `aegov-input` (and optionally an `aegov-button`) here.                          |
 
 ### Events
 
-| Event | Detail | Description |
-| --- | --- | --- |
-| `aegovInputValue` | `{ value: string; event: Event }` | Every keystroke. |
-| `aegovInputChange` | `{ value: string; event: Event }` | Value committed (native `change`). |
-| `aegovInputFocus` | `FocusEvent` | Input gained focus. |
-| `aegovInputBlur` | `FocusEvent` | Input lost focus. |
-| `aegovValidate` | `AegovValidationDetail<string>` | Unified validation event — see [Validation Surface](validation-overview.html). |
-
-### Methods
-
-| Method | Returns | Description |
-| --- | --- | --- |
-| `validate(trigger?)` | `Promise<AegovValidationResult>` | Re-reads native validity, emits `aegovValidate`, returns the result. `trigger` defaults to `'manual'`. |
-| `setCustomValidity(message)` | `Promise<void>` | Sets `error-message` and `is-invalid`, and mirrors onto the native input so `form.checkValidity()` agrees. Empty string clears. |
+| Event               | Component     | Detail                              | Description                                                                  |
+| ------------------- | ------------- | ----------------------------------- | ---------------------------------------------------------------------------- |
+| `aegovInputValue`   | `aegov-input` | `{ value: string; event: Event }`   | Fires on every keystroke. Use for live validation hints.                      |
+| `aegovInputChange`  | `aegov-input` | `{ value: string; event: Event }`   | Fires when the value commits (native `change`, typically on blur or Enter).   |
+| `aegovInputFocus`   | `aegov-input` | `FocusEvent`                        | Fires when the input gains focus.                                              |
+| `aegovInputBlur`    | `aegov-input` | `FocusEvent`                        | Fires when the input loses focus.                                              |
+| `aegovValidate`     | `aegov-input` | `AegovValidationDetail<string>`     | Fires when the input validates. Detail includes `name`, `value`, `validity`, `validationMessage`, `customError`, `trigger`. |
 
 ### Pass-through Attributes
 
-Attributes on the host are forwarded to the inner `<input>`, which is how native behaviour that has no property equivalent still reaches the control.
+`aria-*` and `data-*` attributes set on `<aegov-input>` are always forwarded to the native `<input>`. The following standard input attributes are also forwarded when set on the host:
 
-| Attribute group | Forwarded? | Notes |
-| --- | --- | --- |
-| `pattern`, `min`, `max`, `minlength`, `maxlength`, `step` | Yes | Native constraints. They feed the `validity` flags in `aegovValidate`. |
-| `autocomplete`, `inputmode`, `enterkeyhint`, `spellcheck`, `autofocus` | Yes | Native input behaviour and mobile keyboard hints. |
-| `list`, `multiple`, `accept`, `capture` | Yes | Native datalist and file-adjacent attributes. |
-| `title`, `tabindex`, `form` | Yes | Forwarded to the inner `<input>`. |
-| `aria-*` | Yes | Forwarded — **except** `aria-invalid` and `aria-describedby`. |
-| `data-*` | Yes | Forwarded to the inner `<input>`. |
-| `aria-invalid` | **No** | Owned by the component and driven by `is-invalid`. A host-level value is stripped. |
-| `aria-describedby` | Composed | Not overwritten: your value is **preserved** and the hint, error and add-on IDs are appended to it. |
-| `id` | n/a | Use `field-id`. |
-| `class`, `style` | Allowed | Applied to the host. Use `extra-class` to reach the inner `<input>`. |
-| `dir` | Yes | Useful for forcing LTR on phone numbers and reference codes inside Arabic pages. |
+| Attribute      | Description                                            |
+| -------------- | ------------------------------------------------------ |
+| `pattern`      | Regular-expression validation pattern.                  |
+| `min`, `max`   | Bounds for numeric and date types.                      |
+| `step`         | Step granularity for numeric and date types.            |
+| `minlength`    | Minimum character count.                                 |
+| `maxlength`    | Maximum character count.                                 |
+| `autocomplete` | Browser autofill hint (e.g. `email`, `tel`, `off`).      |
+| `autofocus`    | Focus the input when it mounts.                         |
+| `inputmode`    | On-screen keyboard hint (`numeric`, `tel`, etc.).       |
+| `list`         | Reference a `<datalist>` element by id.                  |
+| `multiple`     | Allow multiple comma-separated values (email/file).      |
+| `accept`       | File-input MIME filter.                                  |
+| `capture`      | File-input camera/microphone source.                    |
+| `spellcheck`   | Enable or disable spellchecking.                        |
+| `enterkeyhint` | Mobile keyboard "Enter" key label.                      |
+| `title`        | Native tooltip / validation message.                     |
+| `tabindex`     | Custom tab order.                                        |
+| `form`         | Associate with a form by id.                             |
 
-### CSS classes
-
-| Class | Element |
-| --- | --- |
-| `.aegov-input` | The inner `<input>`. |
-| `.input--xs` … `.input--xl` | Size modifier on the input. |
-| `.input-variant-*` | Variant modifier on the input. |
-| `.input--has-action` | Added when a reveal or copy button is present. |
-| `.input--has-icon-start`, `.input--has-icon-end` | Added when the matching slot has content. |
-| `.input__wrapper` | Positioning wrapper, rendered only when icons or action buttons exist. |
-| `.aegov-input__error`, `.aegov-input__hint` | The error and hint regions. |
-| `.is-invalid` | Added to the **host** while `is-invalid`. |
+> Reserved HTML attributes (`id`, `class`, `style`) cannot be used as props — `id` is replaced by `field-id`, and `class`/`style` are applied to the host as usual.
 
 ---
 
 ## Validation
 
+`aegov-input` exposes the unified validation surface described in [Validation Surface](validation-overview.html). The full contract (props, event payload, methods, value types, ARIA) lives there — only input-specific notes are here.
+
 ### Surface
 
-`aegov-input` implements the shared contract: `is-invalid`, `error-message` and `hint` properties, `error` and `hint` slots, the `aegovValidate` event, and `validate()` / `setCustomValidity()` methods. Because it wraps a native `<input>`, the `validity` flags in the event are the browser's real `ValidityState` — not a synthesized approximation. Full reference: [Validation Surface](validation-overview.html).
+| Prop | Description |
+| --- | --- |
+| `is-invalid` | Toggles invalid state; sets `aria-invalid="true"` on the inner `<input>`. |
+| `error-message` | Inline error text below the input. Use `error` slot for richer markup. |
+| `hint` | Helper text below the input when no error is shown. |
 
-The value type is `string`, and the `FormData` payload is that same string.
+| Method | Description |
+| --- | --- |
+| `validate(trigger?)` | Re-runs validation; emits `aegovValidate`. |
+| `setCustomValidity(message)` | Sets a custom error message; pass `''` to clear. |
+
+| Event | Detail |
+| --- | --- |
+| `aegovValidate` | `{ name, value, validity, validationMessage, customError, trigger }` — `value` is `string`. |
 
 ### Common recipes
 
-Let the browser decide and supply your own copy:
+**Required + email validation:**
 
-```js
-const input = document.querySelector('#email');
-
-input.addEventListener('aegovValidate', (e) => {
-  if (e.detail.trigger === 'input') return;   // don't judge mid-typing
-
-  const v = e.detail.validity;
-  input.isInvalid = !v.valid;
-  input.errorMessage =
-    v.valueMissing ? 'Enter your email address' :
-    v.typeMismatch ? 'Enter a valid email address' : '';
-});
+```html
+<aegov-input name="email" type="email" is-required></aegov-input>
 ```
 
-A format rule the browser cannot express:
+The native `type="email"` triggers `validity.typeMismatch`; `is-required` triggers `validity.valueMissing`. Both surface through the `aegovValidate` event.
 
-```js
-const eid = document.querySelector('#emirates-id');
+**Min/max length:**
 
-eid.addEventListener('aegovValidate', (e) => {
-  if (e.detail.trigger === 'input') return;
-  const digits = String(e.detail.value).replace(/\D/g, '');
-  const ok = digits.length === 15;
-  eid.isInvalid = !ok;
-  eid.errorMessage = ok ? '' : 'Emirates ID must be 15 digits';
-});
+```html
+<aegov-input name="zip" minlength="5" maxlength="5"></aegov-input>
 ```
 
-A server-side check, using `setCustomValidity` so native form validity stays honest:
+**Pattern (regex):**
 
-```js
-const res = await api.checkEmiratesId(eid.value);
-await eid.setCustomValidity(res.ok ? '' : res.reason);
+```html
+<aegov-input name="phone" pattern="^\+971-?\d{9}$"></aegov-input>
 ```
 
-More patterns — cross-field rules, async debouncing, error summaries — in [Bring Your Own Validator](validation-byo.html).
+**Custom server-side error:**
+
+```js
+input.setCustomValidity('Username already taken');
+```
+
+See the [Bring Your Own Validator](validation-byo.html) recipes for the full pattern catalog including async server checks and cross-field rules.
 
 ### Use with `@aegov/designsystem-validation`
-
-The optional companion package drives exactly this surface from a schema. It is **not required**, and nothing here depends on it.
 
 ```ts
 import { createForm } from '@aegov/designsystem-validation';
 import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot';
 import * as v from 'valibot';
 
-createForm(form, v.object({
-  email: v.pipe(v.string(), v.email('Enter a valid email address')),
-}), valibotAdapter(), { mode: 'onBlur' });
+const schema = v.object({
+  email: v.pipe(v.string(), v.email('Invalid email')),
+});
+createForm(form, schema, valibotAdapter(), { onValidSubmit: console.log });
 ```
 
-Each input needs a `name` for the orchestrator to match it to a schema path.
+The orchestrator listens for `aegovValidate` events and writes back `is-invalid` / `error-message`. No per-component wiring required.
 
 ---
 
@@ -655,45 +626,26 @@ Each input needs a `name` for the orchestrator to match it to a schema path.
 
 ### Built-in behaviour
 
-- The inner element is a real `<input>`, so type-specific keyboards, autofill, native constraint validation and form participation all come from the platform.
-- `aria-invalid="true"` is set on the input while `is-invalid`, and removed when it is not.
-- **`aria-describedby` is composed, never clobbered.** Your own value is preserved, and the hint region, error region and input-group add-on IDs are appended to it.
-- The error region takes `role="alert"` only **after the field's first blur**, so a partial error is not announced on every keystroke while the user is still typing.
-- The reveal and copy buttons are real `<button type="button">` elements with `aria-hidden` icons and descriptive `aria-label`s that are translated in RTL contexts.
-- Copy success is announced through a visually hidden `role="status" aria-live="polite"` region, so the confirmation is not purely visual.
-- Every size token is at least 36 CSS px tall, above the WCAG 2.2 SC 2.5.8 minimum target size of 24 × 24, and the reveal and copy buttons meet it too.
-- The focus ring is a high-contrast camel outline held constant across all variants so it always meets the 3:1 non-text contrast requirement of WCAG 2.2 SC 1.4.11.
-- `aegov-input-group` renders `role="group"` and names it from `group-label`.
+- Renders a real `<input>` element, preserving native semantics, keyboard handling, autofill, and assistive-technology behaviour.
+- `field-id` is auto-generated and reflected to the host so external `<label for>` (or `aegov-label`) can associate reliably.
+- `is-required` sets the native `required` attribute, which exposes the requirement to assistive tech automatically.
+- The reveal toggle and copy button each have descriptive bilingual `aria-label` text ("Show password" / "إظهار كلمة المرور", "Copy to clipboard" / "نسخ") and are in the natural tab order so keyboard-only users can reach them.
+- Decorative SVG icons in the helper buttons use `aria-hidden="true"`.
+- When wrapped in `aegov-form-field`, helper and error text are wired up via `aria-describedby` automatically.
+- `aegov-input-group` renders `role="group"` and forwards consumer `aria-*` attributes to it. Use `group-label` for an `aria-label`, or add `aria-labelledby` on the host to reference an external heading.
 
 ### Developer responsibilities
 
-- **Always provide a visible label.** Use [`aegov-label`](aegov-label.html) inside [`aegov-form-field`](aegov-form-field.html), which links them for you. A placeholder is not a label — it disappears on first keystroke and typically fails contrast.
-- **Mark required fields in the label text.** `is-required` sets the native attribute but renders no visual marker.
-- **Choose the right `type`.** It determines the mobile keyboard and the browser's own validation; `type="text"` for an email address is a usability defect.
-- **Add `autocomplete`.** For names, addresses, phone numbers and one-time codes this is a genuine accessibility win, and it is required for WCAG 2.2 SC 1.3.5 on identify-input-purpose.
-- **Never signal an error with colour alone** (WCAG 2.2 SC 1.4.1) — always populate `error-message` or the `error` slot.
-- **Mark slotted icons `aria-hidden="true"`.**
-- **Set `dir="ltr"` on inputs holding LTR data** — phone numbers, IBANs, reference codes — inside Arabic pages.
-- **Do not put both a trailing icon and a reveal or copy button** on one field; the icon will be hidden.
-- **Keep hint text short and permanent.** If the guidance is only relevant while a field is empty, it probably belongs in the label.
+- Always provide a visible label — `aegov-label` inside `aegov-form-field` is the preferred pattern. For unlabelled inputs (e.g. an icon-only search field), set `aria-label` on the host.
+- Use the right `type` for the data being collected — it determines on-screen keyboards, autofill behaviour, and built-in validation.
+- For password reveal, warn users about visibility when sharing screens; the toggle does not announce the change to other parties.
+- For copyable fields, ensure the value is safe to expose in clipboard history.
 
 ### Keyboard support
 
-| Key | Action |
-| --- | --- |
-| `Tab` | Move focus to the input, then to the reveal or copy button when present. |
-| `Shift` + `Tab` | Move focus backwards. |
-| `Enter` | Submit the surrounding form, if any. |
-| `Enter`, `Space` | Activate the reveal or copy button when it has focus. |
-
-Type-specific keys — arrow keys on `type="number"`, the native picker on `type="date"` — are handled by the browser.
-
----
-
-## Where to next
-
-- [Form Field](aegov-form-field.html) and [Label](aegov-label.html) — the wrapper and label that complete a field.
-- [Textarea](aegov-textarea.html) — multi-line text, with a character counter.
-- [Select](aegov-select.html) — choosing from a list.
-- [Datepicker](aegov-datepicker.html) — a themed calendar instead of `type="date"`.
-- [Validation Surface](validation-overview.html) and [Bring Your Own Validator](validation-byo.html).
+| Key             | Action                                                                             |
+| --------------- | ---------------------------------------------------------------------------------- |
+| `Tab`           | Move focus through the input, then to the reveal/copy button (if shown), then to the next field. |
+| `Shift + Tab`   | Move focus to the previous focusable element.                                        |
+| `Enter`         | Commit the value (fires `aegovInputChange`) and submit the surrounding form.         |
+| Standard text editing | All native shortcuts apply — selection, cursor movement, cut/copy/paste.        |

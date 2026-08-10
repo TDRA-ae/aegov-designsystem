@@ -10,8 +10,10 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 
 /* Dark mode strategy — class-based on <html> (.dark).
-   Shadow DOM components must use :host-context(.dark) explicitly since
-   ancestor selectors cannot pierce shadow boundaries. */
+   &:where(.dark, .dark *) works for scoped and shadow:false (element or ancestor has .dark).
+   NOTE: shadow:true components need :host-context(.dark) which Tailwind v4 custom-variant
+   does not yet support alongside &:where(). Tracked as a follow-up: add per-component
+   :host-context(.dark) overrides once Tailwind v4 supports multi-selector @custom-variant. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
@@ -21,7 +23,7 @@
 
   /* AEGold Color — accessible ramp (uniform OKLCH lightness, bell chroma, gentle hue drift).
      600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). */
-  --color-aegold-50: oklch(0.990 0.010 96);
+  --color-aegold-50: oklch(0.974 0.022 96);
   --color-aegold-100: oklch(0.9189 0.032 94);
   --color-aegold-200: oklch(0.8477 0.060 91.5);
   --color-aegold-300: oklch(0.7766 0.085 89);
@@ -35,7 +37,7 @@
 
   /* AERed Color — accessible ramp (uniform OKLCH lightness, bell chroma).
      600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). */
-  --color-aered-50: oklch(0.992 0.007 18);
+  --color-aered-50: oklch(0.974 0.030 18);
   --color-aered-100: oklch(0.9223 0.045 20);
   --color-aered-200: oklch(0.8547 0.085 22);
   --color-aered-300: oklch(0.787 0.140 24);
@@ -49,7 +51,7 @@
 
   /* AEGreen Color — accessible ramp (uniform OKLCH lightness, bell chroma).
      600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). */
-  --color-aegreen-50: oklch(0.993 0.005 150);
+  --color-aegreen-50: oklch(0.974 0.020 150);
   --color-aegreen-100: oklch(0.9163 0.030 150.5);
   --color-aegreen-200: oklch(0.8427 0.055 150);
   --color-aegreen-300: oklch(0.769 0.085 150);
@@ -63,7 +65,7 @@
 
   /* AEBlack Color — accessible neutral ramp (uniform light half, softened dark
      half so 950 is a deep gray, not pure black). 600 locked; 50-on-600 = 8.0:1. */
-  --color-aeblack-50: oklch(0.99 0.002 262);
+  --color-aeblack-50: oklch(0.974 0.003 262);
   --color-aeblack-100: oklch(0.8962 0.004 262);
   --color-aeblack-200: oklch(0.8023 0.006 262);
   --color-aeblack-300: oklch(0.7085 0.008 262);
@@ -86,7 +88,7 @@
   /* Support Colors */
   /* Camel Color — accessible ramp (uniform OKLCH lightness, bell chroma).
      50-on-600 = 4.5:1 (WCAG AA). */
-  --color-camel-50: oklch(0.993 0.006 66);
+  --color-camel-50: oklch(0.974 0.024 66);
   --color-camel-100: oklch(0.9202 0.035 64);
   --color-camel-200: oklch(0.8504 0.070 63);
   --color-camel-300: oklch(0.7807 0.110 62);
@@ -99,7 +101,7 @@
   --color-camel-950: oklch(0.2922 0.065 47);
 
   /* Slate Color */
-  --color-slate-50: oklch(0.984 0.003 247.9);
+  --color-slate-50: oklch(0.974 0.006 247.9);
   --color-slate-100: oklch(0.968 0.007 247.9);
   --color-slate-200: oklch(0.929 0.013 255.5);
   --color-slate-300: oklch(0.869 0.020 252.9);
@@ -113,7 +115,7 @@
 
   /* Fuchsia Color — accessible ramp (uniform OKLCH lightness, bell chroma).
      600 is the locked base; 50-on-600 = 4.6:1 (WCAG AA). */
-  --color-fuchsia-50: oklch(0.993 0.010 320);
+  --color-fuchsia-50: oklch(0.974 0.030 320);
   --color-fuchsia-100: oklch(0.9235 0.045 320.5);
   --color-fuchsia-200: oklch(0.857 0.090 321);
   --color-fuchsia-300: oklch(0.7905 0.150 321.5);
@@ -127,7 +129,7 @@
 
   /* TechBlue Color — accessible ramp (uniform OKLCH lightness, bell chroma).
      50-on-600 = 6.6:1 (WCAG AA, comfortably). */
-  --color-techblue-50: oklch(0.993 0.008 239);
+  --color-techblue-50: oklch(0.974 0.030 239);
   --color-techblue-100: oklch(0.908 0.045 243);
   --color-techblue-200: oklch(0.826 0.090 247);
   --color-techblue-300: oklch(0.744 0.150 252);
@@ -141,7 +143,7 @@
 
   /* SeaBlue Color — accessible ramp (uniform OKLCH lightness, bell chroma).
      50-on-600 = 4.5:1 (WCAG AA). */
-  --color-seablue-50: oklch(0.993 0.005 228);
+  --color-seablue-50: oklch(0.974 0.020 228);
   --color-seablue-100: oklch(0.9172 0.030 230);
   --color-seablue-200: oklch(0.8445 0.060 232);
   --color-seablue-300: oklch(0.7717 0.095 235);
@@ -155,7 +157,7 @@
 
   /* Desert Color — accessible ramp (uniform OKLCH lightness, bell chroma).
      50-on-600 = 4.5:1 (WCAG AA). */
-  --color-desert-50: oklch(0.993 0.006 58);
+  --color-desert-50: oklch(0.974 0.026 58);
   --color-desert-100: oklch(0.9222 0.040 52);
   --color-desert-200: oklch(0.8544 0.080 48);
   --color-desert-300: oklch(0.7867 0.130 44);
@@ -169,7 +171,7 @@
 
   /* Purple Color — accessible ramp (uniform OKLCH lightness, bell chroma).
      600 is the locked base; 50-on-600 = 5.3:1 (WCAG AA). */
-  --color-purple-50: oklch(0.993 0.010 308);
+  --color-purple-50: oklch(0.974 0.030 308);
   --color-purple-100: oklch(0.9179 0.045 307);
   --color-purple-200: oklch(0.8458 0.090 306.5);
   --color-purple-300: oklch(0.7737 0.150 305.5);
@@ -183,7 +185,7 @@
 
   /* Indigo Color — accessible ramp (uniform OKLCH lightness, bell chroma).
      600 is the locked base; 50-on-600 = 6.2:1 (WCAG AA). */
-  --color-indigo-50: oklch(0.993 0.008 272);
+  --color-indigo-50: oklch(0.974 0.026 272);
   --color-indigo-100: oklch(0.9101 0.040 273);
   --color-indigo-200: oklch(0.8302 0.075 274);
   --color-indigo-300: oklch(0.7503 0.130 275);
@@ -197,7 +199,7 @@
 
   /* Pink Color — accessible ramp (uniform OKLCH lightness, bell chroma).
      600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). */
-  --color-pink-50: oklch(0.993 0.004 343);
+  --color-pink-50: oklch(0.974 0.024 343);
   --color-pink-100: oklch(0.9236 0.035 345);
   --color-pink-200: oklch(0.8572 0.065 347);
   --color-pink-300: oklch(0.7908 0.110 350);

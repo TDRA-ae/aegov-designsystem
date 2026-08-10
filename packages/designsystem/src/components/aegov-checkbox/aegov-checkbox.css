@@ -6,7 +6,7 @@
   @apply relative;
 }
 .aegov-checkbox input[type="checkbox"] {
-  @apply appearance-none shrink-0 mt-0.5 text-whitely-50 border-2 relative m-0 h-4.5 w-4.5 disabled:pointer-events-none disabled:checked:opacity-40 disabled:border-primary-200 rounded focus-visible:outline-2 focus-visible:outline-offset-2;
+  @apply appearance-none shrink-0 mt-0.5 text-whitely-50 border-2 relative m-0 h-4.5 w-4.5 rounded focus-visible:outline-2 focus-visible:outline-offset-2;
 
   &:before  {
     content: '';
@@ -27,8 +27,14 @@
     @apply bg-center bg-no-repeat bg-[length:100%_100%];
   }
 
+  &:disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    border-color: var(--color-primary-200);
+  }
+
   &:disabled:before {
-    @apply hidden!;
+    display: none !important;
   }
 }
 /* Variant — rest border, checked bg+border, hover halo, focus outline per colour family.
@@ -58,7 +64,8 @@
 }
 
 .checkbox__wrapper:has(input:disabled) {
-  @apply cursor-not-allowed opacity-40;
+  cursor: not-allowed;
+  opacity: 0.4;
 }
 
 .checkbox__text {
@@ -70,7 +77,7 @@
 }
 
 .checkbox__hint {
-  @apply text-aeblack-500 dark:text-aeblack-400;
+  @apply text-aeblack-600 dark:text-aeblack-300 leading-snug;
 }
 
 /* ========================================
@@ -154,7 +161,7 @@
 }
 
 .checkbox--base .checkbox__hint {
-  @apply text-sm mt-1;
+  @apply text-sm mt-1.5 leading-snug;
 }
 
 /* ========================================
@@ -182,7 +189,7 @@
 }
 
 .checkbox--lg .checkbox__hint {
-  @apply text-base mt-1;
+  @apply text-base mt-1.5 leading-snug;
 }
 
 /* ========================================
@@ -210,20 +217,210 @@
 }
 
 .checkbox--xl .checkbox__hint {
-  @apply text-base mt-1;
+  @apply text-base mt-1.5 leading-snug;
 }
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
-aegov-checkbox.is-invalid .checkbox__wrapper input[type="checkbox"] {
+:host(.is-invalid) .checkbox__wrapper input[type="checkbox"] {
   @apply ring-2 ring-aered-500 dark:ring-aered-400;
 }
 
 /* Invalid + focus — outline goes red so it doesn't compete with the red ring. */
-aegov-checkbox.is-invalid .checkbox__wrapper input[type="checkbox"]:focus-visible {
+:host(.is-invalid) .checkbox__wrapper input[type="checkbox"]:focus-visible {
   @apply outline-aered-500 dark:outline-aered-400;
 }
 
 .aegov-checkbox__error {
   @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
+}
+
+/* ============================================================
+   Cards appearance
+   Synced from aegov-checkbox-group via syncChildren() → reflects as [appearance="cards"].
+   ============================================================ */
+
+/* Base card layout */
+:host(.checkbox-appearance-cards) .checkbox__wrapper {
+  @apply w-full border-2 border-solid rounded-lg bg-white transition-all duration-200 dark:bg-aeblack-900;
+}
+
+/* Card padding per size */
+:host(.checkbox-appearance-cards) .checkbox--xs .checkbox__wrapper   { @apply p-2; }
+:host(.checkbox-appearance-cards) .checkbox--sm .checkbox__wrapper   { @apply p-3; }
+:host(.checkbox-appearance-cards) .checkbox--base .checkbox__wrapper { @apply p-4; }
+:host(.checkbox-appearance-cards) .checkbox--lg .checkbox__wrapper   { @apply p-5; }
+:host(.checkbox-appearance-cards) .checkbox--xl .checkbox__wrapper   { @apply p-6; }
+
+/* Card rest border — per variant. Raw CSS so we can add guaranteed oklch fallbacks. */
+:host(.checkbox-appearance-cards) .checkbox-variant-primary .checkbox__wrapper {
+  border-color: var(--color-primary-500, var(--color-aegold-500, oklch(0.6343 0.101 85)));
+}
+:host(.checkbox-appearance-cards) .checkbox-variant-secondary .checkbox__wrapper {
+  border-color: var(--color-secondary-500, var(--color-camel-500, oklch(0.6343 0.101 55)));
+}
+:host(.checkbox-appearance-cards) .checkbox-variant-neutral-max .checkbox__wrapper {
+  border-color: var(--color-aeblack-300, oklch(0.7182 0.007 263));
+}
+:host(.checkbox-appearance-cards) .checkbox-variant-neutral-min .checkbox__wrapper {
+  border-color: var(--color-aeblack-200, oklch(0.8023 0.006 262));
+}
+
+/* Card hover border */
+:host(.checkbox-appearance-cards) .checkbox-variant-primary .checkbox__wrapper:hover:not(:has(input:disabled)) {
+  border-color: var(--color-primary-600, var(--color-aegold-600, oklch(0.5632 0.0956 83.8)));
+}
+:host(.checkbox-appearance-cards) .checkbox-variant-secondary .checkbox__wrapper:hover:not(:has(input:disabled)) {
+  border-color: var(--color-secondary-600, var(--color-camel-600, oklch(0.5632 0.0956 55)));
+}
+:host(.checkbox-appearance-cards) .checkbox-variant-neutral-max .checkbox__wrapper:hover:not(:has(input:disabled)) {
+  border-color: var(--color-aeblack-500, oklch(0.5888 0.008 264));
+}
+:host(.checkbox-appearance-cards) .checkbox-variant-neutral-min .checkbox__wrapper:hover:not(:has(input:disabled)) {
+  border-color: var(--color-aeblack-400, oklch(0.6535 0.008 263));
+}
+
+/* Card checked state */
+:host(.checkbox-appearance-cards) .checkbox-variant-primary .checkbox__wrapper:has(input:checked)    { @apply border-primary-600 bg-primary-50 dark:border-primary-400 dark:bg-primary-900/30; }
+:host(.checkbox-appearance-cards) .checkbox-variant-secondary .checkbox__wrapper:has(input:checked)  { @apply border-secondary-600 bg-secondary-50 dark:border-secondary-400 dark:bg-secondary-900/30; }
+:host(.checkbox-appearance-cards) .checkbox-variant-neutral-max .checkbox__wrapper:has(input:checked) { @apply border-aeblack-800 bg-aeblack-50 dark:border-aeblack-300 dark:bg-aeblack-700/30; }
+:host(.checkbox-appearance-cards) .checkbox-variant-neutral-min .checkbox__wrapper:has(input:checked) { @apply border-aeblack-300 bg-aeblack-50 dark:border-aeblack-500 dark:bg-aeblack-600/30; }
+
+/* Card disabled */
+:host(.checkbox-appearance-cards) .checkbox__wrapper:has(input:disabled) {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   Pills appearance
+   Synced from aegov-checkbox-group via syncChildren() → reflects as [appearance="pills"].
+   ============================================================ */
+
+/* Hide native input visually — keeps it accessible to assistive tech */
+:host(.checkbox-appearance-pills) input[type="checkbox"] {
+  @apply absolute! w-px! h-px! overflow-hidden! p-0! -m-px!;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Suppress the hover halo (only meaningful when input is visible) */
+:host(.checkbox-appearance-pills) input[type="checkbox"]::before {
+  @apply hidden!;
+}
+
+/* Pill wrapper base — overrides default flex/items-start */
+:host(.checkbox-appearance-pills) .checkbox__wrapper {
+  @apply inline-flex items-center gap-0 rounded-full border-2
+         bg-whitely-50 font-semibold
+         transition-all duration-200 cursor-pointer
+         dark:bg-aeblack-800;
+}
+
+/* Pill rest border + text color — per variant */
+:host(.checkbox-appearance-pills) .checkbox-variant-primary .checkbox__wrapper    { @apply border-primary-600 dark:border-primary-400; }
+:host(.checkbox-appearance-pills) .checkbox-variant-secondary .checkbox__wrapper  { @apply border-secondary-600 dark:border-secondary-400; }
+:host(.checkbox-appearance-pills) .checkbox-variant-neutral-max .checkbox__wrapper { @apply border-aeblack-800 dark:border-aeblack-300; }
+:host(.checkbox-appearance-pills) .checkbox-variant-neutral-min .checkbox__wrapper { @apply border-aeblack-300 dark:border-aeblack-500; }
+
+/* Pill label text color — rest state */
+:host(.checkbox-appearance-pills) .checkbox-variant-primary .checkbox__label-text    { @apply text-primary-600! dark:text-primary-300!; }
+:host(.checkbox-appearance-pills) .checkbox-variant-secondary .checkbox__label-text  { @apply text-secondary-600! dark:text-secondary-300!; }
+:host(.checkbox-appearance-pills) .checkbox-variant-neutral-max .checkbox__label-text { @apply text-aeblack-800! dark:text-aeblack-200!; }
+:host(.checkbox-appearance-pills) .checkbox-variant-neutral-min .checkbox__label-text { @apply text-aeblack-500! dark:text-aeblack-400!; }
+
+/* Pill padding + label size — per size */
+:host(.checkbox-appearance-pills) .checkbox--xs .checkbox__wrapper    { @apply px-2.5 py-0.5; }
+:host(.checkbox-appearance-pills) .checkbox--xs .checkbox__label-text  { @apply text-xs leading-4; }
+:host(.checkbox-appearance-pills) .checkbox--sm .checkbox__wrapper    { @apply px-3 py-1; }
+:host(.checkbox-appearance-pills) .checkbox--sm .checkbox__label-text  { @apply text-xs leading-4; }
+:host(.checkbox-appearance-pills) .checkbox--base .checkbox__wrapper  { @apply px-3.5 py-1.5; }
+:host(.checkbox-appearance-pills) .checkbox--base .checkbox__label-text { @apply text-sm leading-5; }
+:host(.checkbox-appearance-pills) .checkbox--lg .checkbox__wrapper    { @apply px-4 py-2; }
+:host(.checkbox-appearance-pills) .checkbox--lg .checkbox__label-text  { @apply text-base leading-6; }
+:host(.checkbox-appearance-pills) .checkbox--xl .checkbox__wrapper    { @apply px-5 py-2.5; }
+:host(.checkbox-appearance-pills) .checkbox--xl .checkbox__label-text  { @apply text-lg leading-7; }
+
+/* Pill hover border */
+:host(.checkbox-appearance-pills) .checkbox-variant-primary .checkbox__wrapper:hover:not(:has(input:disabled))    { @apply border-primary-400 dark:border-primary-300; }
+:host(.checkbox-appearance-pills) .checkbox-variant-secondary .checkbox__wrapper:hover:not(:has(input:disabled))  { @apply border-secondary-400 dark:border-secondary-300; }
+:host(.checkbox-appearance-pills) .checkbox-variant-neutral-max .checkbox__wrapper:hover:not(:has(input:disabled)) { @apply border-aeblack-600 dark:border-aeblack-200; }
+:host(.checkbox-appearance-pills) .checkbox-variant-neutral-min .checkbox__wrapper:hover:not(:has(input:disabled)) { @apply border-aeblack-400 dark:border-aeblack-400; }
+
+/* Pill checked — filled background */
+:host(.checkbox-appearance-pills) .checkbox-variant-primary .checkbox__wrapper:has(input:checked)    { @apply bg-primary-600 border-primary-600 dark:bg-primary-500 dark:border-primary-500; }
+:host(.checkbox-appearance-pills) .checkbox-variant-secondary .checkbox__wrapper:has(input:checked)  { @apply bg-secondary-600 border-secondary-600 dark:bg-secondary-500 dark:border-secondary-500; }
+:host(.checkbox-appearance-pills) .checkbox-variant-neutral-max .checkbox__wrapper:has(input:checked) { @apply bg-aeblack-800 border-aeblack-800 dark:bg-aeblack-300 dark:border-aeblack-300; }
+:host(.checkbox-appearance-pills) .checkbox-variant-neutral-min .checkbox__wrapper:has(input:checked) { @apply bg-aeblack-300 border-aeblack-300 dark:bg-aeblack-500 dark:border-aeblack-500; }
+
+/* Pill checked label text — white on filled background */
+:host(.checkbox-appearance-pills) .checkbox__wrapper:has(input:checked) .checkbox__label-text {
+  @apply text-whitely-50! dark:text-whitely-50!;
+}
+
+/* Pill checked hover */
+:host(.checkbox-appearance-pills) .checkbox-variant-primary .checkbox__wrapper:has(input:checked):hover:not(:has(input:disabled))    { @apply bg-primary-500 border-primary-500 dark:bg-primary-400 dark:border-primary-400; }
+:host(.checkbox-appearance-pills) .checkbox-variant-secondary .checkbox__wrapper:has(input:checked):hover:not(:has(input:disabled))  { @apply bg-secondary-500 border-secondary-500 dark:bg-secondary-400 dark:border-secondary-400; }
+:host(.checkbox-appearance-pills) .checkbox-variant-neutral-max .checkbox__wrapper:has(input:checked):hover:not(:has(input:disabled)) { @apply bg-aeblack-700 border-aeblack-700 dark:bg-aeblack-200 dark:border-aeblack-200; }
+:host(.checkbox-appearance-pills) .checkbox-variant-neutral-min .checkbox__wrapper:has(input:checked):hover:not(:has(input:disabled)) { @apply bg-aeblack-200 border-aeblack-200 dark:bg-aeblack-400 dark:border-aeblack-400; }
+
+/* Pill disabled */
+:host(.checkbox-appearance-pills) .checkbox__wrapper:has(input:disabled) {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Pill focus-visible outline — matches variant focus color from base checkbox rules */
+:host(.checkbox-appearance-pills) .checkbox-variant-primary .checkbox__wrapper:has(input:focus-visible)    { @apply outline-2 outline-offset-2 outline-primary-support-400; }
+:host(.checkbox-appearance-pills) .checkbox-variant-secondary .checkbox__wrapper:has(input:focus-visible)  { @apply outline-2 outline-offset-2 outline-secondary-support-400; }
+:host(.checkbox-appearance-pills) .checkbox-variant-neutral-max .checkbox__wrapper:has(input:focus-visible),
+:host(.checkbox-appearance-pills) .checkbox-variant-neutral-min .checkbox__wrapper:has(input:focus-visible) { @apply outline-2 outline-offset-2 outline-seablue-400; }
+
+/* ============================
+   List variant separator.
+   JS (componentDidLoad) adds checkbox-in-list / first / last / horizontal to the host.
+   Targets .aegov-checkbox (inner div) — Chromium doesn't re-evaluate :host(.class) rules
+   that set properties directly on the host when the class is added post-render via
+   classList.add(). Targeting an internal shadow element via :host(.class) .inner works
+   correctly and follows the established pattern in this codebase.
+   ============================ */
+:host(.checkbox-in-list) .aegov-checkbox {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-aeblack-100, oklch(0.8962 0.004 262));
+}
+:host(.checkbox-in-list.checkbox-list-first) .aegov-checkbox {
+  padding-top: 0;
+}
+:host(.checkbox-in-list.checkbox-list-last) .aegov-checkbox {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+:host(.checkbox-in-list.checkbox-list-horizontal) .aegov-checkbox {
+  padding-block: 0;
+  padding-inline: 0.75rem;
+  border-bottom: none;
+  border-inline-end: 1px solid var(--color-aeblack-100, oklch(0.8962 0.004 262));
+}
+:host(.checkbox-in-list.checkbox-list-first.checkbox-list-horizontal) .aegov-checkbox {
+  padding-inline-start: 0;
+}
+:host(.checkbox-in-list.checkbox-list-last.checkbox-list-horizontal) .aegov-checkbox {
+  border-inline-end: none;
+  padding-inline-end: 0;
+}
+
+/* ============================
+   RTL support
+   flex-direction: row with inherited direction:rtl already places the input on
+   the inline-start (right) and the label on the inline-end (left) — no layout
+   override needed. However the hover halo ::before uses inset-inline-start: 50%
+   (which maps to `right: 50%` in RTL) combined with translateX(-50%) — that
+   pair de-centres the halo in RTL. Flip the X translation to +50% in RTL.
+   [dir="rtl"] cannot pierce shadow DOM; use :host-context() and :host(:dir()).
+   ============================ */
+:host-context([dir="rtl"]) input[type="checkbox"]::before,
+:host(:dir(rtl)) input[type="checkbox"]::before {
+  --tw-translate-x: 50%;
 }

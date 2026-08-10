@@ -1,0 +1,454 @@
+<!-- ═══════════════════════════════════════════════════════════
+     PART 5 — LAYOUT COMPONENTS
+     card · bento-grid
+     ═══════════════════════════════════════════════════════════ -->
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-card                  ║
+     ╚══════════════════════════════╝ -->
+<section id="card">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Card</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Content container with appearance, variant, border width, hover effects, padding, and size options.</p>
+      </div>
+      <aegov-badge variant="purple" appearance="soft">Layout</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- appearance: solid -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="solid" — all variants</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item" style="min-width:200px">
+            <span class="prop-attr">variant="primary"</span>
+            <aegov-card appearance="solid" variant="primary" is-padding>
+              <div style="padding:4px">
+                <strong>Primary Solid</strong>
+                <p style="margin:4px 0 0;font-size:0.85rem">Card with primary colour border.</p>
+              </div>
+            </aegov-card>
+          </div>
+          <div class="prop-item" style="min-width:200px">
+            <span class="prop-attr">variant="secondary"</span>
+            <aegov-card appearance="solid" variant="secondary" is-padding>
+              <div style="padding:4px">
+                <strong>Secondary Solid</strong>
+                <p style="margin:4px 0 0;font-size:0.85rem">Secondary colour border card.</p>
+              </div>
+            </aegov-card>
+          </div>
+          <div class="prop-item" style="min-width:200px">
+            <span class="prop-attr">variant="neutral-max"</span>
+            <aegov-card appearance="solid" variant="neutral-max" is-padding>
+              <div style="padding:4px">
+                <strong>Neutral Max</strong>
+                <p style="margin:4px 0 0;font-size:0.85rem">Strongest neutral border.</p>
+              </div>
+            </aegov-card>
+          </div>
+          <div class="prop-item" style="min-width:200px">
+            <span class="prop-attr">variant="neutral-min"</span>
+            <aegov-card appearance="solid" variant="neutral-min" is-padding>
+              <div style="padding:4px">
+                <strong>Neutral Min</strong>
+                <p style="margin:4px 0 0;font-size:0.85rem">Lightest neutral border.</p>
+              </div>
+            </aegov-card>
+          </div>
+        </div>
+      </div>
+
+      <!-- appearance: light -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="light" — all variants</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item" style="min-width:200px">
+            <span class="prop-attr">variant="primary" light</span>
+            <aegov-card appearance="light" variant="primary" is-padding>
+              <div style="padding:4px">
+                <strong>Primary Light</strong>
+                <p style="margin:4px 0 0;font-size:0.85rem">Tinted background card.</p>
+              </div>
+            </aegov-card>
+          </div>
+          <div class="prop-item" style="min-width:200px">
+            <span class="prop-attr">variant="secondary" light</span>
+            <aegov-card appearance="light" variant="secondary" is-padding>
+              <div style="padding:4px">
+                <strong>Secondary Light</strong>
+                <p style="margin:4px 0 0;font-size:0.85rem">Tinted secondary card.</p>
+              </div>
+            </aegov-card>
+          </div>
+          <div class="prop-item" style="min-width:200px">
+            <span class="prop-attr">variant="neutral-max" light</span>
+            <aegov-card appearance="light" variant="neutral-max" is-padding>
+              <div style="padding:4px">
+                <strong>Neutral Max Light</strong>
+                <p style="margin:4px 0 0;font-size:0.85rem">Dark neutral tint.</p>
+              </div>
+            </aegov-card>
+          </div>
+          <div class="prop-item" style="min-width:200px">
+            <span class="prop-attr">variant="neutral-min" light</span>
+            <aegov-card appearance="light" variant="neutral-min" is-padding>
+              <div style="padding:4px">
+                <strong>Neutral Min Light</strong>
+                <p style="margin:4px 0 0;font-size:0.85rem">Subtle neutral tint.</p>
+              </div>
+            </aegov-card>
+          </div>
+        </div>
+      </div>
+
+      <!-- appearance: creative -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="creative" — gradient/accent styling</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item" style="min-width:200px">
+            <span class="prop-attr">variant="primary" creative</span>
+            <aegov-card appearance="creative" variant="primary" is-padding>
+              <div style="padding:4px">
+                <strong>Primary Creative</strong>
+                <p style="margin:4px 0 0;font-size:0.85rem">Accent gradient treatment.</p>
+              </div>
+            </aegov-card>
+          </div>
+          <div class="prop-item" style="min-width:200px">
+            <span class="prop-attr">variant="secondary" creative</span>
+            <aegov-card appearance="creative" variant="secondary" is-padding>
+              <div style="padding:4px">
+                <strong>Secondary Creative</strong>
+                <p style="margin:4px 0 0;font-size:0.85rem">Secondary gradient card.</p>
+              </div>
+            </aegov-card>
+          </div>
+        </div>
+      </div>
+
+      <!-- border-width -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">border-width — 1 / 2 / 3</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item" style="min-width:180px">
+            <span class="prop-attr">border-width="1"</span>
+            <aegov-card appearance="solid" variant="primary" border-width="1" is-padding>
+              <div style="padding:4px"><strong>Border 1</strong><p style="margin:4px 0 0;font-size:0.85rem">Thinnest border.</p></div>
+            </aegov-card>
+          </div>
+          <div class="prop-item" style="min-width:180px">
+            <span class="prop-attr">border-width="2"</span>
+            <aegov-card appearance="solid" variant="primary" border-width="2" is-padding>
+              <div style="padding:4px"><strong>Border 2</strong><p style="margin:4px 0 0;font-size:0.85rem">Medium border.</p></div>
+            </aegov-card>
+          </div>
+          <div class="prop-item" style="min-width:180px">
+            <span class="prop-attr">border-width="3"</span>
+            <aegov-card appearance="solid" variant="primary" border-width="3" is-padding>
+              <div style="padding:4px"><strong>Border 3</strong><p style="margin:4px 0 0;font-size:0.85rem">Thickest border.</p></div>
+            </aegov-card>
+          </div>
+        </div>
+      </div>
+
+      <!-- hover states -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">hover — off / standard / glow</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item" style="min-width:180px">
+            <span class="prop-attr">hover="off" (default)</span>
+            <aegov-card appearance="solid" variant="neutral-max" hover="off" is-padding>
+              <div style="padding:4px"><strong>No Hover</strong><p style="margin:4px 0 0;font-size:0.85rem">Static — no hover effect.</p></div>
+            </aegov-card>
+          </div>
+          <div class="prop-item" style="min-width:180px">
+            <span class="prop-attr">hover="standard"</span>
+            <aegov-card appearance="solid" variant="primary" hover="standard" is-padding>
+              <div style="padding:4px"><strong>Standard Hover</strong><p style="margin:4px 0 0;font-size:0.85rem">Subtle lift on hover.</p></div>
+            </aegov-card>
+          </div>
+          <div class="prop-item" style="min-width:180px">
+            <span class="prop-attr">hover="glow"</span>
+            <aegov-card appearance="solid" variant="primary" hover="glow" is-padding>
+              <div style="padding:4px"><strong>Glow Hover</strong><p style="margin:4px 0 0;font-size:0.85rem">Colour glow on hover.</p></div>
+            </aegov-card>
+          </div>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — sm / base / lg</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item" style="min-width:180px">
+            <span class="prop-attr">size="sm"</span>
+            <aegov-card appearance="solid" variant="neutral-max" size="sm" is-padding>
+              <div><strong>Small card</strong><p style="margin:4px 0 0;font-size:0.85rem">Compact padding.</p></div>
+            </aegov-card>
+          </div>
+          <div class="prop-item" style="min-width:180px">
+            <span class="prop-attr">size="base" (default)</span>
+            <aegov-card appearance="solid" variant="neutral-max" size="base" is-padding>
+              <div><strong>Base card</strong><p style="margin:4px 0 0;font-size:0.85rem">Standard padding.</p></div>
+            </aegov-card>
+          </div>
+          <div class="prop-item" style="min-width:180px">
+            <span class="prop-attr">size="lg"</span>
+            <aegov-card appearance="solid" variant="neutral-max" size="lg" is-padding>
+              <div><strong>Large card</strong><p style="margin:4px 0 0;font-size:0.85rem">Generous padding.</p></div>
+            </aegov-card>
+          </div>
+        </div>
+      </div>
+
+      <!-- is-padding: false -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-padding="false" — edge-to-edge content</p>
+        <div class="preview-box" style="max-width:320px">
+          <aegov-card appearance="solid" variant="neutral-max">
+            <img src="https://picsum.photos/seed/card/320/160" alt="Card image" style="width:100%;display:block;border-radius:inherit">
+            <div style="padding:16px">
+              <strong>Edge-to-edge image</strong>
+              <p style="margin:4px 0 0;font-size:0.85rem">Content area with manual padding inside.</p>
+            </div>
+          </aegov-card>
+        </div>
+      </div>
+
+      <!-- rich content card -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Rich card — real-world use</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <aegov-card appearance="solid" variant="neutral-max" hover="standard" is-padding style="max-width:300px">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:center;gap:10px">
+                <aegov-avatar size="lg" src="https://i.pravatar.cc/60?img=20" alt="Laila Al Mansoori"></aegov-avatar>
+                <div>
+                  <strong style="font-size:0.9rem">Laila Al Mansoori</strong>
+                  <p style="margin:2px 0 0;font-size:0.78rem;color:#666">Senior Policy Analyst</p>
+                </div>
+              </div>
+              <aegov-separator></aegov-separator>
+              <p style="margin:0;font-size:0.85rem">Specialist in digital governance frameworks and regulatory compliance for federal entities.</p>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <aegov-badge variant="techblue" appearance="soft" size="sm">Policy</aegov-badge>
+                <aegov-badge variant="aegreen" appearance="soft" size="sm">Digital Gov</aegov-badge>
+                <aegov-badge variant="secondary" appearance="soft" size="sm">Federal</aegov-badge>
+              </div>
+            </div>
+          </aegov-card>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-bento-grid            ║
+     ╚══════════════════════════════╝ -->
+<section id="bento-grid">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Bento Grid</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Responsive grid of aegov-card children with span, gap, flow, and responsive columns.</p>
+      </div>
+      <aegov-badge variant="purple" appearance="soft">Layout</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- basic grid -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">cols="3" gap="md" flow="dense" — basic even grid</p>
+        <div class="preview-box">
+          <aegov-bento-grid cols="3" gap="md" flow="dense">
+            <aegov-card appearance="solid" variant="primary" is-padding>
+              <div><strong>Card A</strong><p style="margin:4px 0 0;font-size:0.8rem">1×1 cell</p></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="secondary" is-padding>
+              <div><strong>Card B</strong><p style="margin:4px 0 0;font-size:0.8rem">1×1 cell</p></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="neutral-max" is-padding>
+              <div><strong>Card C</strong><p style="margin:4px 0 0;font-size:0.8rem">1×1 cell</p></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="aegold" is-padding>
+              <div><strong>Card D</strong><p style="margin:4px 0 0;font-size:0.8rem">1×1 cell</p></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="techblue" is-padding>
+              <div><strong>Card E</strong><p style="margin:4px 0 0;font-size:0.8rem">1×1 cell</p></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="aegreen" is-padding>
+              <div><strong>Card F</strong><p style="margin:4px 0 0;font-size:0.8rem">1×1 cell</p></div>
+            </aegov-card>
+          </aegov-bento-grid>
+        </div>
+      </div>
+
+      <!-- column spans -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">data-col-span — column-spanning cards</p>
+        <div class="preview-box">
+          <aegov-bento-grid cols="4" gap="md" flow="dense">
+            <aegov-card appearance="solid" variant="primary" is-padding data-col-span="2">
+              <div><strong>Span 2 cols</strong><p style="margin:4px 0 0;font-size:0.8rem">data-col-span="2"</p></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="secondary" is-padding>
+              <div><strong>1 col</strong></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="neutral-max" is-padding>
+              <div><strong>1 col</strong></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="aegreen" is-padding>
+              <div><strong>1 col</strong></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="techblue" is-padding data-col-span="3">
+              <div><strong>Span 3 cols</strong><p style="margin:4px 0 0;font-size:0.8rem">data-col-span="3"</p></div>
+            </aegov-card>
+          </aegov-bento-grid>
+        </div>
+      </div>
+
+      <!-- row spans -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">data-row-span — tall cards spanning multiple rows</p>
+        <div class="preview-box">
+          <aegov-bento-grid cols="3" gap="md" flow="dense">
+            <aegov-card appearance="solid" variant="primary" is-padding data-row-span="2" style="min-height:140px">
+              <div><strong>2-row tall card</strong><p style="margin:4px 0 0;font-size:0.8rem">data-row-span="2"</p></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="secondary" is-padding>
+              <div><strong>Normal</strong></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="neutral-max" is-padding>
+              <div><strong>Normal</strong></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="aegold" is-padding>
+              <div><strong>Fills gap row 2 col 2</strong></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="aegreen" is-padding>
+              <div><strong>Fills gap row 2 col 3</strong></div>
+            </aegov-card>
+          </aegov-bento-grid>
+        </div>
+      </div>
+
+      <!-- gap values -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">gap — none / xs / sm / md / lg / xl</p>
+        <div class="flex flex-col gap-6 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">gap="none"</span>
+            <aegov-bento-grid cols="3" gap="none">
+              <aegov-card appearance="solid" variant="primary" is-padding><div><span style="font-size:0.8rem">No gap</span></div></aegov-card>
+              <aegov-card appearance="solid" variant="secondary" is-padding><div><span style="font-size:0.8rem">No gap</span></div></aegov-card>
+              <aegov-card appearance="solid" variant="neutral-max" is-padding><div><span style="font-size:0.8rem">No gap</span></div></aegov-card>
+            </aegov-bento-grid>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">gap="xs"</span>
+            <aegov-bento-grid cols="3" gap="xs">
+              <aegov-card appearance="solid" variant="primary" is-padding><div><span style="font-size:0.8rem">XS gap</span></div></aegov-card>
+              <aegov-card appearance="solid" variant="secondary" is-padding><div><span style="font-size:0.8rem">XS gap</span></div></aegov-card>
+              <aegov-card appearance="solid" variant="neutral-max" is-padding><div><span style="font-size:0.8rem">XS gap</span></div></aegov-card>
+            </aegov-bento-grid>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">gap="lg"</span>
+            <aegov-bento-grid cols="3" gap="lg">
+              <aegov-card appearance="solid" variant="primary" is-padding><div><span style="font-size:0.8rem">LG gap</span></div></aegov-card>
+              <aegov-card appearance="solid" variant="secondary" is-padding><div><span style="font-size:0.8rem">LG gap</span></div></aegov-card>
+              <aegov-card appearance="solid" variant="neutral-max" is-padding><div><span style="font-size:0.8rem">LG gap</span></div></aegov-card>
+            </aegov-bento-grid>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">gap="xl"</span>
+            <aegov-bento-grid cols="3" gap="xl">
+              <aegov-card appearance="solid" variant="primary" is-padding><div><span style="font-size:0.8rem">XL gap</span></div></aegov-card>
+              <aegov-card appearance="solid" variant="secondary" is-padding><div><span style="font-size:0.8rem">XL gap</span></div></aegov-card>
+              <aegov-card appearance="solid" variant="neutral-max" is-padding><div><span style="font-size:0.8rem">XL gap</span></div></aegov-card>
+            </aegov-bento-grid>
+          </div>
+        </div>
+      </div>
+
+      <!-- flow: row -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">flow="row" — strict DOM order (no hole filling)</p>
+        <div class="preview-box">
+          <aegov-bento-grid cols="3" gap="md" flow="row">
+            <aegov-card appearance="solid" variant="primary" is-padding data-col-span="2">
+              <div><strong>Span 2</strong><p style="margin:4px 0 0;font-size:0.8rem">Row flow keeps strict order</p></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="secondary" is-padding>
+              <div><strong>1</strong></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="neutral-max" is-padding>
+              <div><strong>2</strong></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="aegold" is-padding>
+              <div><strong>3</strong></div>
+            </aegov-card>
+            <aegov-card appearance="solid" variant="aegreen" is-padding>
+              <div><strong>4</strong></div>
+            </aegov-card>
+          </aegov-bento-grid>
+        </div>
+      </div>
+
+      <!-- responsive cols -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">cols="1 md:2 lg:4" — responsive column count</p>
+        <div class="preview-box">
+          <aegov-bento-grid cols="1 md:2 lg:4" gap="md">
+            <aegov-card appearance="solid" variant="primary" is-padding><div><strong>A</strong></div></aegov-card>
+            <aegov-card appearance="solid" variant="secondary" is-padding><div><strong>B</strong></div></aegov-card>
+            <aegov-card appearance="solid" variant="neutral-max" is-padding><div><strong>C</strong></div></aegov-card>
+            <aegov-card appearance="solid" variant="aegold" is-padding><div><strong>D</strong></div></aegov-card>
+          </aegov-bento-grid>
+        </div>
+      </div>
+
+      <!-- real-world bento dashboard -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Real-world — dashboard bento layout</p>
+        <div class="preview-box">
+          <aegov-bento-grid cols="4" gap="md" flow="dense">
+            <!-- Hero stat card — spans 2 cols -->
+            <aegov-card appearance="creative" variant="primary" is-padding data-col-span="2">
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <span style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;opacity:0.7">Total Applications</span>
+                <span style="font-size:2rem;font-weight:700;font-variant-numeric:tabular-nums">14,382</span>
+                <aegov-badge variant="aegreen" appearance="soft" size="sm">↑ 12.4% this month</aegov-badge>
+              </div>
+            </aegov-card>
+            <!-- Approved -->
+            <aegov-card appearance="light" variant="aegreen" is-padding>
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:0.75rem;opacity:0.7">Approved</span>
+                <span style="font-size:1.5rem;font-weight:600;font-variant-numeric:tabular-nums">11,204</span>
+              </div>
+            </aegov-card>
+            <!-- Pending -->
+            <aegov-card appearance="light" variant="aegold" is-padding>
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:0.75rem;opacity:0.7">Pending</span>
+                <span style="font-size:1.5rem;font-weight:600;font-variant-numeric:tabular-nums">2,108</span>
+              </div>
+            </aegov-card>
+            <!-- Wide info bar -->
+            <aegov-card appearance="solid" variant="neutral-max" is-padding data-col-span="4">
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+                <span style="font-size:0.875rem;font-weight:500">Processing SLA: <strong>98.2%</strong> on-time</span>
+                <aegov-button variant="primary" appearance="outline" size="sm">View Full Report</aegov-button>
+              </div>
+            </aegov-card>
+          </aegov-bento-grid>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

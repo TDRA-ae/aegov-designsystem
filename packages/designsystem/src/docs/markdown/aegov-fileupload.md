@@ -1,541 +1,566 @@
 # File Upload
 
-<p class="text-lg text-aeblack-500 mb-8">A File Upload collects documents from the user — passport scans, tenancy contracts, stamped certificates. It ships three appearances from one API, enforces type, size and count limits before anything is sent, and lists what has been chosen so the user can remove a file before submitting.</p>
+<p class="text-lg text-aeblack-500 mb-8">A file selection control for collecting documents and images from users — Emirates ID copies, passport photographs, supporting evidence for a service application, or any other attachment a UAE Government service may require. The component renders three layouts: a styled input with a built-in browse button, a stand-alone trigger button with an inline file list, and a drag-and-drop dropzone. Each layout is anchored on a real <code>&lt;input type="file"&gt;</code> so submissions, validation, and accessibility all behave like a native form control.</p>
 
 ## Introduction
 
-`aegov-fileupload` wraps a real `<input type="file">` and is a form-associated custom element, so the chosen files submit with the form under one `name`.
-
-```html
-<aegov-form-field>
-  <aegov-label>Passport copy</aegov-label>
-  <aegov-fileupload name="passport" accept=".pdf,.jpg,.png" max-file-size="5242880"></aegov-fileupload>
-</aegov-form-field>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md">
-    <aegov-form-field>
-      <aegov-label>Passport copy</aegov-label>
-      <aegov-fileupload field-id="fu-intro" name="passport" accept=".pdf,.jpg,.png" max-file-size="5242880"></aegov-fileupload>
-    </aegov-form-field>
-  </div>
-</div>
-
-Note the helper text under the field. The component generates it from `accept` — you did not have to write "Allowed: PDF, JPG, PNG" yourself.
-
----
-
-## Appearance
-
-Three renderings, one API.
-
-| Appearance | Look | Use for |
-| --- | --- | --- |
-| `default` | A styled input with a Browse button. | A single required document in a form. |
-| `button` | A trigger button plus a list of chosen files. | Compact layouts and optional attachments. |
-| `dropzone` | A large drop target with drag-and-drop, plus a file list. | Multiple documents, and desktop-first flows. |
-
-```html
-<aegov-fileupload appearance="default" name="a" accept=".pdf"></aegov-fileupload>
-<aegov-fileupload appearance="button" name="b" accept=".pdf"></aegov-fileupload>
-<aegov-fileupload appearance="dropzone" name="c" accept=".pdf" is-multiple></aegov-fileupload>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-8">
-    <div><p class="text-sm text-aeblack-500 mb-2">default</p><aegov-fileupload field-id="fu-ap-1" name="fu-a" accept=".pdf,.jpg"></aegov-fileupload></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">button</p><aegov-fileupload field-id="fu-ap-2" appearance="button" name="fu-b" accept=".pdf,.jpg"></aegov-fileupload></div>
-    <div><p class="text-sm text-aeblack-500 mb-2">dropzone</p><aegov-fileupload field-id="fu-ap-3" appearance="dropzone" name="fu-c" accept=".pdf,.jpg" is-multiple></aegov-fileupload></div>
-  </div>
-</div>
-
-The appearances differ in one behaviour that matters: **`default` replaces the selection each time**, matching how a native file input works, while **`button` and `dropzone` accumulate** files across selections. Choose accordingly — accumulation is what you want for "attach supporting documents", replacement is what you want for "upload your passport".
-
-A dropzone still opens the file picker on click, so it never depends on drag-and-drop alone.
-
----
-
-## Multiple files
-
-`is-multiple` allows more than one file per selection.
+The `aegov-fileupload` component wraps a native file input and adds client-side validation for accepted file types, maximum file size, and the maximum number of files. Picked files appear in a list with a remove button per file, and two custom events (`aegovFileuploadChange`, `aegovFileuploadRemove`) keep your form code informed of every change. The component never overrides the OS file picker — it only filters and formats what the user provides.
 
 ```html
 <aegov-fileupload
-  appearance="dropzone"
-  name="documents"
-  is-multiple
-  accept=".pdf,.jpg,.png"
-  max-files="5"
+  label="Upload your Emirates ID"
+  hint="Upload a clear, full-page scan of both sides as a single PDF."
+  accept=".pdf"
   max-file-size="5242880"
 ></aegov-fileupload>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md">
-    <aegov-fileupload field-id="fu-multi" appearance="dropzone" name="documents" is-multiple accept=".pdf,.jpg,.png" max-files="5" max-file-size="5242880"></aegov-fileupload>
-  </div>
+  <aegov-fileupload
+    label="Upload your Emirates ID"
+    hint="Upload a clear, full-page scan of both sides as a single PDF."
+    accept=".pdf" 
+    label-button="Select Emirates ID" 
+    max-file-size="5242880"
+  ></aegov-fileupload>
 </div>
-
-Each chosen file appears in a list with its name, size and a remove button. Removing a file emits `aegovFileuploadRemove` with both the removed file and the remaining set.
 
 ---
 
-## Limits
+## Variants
 
-Three limits, all enforced client-side before anything is sent.
+The `appearance` property selects the layout. All three appearances share the same validation, events, and form behaviour — only their visual presentation differs.
 
-| Property | Limits | Validity flag when exceeded |
-| --- | --- | --- |
-| `accept` | File types, using the same syntax as the native attribute. | `typeMismatch` |
-| `maxFileSize` | Size **per file**, in bytes. | `tooLong` |
-| `maxFiles` | Total number of files. | `customError` |
+### Default
+
+The default appearance looks like a styled text input with a Browse button on the trailing edge. Use it inside dense forms that already contain other input fields. Each new pick replaces the previous selection.
 
 ```html
 <aegov-fileupload
-  name="documents"
-  is-multiple
-  accept=".pdf,.jpg,.png"
+  appearance="default"
+  label="Passport bio-data page"
+  accept="image/*,.pdf"
+  max-file-size="5242880"
+></aegov-fileupload>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-fileupload
+    appearance="default"
+    label="Passport bio-data page"
+    accept="image/*,.pdf"
+    max-file-size="5242880"
+  ></aegov-fileupload>
+</div>
+
+### Button
+
+The button appearance renders a single trigger button. Picked files appear in a list below the button and accumulate across multiple picks until the user removes them or the maximum count is reached.
+
+```html
+<aegov-fileupload
+  appearance="button"
+  label="Supporting documents"
+  hint="Add any additional documents that support your application."
+  is-multiple="true"
+  max-files="5"
+  accept=".pdf,.docx,image/*"
+></aegov-fileupload>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-fileupload
+    appearance="button"
+    label="Supporting documents"
+    hint="Add any additional documents that support your application."
+    is-multiple="true"
+    max-files="5"
+    accept=".pdf,.docx,image/*"
+  ></aegov-fileupload>
+</div>
+
+### Dropzone
+
+The dropzone appearance renders a large drag-and-drop target with a fallback browse button. Best for high-volume document upload screens — for example, a service portal that asks the applicant to attach several scanned pages in one step. Picked files accumulate, just like the button appearance.
+
+```html
+<aegov-fileupload
+  appearance="dropzone"
+  label="Drop your supporting documents here"
+  hint="Accepted: PDF, JPG, PNG. Maximum 10 MB per file."
+  is-multiple="true"
+  max-file-size="10485760"
+  accept=".pdf,image/*"
+></aegov-fileupload>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-fileupload
+    appearance="dropzone"
+    label="Drop your supporting documents here"
+    hint="Accepted: PDF, JPG, PNG. Maximum 10 MB per file."
+    is-multiple="true"
+    max-file-size="10485760"
+    accept=".pdf,image/*"
+  ></aegov-fileupload>
+</div>
+
+---
+
+## Accepted file types
+
+Set the `accept` property to a comma-separated list of file extensions (`.pdf`), MIME types (`application/pdf`), or wildcards (`image/*`). The component enforces this list both in the OS picker filter and after the user selects a file — the OS picker may still let the user choose &ldquo;All files&rdquo;, so the second check is important.
+
+When `accept` is provided and `label-help` is omitted, the component generates a friendly summary line such as &ldquo;Allowed: PDF, JPG&rdquo;.
+
+```html
+<aegov-fileupload
+  label="Passport photograph"
+  accept="image/jpeg,image/png"
   max-file-size="2097152"
+></aegov-fileupload>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-fileupload
+    label="Passport photograph"
+    accept="image/jpeg,image/png"
+    max-file-size="2097152"
+  ></aegov-fileupload>
+</div>
+
+---
+
+## Multiple files and maximum count
+
+Set `is-multiple="true"` to allow the user to select more than one file. Pair it with `max-files` to cap the total. When the cap is reached, additional picks are not added to the selection.
+
+```html
+<aegov-fileupload
+  appearance="button"
+  label="Vehicle registration documents"
+  is-multiple="true"
   max-files="3"
+  accept=".pdf,image/*"
 ></aegov-fileupload>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-8">
-    <div>
-      <p class="text-sm text-aeblack-500 mb-2">accept=".pdf,.jpg,.png" · max 2 MB per file · max 3 files</p>
-      <aegov-fileupload field-id="fu-lim-1" appearance="dropzone" name="fu-lim" is-multiple accept=".pdf,.jpg,.png" max-file-size="2097152" max-files="3"></aegov-fileupload>
-    </div>
-    <div>
-      <p class="text-sm text-aeblack-500 mb-2">accept="image/*"</p>
-      <aegov-fileupload field-id="fu-lim-2" name="fu-img" accept="image/*"></aegov-fileupload>
-    </div>
-  </div>
+  <aegov-fileupload
+    appearance="button"
+    label="Vehicle registration documents"
+    is-multiple="true"
+    max-files="3"
+    accept=".pdf,image/*"
+  ></aegov-fileupload>
 </div>
-
-`maxFileSize` is in **bytes**, so 5 MB is `5242880`. The component formats it for display using localised size units, so you do not need to write "5 MB" anywhere.
-
-Client-side limits are a usability feature, not a security control. Always enforce the same rules on the server.
-
-Note that these limits no longer emit a separate error event. If you are migrating from an earlier version, `aegovFileuploadError` has been removed — the failures now arrive through the unified `aegovValidate` event with the flag shown in the table above. See [Validation](#validation).
 
 ---
 
-## Auto-generated helper text
+## Maximum file size
 
-The component derives helper text from `accept` — ".pdf,.jpg" becomes "Allowed: PDF, JPG", and `image/*` becomes "Allowed: Images". Override it with `label-help` when you need to say something more specific.
-
-```html
-<aegov-fileupload name="a" accept=".pdf,.jpg"></aegov-fileupload>
-
-<aegov-fileupload
-  name="b"
-  accept=".pdf"
-  label-help="Stamped PDF from your employer, issued within the last 30 days"
-></aegov-fileupload>
-```
-
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-6">
-    <aegov-fileupload field-id="fu-help-1" name="fu-h1" accept=".pdf,.jpg"></aegov-fileupload>
-    <aegov-fileupload field-id="fu-help-2" name="fu-h2" accept=".pdf" label-help="Stamped PDF from your employer, issued within the last 30 days"></aegov-fileupload>
-  </div>
-</div>
-
-`label-help` replaces the generated text; `hint` adds guidance in the standard hint region shared with every other form control. Use `hint` for the instruction and `label-help` for the constraint.
-
----
-
-## Labels
-
-Three label properties, each with a distinct job:
-
-| Property | Renders |
-| --- | --- |
-| `label` | The field's own label, above the control. Appends a required asterisk when `is-required`. |
-| `labelButton` | The text on the Browse or Choose button. |
-| `labelHelp` | The constraint line, overriding the generated one. |
+Set `max-file-size` in bytes. Files larger than the limit are excluded from the selection. The default helper text reads only the `accept` list — surface size limits to the user via `hint` or `label-help`.
 
 ```html
 <aegov-fileupload
-  name="contract"
+  appearance="dropzone"
   label="Tenancy contract"
-  label-button="Choose PDF"
-  label-help="Attested contract, PDF only"
+  hint="PDF only, maximum 5 MB."
   accept=".pdf"
-  is-required
+  max-file-size="5242880"
 ></aegov-fileupload>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md">
-    <aegov-fileupload field-id="fu-labels" name="contract" label="Tenancy contract" label-button="Choose PDF" label-help="Attested contract, PDF only" accept=".pdf" is-required></aegov-fileupload>
-  </div>
+  <aegov-fileupload
+    appearance="dropzone"
+    label="Tenancy contract"
+    hint="PDF only, maximum 5 MB."
+    accept=".pdf"
+    max-file-size="5242880"
+  ></aegov-fileupload>
 </div>
-
-Use either `label` on the component or an [`aegov-label`](aegov-label.html) inside an [`aegov-form-field`](aegov-form-field.html) — not both, or the field is announced twice.
 
 ---
 
 ## Sizes
 
-Five tokens, scaling the control, the button and the file list.
+The `size` property scales the input height for the default appearance and the button height for the button and dropzone appearances. Tokens: `xs`, `sm`, `base` (default), `lg`, `xl`. A Tailwind-style responsive string is also supported, e.g. `sm md:base lg:lg`.
+
+```html
+<aegov-fileupload size="sm" label="Small (sm)" accept=".pdf"></aegov-fileupload>
+<aegov-fileupload size="base" label="Base (default)" accept=".pdf"></aegov-fileupload>
+<aegov-fileupload size="lg" label="Large (lg)" accept=".pdf"></aegov-fileupload>
+```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-6">
-    <aegov-fileupload field-id="fu-s-xs" size="xs" name="fu-sxs" accept=".pdf"></aegov-fileupload>
-    <aegov-fileupload field-id="fu-s-sm" size="sm" name="fu-ssm" accept=".pdf"></aegov-fileupload>
-    <aegov-fileupload field-id="fu-s-base" size="base" name="fu-sb" accept=".pdf"></aegov-fileupload>
-    <aegov-fileupload field-id="fu-s-lg" size="lg" name="fu-slg" accept=".pdf"></aegov-fileupload>
-    <aegov-fileupload field-id="fu-s-xl" size="xl" name="fu-sxl" accept=".pdf"></aegov-fileupload>
-  </div>
+  <aegov-fileupload size="sm" label="Small (sm)" accept=".pdf"></aegov-fileupload>
+  <div class="my-4"></div>
+  <aegov-fileupload size="base" label="Base (default)" accept=".pdf"></aegov-fileupload>
+  <div class="my-4"></div>
+  <aegov-fileupload size="lg" label="Large (lg)" accept=".pdf"></aegov-fileupload>
 </div>
 
 ### Responsive sizes
 
-`size` accepts a responsive string with the prefixes `xs`, `sm`, `md`, `lg`, `xl` and `2xl`.
-
 ```html
-<aegov-fileupload size="sm md:base" name="a" accept=".pdf"></aegov-fileupload>
-```
-
----
-
-## States
-
-```html
-<aegov-fileupload is-disabled name="a" accept=".pdf"></aegov-fileupload>
-<aegov-fileupload is-required name="b" accept=".pdf" label="Passport copy"></aegov-fileupload>
-<aegov-fileupload is-invalid error-message="Upload your passport copy to continue" name="c"></aegov-fileupload>
+<aegov-fileupload size="sm md:base xl:lg" label="Resizes with the viewport" accept=".pdf"></aegov-fileupload>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-6">
-    <aegov-fileupload field-id="fu-st-1" is-disabled name="fu-st1" accept=".pdf" label="Disabled"></aegov-fileupload>
-    <aegov-fileupload field-id="fu-st-2" is-required name="fu-st2" accept=".pdf" label="Passport copy"></aegov-fileupload>
-    <aegov-fileupload field-id="fu-st-3" is-invalid error-message="Upload your passport copy to continue" name="fu-st3" accept=".pdf" label="Passport copy"></aegov-fileupload>
-    <aegov-fileupload field-id="fu-st-4" variant="secondary" name="fu-st4" accept=".pdf" label="Secondary variant"></aegov-fileupload>
+  <aegov-fileupload size="sm md:base xl:lg" label="Resizes with the viewport" accept=".pdf"></aegov-fileupload>
+</div>
+
+---
+
+## Variant
+
+The `variant` property selects the colour family for the default-appearance border, the button-appearance fill, the dropzone-appearance border, and the file-name accent. The focus ring uses the variant's support colour (`primary-support-400` for primary, `secondary-support-400` for secondary, `seablue-400` for neutral variants). The error border stays `aered-600` regardless of variant.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-200 browse button, softer borders)
+
+### Colour matrix
+
+| Variant       | Idle border (default) | Browse btn bg   | Dropzone border | File-name text   |
+| ------------- | --------------------- | --------------- | --------------- | ---------------- |
+| `primary`     | `primary-600`         | `primary-600`   | `primary-300`   | `primary-900`    |
+| `secondary`   | `secondary-600`       | `secondary-600` | `secondary-300` | `secondary-900`  |
+| `neutral-max` | `aeblack-800`         | `aeblack-800`   | `aeblack-300`   | `aeblack-950`    |
+| `neutral-min` | `aeblack-300`         | `aeblack-200`   | `aeblack-200`   | `aeblack-700`    |
+
+```html
+<aegov-fileupload variant="primary" label="Primary" accept=".pdf"></aegov-fileupload>
+<aegov-fileupload variant="secondary" label="Secondary" accept=".pdf"></aegov-fileupload>
+<aegov-fileupload variant="neutral-max" label="Neutral-max" accept=".pdf"></aegov-fileupload>
+<aegov-fileupload variant="neutral-min" label="Neutral-min" accept=".pdf"></aegov-fileupload>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <aegov-fileupload variant="primary" label="Primary" accept=".pdf"></aegov-fileupload>
+    <aegov-fileupload variant="secondary" label="Secondary" accept=".pdf"></aegov-fileupload>
+    <aegov-fileupload variant="neutral-max" label="Neutral-max" accept=".pdf"></aegov-fileupload>
+    <aegov-fileupload variant="neutral-min" label="Neutral-min" accept=".pdf"></aegov-fileupload>
   </div>
 </div>
 
 ---
 
-## Composite example — supporting documents
+## Required and disabled
+
+Set `is-required="true"` to mark the field as required — a red asterisk renders next to the label and the inner native input gains the `required` attribute, so it participates in native form validation. Set `is-disabled="true"` to lock the control and prevent any interaction.
 
 ```html
-<form id="documents" novalidate>
-  <aegov-form-field>
-    <aegov-label>Passport copy</aegov-label>
-    <aegov-fileupload
-      name="passport"
-      is-required
-      accept=".pdf,.jpg,.png"
-      max-file-size="5242880"
-      hint="Full-page scan of both sides as a single file"
-    ></aegov-fileupload>
-  </aegov-form-field>
+<aegov-fileupload
+  label="Identification"
+  is-required="true"
+  accept=".pdf,image/*"
+></aegov-fileupload>
 
-  <aegov-form-field>
-    <aegov-label>Emirates ID copy</aegov-label>
-    <aegov-fileupload
-      name="emiratesId"
-      is-required
-      accept=".pdf,.jpg,.png"
-      max-file-size="5242880"
-    ></aegov-fileupload>
-  </aegov-form-field>
-
-  <aegov-form-field>
-    <aegov-label>Supporting documents</aegov-label>
-    <aegov-fileupload
-      id="supporting"
-      appearance="dropzone"
-      name="supporting"
-      is-multiple
-      accept=".pdf,.jpg,.png"
-      max-files="5"
-      max-file-size="5242880"
-      hint="Anything else that supports your application"
-    ></aegov-fileupload>
-  </aegov-form-field>
-
-  <aegov-button type="submit" variant="primary" size="lg">Submit documents</aegov-button>
-</form>
-
-<script type="module">
-  const form = document.querySelector('#documents');
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const uploads = [...form.querySelectorAll('aegov-fileupload')];
-    const results = await Promise.all(uploads.map((u) => u.validate('submit')));
-    const badIndex = results.findIndex((r) => !r.valid);
-
-    if (badIndex !== -1) return uploads[badIndex].focus();
-
-    // FormData carries one entry per file, all under the field's name
-    await api.uploadDocuments(new FormData(form));
-  });
-</script>
+<aegov-fileupload
+  label="Pre-filled application (locked)"
+  is-disabled="true"
+  accept=".pdf"
+></aegov-fileupload>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-6">
-    <aegov-form-field>
-      <aegov-label>Passport copy</aegov-label>
-      <aegov-fileupload field-id="fu-cx-1" name="passport" is-required accept=".pdf,.jpg,.png" max-file-size="5242880" hint="Full-page scan of both sides as a single file"></aegov-fileupload>
-    </aegov-form-field>
-    <aegov-form-field>
-      <aegov-label>Emirates ID copy</aegov-label>
-      <aegov-fileupload field-id="fu-cx-2" name="emiratesId" is-required accept=".pdf,.jpg,.png" max-file-size="5242880"></aegov-fileupload>
-    </aegov-form-field>
-    <aegov-form-field>
-      <aegov-label>Supporting documents</aegov-label>
-      <aegov-fileupload field-id="fu-cx-3" appearance="dropzone" name="supporting" is-multiple accept=".pdf,.jpg,.png" max-files="5" max-file-size="5242880" hint="Anything else that supports your application"></aegov-fileupload>
-    </aegov-form-field>
-    <aegov-button type="submit" variant="primary" size="lg">Submit documents</aegov-button>
-  </div>
+  <aegov-fileupload
+    label="Identification"
+    is-required="true"
+    accept=".pdf,image/*"
+  ></aegov-fileupload>
+  <div class="my-4"></div>
+  <aegov-fileupload
+    label="Pre-filled application (locked)"
+    is-disabled="true"
+    accept=".pdf"
+  ></aegov-fileupload>
+</div>
+
+---
+
+## Custom labels and helper text
+
+Four properties shape the visible text:
+
+- `label`: rendered above the control.
+- `hint`: helper/hint text rendered under the label.
+- `label-help`: helper line under the control. Overrides the auto-generated &ldquo;Allowed: …&rdquo; summary.
+- `label-button`: replaces the trigger button text.
+
+```html
+<aegov-fileupload
+  label="Salary certificate"
+  hint="Upload a stamped certificate from your employer issued within the last 30 days."
+  label-help="PDF preferred. Maximum 5 MB."
+  label-button="Choose file"
+  accept=".pdf,.docx"
+  max-file-size="5242880"
+></aegov-fileupload>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-fileupload
+    label="Salary certificate"
+    hint="Upload a stamped certificate from your employer issued within the last 30 days."
+    label-help="PDF preferred. Maximum 5 MB."
+    label-button="Choose file"
+    accept=".pdf,.docx"
+    max-file-size="5242880"
+  ></aegov-fileupload>
 </div>
 
 ---
 
 ## Listening for events
 
+The component emits three custom events. `aegovFileuploadChange` fires after every successful add or remove; `aegovFileuploadRemove` fires only on remove.
+
 ```html
-<aegov-fileupload id="docs" name="documents" is-multiple max-files="5"></aegov-fileupload>
+<aegov-fileupload id="docs" appearance="dropzone" is-multiple="true" accept="image/*,.pdf" max-file-size="5242880"></aegov-fileupload>
 
-<script type="module">
-  const upload = document.querySelector('#docs');
-
-  upload.addEventListener('aegovFileuploadChange', (e) => {
-    console.log(e.detail.files);                    // File[]
-    counter.textContent = `${e.detail.files.length} of 5 files`;
+<script>
+  const docs = document.getElementById('docs');
+  docs.addEventListener('aegovFileuploadChange', (e) => {
+    console.log('current files', e.detail.files);
   });
-
-  upload.addEventListener('aegovFileuploadRemove', (e) => {
-    console.log(e.detail.file.name, e.detail.remaining.length);
-  });
-
-  // Limit failures arrive here, not on a separate error event
-  upload.addEventListener('aegovValidate', (e) => {
-    const v = e.detail.validity;
-    if (v.typeMismatch) showToast('That file type is not accepted', 'error');
-    if (v.tooLong)      showToast('That file is too large', 'error');
-    if (v.customError)  showToast('Too many files', 'error');
+  docs.addEventListener('aegovFileuploadRemove', (e) => {
+    console.log('removed', e.detail.file.name, 'remaining', e.detail.remaining.length);
   });
 </script>
 ```
 
-You can also read the current selection imperatively:
+---
+
+## Programmatic access
+
+Two methods are exposed on the host element. `getFiles()` returns a copy of the current selection; `clear()` empties the selection and resets the underlying native input.
 
 ```js
+const upload = document.querySelector('aegov-fileupload');
 const files = await upload.getFiles();
+console.log(files.map(f => f.name));
+
 await upload.clear();
 ```
 
 ---
 
+## Combined Example
+
+A complete supporting-documents step from a service application — a dropzone with multiple files, an explicit type and size limit, a custom helper line, and a required marker.
+
+```html
+<aegov-fileupload
+  appearance="dropzone"
+  label="Application supporting documents"
+  hint="Attach scans of your Emirates ID, passport bio-data page, and a recent utility bill."
+  label-help="PDF or JPG. Maximum 10 MB per file. Up to 5 files."
+  is-multiple="true"
+  is-required="true"
+  max-files="5"
+  max-file-size="10485760"
+  accept=".pdf,image/jpeg,image/png"
+></aegov-fileupload>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-fileupload
+    appearance="dropzone"
+    label="Application supporting documents"
+    hint="Attach scans of your Emirates ID, passport bio-data page, and a recent utility bill."
+    label-help="PDF or JPG. Maximum 10 MB per file. Up to 5 files."
+    is-multiple="true"
+    is-required="true"
+    max-files="5"
+    max-file-size="10485760"
+    accept=".pdf,image/jpeg,image/png"
+  ></aegov-fileupload>
+</div>
+
+---
+
 ## RTL Support
 
-The component is fully direction-aware, and it is the most thoroughly translated control in the library. In a `dir="rtl"` container the layout mirrors — the Browse button, the file icons, the remove buttons and the dropzone content all flip — and **every piece of built-in text switches to Arabic automatically**:
-
-| Text | English | Arabic |
-| --- | --- | --- |
-| Empty state | "No file chosen" | "لم يتم اختيار ملف" |
-| Multiple selection | "3 files selected" | "تم اختيار ٣ ملفات" |
-| Generated constraint | "Allowed: PDF, JPG" | "المسموح به: PDF, JPG" |
-| Browse button | "Browse" / "Choose File" | translated equivalents |
-| Dropzone prompt | "Drag and drop files here, or" | translated equivalent |
-| Remove button label | "Remove {filename}" | "إزالة {filename}" |
-| Required marker | "Required" | "مطلوب" |
-| Limit errors | "File … exceeds the maximum size of 5 MB." | "الملف … يتجاوز الحجم الأقصى ٥ ميجابايت." |
+The component is direction-agnostic. When the document or any ancestor is set to `dir="rtl"`, the browse button moves to the start (right) edge in the default appearance; the file list, file icon, file name, file size, and remove button all use logical inline properties so the row reads from right to left. The dropzone layout is centered and looks the same in both directions — only its label and helper text flip with the document direction.
 
 ```html
 <div dir="rtl">
-  <aegov-form-field>
-    <aegov-label>صورة جواز السفر</aegov-label>
-    <aegov-fileupload
-      name="passport"
-      is-required
-      accept=".pdf,.jpg,.png"
-      max-file-size="5242880"
-      hint="مسح كامل لكلا الوجهين في ملف واحد"
-    ></aegov-fileupload>
-  </aegov-form-field>
-
-  <aegov-fileupload appearance="dropzone" name="supporting" is-multiple accept=".pdf,.jpg" max-files="5"></aegov-fileupload>
+  <aegov-fileupload
+    label="رفع الهوية الإماراتية"
+    hint="يرجى رفع نسخة واضحة من وجهي الهوية بصيغة PDF."
+    label-button="اختر ملف"
+    accept=".pdf"
+    max-file-size="5242880"
+  ></aegov-fileupload>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="max-w-md space-y-6">
-    <aegov-form-field>
-      <aegov-label>صورة جواز السفر</aegov-label>
-      <aegov-fileupload field-id="fu-rtl-1" name="passport" is-required accept=".pdf,.jpg,.png" max-file-size="5242880" hint="مسح كامل لكلا الوجهين في ملف واحد"></aegov-fileupload>
-    </aegov-form-field>
-    <aegov-fileupload field-id="fu-rtl-2" appearance="dropzone" name="supporting" is-multiple accept=".pdf,.jpg" max-files="5"></aegov-fileupload>
-    <aegov-fileupload field-id="fu-rtl-3" appearance="button" name="other" accept=".pdf" is-invalid error-message="يجب إرفاق صورة جواز السفر للمتابعة"></aegov-fileupload>
-  </div>
+  <aegov-fileupload
+    label="رفع الهوية الإماراتية"
+    hint="يرجى رفع نسخة واضحة من وجهي الهوية بصيغة PDF."
+    label-button="اختر ملف"
+    accept=".pdf"
+    max-file-size="5242880"
+  ></aegov-fileupload>
 </div>
 
-File **names** are not translated, obviously — and a name in Latin script inside an Arabic list is normal and correct. The component does not force a direction on them.
+The same component as a dropzone with multiple files in RTL:
+
+```html
+<div dir="rtl">
+  <aegov-fileupload
+    appearance="dropzone"
+    label="المستندات الداعمة للطلب"
+    hint="أرفق صوراً ضوئية للهوية الإماراتية وجواز السفر وفاتورة حديثة."
+    label-button="استعراض الملفات"
+    is-multiple="true"
+    max-files="5"
+    max-file-size="10485760"
+    accept=".pdf,image/*"
+  ></aegov-fileupload>
+</div>
+```
+
+<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-fileupload
+    appearance="dropzone"
+    label="المستندات الداعمة للطلب"
+    hint="أرفق صوراً ضوئية للهوية الإماراتية وجواز السفر وفاتورة حديثة."
+    label-button="استعراض الملفات"
+    is-multiple="true"
+    max-files="5"
+    max-file-size="10485760"
+    accept=".pdf,image/*"
+  ></aegov-fileupload>
+</div>
 
 ---
 
 ## API Reference
 
-### Properties
+### aegov-fileupload Properties
 
-| Property | Attribute | Description | Type | Default |
-| --- | --- | --- | --- | --- |
-| `fieldId` | `field-id` | ID applied to the inner `<input>`. Auto-generated when omitted, reflected. | `string` | _generated_ |
-| `appearance` | `appearance` | Rendering mode. `default` replaces the selection; `button` and `dropzone` accumulate. | `'default' \| 'button' \| 'dropzone'` | `'default'` |
-| `size` | `size` | Size token or responsive string. | `string` — `xs \| sm \| base \| lg \| xl` | `'base'` |
-| `variant` | `variant` | Colour family. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
-| `name` | `name` | Form field name. All files submit under this one name. | `string` | — |
-| `isMultiple` | `is-multiple` | Allow more than one file. | `boolean` | `false` |
-| `accept` | `accept` | Allowed types, native `accept` syntax. Also drives the generated helper text. | `string` | — |
-| `maxFileSize` | `max-file-size` | Maximum size **per file, in bytes**. | `number` | — |
-| `maxFiles` | `max-files` | Maximum number of files. | `number` | — |
-| `label` | `label` | The field's own label. Appends a required asterisk when `is-required`. | `string` | — |
-| `labelButton` | `label-button` | Text on the Browse button. | `string` | — |
-| `labelHelp` | `label-help` | Constraint line, overriding the text generated from `accept`. | `string` | — |
-| `hint` | `hint` | Helper text in the standard hint region. | `string` | — |
-| `isDisabled` | `is-disabled` | Disables the control. Reflected. | `boolean` | `false` |
-| `isRequired` | `is-required` | Marks the field required. | `boolean` | `false` |
-| `isInvalid` | `is-invalid` | Invalid state. Mutable and reflected. | `boolean` | `false` |
-| `errorMessage` | `error-message` | Error text shown while invalid. | `string` | `''` |
+| Property        | Attribute         | Description                                                                  | Type                                       | Default     |
+| --------------- | ----------------- | ---------------------------------------------------------------------------- | ------------------------------------------ | ----------- |
+| `fieldId`       | `field-id`        | DOM `id` for the inner native `<input type="file">`. Auto-generated.          | `string`                                   | _generated_ |
+| `appearance`       | `appearance`         | Layout — `default`, `button`, or `dropzone`.                                  | `'default' \| 'button' \| 'dropzone'`      | `'default'` |
+| `size`          | `size`            | Control size token. Accepts a single token or a responsive string.            | `'xs' \| 'sm' \| 'base' \| 'lg' \| 'xl'`   | `'base'`    |
+| `variant`       | `variant`         | Colour family for default ring, button bg, dropzone border, and file-name accent. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
+| `isMultiple`    | `is-multiple`     | Allow more than one file to be selected.                                      | `boolean`                                  | `false`     |
+| `accept`        | `accept`          | Comma-separated list of allowed types (extensions, MIME, or wildcards).       | `string`                                   | `undefined` |
+| `maxFileSize`   | `max-file-size`   | Maximum size of a single file in bytes.                                       | `number`                                   | `undefined` |
+| `maxFiles`      | `max-files`       | Maximum number of files when `is-multiple` is set.                            | `number`                                   | `undefined` |
+| `isDisabled`    | `is-disabled`     | Disables the control. Reflected to the host.                                  | `boolean`                                  | `false`     |
+| `isRequired`    | `is-required`     | Marks the field as required and renders a red asterisk on the label.          | `boolean`                                  | `false`     |
+| `name`          | `name`            | Form field name applied to the inner native input.                            | `string`                                   | `undefined` |
+| `label`         | `label`           | Label text rendered above the control.                                        | `string`                                   | `undefined` |
+| `hint`          | `hint`            | Helper/hint text rendered under the label.                                    | `string`                                   | `undefined` |
+| `labelHelp`     | `label-help`      | Helper text under the control. Overrides the auto-generated &ldquo;Allowed&rdquo; summary. | `string`                                   | `undefined` |
+| `isInvalid`     | `is-invalid`      | Puts the field into error state.                                              | `boolean`                                  | `false`     |
+| `errorMessage`  | `error-message`   | Inline error text shown below the field when `isInvalid` is `true`.           | `string`                                   | `''`       |
+| `labelButton`   | `label-button`    | Custom text for the trigger / browse button.                                  | `string`                                   | `undefined` |
 
 ### Slots
 
-| Slot | Description |
-| --- | --- |
-| `hint` | Rich hint markup. Takes precedence over the `hint` property. |
-| `error` | Rich error markup. Rendered only while `is-invalid`. |
+| Slot    | When rendered               | Purpose                                                          |
+| ------- | --------------------------- | ---------------------------------------------------------------- |
+| `hint`  | When `isInvalid` is `false` | Rich HTML alternative to the `hint` prop for hint/helper text.   |
+| `error` | When `isInvalid` is `true`  | Rich HTML error markup shown below the field in the error state. |
 
 ### Events
 
-| Event | Detail | Description |
-| --- | --- | --- |
-| `aegovFileuploadChange` | `{ files: File[] }` | The selection changed. Carries the full current set, not just the new files. |
-| `aegovFileuploadRemove` | `{ file: File; remaining: File[] }` | A file was removed from the list. |
-| `aegovValidate` | `AegovValidationDetail<File[]>` | Unified validation event — see [Validation](#validation). |
-
-There is no `aegovFileuploadError` event. Limit failures arrive through `aegovValidate`.
+| Event                     | Detail                                                                                  | Description                                                                                |
+| ------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `aegovFileuploadChange`   | `{ files: File[] }`                                                                     | Fires after every successful add or remove. `files` is the full current selection.         |
+| `aegovFileuploadRemove`   | `{ file: File; remaining: File[] }`                                                     | Fires when a file is removed via its remove button.                                         |
+| `aegovValidate`           | `AegovValidationDetail<File[]>`                                                          | Fires when validation runs. Mapped validity flags indicate failure type. |
 
 ### Methods
 
-| Method | Returns | Description |
-| --- | --- | --- |
-| `getFiles()` | `Promise<File[]>` | The current selection. |
-| `clear()` | `Promise<void>` | Removes every file, resets the inner input, and re-runs validation. |
-| `validate(trigger?)` | `Promise<AegovValidationResult>` | Re-runs validation and emits `aegovValidate`. |
-| `setCustomValidity(message)` | `Promise<void>` | Sets `error-message` and `is-invalid`, and writes the validity through `ElementInternals`. Empty string clears. |
+| Method                       | Returns                          | Description                                                    |
+| ---------------------------- | -------------------------------- | -------------------------------------------------------------- |
+| `getFiles()`                 | `Promise<File[]>`                | Resolves with a copy of the currently selected files.          |
+| `clear()`                    | `Promise<void>`                  | Empties the selection and resets the inner native input.       |
+| `validate(trigger?)`         | `Promise<AegovValidationResult>` | Runs field validation and returns the result object.           |
+| `setCustomValidity(message)` | `Promise<void>`                  | Sets a custom validation message; pass `''` to clear.         |
 
 ### Pass-through Attributes
 
-| Attribute group | Forwarded? | Notes |
-| --- | --- | --- |
-| `capture` | Yes | Native camera capture hint on mobile. |
-| `webkitdirectory` | Yes | Directory selection, where supported. |
-| `autofocus`, `form`, `tabindex`, `title` | Yes | Forwarded to the inner `<input>`. |
-| `aria-*` | Yes | Forwarded — except `aria-invalid` and `aria-describedby`. |
-| `data-*` | Yes | Forwarded to the inner `<input>`. |
-| `aria-invalid`, `aria-describedby` | Managed | Owned by the component; `aria-describedby` composes your value with the hint, help and error IDs. |
-| `accept`, `multiple` | n/a | Use the `accept` and `is-multiple` properties. |
-| `id` | n/a | Use `field-id`. |
-| `class`, `style` | Allowed | Applied to the host. |
+The component forwards `aria-*` and `data-*` attributes to the inner native `<input type="file">`, plus the explicit list below. All other attributes (including `class` and `style`) stay on the host element.
 
-### CSS classes
-
-| Class | Element |
-| --- | --- |
-| `.aegov-fileupload` | The component wrapper. |
-| `.fileupload__file-list` | The list of chosen files. `role="list"`. |
-| `.fileupload__file-icon` | Per-file icon. Marked `aria-hidden`. |
-| `.fileupload__drop-icon` | Dropzone icon. Marked `aria-hidden`. |
-| `.fileupload__required` | The asterisk added by `is-required`. Marked `aria-hidden`. |
-| `.is-invalid` | Added to the **host** while `is-invalid`. |
+| Attribute group       | Forwarded to                | Notes                                                                                  |
+| --------------------- | --------------------------- | -------------------------------------------------------------------------------------- |
+| `aria-*`              | inner `<input type="file">` | Preserves `aria-label`, `aria-describedby`, etc. on the native input.                  |
+| `data-*`              | inner `<input type="file">` | Useful for analytics hooks and test selectors.                                         |
+| `capture`             | inner `<input type="file">` | `user` or `environment` to prefer a camera on mobile devices.                          |
+| `autofocus`           | inner `<input type="file">` | Auto-focus on page load.                                                               |
+| `form`                | inner `<input type="file">` | Associates the control with a `<form>` element by id.                                  |
+| `tabindex`            | inner `<input type="file">` | Custom tab order.                                                                      |
+| `title`               | inner `<input type="file">` | Native browser tooltip.                                                                |
+| `webkitdirectory`     | inner `<input type="file">` | Chromium/Webkit-only flag for directory selection.                                     |
+| `class`, `style`      | host                        | Stay on the `<aegov-fileupload>` element.                                              |
 
 ---
 
 ## Validation
 
-### Surface
+`aegov-fileupload` exposes the unified [Validation Surface](validation-overview.html). Fileupload-specific notes:
 
-`aegov-fileupload` implements the shared contract, reporting a `File[]` value. It is a **form-associated custom element** using `ElementInternals.setFormValue()`, appending one `FormData` entry per file under the field's `name`. This is why Safari 16.4 is the support floor. Full reference: [Validation Surface](validation-overview.html).
+### FormAssociated
 
-```js
-new FormData(form).getAll('documents');   // [File, File, File]
-```
+Uses `ElementInternals.setFormValue()` with FormData containing one entry per file (key = `name` prop, value = `File`). Multi-file forms submit cleanly without manual flattening.
 
-### Validity flags
-
-The three limits map onto standard flags, which is how they replaced the old dedicated error event:
-
-| Flag | Set when |
-| --- | --- |
-| `valueMissing` | `is-required` and nothing has been chosen. |
-| `typeMismatch` | A file's type is not permitted by `accept`. |
-| `tooLong` | A file exceeds `maxFileSize`. |
-| `customError` | More files than `maxFiles`, or a message set via `setCustomValidity()`. |
-
-Note `tooLong` for an oversized file is a deliberate reuse of an existing flag rather than an invented one — it keeps `detail.validity` a genuine `ValidityState` shape that generic form code can consume.
+> **Renamed:** the `description` prop was renamed to `hint`. CSS class `fileupload__description` → `fileupload__hint`.
 
 ### Common recipes
 
-Surface limit failures as messages of your own:
+**Single PDF, max 5 MB:**
+
+```html
+<aegov-fileupload
+  name="resume"
+  is-required
+  accept="application/pdf"
+  max-file-size="5242880"
+  hint="PDF only, up to 5 MB"
+></aegov-fileupload>
+```
+
+`valueMissing` fires when `is-required` and no file selected. `typeMismatch` fires for non-PDF; `tooLong` fires when over size.
+
+**Multiple images, up to 5:**
+
+```html
+<aegov-fileupload
+  name="photos"
+  appearance="dropzone"
+  is-multiple
+  accept="image/*"
+  max-files="5"
+  max-file-size="2097152"
+></aegov-fileupload>
+```
+
+**Server-side rejection:**
 
 ```js
-upload.addEventListener('aegovValidate', (e) => {
-  const v = e.detail.validity;
-
-  upload.isInvalid = !v.valid;
-  upload.errorMessage =
-    v.valueMissing ? 'Upload your passport copy to continue' :
-    v.typeMismatch ? 'Only PDF, JPG and PNG files are accepted' :
-    v.tooLong      ? 'Each file must be 5 MB or smaller' :
-    v.customError  ? 'Upload no more than 5 files' : '';
+fileupload.addEventListener('aegovFileuploadChange', async (e) => {
+  const res = await api.scanFiles(e.detail.files);
+  if (!res.ok) {
+    await fileupload.setCustomValidity(res.message);
+  } else {
+    await fileupload.setCustomValidity('');
+  }
 });
 ```
 
-A rule the component cannot know — total size across all files:
-
-```js
-upload.addEventListener('aegovFileuploadChange', async (e) => {
-  const total = e.detail.files.reduce((sum, f) => sum + f.size, 0);
-  const ok = total <= 20 * 1024 * 1024;
-  await upload.setCustomValidity(ok ? '' : 'Your documents total more than 20 MB');
-});
-```
-
-A server-side rejection after upload:
-
-```js
-try {
-  await api.uploadDocuments(new FormData(form));
-} catch (err) {
-  await upload.setCustomValidity(err.message || 'We could not accept those documents');
-}
-```
-
-More patterns in [Bring Your Own Validator](validation-byo.html).
-
-### Use with `@aegov/designsystem-validation`
-
-The **optional** companion package drives this surface from a schema.
-
-```ts
-import { createForm } from '@aegov/designsystem-validation';
-import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot';
-import * as v from 'valibot';
-
-createForm(form, v.object({
-  passport: v.pipe(v.array(v.instance(File)), v.minLength(1, 'Upload your passport copy')),
-}), valibotAdapter());
-```
+See [BYO Validator](validation-byo.html) for more patterns.
 
 ---
 
@@ -543,42 +568,26 @@ createForm(form, v.object({
 
 ### Built-in behaviour
 
-- The control is built on a real `<input type="file">`, so the file picker, keyboard activation and platform integration come from the browser.
-- The dropzone opens the picker on click and keyboard activation as well as accepting a drop, so drag-and-drop is never the only route — which is essential, since dragging is unavailable to many keyboard, screen reader and motor-impaired users.
-- The file list is a real `role="list"`, and each remove button is a real `<button>` whose `aria-label` names the file it removes — "Remove passport-scan.pdf", not a generic "Remove".
-- All decorative icons — file icons, the dropzone icon, the required asterisk — are marked `aria-hidden="true"`.
-- `aria-describedby` is composed, preserving your own value alongside the hint, the generated help text and the error region.
-- **Every built-in string is localised**, including limit error messages, size units and the required marker — see [RTL Support](#rtl-support).
-- Helper text is generated from `accept`, so the permitted types are stated to the user rather than discovered by trial and error.
-- The error region takes `role="alert"` only after first blur.
-- The focus ring is a high-contrast camel outline held constant across variants, meeting the 3:1 requirement of WCAG 2.2 SC 1.4.11.
+- The control is anchored on a real `<input type="file">`, so it is keyboard-focusable, screen-reader-friendly, and submits with native forms.
+- The visible `<label>` is wired via `for` to the inner input's id.
+- **Default appearance**: the native file input carries `aria-invalid`, `aria-required`, and `aria-describedby` linking helper text, error, and hint regions — giving AT full field state.
+- **Button and dropzone appearances**: the native file input is hidden (`aria-hidden`, `tabindex="-1"`) behind a real `<button>`. The trigger button receives `aria-invalid` and `aria-describedby` pointing at the error/hint regions so AT announces the field state when the user focuses the button.
+- Error and hint regions use `aria-live="polite"` + `role="alert"` after the first interaction (gap §7.10) to avoid interrupting AT during initial render.
+- Each file in the list has a bilingual `aria-label="Remove {filename}"` on its remove button. Remove SVGs are `aria-hidden="true"`.
+- The native input is reset to an empty value after each selection so picking the same file again still triggers `aegovFileuploadChange`.
 
 ### Developer responsibilities
 
-- **Always label the field**, using either the `label` property or an [`aegov-label`](aegov-label.html) in a [form field](aegov-form-field.html) — not both.
-- **State what document you want, and in what form.** "Passport copy" is not enough; "Full-page scan of both sides as a single file" is.
-- **Set `accept` and `maxFileSize`.** Without them the user discovers the rules by failing, and your server bears uploads it will reject.
-- **Enforce every limit on the server too.** Client-side checks are usability, not security.
-- **Announce upload progress and completion yourself.** The component manages selection, not transfer — use a [Progress](aegov-progress.html) bar in a live region, and a [Toast](aegov-toast.html) on success.
-- **Never signal an error with colour alone** (WCAG 2.2 SC 1.4.1) — populate `error-message`, or map the validity flags to messages as shown above.
-- **Choose the appearance for the job.** `default` replaces, `button` and `dropzone` accumulate; picking the wrong one produces a genuinely confusing field.
-- **Do not rely on `dropzone` for mobile.** Drag-and-drop does not exist there; the picker is the real interaction.
-- **Say what the file will be used for** when uploading identity documents. This is a privacy expectation in government services, not just good copy.
+- Always provide a meaningful `label` (or external `aegov-label`) so screen readers can announce the purpose of the upload.
+- For dropzone use cases, supply a `hint` clarifying the supported types and size limits — drag-and-drop is a visual enhancement; the button is the accessible fallback.
+- Use `error-message` or the `error` slot to surface validation messages; the component wires them to `aria-describedby` automatically.
+- Default appearance replaces the entire selection on each pick; button and dropzone appearances accumulate. Use `clear()` to reset programmatically.
 
 ### Keyboard support
 
-| Key | Action |
-| --- | --- |
-| `Tab` | Move focus to the control, then through each file's remove button. |
-| `Enter`, `Space` | Open the file picker when the control or Browse button has focus. |
-| `Enter`, `Space` | Remove a file when its remove button has focus. |
-
----
-
-## Where to next
-
-- [Progress](aegov-progress.html) — for reporting upload progress.
-- [Toast](aegov-toast.html) — for confirming a successful upload.
-- [Form Field](aegov-form-field.html) and [Label](aegov-label.html) — the wrapper and label.
-- [Callout](aegov-callout.html) — for explaining document requirements above a form.
-- [Validation Surface](validation-overview.html) and [Bring Your Own Validator](validation-byo.html).
+| Key              | Action                                                                                |
+| ---------------- | ------------------------------------------------------------------------------------- |
+| `Tab`            | Move focus into the control or to the next file's remove button.                      |
+| `Enter`, `Space` | Open the OS file picker when the trigger button is focused.                           |
+| `Enter`, `Space` | Activate the focused remove button to remove its file.                                |
+| `Shift + Tab`    | Move focus to the previous focusable element.                                         |

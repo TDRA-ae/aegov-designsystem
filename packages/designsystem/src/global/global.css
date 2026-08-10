@@ -367,22 +367,40 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+
     }
   }
 
-  /* Heading font stacks */
+  /* Any element with dir="rtl" (not just body) switches to the Arabic body font
+     so nested RTL sections cascade font-family into shadow DOM components. */
+  [dir="rtl"] {
+    font-family: var(--font-notokufi) !important;
+  }
+
+  /* Heading font stacks — applies to HTML elements and utility classes */
   h1,
   h2,
   h3,
   h4,
   h5,
-  h6 {
-    @apply font-inter;
+  h6,
+  .text-h1,
+  .text-h2,
+  .text-h3,
+  .text-h4,
+  .text-h5,
+  .text-h6 {
+    @apply font-inter!;
   }
   [dir="rtl"] h1,
   [dir="rtl"] h2,
   [dir="rtl"] h3,
   [dir="rtl"] h4,
   [dir="rtl"] h5,
-  [dir="rtl"] h6 {
-    @apply font-alexandria;
+  [dir="rtl"] h6,
+  [dir="rtl"] .text-h1,
+  [dir="rtl"] .text-h2,
+  [dir="rtl"] .text-h3,
+  [dir="rtl"] .text-h4,
+  [dir="rtl"] .text-h5,
+  [dir="rtl"] .text-h6 {
+    @apply font-alexandria!;
   }
 
   h1 {

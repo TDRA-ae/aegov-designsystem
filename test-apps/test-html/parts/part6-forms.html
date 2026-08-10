@@ -1,0 +1,1301 @@
+<!-- ═══════════════════════════════════════════════════════════
+     PART 6 — FORM COMPONENTS
+     input · input-group · textarea · select · checkbox
+     checkbox-group · toggle · radio-group · otp · range
+     fileupload · datepicker · form-field
+     ═══════════════════════════════════════════════════════════ -->
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-input                 ║
+     ╚══════════════════════════════╝ -->
+<section id="input">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Input</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Text-field with all types, sizes, variants, icon slots, revealable, copyable, and validation states.</p>
+      </div>
+      <aegov-badge variant="indigo" appearance="soft">Forms</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- types -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">type — all input types</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">type="text"</span><aegov-input type="text" placeholder="Enter full name" label="Full Name"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">type="email"</span><aegov-input type="email" placeholder="you@example.com" label="Email Address"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">type="password"</span><aegov-input type="password" placeholder="Enter password" label="Password"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">type="number"</span><aegov-input type="number" placeholder="0" label="Amount (AED)"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">type="tel"</span><aegov-input type="tel" placeholder="+971 50 000 0000" label="Phone Number"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">type="url"</span><aegov-input type="url" placeholder="https://example.com" label="Website URL"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">type="search"</span><aegov-input type="search" placeholder="Search services…" label="Search"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">type="date"</span><aegov-input type="date" label="Date of Birth"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">type="datetime-local"</span><aegov-input type="datetime-local" label="Appointment"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">type="month"</span><aegov-input type="month" label="Month"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">type="week"</span><aegov-input type="week" label="Week"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">type="time"</span><aegov-input type="time" label="Time"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">type="color"</span><aegov-input type="color" label="Brand Colour" value="#007AFF"></aegov-input></div>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — xs / sm / base / lg / xl</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">size="xs"</span><aegov-input size="xs" placeholder="XSmall input" label="XS"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">size="sm"</span><aegov-input size="sm" placeholder="Small input" label="SM"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">size="base"</span><aegov-input size="base" placeholder="Base input" label="Base"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-input size="lg" placeholder="Large input" label="LG"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">size="xl"</span><aegov-input size="xl" placeholder="XLarge input" label="XL"></aegov-input></div>
+        </div>
+      </div>
+
+      <!-- variants -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant — primary / secondary / neutral</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">variant="primary"</span><aegov-input variant="primary" placeholder="Primary variant" label="Primary"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">variant="secondary"</span><aegov-input variant="secondary" placeholder="Secondary variant" label="Secondary"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">variant="neutral"</span><aegov-input variant="neutral" placeholder="Neutral variant" label="Neutral"></aegov-input></div>
+        </div>
+      </div>
+
+      <!-- states -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">States — disabled / readonly / required / invalid</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">is-disabled</span><aegov-input is-disabled placeholder="Disabled field" label="Disabled" value="Disabled value"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">is-readonly</span><aegov-input is-readonly value="Read-only value" label="Read Only"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">is-required</span><aegov-input is-required placeholder="Required field" label="Required Field"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">is-invalid</span><aegov-input is-invalid value="invalid@" label="Email" error-message="Enter a valid email address."></aegov-input></div>
+        </div>
+      </div>
+
+      <!-- hint -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">hint — helper text below field</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">hint prop</span><aegov-input placeholder="Emirates ID" label="Emirates ID" hint="Format: 784-XXXX-XXXXXXX-X"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">slot="hint"</span>
+            <aegov-input placeholder="Trade licence" label="Licence Number">
+              <span slot="hint">Example: <strong>CN-1234567</strong></span>
+            </aegov-input>
+          </div>
+          <div class="prop-item"><span class="prop-attr">slot="error" (is-invalid)</span>
+            <aegov-input is-invalid value="abc" label="Phone Number">
+              <span slot="error">Phone must include country code, e.g. +971 50 123 4567.</span>
+            </aegov-input>
+          </div>
+        </div>
+      </div>
+
+      <!-- icon slots -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">slot="icon-start" / slot="icon-end"</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">icon-start</span>
+            <aegov-input placeholder="Search…" label="Search" type="search">
+              <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"/></svg>
+            </aegov-input>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">icon-end</span>
+            <aegov-input placeholder="user@email.com" label="Email" type="email">
+              <svg slot="icon-end" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/></svg>
+            </aegov-input>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">icon-start + icon-end</span>
+            <aegov-input placeholder="https://example.com" label="URL" type="url">
+              <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z"/></svg>
+              <svg slot="icon-end" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+            </aegov-input>
+          </div>
+        </div>
+      </div>
+
+      <!-- is-revealable, is-copyable -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-revealable (password) · is-copyable (readonly)</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">type="password" is-revealable</span><aegov-input type="password" is-revealable placeholder="Enter password" label="Password"></aegov-input></div>
+          <div class="prop-item"><span class="prop-attr">is-readonly is-copyable</span><aegov-input is-readonly is-copyable value="AK-784199281023-7841" label="API Key"></aegov-input></div>
+        </div>
+      </div>
+      <!-- @Event: aegovInputChange, aegovInputValue, aegovInputFocus, aegovInputBlur, aegovValidate -->
+      <!-- @Method: validate(), setCustomValidity() -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-input-group           ║
+     ╚══════════════════════════════╝ -->
+<section id="input-group">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Input Group</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Attached prefix/suffix addons and button combinations for compound inputs.</p>
+      </div>
+      <aegov-badge variant="indigo" appearance="soft">Forms</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- prefix addon -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">addon-prefix</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">addon-prefix="https://"</span>
+            <aegov-input-group addon-prefix="https://" group-label="Website URL">
+              <aegov-input type="text" placeholder="example.com" label="Website URL"></aegov-input>
+            </aegov-input-group>
+          </div>
+          <div class="prop-item"><span class="prop-attr">addon-prefix="AED"</span>
+            <aegov-input-group addon-prefix="AED" group-label="Amount">
+              <aegov-input type="number" placeholder="0.00" label="Amount"></aegov-input>
+            </aegov-input-group>
+          </div>
+          <div class="prop-item"><span class="prop-attr">addon-prefix="+971"</span>
+            <aegov-input-group addon-prefix="+971" group-label="Phone number">
+              <aegov-input type="tel" placeholder="50 000 0000" label="Phone Number"></aegov-input>
+            </aegov-input-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- suffix addon -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">addon-suffix</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">addon-suffix="kg"</span>
+            <aegov-input-group addon-suffix="kg" group-label="Weight">
+              <aegov-input type="number" placeholder="0" label="Weight (kg)"></aegov-input>
+            </aegov-input-group>
+          </div>
+          <div class="prop-item"><span class="prop-attr">addon-suffix=".ae"</span>
+            <aegov-input-group addon-suffix=".ae" group-label="Domain">
+              <aegov-input type="text" placeholder="yourdomain" label="Domain Name"></aegov-input>
+            </aegov-input-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- prefix + suffix -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">addon-prefix + addon-suffix</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">AED … .00</span>
+            <aegov-input-group addon-prefix="AED" addon-suffix=".00" group-label="Price">
+              <aegov-input type="number" placeholder="Price" label="Price (AED)"></aegov-input>
+            </aegov-input-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- with button -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Input + aegov-button in group</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">Search button</span>
+            <aegov-input-group group-label="Site search">
+              <aegov-input type="search" placeholder="Search services…" label="Search"></aegov-input>
+              <aegov-button variant="primary" appearance="solid">Search</aegov-button>
+            </aegov-input-group>
+          </div>
+          <div class="prop-item"><span class="prop-attr">Subscribe button</span>
+            <aegov-input-group group-label="Newsletter signup">
+              <aegov-input type="email" placeholder="you@example.com" label="Email"></aegov-input>
+              <aegov-button variant="primary" appearance="solid">Subscribe</aegov-button>
+            </aegov-input-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — xs / sm / base / lg / xl</p>
+        <div class="flex flex-col gap-3 preview-box">
+          <div class="prop-item"><span class="prop-attr">size="xs"</span><aegov-input-group addon-prefix="AED" size="xs" group-label="Price XS"><aegov-input type="number" placeholder="0" label="Price XS"></aegov-input></aegov-input-group></div>
+          <div class="prop-item"><span class="prop-attr">size="sm"</span><aegov-input-group addon-prefix="AED" size="sm" group-label="Price SM"><aegov-input type="number" placeholder="0" label="Price SM"></aegov-input></aegov-input-group></div>
+          <div class="prop-item"><span class="prop-attr">size="base"</span><aegov-input-group addon-prefix="AED" size="base" group-label="Price Base"><aegov-input type="number" placeholder="0" label="Price Base"></aegov-input></aegov-input-group></div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-input-group addon-prefix="AED" size="lg" group-label="Price LG"><aegov-input type="number" placeholder="0" label="Price LG"></aegov-input></aegov-input-group></div>
+          <div class="prop-item"><span class="prop-attr">size="xl"</span><aegov-input-group addon-prefix="AED" size="xl" group-label="Price XL"><aegov-input type="number" placeholder="0" label="Price XL"></aegov-input></aegov-input-group></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-textarea              ║
+     ╚══════════════════════════════╝ -->
+<section id="textarea">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Textarea</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Multi-line text input — sizes, resize modes, maxlength counter, copyable, and validation states.</p>
+      </div>
+      <aegov-badge variant="indigo" appearance="soft">Forms</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — xs / sm / base / lg / xl</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">size="xs"</span><aegov-textarea size="xs" placeholder="Extra small textarea" label="XSmall"></aegov-textarea></div>
+          <div class="prop-item"><span class="prop-attr">size="sm"</span><aegov-textarea size="sm" placeholder="Small textarea" label="Small"></aegov-textarea></div>
+          <div class="prop-item"><span class="prop-attr">size="base"</span><aegov-textarea size="base" placeholder="Base textarea" label="Base"></aegov-textarea></div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-textarea size="lg" placeholder="Large textarea" label="Large"></aegov-textarea></div>
+          <div class="prop-item"><span class="prop-attr">size="xl"</span><aegov-textarea size="xl" placeholder="XLarge textarea" label="XLarge"></aegov-textarea></div>
+        </div>
+      </div>
+
+      <!-- resize -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">resize — none / vertical / horizontal / both / auto</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">resize="none"</span><aegov-textarea resize="none" placeholder="Not resizable" label="No resize"></aegov-textarea></div>
+          <div class="prop-item"><span class="prop-attr">resize="vertical" (default)</span><aegov-textarea resize="vertical" placeholder="Vertically resizable" label="Vertical"></aegov-textarea></div>
+          <div class="prop-item"><span class="prop-attr">resize="horizontal"</span><aegov-textarea resize="horizontal" placeholder="Horizontally resizable" label="Horizontal"></aegov-textarea></div>
+          <div class="prop-item"><span class="prop-attr">resize="both"</span><aegov-textarea resize="both" placeholder="Both directions" label="Both"></aegov-textarea></div>
+          <div class="prop-item"><span class="prop-attr">resize="auto"</span><aegov-textarea resize="auto" placeholder="Auto-grows with content" label="Auto"></aegov-textarea></div>
+        </div>
+      </div>
+
+      <!-- maxlength -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">maxlength — character counter</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">maxlength="200"</span><aegov-textarea maxlength="200" placeholder="Write a brief description (max 200 characters)" label="Description"></aegov-textarea></div>
+          <div class="prop-item"><span class="prop-attr">maxlength="500"</span><aegov-textarea maxlength="500" placeholder="Write your feedback (max 500 characters)" label="Feedback"></aegov-textarea></div>
+        </div>
+      </div>
+
+      <!-- variants -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant — primary / secondary / neutral</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">variant="primary"</span><aegov-textarea variant="primary" placeholder="Primary" label="Primary"></aegov-textarea></div>
+          <div class="prop-item"><span class="prop-attr">variant="secondary"</span><aegov-textarea variant="secondary" placeholder="Secondary" label="Secondary"></aegov-textarea></div>
+          <div class="prop-item"><span class="prop-attr">variant="neutral"</span><aegov-textarea variant="neutral" placeholder="Neutral" label="Neutral"></aegov-textarea></div>
+        </div>
+      </div>
+
+      <!-- states -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">States — disabled / readonly / required / invalid</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">is-disabled</span><aegov-textarea is-disabled placeholder="Disabled" label="Disabled" value="Cannot edit this text."></aegov-textarea></div>
+          <div class="prop-item"><span class="prop-attr">is-readonly</span><aegov-textarea is-readonly value="This is a read-only value." label="Read Only"></aegov-textarea></div>
+          <div class="prop-item"><span class="prop-attr">is-required</span><aegov-textarea is-required placeholder="This field is required" label="Required"></aegov-textarea></div>
+          <div class="prop-item"><span class="prop-attr">is-invalid</span><aegov-textarea is-invalid value="short" label="Complaint Details" error-message="Description must be at least 50 characters."></aegov-textarea></div>
+        </div>
+      </div>
+
+      <!-- is-copyable (readonly) -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-copyable (readonly)</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">is-readonly is-copyable</span><aegov-textarea is-readonly is-copyable value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzEyMyJ9.abc" label="JWT Token"></aegov-textarea></div>
+        </div>
+      </div>
+
+      <!-- hint -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">hint</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">hint prop</span><aegov-textarea placeholder="Describe the issue…" label="Issue Description" hint="Be as specific as possible. Include dates, amounts, and reference numbers."></aegov-textarea></div>
+        </div>
+      </div>
+      <!-- @Event: aegovInputChange, aegovInputValue, aegovInputFocus, aegovInputBlur, aegovValidate -->
+      <!-- @Method: validate(), setCustomValidity() -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-select                ║
+     ╚══════════════════════════════╝ -->
+<section id="select">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Select</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Custom dropdown select — default and listbox appearances, multiple, searchable, clearable, option groups.</p>
+      </div>
+      <aegov-badge variant="indigo" appearance="soft">Forms</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- appearance: default -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="default" (dropdown)</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">basic</span>
+            <aegov-select placeholder="Select emirate" label="Emirate">
+              <aegov-select-option value="abudhabi">Abu Dhabi</aegov-select-option>
+              <aegov-select-option value="dubai">Dubai</aegov-select-option>
+              <aegov-select-option value="sharjah">Sharjah</aegov-select-option>
+              <aegov-select-option value="ajman">Ajman</aegov-select-option>
+              <aegov-select-option value="ummalquwain">Umm Al Quwain</aegov-select-option>
+              <aegov-select-option value="rasalkhaimah">Ras Al Khaimah</aegov-select-option>
+              <aegov-select-option value="fujairah">Fujairah</aegov-select-option>
+            </aegov-select>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">is-searchable</span>
+            <aegov-select placeholder="Search and select country" label="Country" is-searchable>
+              <aegov-select-option value="ae">United Arab Emirates</aegov-select-option>
+              <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
+              <aegov-select-option value="eg">Egypt</aegov-select-option>
+              <aegov-select-option value="jo">Jordan</aegov-select-option>
+              <aegov-select-option value="kw">Kuwait</aegov-select-option>
+              <aegov-select-option value="bh">Bahrain</aegov-select-option>
+              <aegov-select-option value="om">Oman</aegov-select-option>
+              <aegov-select-option value="qa">Qatar</aegov-select-option>
+            </aegov-select>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">is-multiple</span>
+            <aegov-select placeholder="Select services" label="Services (multi)" is-multiple>
+              <aegov-select-option value="licence">Business Licence</aegov-select-option>
+              <aegov-select-option value="permit">Building Permit</aegov-select-option>
+              <aegov-select-option value="visa">Visa Services</aegov-select-option>
+              <aegov-select-option value="health">Health Card</aegov-select-option>
+              <aegov-select-option value="trade">Trade Registration</aegov-select-option>
+            </aegov-select>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">is-clearable</span>
+            <aegov-select placeholder="Select (clearable)" label="Department" is-clearable value="hr">
+              <aegov-select-option value="hr">Human Resources</aegov-select-option>
+              <aegov-select-option value="it">Information Technology</aegov-select-option>
+              <aegov-select-option value="finance">Finance</aegov-select-option>
+              <aegov-select-option value="legal">Legal Affairs</aegov-select-option>
+            </aegov-select>
+          </div>
+        </div>
+      </div>
+
+      <!-- option groups -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">aegov-select-option-group — grouped options</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">option groups</span>
+            <aegov-select placeholder="Select service category" label="Service Category">
+              <aegov-select-option-group label="Business">
+                <aegov-select-option value="licence">Business Licence</aegov-select-option>
+                <aegov-select-option value="trade">Trade Registration</aegov-select-option>
+                <aegov-select-option value="export">Export Permit</aegov-select-option>
+              </aegov-select-option-group>
+              <aegov-select-option-group label="Personal">
+                <aegov-select-option value="id">Emirates ID</aegov-select-option>
+                <aegov-select-option value="passport">Passport</aegov-select-option>
+                <aegov-select-option value="visa">Visa</aegov-select-option>
+              </aegov-select-option-group>
+              <aegov-select-option-group label="Health">
+                <aegov-select-option value="insurance">Health Insurance</aegov-select-option>
+                <aegov-select-option value="card">Medical Card</aegov-select-option>
+              </aegov-select-option-group>
+            </aegov-select>
+          </div>
+        </div>
+      </div>
+
+      <!-- disabled options -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">aegov-select-option is-disabled</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">with disabled option</span>
+            <aegov-select placeholder="Select status" label="Application Status">
+              <aegov-select-option value="draft">Draft</aegov-select-option>
+              <aegov-select-option value="submitted">Submitted</aegov-select-option>
+              <aegov-select-option value="processing">Processing</aegov-select-option>
+              <aegov-select-option value="approved">Approved</aegov-select-option>
+              <aegov-select-option value="rejected" is-disabled>Rejected (unavailable)</aegov-select-option>
+            </aegov-select>
+          </div>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — xs / sm / base / lg / xl</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">size="xs"</span><aegov-select size="xs" placeholder="XS Select" label="XSmall"><aegov-select-option value="a">Option A</aegov-select-option><aegov-select-option value="b">Option B</aegov-select-option></aegov-select></div>
+          <div class="prop-item"><span class="prop-attr">size="sm"</span><aegov-select size="sm" placeholder="SM Select" label="Small"><aegov-select-option value="a">Option A</aegov-select-option><aegov-select-option value="b">Option B</aegov-select-option></aegov-select></div>
+          <div class="prop-item"><span class="prop-attr">size="base"</span><aegov-select size="base" placeholder="Base Select" label="Base"><aegov-select-option value="a">Option A</aegov-select-option><aegov-select-option value="b">Option B</aegov-select-option></aegov-select></div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-select size="lg" placeholder="LG Select" label="Large"><aegov-select-option value="a">Option A</aegov-select-option><aegov-select-option value="b">Option B</aegov-select-option></aegov-select></div>
+          <div class="prop-item"><span class="prop-attr">size="xl"</span><aegov-select size="xl" placeholder="XL Select" label="XLarge"><aegov-select-option value="a">Option A</aegov-select-option><aegov-select-option value="b">Option B</aegov-select-option></aegov-select></div>
+        </div>
+      </div>
+
+      <!-- states -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">States — disabled / required / invalid</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">is-disabled</span><aegov-select is-disabled placeholder="Disabled select" label="Disabled"><aegov-select-option value="a">Option A</aegov-select-option></aegov-select></div>
+          <div class="prop-item"><span class="prop-attr">is-required</span><aegov-select is-required placeholder="Required select" label="Required"><aegov-select-option value="a">Option A</aegov-select-option><aegov-select-option value="b">Option B</aegov-select-option></aegov-select></div>
+          <div class="prop-item"><span class="prop-attr">is-invalid</span><aegov-select is-invalid placeholder="Please select" label="Department" error-message="Please select a department to continue."><aegov-select-option value="hr">HR</aegov-select-option><aegov-select-option value="it">IT</aegov-select-option></aegov-select></div>
+        </div>
+      </div>
+      <!-- @Event: aegovSelectChange, aegovSelectOpen, aegovSelectClose, aegovValidate -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-checkbox              ║
+     ╚══════════════════════════════╝ -->
+<section id="checkbox">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Checkbox</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Individual checkbox — sizes, variants, label, hint, indeterminate, and check-all controller.</p>
+      </div>
+      <aegov-badge variant="indigo" appearance="soft">Forms</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- with label -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">With label prop</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">unchecked</span><aegov-checkbox label="Accept terms and conditions"></aegov-checkbox></div>
+          <div class="prop-item"><span class="prop-attr">is-checked</span><aegov-checkbox label="Email notifications" is-checked></aegov-checkbox></div>
+          <div class="prop-item"><span class="prop-attr">with hint</span><aegov-checkbox label="Remember me" hint="Stay signed in for 30 days on this device."></aegov-checkbox></div>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — sm / base / lg</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">size="sm"</span><aegov-checkbox label="Small checkbox" size="sm"></aegov-checkbox></div>
+          <div class="prop-item"><span class="prop-attr">size="base" (default)</span><aegov-checkbox label="Base checkbox" size="base"></aegov-checkbox></div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-checkbox label="Large checkbox" size="lg"></aegov-checkbox></div>
+        </div>
+      </div>
+
+      <!-- variants -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant — primary / secondary / neutral</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">variant="primary" checked</span><aegov-checkbox label="Primary" variant="primary" is-checked></aegov-checkbox></div>
+          <div class="prop-item"><span class="prop-attr">variant="secondary" checked</span><aegov-checkbox label="Secondary" variant="secondary" is-checked></aegov-checkbox></div>
+          <div class="prop-item"><span class="prop-attr">variant="neutral" checked</span><aegov-checkbox label="Neutral" variant="neutral" is-checked></aegov-checkbox></div>
+        </div>
+      </div>
+
+      <!-- states -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">States — required / invalid / indeterminate</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">is-required</span><aegov-checkbox label="Required agreement" is-required></aegov-checkbox></div>
+          <div class="prop-item"><span class="prop-attr">is-invalid</span><aegov-checkbox label="Accept privacy policy" is-invalid error-message="You must accept the privacy policy."></aegov-checkbox></div>
+          <div class="prop-item"><span class="prop-attr">is-indeterminate</span><aegov-checkbox label="Select all (3 of 7)" is-indeterminate></aegov-checkbox></div>
+        </div>
+      </div>
+
+      <!-- bug states (known layout quirks) -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Bug states — disabled+checked, disabled unchecked</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="bug-row">
+            <span class="bug-label">disabled unchecked</span>
+            <aegov-checkbox label="Disabled (unchecked)" is-disabled></aegov-checkbox>
+          </div>
+          <div class="bug-row">
+            <span class="bug-label">disabled + checked</span>
+            <aegov-checkbox label="Disabled (checked)" is-disabled is-checked></aegov-checkbox>
+          </div>
+        </div>
+      </div>
+
+      <!-- check-all -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-check-all — controller checkbox</p>
+        <div class="preview-box">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <aegov-checkbox label="Select all items" is-check-all></aegov-checkbox>
+            <aegov-separator></aegov-separator>
+            <aegov-checkbox label="Item One" name="items" value="1"></aegov-checkbox>
+            <aegov-checkbox label="Item Two" name="items" value="2"></aegov-checkbox>
+            <aegov-checkbox label="Item Three" name="items" value="3"></aegov-checkbox>
+          </div>
+        </div>
+      </div>
+      <!-- @Event: aegovCheckboxChange fires with { checked: boolean, value?: string } -->
+      <!-- @Method: validate(), setCustomValidity() -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-checkbox-group        ║
+     ╚══════════════════════════════╝ -->
+<section id="checkbox-group">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Checkbox Group</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Group of checkboxes with appearance variants, orientation, and aggregate validation.</p>
+      </div>
+      <aegov-badge variant="indigo" appearance="soft">Forms</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- appearance: default -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="default" — vertical / horizontal</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">orientation="vertical"</span>
+            <aegov-checkbox-group label="Preferred contact method" appearance="default" orientation="vertical">
+              <aegov-checkbox label="Email" value="email" name="contact"></aegov-checkbox>
+              <aegov-checkbox label="SMS" value="sms" name="contact"></aegov-checkbox>
+              <aegov-checkbox label="Phone call" value="call" name="contact"></aegov-checkbox>
+            </aegov-checkbox-group>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">orientation="horizontal"</span>
+            <aegov-checkbox-group label="Days available" appearance="default" orientation="horizontal">
+              <aegov-checkbox label="Mon" value="mon" name="days"></aegov-checkbox>
+              <aegov-checkbox label="Tue" value="tue" name="days"></aegov-checkbox>
+              <aegov-checkbox label="Wed" value="wed" name="days"></aegov-checkbox>
+              <aegov-checkbox label="Thu" value="thu" name="days"></aegov-checkbox>
+              <aegov-checkbox label="Fri" value="fri" name="days"></aegov-checkbox>
+            </aegov-checkbox-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- appearance: list -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="list" — bordered list items</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">appearance="list"</span>
+            <aegov-checkbox-group label="Services required" appearance="list">
+              <aegov-checkbox label="Business Licence" hint="Register or renew a trade licence." value="licence" name="services"></aegov-checkbox>
+              <aegov-checkbox label="Building Permit" hint="Apply for construction approval." value="permit" name="services"></aegov-checkbox>
+              <aegov-checkbox label="Health Card" hint="Register for health coverage." value="health" name="services" is-checked></aegov-checkbox>
+            </aegov-checkbox-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- appearance: cards -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="cards" — card-style selectors</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">appearance="cards"</span>
+            <aegov-checkbox-group label="Notification channels" appearance="cards" orientation="horizontal">
+              <aegov-checkbox label="Email" hint="Receive updates via email." value="email" name="notif"></aegov-checkbox>
+              <aegov-checkbox label="SMS" hint="Text message alerts." value="sms" name="notif" is-checked></aegov-checkbox>
+              <aegov-checkbox label="Push" hint="In-app notifications." value="push" name="notif"></aegov-checkbox>
+            </aegov-checkbox-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- appearance: pills -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="pills" — pill toggle selectors</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">appearance="pills"</span>
+            <aegov-checkbox-group label="Document type" appearance="pills" orientation="horizontal">
+              <aegov-checkbox label="PDF" value="pdf" name="doctype"></aegov-checkbox>
+              <aegov-checkbox label="Word" value="docx" name="doctype" is-checked></aegov-checkbox>
+              <aegov-checkbox label="Excel" value="xlsx" name="doctype"></aegov-checkbox>
+              <aegov-checkbox label="Image" value="img" name="doctype"></aegov-checkbox>
+            </aegov-checkbox-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- group states -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Group states — disabled / required / invalid</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">is-disabled</span>
+            <aegov-checkbox-group label="Disabled group" is-disabled>
+              <aegov-checkbox label="Option A" name="d-group" value="a"></aegov-checkbox>
+              <aegov-checkbox label="Option B" name="d-group" value="b" is-checked></aegov-checkbox>
+            </aegov-checkbox-group>
+          </div>
+          <div class="prop-item"><span class="prop-attr">is-required</span>
+            <aegov-checkbox-group label="Required group (select at least 1)" is-required>
+              <aegov-checkbox label="Option A" name="r-group" value="a"></aegov-checkbox>
+              <aegov-checkbox label="Option B" name="r-group" value="b"></aegov-checkbox>
+            </aegov-checkbox-group>
+          </div>
+          <div class="prop-item"><span class="prop-attr">is-invalid</span>
+            <aegov-checkbox-group label="Services" is-invalid error-message="Select at least one service.">
+              <aegov-checkbox label="Licence" name="i-group" value="lic"></aegov-checkbox>
+              <aegov-checkbox label="Permit" name="i-group" value="per"></aegov-checkbox>
+            </aegov-checkbox-group>
+          </div>
+        </div>
+      </div>
+      <!-- @Event: aegovCheckboxGroupChange fires with { values: string[] } -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-toggle                ║
+     ╚══════════════════════════════╝ -->
+<section id="toggle">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Toggle</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Switch control — sizes, variants, custom icons, and states.</p>
+      </div>
+      <aegov-badge variant="indigo" appearance="soft">Forms</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- basic -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Basic — on / off / with hint</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">off (default)</span><aegov-toggle label="Enable dark mode"></aegov-toggle></div>
+          <div class="prop-item"><span class="prop-attr">is-checked</span><aegov-toggle label="Email notifications" is-checked></aegov-toggle></div>
+          <div class="prop-item"><span class="prop-attr">with hint</span><aegov-toggle label="Two-factor authentication" hint="We recommend enabling 2FA for account security." is-checked></aegov-toggle></div>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — sm / base / lg</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">size="sm"</span><aegov-toggle label="Small toggle" size="sm" is-checked></aegov-toggle></div>
+          <div class="prop-item"><span class="prop-attr">size="base" (default)</span><aegov-toggle label="Base toggle" size="base" is-checked></aegov-toggle></div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-toggle label="Large toggle" size="lg" is-checked></aegov-toggle></div>
+        </div>
+      </div>
+
+      <!-- variants -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant — primary / secondary / neutral</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">variant="primary"</span><aegov-toggle label="Primary" variant="primary" is-checked></aegov-toggle></div>
+          <div class="prop-item"><span class="prop-attr">variant="secondary"</span><aegov-toggle label="Secondary" variant="secondary" is-checked></aegov-toggle></div>
+          <div class="prop-item"><span class="prop-attr">variant="neutral"</span><aegov-toggle label="Neutral" variant="neutral" is-checked></aegov-toggle></div>
+        </div>
+      </div>
+
+      <!-- states -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">States — required / invalid</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">is-required</span><aegov-toggle label="Required toggle" is-required></aegov-toggle></div>
+          <div class="prop-item"><span class="prop-attr">is-invalid</span><aegov-toggle label="Terms accepted" is-invalid error-message="You must accept the terms to continue."></aegov-toggle></div>
+        </div>
+      </div>
+
+      <!-- bug states -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Bug states — disabled off / disabled on</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="bug-row">
+            <span class="bug-label">disabled off</span>
+            <aegov-toggle label="Disabled (off)" is-disabled></aegov-toggle>
+          </div>
+          <div class="bug-row">
+            <span class="bug-label">disabled on</span>
+            <aegov-toggle label="Disabled (on)" is-disabled is-checked></aegov-toggle>
+          </div>
+        </div>
+      </div>
+
+      <!-- custom icons -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">slot="icon-checked" + slot="icon-unchecked"</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">custom icons (moon/sun)</span>
+            <aegov-toggle label="Dark mode" is-checked>
+              <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="10" height="10" aria-hidden="true"><path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/></svg>
+              <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="10" height="10" aria-hidden="true"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/></svg>
+            </aegov-toggle>
+          </div>
+        </div>
+      </div>
+      <!-- @Event: aegovToggleChange fires with { checked: boolean, value?: string } -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-radio-group           ║
+     ╚══════════════════════════════╝ -->
+<section id="radio-group">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Radio Group</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Mutually exclusive selection — appearance variants, orientation, sizes, and validation states.</p>
+      </div>
+      <aegov-badge variant="indigo" appearance="soft">Forms</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- appearance: default -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="default" — vertical / horizontal</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">orientation="vertical"</span>
+            <aegov-radio-group name="gender" label="Gender" orientation="vertical">
+              <aegov-radio label="Male" value="male"></aegov-radio>
+              <aegov-radio label="Female" value="female" is-checked></aegov-radio>
+              <aegov-radio label="Prefer not to say" value="na"></aegov-radio>
+            </aegov-radio-group>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">orientation="horizontal"</span>
+            <aegov-radio-group name="size_pref" label="T-shirt size" orientation="horizontal">
+              <aegov-radio label="S" value="s"></aegov-radio>
+              <aegov-radio label="M" value="m" is-checked></aegov-radio>
+              <aegov-radio label="L" value="l"></aegov-radio>
+              <aegov-radio label="XL" value="xl"></aegov-radio>
+            </aegov-radio-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- appearance: list -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="list"</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">appearance="list"</span>
+            <aegov-radio-group name="plan" label="Subscription plan" appearance="list">
+              <aegov-radio label="Starter" hint="Up to 5 users, 10 GB storage." value="starter"></aegov-radio>
+              <aegov-radio label="Professional" hint="Up to 50 users, 100 GB storage." value="pro" is-checked></aegov-radio>
+              <aegov-radio label="Enterprise" hint="Unlimited users and storage." value="enterprise"></aegov-radio>
+            </aegov-radio-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- appearance: cards -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="cards"</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">appearance="cards" horizontal</span>
+            <aegov-radio-group name="payment" label="Payment method" appearance="cards" orientation="horizontal">
+              <aegov-radio label="Credit Card" hint="Visa, Mastercard" value="card" is-checked></aegov-radio>
+              <aegov-radio label="Bank Transfer" hint="Direct debit" value="bank"></aegov-radio>
+              <aegov-radio label="Cash" hint="At service centre" value="cash"></aegov-radio>
+            </aegov-radio-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- appearance: pills -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="pills"</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">appearance="pills" horizontal</span>
+            <aegov-radio-group name="period" label="Reporting period" appearance="pills" orientation="horizontal">
+              <aegov-radio label="Daily" value="d"></aegov-radio>
+              <aegov-radio label="Weekly" value="w" is-checked></aegov-radio>
+              <aegov-radio label="Monthly" value="m"></aegov-radio>
+              <aegov-radio label="Yearly" value="y"></aegov-radio>
+            </aegov-radio-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- group states -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Group states — disabled / required / invalid</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">is-disabled</span>
+            <aegov-radio-group name="dis-radio" label="Disabled group" is-disabled>
+              <aegov-radio label="Option A" value="a"></aegov-radio>
+              <aegov-radio label="Option B" value="b" is-checked></aegov-radio>
+            </aegov-radio-group>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">is-required</span>
+            <aegov-radio-group name="req-radio" label="Required (select one)" is-required>
+              <aegov-radio label="Yes" value="yes"></aegov-radio>
+              <aegov-radio label="No" value="no"></aegov-radio>
+            </aegov-radio-group>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">is-invalid</span>
+            <aegov-radio-group name="inv-radio" label="Nationality" is-invalid error-message="Please select your nationality.">
+              <aegov-radio label="UAE National" value="uae"></aegov-radio>
+              <aegov-radio label="Expatriate" value="expat"></aegov-radio>
+            </aegov-radio-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- disabled radio (bug state) -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Bug state — individual radio disabled+checked</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="bug-row">
+            <span class="bug-label">disabled + checked radio</span>
+            <aegov-radio label="Pre-selected option (locked)" is-disabled is-checked name="bug-radio"></aegov-radio>
+          </div>
+        </div>
+      </div>
+      <!-- @Event: aegovRadioGroupChange fires with { value: string | undefined } -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-otp                   ║
+     ╚══════════════════════════════╝ -->
+<section id="otp">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">OTP</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">One-time password input — continuous vs individual, lengths, sizes, alphanumeric mode.</p>
+      </div>
+      <aegov-badge variant="indigo" appearance="soft">Forms</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- appearance -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance — continuous / individual</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">appearance="individual" (default)</span><aegov-otp appearance="individual" length="6" label="Verification Code"></aegov-otp></div>
+          <div class="prop-item"><span class="prop-attr">appearance="continuous"</span><aegov-otp appearance="continuous" length="6" label="OTP (continuous)"></aegov-otp></div>
+        </div>
+      </div>
+
+      <!-- length -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">length — 4 / 6 / 8</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">length="4"</span><aegov-otp length="4" label="4-digit PIN"></aegov-otp></div>
+          <div class="prop-item"><span class="prop-attr">length="6"</span><aegov-otp length="6" label="6-digit OTP"></aegov-otp></div>
+          <div class="prop-item"><span class="prop-attr">length="8"</span><aegov-otp length="8" label="8-digit code"></aegov-otp></div>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — xs / sm / base / lg / xl / 2xl</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">size="xs"</span><aegov-otp size="xs" length="6" label="XS OTP"></aegov-otp></div>
+          <div class="prop-item"><span class="prop-attr">size="sm"</span><aegov-otp size="sm" length="6" label="SM OTP"></aegov-otp></div>
+          <div class="prop-item"><span class="prop-attr">size="base"</span><aegov-otp size="base" length="6" label="Base OTP"></aegov-otp></div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-otp size="lg" length="6" label="LG OTP"></aegov-otp></div>
+          <div class="prop-item"><span class="prop-attr">size="xl"</span><aegov-otp size="xl" length="6" label="XL OTP"></aegov-otp></div>
+          <div class="prop-item"><span class="prop-attr">size="2xl"</span><aegov-otp size="2xl" length="6" label="2XL OTP"></aegov-otp></div>
+        </div>
+      </div>
+
+      <!-- alphanumeric -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-alphanumeric — letters and digits allowed</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">is-alphanumeric</span><aegov-otp is-alphanumeric length="6" label="Alphanumeric Code" hint="Enter the code from your email (e.g. A3X7P2)."></aegov-otp></div>
+        </div>
+      </div>
+
+      <!-- states -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">States — disabled / required / invalid</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">is-disabled</span><aegov-otp is-disabled length="6" label="Disabled OTP"></aegov-otp></div>
+          <div class="prop-item"><span class="prop-attr">is-required</span><aegov-otp is-required length="6" label="Required OTP"></aegov-otp></div>
+          <div class="prop-item"><span class="prop-attr">is-invalid</span><aegov-otp is-invalid length="6" label="Expired Code" error-message="The code has expired. Request a new one."></aegov-otp></div>
+        </div>
+      </div>
+      <!-- @Event: aegovOtpChange fires with { value: string } on each input -->
+      <!-- @Event: aegovOtpComplete fires with { value: string } when all digits entered -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-range                 ║
+     ╚══════════════════════════════╝ -->
+<section id="range">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Range</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Slider control — single and range modes, display options, orientations, and states.</p>
+      </div>
+      <aegov-badge variant="indigo" appearance="soft">Forms</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- mode: single -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">mode="single" — all display options</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">display="none"</span><aegov-range mode="single" label="Volume" value="40" min="0" max="100" display="none"></aegov-range></div>
+          <div class="prop-item"><span class="prop-attr">display="tooltip"</span><aegov-range mode="single" label="Brightness" value="60" min="0" max="100" display="tooltip"></aegov-range></div>
+          <div class="prop-item"><span class="prop-attr">display="thumb"</span><aegov-range mode="single" label="Opacity" value="75" min="0" max="100" display="thumb"></aegov-range></div>
+          <div class="prop-item"><span class="prop-attr">display="full"</span><aegov-range mode="single" label="Price (AED)" value="2500" min="0" max="10000" step="100" display="full"></aegov-range></div>
+        </div>
+      </div>
+
+      <!-- mode: range -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">mode="range" — dual-handle slider</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">mode="range" display="tooltip"</span><aegov-range mode="range" label="Price range (AED)" value-low="1000" value-high="5000" min="0" max="10000" step="500" display="tooltip"></aegov-range></div>
+          <div class="prop-item"><span class="prop-attr">mode="range" display="full"</span><aegov-range mode="range" label="Year range" value-low="2015" value-high="2023" min="2000" max="2024" step="1" display="full"></aegov-range></div>
+        </div>
+      </div>
+
+      <!-- orientation: vertical -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">orientation="vertical"</p>
+        <div class="flex gap-8 preview-box" style="min-height:200px;align-items:flex-start">
+          <div class="prop-item">
+            <span class="prop-attr">vertical single</span>
+            <aegov-range mode="single" orientation="vertical" label="Level" value="60" min="0" max="100" display="tooltip" style="height:180px"></aegov-range>
+          </div>
+        </div>
+      </div>
+
+      <!-- step -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">step — custom increments</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">step="5"</span><aegov-range mode="single" label="Rating (step 5)" value="50" min="0" max="100" step="5" display="full"></aegov-range></div>
+          <div class="prop-item"><span class="prop-attr">step="1000"</span><aegov-range mode="single" label="Budget (AED, step 1000)" value="5000" min="0" max="20000" step="1000" display="full"></aegov-range></div>
+        </div>
+      </div>
+
+      <!-- states -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">States — required / invalid</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">is-required</span><aegov-range mode="single" label="Required Range" value="30" min="0" max="100" is-required display="tooltip"></aegov-range></div>
+          <div class="prop-item"><span class="prop-attr">is-invalid</span><aegov-range mode="single" label="Invalid Range" value="0" min="1" max="100" is-invalid error-message="Value must be greater than 0." display="full"></aegov-range></div>
+        </div>
+      </div>
+
+      <!-- bug state: disabled -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Bug state — disabled (cursor should be not-allowed)</p>
+        <div class="bug-row">
+          <span class="bug-label">is-disabled</span>
+          <aegov-range mode="single" label="Disabled slider" value="40" min="0" max="100" is-disabled display="full"></aegov-range>
+        </div>
+      </div>
+      <!-- @Event: aegovRangeInput fires continuously while dragging -->
+      <!-- @Event: aegovRangeChange fires on drag end -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-fileupload            ║
+     ╚══════════════════════════════╝ -->
+<section id="fileupload">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">File Upload</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Three appearance modes — default, button, dropzone — with file type filtering, size limits, and validation.</p>
+      </div>
+      <aegov-badge variant="indigo" appearance="soft">Forms</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- appearance: default -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="default" — styled input + browse button</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">basic</span><aegov-fileupload label="Upload Document" hint="Supported formats: PDF, JPG, PNG (max 5 MB)"></aegov-fileupload></div>
+          <div class="prop-item"><span class="prop-attr">accept + max-file-size</span><aegov-fileupload label="Identity Document" accept=".pdf,.jpg,.png,image/*" max-file-size="5242880" hint="PDF or image, max 5 MB"></aegov-fileupload></div>
+          <div class="prop-item"><span class="prop-attr">is-multiple + max-files</span><aegov-fileupload label="Supporting Documents" is-multiple max-files="5" accept=".pdf,.docx" hint="Up to 5 files. PDF or DOCX only."></aegov-fileupload></div>
+        </div>
+      </div>
+
+      <!-- appearance: button -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="button" — trigger-button style</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">button single</span><aegov-fileupload appearance="button" label="Upload Photo" accept="image/*" label-button="Choose Photo"></aegov-fileupload></div>
+          <div class="prop-item"><span class="prop-attr">button multiple</span><aegov-fileupload appearance="button" is-multiple label="Upload Files" label-button="Add Files" accept=".pdf,.doc,.docx"></aegov-fileupload></div>
+        </div>
+      </div>
+
+      <!-- appearance: dropzone -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="dropzone" — drag and drop area</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">dropzone single</span><aegov-fileupload appearance="dropzone" label="Document Upload" accept=".pdf" hint="Drag and drop a PDF or click to browse."></aegov-fileupload></div>
+          <div class="prop-item"><span class="prop-attr">dropzone multiple</span><aegov-fileupload appearance="dropzone" is-multiple label="Batch Upload" accept="image/*,.pdf" max-files="10" hint="Up to 10 files. Images or PDFs accepted."></aegov-fileupload></div>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — sm / base / lg</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">size="sm"</span><aegov-fileupload size="sm" label="Small upload"></aegov-fileupload></div>
+          <div class="prop-item"><span class="prop-attr">size="base"</span><aegov-fileupload size="base" label="Base upload"></aegov-fileupload></div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-fileupload size="lg" label="Large upload"></aegov-fileupload></div>
+        </div>
+      </div>
+
+      <!-- states -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">States — disabled / required / invalid</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">is-disabled</span><aegov-fileupload label="Disabled Upload" is-disabled></aegov-fileupload></div>
+          <div class="prop-item"><span class="prop-attr">is-required</span><aegov-fileupload label="Required Document" is-required hint="This document is required for processing."></aegov-fileupload></div>
+          <div class="prop-item"><span class="prop-attr">is-invalid</span><aegov-fileupload label="Emirates ID Copy" is-invalid error-message="File type not allowed. Please upload a JPG or PDF."></aegov-fileupload></div>
+        </div>
+      </div>
+      <!-- @Event: aegovFileuploadChange fires with { files: File[] } -->
+      <!-- @Event: aegovFileuploadRemove fires with { file: File, remaining: File[] } -->
+      <!-- @Event: aegovValidate fires with AegovValidationDetail<File[]> -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-datepicker            ║
+     ╚══════════════════════════════╝ -->
+<section id="datepicker">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Datepicker</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Calendar picker — single date and date range, formats, min/max, presets, and validation states.</p>
+      </div>
+      <aegov-badge variant="indigo" appearance="soft">Forms</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- appearance: single -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="single" (default)</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">basic</span><aegov-datepicker label="Date of Birth" placeholder="Select date"></aegov-datepicker></div>
+          <div class="prop-item"><span class="prop-attr">with min/max</span><aegov-datepicker label="Appointment Date" min="today" hint="Earliest available: today"></aegov-datepicker></div>
+          <div class="prop-item"><span class="prop-attr">is-disable-future</span><aegov-datepicker label="Incident Date" is-disable-future hint="Cannot select a future date."></aegov-datepicker></div>
+          <div class="prop-item"><span class="prop-attr">custom format</span><aegov-datepicker label="Travel Date" format="DD/MM/YYYY" placeholder="DD/MM/YYYY"></aegov-datepicker></div>
+        </div>
+      </div>
+
+      <!-- appearance: range -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="range" — start and end date</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">basic range</span><aegov-datepicker appearance="range" label-range-start="Check-in" label-range-end="Check-out" hint="Select your stay dates."></aegov-datepicker></div>
+          <div class="prop-item"><span class="prop-attr">min-range + max-range</span><aegov-datepicker appearance="range" min-range="2" max-range="30" label-range-start="Start" label-range-end="End" hint="Minimum 2 days, maximum 30 days."></aegov-datepicker></div>
+        </div>
+      </div>
+
+      <!-- presets -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">presets — quick-select for range mode</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">presets="today,last7Days,thisMonth,last30Days"</span>
+            <aegov-datepicker appearance="range" presets="today,last7Days,thisMonth,last30Days" label-range-start="From" label-range-end="To" hint="Use preset shortcuts or pick custom dates."></aegov-datepicker>
+          </div>
+        </div>
+      </div>
+
+      <!-- clearable / confirmation -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-clearable · is-with-confirmation</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">is-clearable (default true)</span><aegov-datepicker label="Start Date" is-clearable value="2025-03-15"></aegov-datepicker></div>
+          <div class="prop-item"><span class="prop-attr">is-with-confirmation</span><aegov-datepicker appearance="range" is-with-confirmation label-range-start="From" label-range-end="To" hint="Click Apply to confirm selection."></aegov-datepicker></div>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — xs / sm / base / lg / xl</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">size="xs"</span><aegov-datepicker size="xs" label="XS" placeholder="Select date"></aegov-datepicker></div>
+          <div class="prop-item"><span class="prop-attr">size="sm"</span><aegov-datepicker size="sm" label="SM" placeholder="Select date"></aegov-datepicker></div>
+          <div class="prop-item"><span class="prop-attr">size="base"</span><aegov-datepicker size="base" label="Base" placeholder="Select date"></aegov-datepicker></div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-datepicker size="lg" label="LG" placeholder="Select date"></aegov-datepicker></div>
+          <div class="prop-item"><span class="prop-attr">size="xl"</span><aegov-datepicker size="xl" label="XL" placeholder="Select date"></aegov-datepicker></div>
+        </div>
+      </div>
+
+      <!-- states -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">States — disabled / required / invalid</p>
+        <div class="prop-grid">
+          <div class="prop-item"><span class="prop-attr">is-disabled</span><aegov-datepicker label="Disabled Date" is-disabled placeholder="Unavailable"></aegov-datepicker></div>
+          <div class="prop-item"><span class="prop-attr">is-required</span><aegov-datepicker label="Required Date" is-required></aegov-datepicker></div>
+          <div class="prop-item"><span class="prop-attr">is-invalid</span><aegov-datepicker label="Expiry Date" is-invalid error-message="Please select a valid expiry date."></aegov-datepicker></div>
+        </div>
+      </div>
+      <!-- @Event: aegovDatepickerChange fires with { value, formattedValue, date, startDate?, endDate? } -->
+      <!-- @Event: aegovDatepickerOpen, aegovDatepickerClose, aegovDatepickerClear, aegovDatepickerMonthChange -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-form-field            ║
+     ╚══════════════════════════════╝ -->
+<section id="form-field">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Form Field</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Wrapper component that cascades isInvalid, errorMessage, hint, and variant to its first form-control descendant.</p>
+      </div>
+      <aegov-badge variant="indigo" appearance="soft">Forms</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- basic wrapping -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Basic — wraps a form control, cascades error state</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">valid state</span>
+            <aegov-form-field hint="We'll never share your email.">
+              <aegov-input label="Email Address" type="email" placeholder="you@example.com"></aegov-input>
+            </aegov-form-field>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">is-invalid → cascades to child</span>
+            <aegov-form-field is-invalid error-message="Invalid Emirates ID format." hint="Format: 784-XXXX-XXXXXXX-X">
+              <aegov-input label="Emirates ID" value="12345"></aegov-input>
+            </aegov-form-field>
+          </div>
+        </div>
+      </div>
+
+      <!-- variant cascade -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant cascade — primary / secondary / neutral</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">variant="primary"</span>
+            <aegov-form-field variant="primary">
+              <aegov-input label="Primary Field" placeholder="Primary variant"></aegov-input>
+            </aegov-form-field>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="secondary"</span>
+            <aegov-form-field variant="secondary">
+              <aegov-input label="Secondary Field" placeholder="Secondary variant"></aegov-input>
+            </aegov-form-field>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="neutral"</span>
+            <aegov-form-field variant="neutral">
+              <aegov-input label="Neutral Field" placeholder="Neutral variant"></aegov-input>
+            </aegov-form-field>
+          </div>
+        </div>
+      </div>
+
+      <!-- wrapping other controls -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Wrapping other form controls</p>
+        <div class="prop-grid">
+          <div class="prop-item">
+            <span class="prop-attr">wrapping aegov-select</span>
+            <aegov-form-field is-invalid error-message="Please select a category.">
+              <aegov-select label="Category" placeholder="Select category">
+                <aegov-select-option value="a">Category A</aegov-select-option>
+                <aegov-select-option value="b">Category B</aegov-select-option>
+              </aegov-select>
+            </aegov-form-field>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">wrapping aegov-textarea</span>
+            <aegov-form-field hint="Minimum 100 characters required.">
+              <aegov-textarea label="Complaint Description" placeholder="Describe your issue in detail…" maxlength="500"></aegov-textarea>
+            </aegov-form-field>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">wrapping aegov-datepicker</span>
+            <aegov-form-field is-invalid error-message="Expiry date cannot be in the past.">
+              <aegov-datepicker label="Licence Expiry" is-disable-future></aegov-datepicker>
+            </aegov-form-field>
+          </div>
+        </div>
+      </div>
+
+      <!-- full form example -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Complete form — real-world service request</p>
+        <div class="preview-box">
+          <form style="display:flex;flex-direction:column;gap:20px;max-width:540px" onsubmit="event.preventDefault()">
+            <aegov-form-field>
+              <aegov-input label="Full Name" type="text" placeholder="As per Emirates ID" is-required name="fullname"></aegov-input>
+            </aegov-form-field>
+            <aegov-form-field hint="Format: 784-XXXX-XXXXXXX-X">
+              <aegov-input label="Emirates ID" type="text" placeholder="784-1234-1234567-1" is-required name="eid"></aegov-input>
+            </aegov-form-field>
+            <aegov-form-field>
+              <aegov-input label="Email Address" type="email" placeholder="you@example.com" is-required name="email"></aegov-input>
+            </aegov-form-field>
+            <aegov-form-field>
+              <aegov-input label="Mobile Number" type="tel" placeholder="+971 50 000 0000" is-required name="phone">
+                <span slot="icon-start" style="font-size:0.875rem">🇦🇪</span>
+              </aegov-input>
+            </aegov-form-field>
+            <aegov-form-field>
+              <aegov-select label="Emirate of Registration" placeholder="Select emirate" is-required name="emirate">
+                <aegov-select-option value="abudhabi">Abu Dhabi</aegov-select-option>
+                <aegov-select-option value="dubai">Dubai</aegov-select-option>
+                <aegov-select-option value="sharjah">Sharjah</aegov-select-option>
+                <aegov-select-option value="ajman">Ajman</aegov-select-option>
+                <aegov-select-option value="rasalkhaimah">Ras Al Khaimah</aegov-select-option>
+                <aegov-select-option value="fujairah">Fujairah</aegov-select-option>
+                <aegov-select-option value="ummalquwain">Umm Al Quwain</aegov-select-option>
+              </aegov-select>
+            </aegov-form-field>
+            <aegov-form-field hint="Select the date you wish to schedule the appointment.">
+              <aegov-datepicker label="Preferred Appointment Date" min="today" is-required name="apptdate"></aegov-datepicker>
+            </aegov-form-field>
+            <aegov-form-field hint="Maximum 500 characters. Describe the purpose of your visit.">
+              <aegov-textarea label="Request Details" placeholder="Briefly describe your request…" maxlength="500" is-required name="details"></aegov-textarea>
+            </aegov-form-field>
+            <aegov-form-field hint="PDF, JPG, or PNG. Maximum 5 MB.">
+              <aegov-fileupload label="Supporting Document (optional)" accept=".pdf,.jpg,.png" max-file-size="5242880" name="document"></aegov-fileupload>
+            </aegov-form-field>
+            <aegov-checkbox label="I confirm that the information provided is accurate and complete." is-required name="confirm"></aegov-checkbox>
+            <div style="display:flex;gap:12px">
+              <aegov-button type="submit" variant="primary" appearance="solid">Submit Application</aegov-button>
+              <aegov-button type="reset" variant="neutral-min" appearance="outline">Reset Form</aegov-button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

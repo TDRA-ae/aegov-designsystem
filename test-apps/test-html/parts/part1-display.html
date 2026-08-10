@@ -1,0 +1,835 @@
+<!-- ═══════════════════════════════════════════════════════════
+     PART 1 — DISPLAY COMPONENTS
+     badge · avatar · avatar-group · breadcrumbs · progress
+     timeline · separator · blockquote · text · title · aspect-ratio
+     ═══════════════════════════════════════════════════════════ -->
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-badge                 ║
+     ╚══════════════════════════════╝ -->
+<section id="badge">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Badge</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Status labels with variant, appearance, size, and dismissible states.</p>
+      </div>
+      <aegov-badge variant="primary" appearance="soft">Display</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- appearance: soft -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="soft" — all variants</p>
+        <div class="flex flex-wrap gap-3 items-start preview-box">
+          <div class="prop-item"><span class="prop-attr">variant="default"</span><aegov-badge variant="default" appearance="soft">Default</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="primary"</span><aegov-badge variant="primary" appearance="soft">Primary</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="secondary"</span><aegov-badge variant="secondary" appearance="soft">Secondary</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="aegold"</span><aegov-badge variant="aegold" appearance="soft">Aegold</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="aered"</span><aegov-badge variant="aered" appearance="soft">Aered</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="aegreen"</span><aegov-badge variant="aegreen" appearance="soft">Aegreen</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="aeblack"</span><aegov-badge variant="aeblack" appearance="soft">Aeblack</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="techblue"</span><aegov-badge variant="techblue" appearance="soft">Techblue</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="seablue"</span><aegov-badge variant="seablue" appearance="soft">Seablue</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="camel"</span><aegov-badge variant="camel" appearance="soft">Camel</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="desert"</span><aegov-badge variant="desert" appearance="soft">Desert</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="fuchsia"</span><aegov-badge variant="fuchsia" appearance="soft">Fuchsia</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="slate"</span><aegov-badge variant="slate" appearance="soft">Slate</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="purple"</span><aegov-badge variant="purple" appearance="soft">Purple</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="pink"</span><aegov-badge variant="pink" appearance="soft">Pink</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="indigo"</span><aegov-badge variant="indigo" appearance="soft">Indigo</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="lime"</span><aegov-badge variant="lime" appearance="soft">Lime</aegov-badge></div>
+        </div>
+      </div>
+
+      <!-- appearance: solid -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="solid" — all variants</p>
+        <div class="flex flex-wrap gap-3 items-start preview-box">
+          <div class="prop-item"><span class="prop-attr">variant="default"</span><aegov-badge variant="default" appearance="solid">Default</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="primary"</span><aegov-badge variant="primary" appearance="solid">Primary</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="secondary"</span><aegov-badge variant="secondary" appearance="solid">Secondary</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="aegold"</span><aegov-badge variant="aegold" appearance="solid">Aegold</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="aered"</span><aegov-badge variant="aered" appearance="solid">Aered</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="aegreen"</span><aegov-badge variant="aegreen" appearance="solid">Aegreen</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="aeblack"</span><aegov-badge variant="aeblack" appearance="solid">Aeblack</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="techblue"</span><aegov-badge variant="techblue" appearance="solid">Techblue</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="seablue"</span><aegov-badge variant="seablue" appearance="solid">Seablue</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="camel"</span><aegov-badge variant="camel" appearance="solid">Camel</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="desert"</span><aegov-badge variant="desert" appearance="solid">Desert</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="fuchsia"</span><aegov-badge variant="fuchsia" appearance="solid">Fuchsia</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="slate"</span><aegov-badge variant="slate" appearance="solid">Slate</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="purple"</span><aegov-badge variant="purple" appearance="solid">Purple</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="pink"</span><aegov-badge variant="pink" appearance="solid">Pink</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="indigo"</span><aegov-badge variant="indigo" appearance="solid">Indigo</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="lime"</span><aegov-badge variant="lime" appearance="solid">Lime</aegov-badge></div>
+        </div>
+      </div>
+
+      <!-- size -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — sm / base / lg</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">size="sm"</span><aegov-badge variant="primary" appearance="soft" size="sm">Small</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">size="base" (default)</span><aegov-badge variant="primary" appearance="soft" size="base">Base</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-badge variant="primary" appearance="soft" size="lg">Large</aegov-badge></div>
+        </div>
+      </div>
+
+      <!-- dismissible -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-dismissible</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">is-dismissible soft</span><aegov-badge variant="primary" appearance="soft" is-dismissible>Dismissible</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">is-dismissible solid</span><aegov-badge variant="aered" appearance="solid" is-dismissible>Dismissible</aegov-badge></div>
+        </div>
+      </div>
+      <!-- @Event: aegovBadgeDismiss fires when the dismiss (×) button is clicked -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-avatar                ║
+     ╚══════════════════════════════╝ -->
+<section id="avatar">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Avatar</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">User picture with sizes, shapes, status badges, and fallback icon slot.</p>
+      </div>
+      <aegov-badge variant="primary" appearance="soft">Display</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — xs / sm / base / lg / xl / 2xl / 3xl</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">size="xs"</span><aegov-avatar size="xs" src="https://i.pravatar.cc/40?img=1" alt="User xs"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">size="sm"</span><aegov-avatar size="sm" src="https://i.pravatar.cc/40?img=2" alt="User sm"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">size="base"</span><aegov-avatar size="base" src="https://i.pravatar.cc/40?img=3" alt="User base"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-avatar size="lg" src="https://i.pravatar.cc/60?img=4" alt="User lg"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">size="xl"</span><aegov-avatar size="xl" src="https://i.pravatar.cc/80?img=5" alt="User xl"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">size="2xl"</span><aegov-avatar size="2xl" src="https://i.pravatar.cc/80?img=6" alt="User 2xl"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">size="3xl"</span><aegov-avatar size="3xl" src="https://i.pravatar.cc/100?img=7" alt="User 3xl"></aegov-avatar></div>
+        </div>
+      </div>
+
+      <!-- appearance -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance — rounded / square</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">appearance="rounded" (default)</span><aegov-avatar appearance="rounded" size="lg" src="https://i.pravatar.cc/60?img=8" alt="Rounded"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">appearance="square"</span><aegov-avatar appearance="square" size="lg" src="https://i.pravatar.cc/60?img=9" alt="Square"></aegov-avatar></div>
+        </div>
+      </div>
+
+      <!-- status -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">status — online / offline / away / unavailable / busy</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">status="online"</span><aegov-avatar size="lg" src="https://i.pravatar.cc/60?img=10" alt="Online" status="online"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">status="offline"</span><aegov-avatar size="lg" src="https://i.pravatar.cc/60?img=11" alt="Offline" status="offline"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">status="away"</span><aegov-avatar size="lg" src="https://i.pravatar.cc/60?img=12" alt="Away" status="away"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">status="unavailable"</span><aegov-avatar size="lg" src="https://i.pravatar.cc/60?img=13" alt="Unavailable" status="unavailable"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">status="busy"</span><aegov-avatar size="lg" src="https://i.pravatar.cc/60?img=14" alt="Busy" status="busy"></aegov-avatar></div>
+        </div>
+      </div>
+
+      <!-- fallback slot (no src) -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Fallback — no src (slot default icon or initials text)</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">no src</span><aegov-avatar size="lg" alt="No image"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">no src + slot text</span>
+            <aegov-avatar size="lg" alt="Initials">AB</aegov-avatar>
+          </div>
+          <div class="prop-item"><span class="prop-attr">square no src</span><aegov-avatar size="lg" appearance="square" alt="No image sq"></aegov-avatar></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-avatar-group          ║
+     ╚══════════════════════════════╝ -->
+<section id="avatar-group">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Avatar Group</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Grouped avatars with default or compact overlap, overflow count.</p>
+      </div>
+      <aegov-badge variant="primary" appearance="soft">Display</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- variant: default -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant="default" (spaced)</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <aegov-avatar-group variant="default" size="base">
+            <aegov-avatar src="https://i.pravatar.cc/40?img=1" alt="User 1"></aegov-avatar>
+            <aegov-avatar src="https://i.pravatar.cc/40?img=2" alt="User 2"></aegov-avatar>
+            <aegov-avatar src="https://i.pravatar.cc/40?img=3" alt="User 3"></aegov-avatar>
+            <aegov-avatar src="https://i.pravatar.cc/40?img=4" alt="User 4"></aegov-avatar>
+          </aegov-avatar-group>
+        </div>
+      </div>
+
+      <!-- variant: compact -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant="compact" (overlapping)</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <aegov-avatar-group variant="compact" size="base">
+            <aegov-avatar src="https://i.pravatar.cc/40?img=5" alt="User 5"></aegov-avatar>
+            <aegov-avatar src="https://i.pravatar.cc/40?img=6" alt="User 6"></aegov-avatar>
+            <aegov-avatar src="https://i.pravatar.cc/40?img=7" alt="User 7"></aegov-avatar>
+            <aegov-avatar src="https://i.pravatar.cc/40?img=8" alt="User 8"></aegov-avatar>
+          </aegov-avatar-group>
+        </div>
+      </div>
+
+      <!-- moreCount -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">more-count — overflow indicator</p>
+        <div class="flex flex-wrap gap-3 items-center preview-box">
+          <aegov-avatar-group variant="compact" size="base" more-count="12">
+            <aegov-avatar src="https://i.pravatar.cc/40?img=9" alt="User 9"></aegov-avatar>
+            <aegov-avatar src="https://i.pravatar.cc/40?img=10" alt="User 10"></aegov-avatar>
+            <aegov-avatar src="https://i.pravatar.cc/40?img=11" alt="User 11"></aegov-avatar>
+          </aegov-avatar-group>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — xs / sm / base / lg / xl</p>
+        <div class="flex flex-wrap gap-4 items-center preview-box">
+          <div class="prop-item"><span class="prop-attr">size="xs"</span>
+            <aegov-avatar-group variant="compact" size="xs">
+              <aegov-avatar src="https://i.pravatar.cc/40?img=1" alt="U1"></aegov-avatar>
+              <aegov-avatar src="https://i.pravatar.cc/40?img=2" alt="U2"></aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="prop-item"><span class="prop-attr">size="sm"</span>
+            <aegov-avatar-group variant="compact" size="sm">
+              <aegov-avatar src="https://i.pravatar.cc/40?img=3" alt="U3"></aegov-avatar>
+              <aegov-avatar src="https://i.pravatar.cc/40?img=4" alt="U4"></aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="prop-item"><span class="prop-attr">size="base"</span>
+            <aegov-avatar-group variant="compact" size="base">
+              <aegov-avatar src="https://i.pravatar.cc/40?img=5" alt="U5"></aegov-avatar>
+              <aegov-avatar src="https://i.pravatar.cc/40?img=6" alt="U6"></aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span>
+            <aegov-avatar-group variant="compact" size="lg">
+              <aegov-avatar src="https://i.pravatar.cc/60?img=7" alt="U7"></aegov-avatar>
+              <aegov-avatar src="https://i.pravatar.cc/60?img=8" alt="U8"></aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="prop-item"><span class="prop-attr">size="xl"</span>
+            <aegov-avatar-group variant="compact" size="xl">
+              <aegov-avatar src="https://i.pravatar.cc/80?img=9" alt="U9"></aegov-avatar>
+              <aegov-avatar src="https://i.pravatar.cc/80?img=10" alt="U10"></aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+        </div>
+      </div>
+      <!-- @Event: aegovAvatarGroupMore fires when the "+N" more indicator is clicked -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-breadcrumbs           ║
+     ╚══════════════════════════════╝ -->
+<section id="breadcrumbs">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Breadcrumbs</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Wayfinding trail with separator variants and truncation.</p>
+      </div>
+      <aegov-badge variant="primary" appearance="soft">Display</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- separator -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">separator — slash / chevron</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">separator="slash" (default)</span>
+            <aegov-breadcrumbs separator="slash">
+              <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item>Current Page</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">separator="chevron"</span>
+            <aegov-breadcrumbs separator="chevron">
+              <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item href="/products/hardware">Hardware</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item>Laptops</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+        </div>
+      </div>
+
+      <!-- maxLength truncation -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">max-length — truncate middle items</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">max-length="3"</span>
+            <aegov-breadcrumbs separator="slash" max-length="3">
+              <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item href="/a">Level A</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item href="/a/b">Level B</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item href="/a/b/c">Level C</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+        </div>
+      </div>
+
+      <!-- isMicrodata -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-microdata — Schema.org BreadcrumbList markup</p>
+        <div class="preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">is-microdata</span>
+            <aegov-breadcrumbs is-microdata separator="chevron">
+              <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item href="/news">News</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item>Article</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+        </div>
+      </div>
+
+      <!-- item: target -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">aegov-breadcrumbs-item target</p>
+        <div class="preview-box">
+          <aegov-breadcrumbs separator="slash">
+            <aegov-breadcrumbs-item href="/" target="_self">Self</aegov-breadcrumbs-item>
+            <aegov-breadcrumbs-item href="/ext" target="_blank">Blank</aegov-breadcrumbs-item>
+            <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
+          </aegov-breadcrumbs>
+        </div>
+      </div>
+      <!-- @Event: aegovBreadcrumbItemClick fires on each item click with { href, position } -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-progress              ║
+     ╚══════════════════════════════╝ -->
+<section id="progress">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Progress</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Linear progress bar with label, counter positions, height, and indeterminate mode.</p>
+      </div>
+      <aegov-badge variant="primary" appearance="soft">Display</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- basic values -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">value — 0 / 25 / 50 / 75 / 100</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">value="0"</span><aegov-progress value="0" label="Upload" counter="trailing"></aegov-progress></div>
+          <div class="prop-item"><span class="prop-attr">value="25"</span><aegov-progress value="25" label="Processing" counter="trailing"></aegov-progress></div>
+          <div class="prop-item"><span class="prop-attr">value="50"</span><aegov-progress value="50" label="Halfway" counter="trailing"></aegov-progress></div>
+          <div class="prop-item"><span class="prop-attr">value="75"</span><aegov-progress value="75" label="Almost done" counter="trailing"></aegov-progress></div>
+          <div class="prop-item"><span class="prop-attr">value="100"</span><aegov-progress value="100" label="Complete" counter="trailing"></aegov-progress></div>
+        </div>
+      </div>
+
+      <!-- indeterminate -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Indeterminate (no value prop)</p>
+        <div class="preview-box">
+          <div class="prop-item"><span class="prop-attr">no value</span><aegov-progress label="Loading…"></aegov-progress></div>
+        </div>
+      </div>
+
+      <!-- counter positions -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">counter — top / trailing (no counter)</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">counter="top"</span><aegov-progress value="60" label="Upload" counter="top"></aegov-progress></div>
+          <div class="prop-item"><span class="prop-attr">counter="trailing"</span><aegov-progress value="60" counter="trailing"></aegov-progress></div>
+          <div class="prop-item"><span class="prop-attr">no counter</span><aegov-progress value="60" label="Silent bar"></aegov-progress></div>
+        </div>
+      </div>
+
+      <!-- counterSuffix -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">counter-suffix — custom unit</p>
+        <div class="preview-box">
+          <div class="prop-item"><span class="prop-attr">counter-suffix=" files"</span><aegov-progress value="40" counter="trailing" counter-suffix=" files"></aegov-progress></div>
+        </div>
+      </div>
+
+      <!-- height -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">height — Tailwind spacing (1 / 2 / 3 / 4)</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">height="1"</span><aegov-progress value="60" height="1"></aegov-progress></div>
+          <div class="prop-item"><span class="prop-attr">height="2" (default)</span><aegov-progress value="60" height="2"></aegov-progress></div>
+          <div class="prop-item"><span class="prop-attr">height="3"</span><aegov-progress value="60" height="3"></aegov-progress></div>
+          <div class="prop-item"><span class="prop-attr">height="4"</span><aegov-progress value="60" height="4"></aegov-progress></div>
+        </div>
+      </div>
+
+      <!-- label + description -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">label + description</p>
+        <div class="preview-box">
+          <aegov-progress value="70" label="File Transfer" description="Uploading report.pdf to cloud storage" counter="trailing"></aegov-progress>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-timeline              ║
+     ╚══════════════════════════════╝ -->
+<section id="timeline">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Timeline</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Step-by-step progression with variant, size, and orientation options.</p>
+      </div>
+      <aegov-badge variant="primary" appearance="soft">Display</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- variant: default vertical -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant="default" orientation="vertical" — step statuses</p>
+        <div class="preview-box">
+          <aegov-timeline variant="default" orientation="vertical" size="base">
+            <aegov-timeline-step status="completed" description="Account created and verified">Step 1 — Register</aegov-timeline-step>
+            <aegov-timeline-step status="completed" description="Identity documents uploaded">Step 2 — Verify</aegov-timeline-step>
+            <aegov-timeline-step status="active" description="Application is under review">Step 3 — Review</aegov-timeline-step>
+            <aegov-timeline-step status="pending" description="Waiting for approval">Step 4 — Approve</aegov-timeline-step>
+            <aegov-timeline-step status="pending" description="Card will be dispatched">Step 5 — Dispatch</aegov-timeline-step>
+          </aegov-timeline>
+        </div>
+      </div>
+
+      <!-- variant: compact -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">variant="compact"</p>
+        <div class="preview-box">
+          <aegov-timeline variant="compact" orientation="vertical" size="base">
+            <aegov-timeline-step status="completed">Order placed</aegov-timeline-step>
+            <aegov-timeline-step status="completed">Payment confirmed</aegov-timeline-step>
+            <aegov-timeline-step status="active">Shipped</aegov-timeline-step>
+            <aegov-timeline-step status="pending">Delivered</aegov-timeline-step>
+          </aegov-timeline>
+        </div>
+      </div>
+
+      <!-- orientation: horizontal -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">orientation="horizontal"</p>
+        <div class="preview-box overflow-x-auto">
+          <aegov-timeline variant="default" orientation="horizontal" size="base">
+            <aegov-timeline-step status="completed">Start</aegov-timeline-step>
+            <aegov-timeline-step status="completed">In Progress</aegov-timeline-step>
+            <aegov-timeline-step status="active">Review</aegov-timeline-step>
+            <aegov-timeline-step status="pending">Done</aegov-timeline-step>
+          </aegov-timeline>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — sm / base / lg</p>
+        <div class="flex flex-col gap-6 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">size="sm"</span>
+            <aegov-timeline variant="default" orientation="vertical" size="sm">
+              <aegov-timeline-step status="completed">Small step 1</aegov-timeline-step>
+              <aegov-timeline-step status="active">Small step 2</aegov-timeline-step>
+              <aegov-timeline-step status="pending">Small step 3</aegov-timeline-step>
+            </aegov-timeline>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">size="lg"</span>
+            <aegov-timeline variant="default" orientation="vertical" size="lg">
+              <aegov-timeline-step status="completed">Large step 1</aegov-timeline-step>
+              <aegov-timeline-step status="active">Large step 2</aegov-timeline-step>
+              <aegov-timeline-step status="pending">Large step 3</aegov-timeline-step>
+            </aegov-timeline>
+          </div>
+        </div>
+      </div>
+
+      <!-- icon slot for completed -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Completed step with custom icon slot</p>
+        <div class="preview-box">
+          <aegov-timeline variant="default" orientation="vertical" size="base">
+            <aegov-timeline-step status="completed" description="Custom icon via slot">
+              Custom Icon Step
+              <svg slot="icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm3.354 5.354-3.5 3.5a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l3.146-3.147a.5.5 0 0 1 .708.708Z"/></svg>
+            </aegov-timeline-step>
+            <aegov-timeline-step status="pending">Pending step</aegov-timeline-step>
+          </aegov-timeline>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-separator             ║
+     ╚══════════════════════════════╝ -->
+<section id="separator">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Separator</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Horizontal and vertical dividers with variant, appearance, and optional label.</p>
+      </div>
+      <aegov-badge variant="primary" appearance="soft">Display</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- horizontal variants -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">orientation="horizontal" — variant × appearance</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">variant="primary" appearance="solid"</span><aegov-separator variant="primary" appearance="solid"></aegov-separator></div>
+          <div class="prop-item"><span class="prop-attr">variant="primary" appearance="light"</span><aegov-separator variant="primary" appearance="light"></aegov-separator></div>
+          <div class="prop-item"><span class="prop-attr">variant="secondary" appearance="solid"</span><aegov-separator variant="secondary" appearance="solid"></aegov-separator></div>
+          <div class="prop-item"><span class="prop-attr">variant="neutral-max" appearance="solid"</span><aegov-separator variant="neutral-max" appearance="solid"></aegov-separator></div>
+          <div class="prop-item"><span class="prop-attr">variant="neutral-min" appearance="solid"</span><aegov-separator variant="neutral-min" appearance="solid"></aegov-separator></div>
+        </div>
+      </div>
+
+      <!-- with label text -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">text — labeled separator</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item"><span class="prop-attr">text="OR"</span><aegov-separator text="OR"></aegov-separator></div>
+          <div class="prop-item"><span class="prop-attr">text="Continue with"</span><aegov-separator text="Continue with"></aegov-separator></div>
+        </div>
+      </div>
+
+      <!-- vertical -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">orientation="vertical"</p>
+        <div class="flex items-center gap-4 preview-box" style="height:60px">
+          <span class="text-sm">Item A</span>
+          <aegov-separator orientation="vertical" variant="primary" appearance="solid"></aegov-separator>
+          <span class="text-sm">Item B</span>
+          <aegov-separator orientation="vertical" variant="neutral-max" appearance="solid"></aegov-separator>
+          <span class="text-sm">Item C</span>
+        </div>
+      </div>
+
+      <!-- gap -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">gap — spacing around the rule (4 / 8 / 16)</p>
+        <div class="flex flex-col preview-box">
+          <div class="prop-item"><span class="prop-attr">gap="4"</span><aegov-separator gap="4" text="Gap 4"></aegov-separator></div>
+          <div class="prop-item"><span class="prop-attr">gap="8"</span><aegov-separator gap="8" text="Gap 8"></aegov-separator></div>
+          <div class="prop-item"><span class="prop-attr">gap="16"</span><aegov-separator gap="16" text="Gap 16"></aegov-separator></div>
+        </div>
+      </div>
+
+      <!-- decorative -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-decorative — hidden from assistive tech</p>
+        <div class="preview-box">
+          <aegov-separator is-decorative></aegov-separator>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-blockquote            ║
+     ╚══════════════════════════════╝ -->
+<section id="blockquote">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Blockquote</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Styled pull-quotes with appearance variants and author attribution.</p>
+      </div>
+      <aegov-badge variant="primary" appearance="soft">Display</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- appearance -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance — primary / colored / coloured</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">appearance="primary" (default)</span>
+            <aegov-blockquote appearance="primary" author="Sheikh Mohammed" author-title="Vice President of UAE">
+              The future belongs to those who prepare for it today.
+            </aegov-blockquote>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">appearance="colored"</span>
+            <aegov-blockquote appearance="colored" author="Sheikh Zayed" author-title="Founder of the UAE">
+              A nation without a past has neither a present nor a future.
+            </aegov-blockquote>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">appearance="coloured" (alias)</span>
+            <aegov-blockquote appearance="coloured" author="H.H. Sheikh Khalifa" author-title="President of the UAE">
+              The UAE's success story is a testament to the vision of its leaders and the determination of its people.
+            </aegov-blockquote>
+          </div>
+        </div>
+      </div>
+
+      <!-- cite -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">cite — attribution URL</p>
+        <div class="preview-box">
+          <aegov-blockquote cite="https://www.uaecabinet.ae" author="UAE Cabinet" author-title="Official Statement">
+            The UAE Cabinet approved a landmark set of decisions aimed at accelerating digital transformation.
+          </aegov-blockquote>
+        </div>
+      </div>
+
+      <!-- without attribution -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">No author (anonymous quote)</p>
+        <div class="preview-box">
+          <aegov-blockquote>
+            Innovation is not a destination but a continuous journey of improvement and discovery.
+          </aegov-blockquote>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-text                  ║
+     ╚══════════════════════════════╝ -->
+<section id="text">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Text</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Paragraph component with size scale (renders as &lt;p&gt;).</p>
+      </div>
+      <aegov-badge variant="primary" appearance="soft">Display</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — sm / base / lg</p>
+        <div class="flex flex-col gap-4 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">size="sm"</span>
+            <aegov-text size="sm">Small body text — used for captions, footnotes, and secondary information that should be present but not dominant.</aegov-text>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">size="base" (default)</span>
+            <aegov-text size="base">Base body text — the standard reading size for paragraphs, article content, and general interface copy.</aegov-text>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">size="lg"</span>
+            <aegov-text size="lg">Large body text — used for lead paragraphs, introductory content, and anywhere that reading comfort is prioritised.</aegov-text>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-title                 ║
+     ╚══════════════════════════════╝ -->
+<section id="title">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Title</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Heading component with full size scale and configurable heading element.</p>
+      </div>
+      <aegov-badge variant="primary" appearance="soft">Display</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- size scale -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — xs / sm / base / lg / xl / 2xl / 3xl</p>
+        <div class="flex flex-col gap-3 preview-box">
+          <div class="prop-item"><span class="prop-attr">size="xs"</span><aegov-title size="xs">Extra Small Title</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">size="sm"</span><aegov-title size="sm">Small Title</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">size="base"</span><aegov-title size="base">Base Title</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">size="lg"</span><aegov-title size="lg">Large Title</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">size="xl"</span><aegov-title size="xl">Extra Large Title</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">size="2xl"</span><aegov-title size="2xl">Two XL Title</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">size="3xl"</span><aegov-title size="3xl">Three XL Title</aegov-title></div>
+        </div>
+      </div>
+
+      <!-- text-h scale aliases -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — text-h1 through text-h6 aliases</p>
+        <div class="flex flex-col gap-3 preview-box">
+          <div class="prop-item"><span class="prop-attr">size="text-h1"</span><aegov-title size="text-h1" heading-type="h2">H1-styled Title</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">size="text-h2"</span><aegov-title size="text-h2" heading-type="h2">H2-styled Title</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">size="text-h3"</span><aegov-title size="text-h3" heading-type="h3">H3-styled Title</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">size="text-h4"</span><aegov-title size="text-h4" heading-type="h4">H4-styled Title</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">size="text-h5"</span><aegov-title size="text-h5" heading-type="h5">H5-styled Title</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">size="text-h6"</span><aegov-title size="text-h6" heading-type="h6">H6-styled Title</aegov-title></div>
+        </div>
+      </div>
+
+      <!-- headingType -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">heading-type — rendered HTML element (h2–h6, p)</p>
+        <div class="flex flex-col gap-3 preview-box">
+          <div class="prop-item"><span class="prop-attr">heading-type="h2"</span><aegov-title size="base" heading-type="h2">Rendered as H2</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">heading-type="h3"</span><aegov-title size="base" heading-type="h3">Rendered as H3</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">heading-type="h4"</span><aegov-title size="base" heading-type="h4">Rendered as H4</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">heading-type="h5"</span><aegov-title size="base" heading-type="h5">Rendered as H5</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">heading-type="h6"</span><aegov-title size="base" heading-type="h6">Rendered as H6</aegov-title></div>
+          <div class="prop-item"><span class="prop-attr">heading-type="p"</span><aegov-title size="base" heading-type="p">Rendered as P (display heading)</aegov-title></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-aspect-ratio          ║
+     ╚══════════════════════════════╝ -->
+<section id="aspect-ratio">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Aspect Ratio</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Constrain media to a fixed ratio with named tokens or custom fractions, and fit modes.</p>
+      </div>
+      <aegov-badge variant="primary" appearance="soft">Display</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- ratio: named tokens -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">ratio — auto / square / video</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item" style="width:200px">
+            <span class="prop-attr">ratio="square"</span>
+            <aegov-aspect-ratio ratio="square" fit="cover">
+              <img src="https://picsum.photos/seed/sq/200/200" alt="Square demo" style="width:100%;height:100%">
+            </aegov-aspect-ratio>
+          </div>
+          <div class="prop-item" style="width:260px">
+            <span class="prop-attr">ratio="video" (16/9)</span>
+            <aegov-aspect-ratio ratio="video" fit="cover">
+              <img src="https://picsum.photos/seed/vid/260/146" alt="Video ratio demo" style="width:100%;height:100%">
+            </aegov-aspect-ratio>
+          </div>
+          <div class="prop-item" style="width:200px">
+            <span class="prop-attr">ratio="auto"</span>
+            <aegov-aspect-ratio ratio="auto">
+              <img src="https://picsum.photos/seed/auto/200/120" alt="Auto ratio demo" style="width:100%">
+            </aegov-aspect-ratio>
+          </div>
+        </div>
+      </div>
+
+      <!-- ratio: custom fractions -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">ratio — custom fractions (4/3, 5/4, 21/9)</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item" style="width:200px">
+            <span class="prop-attr">ratio="4/3"</span>
+            <aegov-aspect-ratio ratio="4/3" fit="cover">
+              <img src="https://picsum.photos/seed/4x3/200/150" alt="4/3 demo" style="width:100%;height:100%">
+            </aegov-aspect-ratio>
+          </div>
+          <div class="prop-item" style="width:200px">
+            <span class="prop-attr">ratio="5/4"</span>
+            <aegov-aspect-ratio ratio="5/4" fit="cover">
+              <img src="https://picsum.photos/seed/5x4/200/160" alt="5/4 demo" style="width:100%;height:100%">
+            </aegov-aspect-ratio>
+          </div>
+          <div class="prop-item" style="width:280px">
+            <span class="prop-attr">ratio="21/9"</span>
+            <aegov-aspect-ratio ratio="21/9" fit="cover">
+              <img src="https://picsum.photos/seed/21x9/280/120" alt="21/9 demo" style="width:100%;height:100%">
+            </aegov-aspect-ratio>
+          </div>
+        </div>
+      </div>
+
+      <!-- fit modes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">fit — cover / contain / fill / none / scale-down</p>
+        <div class="flex flex-wrap gap-4 preview-box">
+          <div class="prop-item" style="width:160px">
+            <span class="prop-attr">fit="cover"</span>
+            <aegov-aspect-ratio ratio="square" fit="cover">
+              <img src="https://picsum.photos/seed/cov/160/160" alt="Cover" style="width:100%;height:100%">
+            </aegov-aspect-ratio>
+          </div>
+          <div class="prop-item" style="width:160px">
+            <span class="prop-attr">fit="contain"</span>
+            <aegov-aspect-ratio ratio="square" fit="contain">
+              <img src="https://picsum.photos/seed/con/160/160" alt="Contain" style="width:100%;height:100%">
+            </aegov-aspect-ratio>
+          </div>
+          <div class="prop-item" style="width:160px">
+            <span class="prop-attr">fit="fill"</span>
+            <aegov-aspect-ratio ratio="square" fit="fill">
+              <img src="https://picsum.photos/seed/fil/160/160" alt="Fill" style="width:100%;height:100%">
+            </aegov-aspect-ratio>
+          </div>
+          <div class="prop-item" style="width:160px">
+            <span class="prop-attr">fit="none"</span>
+            <aegov-aspect-ratio ratio="square" fit="none">
+              <img src="https://picsum.photos/seed/non/160/160" alt="None" style="width:100%;height:100%">
+            </aegov-aspect-ratio>
+          </div>
+          <div class="prop-item" style="width:160px">
+            <span class="prop-attr">fit="scale-down"</span>
+            <aegov-aspect-ratio ratio="square" fit="scale-down">
+              <img src="https://picsum.photos/seed/scl/60/60" alt="Scale down" style="width:100%;height:100%">
+            </aegov-aspect-ratio>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

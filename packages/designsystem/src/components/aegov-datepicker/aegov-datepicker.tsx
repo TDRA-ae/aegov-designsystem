@@ -83,8 +83,8 @@ const ARROW_RIGHT = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="
 @Component({
   tag: 'aegov-datepicker',
   styleUrl: 'aegov-datepicker.css',
-  scoped: true,
-  formAssociated: true, // §2.5 + §7.5 spike: scoped:true + formAssociated combo verified
+  shadow: { delegatesFocus: true },
+  formAssociated: true,
 })
 export class AegovDatepicker {
   @Element() el: HTMLElement;
@@ -144,7 +144,7 @@ export class AegovDatepicker {
   @Prop() presets: string = '';
 
   /** Whether the datepicker is disabled */
-  @Prop() isDisabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
 
   /** Marks the datepicker as required for form validation. Sets `required` on the inner input. */
   @Prop() isRequired: boolean = false;
@@ -176,7 +176,7 @@ export class AegovDatepicker {
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /** Form field name for FormAssociated submission (§2.5). */
-  @Prop() name?: string;
+  @Prop({ reflect: true }) name?: string;
 
   /** Visual + a11y invalid state. See §2.3. */
   @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
@@ -404,7 +404,7 @@ export class AegovDatepicker {
     this.emitValidate('change');
   }
 
-  @Watch('unavailableDates')
+  @Watch('blackout')
   onUnavailableDatesChange() {
     this.parseUnavailableDates();
   }
@@ -841,11 +841,15 @@ export class AegovDatepicker {
     const header = document.createElement('div');
     header.className = 'datepicker__header';
 
+    // In RTL layout the flex row reverses, so the prev button sits on the right
+    // and the next button on the left. Flip the chevron icons to match direction.
+    const rtl = isRtl(this.el);
+
     if (showNavigation) {
       const prevBtn = document.createElement('button');
       prevBtn.className = 'datepicker__nav-btn';
       prevBtn.type = 'button';
-      prevBtn.innerHTML = CHEVRON_LEFT;
+      prevBtn.innerHTML = rtl ? CHEVRON_RIGHT : CHEVRON_LEFT;
       const prevDate = new Date(year, month - 1, 1);
       const prevMonthNames = getMonthNames(this.locale);
       prevBtn.setAttribute('aria-label', `${this.t.prevMonth}, ${prevMonthNames[prevDate.getMonth()]} ${prevDate.getFullYear()}`);
@@ -907,7 +911,7 @@ export class AegovDatepicker {
       const nextBtn = document.createElement('button');
       nextBtn.className = 'datepicker__nav-btn';
       nextBtn.type = 'button';
-      nextBtn.innerHTML = CHEVRON_RIGHT;
+      nextBtn.innerHTML = rtl ? CHEVRON_LEFT : CHEVRON_RIGHT;
       const nextDate = new Date(year, month + 1, 1);
       const nextMonthNames = getMonthNames(this.locale);
       nextBtn.setAttribute('aria-label', `${this.t.nextMonth}, ${nextMonthNames[nextDate.getMonth()]} ${nextDate.getFullYear()}`);

@@ -60,7 +60,7 @@ export class AegovNavbarItem {
   @Prop() isActive: boolean = false;
 
   /** Visually disabled, not clickable, removed from arrow-key cycle. */
-  @Prop() isDisabled: boolean = false;
+  @Prop({ reflect: true }) isDisabled: boolean = false;
 
   /**
    * Size token. Accepts a Tailwind-style responsive string (e.g.
@@ -334,7 +334,7 @@ export class AegovNavbarItem {
     }
 
     return (
-      <Host>
+      <Host class={{ 'is-disabled': this.isDisabled }}>
         <li {...passThroughAttributes} class={liClasses}>
           {inner}
           {this.hasDropdown && <slot name="dropdown" />}

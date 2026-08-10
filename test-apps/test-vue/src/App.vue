@@ -48,9 +48,24 @@
           <li><a href="#button-sizes" class="nav-link">Button Sizes</a></li>
           <li><a href="#badges" class="nav-link">Badges</a></li>
           <li><a href="#badge-appearances" class="nav-link">Badge Appearances</a></li>
+        </ul>
+        <p class="px-2 mb-1 text-[10px] font-bold uppercase tracking-widest text-aeblack-400 dark:text-aeblack-600">Form Components</p>
+        <ul class="space-y-0.5 mb-4">
           <li><a href="#inputs" class="nav-link">Input</a></li>
+          <li><a href="#textarea" class="nav-link">Textarea</a></li>
           <li><a href="#select" class="nav-link">Select</a></li>
           <li><a href="#checkbox" class="nav-link">Checkbox</a></li>
+          <li><a href="#checkbox-group" class="nav-link">Checkbox Group</a></li>
+          <li><a href="#toggle" class="nav-link">Toggle</a></li>
+          <li><a href="#radio-group" class="nav-link">Radio Group</a></li>
+          <li><a href="#range" class="nav-link">Range</a></li>
+          <li><a href="#otp" class="nav-link">OTP</a></li>
+          <li><a href="#fileupload" class="nav-link">File Upload</a></li>
+          <li><a href="#datepicker" class="nav-link">Datepicker</a></li>
+          <li><a href="#form-field" class="nav-link">Form Field</a></li>
+        </ul>
+        <p class="px-2 mb-1 text-[10px] font-bold uppercase tracking-widest text-aeblack-400 dark:text-aeblack-600">Other</p>
+        <ul class="space-y-0.5 mb-4">
           <li><a href="#tabs" class="nav-link">Tabs</a></li>
         </ul>
         <p class="px-2 mb-1 text-[10px] font-bold uppercase tracking-widest text-aeblack-400 dark:text-aeblack-600">Testing</p>
@@ -306,6 +321,284 @@
           </div>
         </section>
 
+        <!-- TEXTAREA -->
+        <section id="textarea">
+          <div class="section-card">
+            <div class="section-card-header flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Textarea</h2>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Multi-line text · resize modes · copyable</p>
+              </div>
+              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+            </div>
+            <div class="section-card-body">
+              <div class="grid grid-cols-2 gap-4 max-w-2xl">
+                <aegov-textarea field-id="ta-basic" placeholder="Basic textarea"></aegov-textarea>
+                <aegov-textarea field-id="ta-hint" placeholder="With hint text" hint="Max 500 characters"></aegov-textarea>
+                <aegov-textarea field-id="ta-required" placeholder="Required field" is-required="true"></aegov-textarea>
+                <aegov-textarea field-id="ta-copy" placeholder="Copyable textarea" value="Copy me!" is-copyable="true"></aegov-textarea>
+                <aegov-textarea field-id="ta-disabled" placeholder="Disabled textarea" is-disabled="true"></aegov-textarea>
+                <aegov-textarea field-id="ta-invalid" placeholder="Invalid textarea" is-invalid="true" error-message="This field has an error"></aegov-textarea>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CHECKBOX GROUP -->
+        <section id="checkbox-group">
+          <div class="section-card">
+            <div class="section-card-header flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Checkbox Group</h2>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Grouped checkboxes · vertical / horizontal</p>
+              </div>
+              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+            </div>
+            <div class="section-card-body">
+              <div class="grid grid-cols-2 gap-6 max-w-2xl">
+                <aegov-checkbox-group label="Vertical (default)" hint="Select all that apply">
+                  <aegov-checkbox field-id="cg-a" name="interests" value="design" label="Design"></aegov-checkbox>
+                  <aegov-checkbox field-id="cg-b" name="interests" value="dev" label="Development" is-checked="true"></aegov-checkbox>
+                  <aegov-checkbox field-id="cg-c" name="interests" value="qa" label="QA / Testing"></aegov-checkbox>
+                </aegov-checkbox-group>
+                <aegov-checkbox-group label="Horizontal" orientation="horizontal">
+                  <aegov-checkbox field-id="cg-h1" name="days" value="mon" label="Mon" is-checked="true"></aegov-checkbox>
+                  <aegov-checkbox field-id="cg-h2" name="days" value="tue" label="Tue"></aegov-checkbox>
+                  <aegov-checkbox field-id="cg-h3" name="days" value="wed" label="Wed" is-checked="true"></aegov-checkbox>
+                  <aegov-checkbox field-id="cg-h4" name="days" value="thu" label="Thu"></aegov-checkbox>
+                </aegov-checkbox-group>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TOGGLE -->
+        <section id="toggle">
+          <div class="section-card">
+            <div class="section-card-header flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Toggle</h2>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">On/off switch · variants · sizes</p>
+              </div>
+              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+            </div>
+            <div class="section-card-body">
+              <div class="space-y-4 max-w-md">
+                <div class="flex flex-wrap gap-6">
+                  <aegov-toggle field-id="tg-off" label="Off state"></aegov-toggle>
+                  <aegov-toggle field-id="tg-on" label="On state" is-checked="true"></aegov-toggle>
+                  <aegov-toggle field-id="tg-disabled" label="Disabled" is-disabled="true"></aegov-toggle>
+                  <aegov-toggle field-id="tg-disabled-on" label="Disabled + On" is-disabled="true" is-checked="true"></aegov-toggle>
+                </div>
+                <div class="flex flex-wrap gap-6">
+                  <aegov-toggle field-id="tg-vp" label="primary" variant="primary" is-checked="true"></aegov-toggle>
+                  <aegov-toggle field-id="tg-vs" label="secondary" variant="secondary" is-checked="true"></aegov-toggle>
+                  <aegov-toggle field-id="tg-vnx" label="neutral-max" variant="neutral-max" is-checked="true"></aegov-toggle>
+                  <aegov-toggle field-id="tg-vnn" label="neutral-min" variant="neutral-min" is-checked="true"></aegov-toggle>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- RADIO GROUP -->
+        <section id="radio-group">
+          <div class="section-card">
+            <div class="section-card-header flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Radio Group</h2>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Single-selection · vertical / horizontal</p>
+              </div>
+              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+            </div>
+            <div class="section-card-body">
+              <div class="grid grid-cols-2 gap-6 max-w-2xl">
+                <aegov-radio-group name="plan" label="Subscription plan" hint="Choose one plan">
+                  <aegov-radio field-id="rg-free" value="free" label="Free" is-checked="true"></aegov-radio>
+                  <aegov-radio field-id="rg-pro" value="pro" label="Pro"></aegov-radio>
+                  <aegov-radio field-id="rg-enterprise" value="enterprise" label="Enterprise"></aegov-radio>
+                </aegov-radio-group>
+                <aegov-radio-group name="size" label="Size (horizontal)" orientation="horizontal">
+                  <aegov-radio field-id="rg-sm" value="sm" label="S" is-checked="true"></aegov-radio>
+                  <aegov-radio field-id="rg-md" value="md" label="M"></aegov-radio>
+                  <aegov-radio field-id="rg-lg" value="lg" label="L"></aegov-radio>
+                  <aegov-radio field-id="rg-xl" value="xl" label="XL"></aegov-radio>
+                </aegov-radio-group>
+                <aegov-radio-group name="notify" label="Required" is-required="true" is-invalid="true" error-message="Please select an option">
+                  <aegov-radio field-id="rg-email" value="email" label="Email"></aegov-radio>
+                  <aegov-radio field-id="rg-sms" value="sms" label="SMS"></aegov-radio>
+                  <aegov-radio field-id="rg-none" value="none" label="None"></aegov-radio>
+                </aegov-radio-group>
+                <aegov-radio-group name="tier-dis" label="Disabled group" is-disabled="true">
+                  <aegov-radio field-id="rg-d1" value="a" label="Option A" is-checked="true"></aegov-radio>
+                  <aegov-radio field-id="rg-d2" value="b" label="Option B"></aegov-radio>
+                </aegov-radio-group>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- RANGE -->
+        <section id="range">
+          <div class="section-card">
+            <div class="section-card-header flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Range</h2>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Single · dual (min/max) · display modes</p>
+              </div>
+              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+            </div>
+            <div class="section-card-body">
+              <div class="space-y-6 max-w-lg">
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Single — no label</p>
+                  <aegov-range field-id="rng-single" value="40"></aegov-range>
+                </div>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Single — with tooltip display</p>
+                  <aegov-range field-id="rng-tooltip" label="Volume" value="60" display="tooltip"></aegov-range>
+                </div>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Range mode (price range)</p>
+                  <aegov-range field-id="rng-dual" label="Price range" mode="range" value-low="20" value-high="80" display="tooltip"></aegov-range>
+                </div>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Disabled</p>
+                  <aegov-range field-id="rng-disabled" label="Disabled" value="50" is-disabled="true"></aegov-range>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- OTP -->
+        <section id="otp">
+          <div class="section-card">
+            <div class="section-card-header flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">OTP</h2>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">One-time password · continuous / segmented</p>
+              </div>
+              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+            </div>
+            <div class="section-card-body">
+              <div class="space-y-6">
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Continuous (default, 5 digits)</p>
+                  <aegov-otp field-id="otp-cont" length="5"></aegov-otp>
+                </div>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Individual (6 digits)</p>
+                  <aegov-otp field-id="otp-seg" appearance="individual" length="6"></aegov-otp>
+                </div>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Alphanumeric · invalid state</p>
+                  <aegov-otp field-id="otp-alpha" length="4" is-alphanumeric="true" is-invalid="true" error-message="Invalid code, please try again"></aegov-otp>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FILE UPLOAD -->
+        <section id="fileupload">
+          <div class="section-card">
+            <div class="section-card-header flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">File Upload</h2>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Default · dropzone · multiple files</p>
+              </div>
+              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+            </div>
+            <div class="section-card-body">
+              <div class="space-y-6 max-w-lg">
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Default (button)</p>
+                  <aegov-fileupload field-id="fu-default" label="Upload document" hint="PDF, DOC up to 10 MB" accept=".pdf,.doc,.docx"></aegov-fileupload>
+                </div>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Dropzone</p>
+                  <aegov-fileupload field-id="fu-drop" appearance="dropzone" label="Drop files here" hint="Images only · max 5 MB each" accept="image/*" is-multiple="true"></aegov-fileupload>
+                </div>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Required · invalid</p>
+                  <aegov-fileupload field-id="fu-invalid" label="Required upload" is-required="true" is-invalid="true" error-message="Please upload a file to continue"></aegov-fileupload>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DATEPICKER -->
+        <section id="datepicker">
+          <div class="section-card">
+            <div class="section-card-header flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Datepicker</h2>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Single · range · clearable</p>
+              </div>
+              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+            </div>
+            <div class="section-card-body">
+              <div class="grid grid-cols-2 gap-4 max-w-2xl">
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Single date</p>
+                  <aegov-datepicker placeholder="Select a date" is-clearable="true"></aegov-datepicker>
+                </div>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Date range</p>
+                  <aegov-datepicker appearance="range" label-range-start="From" label-range-end="To" is-clearable="true"></aegov-datepicker>
+                </div>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Disabled</p>
+                  <aegov-datepicker placeholder="Disabled datepicker" is-disabled="true"></aegov-datepicker>
+                </div>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Required</p>
+                  <aegov-datepicker placeholder="Required date" is-required="true"></aegov-datepicker>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FORM FIELD -->
+        <section id="form-field">
+          <div class="section-card">
+            <div class="section-card-header flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Form Field</h2>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Wrapper that adds label + hint + error to any form component</p>
+              </div>
+              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+            </div>
+            <div class="section-card-body">
+              <div class="space-y-4 max-w-lg">
+                <aegov-form-field field-id="ff-name" hint="As shown on your ID">
+                  <aegov-label for="ff-name">Full name <span aria-hidden="true" style="color:var(--color-aered-600)">*</span></aegov-label>
+                  <aegov-input field-id="ff-name" name="fullname" placeholder="Enter your full name" is-required="true"></aegov-input>
+                </aegov-form-field>
+                <aegov-form-field field-id="ff-country">
+                  <aegov-label for="ff-country">Country</aegov-label>
+                  <aegov-select field-id="ff-country" placeholder="Select a country">
+                    <aegov-select-option value="ae">United Arab Emirates</aegov-select-option>
+                    <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
+                    <aegov-select-option value="eg">Egypt</aegov-select-option>
+                  </aegov-select>
+                </aegov-form-field>
+                <aegov-form-field field-id="ff-bio" hint="Tell us about yourself">
+                  <aegov-label for="ff-bio">Bio</aegov-label>
+                  <aegov-textarea field-id="ff-bio" name="bio" placeholder="Enter a short bio..."></aegov-textarea>
+                </aegov-form-field>
+                <aegov-form-field field-id="ff-dob" error-message="Date of birth is required" is-invalid="true">
+                  <aegov-label for="ff-dob">Date of birth <span aria-hidden="true" style="color:var(--color-aered-600)">*</span></aegov-label>
+                  <aegov-datepicker placeholder="Select date" is-clearable="true"></aegov-datepicker>
+                </aegov-form-field>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <!-- TABS -->
         <section id="tabs">
           <div class="section-card">
@@ -451,6 +744,46 @@
           </div>
         </section>
 
+        <!-- ══ FORM SHADOW TEST ══ -->
+        <section id="form-shadow-test">
+          <div class="section-card">
+            <div class="section-card-header flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Form Shadow Test</h2>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">aegov-input with shadow:true — testing label association &amp; form submission</p>
+              </div>
+              <aegov-badge color="aered" appearance="soft">shadow:true</aegov-badge>
+            </div>
+            <div class="section-card-body">
+              <div class="preview-box space-y-8">
+
+                <!-- Test 1: Label association -->
+                <div>
+                  <p class="text-sm font-semibold text-aeblack-800 dark:text-whitely-200 mb-1">Test 1 — Label association</p>
+                  <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mb-3">Click the label text → the input should get focus</p>
+                  <aegov-form-field field-id="vue-shadow-label-test" class="max-w-sm block">
+                    <aegov-label for="vue-shadow-label-test" style="cursor:pointer;text-decoration:underline;color:var(--color-primary-600)">▶ Click this label (aegov-label)</aegov-label>
+                    <aegov-input field-id="vue-shadow-label-test" placeholder="Did focus land here?"></aegov-input>
+                  </aegov-form-field>
+                </div>
+
+                <!-- Test 2: Form submission -->
+                <div>
+                  <p class="text-sm font-semibold text-aeblack-800 dark:text-whitely-200 mb-1">Test 2 — Form submission (FormData)</p>
+                  <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mb-3">Type values, click Submit → missing fields mean form submission is broken</p>
+                  <form class="space-y-3 max-w-sm" @submit.prevent="handleFormSubmit">
+                    <aegov-input field-id="vue-shadow-email" name="email" placeholder="Email address"></aegov-input>
+                    <aegov-input field-id="vue-shadow-username" name="username" placeholder="Username"></aegov-input>
+                    <aegov-button type="submit" variant="primary">Submit Form</aegov-button>
+                  </form>
+                  <pre class="mt-4 p-3 rounded-md bg-aeblack-50 dark:bg-aeblack-900 border border-aeblack-200 dark:border-aeblack-700 text-xs text-aeblack-700 dark:text-aeblack-300 font-mono whitespace-pre-wrap">{{ vueFormResult }}</pre>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </section>
+
         <div class="h-16"></div>
       </main>
     </div>
@@ -513,6 +846,19 @@ watch(isRtl, (val) => {
   document.documentElement.dir = val ? 'rtl' : 'ltr';
   document.documentElement.lang = val ? 'ar' : 'en';
 });
+
+const vueFormResult = ref('Submit the form to see FormData result here');
+
+function handleFormSubmit(e: Event) {
+  const form = e.target as HTMLFormElement;
+  const data = new FormData(form);
+  const result: Record<string, string> = {};
+  data.forEach((v, k) => { result[k] = v as string; });
+  const keys = Object.keys(result);
+  vueFormResult.value = keys.length === 0
+    ? '❌ FormData is EMPTY — form submission broken with shadow:true'
+    : '✅ FormData captured:\n' + JSON.stringify(result, null, 2);
+}
 
 async function handleButtonClick() {
   isLoading.value = true;
