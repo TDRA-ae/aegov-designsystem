@@ -54,8 +54,13 @@ export class AegovProgress {
     if (isNaN(parseFloat(this.height))) {
       console.warn(`[aegov-progress] Invalid height prop "${this.height}". Expected a numeric Tailwind spacing unit (e.g. "2", "2.5", "4"). Defaulting to "2".`);
     }
-    if (!this.label && !hadFieldId) {
-      console.warn('[aegov-progress] Progress bar has no accessible label. Provide a label prop or a <label> element linked via fieldId.');
+    // A label can be satisfied by the `label` prop, a host aria-label/aria-labelledby
+    // pass-through, or a real <label for="fieldId"> — not merely by the caller having
+    // supplied a field-id (which used to be treated as "probably has a label somewhere").
+    const hasAriaLabelPassThrough = this.el.hasAttribute('aria-label') || this.el.hasAttribute('aria-labelledby');
+    const hasExternalLabel = hadFieldId && !!document.querySelector(`label[for="${this.fieldId}"]`);
+    if (!this.label && !hasAriaLabelPassThrough && !hasExternalLabel) {
+      console.warn('[aegov-progress] Progress bar has no accessible label. Provide a label prop, an aria-label/aria-labelledby attribute, or a <label> element linked via fieldId.');
     }
   }
 
