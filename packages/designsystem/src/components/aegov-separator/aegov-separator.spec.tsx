@@ -45,6 +45,19 @@ describe('aegov-separator', () => {
     expect(page.root.querySelector('.separator__text')).toBeTruthy();
   });
 
+  it('renders text-bearing (labeled) variant when the slot has element-only content with no text nodes', async () => {
+    // The default slot "accepts arbitrary HTML" per docs — a bare icon with no text
+    // nodes previously failed to trigger the labeled layout at all, so the <slot>
+    // never rendered and the icon dangled as an unstyled sibling before a plain <hr>.
+    const page = await newSpecPage({
+      components: [AegovSeparator],
+      html: `<aegov-separator><svg class="my-icon"></svg></aegov-separator>`,
+    });
+    expect(page.root.querySelector('hr')).toBeNull();
+    expect(page.root.querySelector('.separator__text')).toBeTruthy();
+    expect(page.root.querySelector('.separator__text svg.my-icon')).toBeTruthy();
+  });
+
   it('applies vertical orientation class', async () => {
     const page = await newSpecPage({
       components: [AegovSeparator],
