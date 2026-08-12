@@ -13,6 +13,13 @@ import { vueOutputTarget } from '@stencil/vue-output-target';
 
 const isProd = process.env.NODE_ENV === 'production';
 
+// Strip @source inline() lines for the per-component compile — they exist
+// only to keep theme tokens alive against the consumer's own build, which
+// does normal (non-reference) theme pruning. @theme reference mode (used
+// below) never prunes or emits theme values regardless of detected usage,
+// so these lines are pure overhead here: 55 components x ~20 lines of
+// forced dead-utility generation for zero effect. Stripping them is what
+// keeps the per-component build at its original speed.
 const componentTailwindCss = readFileSync(
   resolve(__dirname, './src/styles/tailwind.css'),
   'utf8'
@@ -20,9 +27,9 @@ const componentTailwindCss = readFileSync(
   '@import "tailwindcss/utilities.css" layer(utilities)',
   '@import "tailwindcss/utilities.css" layer(base)'
 ).replace(
-  '@theme {',
+  /^@theme \{/m,
   '@theme reference {'
-);
+).replace(/^@source inline\([^)]*\);\n/gm, '');
 
 setPluginConfigurationDefaults({
   enableDebug: !isProd,
