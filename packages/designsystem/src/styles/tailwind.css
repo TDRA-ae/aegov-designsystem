@@ -16,13 +16,43 @@
    :host-context(.dark) overrides once Tailwind v4 supports multi-selector @custom-variant. */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* `static` forces every token below to always compile into :root, regardless
-   of whether Tailwind's content scanner can trace it to a used utility class.
-   Needed because components reference these tokens (e.g. `color:
-   var(--color-primary-50, ...)`) from pre-compiled shadow-DOM CSS that ships
-   in node_modules — a directory Tailwind's scanner never looks inside, so it
-   can't see that usage and would otherwise prune the token as "unused". */
-@theme static {
+/* Force-keep every AEGOV palette token + the handful of stock Tailwind
+   colors components reference internally. Components reference these
+   tokens (e.g. `color: var(--color-primary-50, ...)`) from pre-compiled
+   shadow-DOM CSS that ships in node_modules — a directory Tailwind's
+   content scanner never looks inside — so without this, tokens with no
+   matching utility class in the consumer's own markup get tree-shaken out
+   of the compiled theme even though a component still depends on them.
+   Deliberately plain `@theme` (not `@theme static`) plus `@source inline()`
+   rather than `@theme static` alone: this keeps the *theme key* globally
+   "used" without pinning any specific @theme block as authoritative, so a
+   consumer's own later, completely ordinary `@theme { --color-primary-600:
+   ...; }` override — no special syntax — still correctly wins. `@theme
+   static` alone would have made this block's own values un-overridable by
+   a plain consumer override for tokens with no other usage anywhere. */
+@source inline("text-aeblack-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-aegold-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-aegreen-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-aered-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-camel-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-desert-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-fuchsia-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-indigo-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-pink-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-primary-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-primary-support-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-purple-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-seablue-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-secondary-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-secondary-support-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-slate-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-techblue-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-whitely-{50,100,200,300,400,500}");
+/* Stock Tailwind colors (not AEGOV's own palette) referenced by a few components */
+@source inline("text-neutral-{100,200}");
+@source inline("text-lime-{50,100,200,700,800,900}");
+
+@theme {
   /* ========================================
    * COLOR PALETTE
    * ======================================== */
