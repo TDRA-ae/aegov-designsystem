@@ -37,7 +37,8 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
   <span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/loader&#x27;</span>;
   <span class="hljs-title function_">defineCustomElements</span>();
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>The bare <code>import</code> above only resolves once a build tool has processed it — pick the matching section under <a href="#step-2-set-up-your-build-tool">Step 2</a> for your tool. Building nothing at all? Use the <a href="#postcss-cli-no-bundler">PostCSS CLI</a> section, which loads a self-registering bundle instead of this <code>import</code>.</p>
+<hr>
 <h2>Requirements</h2>
 <table>
 <thead>
@@ -95,8 +96,32 @@
 <span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/loader&#x27;</span>;
 
 <span class="hljs-title function_">defineCustomElements</span>();</code></pre><h3>Webpack</h3>
-<pre><code class="hljs language-bash">npm install -D css-loader style-loader postcss-loader @tailwindcss/postcss postcss</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// webpack.config.js</span>
+<pre><code class="hljs language-bash">npm install -D webpack webpack-cli webpack-dev-server html-webpack-plugin \
+  css-loader style-loader postcss-loader @tailwindcss/postcss postcss</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// postcss.config.js</span>
 <span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+  <span class="hljs-attr">plugins</span>: {
+    <span class="hljs-string">&#x27;@tailwindcss/postcss&#x27;</span>: {},
+  },
+};</code></pre><pre><code class="hljs language-css"><span class="hljs-comment">/* src/styles.css */</span>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/base&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// src/index.js</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./styles.css&#x27;</span>;
+<span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/loader&#x27;</span>;
+
+<span class="hljs-title function_">defineCustomElements</span>();</code></pre><pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- src/index.html --&gt;</span>
+<span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Submit application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// webpack.config.js</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">HtmlWebpackPlugin</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;html-webpack-plugin&#x27;</span>);
+
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+  <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;development&#x27;</span>,
+  <span class="hljs-attr">entry</span>: <span class="hljs-string">&#x27;./src/index.js&#x27;</span>,
+  <span class="hljs-attr">output</span>: { <span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;bundle.js&#x27;</span> },
   <span class="hljs-attr">module</span>: {
     <span class="hljs-attr">rules</span>: [
       {
@@ -105,47 +130,73 @@
       },
     ],
   },
-};</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// postcss.config.js</span>
-<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
-  <span class="hljs-attr">plugins</span>: {
-    <span class="hljs-string">&#x27;@tailwindcss/postcss&#x27;</span>: {},
-  },
-};</code></pre><p>Then create <code>src/styles.css</code> with the three imports shown under Vite, and import it from your JS entry alongside the loader call.</p>
+  <span class="hljs-attr">plugins</span>: [<span class="hljs-keyword">new</span> <span class="hljs-title class_">HtmlWebpackPlugin</span>({ <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;./src/index.html&#x27;</span> })],
+  <span class="hljs-attr">devServer</span>: { <span class="hljs-attr">port</span>: <span class="hljs-number">8080</span> },
+};</code></pre><pre><code class="hljs language-bash">npx webpack serve</code></pre><p><code>HtmlWebpackPlugin</code> injects the built <code>&lt;script&gt;</code> into the page for you — there&#39;s no manual <code>&lt;script src&gt;</code> to add. If your <code>package.json</code> has <code>&quot;type&quot;: &quot;commonjs&quot;</code> (the <code>npm init -y</code> default), remove that field; webpack otherwise refuses to parse the <code>import</code> statements in <code>src/index.js</code>.</p>
 <h3>Parcel</h3>
 <p>Parcel picks up PostCSS automatically when a config file is present.</p>
-<pre><code class="hljs language-bash">npm install -D @tailwindcss/postcss postcss</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// postcss.config.js</span>
-<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
-  <span class="hljs-attr">plugins</span>: {
-    <span class="hljs-string">&#x27;@tailwindcss/postcss&#x27;</span>: {},
-  },
-};</code></pre><pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;./src/styles.css&quot;</span> /&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/loader&#x27;</span>;
-  <span class="hljs-title function_">defineCustomElements</span>();
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Rollup</h3>
-<pre><code class="hljs language-bash">npm install -D rollup-plugin-postcss @tailwindcss/postcss postcss @rollup/plugin-node-resolve</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// rollup.config.js</span>
+<pre><code class="hljs language-bash">npm install -D parcel @tailwindcss/postcss postcss</code></pre><pre><code class="hljs language-json"><span class="hljs-comment">// .postcssrc.json</span>
+<span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;plugins&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;@tailwindcss/postcss&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre><pre><code class="hljs language-css"><span class="hljs-comment">/* src/styles.css */</span>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/base&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;</code></pre><pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- index.html --&gt;</span>
+<span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;./src/styles.css&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Submit application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+      <span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/loader&#x27;</span>;
+      <span class="hljs-title function_">defineCustomElements</span>();
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre><pre><code class="hljs language-bash">npx parcel index.html          <span class="hljs-comment"># dev server</span>
+npx parcel build index.html    <span class="hljs-comment"># production build</span></code></pre><p>If <code>npm init -y</code> gave you a <code>&quot;main&quot;: &quot;index.js&quot;</code> field in <code>package.json</code>, delete it — Parcel treats a project with <code>main</code> set as a library target and refuses to serve it.</p>
+<h3>Rollup</h3>
+<pre><code class="hljs language-bash">npm install -D rollup rollup-plugin-postcss @tailwindcss/postcss postcss @rollup/plugin-node-resolve</code></pre><p>Add <code>&quot;type&quot;: &quot;module&quot;</code> to <code>package.json</code> — the config below uses <code>import</code>, not <code>require</code>.</p>
+<pre><code class="hljs language-css"><span class="hljs-comment">/* src/styles.css */</span>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/base&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem/theme&quot;</span>;</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// src/main.js</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./styles.css&#x27;</span>;
+<span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem/loader&#x27;</span>;
+
+<span class="hljs-title function_">defineCustomElements</span>();</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// rollup.config.js</span>
 <span class="hljs-keyword">import</span> resolve <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@rollup/plugin-node-resolve&#x27;</span>;
 <span class="hljs-keyword">import</span> postcss <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rollup-plugin-postcss&#x27;</span>;
+<span class="hljs-keyword">import</span> tailwindcssPostcss <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@tailwindcss/postcss&#x27;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">input</span>: <span class="hljs-string">&#x27;src/main.js&#x27;</span>,
-  <span class="hljs-attr">output</span>: { <span class="hljs-attr">file</span>: <span class="hljs-string">&#x27;dist/bundle.js&#x27;</span>, <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;es&#x27;</span> },
+  <span class="hljs-attr">output</span>: { <span class="hljs-attr">dir</span>: <span class="hljs-string">&#x27;dist&#x27;</span>, <span class="hljs-attr">format</span>: <span class="hljs-string">&#x27;es&#x27;</span> },
   <span class="hljs-attr">plugins</span>: [
     <span class="hljs-title function_">resolve</span>(),
     <span class="hljs-title function_">postcss</span>({
-      <span class="hljs-attr">plugins</span>: [<span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@tailwindcss/postcss&#x27;</span>)()],
-      <span class="hljs-attr">extract</span>: <span class="hljs-string">&#x27;dist/styles.css&#x27;</span>,
+      <span class="hljs-attr">plugins</span>: [<span class="hljs-title function_">tailwindcssPostcss</span>()],
+      <span class="hljs-attr">extract</span>: <span class="hljs-string">&#x27;styles.css&#x27;</span>,
     }),
   ],
-};</code></pre><h3>PostCSS CLI (no bundler)</h3>
-<p><code>postcss-import</code> is required here — nothing else resolves the bare <code>@aegov/designsystem/...</code> specifiers for you.</p>
-<pre><code class="hljs language-bash">npm install -D @tailwindcss/postcss postcss postcss-cli postcss-import</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// postcss.config.js</span>
+};</code></pre><p><code>output.dir</code> (not <code>output.file</code>) is what lets Rollup code-split the loader&#39;s per-component chunks into separate files in <code>dist/</code> — the same lazy-loading behaviour as the other bundlers. Build with <code>npx rollup -c</code>, then link <code>dist/main.js</code> as a module and <code>dist/styles.css</code> from an HTML page in the same way as the other methods.</p>
+<h3>PostCSS CLI (no bundler)</h3>
+<p><code>@tailwindcss/postcss</code> resolves the three <code>@import</code> lines on its own, including the <code>@aegov/designsystem/...</code> specifiers — no import-resolution plugin needed.</p>
+<pre><code class="hljs language-bash">npm install -D @tailwindcss/postcss postcss postcss-cli</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// postcss.config.js</span>
 <span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
   <span class="hljs-attr">plugins</span>: {
-    <span class="hljs-string">&#x27;postcss-import&#x27;</span>: {},
     <span class="hljs-string">&#x27;@tailwindcss/postcss&#x27;</span>: {},
   },
-};</code></pre><pre><code class="hljs language-bash">npx postcss src/styles.css -o dist/styles.css</code></pre><h3>CDN (prototyping only)</h3>
+};</code></pre><pre><code class="hljs language-bash">npx postcss src/styles.css -o dist/styles.css</code></pre><p>With no bundler, there&#39;s also no build step to rewrite a bare <code>import &#39;@aegov/designsystem/loader&#39;</code>, so this method skips the loader entirely and instead loads the pre-built, self-registering bundle by path — the same file the <a href="#cdn-prototyping-only">CDN</a> method loads from unpkg, just from your own <code>node_modules</code>:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;dist/styles.css&quot;</span> /&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Submit application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./node_modules/@aegov/designsystem/dist/aegov/aegov.esm.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>No <code>defineCustomElements()</code> call — this bundle registers every <code>aegov-*</code> tag as soon as it loads. Serve the project root (not just a <code>public/</code> subfolder) so <code>node_modules</code> is reachable, e.g. <code>npx serve .</code>.</p>
+<h3>CDN (prototyping only)</h3>
 <p>For a quick sandbox you can skip the build entirely and use the pre-built bundle from unpkg. Note that this path gives you the <strong>components</strong> but not a Tailwind build, so utility classes in your own markup will not work and the design tokens come only from what the components themselves carry.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/@aegov/designsystem/dist/aegov/aegov.esm.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 
@@ -411,9 +462,9 @@ btn.<span class="hljs-property">isDisabled</span> = <span class="hljs-literal">t
 });</code></pre><hr>
 <h2>Troubleshooting</h2>
 <h3>Components render unstyled</h3>
-<p>The CSS was not compiled. Check DevTools → Elements → <code>:root</code> for <code>--color-primary-600</code>. If the token is missing, the three <code>@import</code> lines never went through Tailwind — most often because the stylesheet is linked directly instead of being processed by the build, or <code>postcss-import</code> is missing in a PostCSS CLI setup.</p>
+<p>The CSS was not compiled. Check DevTools → Elements → <code>:root</code> for <code>--color-primary-600</code>. If the token is missing, the three <code>@import</code> lines never went through Tailwind — most often because the stylesheet is linked directly instead of being processed by the build, or <code>@tailwindcss/postcss</code> / <code>@tailwindcss/vite</code> is missing from the build config.</p>
 <h3>Components render as plain text</h3>
-<p>The loader never ran. Check the console for module resolution errors, confirm <code>defineCustomElements()</code> executes before the tags are used, and confirm you are on <code>http://</code> or <code>https://</code> rather than <code>file://</code>.</p>
+<p>The loader never ran. Check the console for module resolution errors, confirm <code>defineCustomElements()</code> executes before the tags are used (or, on the no-bundler PostCSS CLI path, that the <code>aegov.esm.js</code> <code>&lt;script&gt;</code> tag itself loaded without a 404), and confirm you are on <code>http://</code> or <code>https://</code> rather than <code>file://</code>.</p>
 <h3><code>Failed to fetch .../p-xxxxxxx.entry.js</code></h3>
 <p>Lazy-loaded component chunks are fetched relative to <code>aegov.esm.js</code>. Do not rename, flatten, or partially copy <code>dist/aegov/</code> — ship the folder as-is.</p>
 <h3>Utility classes have no effect on component internals</h3>

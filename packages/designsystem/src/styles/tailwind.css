@@ -9,6 +9,32 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
+/* Force-keep every AEGOV palette token + the handful of stock Tailwind
+   colors components reference internally. Tailwind's content scanner can't
+   see var() usage baked into pre-compiled shadow-DOM component CSS, so
+   without this, tokens with no matching utility class in the consumer's
+   own markup get tree-shaken out of the compiled theme — even though a
+   component still depends on them at runtime. */
+@source inline("text-aeblack-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-aegold-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-aegreen-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-aered-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-camel-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-desert-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-fuchsia-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-indigo-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-pink-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-primary-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-purple-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-seablue-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-secondary-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-slate-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-techblue-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-whitely-{50,100,200,300,400,500}");
+/* Stock Tailwind colors (not AEGOV's own palette) referenced by a few components */
+@source inline("text-neutral-{100,200}");
+@source inline("text-lime-{50,100,200,700,800,900}");
+
 /* Dark mode strategy — class-based on <html> (.dark).
    &:where(.dark, .dark *) works for scoped and shadow:false (element or ancestor has .dark).
    NOTE: shadow:true components need :host-context(.dark) which Tailwind v4 custom-variant

@@ -80,6 +80,7 @@ export class AegovTimelineStep {
 
   @State() hasIconSlot: boolean = false;
   @State() slotContent: string = '';
+  @State() private standaloneError: boolean = false;
 
   @Watch('status')
   onStatusChange(v: unknown) { warnIfInvalidEnumProp(v, TIMELINE_STEP_STATUSES, 'pending', ctx('status')); }
@@ -91,12 +92,14 @@ export class AegovTimelineStep {
   componentWillLoad() {
     warnIfInvalidEnumProp(this.status, TIMELINE_STEP_STATUSES, 'pending', ctx('status'));
 
+    // Stencil swallows exceptions thrown from componentWillLoad — a throw here would
+    // silently leave the step rendering as if it were valid, instead of alerting the
+    // developer, so render a visible error instead (same pattern as aegov-callout /
+    // aegov-breadcrumbs-item's own self-validation).
     const parent = this.el.closest('aegov-timeline');
     if (!parent) {
-      throw new Error(
-        '[aegov-timeline-step] This component must be used inside <aegov-timeline>. ' +
-        'It cannot be used as a standalone component.'
-      );
+      this.standaloneError = true;
+      return;
     }
 
     // Capture slot content to prevent duplication
@@ -233,6 +236,18 @@ export class AegovTimelineStep {
   }
 
   render() {
+    if (this.standaloneError) {
+      return (
+        <Host>
+          <li class="aegov-step" role="alert">
+            <span class="step__label">
+              <strong>aegov-timeline-step configuration error:</strong> must be used inside &lt;aegov-timeline&gt;.
+            </span>
+          </li>
+        </Host>
+      );
+    }
+
     const isHorizontal = this.orientation === 'horizontal';
     const status = this.safeStatus;
 
