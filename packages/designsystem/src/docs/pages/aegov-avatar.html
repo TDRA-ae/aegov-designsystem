@@ -321,28 +321,33 @@
 </tbody></table>
 <h3>Events</h3>
 <p>The avatar does not emit any custom events.</p>
-<h3>CSS Parts</h3>
+<h3>Style Hooks</h3>
+<p><code>aegov-avatar</code> renders in the light DOM (no shadow root), so these are plain <code>part=&quot;…&quot;</code> HTML attributes, not true Shadow DOM CSS Parts — style them with an attribute selector, <strong>not</strong> the <code>::part()</code> pseudo-element (<code>::part()</code> only works across a shadow boundary and silently matches nothing here).</p>
 <table>
 <thead>
 <tr>
-<th>Part</th>
+<th>Attribute</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>avatar</code></td>
+<td><code>[part=&quot;avatar&quot;]</code></td>
 <td>The outer avatar container <code>&lt;div&gt;</code> (carries <code>role=&quot;img&quot;</code>).</td>
 </tr>
 <tr>
-<td><code>image</code></td>
+<td><code>[part=&quot;image&quot;]</code></td>
 <td>The inner <code>&lt;img&gt;</code> element, present only when <code>src</code> is set.</td>
 </tr>
 <tr>
-<td><code>status</code></td>
+<td><code>[part=&quot;status&quot;]</code></td>
 <td>The status indicator <code>&lt;span&gt;</code>, present only when <code>status</code> is active.</td>
 </tr>
 </tbody></table>
-<h3>Pass-through Attributes</h3>
+<pre><code class="hljs language-css"><span class="hljs-comment">/* Works — plain attribute selector */</span>
+aegov-avatar <span class="hljs-selector-attr">[part=<span class="hljs-string">&quot;avatar&quot;</span>]</span> { <span class="hljs-attribute">outline</span>: <span class="hljs-number">2px</span> solid <span class="hljs-built_in">var</span>(--color-primary-<span class="hljs-number">500</span>); }
+
+<span class="hljs-comment">/* Does NOT work — ::part() requires a shadow root, which this component doesn&#x27;t have */</span>
+aegov-avatar<span class="hljs-selector-pseudo">::part</span>(avatar) { <span class="hljs-attribute">outline</span>: <span class="hljs-number">2px</span> solid <span class="hljs-built_in">var</span>(--color-primary-<span class="hljs-number">500</span>); }</code></pre><h3>Pass-through Attributes</h3>
 <p><code>aria-*</code> and <code>data-*</code> attributes set on the host are forwarded automatically. In addition, the following native <code>&lt;img&gt;</code> attributes are forwarded to the inner image element when one is rendered:</p>
 <table>
 <thead>

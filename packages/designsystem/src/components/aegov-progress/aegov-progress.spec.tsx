@@ -136,4 +136,40 @@ describe('aegov-progress', () => {
     expect(page.root.getAttribute('aria-label')).toBe('upload');
     expect(page.root.getAttribute('data-test')).toBe('x');
   });
+
+  describe('accessible-label warning', () => {
+    let warnSpy: jest.SpyInstance;
+    beforeEach(() => { warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {}); });
+    afterEach(() => { warnSpy.mockRestore(); });
+
+    it('warns when no label, aria-label, or field-id is provided', async () => {
+      await newSpecPage({ components: [AegovProgress], html: `<aegov-progress value="20"></aegov-progress>` });
+      expect(warnSpy.mock.calls.some(c => String(c[0]).includes('no accessible label'))).toBe(true);
+    });
+
+    it('does NOT warn when the label prop is set', async () => {
+      await newSpecPage({ components: [AegovProgress], html: `<aegov-progress value="20" label="Upload"></aegov-progress>` });
+      expect(warnSpy.mock.calls.some(c => String(c[0]).includes('no accessible label'))).toBe(false);
+    });
+
+    it('does NOT warn when aria-label is set via pass-through, even without the label prop', async () => {
+      await newSpecPage({ components: [AegovProgress], html: `<aegov-progress value="20" aria-label="Upload"></aegov-progress>` });
+      expect(warnSpy.mock.calls.some(c => String(c[0]).includes('no accessible label'))).toBe(false);
+    });
+
+    it('still warns when field-id is provided but no matching <label for> exists and no label/aria-label is set', async () => {
+      // Previously this case was silently treated as "probably labeled" just because
+      // field-id was supplied — even with no label anywhere in the document.
+      await newSpecPage({ components: [AegovProgress], html: `<aegov-progress value="20" field-id="p1"></aegov-progress>` });
+      expect(warnSpy.mock.calls.some(c => String(c[0]).includes('no accessible label'))).toBe(true);
+    });
+
+    it('does NOT warn when a real <label for="fieldId"> exists in the document', async () => {
+      await newSpecPage({
+        components: [AegovProgress],
+        html: `<label for="p2">Upload progress</label><aegov-progress value="20" field-id="p2"></aegov-progress>`,
+      });
+      expect(warnSpy.mock.calls.some(c => String(c[0]).includes('no accessible label'))).toBe(false);
+    });
+  });
 });

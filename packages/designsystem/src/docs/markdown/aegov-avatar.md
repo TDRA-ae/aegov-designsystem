@@ -323,13 +323,23 @@ A list of team members in RTL — the avatars sit on the right and the names ali
 
 The avatar does not emit any custom events.
 
-### CSS Parts
+### Style Hooks
 
-| Part     | Description                                                   |
-| -------- | ------------------------------------------------------------- |
-| `avatar` | The outer avatar container `<div>` (carries `role="img"`).    |
-| `image`  | The inner `<img>` element, present only when `src` is set.    |
-| `status` | The status indicator `<span>`, present only when `status` is active. |
+`aegov-avatar` renders in the light DOM (no shadow root), so these are plain `part="…"` HTML attributes, not true Shadow DOM CSS Parts — style them with an attribute selector, **not** the `::part()` pseudo-element (`::part()` only works across a shadow boundary and silently matches nothing here).
+
+| Attribute        | Description                                                   |
+| ---------------- | ------------------------------------------------------------- |
+| `[part="avatar"]` | The outer avatar container `<div>` (carries `role="img"`).    |
+| `[part="image"]`  | The inner `<img>` element, present only when `src` is set.    |
+| `[part="status"]` | The status indicator `<span>`, present only when `status` is active. |
+
+```css
+/* Works — plain attribute selector */
+aegov-avatar [part="avatar"] { outline: 2px solid var(--color-primary-500); }
+
+/* Does NOT work — ::part() requires a shadow root, which this component doesn't have */
+aegov-avatar::part(avatar) { outline: 2px solid var(--color-primary-500); }
+```
 
 ### Pass-through Attributes
 

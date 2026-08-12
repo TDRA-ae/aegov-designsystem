@@ -342,7 +342,7 @@ The parent group writes the following properties on each child `aegov-avatar` au
 
 ### Pass-through Attributes
 
-The avatar group does not forward attributes to inner elements — set attributes directly on the host where they are needed. Note that `aria-label` applied to the host element is not guaranteed to be exposed across the Shadow DOM boundary in all browsers and assistive technologies; the component provides its own internal group label via the Shadow DOM container.
+`aegov-avatar-group` renders in the light DOM (no shadow root) — attributes on the host simply aren't read or forwarded to inner elements. The inner container always renders its own fixed `aria-label="Avatar group"` (or the Arabic equivalent under RTL); a host-level `aria-label` is not read by the component and has no effect, regardless of browser or assistive technology. Set attributes directly on the host where they are needed, or on each child `<aegov-avatar>`.
 
 | Attribute group  | Forwarded? | Where to apply                                                         |
 | ---------------- | ---------- | ---------------------------------------------------------------------- |
@@ -363,7 +363,7 @@ The avatar group does not forward attributes to inner elements — set attribute
 ### Developer responsibilities
 
 - Provide a meaningful `alt` on every child avatar — the group's container label alone is not enough to identify individual people.
-- The component provides a built-in accessible label ("Avatar group") via `aria-label` on the internal Shadow DOM container. A host-level `aria-label` is not reliably propagated across the Shadow DOM boundary in all browsers and assistive technologies, so it is not a supported way to customise the group label. The component does not currently expose a prop to override the internal label; if a custom group label is required, note this limitation.
+- The component provides a built-in accessible label ("Avatar group") via `aria-label` on its inner light-DOM container. A host-level `aria-label` is simply not read by the component, so it is not a supported way to customise the group label — this isn't a Shadow DOM propagation limitation, `aegov-avatar-group` has no shadow root at all. The component does not currently expose a prop to override the internal label; if a custom group label is required, note this limitation.
 - If the `+N` button opens a modal or navigates away, follow the relevant accessibility guidance for that destination — focus management, return focus, and labelled headings.
 - Avoid placing too many avatars in a `compact` cluster — the overlapping arrangement makes individual avatars harder to identify visually. Use `more-count` to off-load the long tail to a dedicated list.
 
