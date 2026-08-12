@@ -109,6 +109,26 @@ describe('aegov-avatar', () => {
       .toBe('User avatar, status: online');
   });
 
+  it('renders status indicator when status="true" is set as a literal HTML attribute', async () => {
+    // Stencil reflects mixed string|boolean prop attributes as the raw string 'true',
+    // not a coerced boolean — this is how every plain-HTML/vanilla consumer writes it.
+    const page = await newSpecPage({
+      components: [AegovAvatar],
+      html: `<aegov-avatar status="true"></aegov-avatar>`,
+    });
+    const dot = page.root.querySelector('[part="status"]');
+    expect(dot).not.toBeNull();
+    expect(dot.className).toContain('avatar-online');
+  });
+
+  it('hides status indicator when status="false" is set as a literal HTML attribute', async () => {
+    const page = await newSpecPage({
+      components: [AegovAvatar],
+      html: `<aegov-avatar status="false"></aegov-avatar>`,
+    });
+    expect(page.root.querySelector('[part="status"]')).toBeNull();
+  });
+
   it('does not render status when set to an unknown value', async () => {
     const page = await newSpecPage({
       components: [AegovAvatar],

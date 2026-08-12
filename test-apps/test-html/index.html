@@ -1057,8 +1057,166 @@
         </div>
       </div>
 
+      <!-- ── API Reference Verification (aegov-badge.md § API Reference) ── -->
+      <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
+          <span id="badge-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+        </div>
+        <div class="prop-grid preview-box">
+          <div class="prop-item"><span class="prop-attr">fieldId — auto-generated when omitted</span><aegov-badge id="api-badge-fieldid-auto" variant="primary">Auto ID</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">field-id="api-badge-explicit"</span><aegov-badge id="api-badge-fieldid-explicit" field-id="api-badge-explicit" variant="primary">Explicit ID</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant="aegreen" color="aered" (deprecated wins)</span><aegov-badge id="api-badge-color-override" variant="aegreen" color="aered">Color Override</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">variant/appearance="not-real" (fallback)</span><aegov-badge id="api-badge-invalid" variant="not-real-color" appearance="not-real-appearance">Invalid Values</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">slot (default) — inline HTML content</span><aegov-badge id="api-badge-slot-html" variant="aegreen"><strong>Bold</strong> label</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">aria-label + data-testid (pass-through)</span><aegov-badge id="api-badge-passthrough" aria-label="custom label" data-testid="my-badge" variant="techblue">Pass-through</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">class="host-only-marker" — host only, not forwarded</span><aegov-badge id="api-badge-host-class" class="host-only-marker" variant="primary">Host class</aegov-badge></div>
+          <div class="prop-item">
+            <span class="prop-attr">size sm/base/lg → distinct classes</span>
+            <div class="flex gap-2">
+              <aegov-badge id="api-badge-size-sm" size="sm" variant="primary">sm</aegov-badge>
+              <aegov-badge id="api-badge-size-base" size="base" variant="primary">base</aegov-badge>
+              <aegov-badge id="api-badge-size-lg" size="lg" variant="primary">lg</aegov-badge>
+            </div>
+          </div>
+          <div class="prop-item"><span class="prop-attr">Dismiss aria-label (EN) = "Dismiss Region: Dubai"</span><aegov-badge id="api-badge-dismiss-en" variant="secondary" is-dismissible>Region: Dubai</aegov-badge></div>
+          <div class="prop-item" dir="rtl" lang="ar"><span class="prop-attr">Dismiss aria-label (RTL) = "إغلاق مراجعة"</span><aegov-badge id="api-badge-dismiss-rtl" variant="secondary" is-dismissible>مراجعة</aegov-badge></div>
+          <div class="prop-item"><span class="prop-attr">is-dismissible → aegovBadgeDismiss (click to verify)</span><aegov-badge id="api-badge-dismiss-event" variant="aered" is-dismissible>Click dismiss</aegov-badge></div>
+        </div>
+
+        <div class="overflow-x-auto mt-4">
+          <table class="w-full text-xs border border-aeblack-200 dark:border-aeblack-700 rounded-lg overflow-hidden">
+            <thead class="bg-aeblack-50 dark:bg-aeblack-800/60">
+              <tr>
+                <th class="text-left px-3 py-2 font-semibold">Documented behaviour</th>
+                <th class="text-left px-3 py-2 font-semibold">Result</th>
+              </tr>
+            </thead>
+            <tbody id="badge-api-ref-results"></tbody>
+          </table>
+        </div>
+      </div>
+      <script>
+        (function() {
+          function setRow(key, label, state, detail) {
+            var tbody = document.getElementById('badge-api-ref-results');
+            var tr = tbody.querySelector('tr[data-key="' + key + '"]');
+            if (!tr) {
+              tr = document.createElement('tr');
+              tr.setAttribute('data-key', key);
+              tr.className = 'border-t border-aeblack-100 dark:border-aeblack-800';
+              tr.innerHTML = '<td class="px-3 py-2 text-aeblack-600 dark:text-aeblack-300"></td><td class="px-3 py-2 font-medium"></td>';
+              tbody.appendChild(tr);
+            }
+            tr.dataset.pass = state === true ? '1' : state === false ? '0' : '';
+            tr.children[0].textContent = label;
+            var cell = tr.children[1];
+            if (state === true) {
+              cell.className = 'px-3 py-2 font-medium text-aegreen-600 dark:text-aegreen-400';
+              cell.textContent = '✅ Pass';
+            } else if (state === false) {
+              cell.className = 'px-3 py-2 font-medium text-aered-600 dark:text-aered-400';
+              cell.textContent = '❌ Fail — ' + detail;
+            } else {
+              cell.className = 'px-3 py-2 font-medium text-aeblack-400';
+              cell.textContent = '🔲 Pending — ' + detail;
+            }
+            updateBadgeApiSummary();
+          }
+
+          function updateBadgeApiSummary() {
+            var rows = document.querySelectorAll('#badge-api-ref-results tr[data-key]');
+            var total = rows.length, passed = 0, pending = 0;
+            rows.forEach(function(r) {
+              if (r.dataset.pass === '1') passed++;
+              else if (r.dataset.pass === '') pending++;
+            });
+            var el = document.getElementById('badge-api-ref-summary');
+            el.textContent = passed + ' / ' + total + ' checks passed' + (pending ? ' (' + pending + ' pending manual click)' : '');
+            el.className = 'text-xs font-medium ' + (pending === 0 && passed === total ? 'text-aegreen-600 dark:text-aegreen-400' : (pending > 0 && passed === total - pending ? 'text-aeblack-400' : 'text-aered-600 dark:text-aered-400'));
+          }
+
+          function runBadgeApiChecks() {
+            var autoEl = document.getElementById('api-badge-fieldid-auto');
+            var autoSpan = autoEl.querySelector('span');
+            setRow('fieldid-auto', 'fieldId — auto-generated when omitted, reflected to host + inner span#id',
+              !!autoEl.getAttribute('field-id') && autoEl.getAttribute('field-id') === (autoSpan && autoSpan.id),
+              'field-id="' + autoEl.getAttribute('field-id') + '" span#' + (autoSpan && autoSpan.id));
+
+            var explicitSpan = document.querySelector('#api-badge-fieldid-explicit span');
+            setRow('fieldid-explicit', 'field-id="api-badge-explicit" reflected to inner span#id',
+              !!explicitSpan && explicitSpan.id === 'api-badge-explicit',
+              'span#' + (explicitSpan && explicitSpan.id));
+
+            var overrideSpan = document.querySelector('#api-badge-color-override span');
+            setRow('color-override', 'Deprecated color prop overrides variant when both are set',
+              !!overrideSpan && overrideSpan.classList.contains('badge-aered') && !overrideSpan.classList.contains('badge-aegreen'),
+              'class="' + (overrideSpan && overrideSpan.className) + '"');
+
+            var invalidSpan = document.querySelector('#api-badge-invalid span');
+            setRow('invalid-fallback', 'Invalid variant/appearance falls back to documented default (default/soft)',
+              !!invalidSpan && invalidSpan.classList.contains('badge-default') && invalidSpan.classList.contains('badge-soft'),
+              'class="' + (invalidSpan && invalidSpan.className) + '"');
+
+            var slotSpan = document.querySelector('#api-badge-slot-html span');
+            setRow('slot-html', 'Default slot renders inline HTML (e.g. <strong>) unescaped',
+              !!slotSpan && !!slotSpan.querySelector('strong'),
+              'innerHTML="' + (slotSpan && slotSpan.innerHTML) + '"');
+
+            var ptSpan = document.querySelector('#api-badge-passthrough span');
+            setRow('passthrough', 'Pass-through: aria-*/data-* forwarded to inner span, host id does not leak',
+              !!ptSpan && ptSpan.getAttribute('aria-label') === 'custom label' && ptSpan.getAttribute('data-testid') === 'my-badge' && ptSpan.id !== 'api-badge-passthrough',
+              'aria-label="' + (ptSpan && ptSpan.getAttribute('aria-label')) + '" data-testid="' + (ptSpan && ptSpan.getAttribute('data-testid')) + '"');
+
+            var hostClassSpan = document.querySelector('#api-badge-host-class span');
+            setRow('host-class', 'Host class="…" applies to host only — not forwarded to inner span',
+              !!hostClassSpan && !hostClassSpan.classList.contains('host-only-marker'),
+              'span class="' + (hostClassSpan && hostClassSpan.className) + '"');
+
+            var sizeMap = { sm: 'badge-sm', base: 'badge-base', lg: 'badge-lg' };
+            var sizeDetail = [], sizePass = true;
+            Object.keys(sizeMap).forEach(function(s) {
+              var span = document.querySelector('#api-badge-size-' + s + ' span');
+              var ok = !!span && span.classList.contains(sizeMap[s]);
+              if (!ok) sizePass = false;
+              sizeDetail.push(s + '=' + (span ? span.className : 'missing'));
+            });
+            setRow('size-classes', 'size sm/base/lg resolve to distinct badge-{size} classes', sizePass, sizeDetail.join(' | '));
+
+            var enBtn = document.querySelector('#api-badge-dismiss-en button.badge-dismiss');
+            setRow('dismiss-aria-en', 'Dismiss button aria-label = "Dismiss " + slotted text (EN)',
+              !!enBtn && enBtn.getAttribute('aria-label') === 'Dismiss Region: Dubai',
+              'aria-label="' + (enBtn && enBtn.getAttribute('aria-label')) + '"');
+
+            var rtlBtn = document.querySelector('#api-badge-dismiss-rtl button.badge-dismiss');
+            setRow('dismiss-aria-rtl', 'Dismiss button aria-label switches to Arabic under dir="rtl"',
+              !!rtlBtn && rtlBtn.getAttribute('aria-label') === 'إغلاق مراجعة',
+              'aria-label="' + (rtlBtn && rtlBtn.getAttribute('aria-label')) + '"');
+
+            setRow('dismiss-event', 'aegovBadgeDismiss fires on dismiss click', null, 'click the "Click dismiss" badge above');
+          }
+
+          document.getElementById('api-badge-dismiss-event').addEventListener('aegovBadgeDismiss', function(e) {
+            setRow('dismiss-event', 'aegovBadgeDismiss fires on dismiss click (detail=' + e.detail + ')', true, '');
+          });
+
+          // Wait for every badge instance in this block to finish its first Stencil render —
+          // a fixed timeout is unreliable this far down a page with hundreds of components queued to hydrate.
+          var apiBadgeIds = ['api-badge-fieldid-auto', 'api-badge-fieldid-explicit', 'api-badge-color-override',
+            'api-badge-invalid', 'api-badge-slot-html', 'api-badge-passthrough', 'api-badge-host-class',
+            'api-badge-size-sm', 'api-badge-size-base', 'api-badge-size-lg', 'api-badge-dismiss-en',
+            'api-badge-dismiss-rtl', 'api-badge-dismiss-event'];
+          customElements.whenDefined('aegov-badge').then(function() {
+            return Promise.all(apiBadgeIds.map(function(id) {
+              var el = document.getElementById(id);
+              return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
+            }));
+          }).then(runBadgeApiChecks);
+        })();
+      </script>
+
     </div>
-  
+
   </div>
 </section>
 
@@ -1279,6 +1437,209 @@
           </div>
         </div>
       </div>
+
+      <!-- ── API Reference Verification (aegov-avatar.md § API Reference) ── -->
+      <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
+          <span id="avatar-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+        </div>
+        <div class="prop-grid preview-box">
+          <div class="prop-item"><span class="prop-attr">fieldId — auto-generated when omitted</span><aegov-avatar id="api-avatar-fieldid-auto" size="lg" alt="Auto ID">AI</aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">field-id="api-avatar-explicit"</span><aegov-avatar id="api-avatar-fieldid-explicit" field-id="api-avatar-explicit" size="lg" alt="Explicit ID">EX</aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">src + alt="Jane Doe" — feeds aria-label, not img[alt]</span><aegov-avatar id="api-avatar-alt" size="lg" src="https://i.pravatar.cc/60?img=60" alt="Jane Doe"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">status="true" (literal HTML attribute — must map to online)</span><aegov-avatar id="api-avatar-status-true-attr" size="lg" alt="Status true attr" status="true"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">status="false" (literal HTML attribute — must hide dot)</span><aegov-avatar id="api-avatar-status-false-attr" size="lg" alt="Status false attr" status="false"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">status="not-real" (invalid → hidden, no crash)</span><aegov-avatar id="api-avatar-status-invalid" size="lg" alt="Status invalid" status="not-real"></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">appearance="not-real" (invalid → falls back to square)</span><aegov-avatar id="api-avatar-appearance-invalid" size="lg" alt="Appearance invalid" appearance="not-real"></aegov-avatar></div>
+          <div class="prop-item">
+            <span class="prop-attr">size all 7 tokens → distinct classes</span>
+            <div class="flex gap-1 items-end">
+              <aegov-avatar id="api-avatar-size-xs" size="xs" alt="xs">A</aegov-avatar>
+              <aegov-avatar id="api-avatar-size-sm" size="sm" alt="sm">A</aegov-avatar>
+              <aegov-avatar id="api-avatar-size-base" size="base" alt="base">A</aegov-avatar>
+              <aegov-avatar id="api-avatar-size-lg" size="lg" alt="lg">A</aegov-avatar>
+              <aegov-avatar id="api-avatar-size-xl" size="xl" alt="xl">A</aegov-avatar>
+              <aegov-avatar id="api-avatar-size-2xl" size="2xl" alt="2xl">A</aegov-avatar>
+              <aegov-avatar id="api-avatar-size-3xl" size="3xl" alt="3xl">A</aegov-avatar>
+            </div>
+          </div>
+          <div class="prop-item"><span class="prop-attr">Default slot — custom fallback content</span><aegov-avatar id="api-avatar-slot" size="lg" alt="Slot fallback"><span class="custom-fallback-marker">JD</span></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">Broken src → falls back to slot content</span><aegov-avatar id="api-avatar-img-error" size="lg" alt="Broken image" src="data:,"><span class="custom-fallback-marker">JD</span></aegov-avatar></div>
+          <div class="prop-item"><span class="prop-attr">Pass-through: loading/crossorigin/referrerpolicy/srcset/data-* → inner img</span><aegov-avatar id="api-avatar-passthrough" size="lg" alt="Pass-through" src="https://i.pravatar.cc/60?img=61" loading="lazy" crossorigin="anonymous" referrerpolicy="no-referrer" srcset="https://i.pravatar.cc/120?img=61 2x" data-testid="avatar-passthrough"></aegov-avatar></div>
+        </div>
+
+        <div class="mt-4 rounded-lg border border-aegold-300 dark:border-aegold-800 bg-aegold-50/60 dark:bg-aegold-950/30 p-3">
+          <p class="text-xs font-semibold text-aegold-700 dark:text-aegold-400 mb-2">⚠ Doc caveat — verified and corrected: "CSS Parts" don't support <code>::part()</code></p>
+          <p class="text-xs text-aeblack-600 dark:text-aeblack-400">aegov-avatar has no shadow root, so <code>::part()</code> silently matches nothing. The docs now say to use <code>[part="…"]</code> attribute selectors instead. Both are exercised below:</p>
+          <div class="flex flex-wrap gap-4 mt-2 items-end">
+            <div class="prop-item"><span class="prop-attr">aegov-avatar::part(avatar) — expected to NOT apply</span><aegov-avatar id="api-avatar-part-pseudo" size="lg" alt="part pseudo"></aegov-avatar></div>
+            <div class="prop-item"><span class="prop-attr">aegov-avatar [part="avatar"] — expected to apply</span><aegov-avatar id="api-avatar-part-attr" size="lg" alt="part attr"></aegov-avatar></div>
+          </div>
+        </div>
+        <style>
+          #api-avatar-part-pseudo::part(avatar) { outline: 4px solid rgb(220, 38, 38) !important; }
+          #api-avatar-part-attr [part="avatar"] { outline: 4px solid rgb(34, 197, 94) !important; }
+        </style>
+
+        <div class="overflow-x-auto mt-4">
+          <table class="w-full text-xs border border-aeblack-200 dark:border-aeblack-700 rounded-lg overflow-hidden">
+            <thead class="bg-aeblack-50 dark:bg-aeblack-800/60">
+              <tr>
+                <th class="text-left px-3 py-2 font-semibold">Documented behaviour</th>
+                <th class="text-left px-3 py-2 font-semibold">Result</th>
+              </tr>
+            </thead>
+            <tbody id="avatar-api-ref-results"></tbody>
+          </table>
+        </div>
+      </div>
+      <script>
+        (function() {
+          function setRow(key, label, state, detail) {
+            var tbody = document.getElementById('avatar-api-ref-results');
+            var tr = tbody.querySelector('tr[data-key="' + key + '"]');
+            if (!tr) {
+              tr = document.createElement('tr');
+              tr.setAttribute('data-key', key);
+              tr.className = 'border-t border-aeblack-100 dark:border-aeblack-800';
+              tr.innerHTML = '<td class="px-3 py-2 text-aeblack-600 dark:text-aeblack-300"></td><td class="px-3 py-2 font-medium"></td>';
+              tbody.appendChild(tr);
+            }
+            tr.dataset.pass = state === true ? '1' : state === false ? '0' : '';
+            tr.children[0].textContent = label;
+            var cell = tr.children[1];
+            if (state === true) {
+              cell.className = 'px-3 py-2 font-medium text-aegreen-600 dark:text-aegreen-400';
+              cell.textContent = '✅ Pass';
+            } else if (state === false) {
+              cell.className = 'px-3 py-2 font-medium text-aered-600 dark:text-aered-400';
+              cell.textContent = '❌ Fail — ' + detail;
+            } else {
+              cell.className = 'px-3 py-2 font-medium text-aeblack-400';
+              cell.textContent = '🔲 Pending — ' + detail;
+            }
+            updateAvatarApiSummary();
+          }
+
+          function updateAvatarApiSummary() {
+            var rows = document.querySelectorAll('#avatar-api-ref-results tr[data-key]');
+            var total = rows.length, passed = 0, pending = 0;
+            rows.forEach(function(r) {
+              if (r.dataset.pass === '1') passed++;
+              else if (r.dataset.pass === '') pending++;
+            });
+            var el = document.getElementById('avatar-api-ref-summary');
+            el.textContent = passed + ' / ' + total + ' checks passed';
+            el.className = 'text-xs font-medium ' + (passed === total ? 'text-aegreen-600 dark:text-aegreen-400' : 'text-aered-600 dark:text-aered-400');
+          }
+
+          function runAvatarApiChecks() {
+            var autoEl = document.getElementById('api-avatar-fieldid-auto');
+            var autoDiv = autoEl.querySelector('div[part="avatar"]');
+            setRow('fieldid-auto', 'fieldId — auto-generated when omitted, reflected to host + inner div#id',
+              !!autoEl.getAttribute('field-id') && autoEl.getAttribute('field-id') === (autoDiv && autoDiv.id),
+              'field-id="' + autoEl.getAttribute('field-id') + '" div#' + (autoDiv && autoDiv.id));
+
+            var explicitDiv = document.querySelector('#api-avatar-fieldid-explicit div[part="avatar"]');
+            setRow('fieldid-explicit', 'field-id="api-avatar-explicit" reflected to inner div#id',
+              !!explicitDiv && explicitDiv.id === 'api-avatar-explicit',
+              'div#' + (explicitDiv && explicitDiv.id));
+
+            var altEl = document.getElementById('api-avatar-alt');
+            var altDiv = altEl.querySelector('div[part="avatar"]');
+            var altImg = altEl.querySelector('img');
+            setRow('alt-mapping', 'alt feeds host div aria-label; inner img gets alt="" + aria-hidden',
+              !!altDiv && altDiv.getAttribute('aria-label') === 'Jane Doe' && altImg && altImg.getAttribute('alt') === '' && altImg.getAttribute('aria-hidden') === 'true',
+              'aria-label="' + (altDiv && altDiv.getAttribute('aria-label')) + '" img[alt]="' + (altImg && altImg.getAttribute('alt')) + '"');
+
+            var statusTrueDiv = document.querySelector('#api-avatar-status-true-attr [part="status"]');
+            setRow('status-true-attr', 'status="true" (literal attribute string) renders the online indicator',
+              !!statusTrueDiv && statusTrueDiv.classList.contains('avatar-online'),
+              statusTrueDiv ? 'class="' + statusTrueDiv.className + '"' : 'no [part="status"] element found — indicator missing');
+
+            var statusFalseDiv = document.querySelector('#api-avatar-status-false-attr [part="status"]');
+            setRow('status-false-attr', 'status="false" (literal attribute string) hides the indicator',
+              !statusFalseDiv, statusFalseDiv ? 'unexpectedly rendered class="' + statusFalseDiv.className + '"' : '');
+
+            var statusInvalidDiv = document.querySelector('#api-avatar-status-invalid [part="status"]');
+            setRow('status-invalid', 'Invalid status value hides indicator without crashing',
+              !statusInvalidDiv, statusInvalidDiv ? 'unexpectedly rendered' : '');
+
+            var appearanceInvalidDiv = document.querySelector('#api-avatar-appearance-invalid [part="avatar"]');
+            setRow('appearance-invalid', 'Invalid appearance falls back to documented default (square)',
+              !!appearanceInvalidDiv && !appearanceInvalidDiv.classList.contains('avatar-rounded'),
+              'class="' + (appearanceInvalidDiv && appearanceInvalidDiv.className) + '"');
+
+            var sizeMap = { xs: 'avatar-xs', sm: 'avatar-sm', base: 'avatar-base', lg: 'avatar-lg', xl: 'avatar-xl', '2xl': 'avatar-2xl', '3xl': 'avatar-3xl' };
+            var sizePass = true, sizeDetail = [];
+            Object.keys(sizeMap).forEach(function(s) {
+              var div = document.querySelector('#api-avatar-size-' + s + ' [part="avatar"]');
+              var ok = !!div && div.classList.contains(sizeMap[s]);
+              if (!ok) sizePass = false;
+              sizeDetail.push(s + '=' + (div ? div.className : 'missing'));
+            });
+            setRow('size-classes', 'size resolves to distinct avatar-{size} classes for all 7 tokens', sizePass, sizeDetail.join(' | '));
+
+            var slotDiv = document.querySelector('#api-avatar-slot .avatar-fallback');
+            setRow('slot-content', 'Default slot renders custom fallback content when no src is set',
+              !!slotDiv && !!slotDiv.querySelector('.custom-fallback-marker'),
+              'innerHTML="' + (slotDiv && slotDiv.innerHTML) + '"');
+
+            setRow('img-error-fallback', 'Broken image falls back to slotted content on load error', null, 'waiting for the broken image to fail loading…');
+
+            var ptImg = document.querySelector('#api-avatar-passthrough img');
+            setRow('passthrough', 'loading/crossorigin/referrerpolicy/srcset/data-* forwarded to inner img',
+              !!ptImg && ptImg.getAttribute('loading') === 'lazy' && ptImg.getAttribute('crossorigin') === 'anonymous' && ptImg.getAttribute('referrerpolicy') === 'no-referrer' && ptImg.getAttribute('srcset') === 'https://i.pravatar.cc/120?img=61 2x' && ptImg.getAttribute('data-testid') === 'avatar-passthrough',
+              ptImg ? ('loading="' + ptImg.getAttribute('loading') + '" crossorigin="' + ptImg.getAttribute('crossorigin') + '"') : 'img not found');
+
+            // outline-width alone is unreliable: Chromium reports its default computed
+            // width even when outline-style is 'none' (i.e. nothing actually paints).
+            // outline-style only becomes non-'none' when a matching rule truly applied.
+            var partPseudo = document.querySelector('#api-avatar-part-pseudo [part="avatar"]');
+            var pseudoStyle = partPseudo ? getComputedStyle(partPseudo).outlineStyle : null;
+            setRow('css-part-pseudo', 'DOC CAVEAT: ::part() does NOT style parts here (no shadow root) — expected outline-style "none"',
+              pseudoStyle === 'none',
+              'outline-style="' + pseudoStyle + '" ("solid" would mean ::part() unexpectedly started working)');
+
+            var partAttr = document.querySelector('#api-avatar-part-attr [part="avatar"]');
+            var attrStyle = partAttr ? getComputedStyle(partAttr).outlineStyle : null;
+            setRow('css-part-attr', 'Documented workaround: [part="avatar"] attribute selector styles the element',
+              attrStyle === 'solid',
+              'outline-style="' + attrStyle + '"');
+          }
+
+          var apiAvatarIds = ['api-avatar-fieldid-auto', 'api-avatar-fieldid-explicit', 'api-avatar-alt',
+            'api-avatar-status-true-attr', 'api-avatar-status-false-attr', 'api-avatar-status-invalid',
+            'api-avatar-appearance-invalid', 'api-avatar-size-xs', 'api-avatar-size-sm', 'api-avatar-size-base',
+            'api-avatar-size-lg', 'api-avatar-size-xl', 'api-avatar-size-2xl', 'api-avatar-size-3xl',
+            'api-avatar-slot', 'api-avatar-img-error', 'api-avatar-passthrough', 'api-avatar-part-pseudo', 'api-avatar-part-attr'];
+
+          customElements.whenDefined('aegov-avatar').then(function() {
+            return Promise.all(apiAvatarIds.map(function(id) {
+              var el = document.getElementById(id);
+              return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
+            }));
+          }).then(function() {
+            runAvatarApiChecks();
+            // Image error is async (fires after the broken URL fails to resolve) — poll briefly, then finalize.
+            var attempts = 0;
+            var poll = setInterval(function() {
+              attempts++;
+              var div = document.querySelector('#api-avatar-img-error [part="avatar"]');
+              var fallback = document.querySelector('#api-avatar-img-error .avatar-fallback .custom-fallback-marker');
+              if (fallback) {
+                setRow('img-error-fallback', 'Broken image falls back to slotted content on load error',
+                  !!div && div.classList.contains('no-user'), '');
+                clearInterval(poll);
+              } else if (attempts > 20) {
+                setRow('img-error-fallback', 'Broken image falls back to slotted content on load error', false, 'fallback never appeared after 4s');
+                clearInterval(poll);
+              }
+            }, 200);
+          });
+        })();
+      </script>
 
     </div>
 
@@ -1620,9 +1981,209 @@
         </div>
       </div>
 
+      <!-- ── API Reference Verification (aegov-avatar-group.md § API Reference) ── -->
+      <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
+          <span id="avatar-group-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+        </div>
+        <div class="prop-grid preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">variant="not-real" (invalid → falls back to default)</span>
+            <aegov-avatar-group id="api-avatargroup-variant-invalid" variant="not-real">
+              <aegov-avatar alt="a">A</aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">size="xl" — cascades to every direct child avatar</span>
+            <aegov-avatar-group id="api-avatargroup-size" size="xl">
+              <aegov-avatar id="api-avatargroup-size-child-a" alt="a">A</aegov-avatar>
+              <aegov-avatar id="api-avatargroup-size-child-b" alt="b">B</aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">Child appearance="square" is forced to rounded</span>
+            <aegov-avatar-group id="api-avatargroup-appearance">
+              <aegov-avatar id="api-avatargroup-appearance-child" alt="a" appearance="square">A</aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">more-count="7" → default "7+" label</span>
+            <aegov-avatar-group id="api-avatargroup-more-default" more-count="7">
+              <aegov-avatar alt="a">A</aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">more-count="0" (default) → no more button</span>
+            <aegov-avatar-group id="api-avatargroup-more-zero">
+              <aegov-avatar alt="a">A</aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">more-text="+12 more" — overrides default label</span>
+            <aegov-avatar-group id="api-avatargroup-more-text" more-count="12" more-text="+12 more">
+              <aegov-avatar alt="a">A</aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">aegovAvatarGroupMore (click +N to verify)</span>
+            <aegov-avatar-group id="api-avatargroup-event" more-count="4">
+              <aegov-avatar alt="a">A</aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">Host aria-label/data-* — NOT forwarded to inner div (per docs)</span>
+            <aegov-avatar-group id="api-avatargroup-passthrough" aria-label="Team members" data-testid="team-group">
+              <aegov-avatar alt="a">A</aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="prop-item" dir="rtl" lang="ar">
+            <span class="prop-attr">RTL — group + more-button aria-label in Arabic</span>
+            <aegov-avatar-group id="api-avatargroup-rtl" more-count="9">
+              <aegov-avatar alt="a">A</aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">Nested group isolation — outer size must not reach past a nested group</span>
+            <aegov-avatar-group id="api-avatargroup-nested-outer" size="xl">
+              <aegov-avatar id="api-avatargroup-nested-outer-child" alt="outer">A</aegov-avatar>
+              <aegov-avatar-group id="api-avatargroup-nested-inner" size="sm">
+                <aegov-avatar id="api-avatargroup-nested-inner-child" alt="inner">B</aegov-avatar>
+              </aegov-avatar-group>
+            </aegov-avatar-group>
+          </div>
+        </div>
+
+        <div class="mt-4 rounded-lg border border-aegold-300 dark:border-aegold-800 bg-aegold-50/60 dark:bg-aegold-950/30 p-3">
+          <p class="text-xs font-semibold text-aegold-700 dark:text-aegold-400 mb-2">⚠ Doc caveat — corrected: no "Shadow DOM boundary" exists</p>
+          <p class="text-xs text-aeblack-600 dark:text-aeblack-400">The docs previously said a host <code>aria-label</code> "is not guaranteed to be exposed across the Shadow DOM boundary." <code>aegov-avatar-group</code> has no shadow root at all (<code>scoped: false</code>, no <code>shadow: true</code>) — the host attribute is simply never read. Docs corrected to say so plainly.</p>
+        </div>
+
+        <div class="overflow-x-auto mt-4">
+          <table class="w-full text-xs border border-aeblack-200 dark:border-aeblack-700 rounded-lg overflow-hidden">
+            <thead class="bg-aeblack-50 dark:bg-aeblack-800/60">
+              <tr>
+                <th class="text-left px-3 py-2 font-semibold">Documented behaviour</th>
+                <th class="text-left px-3 py-2 font-semibold">Result</th>
+              </tr>
+            </thead>
+            <tbody id="avatar-group-api-ref-results"></tbody>
+          </table>
+        </div>
+      </div>
+      <script>
+        (function() {
+          function setRow(key, label, state, detail) {
+            var tbody = document.getElementById('avatar-group-api-ref-results');
+            var tr = tbody.querySelector('tr[data-key="' + key + '"]');
+            if (!tr) {
+              tr = document.createElement('tr');
+              tr.setAttribute('data-key', key);
+              tr.className = 'border-t border-aeblack-100 dark:border-aeblack-800';
+              tr.innerHTML = '<td class="px-3 py-2 text-aeblack-600 dark:text-aeblack-300"></td><td class="px-3 py-2 font-medium"></td>';
+              tbody.appendChild(tr);
+            }
+            tr.dataset.pass = state === true ? '1' : state === false ? '0' : '';
+            tr.children[0].textContent = label;
+            var cell = tr.children[1];
+            if (state === true) {
+              cell.className = 'px-3 py-2 font-medium text-aegreen-600 dark:text-aegreen-400';
+              cell.textContent = '✅ Pass';
+            } else if (state === false) {
+              cell.className = 'px-3 py-2 font-medium text-aered-600 dark:text-aered-400';
+              cell.textContent = '❌ Fail — ' + detail;
+            } else {
+              cell.className = 'px-3 py-2 font-medium text-aeblack-400';
+              cell.textContent = '🔲 Pending — ' + detail;
+            }
+            updateAvatarGroupApiSummary();
+          }
+
+          function updateAvatarGroupApiSummary() {
+            var rows = document.querySelectorAll('#avatar-group-api-ref-results tr[data-key]');
+            var total = rows.length, passed = 0;
+            rows.forEach(function(r) { if (r.dataset.pass === '1') passed++; });
+            var el = document.getElementById('avatar-group-api-ref-summary');
+            el.textContent = passed + ' / ' + total + ' checks passed';
+            el.className = 'text-xs font-medium ' + (passed === total ? 'text-aegreen-600 dark:text-aegreen-400' : 'text-aered-600 dark:text-aered-400');
+          }
+
+          function runAvatarGroupApiChecks() {
+            var variantInvalidDiv = document.querySelector('#api-avatargroup-variant-invalid div[role="group"]');
+            setRow('variant-invalid', 'Invalid variant falls back to documented default (default)',
+              !!variantInvalidDiv && variantInvalidDiv.classList.contains('avatar-group--default'),
+              'class="' + (variantInvalidDiv && variantInvalidDiv.className) + '"');
+
+            var sizeA = document.getElementById('api-avatargroup-size-child-a');
+            var sizeB = document.getElementById('api-avatargroup-size-child-b');
+            setRow('size-cascade', 'size="xl" cascades to every direct child avatar (as a JS property, not an attribute)',
+              sizeA.size === 'xl' && sizeB.size === 'xl',
+              'child a size="' + sizeA.size + '" child b size="' + sizeB.size + '"');
+
+            var appearanceChild = document.getElementById('api-avatargroup-appearance-child');
+            setRow('appearance-forced', 'Child appearance is always forced to rounded, even when set to square',
+              appearanceChild.appearance === 'rounded',
+              'appearance="' + appearanceChild.appearance + '"');
+
+            var moreDefaultBtn = document.querySelector('#api-avatargroup-more-default button.avatar-group__more');
+            setRow('more-default-text', 'more-count > 0 renders "+N" button with default "{count}+" text',
+              !!moreDefaultBtn && moreDefaultBtn.textContent.trim() === '7+',
+              'text="' + (moreDefaultBtn && moreDefaultBtn.textContent.trim()) + '"');
+
+            var moreZeroBtn = document.querySelector('#api-avatargroup-more-zero button.avatar-group__more');
+            setRow('more-zero', 'more-count="0" (default) renders no more button', !moreZeroBtn, moreZeroBtn ? 'unexpectedly rendered' : '');
+
+            var moreTextBtn = document.querySelector('#api-avatargroup-more-text button.avatar-group__more');
+            setRow('more-text-override', 'more-text overrides the default "{count}+" label',
+              !!moreTextBtn && moreTextBtn.textContent.trim() === '+12 more',
+              'text="' + (moreTextBtn && moreTextBtn.textContent.trim()) + '"');
+
+            var ptDiv = document.querySelector('#api-avatargroup-passthrough div[role="group"]');
+            setRow('passthrough', 'Host aria-label/data-* are NOT forwarded — inner div keeps its own fixed label',
+              !!ptDiv && ptDiv.getAttribute('aria-label') === 'Avatar group' && !ptDiv.hasAttribute('data-testid'),
+              'aria-label="' + (ptDiv && ptDiv.getAttribute('aria-label')) + '"');
+
+            var rtlDiv = document.querySelector('#api-avatargroup-rtl div[role="group"]');
+            var rtlBtn = document.querySelector('#api-avatargroup-rtl button.avatar-group__more');
+            setRow('rtl-labels', 'Group + more-button aria-label switch to Arabic under dir="rtl"',
+              !!rtlDiv && rtlDiv.getAttribute('aria-label') === 'مجموعة الصور الرمزية' && !!rtlBtn && rtlBtn.getAttribute('aria-label') === 'عرض 9 مستخدمين إضافيين',
+              'group="' + (rtlDiv && rtlDiv.getAttribute('aria-label')) + '" button="' + (rtlBtn && rtlBtn.getAttribute('aria-label')) + '"');
+
+            var nestedOuterChild = document.getElementById('api-avatargroup-nested-outer-child');
+            var nestedInnerChild = document.getElementById('api-avatargroup-nested-inner-child');
+            setRow('nested-isolation', 'Outer group size does not reach past a nested avatar-group',
+              nestedOuterChild.size === 'xl' && nestedInnerChild.size === 'sm',
+              'outer child size="' + nestedOuterChild.size + '" inner child size="' + nestedInnerChild.size + '"');
+
+            setRow('event-more', 'aegovAvatarGroupMore fires on +N click', null, 'click the "+4" button above');
+          }
+
+          document.getElementById('api-avatargroup-event').addEventListener('aegovAvatarGroupMore', function(e) {
+            setRow('event-more', 'aegovAvatarGroupMore fires on +N click (detail=' + e.detail + ')', true, '');
+          });
+
+          var apiAvatarGroupIds = ['api-avatargroup-variant-invalid', 'api-avatargroup-size', 'api-avatargroup-appearance',
+            'api-avatargroup-more-default', 'api-avatargroup-more-zero', 'api-avatargroup-more-text', 'api-avatargroup-event',
+            'api-avatargroup-passthrough', 'api-avatargroup-rtl', 'api-avatargroup-nested-outer', 'api-avatargroup-nested-inner'];
+
+          customElements.whenDefined('aegov-avatar-group').then(function() {
+            return customElements.whenDefined('aegov-avatar');
+          }).then(function() {
+            return Promise.all(apiAvatarGroupIds.map(function(id) {
+              var el = document.getElementById(id);
+              return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
+            }));
+          }).then(function() {
+            // Give the group a tick after its own componentOnReady to finish
+            // updateAvatars() in componentDidLoad before reading child props.
+            setTimeout(runAvatarGroupApiChecks, 100);
+          });
+        })();
+      </script>
+
     </div>
-  
-  
+
+
   </div>
 </section>
 
@@ -1952,6 +2513,259 @@
           </div>
         </div>
       </div>
+
+      <!-- ── API Reference Verification (aegov-breadcrumbs.md § API Reference) ── -->
+      <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
+          <span id="breadcrumbs-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+        </div>
+        <div class="prop-grid preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">fieldId — auto-generated when omitted</span>
+            <aegov-breadcrumbs id="api-bc-fieldid-auto">
+              <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">field-id="api-bc-explicit" — reflected onto inner nav</span>
+            <aegov-breadcrumbs id="api-bc-fieldid-explicit" field-id="api-bc-explicit">
+              <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">Plain id="…" on host — NOT read (doc corrected)</span>
+            <aegov-breadcrumbs id="api-bc-plain-id">
+              <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">isLast / separator / aria-current — last item only</span>
+            <aegov-breadcrumbs id="api-bc-islast">
+              <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item href="/a">A</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">separator="not-real" (invalid → falls back to slash)</span>
+            <aegov-breadcrumbs id="api-bc-separator-invalid" separator="not-real">
+              <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">max-length="6" — truncates with ellipsis</span>
+            <aegov-breadcrumbs id="api-bc-maxlength" max-length="6">
+              <aegov-breadcrumbs-item href="/">Government Services Portal</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">Icon (element) children bypass truncation entirely</span>
+            <aegov-breadcrumbs id="api-bc-icon-bypass" max-length="4">
+              <aegov-breadcrumbs-item href="/"><svg width="10" height="10" aria-hidden="true"></svg>Government Services</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">is-microdata — schema.org BreadcrumbList/ListItem</span>
+            <aegov-breadcrumbs id="api-bc-microdata" is-microdata="true">
+              <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">target="_blank" rel="noopener" — forwards to inner &lt;a&gt;</span>
+            <aegov-breadcrumbs id="api-bc-target">
+              <aegov-breadcrumbs-item href="/ext" target="_blank" rel="noopener">External</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">aegovBreadcrumbItemClick (click "Services" to verify)</span>
+            <aegov-breadcrumbs id="api-bc-event">
+              <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">title/hreflang/rel/referrerpolicy — must NOT leak onto current-item span</span>
+            <aegov-breadcrumbs id="api-bc-passthrough-span">
+              <aegov-breadcrumbs-item href="/x">X</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item title="should not appear" hreflang="ar">Current</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">aria-*/data-* — forward to both &lt;nav&gt; and item link</span>
+            <aegov-breadcrumbs id="api-bc-passthrough-aria" data-testid="trail">
+              <aegov-breadcrumbs-item href="/" data-testid="home-item" aria-describedby="hint">Home</aegov-breadcrumbs-item>
+              <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
+            </aegov-breadcrumbs>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">Standalone item (no parent) — visible configuration error, not silent</span>
+            <aegov-breadcrumbs-item id="api-bc-standalone-error">Orphan</aegov-breadcrumbs-item>
+          </div>
+        </div>
+
+        <div class="mt-4 rounded-lg border border-aegold-300 dark:border-aegold-800 bg-aegold-50/60 dark:bg-aegold-950/30 p-3">
+          <p class="text-xs font-semibold text-aegold-700 dark:text-aegold-400 mb-2">⚠ Bugs found and fixed while verifying this API reference</p>
+          <ul class="text-xs text-aeblack-600 dark:text-aeblack-400 list-disc list-inside space-y-1">
+            <li><code>title</code>/<code>hreflang</code>/<code>rel</code>/<code>referrerpolicy</code> were leaking from a linked item's <code>&lt;a&gt;</code> onto a non-linked item's <code>&lt;span&gt;</code> — the same computed pass-through object was spread onto whichever element rendered, regardless of docs saying link-only attributes shouldn't reach the span. Fixed to only compute link attrs when <code>href</code> is set.</li>
+            <li>A standalone <code>&lt;aegov-breadcrumbs-item&gt;</code> (no <code>&lt;aegov-breadcrumbs&gt;</code> parent) threw an <code>Error</code> from <code>componentWillLoad</code> — but Stencil silently swallows exceptions thrown there, so the item rendered broken and empty with zero visible signal. Now renders a visible <code>role="alert"</code> configuration error instead (same pattern as <code>aegov-callout</code>'s slot validation).</li>
+            <li>Docs previously claimed a plain host <code>id</code> attribute is "reflected by <code>field-id</code>" — it isn't; the host's <code>id</code> is never read at all. Docs corrected.</li>
+          </ul>
+        </div>
+
+        <div class="overflow-x-auto mt-4">
+          <table class="w-full text-xs border border-aeblack-200 dark:border-aeblack-700 rounded-lg overflow-hidden">
+            <thead class="bg-aeblack-50 dark:bg-aeblack-800/60">
+              <tr>
+                <th class="text-left px-3 py-2 font-semibold">Documented behaviour</th>
+                <th class="text-left px-3 py-2 font-semibold">Result</th>
+              </tr>
+            </thead>
+            <tbody id="breadcrumbs-api-ref-results"></tbody>
+          </table>
+        </div>
+      </div>
+      <script>
+        (function() {
+          function setRow(key, label, state, detail) {
+            var tbody = document.getElementById('breadcrumbs-api-ref-results');
+            var tr = tbody.querySelector('tr[data-key="' + key + '"]');
+            if (!tr) {
+              tr = document.createElement('tr');
+              tr.setAttribute('data-key', key);
+              tr.className = 'border-t border-aeblack-100 dark:border-aeblack-800';
+              tr.innerHTML = '<td class="px-3 py-2 text-aeblack-600 dark:text-aeblack-300"></td><td class="px-3 py-2 font-medium"></td>';
+              tbody.appendChild(tr);
+            }
+            tr.dataset.pass = state === true ? '1' : state === false ? '0' : '';
+            tr.children[0].textContent = label;
+            var cell = tr.children[1];
+            if (state === true) {
+              cell.className = 'px-3 py-2 font-medium text-aegreen-600 dark:text-aegreen-400';
+              cell.textContent = '✅ Pass';
+            } else if (state === false) {
+              cell.className = 'px-3 py-2 font-medium text-aered-600 dark:text-aered-400';
+              cell.textContent = '❌ Fail — ' + detail;
+            } else {
+              cell.className = 'px-3 py-2 font-medium text-aeblack-400';
+              cell.textContent = '🔲 Pending — ' + detail;
+            }
+            updateBcApiSummary();
+          }
+
+          function updateBcApiSummary() {
+            var rows = document.querySelectorAll('#breadcrumbs-api-ref-results tr[data-key]');
+            var total = rows.length, passed = 0;
+            rows.forEach(function(r) { if (r.dataset.pass === '1') passed++; });
+            var el = document.getElementById('breadcrumbs-api-ref-summary');
+            el.textContent = passed + ' / ' + total + ' checks passed';
+            el.className = 'text-xs font-medium ' + (passed === total ? 'text-aegreen-600 dark:text-aegreen-400' : 'text-aered-600 dark:text-aered-400');
+          }
+
+          function runBcApiChecks() {
+            var autoEl = document.getElementById('api-bc-fieldid-auto');
+            var autoNav = autoEl.querySelector('nav');
+            setRow('fieldid-auto', 'fieldId — auto-generated when omitted, reflected to host + inner nav#id',
+              !!autoEl.getAttribute('field-id') && autoEl.getAttribute('field-id') === (autoNav && autoNav.id),
+              'field-id="' + autoEl.getAttribute('field-id') + '" nav#' + (autoNav && autoNav.id));
+
+            var explicitNav = document.querySelector('#api-bc-fieldid-explicit nav');
+            setRow('fieldid-explicit', 'field-id="api-bc-explicit" reflected to inner nav#id',
+              !!explicitNav && explicitNav.id === 'api-bc-explicit',
+              'nav#' + (explicitNav && explicitNav.id));
+
+            var plainIdEl = document.getElementById('api-bc-plain-id');
+            var plainIdNav = plainIdEl.querySelector('nav');
+            setRow('plain-id-not-read', 'Plain host id is NOT read — inner nav gets its own auto-generated id',
+              plainIdNav && plainIdNav.id !== 'api-bc-plain-id' && !!plainIdEl.getAttribute('field-id'),
+              'nav#' + (plainIdNav && plainIdNav.id));
+
+            var islastItems = document.querySelectorAll('#api-bc-islast aegov-breadcrumbs-item');
+            var lastItem = islastItems[islastItems.length - 1];
+            var firstItem = islastItems[0];
+            setRow('islast-aria-current', 'Only the last item gets isLast, no separator, and aria-current="page"',
+              lastItem.isLast === true && !lastItem.querySelector('.breadcrumb__separator') && lastItem.querySelector('.breadcrumb-current').getAttribute('aria-current') === 'page' && firstItem.isLast === false,
+              'lastItem.isLast=' + lastItem.isLast);
+
+            var sepInvalidSep = document.querySelector('#api-bc-separator-invalid .breadcrumb__separator');
+            setRow('separator-invalid-fallback', 'Invalid separator value falls back to slash-shaped separator (<span>, not <svg>)',
+              !!sepInvalidSep && sepInvalidSep.tagName === 'SPAN',
+              'tag=' + (sepInvalidSep && sepInvalidSep.tagName));
+
+            var maxLenSpan = document.querySelector('#api-bc-maxlength a span');
+            setRow('maxlength-truncates', 'max-length truncates item text with an ellipsis',
+              !!maxLenSpan && maxLenSpan.textContent === 'Govern…',
+              'text="' + (maxLenSpan && maxLenSpan.textContent) + '"');
+
+            var iconBypassLink = document.querySelector('#api-bc-icon-bypass a');
+            setRow('icon-bypasses-truncation', 'Icon/element children bypass truncation entirely',
+              !!iconBypassLink && iconBypassLink.textContent.includes('Government Services'),
+              'text="' + (iconBypassLink && iconBypassLink.textContent.trim()) + '"');
+
+            var microdataOl = document.querySelector('#api-bc-microdata ol');
+            var microdataMeta = document.querySelector('#api-bc-microdata meta[itemprop="position"]');
+            setRow('microdata', 'is-microdata adds itemscope/itemtype on <ol> and a position <meta> per item',
+              !!microdataOl && microdataOl.hasAttribute('itemscope') && !!microdataMeta && microdataMeta.getAttribute('content') === '1',
+              'ol itemscope=' + (microdataOl && microdataOl.hasAttribute('itemscope')) + ' meta content=' + (microdataMeta && microdataMeta.getAttribute('content')));
+
+            var targetA = document.querySelector('#api-bc-target a');
+            setRow('target-passthrough', 'target/rel forward to the inner <a> on a linked item',
+              !!targetA && targetA.getAttribute('target') === '_blank' && targetA.getAttribute('rel') === 'noopener',
+              'target="' + (targetA && targetA.getAttribute('target')) + '" rel="' + (targetA && targetA.getAttribute('rel')) + '"');
+
+            var spanNoLeak = document.querySelector('#api-bc-passthrough-span .breadcrumb-current');
+            setRow('no-leak-to-span', 'FIXED: title/hreflang do NOT leak onto the non-linked item span',
+              !!spanNoLeak && !spanNoLeak.hasAttribute('title') && !spanNoLeak.hasAttribute('hreflang'),
+              'title="' + (spanNoLeak && spanNoLeak.getAttribute('title')) + '" hreflang="' + (spanNoLeak && spanNoLeak.getAttribute('hreflang')) + '"');
+
+            var ariaNav = document.querySelector('#api-bc-passthrough-aria nav');
+            var ariaA = document.querySelector('#api-bc-passthrough-aria a');
+            setRow('aria-data-passthrough', 'aria-*/data-* forward to both <nav> and item <a>',
+              !!ariaNav && ariaNav.getAttribute('data-testid') === 'trail' && !!ariaA && ariaA.getAttribute('data-testid') === 'home-item' && ariaA.getAttribute('aria-describedby') === 'hint',
+              'nav data-testid="' + (ariaNav && ariaNav.getAttribute('data-testid')) + '" a data-testid="' + (ariaA && ariaA.getAttribute('data-testid')) + '"');
+
+            var standaloneAlert = document.querySelector('#api-bc-standalone-error [role="alert"]');
+            setRow('standalone-visible-error', 'FIXED: standalone item renders a visible role="alert" error, not a silent throw',
+              !!standaloneAlert && standaloneAlert.textContent.includes('must be used inside'),
+              'found alert=' + !!standaloneAlert);
+
+            setRow('event-click', 'aegovBreadcrumbItemClick fires { href, event } on click', null, 'click the "Services" link above');
+          }
+
+          document.getElementById('api-bc-event').addEventListener('aegovBreadcrumbItemClick', function(e) {
+            var detail = e.detail || {};
+            var ok = detail.href === '/services' && detail.event instanceof MouseEvent;
+            setRow('event-click', 'aegovBreadcrumbItemClick fires { href, event } on click (href="' + detail.href + '")', ok, 'detail=' + JSON.stringify({ href: detail.href, hasEvent: detail.event instanceof MouseEvent }));
+          });
+
+          var apiBcIds = ['api-bc-fieldid-auto', 'api-bc-fieldid-explicit', 'api-bc-plain-id', 'api-bc-islast',
+            'api-bc-separator-invalid', 'api-bc-maxlength', 'api-bc-icon-bypass', 'api-bc-microdata', 'api-bc-target',
+            'api-bc-event', 'api-bc-passthrough-span', 'api-bc-passthrough-aria'];
+
+          customElements.whenDefined('aegov-breadcrumbs').then(function() {
+            return customElements.whenDefined('aegov-breadcrumbs-item');
+          }).then(function() {
+            return Promise.all(apiBcIds.map(function(id) {
+              var el = document.getElementById(id);
+              return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
+            }));
+          }).then(function() {
+            var standaloneEl = document.getElementById('api-bc-standalone-error');
+            return Promise.all([
+              standaloneEl && standaloneEl.componentOnReady ? standaloneEl.componentOnReady() : Promise.resolve(),
+              new Promise(function(r) { setTimeout(r, 100); }), // let parent->child cascades (updateItems) settle
+            ]);
+          }).then(function() {
+            runBcApiChecks();
+          });
+        })();
+      </script>
+
     </div>
   </div>
 </section>
@@ -2180,6 +2994,246 @@
           </div>
         </div>
       </div>
+
+      <!-- ── API Reference Verification (aegov-progress.md § API Reference) ── -->
+      <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
+          <span id="progress-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+        </div>
+        <div class="prop-grid preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">fieldId — auto-generated, reflected to native progress id</span>
+            <aegov-progress id="api-progress-fieldid-auto" value="40" label="Auto ID"></aegov-progress>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">value/max — clamped fill (over-max and negative)</span>
+            <div class="space-y-2">
+              <aegov-progress id="api-progress-overmax" value="999" max="100" label="Over max"></aegov-progress>
+              <aegov-progress id="api-progress-negative" value="-50" max="100" label="Negative"></aegov-progress>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">Omitting value → indeterminate, counter hidden</span>
+            <aegov-progress id="api-progress-indeterminate" counter="trailing" label="Loading"></aegov-progress>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">height="not-a-number" (invalid → falls back to 0.5rem)</span>
+            <aegov-progress id="api-progress-height-invalid" height="not-a-number" value="50" label="Invalid height"></aegov-progress>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">counterSuffix — appended with no automatic spacing</span>
+            <aegov-progress id="api-progress-suffix" value="320" counter="trailing" counter-suffix=" MB" label="Storage"></aegov-progress>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">aria-valuetext — auto-set only when suffix + determinate</span>
+            <aegov-progress id="api-progress-valuetext" value="75" counter-suffix="%" label="With suffix"></aegov-progress>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">description — linked via aria-describedby to native progress</span>
+            <aegov-progress id="api-progress-desc" value="50" description="Uploading file…" label="Upload"></aegov-progress>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">Author aria-describedby composes with internal description id</span>
+            <span id="api-progress-external-hint" class="sr-only">External hint text</span>
+            <aegov-progress id="api-progress-composed-describedby" value="50" description="Uploading…" label="Upload" aria-describedby="api-progress-external-hint"></aegov-progress>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">Pass-through: tabindex/title/data-* → native progress</span>
+            <aegov-progress id="api-progress-passthrough" value="50" label="Pass-through" tabindex="0" title="Tooltip text" data-testid="progress-1"></aegov-progress>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">extraClass — applied to wrapper element</span>
+            <aegov-progress id="api-progress-extraclass" value="50" label="Extra class" extra-class="api-progress-extraclass-marker"></aegov-progress>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">FIXED: aria-label pass-through now silences the label warning</span>
+            <aegov-progress id="api-progress-arialabel-warning" value="50" aria-label="Labeled via pass-through"></aegov-progress>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">FIXED: field-id alone (no real &lt;label for&gt;) now correctly warns</span>
+            <aegov-progress id="api-progress-fieldid-only-warning" value="50" field-id="api-progress-orphan"></aegov-progress>
+          </div>
+        </div>
+
+        <div class="mt-4 rounded-lg border border-aegold-300 dark:border-aegold-800 bg-aegold-50/60 dark:bg-aegold-950/30 p-3">
+          <p class="text-xs font-semibold text-aegold-700 dark:text-aegold-400 mb-2">⚠ Bug found and fixed while verifying this API reference</p>
+          <p class="text-xs text-aeblack-600 dark:text-aeblack-400">The "no accessible label" console warning only checked whether a <code>field-id</code> had been explicitly supplied — treating that alone as "probably has a label somewhere," even with no <code>label</code> prop, no <code>aria-label</code>, and no real <code>&lt;label for&gt;</code> anywhere in the document. It also never recognised <code>aria-label</code>/<code>aria-labelledby</code> pass-through as satisfying the requirement, so a correctly-labeled progress bar could still get a false-positive warning. Both fixed: the check now looks for an actual matching <code>&lt;label for="fieldId"&gt;</code> and also accepts <code>aria-label</code>/<code>aria-labelledby</code>.</p>
+        </div>
+
+        <div class="overflow-x-auto mt-4">
+          <table class="w-full text-xs border border-aeblack-200 dark:border-aeblack-700 rounded-lg overflow-hidden">
+            <thead class="bg-aeblack-50 dark:bg-aeblack-800/60">
+              <tr>
+                <th class="text-left px-3 py-2 font-semibold">Documented behaviour</th>
+                <th class="text-left px-3 py-2 font-semibold">Result</th>
+              </tr>
+            </thead>
+            <tbody id="progress-api-ref-results"></tbody>
+          </table>
+        </div>
+      </div>
+      <script>
+        (function() {
+          function setRow(key, label, state, detail) {
+            var tbody = document.getElementById('progress-api-ref-results');
+            var tr = tbody.querySelector('tr[data-key="' + key + '"]');
+            if (!tr) {
+              tr = document.createElement('tr');
+              tr.setAttribute('data-key', key);
+              tr.className = 'border-t border-aeblack-100 dark:border-aeblack-800';
+              tr.innerHTML = '<td class="px-3 py-2 text-aeblack-600 dark:text-aeblack-300"></td><td class="px-3 py-2 font-medium"></td>';
+              tbody.appendChild(tr);
+            }
+            tr.dataset.pass = state === true ? '1' : state === false ? '0' : '';
+            tr.children[0].textContent = label;
+            var cell = tr.children[1];
+            if (state === true) {
+              cell.className = 'px-3 py-2 font-medium text-aegreen-600 dark:text-aegreen-400';
+              cell.textContent = '✅ Pass';
+            } else if (state === false) {
+              cell.className = 'px-3 py-2 font-medium text-aered-600 dark:text-aered-400';
+              cell.textContent = '❌ Fail — ' + detail;
+            } else {
+              cell.className = 'px-3 py-2 font-medium text-aeblack-400';
+              cell.textContent = '🔲 Pending — ' + detail;
+            }
+            updateProgressApiSummary();
+          }
+
+          function updateProgressApiSummary() {
+            var rows = document.querySelectorAll('#progress-api-ref-results tr[data-key]');
+            var total = rows.length, passed = 0;
+            rows.forEach(function(r) { if (r.dataset.pass === '1') passed++; });
+            var el = document.getElementById('progress-api-ref-summary');
+            el.textContent = passed + ' / ' + total + ' checks passed';
+            el.className = 'text-xs font-medium ' + (passed === total ? 'text-aegreen-600 dark:text-aegreen-400' : 'text-aered-600 dark:text-aered-400');
+          }
+
+          function runProgressApiChecks(consoleWarnLogs) {
+            var autoEl = document.getElementById('api-progress-fieldid-auto');
+            var autoNative = autoEl.querySelector('progress');
+            setRow('fieldid-auto', 'fieldId — auto-generated, reflected to host + native progress id',
+              !!autoEl.getAttribute('field-id') && autoEl.getAttribute('field-id') === (autoNative && autoNative.id),
+              'field-id="' + autoEl.getAttribute('field-id') + '" progress#' + (autoNative && autoNative.id));
+
+            var overMaxFill = document.querySelector('#api-progress-overmax .progress__fill');
+            var negativeFill = document.querySelector('#api-progress-negative .progress__fill');
+            setRow('clamp', 'value clamped to [0, 100]% regardless of over-max or negative input',
+              overMaxFill && overMaxFill.style.width === '100%' && negativeFill && negativeFill.style.width === '0%',
+              'overMax=' + (overMaxFill && overMaxFill.style.width) + ' negative=' + (negativeFill && negativeFill.style.width));
+
+            var indetTrack = document.querySelector('#api-progress-indeterminate .progress__track');
+            var indetCounter = document.querySelector('#api-progress-indeterminate .progress__counter--trailing');
+            var indetNative = document.querySelector('#api-progress-indeterminate progress');
+            setRow('indeterminate', 'Omitting value renders indeterminate state with no value attr and hidden counter',
+              !!indetTrack && indetTrack.classList.contains('progress__track--indeterminate') && !indetCounter && !indetNative.hasAttribute('value'),
+              'trackClass="' + (indetTrack && indetTrack.className) + '"');
+
+            var invalidHeightTrack = document.querySelector('#api-progress-height-invalid .progress__track');
+            setRow('height-invalid-fallback', 'Invalid non-numeric height falls back to the documented default (0.5rem)',
+              !!invalidHeightTrack && invalidHeightTrack.style.height === '0.5rem',
+              'height="' + (invalidHeightTrack && invalidHeightTrack.style.height) + '"');
+
+            var suffixCounter = document.querySelector('#api-progress-suffix .progress__counter--trailing');
+            setRow('suffix-no-spacing', 'counterSuffix appended with no automatic spacing',
+              !!suffixCounter && suffixCounter.textContent === '320 MB',
+              'text="' + (suffixCounter && suffixCounter.textContent) + '"');
+
+            var valuetextNative = document.querySelector('#api-progress-valuetext progress');
+            setRow('aria-valuetext', 'aria-valuetext auto-set to "{value}{suffix}" when suffix is non-empty and determinate',
+              !!valuetextNative && valuetextNative.getAttribute('aria-valuetext') === '75%',
+              'aria-valuetext="' + (valuetextNative && valuetextNative.getAttribute('aria-valuetext')) + '"');
+
+            var descP = document.querySelector('#api-progress-desc .progress__description');
+            var descNative = document.querySelector('#api-progress-desc progress');
+            setRow('description-linked', 'description renders a <p> with an id, linked via aria-describedby',
+              !!descP && !!descP.id && descNative.getAttribute('aria-describedby') === descP.id,
+              'desc#' + (descP && descP.id) + ' aria-describedby="' + (descNative && descNative.getAttribute('aria-describedby')) + '"');
+
+            var composedNative = document.querySelector('#api-progress-composed-describedby progress');
+            var composedValue = composedNative ? composedNative.getAttribute('aria-describedby') : null;
+            setRow('describedby-composed', 'Author aria-describedby is composed with the internal description id (both present)',
+              !!composedValue && composedValue.indexOf('api-progress-external-hint') !== -1 && composedValue.split(' ').length === 2,
+              'aria-describedby="' + composedValue + '"');
+
+            var ptNative = document.querySelector('#api-progress-passthrough progress');
+            setRow('passthrough', 'tabindex/title/data-* forward to the native progress element',
+              !!ptNative && ptNative.getAttribute('tabindex') === '0' && ptNative.getAttribute('title') === 'Tooltip text' && ptNative.getAttribute('data-testid') === 'progress-1',
+              'tabindex="' + (ptNative && ptNative.getAttribute('tabindex')) + '" title="' + (ptNative && ptNative.getAttribute('title')) + '"');
+
+            var extraClassWrapper = document.querySelector('#api-progress-extraclass .aegov-progress');
+            setRow('extraclass', 'extraClass applies to the wrapper element',
+              !!extraClassWrapper && extraClassWrapper.classList.contains('api-progress-extraclass-marker'),
+              'class="' + (extraClassWrapper && extraClassWrapper.className) + '"');
+
+            var hasArialabelWarning = consoleWarnLogs.some(function(l) { return l.indexOf('api-progress-arialabel-warning') !== -1; });
+            var arialabelNative = document.querySelector('#api-progress-arialabel-warning progress');
+            setRow('fixed-arialabel-no-warning', 'FIXED: aria-label pass-through silences the "no accessible label" warning',
+              arialabelNative && arialabelNative.getAttribute('aria-label') === 'Labeled via pass-through' && !hasArialabelWarning,
+              'aria-label="' + (arialabelNative && arialabelNative.getAttribute('aria-label')) + '" warningLogged=' + hasArialabelWarning);
+
+            var hasOrphanWarning = consoleWarnLogs.some(function(l) { return l.indexOf('api-progress-fieldid-only-warning') !== -1; });
+            setRow('fixed-fieldid-only-warns', 'FIXED: field-id alone (no real label anywhere) now correctly triggers the warning',
+              hasOrphanWarning,
+              'warningLogged=' + hasOrphanWarning);
+          }
+
+          // console.warn messages don't identify which element triggered them, so tag each
+          // check element via a temporary marker attribute read back out of the warn call site
+          // isn't possible without changing the component — instead, run each labeled-warning
+          // check element in isolation (own console.warn capture window) so results can't cross-talk.
+          function checkWarningIsolated(id, attrs) {
+            return new Promise(function(resolve) {
+              var logs = [];
+              var orig = console.warn;
+              console.warn = function() {
+                var msg = Array.prototype.join.call(arguments, ' ');
+                logs.push(id + ': ' + msg);
+                orig.apply(console, arguments);
+              };
+              var el = document.getElementById(id);
+              // Re-trigger by re-reading current state; the element already rendered once on
+              // page load, so instead we just check whether ITS OWN load already warned by
+              // re-creating an equivalent throwaway element with the same attributes.
+              var clone = document.createElement('aegov-progress');
+              Object.keys(attrs).forEach(function(k) { clone.setAttribute(k, attrs[k]); });
+              document.body.appendChild(clone);
+              customElements.whenDefined('aegov-progress').then(function() {
+                return clone.componentOnReady ? clone.componentOnReady() : Promise.resolve();
+              }).then(function() {
+                console.warn = orig;
+                clone.remove();
+                resolve(logs);
+              });
+            });
+          }
+
+          var apiProgressIds = ['api-progress-fieldid-auto', 'api-progress-overmax', 'api-progress-negative',
+            'api-progress-indeterminate', 'api-progress-height-invalid', 'api-progress-suffix', 'api-progress-valuetext',
+            'api-progress-desc', 'api-progress-composed-describedby', 'api-progress-passthrough', 'api-progress-extraclass',
+            'api-progress-arialabel-warning', 'api-progress-fieldid-only-warning'];
+
+          customElements.whenDefined('aegov-progress').then(function() {
+            return Promise.all(apiProgressIds.map(function(id) {
+              var el = document.getElementById(id);
+              return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
+            }));
+          }).then(function() {
+            // Sequential, NOT Promise.all — each call monkey-patches the global console.warn
+            // for its duration, so running them concurrently lets the second patch stomp on
+            // the first and corrupts both results.
+            return checkWarningIsolated('api-progress-arialabel-warning', { value: '50', 'aria-label': 'Labeled via pass-through' })
+              .then(function(logs1) {
+                return checkWarningIsolated('api-progress-fieldid-only-warning', { value: '50', 'field-id': 'api-progress-orphan-clone' })
+                  .then(function(logs2) { return logs1.concat(logs2); });
+              });
+          }).then(function(allLogs) {
+            runProgressApiChecks(allLogs);
+          });
+        })();
+      </script>
+
     </div>
   </div>
 </section>
@@ -2593,6 +3647,246 @@
         </div>
       </div>
 
+      <!-- ── API Reference Verification (aegov-timeline.md § API Reference) ── -->
+      <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
+          <span id="timeline-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+        </div>
+        <div class="prop-grid preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">fieldId — auto-generated, reflected to inner section id</span>
+            <aegov-timeline id="api-timeline-fieldid-auto">
+              <aegov-timeline-step>A</aegov-timeline-step>
+            </aegov-timeline>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="not-real" (invalid → falls back to default)</span>
+            <aegov-timeline id="api-timeline-variant-invalid" variant="not-real">
+              <aegov-timeline-step>A</aegov-timeline-step>
+            </aegov-timeline>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">FIXED: orientation="not-real" — child must stay horizontal, matching parent</span>
+            <aegov-timeline id="api-timeline-orientation-invalid" orientation="not-real">
+              <aegov-timeline-step id="api-timeline-orientation-invalid-step">A</aegov-timeline-step>
+            </aegov-timeline>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">size="lg" — cascades to every step</span>
+            <aegov-timeline id="api-timeline-size" size="lg">
+              <aegov-timeline-step id="api-timeline-size-a">A</aegov-timeline-step>
+              <aegov-timeline-step id="api-timeline-size-b">B</aegov-timeline-step>
+            </aegov-timeline>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">stepIndex/stepCount/isFirst/isLast across 3 steps</span>
+            <aegov-timeline id="api-timeline-indices">
+              <aegov-timeline-step id="api-timeline-idx-0">A</aegov-timeline-step>
+              <aegov-timeline-step id="api-timeline-idx-1">B</aegov-timeline-step>
+              <aegov-timeline-step id="api-timeline-idx-2">C</aegov-timeline-step>
+            </aegov-timeline>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">isConnectorSolid — true only right after a completed step</span>
+            <aegov-timeline id="api-timeline-connector">
+              <aegov-timeline-step id="api-timeline-connector-0" status="completed">A</aegov-timeline-step>
+              <aegov-timeline-step id="api-timeline-connector-1" status="active">B</aegov-timeline-step>
+              <aegov-timeline-step id="api-timeline-connector-2" status="pending">C</aegov-timeline-step>
+            </aegov-timeline>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">status="not-real" (invalid → falls back to pending)</span>
+            <aegov-timeline id="api-timeline-status-invalid">
+              <aegov-timeline-step id="api-timeline-status-invalid-step" status="not-real">A</aegov-timeline-step>
+            </aegov-timeline>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">Default aria-label "Timeline"; overridable via host aria-label</span>
+            <aegov-timeline id="api-timeline-arialabel-override" aria-label="Application progress">
+              <aegov-timeline-step>A</aegov-timeline-step>
+            </aegov-timeline>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">icon slot (default variant) replaces number/checkmark</span>
+            <aegov-timeline id="api-timeline-icon-slot">
+              <aegov-timeline-step id="api-timeline-icon-slot-step" status="completed"><svg slot="icon" class="api-timeline-custom-icon" width="10" height="10"></svg>Done</aegov-timeline-step>
+            </aegov-timeline>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">Pass-through: aria-*/data-* on timeline host → &lt;section&gt;</span>
+            <aegov-timeline id="api-timeline-passthrough" data-testid="flow" aria-describedby="api-timeline-hint">
+              <aegov-timeline-step>A</aegov-timeline-step>
+            </aegov-timeline>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">Pass-through: aria-*/data-* on a STEP — must NOT forward (per docs)</span>
+            <aegov-timeline id="api-timeline-step-passthrough">
+              <aegov-timeline-step id="api-timeline-step-passthrough-step" data-testid="step-1" aria-describedby="step-hint">A</aegov-timeline-step>
+            </aegov-timeline>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">Standalone step (no parent) — visible configuration error, not silent</span>
+            <aegov-timeline-step id="api-timeline-standalone-error">Orphan</aegov-timeline-step>
+          </div>
+        </div>
+
+        <div class="mt-4 rounded-lg border border-aegold-300 dark:border-aegold-800 bg-aegold-50/60 dark:bg-aegold-950/30 p-3">
+          <p class="text-xs font-semibold text-aegold-700 dark:text-aegold-400 mb-2">⚠ Bugs found and fixed while verifying this API reference</p>
+          <ul class="text-xs text-aeblack-600 dark:text-aeblack-400 list-disc list-inside space-y-1">
+            <li>An invalid <code>orientation</code> on <code>&lt;aegov-timeline&gt;</code> cascaded <em>unvalidated</em> to child steps. Each step only checks <code>orientation === 'horizontal'</code>, so any non-<code>'horizontal'</code> string — including the invalid one — made steps render in a <strong>vertical</strong> layout, while the parent's own wrapper still rendered horizontal-oriented classes. Fixed to cascade the same sanitized value the parent uses for its own rendering.</li>
+            <li>A standalone <code>&lt;aegov-timeline-step&gt;</code> (no <code>&lt;aegov-timeline&gt;</code> parent) threw an <code>Error</code> from <code>componentWillLoad</code> — silently swallowed by Stencil, rendering a fully-formed but meaningless step ("Step 1 of 1") with zero visible signal. Now renders a visible <code>role="alert"</code> configuration error instead.</li>
+          </ul>
+        </div>
+
+        <div class="overflow-x-auto mt-4">
+          <table class="w-full text-xs border border-aeblack-200 dark:border-aeblack-700 rounded-lg overflow-hidden">
+            <thead class="bg-aeblack-50 dark:bg-aeblack-800/60">
+              <tr>
+                <th class="text-left px-3 py-2 font-semibold">Documented behaviour</th>
+                <th class="text-left px-3 py-2 font-semibold">Result</th>
+              </tr>
+            </thead>
+            <tbody id="timeline-api-ref-results"></tbody>
+          </table>
+        </div>
+      </div>
+      <script>
+        (function() {
+          function setRow(key, label, state, detail) {
+            var tbody = document.getElementById('timeline-api-ref-results');
+            var tr = tbody.querySelector('tr[data-key="' + key + '"]');
+            if (!tr) {
+              tr = document.createElement('tr');
+              tr.setAttribute('data-key', key);
+              tr.className = 'border-t border-aeblack-100 dark:border-aeblack-800';
+              tr.innerHTML = '<td class="px-3 py-2 text-aeblack-600 dark:text-aeblack-300"></td><td class="px-3 py-2 font-medium"></td>';
+              tbody.appendChild(tr);
+            }
+            tr.dataset.pass = state === true ? '1' : state === false ? '0' : '';
+            tr.children[0].textContent = label;
+            var cell = tr.children[1];
+            if (state === true) {
+              cell.className = 'px-3 py-2 font-medium text-aegreen-600 dark:text-aegreen-400';
+              cell.textContent = '✅ Pass';
+            } else if (state === false) {
+              cell.className = 'px-3 py-2 font-medium text-aered-600 dark:text-aered-400';
+              cell.textContent = '❌ Fail — ' + detail;
+            } else {
+              cell.className = 'px-3 py-2 font-medium text-aeblack-400';
+              cell.textContent = '🔲 Pending — ' + detail;
+            }
+            updateTimelineApiSummary();
+          }
+
+          function updateTimelineApiSummary() {
+            var rows = document.querySelectorAll('#timeline-api-ref-results tr[data-key]');
+            var total = rows.length, passed = 0;
+            rows.forEach(function(r) { if (r.dataset.pass === '1') passed++; });
+            var el = document.getElementById('timeline-api-ref-summary');
+            el.textContent = passed + ' / ' + total + ' checks passed';
+            el.className = 'text-xs font-medium ' + (passed === total ? 'text-aegreen-600 dark:text-aegreen-400' : 'text-aered-600 dark:text-aered-400');
+          }
+
+          function runTimelineApiChecks() {
+            var autoEl = document.getElementById('api-timeline-fieldid-auto');
+            var autoSection = autoEl.querySelector('section');
+            setRow('fieldid-auto', 'fieldId — auto-generated, reflected to host + inner section id',
+              !!autoEl.getAttribute('field-id') && autoEl.getAttribute('field-id') === (autoSection && autoSection.id),
+              'field-id="' + autoEl.getAttribute('field-id') + '" section#' + (autoSection && autoSection.id));
+
+            var variantInvalidSection = document.querySelector('#api-timeline-variant-invalid section');
+            setRow('variant-invalid', 'Invalid variant falls back to documented default (default)',
+              !!variantInvalidSection && !variantInvalidSection.classList.contains('aegov-timeline--compact'),
+              'class="' + (variantInvalidSection && variantInvalidSection.className) + '"');
+
+            var orientStep = document.getElementById('api-timeline-orientation-invalid-step');
+            var orientList = document.querySelector('#api-timeline-orientation-invalid ol');
+            setRow('orientation-invalid-fixed', 'FIXED: invalid orientation cascades sanitized ("horizontal") to steps, matching parent',
+              orientStep.orientation === 'horizontal' && orientStep.querySelector('li').classList.contains('step--horizontal') && orientList.classList.contains('timeline__list--horizontal'),
+              'step.orientation="' + orientStep.orientation + '" liClass="' + orientStep.querySelector('li').className + '"');
+
+            var sizeA = document.getElementById('api-timeline-size-a');
+            var sizeB = document.getElementById('api-timeline-size-b');
+            setRow('size-cascade', 'size cascades to every step (JS property)',
+              sizeA.size === 'lg' && sizeB.size === 'lg',
+              'a.size="' + sizeA.size + '" b.size="' + sizeB.size + '"');
+
+            var idx0 = document.getElementById('api-timeline-idx-0');
+            var idx1 = document.getElementById('api-timeline-idx-1');
+            var idx2 = document.getElementById('api-timeline-idx-2');
+            setRow('indices', 'stepIndex/stepCount/isFirst/isLast computed correctly across 3 steps',
+              idx0.stepIndex === 0 && idx1.stepIndex === 1 && idx2.stepIndex === 2 &&
+              idx0.stepCount === 3 && idx1.stepCount === 3 && idx2.stepCount === 3 &&
+              idx0.isFirst === true && idx1.isFirst === false &&
+              idx0.isLast === false && idx2.isLast === true,
+              'indices=' + [idx0.stepIndex, idx1.stepIndex, idx2.stepIndex].join(','));
+
+            var conn0 = document.getElementById('api-timeline-connector-0');
+            var conn1 = document.getElementById('api-timeline-connector-1');
+            var conn2 = document.getElementById('api-timeline-connector-2');
+            setRow('connector-solid', 'isConnectorSolid true only for the step right after a completed step',
+              conn0.isConnectorSolid === false && conn1.isConnectorSolid === true && conn2.isConnectorSolid === false,
+              'solid=' + [conn0.isConnectorSolid, conn1.isConnectorSolid, conn2.isConnectorSolid].join(','));
+
+            var statusInvalidStep = document.getElementById('api-timeline-status-invalid-step');
+            setRow('status-invalid', 'Invalid step status falls back to pending without crashing',
+              statusInvalidStep.querySelector('li').classList.contains('step--pending'),
+              'liClass="' + statusInvalidStep.querySelector('li').className + '"');
+
+            var arialabelSection = document.querySelector('#api-timeline-arialabel-override section');
+            setRow('arialabel-override', 'Default aria-label overridable via host aria-label pass-through',
+              !!arialabelSection && arialabelSection.getAttribute('aria-label') === 'Application progress',
+              'aria-label="' + (arialabelSection && arialabelSection.getAttribute('aria-label')) + '"');
+
+            var iconStep = document.getElementById('api-timeline-icon-slot-step');
+            var indicator = iconStep.querySelector('.step__indicator');
+            setRow('icon-slot', 'Custom icon slot (default variant) replaces the checkmark/number indicator',
+              !!indicator && !!indicator.querySelector('.api-timeline-custom-icon') && !indicator.querySelector('.step__checkmark'),
+              'hasCustomIcon=' + !!indicator.querySelector('.api-timeline-custom-icon'));
+
+            var ptSection = document.querySelector('#api-timeline-passthrough section');
+            setRow('passthrough-timeline', 'aria-*/data-* on the timeline host forward to the rendered <section>',
+              !!ptSection && ptSection.getAttribute('data-testid') === 'flow' && ptSection.getAttribute('aria-describedby') === 'api-timeline-hint',
+              'data-testid="' + (ptSection && ptSection.getAttribute('data-testid')) + '"');
+
+            var stepPt = document.getElementById('api-timeline-step-passthrough-step');
+            var stepPtLi = stepPt.querySelector('li');
+            setRow('no-passthrough-step', 'aria-*/data-* on a STEP are NOT forwarded automatically (per docs)',
+              !stepPtLi.hasAttribute('data-testid') && !stepPtLi.hasAttribute('aria-describedby'),
+              'li data-testid="' + stepPtLi.getAttribute('data-testid') + '"');
+
+            var standaloneAlert = document.querySelector('#api-timeline-standalone-error [role="alert"]');
+            setRow('standalone-visible-error', 'FIXED: standalone step renders a visible role="alert" error, not a silent throw',
+              !!standaloneAlert && standaloneAlert.textContent.includes('must be used inside'),
+              'found alert=' + !!standaloneAlert);
+          }
+
+          var apiTimelineIds = ['api-timeline-fieldid-auto', 'api-timeline-variant-invalid', 'api-timeline-orientation-invalid',
+            'api-timeline-size', 'api-timeline-indices', 'api-timeline-connector', 'api-timeline-status-invalid',
+            'api-timeline-arialabel-override', 'api-timeline-icon-slot', 'api-timeline-passthrough', 'api-timeline-step-passthrough'];
+
+          customElements.whenDefined('aegov-timeline').then(function() {
+            return customElements.whenDefined('aegov-timeline-step');
+          }).then(function() {
+            return Promise.all(apiTimelineIds.map(function(id) {
+              var el = document.getElementById(id);
+              return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
+            }));
+          }).then(function() {
+            var standaloneEl = document.getElementById('api-timeline-standalone-error');
+            return Promise.all([
+              standaloneEl && standaloneEl.componentOnReady ? standaloneEl.componentOnReady() : Promise.resolve(),
+              new Promise(function(r) { setTimeout(r, 100); }), // let parent->child cascades (updateSteps) settle
+            ]);
+          }).then(function() {
+            runTimelineApiChecks();
+          });
+        })();
+      </script>
+
+    </div>
+  </div>
 </section>
 
 <section id="separator">

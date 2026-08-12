@@ -164,10 +164,14 @@ export class AegovAvatar {
    * Get the effective status type from the status prop, or null when hidden.
    */
   private getEffectiveStatus(): AvatarStatus | null {
-    if (this.status === true) return 'online';
-    if (this.status === false) return null;
-    return (AVATAR_STATUSES as readonly string[]).includes(this.status as string)
-      ? (this.status as AvatarStatus)
+    // Stencil reflects a mixed string|boolean prop's HTML attribute as the raw
+    // string 'true'/'false' rather than coercing to boolean — normalize both forms.
+    const rawStatus = this.status as unknown;
+    const status = rawStatus === 'true' ? true : rawStatus === 'false' ? false : this.status;
+    if (status === true) return 'online';
+    if (status === false) return null;
+    return (AVATAR_STATUSES as readonly string[]).includes(status as string)
+      ? (status as AvatarStatus)
       : null;
   }
 

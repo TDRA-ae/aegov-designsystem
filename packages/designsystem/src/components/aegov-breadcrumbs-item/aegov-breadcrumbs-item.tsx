@@ -20,6 +20,7 @@ export class AegovBreadcrumbsItem {
 
   @State() slotContent: string = '';
   @State() hasElementChildren: boolean = false;
+  @State() private standaloneError: boolean = false;
 
   /**
    * The URL that the breadcrumb item links to.
@@ -68,14 +69,14 @@ export class AegovBreadcrumbsItem {
   @Event() aegovBreadcrumbItemClick: EventEmitter<{ href?: string; event: MouseEvent }>;
 
   componentWillLoad() {
-    // Validate that this component is inside aegov-breadcrumbs
+    // Validate that this component is inside aegov-breadcrumbs.
+    // Stencil swallows exceptions thrown from componentWillLoad — a throw here would
+    // silently leave the item rendering broken/empty instead of alerting the developer,
+    // so render a visible error instead (same pattern as aegov-callout's slot validation).
     const parentBreadcrumbs = this.el.closest('aegov-breadcrumbs');
     if (!parentBreadcrumbs) {
-      throw new Error(
-        '[aegov-breadcrumbs-item] This component must be used inside <aegov-breadcrumbs>. ' +
-        'It cannot be used as a standalone component. ' +
-        'Please wrap it with <aegov-breadcrumbs>...</aegov-breadcrumbs>'
-      );
+      this.standaloneError = true;
+      return;
     }
 
     // Check if there are element children (like SVG, icons, etc.)
@@ -141,10 +142,26 @@ export class AegovBreadcrumbsItem {
   }
 
   render() {
+    if (this.standaloneError) {
+      return (
+        <Host>
+          <li class="breadcrumb__item" role="alert">
+            <span class="breadcrumb-current">
+              <strong>aegov-breadcrumbs-item configuration error:</strong> must be used inside &lt;aegov-breadcrumbs&gt;.
+            </span>
+          </li>
+        </Host>
+      );
+    }
+
     // If there are element children (SVG, icons, etc.), render the slot directly
     // Otherwise, render the truncated text
     const content = this.hasElementChildren ? <slot /> : this.truncateText(this.slotContent);
-    const passThroughAttributes = getPassThroughAttributes(this.el, AegovBreadcrumbsItem.PASS_THROUGH_ATTRS);
+    // title/hreflang/rel/referrerpolicy are link-specific — only forward them to the <a>
+    // branch. The non-linked <span> branch below must only get aria-*/data-*, per docs.
+    const passThroughAttributes = this.href
+      ? getPassThroughAttributes(this.el, AegovBreadcrumbsItem.PASS_THROUGH_ATTRS)
+      : getPassThroughAttributes(this.el);
 
     if (this.href) {
       return (

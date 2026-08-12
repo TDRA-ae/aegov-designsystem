@@ -81,6 +81,39 @@ describe('aegov-timeline', () => {
     expect((steps[0] as any).orientation).toBe('vertical');
   });
 
+  it('cascades a SANITIZED orientation to children, not the raw invalid value', async () => {
+    // Previously the raw (possibly invalid) orientation cascaded unvalidated. A child only
+    // checks `orientation === 'horizontal'`, so an invalid string made it render vertical
+    // while the parent's own wrapper still rendered horizontal-oriented classes.
+    const page = await newSpecPage({
+      components: [AegovTimeline, AegovTimelineStep],
+      html: `
+        <aegov-timeline orientation="not-real">
+          <aegov-timeline-step>One</aegov-timeline-step>
+        </aegov-timeline>
+      `,
+    });
+    await page.waitForChanges();
+    const step = page.root.querySelector('aegov-timeline-step');
+    expect((step as any).orientation).toBe('horizontal');
+    expect(step.querySelector('li').className).toContain('step--horizontal');
+    expect(page.root.querySelector('ol.timeline__list').className).toContain('timeline__list--horizontal');
+  });
+
+  it('cascades a SANITIZED variant to children, not the raw invalid value', async () => {
+    const page = await newSpecPage({
+      components: [AegovTimeline, AegovTimelineStep],
+      html: `
+        <aegov-timeline variant="not-real">
+          <aegov-timeline-step>One</aegov-timeline-step>
+        </aegov-timeline>
+      `,
+    });
+    await page.waitForChanges();
+    const step = page.root.querySelector('aegov-timeline-step');
+    expect((step as any).variant).toBe('default');
+  });
+
   it('assigns stepIndex, stepCount, isFirst, isLast on children', async () => {
     const page = await newSpecPage({
       components: [AegovTimeline, AegovTimelineStep],

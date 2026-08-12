@@ -17,13 +17,16 @@ describe('aegov-timeline-step', () => {
     expect(li.className).toContain('step--active');
   });
 
-  it('throws when used outside aegov-timeline', async () => {
-    await expect(
-      newSpecPage({
-        components: [AegovTimelineStep],
-        html: `<aegov-timeline-step>Standalone</aegov-timeline-step>`,
-      })
-    ).rejects.toThrow(/must be used inside <aegov-timeline>/);
+  it('renders a visible configuration error when used outside aegov-timeline', async () => {
+    // A thrown error from componentWillLoad is silently swallowed by Stencil's lifecycle,
+    // so misuse must render a visible signal instead (same pattern as aegov-callout).
+    const page = await newSpecPage({
+      components: [AegovTimelineStep],
+      html: `<aegov-timeline-step>Standalone</aegov-timeline-step>`,
+    });
+    const alertEl = page.root.querySelector('[role="alert"]');
+    expect(alertEl).not.toBeNull();
+    expect(alertEl.textContent).toContain('must be used inside');
   });
 
   it('completed step shows checkmark icon', async () => {
