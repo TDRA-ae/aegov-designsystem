@@ -4164,6 +4164,200 @@
           </div>
         </div>
       </div>
+
+      <!-- ── API Reference Verification (aegov-separator.md § API Reference) ── -->
+      <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
+          <span id="separator-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+        </div>
+        <div class="prop-grid preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">orientation="not-real" (invalid → falls back to horizontal)</span>
+            <aegov-separator id="api-separator-orientation-invalid" orientation="not-real"></aegov-separator>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">appearance/variant="not-real" (invalid → fallback to solid/primary)</span>
+            <aegov-separator id="api-separator-appearance-invalid" appearance="not-real" variant="not-real"></aegov-separator>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">gap="4" — 1rem padding-block (4 × 0.25rem)</span>
+            <div style="border:1px dashed var(--color-aeblack-300)">
+              <aegov-separator id="api-separator-gap"></aegov-separator>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">gap="-5" (negative → falls back to 0, no padding)</span>
+            <aegov-separator id="api-separator-gap-negative" gap="-5"></aegov-separator>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">isDecorative default (true) + no text → role="presentation"</span>
+            <aegov-separator id="api-separator-decorative-default"></aegov-separator>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">is-decorative="false" → role="separator" + aria-orientation</span>
+            <aegov-separator id="api-separator-decorative-false" is-decorative="false"></aegov-separator>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">text present → forces role="separator" even though isDecorative defaults true</span>
+            <aegov-separator id="api-separator-text-forces-role" text="OR"></aegov-separator>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">FIXED: icon-only slot (no text nodes) now renders inside the labeled layout</span>
+            <aegov-separator id="api-separator-icon-only"><svg class="api-separator-icon-marker" width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"></circle></svg></aegov-separator>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">extraClass — merges onto the inner rendered element</span>
+            <aegov-separator id="api-separator-extraclass" extra-class="api-separator-extraclass-marker"></aegov-separator>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">Pass-through: aria-*/data-* stay on host — NOT forwarded to inner hr (per docs)</span>
+            <aegov-separator id="api-separator-passthrough" aria-label="Section divider" data-testid="sep-1"></aegov-separator>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">No fieldId prop — plain id="…" applies natively to the host</span>
+            <aegov-separator id="api-separator-plain-id"></aegov-separator>
+          </div>
+        </div>
+
+        <div class="mt-4 rounded-lg border border-aegold-300 dark:border-aegold-800 bg-aegold-50/60 dark:bg-aegold-950/30 p-3">
+          <p class="text-xs font-semibold text-aegold-700 dark:text-aegold-400 mb-2">⚠ Bug found and fixed while verifying this API reference</p>
+          <p class="text-xs text-aeblack-600 dark:text-aeblack-400">The default slot "accepts arbitrary HTML" per the docs, but the check for whether to render the labeled (text/icon) layout only looked at <code>textContent.trim()</code> — a bare icon with no text nodes never triggered that layout, so the <code>&lt;slot&gt;</code> was never rendered at all and the icon dangled as an unstyled sibling before a plain <code>&lt;hr&gt;</code>. Fixed to also check for element children.</p>
+        </div>
+
+        <div class="overflow-x-auto mt-4">
+          <table class="w-full text-xs border border-aeblack-200 dark:border-aeblack-700 rounded-lg overflow-hidden">
+            <thead class="bg-aeblack-50 dark:bg-aeblack-800/60">
+              <tr>
+                <th class="text-left px-3 py-2 font-semibold">Documented behaviour</th>
+                <th class="text-left px-3 py-2 font-semibold">Result</th>
+              </tr>
+            </thead>
+            <tbody id="separator-api-ref-results"></tbody>
+          </table>
+        </div>
+      </div>
+      <script>
+        (function() {
+          function setRow(key, label, state, detail) {
+            var tbody = document.getElementById('separator-api-ref-results');
+            var tr = tbody.querySelector('tr[data-key="' + key + '"]');
+            if (!tr) {
+              tr = document.createElement('tr');
+              tr.setAttribute('data-key', key);
+              tr.className = 'border-t border-aeblack-100 dark:border-aeblack-800';
+              tr.innerHTML = '<td class="px-3 py-2 text-aeblack-600 dark:text-aeblack-300"></td><td class="px-3 py-2 font-medium"></td>';
+              tbody.appendChild(tr);
+            }
+            tr.dataset.pass = state === true ? '1' : state === false ? '0' : '';
+            tr.children[0].textContent = label;
+            var cell = tr.children[1];
+            if (state === true) {
+              cell.className = 'px-3 py-2 font-medium text-aegreen-600 dark:text-aegreen-400';
+              cell.textContent = '✅ Pass';
+            } else if (state === false) {
+              cell.className = 'px-3 py-2 font-medium text-aered-600 dark:text-aered-400';
+              cell.textContent = '❌ Fail — ' + detail;
+            } else {
+              cell.className = 'px-3 py-2 font-medium text-aeblack-400';
+              cell.textContent = '🔲 Pending — ' + detail;
+            }
+            updateSeparatorApiSummary();
+          }
+
+          function updateSeparatorApiSummary() {
+            var rows = document.querySelectorAll('#separator-api-ref-results tr[data-key]');
+            var total = rows.length, passed = 0;
+            rows.forEach(function(r) { if (r.dataset.pass === '1') passed++; });
+            var el = document.getElementById('separator-api-ref-summary');
+            el.textContent = passed + ' / ' + total + ' checks passed';
+            el.className = 'text-xs font-medium ' + (passed === total ? 'text-aegreen-600 dark:text-aegreen-400' : 'text-aered-600 dark:text-aered-400');
+          }
+
+          function renderedEl(hostId) {
+            var host = document.getElementById(hostId);
+            return host.querySelector('hr') || host.querySelector('div.aegov-separator');
+          }
+
+          function runSeparatorApiChecks() {
+            var orientInvalid = renderedEl('api-separator-orientation-invalid');
+            setRow('orientation-invalid', 'Invalid orientation falls back to documented default (horizontal)',
+              !!orientInvalid && orientInvalid.classList.contains('separator--horizontal'),
+              'class="' + (orientInvalid && orientInvalid.className) + '"');
+
+            var appearanceInvalid = renderedEl('api-separator-appearance-invalid');
+            setRow('appearance-variant-invalid', 'Invalid appearance/variant fall back to documented defaults (solid/primary)',
+              !!appearanceInvalid && appearanceInvalid.classList.contains('separator-appearance-solid') && appearanceInvalid.classList.contains('separator-variant-primary'),
+              'class="' + (appearanceInvalid && appearanceInvalid.className) + '"');
+
+            var gapHost = document.getElementById('api-separator-gap');
+            var gapPadding = getComputedStyle(gapHost).paddingBlockStart;
+            setRow('gap-default', 'gap="0" (default) applies no padding',
+              gapPadding === '0px',
+              'padding-block-start="' + gapPadding + '"');
+
+            var gapNegHost = document.getElementById('api-separator-gap-negative');
+            var gapNegPadding = getComputedStyle(gapNegHost).paddingBlockStart;
+            setRow('gap-negative', 'Negative gap falls back to 0 (no padding)',
+              gapNegPadding === '0px',
+              'padding-block-start="' + gapNegPadding + '"');
+
+            var decDefault = renderedEl('api-separator-decorative-default');
+            setRow('decorative-default', 'isDecorative default (true) + no text → role="presentation", no aria-orientation',
+              !!decDefault && decDefault.getAttribute('role') === 'presentation' && !decDefault.hasAttribute('aria-orientation'),
+              'role="' + (decDefault && decDefault.getAttribute('role')) + '"');
+
+            var decFalse = renderedEl('api-separator-decorative-false');
+            setRow('decorative-false', 'is-decorative="false" → role="separator" with aria-orientation set',
+              !!decFalse && decFalse.getAttribute('role') === 'separator' && decFalse.hasAttribute('aria-orientation'),
+              'role="' + (decFalse && decFalse.getAttribute('role')) + '" aria-orientation="' + (decFalse && decFalse.getAttribute('aria-orientation')) + '"');
+
+            var textForcesRole = renderedEl('api-separator-text-forces-role');
+            setRow('text-forces-role', 'Presence of text forces role="separator" regardless of isDecorative',
+              !!textForcesRole && textForcesRole.getAttribute('role') === 'separator',
+              'role="' + (textForcesRole && textForcesRole.getAttribute('role')) + '"');
+
+            var iconHost = document.getElementById('api-separator-icon-only');
+            var iconHasHr = !!iconHost.querySelector('hr');
+            var iconInLabel = !!iconHost.querySelector('.separator__text .api-separator-icon-marker');
+            setRow('icon-only-slot', 'Icon-only slot (no text nodes) renders inside the labeled layout, not as a dangling sibling',
+              !iconHasHr && iconInLabel,
+              'hasHr=' + iconHasHr + ' iconInLabel=' + iconInLabel);
+
+            var extraClassEl = renderedEl('api-separator-extraclass');
+            setRow('extraclass', 'extraClass merges onto the inner rendered element',
+              !!extraClassEl && extraClassEl.classList.contains('api-separator-extraclass-marker'),
+              'class="' + (extraClassEl && extraClassEl.className) + '"');
+
+            var ptHost = document.getElementById('api-separator-passthrough');
+            var ptHr = ptHost.querySelector('hr');
+            setRow('passthrough-host-only', 'aria-*/data-* stay on the host — NOT forwarded to the inner hr (per docs)',
+              ptHost.getAttribute('aria-label') === 'Section divider' && !ptHr.hasAttribute('aria-label') && !ptHr.hasAttribute('data-testid'),
+              'host aria-label="' + ptHost.getAttribute('aria-label') + '" hr aria-label="' + ptHr.getAttribute('aria-label') + '"');
+
+            var plainIdHost = document.getElementById('api-separator-plain-id');
+            var plainIdHr = plainIdHost.querySelector('hr');
+            setRow('plain-id-native', 'Plain id on host applies natively; no fieldId indirection to an inner element',
+              plainIdHost.id === 'api-separator-plain-id' && plainIdHr.id === '',
+              'host.id="' + plainIdHost.id + '" hr.id="' + plainIdHr.id + '"');
+          }
+
+          var apiSeparatorIds = ['api-separator-orientation-invalid', 'api-separator-appearance-invalid', 'api-separator-gap',
+            'api-separator-gap-negative', 'api-separator-decorative-default', 'api-separator-decorative-false',
+            'api-separator-text-forces-role', 'api-separator-icon-only', 'api-separator-extraclass',
+            'api-separator-passthrough', 'api-separator-plain-id'];
+
+          customElements.whenDefined('aegov-separator').then(function() {
+            return Promise.all(apiSeparatorIds.map(function(id) {
+              var el = document.getElementById(id);
+              return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
+            }));
+          }).then(function() {
+            runSeparatorApiChecks();
+          });
+        })();
+      </script>
+
     </div>
   </div>
 </section>

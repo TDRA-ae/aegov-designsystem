@@ -32,8 +32,8 @@ The bare `import` above only resolves once a build tool has processed it — pic
 | --- | --- | --- |
 | Tailwind CSS | `^4.1` | The package ships **source** CSS with `@theme` tokens and `@apply` rules. Your build compiles it. There is no pre-compiled stylesheet. |
 | Node (build time) | `>=20` | Required by Tailwind v4 and the bundler plugins below. |
-| Chrome / Edge | `>=77` | Custom Elements v1. |
-| Firefox | `>=98` | Custom Elements v1. |
+| Chrome / Edge | `>=111` | Required for the design system's compiled CSS and its use of modern CSS features (`@property`, cascade layers, `color-mix()`) to render correctly. |
+| Firefox | `>=128` | Same as above. |
 | Safari | `>=16.4` | **Hard floor.** Several form components are form-associated custom elements and depend on `ElementInternals`. Older Safari cannot run them. |
 
 A real HTTP server is also required — ES modules and custom elements do not load over `file://`.
