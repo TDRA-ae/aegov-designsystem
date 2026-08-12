@@ -55,14 +55,22 @@ export class AegovTimeline {
 
   updateSteps() {
     const steps = this.getDirectChildren();
+    // Cascade the SANITIZED values, not the raw props — the parent's own rendering
+    // already falls back invalid variant/orientation to their defaults, and children
+    // must match. Previously an invalid orientation cascaded unvalidated: a child only
+    // checks `orientation === 'horizontal'`, so any non-'horizontal' string (including
+    // the invalid one) made it render as vertical while the parent's own wrapper still
+    // rendered horizontal-oriented classes — a real horizontal/vertical layout mismatch.
+    const variant: TimelineVariant = (TIMELINE_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
+    const orientation: TimelineOrientation = (TIMELINE_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
 
     steps.forEach((step, index) => {
       const previousStep = steps[index - 1] as HTMLAegovTimelineStepElement | undefined;
       const previousStatus = previousStep?.getAttribute('status') ?? previousStep?.status;
 
-      step.variant = this.variant;
+      step.variant = variant;
       step.size = this._resolvedSize;
-      step.orientation = this.orientation;
+      step.orientation = orientation;
       step.stepIndex = index;
       step.stepCount = steps.length;
       step.isFirst = index === 0;

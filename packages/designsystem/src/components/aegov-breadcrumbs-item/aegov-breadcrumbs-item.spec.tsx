@@ -24,13 +24,16 @@ describe('aegov-breadcrumbs-item', () => {
     expect(item.querySelector('.breadcrumb-current')).not.toBeNull();
   });
 
-  it('throws error when used outside aegov-breadcrumbs', async () => {
-    await expect(
-      newSpecPage({
-        components: [AegovBreadcrumbsItem],
-        html: `<aegov-breadcrumbs-item>Orphan</aegov-breadcrumbs-item>`,
-      })
-    ).rejects.toThrow(/must be used inside/);
+  it('renders a visible configuration error when used outside aegov-breadcrumbs', async () => {
+    // A thrown error from componentWillLoad is silently swallowed by Stencil's lifecycle,
+    // so misuse must render a visible signal instead (same pattern as aegov-callout).
+    const page = await newSpecPage({
+      components: [AegovBreadcrumbsItem],
+      html: `<aegov-breadcrumbs-item>Orphan</aegov-breadcrumbs-item>`,
+    });
+    const alertEl = page.root.querySelector('[role="alert"]');
+    expect(alertEl).not.toBeNull();
+    expect(alertEl.textContent).toContain('must be used inside');
   });
 
   it('truncates text when maxLength is exceeded', async () => {
@@ -106,5 +109,25 @@ describe('aegov-breadcrumbs-item', () => {
     });
     const item = page.root.querySelector('aegov-breadcrumbs-item');
     expect(item.querySelector('svg')).not.toBeNull();
+  });
+
+  it('does not forward link-specific attributes (title/hreflang/rel/referrerpolicy) to the non-linked span', async () => {
+    const page = await newSpecPage({
+      components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+      html: `<aegov-breadcrumbs><aegov-breadcrumbs-item title="ignored" hreflang="ar">Current</aegov-breadcrumbs-item></aegov-breadcrumbs>`,
+    });
+    const span = page.root.querySelector('.breadcrumb-current');
+    expect(span.getAttribute('title')).toBeNull();
+    expect(span.getAttribute('hreflang')).toBeNull();
+  });
+
+  it('does forward link-specific attributes to the <a> on a linked item', async () => {
+    const page = await newSpecPage({
+      components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+      html: `<aegov-breadcrumbs><aegov-breadcrumbs-item href="/x" title="Go to X" hreflang="ar">X</aegov-breadcrumbs-item></aegov-breadcrumbs>`,
+    });
+    const a = page.root.querySelector('a');
+    expect(a.getAttribute('title')).toBe('Go to X');
+    expect(a.getAttribute('hreflang')).toBe('ar');
   });
 });

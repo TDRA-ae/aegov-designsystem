@@ -283,7 +283,7 @@ An indeterminate bar in RTL:
 | `height`        | `height`         | Track thickness on the Tailwind spacing scale (each unit = `0.25rem`).                      | `string`                | `'2'`       |
 | `counter`       | `counter`        | Counter placement. Hidden when not set, and always hidden in the indeterminate state.       | `'trailing' \| 'top'`   | `undefined` |
 | `counterSuffix` | `counter-suffix` | Suffix appended directly to the counter value (no automatic spacing).                       | `string`                | `''`        |
-| `label`         | `label`          | Accessible label applied as `aria-label` on the native `<progress>` element. Provide this or a visible `<label for="fieldId">` — a console warning fires if neither is present. | `string` | `undefined` |
+| `label`         | `label`          | Accessible label applied as `aria-label` on the native `<progress>` element. Provide this, an `aria-label`/`aria-labelledby` pass-through attribute, or a `<label for="fieldId">` — a console warning fires only if none of the three are present. | `string` | `undefined` |
 | `description`   | `description`    | Description text rendered as a paragraph below the bar.                                     | `string`                | `undefined` |
 | `extraClass`    | `extra-class`    | Additional CSS classes applied to the wrapper element.                                      | `string`                | `undefined` |
 

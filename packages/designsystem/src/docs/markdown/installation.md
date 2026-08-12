@@ -22,6 +22,8 @@ Miss the first and components render unstyled. Miss the second and `<aegov-butto
 </script>
 ```
 
+The bare `import` above only resolves once a build tool has processed it — pick the matching section under [Step 2](#step-2-set-up-your-build-tool) for your tool. Building nothing at all? Use the [PostCSS CLI](#postcss-cli-no-bundler) section, which loads a self-registering bundle instead of this `import`.
+
 ---
 
 ## Requirements
@@ -86,12 +88,52 @@ defineCustomElements();
 ### Webpack
 
 ```bash
-npm install -D css-loader style-loader postcss-loader @tailwindcss/postcss postcss
+npm install -D webpack webpack-cli webpack-dev-server html-webpack-plugin \
+  css-loader style-loader postcss-loader @tailwindcss/postcss postcss
+```
+
+```js
+// postcss.config.js
+module.exports = {
+  plugins: {
+    '@tailwindcss/postcss': {},
+  },
+};
+```
+
+```css
+/* src/styles.css */
+@import "tailwindcss";
+@import "@aegov/designsystem/base";
+@import "@aegov/designsystem/theme";
+```
+
+```js
+// src/index.js
+import './styles.css';
+import { defineCustomElements } from '@aegov/designsystem/loader';
+
+defineCustomElements();
+```
+
+```html
+<!-- src/index.html -->
+<!doctype html>
+<html lang="en">
+  <body>
+    <aegov-button variant="primary" size="lg">Submit application</aegov-button>
+  </body>
+</html>
 ```
 
 ```js
 // webpack.config.js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
+  mode: 'development',
+  entry: './src/index.js',
+  output: { filename: 'bundle.js' },
   module: {
     rules: [
       {
@@ -100,82 +142,121 @@ module.exports = {
       },
     ],
   },
+  plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })],
+  devServer: { port: 8080 },
 };
 ```
 
-```js
-// postcss.config.js
-module.exports = {
-  plugins: {
-    '@tailwindcss/postcss': {},
-  },
-};
+```bash
+npx webpack serve
 ```
 
-Then create `src/styles.css` with the three imports shown under Vite, and import it from your JS entry alongside the loader call.
+`HtmlWebpackPlugin` injects the built `<script>` into the page for you — there's no manual `<script src>` to add. If your `package.json` has `"type": "commonjs"` (the `npm init -y` default), remove that field; webpack otherwise refuses to parse the `import` statements in `src/index.js`.
 
 ### Parcel
 
 Parcel picks up PostCSS automatically when a config file is present.
 
 ```bash
-npm install -D @tailwindcss/postcss postcss
+npm install -D parcel @tailwindcss/postcss postcss
 ```
 
-```js
-// postcss.config.js
-module.exports = {
-  plugins: {
-    '@tailwindcss/postcss': {},
-  },
-};
+```json
+// .postcssrc.json
+{
+  "plugins": {
+    "@tailwindcss/postcss": {}
+  }
+}
+```
+
+```css
+/* src/styles.css */
+@import "tailwindcss";
+@import "@aegov/designsystem/base";
+@import "@aegov/designsystem/theme";
 ```
 
 ```html
-<link rel="stylesheet" href="./src/styles.css" />
-<script type="module">
-  import { defineCustomElements } from '@aegov/designsystem/loader';
-  defineCustomElements();
-</script>
+<!-- index.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <aegov-button variant="primary" size="lg">Submit application</aegov-button>
+    <script type="module">
+      import { defineCustomElements } from '@aegov/designsystem/loader';
+      defineCustomElements();
+    </script>
+  </body>
+</html>
 ```
+
+```bash
+npx parcel index.html          # dev server
+npx parcel build index.html    # production build
+```
+
+If `npm init -y` gave you a `"main": "index.js"` field in `package.json`, delete it — Parcel treats a project with `main` set as a library target and refuses to serve it.
 
 ### Rollup
 
 ```bash
-npm install -D rollup-plugin-postcss @tailwindcss/postcss postcss @rollup/plugin-node-resolve
+npm install -D rollup rollup-plugin-postcss @tailwindcss/postcss postcss @rollup/plugin-node-resolve
+```
+
+Add `"type": "module"` to `package.json` — the config below uses `import`, not `require`.
+
+```css
+/* src/styles.css */
+@import "tailwindcss";
+@import "@aegov/designsystem/base";
+@import "@aegov/designsystem/theme";
+```
+
+```js
+// src/main.js
+import './styles.css';
+import { defineCustomElements } from '@aegov/designsystem/loader';
+
+defineCustomElements();
 ```
 
 ```js
 // rollup.config.js
 import resolve from '@rollup/plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
+import tailwindcssPostcss from '@tailwindcss/postcss';
 
 export default {
   input: 'src/main.js',
-  output: { file: 'dist/bundle.js', format: 'es' },
+  output: { dir: 'dist', format: 'es' },
   plugins: [
     resolve(),
     postcss({
-      plugins: [require('@tailwindcss/postcss')()],
-      extract: 'dist/styles.css',
+      plugins: [tailwindcssPostcss()],
+      extract: 'styles.css',
     }),
   ],
 };
 ```
 
+`output.dir` (not `output.file`) is what lets Rollup code-split the loader's per-component chunks into separate files in `dist/` — the same lazy-loading behaviour as the other bundlers. Build with `npx rollup -c`, then link `dist/main.js` as a module and `dist/styles.css` from an HTML page in the same way as the other methods.
+
 ### PostCSS CLI (no bundler)
 
-`postcss-import` is required here — nothing else resolves the bare `@aegov/designsystem/...` specifiers for you.
+`@tailwindcss/postcss` resolves the three `@import` lines on its own, including the `@aegov/designsystem/...` specifiers — no import-resolution plugin needed.
 
 ```bash
-npm install -D @tailwindcss/postcss postcss postcss-cli postcss-import
+npm install -D @tailwindcss/postcss postcss postcss-cli
 ```
 
 ```js
 // postcss.config.js
 module.exports = {
   plugins: {
-    'postcss-import': {},
     '@tailwindcss/postcss': {},
   },
 };
@@ -184,6 +265,18 @@ module.exports = {
 ```bash
 npx postcss src/styles.css -o dist/styles.css
 ```
+
+With no bundler, there's also no build step to rewrite a bare `import '@aegov/designsystem/loader'`, so this method skips the loader entirely and instead loads the pre-built, self-registering bundle by path — the same file the [CDN](#cdn-prototyping-only) method loads from unpkg, just from your own `node_modules`:
+
+```html
+<link rel="stylesheet" href="dist/styles.css" />
+
+<aegov-button variant="primary" size="lg">Submit application</aegov-button>
+
+<script type="module" src="./node_modules/@aegov/designsystem/dist/aegov/aegov.esm.js"></script>
+```
+
+No `defineCustomElements()` call — this bundle registers every `aegov-*` tag as soon as it loads. Serve the project root (not just a `public/` subfolder) so `node_modules` is reachable, e.g. `npx serve .`.
 
 ### CDN (prototyping only)
 
@@ -505,11 +598,11 @@ createForm(document.querySelector('#application'), schema, valibotAdapter(), {
 
 ### Components render unstyled
 
-The CSS was not compiled. Check DevTools → Elements → `:root` for `--color-primary-600`. If the token is missing, the three `@import` lines never went through Tailwind — most often because the stylesheet is linked directly instead of being processed by the build, or `postcss-import` is missing in a PostCSS CLI setup.
+The CSS was not compiled. Check DevTools → Elements → `:root` for `--color-primary-600`. If the token is missing, the three `@import` lines never went through Tailwind — most often because the stylesheet is linked directly instead of being processed by the build, or `@tailwindcss/postcss` / `@tailwindcss/vite` is missing from the build config.
 
 ### Components render as plain text
 
-The loader never ran. Check the console for module resolution errors, confirm `defineCustomElements()` executes before the tags are used, and confirm you are on `http://` or `https://` rather than `file://`.
+The loader never ran. Check the console for module resolution errors, confirm `defineCustomElements()` executes before the tags are used (or, on the no-bundler PostCSS CLI path, that the `aegov.esm.js` `<script>` tag itself loaded without a 404), and confirm you are on `http://` or `https://` rather than `file://`.
 
 ### `Failed to fetch .../p-xxxxxxx.entry.js`
 
