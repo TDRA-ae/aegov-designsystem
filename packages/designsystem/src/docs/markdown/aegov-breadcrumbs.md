@@ -330,7 +330,7 @@ The same trail with the slash separator and a deeper service hierarchy:
 | `hreflang`        | `<a>` (item only)                            | Declares the language of the linked resource.                                                        |
 | `rel`             | `<a>` (item only)                            | Always include `rel="noopener"` when using `target="_blank"`.                                        |
 | `referrerpolicy`  | `<a>` (item only)                            | Controls the `Referer` header sent on navigation.                                                    |
-| `id`              | n/a                                          | Use `field-id` on `<aegov-breadcrumbs>`. The host's `id` attribute is reflected by `field-id`.        |
+| `id`              | n/a                                          | A plain `id` on the host is **not** read by the component. Use `field-id` on `<aegov-breadcrumbs>` instead — its value is what ends up on the inner `<nav id>`. |
 
 > **Linked vs non-linked items:** Attributes listed as forwarded to `<a>` only apply to items that have an `href` attribute (linked items). Items without `href` — typically the last (current-page) item — render as a `<span>` instead of an `<a>`, and link-specific attributes such as `title`, `hreflang`, `rel`, and `referrerpolicy` are not forwarded to them.
 

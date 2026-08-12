@@ -357,7 +357,7 @@
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Open the full team list&#x27;</span>);
   });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
-<p>The avatar group does not forward attributes to inner elements — set attributes directly on the host where they are needed. Note that <code>aria-label</code> applied to the host element is not guaranteed to be exposed across the Shadow DOM boundary in all browsers and assistive technologies; the component provides its own internal group label via the Shadow DOM container.</p>
+<p><code>aegov-avatar-group</code> renders in the light DOM (no shadow root) — attributes on the host simply aren&#39;t read or forwarded to inner elements. The inner container always renders its own fixed <code>aria-label=&quot;Avatar group&quot;</code> (or the Arabic equivalent under RTL); a host-level <code>aria-label</code> is not read by the component and has no effect, regardless of browser or assistive technology. Set attributes directly on the host where they are needed, or on each child <code>&lt;aegov-avatar&gt;</code>.</p>
 <table>
 <thead>
 <tr>
@@ -393,7 +393,7 @@
 <h3>Developer responsibilities</h3>
 <ul>
 <li>Provide a meaningful <code>alt</code> on every child avatar — the group&#39;s container label alone is not enough to identify individual people.</li>
-<li>The component provides a built-in accessible label (&quot;Avatar group&quot;) via <code>aria-label</code> on the internal Shadow DOM container. A host-level <code>aria-label</code> is not reliably propagated across the Shadow DOM boundary in all browsers and assistive technologies, so it is not a supported way to customise the group label. The component does not currently expose a prop to override the internal label; if a custom group label is required, note this limitation.</li>
+<li>The component provides a built-in accessible label (&quot;Avatar group&quot;) via <code>aria-label</code> on its inner light-DOM container. A host-level <code>aria-label</code> is simply not read by the component, so it is not a supported way to customise the group label — this isn&#39;t a Shadow DOM propagation limitation, <code>aegov-avatar-group</code> has no shadow root at all. The component does not currently expose a prop to override the internal label; if a custom group label is required, note this limitation.</li>
 <li>If the <code>+N</code> button opens a modal or navigates away, follow the relevant accessibility guidance for that destination — focus management, return focus, and labelled headings.</li>
 <li>Avoid placing too many avatars in a <code>compact</code> cluster — the overlapping arrangement makes individual avatars harder to identify visually. Use <code>more-count</code> to off-load the long tail to a dedicated list.</li>
 </ul>
