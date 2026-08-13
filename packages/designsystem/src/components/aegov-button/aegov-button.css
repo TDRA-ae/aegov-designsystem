@@ -22,7 +22,12 @@
 
 /* Strip own rounding and border when inside an input-group.
    Group provides outer border + overflow-hidden clips to rounded-lg.
-   Outline/outline buttons keep their own border-2 which causes double-border with the group. */
-:host-context(.aegov-input-group) .aegov-btn {
+   Outline/outline buttons keep their own border-2 which causes double-border with the group.
+   `is-grouped` is set directly on this host by the parent aegov-input-group
+   (componentDidLoad) rather than detected via `:host-context()`, which is
+   deprecated and not implemented in Firefox or Safari — this button's own
+   rounding/border silently never got stripped there, leaving a visible seam
+   at the join with the input. */
+:host([is-grouped]) .aegov-btn {
   @apply rounded-none border-0;
 }

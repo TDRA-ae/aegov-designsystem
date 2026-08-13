@@ -233,12 +233,6 @@ Note `authorTitle` rather than `title` — `title` is a reserved attribute name.
 | --- | --- |
 | _(default)_ | The quoted text. |
 
-### Parts
-
-| Part | Description |
-| --- | --- |
-| `blockquote` | The `<blockquote>` element, for styling past the boundary. |
-
 ### Events
 
 None.
@@ -254,7 +248,7 @@ None.
 | `aria-*` | Yes | Forwarded to the `<blockquote>`. |
 | `data-*` | Yes | Forwarded. |
 | `lang`, `dir` | Yes | Useful for a quotation in a different language from the page. |
-| `class`, `style` | Allowed | Applied to the host. Use `extra-class` or `::part(blockquote)` for the inner element. |
+| `class`, `style` | Allowed | Applied to the host. Use `extra-class` for the inner element. |
 
 ---
 

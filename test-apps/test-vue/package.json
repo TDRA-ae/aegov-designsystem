@@ -1,15 +1,15 @@
 {
   "name": "test-vue",
   "private": true,
-  "version": "0.2.12",
+  "version": "0.2.16",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@aegov/designsystem": "^0.2.12",
-    "@aegov/designsystem-vue": "^0.2.12",
+    "@aegov/designsystem": "^0.2.16",
+    "@aegov/designsystem-vue": "^0.2.16",
     "vue": "^3.5.0"
   },
   "devDependencies": {
