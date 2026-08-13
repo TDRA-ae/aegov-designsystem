@@ -89,7 +89,11 @@ export class AegovSeparator {
     const gapRaw = typeof this.gap === 'number' ? this.gap : Number(this.gap);
     const gap = Number.isFinite(gapRaw) && gapRaw > 0 ? gapRaw : 0;
 
-    const hasText = this.text || this.el.textContent?.trim();
+    // The default slot "accepts arbitrary HTML" per the docs (icons, badges, etc.), not
+    // just text — checking textContent alone missed element-only content with no text
+    // nodes (e.g. a bare <svg>), which never rendered the labeled layout or the <slot>
+    // at all, leaving the icon to dangle as an unstyled sibling before a plain <hr>.
+    const hasText = !!(this.text || this.el.textContent?.trim() || this.el.children.length > 0);
     const classes = {
       'aegov-separator': true,
       [`separator--${orientation}`]: true,

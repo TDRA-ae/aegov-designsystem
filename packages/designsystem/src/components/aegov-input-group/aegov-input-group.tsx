@@ -91,11 +91,18 @@ export class AegovInputGroup {
       if (suffixId) {
         input.describedBySuffix = suffixId;
       }
+      // Flag grouped membership as a plain host attribute so the child can
+      // style itself with :host([is-grouped]) instead of the parent reaching
+      // in with :host-context(.aegov-input-group) — :host-context() is
+      // deprecated and not implemented in Firefox or Safari, so the border/
+      // radius suppression it drove silently never applied there.
+      input.setAttribute('is-grouped', '');
     });
 
     const buttons = this.el.querySelectorAll('aegov-button');
     buttons.forEach((btn: any) => {
       btn.size = this._resolvedSize;
+      btn.setAttribute('is-grouped', '');
     });
   }
 

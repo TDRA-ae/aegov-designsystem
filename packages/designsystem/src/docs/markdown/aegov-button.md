@@ -546,20 +546,6 @@ A button group in RTL — the first button retains its start radii on the right,
 | `aegov-button`        | _(default)_ | Button content — text, an inline icon, or a combination.                                     |
 | `aegov-button-group`  | _(default)_ | Two or more direct `aegov-button` children. Non-button children produce a console warning.   |
 
-### Shadow Parts
-
-| Component       | Part     | Description                                  |
-| --------------- | -------- | -------------------------------------------- |
-| `aegov-button`  | `button` | The inner native `<button>` element.         |
-
-```css
-/* Customise the inner button — for example uppercase its text */
-aegov-button::part(button) {
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-```
-
 ### Events
 
 | Event              | Component       | Detail        | Description                                                                                  |
@@ -611,7 +597,7 @@ aegov-button::part(button) {
 
 - Provide an `aria-label` on every icon-only button (`is-icon="true"`) — the slot content alone is not enough for AT.
 - For loading buttons whose visible label does not change (e.g. "Save" stays "Save" while loading), either update the slot content to "Saving…" or pass `aria-label="Saving…"` so screen reader users know what is in progress.
-- Verify colour contrast if you override colours via `::part(button)` or custom CSS.
+- Verify colour contrast if you override colours via custom CSS.
 - Do not wrap `aegov-button` inside another `<button>` — nesting interactive elements is invalid HTML.
 - For `aegov-button-group`, supply an `aria-label` on the host whenever the group's purpose is not obvious from its button labels alone (e.g. `<aegov-button-group aria-label="View range">`). This label is forwarded to the `role="group"` div automatically.
 - Use a real anchor (`<a>`) for navigation. The `link` appearance still renders a `<button>` — it does not navigate on its own.
