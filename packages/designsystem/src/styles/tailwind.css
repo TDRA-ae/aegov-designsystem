@@ -9,12 +9,27 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
+/* Dark mode strategy — class-based on <html> (.dark).
+   &:where(.dark, .dark *) works for scoped and shadow:false (element or ancestor has .dark).
+   NOTE: shadow:true components need :host-context(.dark) which Tailwind v4 custom-variant
+   does not yet support alongside &:where(). Tracked as a follow-up: add per-component
+   :host-context(.dark) overrides once Tailwind v4 supports multi-selector @custom-variant. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Force-keep every AEGOV palette token + the handful of stock Tailwind
-   colors components reference internally. Tailwind's content scanner can't
-   see var() usage baked into pre-compiled shadow-DOM component CSS, so
-   without this, tokens with no matching utility class in the consumer's
-   own markup get tree-shaken out of the compiled theme — even though a
-   component still depends on them at runtime. */
+   colors components reference internally. Components reference these
+   tokens (e.g. `color: var(--color-primary-50, ...)`) from pre-compiled
+   shadow-DOM CSS that ships in node_modules — a directory Tailwind's
+   content scanner never looks inside — so without this, tokens with no
+   matching utility class in the consumer's own markup get tree-shaken out
+   of the compiled theme even though a component still depends on them.
+   Deliberately plain `@theme` (not `@theme static`) plus `@source inline()`
+   rather than `@theme static` alone: this keeps the *theme key* globally
+   "used" without pinning any specific @theme block as authoritative, so a
+   consumer's own later, completely ordinary `@theme { --color-primary-600:
+   ...; }` override — no special syntax — still correctly wins. `@theme
+   static` alone would have made this block's own values un-overridable by
+   a plain consumer override for tokens with no other usage anywhere. */
 @source inline("text-aeblack-{50,100,200,300,400,500,600,700,800,900,950}");
 @source inline("text-aegold-{50,100,200,300,400,500,600,700,800,900,950}");
 @source inline("text-aegreen-{50,100,200,300,400,500,600,700,800,900,950}");
@@ -25,22 +40,17 @@
 @source inline("text-indigo-{50,100,200,300,400,500,600,700,800,900,950}");
 @source inline("text-pink-{50,100,200,300,400,500,600,700,800,900,950}");
 @source inline("text-primary-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-primary-support-{50,100,200,300,400,500,600,700,800,900,950}");
 @source inline("text-purple-{50,100,200,300,400,500,600,700,800,900,950}");
 @source inline("text-seablue-{50,100,200,300,400,500,600,700,800,900,950}");
 @source inline("text-secondary-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("text-secondary-support-{50,100,200,300,400,500,600,700,800,900,950}");
 @source inline("text-slate-{50,100,200,300,400,500,600,700,800,900,950}");
 @source inline("text-techblue-{50,100,200,300,400,500,600,700,800,900,950}");
 @source inline("text-whitely-{50,100,200,300,400,500}");
 /* Stock Tailwind colors (not AEGOV's own palette) referenced by a few components */
 @source inline("text-neutral-{100,200}");
 @source inline("text-lime-{50,100,200,700,800,900}");
-
-/* Dark mode strategy — class-based on <html> (.dark).
-   &:where(.dark, .dark *) works for scoped and shadow:false (element or ancestor has .dark).
-   NOTE: shadow:true components need :host-context(.dark) which Tailwind v4 custom-variant
-   does not yet support alongside &:where(). Tracked as a follow-up: add per-component
-   :host-context(.dark) overrides once Tailwind v4 supports multi-selector @custom-variant. */
-@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   /* ========================================
@@ -362,4 +372,221 @@
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
+}
+
+/* Register Tailwind's own internal engine variables (--tw-*) that components
+   depend on from pre-compiled shadow-DOM CSS (e.g. `border-style:
+   var(--tw-border-style)`), but which Tailwind only registers via @property
+   when it generates a matching utility class (border, shadow-*, ring-*, ...)
+   itself — something it can't detect here for the same node_modules-scanning
+   reason as above. @property is plain CSS, not a Tailwind construct, so this
+   adds no utility classes and doesn't affect purging of anything else;
+   values match Tailwind's own defaults exactly. Global once registered —
+   applies inside shadow roots too, since @property registrations aren't
+   scoped to a document subtree. */
+@property --tw-border-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+@property --tw-outline-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+@property --tw-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-inset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-ring-inset {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-offset-width {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --tw-ring-offset-color {
+  syntax: "*";
+  inherits: false;
+  initial-value: #fff;
+}
+@property --tw-ring-offset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-blur {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-brightness {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-contrast {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-grayscale {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-hue-rotate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-invert {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-saturate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-sepia {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-drop-shadow-size {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-rotate-x {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-rotate-y {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-rotate-z {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-scale-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-skew-x {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-skew-y {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-translate-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-translate-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-translate-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-duration {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ease {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-leading {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-numeric-figure {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-numeric-spacing {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-numeric-fraction {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ordinal {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-slashed-zero {
+  syntax: "*";
+  inherits: false;
 }

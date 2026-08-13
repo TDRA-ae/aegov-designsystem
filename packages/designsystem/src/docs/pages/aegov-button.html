@@ -591,26 +591,7 @@
 <td>Two or more direct <code>aegov-button</code> children. Non-button children produce a console warning.</td>
 </tr>
 </tbody></table>
-<h3>Shadow Parts</h3>
-<table>
-<thead>
-<tr>
-<th>Component</th>
-<th>Part</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>aegov-button</code></td>
-<td><code>button</code></td>
-<td>The inner native <code>&lt;button&gt;</code> element.</td>
-</tr>
-</tbody></table>
-<pre><code class="hljs language-css"><span class="hljs-comment">/* Customise the inner button — for example uppercase its text */</span>
-aegov-<span class="hljs-selector-tag">button</span><span class="hljs-selector-pseudo">::part</span>(<span class="hljs-selector-tag">button</span>) {
-  <span class="hljs-attribute">text-transform</span>: uppercase;
-  <span class="hljs-attribute">letter-spacing</span>: <span class="hljs-number">0.04em</span>;
-}</code></pre><h3>Events</h3>
+<h3>Events</h3>
 <table>
 <thead>
 <tr>
@@ -694,7 +675,7 @@ aegov-<span class="hljs-selector-tag">button</span><span class="hljs-selector-ps
 <ul>
 <li>Provide an <code>aria-label</code> on every icon-only button (<code>is-icon=&quot;true&quot;</code>) — the slot content alone is not enough for AT.</li>
 <li>For loading buttons whose visible label does not change (e.g. &quot;Save&quot; stays &quot;Save&quot; while loading), either update the slot content to &quot;Saving…&quot; or pass <code>aria-label=&quot;Saving…&quot;</code> so screen reader users know what is in progress.</li>
-<li>Verify colour contrast if you override colours via <code>::part(button)</code> or custom CSS.</li>
+<li>Verify colour contrast if you override colours via custom CSS.</li>
 <li>Do not wrap <code>aegov-button</code> inside another <code>&lt;button&gt;</code> — nesting interactive elements is invalid HTML.</li>
 <li>For <code>aegov-button-group</code>, supply an <code>aria-label</code> on the host whenever the group&#39;s purpose is not obvious from its button labels alone (e.g. <code>&lt;aegov-button-group aria-label=&quot;View range&quot;&gt;</code>). This label is forwarded to the <code>role=&quot;group&quot;</code> div automatically.</li>
 <li>Use a real anchor (<code>&lt;a&gt;</code>) for navigation. The <code>link</code> appearance still renders a <code>&lt;button&gt;</code> — it does not navigate on its own.</li>
