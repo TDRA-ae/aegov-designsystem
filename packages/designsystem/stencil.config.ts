@@ -68,16 +68,6 @@ export const config: Config = {
       file: 'dist/docs.json'
     },
 
-    // Development server output
-    {
-      type: 'www',
-      serviceWorker: null,
-      indexHtml: 'src/docs/index.html',
-      copy: [
-        { src: 'docs' }
-      ]
-    },
-
     angularOutputTarget({
       componentCorePackage: '@aegov/designsystem',
       outputType: 'standalone',
