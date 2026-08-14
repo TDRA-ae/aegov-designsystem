@@ -14,15 +14,17 @@ Framework-agnostic Web Components implementing the UAE Government Design System.
 ## Quick reference
 
 ```bash
-npm start              # docs watcher + Tailwind watcher + Stencil dev server
-npm run build          # build:docs-md → stencil build --docs → build:docs-css → build:copy-css
+npm run build          # stencil build --docs → build:copy-css
 npm run build:prod     # NODE_ENV=production
 npm test               # unit + e2e
 npm run test:unit      # spec only
 npm run test:e2e       # e2e only
-npm run build:docs-md  # regenerate doc pages from src/docs/markdown/
 npx stencil generate   # scaffold a component
 ```
+
+The documentation site now lives in its own repo (`aegov-designsystem-docs`),
+which installs this package and renders the live examples against it. There is
+no `www` dev-server / docs playground in this package anymore.
 
 Build from the **repo root** (`npm run build`) when wrapper packages need regenerating.
 
@@ -161,13 +163,21 @@ Optional Layer 2: `@aegov/designsystem-validation` lives in a **separate repo** 
 
 ## Documentation
 
-- **Markdown source:** `src/docs/markdown/*.md` — 47 files.
-- **Pages:** `src/docs/pages/*.html`. `scripts/build-docs.js` renders markdown via `marked` + `highlight.js` and injects between `<!-- DOC:START -->` / `<!-- DOC:END -->` inside `#content-area`. Idempotent.
-- **Nav:** `src/docs/layout.js` — `NAV_SECTIONS`. Add an entry when you add a page.
-- **Doc CSS:** `src/doc-style/doc-style.css` → `src/docs/doc-style.css` via Tailwind CLI.
-- Style contract: every page follows Introduction → feature sections with live preview blocks → RTL Support → API Reference → Accessibility (built-in / developer responsibilities / keyboard). Preview blocks use `<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">`.
+The documentation site is a **separate repository** — `aegov-designsystem-docs`
+(`../../../aegov-designsystem-docs`). It installs `@aegov/designsystem` from npm
+and serves the pages with the live component bundle from `dist/aegov/`. The
+markdown sources, page shells, `layout.js`, `doc-style/`, `build-docs.js`, and
+the Playwright a11y suite (`tests/a11y/`) all moved there.
 
-**`aegov-header-ministry.html` and `aegov-header-authority.html` are NOT doc pages.** They are bare iframe embed targets — transparent body, `overflow: hidden`, no `#content-area`, and they read a `?dir=rtl` query param. `aegov-header.md` loads them at fixed widths to preview the full-width header. Do not give them markdown; `build-docs.js` would warn and they must stay out of nav.
+What this package still owns for the docs' benefit:
+
+- `dist/docs.json` (`docs-json` output target) — the generated public API the
+  docs pages reference.
+- The `./theme` (→ `dist/styles/tailwind.css`) and `./base`
+  (→ `dist/global/global.css`) package exports — the docs' Tailwind entry
+  imports these. `build:copy-css` populates `dist/styles` and `dist/global`.
+
+Do not reintroduce a `www` output target or docs sources here.
 
 ---
 
@@ -193,7 +203,7 @@ Optional Layer 2: `@aegov/designsystem-validation` lives in a **separate repo** 
 - Unit: `newSpecPage()` from `@stencil/core/testing`. E2E: `newE2EPage()` with Puppeteer.
 - Shadow DOM E2E needs `>>>`: `page.find('aegov-modal >>> [role="dialog"]')`.
 - Portal E2E must wait on the body portal: `page.waitForSelector('.aegov-dropdown-portal .aegov-dropdown')`.
-- Cross-component a11y: `src/utils/accessibility.spec.ts`. Playwright a11y suites in `tests/a11y/` need `npx http-server www -p 3333 --cors` running first.
+- Cross-component a11y: `src/utils/accessibility.spec.ts` (spec, runs here). The browser-driven Playwright a11y suite moved to the `aegov-designsystem-docs` repo, where it runs against the docs pages.
 - Baseline: 847 unit + 365 e2e.
 
 ---
