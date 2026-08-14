@@ -126,6 +126,8 @@ export function ContactStep() {
 
 Each wrapper does four things: registers its custom element, renders the underlying tag, forwards props to DOM properties, and adapts the component's `CustomEvent`s into React handler props.
 
+**If your app server-renders** (Next.js, Remix, or similar), see [Server-side rendering and Next.js](#server-side-rendering-and-nextjs) before using this example.
+
 ---
 
 ## Props — camelCase, not kebab-case
@@ -153,16 +155,18 @@ Plain HTML uses kebab-case attributes. The React wrappers expose the camelCase p
 
 ### Booleans
 
-Pass real booleans. A string is truthy and will silently enable the flag:
+Pass real booleans — the prop types are `boolean`, so TypeScript rejects a string value at compile time:
 
 ```tsx
 <AegovButton isDisabled>Disabled</AegovButton>
 <AegovButton isDisabled={true}>Disabled</AegovButton>
 <AegovButton isDisabled={isSubmitting}>Conditional</AegovButton>
 
-{/* Wrong — always disabled, because "false" is a non-empty string */}
-<AegovButton isDisabled="false">Not what you meant</AegovButton>
+{/* Type error — string is not assignable to boolean */}
+<AegovButton isDisabled="false">Caught by TypeScript</AegovButton>
 ```
+
+If you bypass the type system (plain JS, or an untyped value from an external source), you do not get the naive HTML footgun where any non-empty string is truthy: the underlying custom element treats the literal string `"false"` as `false`. Prefer a real boolean regardless — it is the only form TypeScript accepts.
 
 ### `className`, not `class`
 
@@ -214,12 +218,11 @@ Native React events still work where the DOM emits them — `onClick`, `onFocus`
 
 ## Refs and imperative methods
 
-`ref` gives you the underlying custom element, typed as `HTMLAegov*Element`. Component methods are async.
+`ref` gives you the underlying custom element, typed as `HTMLAegov*Element`. These types are declared globally by `@aegov/designsystem` — no import needed, just reference the name directly. Component methods are async.
 
 ```tsx
 import { useRef } from 'react';
 import { AegovModal, AegovButton } from '@aegov/designsystem-react';
-import type { HTMLAegovModalElement } from '@aegov/designsystem';
 
 export function ConfirmDialog() {
   const modal = useRef<HTMLAegovModalElement>(null);
@@ -390,7 +393,6 @@ import type {
   InputType,
   SelectChangeDetail,
   AegovValidationDetail,
-  HTMLAegovInputElement,
 } from '@aegov/designsystem';
 
 const variant: ButtonVariant = 'primary';
@@ -404,6 +406,8 @@ function onSelect(e: CustomEvent<SelectChangeDetail>) {
   console.log(e.detail.value, e.detail.label);
 }
 ```
+
+The `HTMLAegov*Element` types used for refs (see [Refs and imperative methods](#refs-and-imperative-methods)) are declared globally rather than exported from the module — reference them by name with no import.
 
 The `Components` namespace gives you a component's full prop interface when you need to build your own wrapper around one:
 
@@ -429,7 +433,7 @@ export function Layout({ locale, children }: { locale: 'en' | 'ar'; children: Re
 }
 ```
 
-If you toggle locale at runtime, set it on `document.documentElement` so portal-based components — toast, dropdown, popover, datepicker — inherit it too, since they render into `document.body` rather than inside your React tree:
+If you toggle locale at runtime, set it on `document.documentElement` so portal-based components — toast, dropdown, popover, datepicker, modal, and drawer — inherit it too, since they render into `document.body` rather than inside your React tree:
 
 ```tsx
 useEffect(() => {
@@ -442,30 +446,52 @@ useEffect(() => {
 
 ## Server-side rendering and Next.js
 
-Custom elements are a browser API — there is no server implementation. The generated wrapper module is already marked `'use client'`, so it cannot be imported into a React Server Component.
+Custom elements are a browser API. On the server, a component has no implementation to run yet — its real markup only exists once the browser loads and upgrades it. That gap between the server-rendered placeholder and what the browser builds afterward is the source of the current limitation described below.
 
-In the Next.js App Router, mark the file that uses design system components as a client component:
+### Current limitation
+
+Server-rendering design system components — in Next.js, Remix, or any other SSR framework — can currently produce a React hydration mismatch. This is a known limitation, not specific to any one component or to shadow-DOM components; it can affect any composition of more than a single component.
+
+`'use client'` on its own does not avoid this — most SSR frameworks still render client components once on the server by default, so the mismatch can still happen. The reliable option today is to skip the server render entirely with a dynamic, client-only import:
 
 ```tsx
 'use client';
 
-import { AegovButton } from '@aegov/designsystem-react';
+import dynamic from 'next/dynamic';
 
-export function SubmitButton() {
-  return <AegovButton variant="primary">Submit</AegovButton>;
+const ContactStep = dynamic(
+  () =>
+    import('@aegov/designsystem-react').then((m) => {
+      const { AegovFormField, AegovLabel, AegovInput, AegovButton } = m;
+      return function ContactStep() {
+        return (
+          <div className="max-w-md">
+            <AegovFormField>
+              <AegovLabel>Email address</AegovLabel>
+              <AegovInput fieldId="email" type="email" placeholder="name@example.ae" />
+            </AegovFormField>
+
+            <AegovButton variant="primary" size="lg" className="mt-4">
+              Continue
+            </AegovButton>
+          </div>
+        );
+      };
+    }),
+  { ssr: false },
+);
+
+export default function Page() {
+  return <ContactStep />;
 }
 ```
 
-Or load it lazily with SSR disabled:
+| Environment | Guidance |
+| --- | --- |
+| Client-only rendering (Vite, or any client-only React setup) | Fully supported — no server render step, so nothing to reconcile against. |
+| Server-side rendering (Next.js, Remix, and similar) | Use a dynamic, `ssr: false` import for any non-trivial composition, as shown above. |
 
-```tsx
-import dynamic from 'next/dynamic';
-
-const AegovButton = dynamic(
-  () => import('@aegov/designsystem-react').then((m) => m.AegovButton),
-  { ssr: false },
-);
-```
+**We are aware of this limitation and are actively working on a fix at the design system level**, so that server-rendered frameworks will not require any special handling on your part. This section will be updated as that work progresses.
 
 The **CSS import is SSR-safe** and belongs in your root layout — keep it there so the first paint is styled:
 
@@ -566,7 +592,7 @@ In Angular and Vue templates you write the HTML tag. In React you write the wrap
 
 ### Children of shadow-DOM components still work
 
-`aegov-button`, `aegov-modal`, `aegov-drawer` and the header components use shadow DOM. React children are projected into slots as normal — but utility classes you put on children are styled by your app's CSS, not the component's, and you cannot restyle the component's internals from outside.
+`aegov-button`, `aegov-modal`, `aegov-drawer`, the header components, `aegov-blockquote`, and every shadow-DOM form control (`aegov-input`, `aegov-select`, `aegov-checkbox`, `aegov-checkbox-group`, `aegov-radio`, `aegov-radio-group`, `aegov-textarea`, `aegov-toggle`, `aegov-range`, `aegov-otp`, `aegov-datepicker`, `aegov-fileupload`) use shadow DOM. React children are projected into slots as normal — but utility classes you put on children are styled by your app's CSS, not the component's, and you cannot restyle the component's internals from outside.
 
 ### `StrictMode` double-invokes effects
 
@@ -574,7 +600,7 @@ That is React, not the design system. Components are idempotent on re-registrati
 
 ### Portal components render outside your React tree
 
-Toast, dropdown, popover and datepicker move content into `document.body`. React refs to the host still work, but do not expect `document.querySelector` inside a React container to find the portalled content.
+Toast, dropdown, popover, datepicker, modal, and drawer move content into `document.body`. React refs to the host still work, but do not expect `document.querySelector` inside a React container to find the portalled content.
 
 ---
 

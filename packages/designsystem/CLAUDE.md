@@ -85,8 +85,9 @@ Known deviations, kept for compatibility — do not copy the pattern:
 | Mode | Components | E2E selector |
 | --- | --- | --- |
 | none (`scoped: false`) | everything not listed below | `'component .inner'` |
-| `scoped: true` | dropdown, popover, toast, datepicker | `'component .inner'` |
-| `shadow: true` | button, modal, drawer, header, header-banner | `'component >>> .inner'` |
+| `scoped: true` | dropdown, popover, toast | `'component .inner'` |
+| `shadow: true` | blockquote, button, modal, drawer, header, header-banner | `'component >>> .inner'` |
+| `shadow: { delegatesFocus: true }` | checkbox, checkbox-group, datepicker, fileupload, input, otp, radio, radio-group, range, select, textarea, toggle | `'component >>> .inner'` |
 
 **Why `scoped: true` for portals?** Scoped mode re-targets events so custom events still bubble after the DOM portal move. Portal components must also inject `<style>` via JS, because scoped CSS cannot reach a `document.body` descendant.
 
@@ -114,9 +115,9 @@ Children receiving cascaded props mark them `@Prop({ mutable: true })` with an `
 
 ### Portals
 
-dropdown, popover, toast, datepicker append to `document.body`.
+dropdown, popover, toast, datepicker append to `document.body`. modal and drawer also unconditionally relocate themselves to `document.body` on mount (guarded by a `movedToBody` flag against re-entrant hydration loops), but move the host element itself rather than injecting a separate portal wrapper.
 
-- Portals: `.aegov-dropdown-portal`, `.aegov-popover-portal`, `.aegov-toast-container--{position}`, `.aegov-datepicker-portal`.
+- Portals: `.aegov-dropdown-portal`, `.aegov-popover-portal`, `.aegov-toast-container--{position}`, `.aegov-datepicker-portal`. modal/drawer have no equivalent portal class — the component's own root element is what moves.
 - **Never `cloneNode(true)`** on DOM containing Stencil components — it double-renders. Dropdown *moves* the slot element and moves it back on close, with `connectedCallback()` re-creating the portal so nested dropdowns survive the parent's move.
 - Portals inject their own CSS including `<a>` display overrides and dark-mode colours.
 - Focus restore uses `focus({ preventScroll: true })`.

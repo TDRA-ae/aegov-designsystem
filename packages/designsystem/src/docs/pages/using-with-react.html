@@ -126,6 +126,7 @@
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
   );
 }</code></pre><p>Each wrapper does four things: registers its custom element, renders the underlying tag, forwards props to DOM properties, and adapts the component&#39;s <code>CustomEvent</code>s into React handler props.</p>
+<p><strong>If your app server-renders</strong> (Next.js, Remix, or similar), see <a href="#server-side-rendering-and-nextjs">Server-side rendering and Next.js</a> before using this example.</p>
 <hr>
 <h2>Props — camelCase, not kebab-case</h2>
 <p>Plain HTML uses kebab-case attributes. The React wrappers expose the camelCase property names instead.</p>
@@ -174,13 +175,14 @@
 </tr>
 </tbody></table>
 <h3>Booleans</h3>
-<p>Pass real booleans. A string is truthy and will silently enable the flag:</p>
+<p>Pass real booleans — the prop types are <code>boolean</code>, so TypeScript rejects a string value at compile time:</p>
 <pre><code class="hljs language-tsx">&lt;<span class="hljs-title class_">AegovButton</span> isDisabled&gt;<span class="hljs-title class_">Disabled</span>&lt;/<span class="hljs-title class_">AegovButton</span>&gt;
 <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">isDisabled</span>=<span class="hljs-string">{true}</span>&gt;</span>Disabled<span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span></span>
 <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">isDisabled</span>=<span class="hljs-string">{isSubmitting}</span>&gt;</span>Conditional<span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span></span>
 
-{<span class="hljs-comment">/* Wrong — always disabled, because &quot;false&quot; is a non-empty string */</span>}
-&lt;<span class="hljs-title class_">AegovButton</span> isDisabled=<span class="hljs-string">&quot;false&quot;</span>&gt;<span class="hljs-title class_">Not</span> what you meant&lt;/<span class="hljs-title class_">AegovButton</span>&gt;</code></pre><h3><code>className</code>, not <code>class</code></h3>
+{<span class="hljs-comment">/* Type error — string is not assignable to boolean */</span>}
+&lt;<span class="hljs-title class_">AegovButton</span> isDisabled=<span class="hljs-string">&quot;false&quot;</span>&gt;<span class="hljs-title class_">Caught</span> by <span class="hljs-title class_">TypeScript</span>&lt;/<span class="hljs-title class_">AegovButton</span>&gt;</code></pre><p>If you bypass the type system (plain JS, or an untyped value from an external source), you do not get the naive HTML footgun where any non-empty string is truthy: the underlying custom element treats the literal string <code>&quot;false&quot;</code> as <code>false</code>. Prefer a real boolean regardless — it is the only form TypeScript accepts.</p>
+<h3><code>className</code>, not <code>class</code></h3>
 <p>JSX conventions apply; the wrapper forwards <code>className</code> to the host element correctly.</p>
 <pre><code class="hljs language-tsx">&lt;<span class="hljs-title class_">AegovButton</span> className=<span class="hljs-string">&quot;mt-4 w-full sm:w-auto&quot;</span>&gt;<span class="hljs-title class_">Submit</span>&lt;/<span class="hljs-title class_">AegovButton</span>&gt;</code></pre><p>Components that expose an <code>extraClass</code> property accept it as a prop too — that one targets an inner element rather than the host, and each component page documents which.</p>
 <h3>Responsive size strings</h3>
@@ -203,10 +205,9 @@
 {<span class="hljs-comment">/* Bare DOM click — only if you genuinely need nothing more */</span>}
 &lt;<span class="hljs-title class_">AegovButton</span> onClick={<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">track</span>()} /&gt;</code></pre><hr>
 <h2>Refs and imperative methods</h2>
-<p><code>ref</code> gives you the underlying custom element, typed as <code>HTMLAegov*Element</code>. Component methods are async.</p>
+<p><code>ref</code> gives you the underlying custom element, typed as <code>HTMLAegov*Element</code>. These types are declared globally by <code>@aegov/designsystem</code> — no import needed, just reference the name directly. Component methods are async.</p>
 <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { useRef } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovModal</span>, <span class="hljs-title class_">AegovButton</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">HTMLAegovModalElement</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem&#x27;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">ConfirmDialog</span>(<span class="hljs-params"></span>) {
   <span class="hljs-keyword">const</span> modal = useRef&lt;<span class="hljs-title class_">HTMLAegovModalElement</span>&gt;(<span class="hljs-literal">null</span>);
@@ -347,7 +348,6 @@
   <span class="hljs-title class_">InputType</span>,
   <span class="hljs-title class_">SelectChangeDetail</span>,
   <span class="hljs-title class_">AegovValidationDetail</span>,
-  <span class="hljs-title class_">HTMLAegovInputElement</span>,
 } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem&#x27;</span>;
 
 <span class="hljs-keyword">const</span> <span class="hljs-attr">variant</span>: <span class="hljs-title class_">ButtonVariant</span> = <span class="hljs-string">&#x27;primary&#x27;</span>;
@@ -359,7 +359,8 @@
 
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">onSelect</span>(<span class="hljs-params"><span class="hljs-attr">e</span>: <span class="hljs-title class_">CustomEvent</span>&lt;<span class="hljs-title class_">SelectChangeDetail</span>&gt;</span>) {
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">label</span>);
-}</code></pre><p>The <code>Components</code> namespace gives you a component&#39;s full prop interface when you need to build your own wrapper around one:</p>
+}</code></pre><p>The <code>HTMLAegov*Element</code> types used for refs (see <a href="#refs-and-imperative-methods">Refs and imperative methods</a>) are declared globally rather than exported from the module — reference them by name with no import.</p>
+<p>The <code>Components</code> namespace gives you a component&#39;s full prop interface when you need to build your own wrapper around one:</p>
 <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">Components</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem&#x27;</span>;
 
 <span class="hljs-keyword">type</span> <span class="hljs-title class_">MyButtonProps</span> = <span class="hljs-title class_">Pick</span>&lt;<span class="hljs-title class_">Components</span>.<span class="hljs-property">AegovButton</span>, <span class="hljs-string">&#x27;variant&#x27;</span> | <span class="hljs-string">&#x27;appearance&#x27;</span> | <span class="hljs-string">&#x27;size&#x27;</span>&gt;;</code></pre><hr>
@@ -371,27 +372,62 @@
       {children}
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
   );
-}</code></pre><p>If you toggle locale at runtime, set it on <code>document.documentElement</code> so portal-based components — toast, dropdown, popover, datepicker — inherit it too, since they render into <code>document.body</code> rather than inside your React tree:</p>
+}</code></pre><p>If you toggle locale at runtime, set it on <code>document.documentElement</code> so portal-based components — toast, dropdown, popover, datepicker, modal, and drawer — inherit it too, since they render into <code>document.body</code> rather than inside your React tree:</p>
 <pre><code class="hljs language-tsx"><span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> {
   <span class="hljs-variable language_">document</span>.<span class="hljs-property">documentElement</span>.<span class="hljs-property">dir</span> = locale === <span class="hljs-string">&#x27;ar&#x27;</span> ? <span class="hljs-string">&#x27;rtl&#x27;</span> : <span class="hljs-string">&#x27;ltr&#x27;</span>;
   <span class="hljs-variable language_">document</span>.<span class="hljs-property">documentElement</span>.<span class="hljs-property">lang</span> = locale;
 }, [locale]);</code></pre><hr>
 <h2>Server-side rendering and Next.js</h2>
-<p>Custom elements are a browser API — there is no server implementation. The generated wrapper module is already marked <code>&#39;use client&#39;</code>, so it cannot be imported into a React Server Component.</p>
-<p>In the Next.js App Router, mark the file that uses design system components as a client component:</p>
+<p>Custom elements are a browser API. On the server, a component has no implementation to run yet — its real markup only exists once the browser loads and upgrades it. That gap between the server-rendered placeholder and what the browser builds afterward is the source of the current limitation described below.</p>
+<h3>Current limitation</h3>
+<p>Server-rendering design system components — in Next.js, Remix, or any other SSR framework — can currently produce a React hydration mismatch. This is a known limitation, not specific to any one component or to shadow-DOM components; it can affect any composition of more than a single component.</p>
+<p><code>&#39;use client&#39;</code> on its own does not avoid this — most SSR frameworks still render client components once on the server by default, so the mismatch can still happen. The reliable option today is to skip the server render entirely with a dynamic, client-only import:</p>
 <pre><code class="hljs language-tsx"><span class="hljs-string">&#x27;use client&#x27;</span>;
 
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AegovButton</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>;
+<span class="hljs-keyword">import</span> dynamic <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;next/dynamic&#x27;</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">SubmitButton</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span></span>;
-}</code></pre><p>Or load it lazily with SSR disabled:</p>
-<pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> dynamic <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;next/dynamic&#x27;</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">ContactStep</span> = <span class="hljs-title function_">dynamic</span>(
+  <span class="hljs-function">() =&gt;</span>
+    <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">m</span>) =&gt;</span> {
+      <span class="hljs-keyword">const</span> { <span class="hljs-title class_">AegovFormField</span>, <span class="hljs-title class_">AegovLabel</span>, <span class="hljs-title class_">AegovInput</span>, <span class="hljs-title class_">AegovButton</span> } = m;
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">ContactStep</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> (
+          <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;max-w-md&quot;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">AegovFormField</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-name">AegovLabel</span>&gt;</span>Email address<span class="hljs-tag">&lt;/<span class="hljs-name">AegovLabel</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-name">AegovInput</span> <span class="hljs-attr">fieldId</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;name@example.ae&quot;</span> /&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">AegovFormField</span>&gt;</span>
 
-<span class="hljs-keyword">const</span> <span class="hljs-title class_">AegovButton</span> = <span class="hljs-title function_">dynamic</span>(
-  <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;@aegov/designsystem-react&#x27;</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">m</span>) =&gt;</span> m.<span class="hljs-property">AegovButton</span>),
+            <span class="hljs-tag">&lt;<span class="hljs-name">AegovButton</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;mt-4&quot;</span>&gt;</span>
+              Continue
+            <span class="hljs-tag">&lt;/<span class="hljs-name">AegovButton</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+        );
+      };
+    }),
   { <span class="hljs-attr">ssr</span>: <span class="hljs-literal">false</span> },
-);</code></pre><p>The <strong>CSS import is SSR-safe</strong> and belongs in your root layout — keep it there so the first paint is styled:</p>
+);
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Page</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ContactStep</span> /&gt;</span></span>;
+}</code></pre><table>
+<thead>
+<tr>
+<th>Environment</th>
+<th>Guidance</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Client-only rendering (Vite, or any client-only React setup)</td>
+<td>Fully supported — no server render step, so nothing to reconcile against.</td>
+</tr>
+<tr>
+<td>Server-side rendering (Next.js, Remix, and similar)</td>
+<td>Use a dynamic, <code>ssr: false</code> import for any non-trivial composition, as shown above.</td>
+</tr>
+</tbody></table>
+<p><strong>We are aware of this limitation and are actively working on a fix at the design system level</strong>, so that server-rendered frameworks will not require any special handling on your part. This section will be updated as that work progresses.</p>
+<p>The <strong>CSS import is SSR-safe</strong> and belongs in your root layout — keep it there so the first paint is styled:</p>
 <pre><code class="hljs language-tsx"><span class="hljs-comment">// app/layout.tsx</span>
 <span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./globals.css&#x27;</span>; <span class="hljs-comment">// contains the three @import lines</span>
 
@@ -455,11 +491,11 @@
 
 {<span class="hljs-comment">/* Works, but you lose typing and the onAegov* handlers */</span>}
 &lt;aegov-button variant=<span class="hljs-string">&quot;primary&quot;</span>&gt;<span class="hljs-title class_">Submit</span>&lt;/aegov-button&gt;</code></pre><h3>Children of shadow-DOM components still work</h3>
-<p><code>aegov-button</code>, <code>aegov-modal</code>, <code>aegov-drawer</code> and the header components use shadow DOM. React children are projected into slots as normal — but utility classes you put on children are styled by your app&#39;s CSS, not the component&#39;s, and you cannot restyle the component&#39;s internals from outside.</p>
+<p><code>aegov-button</code>, <code>aegov-modal</code>, <code>aegov-drawer</code>, the header components, <code>aegov-blockquote</code>, and every shadow-DOM form control (<code>aegov-input</code>, <code>aegov-select</code>, <code>aegov-checkbox</code>, <code>aegov-checkbox-group</code>, <code>aegov-radio</code>, <code>aegov-radio-group</code>, <code>aegov-textarea</code>, <code>aegov-toggle</code>, <code>aegov-range</code>, <code>aegov-otp</code>, <code>aegov-datepicker</code>, <code>aegov-fileupload</code>) use shadow DOM. React children are projected into slots as normal — but utility classes you put on children are styled by your app&#39;s CSS, not the component&#39;s, and you cannot restyle the component&#39;s internals from outside.</p>
 <h3><code>StrictMode</code> double-invokes effects</h3>
 <p>That is React, not the design system. Components are idempotent on re-registration, so double mounting in development is safe.</p>
 <h3>Portal components render outside your React tree</h3>
-<p>Toast, dropdown, popover and datepicker move content into <code>document.body</code>. React refs to the host still work, but do not expect <code>document.querySelector</code> inside a React container to find the portalled content.</p>
+<p>Toast, dropdown, popover, datepicker, modal, and drawer move content into <code>document.body</code>. React refs to the host still work, but do not expect <code>document.querySelector</code> inside a React container to find the portalled content.</p>
 <hr>
 <h2>Where to next</h2>
 <ul>
