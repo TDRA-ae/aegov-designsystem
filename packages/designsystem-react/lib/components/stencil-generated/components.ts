@@ -375,14 +375,24 @@ export const AegovFormField: StencilReactComponent<AegovFormFieldElement, AegovF
     defineCustomElement: defineAegovFormField
 });
 
-type AegovHeaderEvents = NonNullable<unknown>;
+type AegovHeaderEvents = {
+    onAegovHeaderMenuOpen: EventName<CustomEvent<void>>,
+    onAegovHeaderMenuClose: EventName<CustomEvent<void>>,
+    onAegovHeaderStuck: EventName<CustomEvent<void>>,
+    onAegovHeaderUnstuck: EventName<CustomEvent<void>>
+};
 
 export const AegovHeader: StencilReactComponent<AegovHeaderElement, AegovHeaderEvents> = /*@__PURE__*/ createComponent<AegovHeaderElement, AegovHeaderEvents>({
     tagName: 'aegov-header',
     elementClass: AegovHeaderElement,
     // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
     react: React,
-    events: {} as AegovHeaderEvents,
+    events: {
+        onAegovHeaderMenuOpen: 'aegovHeaderMenuOpen',
+        onAegovHeaderMenuClose: 'aegovHeaderMenuClose',
+        onAegovHeaderStuck: 'aegovHeaderStuck',
+        onAegovHeaderUnstuck: 'aegovHeaderUnstuck'
+    } as AegovHeaderEvents,
     defineCustomElement: defineAegovHeader
 });
 

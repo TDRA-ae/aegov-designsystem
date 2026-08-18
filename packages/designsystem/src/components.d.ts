@@ -5,11 +5,11 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FormVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, NavblockVariant, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FormVariant, HeaderCollapseBreakpoint, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, NavblockVariant, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 import { AegovRangeValue } from "./components/aegov-range/aegov-range";
 import { AegovSelectValue } from "./components/aegov-select/aegov-select";
-export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FormVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, NavblockVariant, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FormVariant, HeaderCollapseBreakpoint, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, NavblockVariant, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 export { AegovRangeValue } from "./components/aegov-range/aegov-range";
 export { AegovSelectValue } from "./components/aegov-select/aegov-select";
@@ -398,6 +398,10 @@ export namespace Components {
           * @default false
          */
         "isLoading": boolean;
+        /**
+          * Move focus to the inner native button.  The host element is not focusable, so `buttonEl.focus()` from outside does nothing. Callers that need to place or restore focus on a button — a disclosure trigger reclaiming focus after its panel closes, for example — must use this instead.
+         */
+        "setFocus": () => Promise<void>;
         /**
           * The button size
           * @default 'base'
@@ -847,6 +851,11 @@ export namespace Components {
          */
         "isPinned": boolean;
         /**
+          * Whether the drawer relocates itself to `document.body` on connect, so it stacks above the rest of the page.  Set to `false` when the drawer is rendered inside another component's shadow DOM and forwards a `<slot>` into its content: relocating would take that slot out of its shadow tree, where it projects nothing. The panel and backdrop are `position: fixed`, so they still cover the viewport in place — unless an ancestor creates a containing block (`transform`, `filter`, `contain`, `will-change`), in which case leave this on.
+          * @default true
+         */
+        "isPortal": boolean;
+        /**
           * Whether to prevent body scroll when drawer is open
           * @default true
          */
@@ -1068,6 +1077,20 @@ export namespace Components {
     }
     interface AegovHeader {
         /**
+          * Close the menu drawer.
+         */
+        "closeMenu": () => Promise<void>;
+        /**
+          * Breakpoint at which the `navigation` slot appears and the menu toggle disappears. Below it, navigation is hidden and the toggle opens the drawer. `"lg"` (1024px) by default; `"md"` is the narrowest allowed.
+          * @default 'lg'
+         */
+        "collapseAt": HeaderCollapseBreakpoint;
+        /**
+          * Panel width of the menu drawer. Below 640px all widths collapse to full width.
+          * @default 'base'
+         */
+        "drawerSize": DrawerSize;
+        /**
           * The domain/URL of the government entity. Required. Forwarded to the embedded aegov-header-banner.
          */
         "entityDomain": string;
@@ -1076,14 +1099,36 @@ export namespace Components {
          */
         "entityName": string;
         /**
+          * Whether the main bar pins to the top of the viewport on scroll. The `aegov-header-banner` above it scrolls away; once it has, the bar gains a translucent blurred background and a shadow.  Implemented by making the host itself sticky with a negative `top` equal to the banner's height — `position: sticky` on the bar alone cannot work, because a sticky element is confined to its parent's box and would unstick as soon as the header scrolled past. Like any sticky element, an ancestor with `overflow: hidden` / `auto` in the consumer's page breaks it.
+          * @default false
+         */
+        "isSticky": boolean;
+        /**
+          * Accessible name for the menu toggle, and the accessible name of the drawer it opens. Defaults to "Menu" / "القائمة".
+         */
+        "labelMenu"?: string;
+        /**
+          * Accessible name for the close button inside the menu drawer. Defaults to "Close menu" / "إغلاق القائمة".
+         */
+        "labelMenuClose"?: string;
+        /**
           * Accessible name for the logo anchor. When provided, applied as aria-label on the <a> element.
          */
         "logoLabel"?: string;
+        /**
+          * Open the menu drawer.
+         */
+        "openMenu": () => Promise<void>;
         /**
           * Forwarded to the embedded aegov-header-banner. The CSS selector or ID of the main content container to skip to (e.g. "#main-content"). When provided, the banner injects a "Skip to content" link at the top of the document body.
          */
         "skipContentContainer": string;
         /**
+          * Toggle the menu drawer.
+         */
+        "toggleMenu": () => Promise<void>;
+        /**
+          * The variant of the header. Determines the layout and style. - "ministry": Header for ministry-level entities - "authority": Header for authority-level entities
           * @default 'ministry'
          */
         "variant": HeaderVariant;
@@ -2703,6 +2748,10 @@ export interface AegovFileuploadCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovFileuploadElement;
 }
+export interface AegovHeaderCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovHeaderElement;
+}
 export interface AegovInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovInputElement;
@@ -3087,7 +3136,21 @@ declare global {
         prototype: HTMLAegovFormFieldElement;
         new (): HTMLAegovFormFieldElement;
     };
+    interface HTMLAegovHeaderElementEventMap {
+        "aegovHeaderMenuOpen": void;
+        "aegovHeaderMenuClose": void;
+        "aegovHeaderStuck": void;
+        "aegovHeaderUnstuck": void;
+    }
     interface HTMLAegovHeaderElement extends Components.AegovHeader, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovHeaderElementEventMap>(type: K, listener: (this: HTMLAegovHeaderElement, ev: AegovHeaderCustomEvent<HTMLAegovHeaderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovHeaderElementEventMap>(type: K, listener: (this: HTMLAegovHeaderElement, ev: AegovHeaderCustomEvent<HTMLAegovHeaderElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLAegovHeaderElement: {
         prototype: HTMLAegovHeaderElement;
@@ -4518,6 +4581,11 @@ declare namespace LocalJSX {
          */
         "isPinned"?: boolean;
         /**
+          * Whether the drawer relocates itself to `document.body` on connect, so it stacks above the rest of the page.  Set to `false` when the drawer is rendered inside another component's shadow DOM and forwards a `<slot>` into its content: relocating would take that slot out of its shadow tree, where it projects nothing. The panel and backdrop are `position: fixed`, so they still cover the viewport in place — unless an ancestor creates a containing block (`transform`, `filter`, `contain`, `will-change`), in which case leave this on.
+          * @default true
+         */
+        "isPortal"?: boolean;
+        /**
           * Whether to prevent body scroll when drawer is open
           * @default true
          */
@@ -4754,6 +4822,16 @@ declare namespace LocalJSX {
     }
     interface AegovHeader {
         /**
+          * Breakpoint at which the `navigation` slot appears and the menu toggle disappears. Below it, navigation is hidden and the toggle opens the drawer. `"lg"` (1024px) by default; `"md"` is the narrowest allowed.
+          * @default 'lg'
+         */
+        "collapseAt"?: HeaderCollapseBreakpoint;
+        /**
+          * Panel width of the menu drawer. Below 640px all widths collapse to full width.
+          * @default 'base'
+         */
+        "drawerSize"?: DrawerSize;
+        /**
           * The domain/URL of the government entity. Required. Forwarded to the embedded aegov-header-banner.
          */
         "entityDomain"?: string;
@@ -4762,14 +4840,44 @@ declare namespace LocalJSX {
          */
         "entityName"?: string;
         /**
+          * Whether the main bar pins to the top of the viewport on scroll. The `aegov-header-banner` above it scrolls away; once it has, the bar gains a translucent blurred background and a shadow.  Implemented by making the host itself sticky with a negative `top` equal to the banner's height — `position: sticky` on the bar alone cannot work, because a sticky element is confined to its parent's box and would unstick as soon as the header scrolled past. Like any sticky element, an ancestor with `overflow: hidden` / `auto` in the consumer's page breaks it.
+          * @default false
+         */
+        "isSticky"?: boolean;
+        /**
+          * Accessible name for the menu toggle, and the accessible name of the drawer it opens. Defaults to "Menu" / "القائمة".
+         */
+        "labelMenu"?: string;
+        /**
+          * Accessible name for the close button inside the menu drawer. Defaults to "Close menu" / "إغلاق القائمة".
+         */
+        "labelMenuClose"?: string;
+        /**
           * Accessible name for the logo anchor. When provided, applied as aria-label on the <a> element.
          */
         "logoLabel"?: string;
+        /**
+          * Emitted when the menu drawer has closed.
+         */
+        "onAegovHeaderMenuClose"?: (event: AegovHeaderCustomEvent<void>) => void;
+        /**
+          * Emitted when the menu drawer has opened.
+         */
+        "onAegovHeaderMenuOpen"?: (event: AegovHeaderCustomEvent<void>) => void;
+        /**
+          * Emitted when the bar pins to the top of the viewport. Only fires when `isSticky` is set.
+         */
+        "onAegovHeaderStuck"?: (event: AegovHeaderCustomEvent<void>) => void;
+        /**
+          * Emitted when the bar returns to its resting position. Only fires when `isSticky` is set.
+         */
+        "onAegovHeaderUnstuck"?: (event: AegovHeaderCustomEvent<void>) => void;
         /**
           * Forwarded to the embedded aegov-header-banner. The CSS selector or ID of the main content container to skip to (e.g. "#main-content"). When provided, the banner injects a "Skip to content" link at the top of the document body.
          */
         "skipContentContainer"?: string;
         /**
+          * The variant of the header. Determines the layout and style. - "ministry": Header for ministry-level entities - "authority": Header for authority-level entities
           * @default 'ministry'
          */
         "variant"?: HeaderVariant;
@@ -6661,6 +6769,7 @@ declare namespace LocalJSX {
         "overlayOpacity": DrawerOverlayOpacity;
         "isCloseWithOverlay": boolean;
         "isPreventScroll": boolean;
+        "isPortal": boolean;
         "size": DrawerSize;
         "isPadding": boolean;
         "label": string;
@@ -6710,6 +6819,11 @@ declare namespace LocalJSX {
         "entityDomain": string;
         "skipContentContainer": string;
         "logoLabel": string;
+        "labelMenu": string;
+        "labelMenuClose": string;
+        "collapseAt": HeaderCollapseBreakpoint;
+        "drawerSize": DrawerSize;
+        "isSticky": boolean;
     }
     interface AegovHeaderBannerAttributes {
         "entityName": string;
