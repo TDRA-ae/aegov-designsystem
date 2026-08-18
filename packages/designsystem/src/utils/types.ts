@@ -645,6 +645,14 @@ export type DrawerSize = typeof DRAWER_SIZES[number];
  * Header component variant types
  */
 export const HEADER_VARIANTS = ['ministry', 'authority'] as const;
+
+/**
+ * Breakpoints at which `aegov-header` may swap its navigation for the menu
+ * toggle. Restricted to `md` and up: below 768px there is no viewport in which
+ * a government navigation, the logo and the action buttons all fit on one row.
+ */
+export const HEADER_COLLAPSE_BREAKPOINTS = ['md', 'lg', 'xl', '2xl'] as const;
+export type HeaderCollapseBreakpoint = typeof HEADER_COLLAPSE_BREAKPOINTS[number];
 export type HeaderVariant = typeof HEADER_VARIANTS[number];
 
 /**

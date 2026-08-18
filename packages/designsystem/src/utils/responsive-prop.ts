@@ -55,7 +55,7 @@ const DEFAULT_BREAKPOINTS: Record<string, number> = {
   '2xl': 1536,
 };
 
-function readBreakpointPx(name: string): number | null {
+export function readBreakpointPx(name: string): number | null {
   if (typeof document !== 'undefined') {
     const raw = getComputedStyle(document.documentElement)
       .getPropertyValue(`--breakpoint-${name}`)

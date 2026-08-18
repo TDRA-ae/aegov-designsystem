@@ -80,6 +80,20 @@ export class AegovDrawer {
   @Prop() isPreventScroll: boolean = true;
 
   /**
+   * Whether the drawer relocates itself to `document.body` on connect, so it
+   * stacks above the rest of the page.
+   *
+   * Set to `false` when the drawer is rendered inside another component's
+   * shadow DOM and forwards a `<slot>` into its content: relocating would take
+   * that slot out of its shadow tree, where it projects nothing. The panel and
+   * backdrop are `position: fixed`, so they still cover the viewport in place —
+   * unless an ancestor creates a containing block (`transform`, `filter`,
+   * `contain`, `will-change`), in which case leave this on.
+   * @default true
+   */
+  @Prop() isPortal: boolean = true;
+
+  /**
    * Panel width for left/right drawers, or panel height for top/bottom drawers.
    * xs=320px · sm=384px · base=480px (default) · lg=640px · xl=800px · full=100vw/100dvh.
    * Also scales padding and, when `is-pinned="false"`, the edge gap and border-radius.
@@ -198,7 +212,7 @@ export class AegovDrawer {
     // avoid re-entrant hydration loops: appendChild triggers a synchronous
     // disconnect/reconnect pair and Stencil's lazy hydration can fire
     // connectedCallback again before parent state stabilises.
-    if (!this.movedToBody && this.el.parentNode !== document.body) {
+    if (this.isPortal && !this.movedToBody && this.el.parentNode !== document.body) {
       this.movedToBody = true;
       document.body.appendChild(this.el);
     }

@@ -366,7 +366,8 @@ export declare interface AegovBreadcrumbsItem extends Components.AegovBreadcrumb
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovButton,
-  inputs: ['appearance', 'fieldId', 'isBold', 'isDisabled', 'isFull', 'isIcon', 'isLoading', 'size', 'type', 'variant']
+  inputs: ['appearance', 'fieldId', 'isBold', 'isDisabled', 'isFull', 'isIcon', 'isLoading', 'size', 'type', 'variant'],
+  methods: ['setFocus']
 })
 @Component({
   selector: 'aegov-button',
@@ -616,7 +617,7 @@ export declare interface AegovDatepicker extends Components.AegovDatepicker {
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovDrawer,
-  inputs: ['animation', 'fieldId', 'isCloseWithOverlay', 'isOpen', 'isOverlay', 'isPadding', 'isPinned', 'isPreventScroll', 'label', 'overlayOpacity', 'position', 'size'],
+  inputs: ['animation', 'fieldId', 'isCloseWithOverlay', 'isOpen', 'isOverlay', 'isPadding', 'isPinned', 'isPortal', 'isPreventScroll', 'label', 'overlayOpacity', 'position', 'size'],
   methods: ['show', 'close', 'toggle']
 })
 @Component({
@@ -624,7 +625,7 @@ export declare interface AegovDatepicker extends Components.AegovDatepicker {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['animation', 'fieldId', 'isCloseWithOverlay', 'isOpen', 'isOverlay', 'isPadding', 'isPinned', 'isPreventScroll', 'label', 'overlayOpacity', 'position', 'size'],
+  inputs: ['animation', 'fieldId', 'isCloseWithOverlay', 'isOpen', 'isOverlay', 'isPadding', 'isPinned', 'isPortal', 'isPreventScroll', 'label', 'overlayOpacity', 'position', 'size'],
   outputs: ['aegovDrawerOpen', 'aegovDrawerClose', 'aegovDrawerBeforeClose', 'aegovDrawerBackdropClick', 'aegovDrawerEscapePress'],
 })
 export class AegovDrawer {
@@ -775,17 +776,23 @@ export declare interface AegovFormField extends Components.AegovFormField {}
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovHeader,
-  inputs: ['entityDomain', 'entityName', 'logoLabel', 'skipContentContainer', 'variant']
+  inputs: ['collapseAt', 'drawerSize', 'entityDomain', 'entityName', 'isSticky', 'labelMenu', 'labelMenuClose', 'logoLabel', 'skipContentContainer', 'variant'],
+  methods: ['openMenu', 'closeMenu', 'toggleMenu']
 })
 @Component({
   selector: 'aegov-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['entityDomain', 'entityName', 'logoLabel', 'skipContentContainer', 'variant'],
+  inputs: ['collapseAt', 'drawerSize', 'entityDomain', 'entityName', 'isSticky', 'labelMenu', 'labelMenuClose', 'logoLabel', 'skipContentContainer', 'variant'],
+  outputs: ['aegovHeaderMenuOpen', 'aegovHeaderMenuClose', 'aegovHeaderStuck', 'aegovHeaderUnstuck'],
 })
 export class AegovHeader {
   protected el: HTMLAegovHeaderElement;
+  @Output() aegovHeaderMenuOpen = new EventEmitter<AegovHeaderCustomEvent<void>>();
+  @Output() aegovHeaderMenuClose = new EventEmitter<AegovHeaderCustomEvent<void>>();
+  @Output() aegovHeaderStuck = new EventEmitter<AegovHeaderCustomEvent<void>>();
+  @Output() aegovHeaderUnstuck = new EventEmitter<AegovHeaderCustomEvent<void>>();
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
@@ -793,7 +800,26 @@ export class AegovHeader {
 }
 
 
-export declare interface AegovHeader extends Components.AegovHeader {}
+import type { AegovHeaderCustomEvent } from '@aegov/designsystem/components';
+
+export declare interface AegovHeader extends Components.AegovHeader {
+  /**
+   * Emitted when the menu drawer has opened.
+   */
+  aegovHeaderMenuOpen: EventEmitter<AegovHeaderCustomEvent<void>>;
+  /**
+   * Emitted when the menu drawer has closed.
+   */
+  aegovHeaderMenuClose: EventEmitter<AegovHeaderCustomEvent<void>>;
+  /**
+   * Emitted when the bar pins to the top of the viewport. Only fires when `isSticky` is set.
+   */
+  aegovHeaderStuck: EventEmitter<AegovHeaderCustomEvent<void>>;
+  /**
+   * Emitted when the bar returns to its resting position. Only fires when `isSticky` is set.
+   */
+  aegovHeaderUnstuck: EventEmitter<AegovHeaderCustomEvent<void>>;
+}
 
 
 @ProxyCmp({

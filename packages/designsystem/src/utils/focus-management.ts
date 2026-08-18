@@ -36,6 +36,24 @@ export function getFocusableElements(container: Element, selector: string = FOCU
  * Query focusable elements from shadow DOM slot assigned elements.
  * Used by shadow DOM components (modal, drawer) where content is slotted.
  */
+/**
+ * Collect focusable elements from the shadow roots of an element and its
+ * descendants. Custom elements only — a tag name containing a hyphen.
+ */
+function getShadowFocusableElements(root: Element, selector: string): HTMLElement[] {
+  const candidates = [root, ...Array.from(root.querySelectorAll('*'))];
+  const focusable: HTMLElement[] = [];
+
+  candidates.forEach((candidate) => {
+    if (!candidate.tagName.includes('-')) return;
+    const shadowRoot = (candidate as HTMLElement).shadowRoot;
+    if (!shadowRoot) return;
+    focusable.push(...(Array.from(shadowRoot.querySelectorAll(selector)) as HTMLElement[]));
+  });
+
+  return focusable;
+}
+
 export function getSlottedFocusableElements(shadowRoot: ShadowRoot, selector: string = FOCUSABLE_SELECTORS): HTMLElement[] {
   const slot = shadowRoot.querySelector('slot');
   if (!slot) return [];
@@ -49,6 +67,11 @@ export function getSlottedFocusableElements(shadowRoot: ShadowRoot, selector: st
       focusable.push(element as HTMLElement);
     }
     focusable.push(...(Array.from(element.querySelectorAll(selector)) as HTMLElement[]));
+    // Descend into shadow DOM web components. A slotted `aegov-button` is not
+    // itself focusable and `querySelectorAll` cannot see the native <button>
+    // in its shadow root, so without this the control is missing from the
+    // trap — invisible to Tab and to the initial focus.
+    focusable.push(...getShadowFocusableElements(element, selector));
   });
 
   return focusable;

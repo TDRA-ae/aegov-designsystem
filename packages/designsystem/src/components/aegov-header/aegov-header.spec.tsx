@@ -1,15 +1,20 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { AegovHeader } from './aegov-header';
 import { AegovHeaderBanner } from '../aegov-header-banner/aegov-header-banner';
+import { AegovDrawer } from '../aegov-drawer/aegov-drawer';
+import { AegovButton } from '../aegov-button/aegov-button';
+
+const COMPONENTS = [AegovHeader, AegovHeaderBanner, AegovDrawer, AegovButton];
 
 describe('aegov-header', () => {
   beforeEach(() => {
     document.querySelectorAll('.aegov-skip-content').forEach((el) => el.remove());
+    document.documentElement.removeAttribute('dir');
   });
 
   it('renders ministry variant by default', async () => {
     const page = await newSpecPage({
-      components: [AegovHeader, AegovHeaderBanner],
+      components: COMPONENTS,
       html: `<aegov-header entity-name="Ministry" entity-domain="https://example.gov.ae"></aegov-header>`,
     });
     const header = page.root.shadowRoot.querySelector('header');
@@ -19,7 +24,7 @@ describe('aegov-header', () => {
 
   it('applies authority variant class', async () => {
     const page = await newSpecPage({
-      components: [AegovHeader, AegovHeaderBanner],
+      components: COMPONENTS,
       html: `<aegov-header variant="authority" entity-name="Authority" entity-domain="https://x.gov.ae"></aegov-header>`,
     });
     const header = page.root.shadowRoot.querySelector('header');
@@ -28,7 +33,7 @@ describe('aegov-header', () => {
 
   it('renders aegov-header-banner with forwarded entity props', async () => {
     const page = await newSpecPage({
-      components: [AegovHeader, AegovHeaderBanner],
+      components: COMPONENTS,
       html: `<aegov-header entity-name="My Entity" entity-domain="https://my.gov.ae"></aegov-header>`,
     });
     const banner = page.root.shadowRoot.querySelector('aegov-header-banner');
@@ -39,51 +44,358 @@ describe('aegov-header', () => {
 
   it('forwards skip-content-container prop to banner', async () => {
     const page = await newSpecPage({
-      components: [AegovHeader, AegovHeaderBanner],
+      components: COMPONENTS,
       html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae" skip-content-container="#main"></aegov-header>`,
     });
     const banner = page.root.shadowRoot.querySelector('aegov-header-banner');
     expect(banner.getAttribute('skip-content-container')).toBe('#main');
   });
 
-  it('renders logo and search slots', async () => {
-    const page = await newSpecPage({
-      components: [AegovHeader, AegovHeaderBanner],
-      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae">
-        <img slot="logo" src="logo.png" alt="logo" />
-        <input slot="search" type="search" />
-      </aegov-header>`,
-    });
-    const slots = page.root.shadowRoot.querySelectorAll('slot');
-    const names = Array.from(slots).map(s => s.getAttribute('name'));
-    expect(names).toContain('logo');
-    expect(names).toContain('search');
-  });
-
-  it('wraps logo slot in anchor pointing to entity-domain', async () => {
-    const page = await newSpecPage({
-      components: [AegovHeader, AegovHeaderBanner],
-      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
-    });
-    const anchor = page.root.shadowRoot.querySelector('.header__logo a');
-    expect(anchor).not.toBeNull();
-    expect(anchor.getAttribute('href')).toBe('https://x.gov.ae');
-  });
-
   it('forwards actions slot from header through to banner', async () => {
     const page = await newSpecPage({
-      components: [AegovHeader, AegovHeaderBanner],
+      components: COMPONENTS,
       html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"><a slot="actions" href="#" class="custom-action">Custom</a></aegov-header>`,
     });
     const headerForwarder = page.root.shadowRoot.querySelector('aegov-header-banner slot[name="actions"][slot="actions"]');
     expect(headerForwarder).not.toBeNull();
-    const slotted = page.root.querySelector('a[slot="actions"]');
-    expect(slotted).not.toBeNull();
+    expect(page.root.querySelector('a[slot="actions"]')).not.toBeNull();
+  });
+
+  it('renders logo, navigation, secondary-actions and mobile-content slots', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae">
+        <img slot="logo" src="logo.png" alt="logo" />
+        <nav slot="navigation"><a href="#">Home</a></nav>
+        <button slot="secondary-actions">Login</button>
+        <nav slot="mobile-content"><a href="#">Home</a></nav>
+      </aegov-header>`,
+    });
+    const names = Array.from(page.root.shadowRoot.querySelectorAll('slot')).map((s) => s.getAttribute('name'));
+    expect(names).toContain('logo');
+    expect(names).toContain('navigation');
+    expect(names).toContain('secondary-actions');
+    expect(names).toContain('mobile-content');
+  });
+
+  it('no longer renders the removed search slot', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+    });
+    expect(page.root.shadowRoot.querySelector('slot[name="search"]')).toBeNull();
+  });
+
+  it('wraps the logo slot in an anchor pointing to entity-domain', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+    });
+    const anchor = page.root.shadowRoot.querySelector('a.header__logo');
+    expect(anchor).not.toBeNull();
+    expect(anchor.getAttribute('href')).toBe('https://x.gov.ae');
+    expect(anchor.querySelector('slot[name="logo"]')).not.toBeNull();
+  });
+
+  it('hides navigation below lg and the menu toggle from lg up', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+    });
+    const nav = page.root.shadowRoot.querySelector('.header__nav');
+    const toggle = page.root.shadowRoot.querySelector('.header__menu-toggle');
+    expect(nav).not.toBeNull();
+    expect(toggle).not.toBeNull();
+    // Layout gating lives in aegov-header.css: .header__nav is hidden lg:flex,
+    // .header__menu-toggle is lg:hidden. Assert the hooks exist here; the
+    // visual behaviour is covered in the e2e suite.
+    expect(page.root.shadowRoot.querySelector('.header__actions .header__menu-toggle')).not.toBeNull();
+  });
+
+  it('defaults collapseAt to lg and applies the modifier class', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+    });
+    const header = page.root.shadowRoot.querySelector('header');
+    expect((page.root as HTMLAegovHeaderElement).collapseAt).toBe('lg');
+    expect(header.className).toContain('header--collapse-lg');
+  });
+
+  it('applies the collapse modifier for each supported breakpoint', async () => {
+    for (const bp of ['md', 'lg', 'xl', '2xl']) {
+      const page = await newSpecPage({
+        components: COMPONENTS,
+        html: `<aegov-header collapse-at="${bp}" entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+      });
+      const header = page.root.shadowRoot.querySelector('header');
+      expect(header.className).toContain(`header--collapse-${bp}`);
+    }
+  });
+
+  it('falls back to lg on an invalid collapseAt and warns', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header collapse-at="sm" entity-name="N" entity-domain="https://x.gov.ae" logo-label="Home"><nav slot="mobile-content"></nav></aegov-header>`,
+    });
+    const header = page.root.shadowRoot.querySelector('header');
+    expect(header.className).toContain('header--collapse-lg');
+    expect(header.className).not.toContain('header--collapse-sm');
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('collapseAt'));
+    warn.mockRestore();
+  });
+
+  it('swaps the modifier class when collapseAt changes at runtime', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+    });
+    (page.root as HTMLAegovHeaderElement).collapseAt = 'xl';
+    await page.waitForChanges();
+
+    const header = page.root.shadowRoot.querySelector('header');
+    expect(header.className).toContain('header--collapse-xl');
+    expect(header.className).not.toContain('header--collapse-lg');
+  });
+
+  it('is not sticky by default', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+    });
+    expect((page.root as HTMLAegovHeaderElement).isSticky).toBe(false);
+    expect(page.root.className).not.toContain('header--sticky');
+    expect(page.root.className).not.toContain('header--stuck');
+  });
+
+  it('puts the sticky class on the host, not the inner header', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header is-sticky="true" entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+    });
+    // Sticky positioning has to apply to the host, because a sticky
+    // .header__head would be confined to its parent's box.
+    expect(page.root.className).toContain('header--sticky');
+    expect(page.root.shadowRoot.querySelector('header').className).not.toContain('header--sticky');
+  });
+
+  it('adds the stuck class only while pinned, and removes it again', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header is-sticky="true" entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+    });
+    expect(page.root.className).not.toContain('header--stuck');
+
+    page.rootInstance.isStuck = true;
+    await page.waitForChanges();
+    expect(page.root.className).toContain('header--stuck');
+
+    page.rootInstance.isStuck = false;
+    await page.waitForChanges();
+    expect(page.root.className).not.toContain('header--stuck');
+  });
+
+  it('never reports stuck when isSticky is off', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+    });
+    page.rootInstance.isStuck = true;
+    await page.waitForChanges();
+    expect(page.root.className).not.toContain('header--stuck');
+  });
+
+  it('drops the stuck state and emits unstuck when isSticky is turned off', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header is-sticky="true" entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+    });
+    const unstuck = jest.fn();
+    page.root.addEventListener('aegovHeaderUnstuck', unstuck);
+
+    page.rootInstance.isStuck = true;
+    await page.waitForChanges();
+
+    (page.root as HTMLAegovHeaderElement).isSticky = false;
+    await page.waitForChanges();
+
+    expect(page.rootInstance.isStuck).toBe(false);
+    expect(page.root.className).not.toContain('header--stuck');
+    expect(unstuck).toHaveBeenCalled();
+  });
+
+  it('renders the menu toggle wired to the drawer', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"><nav slot="mobile-content"></nav></aegov-header>`,
+    });
+    const toggle = page.root.shadowRoot.querySelector('.header__menu-toggle');
+    const drawer = page.root.shadowRoot.querySelector('aegov-drawer');
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+    expect(toggle.getAttribute('aria-label')).toBe('Menu');
+    expect(toggle.getAttribute('aria-controls')).toBe(drawer.getAttribute('field-id'));
+
+    // aegov-button forwards host aria-* onto its inner native button, which is
+    // the element the accessibility tree actually reads.
+    const innerToggle = toggle.shadowRoot.querySelector('button');
+    expect(innerToggle.getAttribute('aria-expanded')).toBe('false');
+    expect(innerToggle.getAttribute('aria-label')).toBe('Menu');
+    expect(innerToggle.getAttribute('aria-controls')).toBe(drawer.getAttribute('field-id'));
+  });
+
+  it('configures the drawer as a pinned sliding panel on the inline end', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"><nav slot="mobile-content"></nav></aegov-header>`,
+    });
+    const drawer = page.root.shadowRoot.querySelector('aegov-drawer') as HTMLAegovDrawerElement;
+    expect(drawer.animation).toBe('slide');
+    expect(drawer.position).toBe('right');
+    expect(drawer.size).toBe('base');
+    expect(drawer.label).toBe('Menu');
+    expect(drawer.isPinned).toBe(true);
+    // Nested inside the header's shadow DOM, so the drawer must not relocate
+    // itself to document.body — that would take the mobile-content slot with it.
+    expect(drawer.isPortal).toBe(false);
+    expect(page.root.shadowRoot.contains(drawer)).toBe(true);
+  });
+
+  it('flips the drawer edge and strings under dir="rtl"', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header dir="rtl" entity-name="N" entity-domain="https://x.gov.ae"><nav slot="mobile-content"></nav></aegov-header>`,
+    });
+    const drawer = page.root.shadowRoot.querySelector('aegov-drawer') as HTMLAegovDrawerElement;
+    const toggle = page.root.shadowRoot.querySelector('.header__menu-toggle');
+    expect(drawer.position).toBe('left');
+    expect(toggle.getAttribute('aria-label')).toBe('القائمة');
+    expect(page.root.shadowRoot.querySelector('.header__drawer-close').getAttribute('aria-label')).toBe('إغلاق القائمة');
+  });
+
+  it('honours drawerSize and the label overrides', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae" drawer-size="sm" label-menu="Browse" label-menu-close="Dismiss"><nav slot="mobile-content"></nav></aegov-header>`,
+    });
+    const drawer = page.root.shadowRoot.querySelector('aegov-drawer') as HTMLAegovDrawerElement;
+    expect(drawer.size).toBe('sm');
+    expect(page.root.shadowRoot.querySelector('.header__menu-toggle').getAttribute('aria-label')).toBe('Browse');
+    expect(page.root.shadowRoot.querySelector('.header__drawer-close').getAttribute('aria-label')).toBe('Dismiss');
+    expect(page.root.shadowRoot.querySelector('.header__drawer-close').shadowRoot.querySelector('button').getAttribute('aria-label')).toBe('Dismiss');
+  });
+
+  it('renders a close button inside the drawer, before the mobile-content slot', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"><nav slot="mobile-content"></nav></aegov-header>`,
+    });
+    const drawer = page.root.shadowRoot.querySelector('aegov-drawer');
+    const close = drawer.querySelector('.header__drawer-close');
+    expect(close).not.toBeNull();
+    expect(close.getAttribute('aria-label')).toBe('Close menu');
+    const children = Array.from(drawer.children);
+    const headIndex = children.findIndex((c) => c.classList.contains('header__drawer-head'));
+    const slotIndex = children.findIndex((c) => c.getAttribute('name') === 'mobile-content');
+    expect(headIndex).toBeGreaterThanOrEqual(0);
+    expect(slotIndex).toBeGreaterThan(headIndex);
+  });
+
+  it('warns when the mobile-content slot is empty', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae" logo-label="Home"></aegov-header>`,
+    });
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('mobile-content'));
+    warn.mockRestore();
+  });
+
+  it('does not warn when the mobile-content slot is filled', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae" logo-label="Home"><nav slot="mobile-content"><a href="#">Home</a></nav></aegov-header>`,
+    });
+    expect(warn).not.toHaveBeenCalledWith(expect.stringContaining('mobile-content'));
+    warn.mockRestore();
+  });
+
+  it('exposes openMenu, closeMenu and toggleMenu', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"><nav slot="mobile-content"></nav></aegov-header>`,
+    });
+    const host = page.root as HTMLAegovHeaderElement;
+    expect(typeof host.openMenu).toBe('function');
+    expect(typeof host.closeMenu).toBe('function');
+    expect(typeof host.toggleMenu).toBe('function');
+  });
+
+  it('opens the drawer and reflects aria-expanded on the toggle', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"><nav slot="mobile-content"><a href="#">Home</a></nav></aegov-header>`,
+    });
+    await (page.root as HTMLAegovHeaderElement).openMenu();
+    await page.waitForChanges();
+
+    const drawer = page.root.shadowRoot.querySelector('aegov-drawer') as HTMLAegovDrawerElement;
+    expect(drawer.isOpen).toBe(true);
+
+    const toggle = page.root.shadowRoot.querySelector('.header__menu-toggle');
+    expect(toggle.getAttribute('aria-expanded')).toBe('true');
+    // The inner button's copy of aria-expanded is re-forwarded by aegov-button's
+    // host-attribute MutationObserver, which mock-doc does not implement — that
+    // half is asserted in the e2e suite instead.
+  });
+
+  it('exposes setFocus on the toggle, since the aegov-button host is not focusable', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"><nav slot="mobile-content"></nav></aegov-header>`,
+    });
+    const toggle = page.root.shadowRoot.querySelector('.header__menu-toggle') as HTMLAegovButtonElement;
+    expect(typeof toggle.setFocus).toBe('function');
+  });
+
+  it('emits aegovHeaderMenuOpen and aegovHeaderMenuClose', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"><nav slot="mobile-content"><a href="#">Home</a></nav></aegov-header>`,
+    });
+    const opened = jest.fn();
+    const closed = jest.fn();
+    page.root.addEventListener('aegovHeaderMenuOpen', opened);
+    page.root.addEventListener('aegovHeaderMenuClose', closed);
+
+    await (page.root as HTMLAegovHeaderElement).openMenu();
+    await page.waitForChanges();
+    expect(opened).toHaveBeenCalled();
+
+    await (page.root as HTMLAegovHeaderElement).closeMenu();
+    // aegov-drawer emits its close event only after the 300ms slide-out.
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    await page.waitForChanges();
+    expect(closed).toHaveBeenCalled();
+  });
+
+  it('contains the internal drawer events instead of leaking them to consumers', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"><nav slot="mobile-content"><a href="#">Home</a></nav></aegov-header>`,
+    });
+    const leaked = jest.fn();
+    page.root.addEventListener('aegovDrawerOpen', leaked);
+
+    await (page.root as HTMLAegovHeaderElement).openMenu();
+    await page.waitForChanges();
+    expect(leaked).not.toHaveBeenCalled();
   });
 
   it('uses shadow DOM encapsulation', async () => {
     const page = await newSpecPage({
-      components: [AegovHeader, AegovHeaderBanner],
+      components: COMPONENTS,
       html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
     });
     expect(page.root.shadowRoot).not.toBeNull();

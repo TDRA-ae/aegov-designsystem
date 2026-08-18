@@ -1,4 +1,4 @@
-import { Component, Prop, Watch, State, Event, EventEmitter, Element, h, Host } from '@stencil/core';
+import { Component, Prop, Watch, State, Event, EventEmitter, Element, Method, h, Host } from '@stencil/core';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
@@ -125,6 +125,43 @@ export class AegovButton {
    * Emitted when the button loses focus
    */
   @Event() aegovButtonBlur: EventEmitter<FocusEvent>;
+
+  /**
+   * Bumped whenever a host `aria-*` / `data-*` attribute changes, to re-run
+   * render so `getPassThroughAttributes` re-forwards the new value onto the
+   * inner button.
+   */
+  @State() private _passThroughVersion: number = 0;
+
+  private _hostAttrObserver?: MutationObserver;
+
+  /**
+   * Move focus to the inner native button.
+   *
+   * The host element is not focusable, so `buttonEl.focus()` from outside does
+   * nothing. Callers that need to place or restore focus on a button — a
+   * disclosure trigger reclaiming focus after its panel closes, for example —
+   * must use this instead.
+   */
+  @Method()
+  async setFocus(): Promise<void> {
+    this.el.shadowRoot?.querySelector('button')?.focus();
+  }
+
+  connectedCallback() {
+    // `getPassThroughAttributes` only reads the host's attributes during
+    // render, and Stencil does not re-render on arbitrary attribute changes.
+    // Without this, a caller toggling `aria-expanded` / `aria-pressed` on the
+    // host would leave the inner button reporting the original value forever.
+    if (typeof MutationObserver === 'undefined') return;
+    this._hostAttrObserver = new MutationObserver((mutations) => {
+      const forwarded = mutations.some(({ attributeName }) =>
+        !!attributeName && (attributeName.startsWith('aria-') || attributeName.startsWith('data-'))
+      );
+      if (forwarded) this._passThroughVersion++;
+    });
+    this._hostAttrObserver.observe(this.el, { attributes: true });
+  }
 
   componentWillLoad() {
     if (!this.fieldId) {
