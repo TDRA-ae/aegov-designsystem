@@ -7,18 +7,128 @@
   @apply w-full relative;
 }
 
+/*
+  Single-row bar: logo at the inline start, navigation after it, actions and the
+  menu toggle at the inline end. Every offset uses logical properties so the
+  order mirrors automatically under `dir="rtl"`.
+*/
+.header__bar {
+  @apply flex items-center justify-between gap-3 lg:gap-4 xl:gap-6;
+}
+
 .header__logo {
-  @apply py-2 md:py-3 lg:py-3.5 pe-4 block;
-  a ::slotted(img),
-  a ::slotted(svg) {
-    @apply /*h-auto w-48 lg:w-72 xl:w-80 */ w-auto max-w-48 lg:max-w-72 xl:max-w-80 h-12 lg:h-16 xl:h-18;
+  @apply flex items-center shrink-0 py-2 md:py-3 lg:py-3.5 pe-4;
+  ::slotted(img),
+  ::slotted(svg) {
+    @apply w-auto max-w-48 lg:max-w-72 xl:max-w-80 h-12 lg:h-16 xl:h-18;
   }
 }
 
-.header__search {
-  @apply min-w-sm;
+/*
+  Navigation is hidden and the menu toggle shown by default; the
+  `header--collapse-*` modifier below flips them at the breakpoint chosen by the
+  `collapseAt` prop. The slotted content owns its own <nav> landmark — do not
+  add one here.
+
+  Each breakpoint is written out as its own rule on purpose. The Stencil
+  Tailwind plugin only generates utilities it can see in this file, so a
+  variant assembled at runtime (`${bp}:flex`) would produce a class with no
+  rule behind it. Adding a breakpoint means adding a block here and a value to
+  HEADER_COLLAPSE_BREAKPOINTS.
+
+  `items-center flex-1 min-w-0` are unconditional — inert while the element is
+  display:none, so they need no variant.
+*/
+.header__nav {
+  @apply hidden items-center flex-1 min-w-0;
 }
 
+.header__actions {
+  @apply flex items-center shrink-0 gap-2;
+}
+
+/*
+  Layout only — aegov-button owns its colours, hover, focus ring and sizing.
+  Visibility is gated by the header--collapse-* modifier.
+*/
+.header__menu-toggle {
+  @apply shrink-0;
+}
+
+/* ── Collapse breakpoints ───────────────────────────────────────────────── */
+
+.header--collapse-md {
+  .header__nav { @apply md:flex; }
+  .header__menu-toggle { @apply md:hidden; }
+}
+
+.header--collapse-lg {
+  .header__nav { @apply lg:flex; }
+  .header__menu-toggle { @apply lg:hidden; }
+}
+
+.header--collapse-xl {
+  .header__nav { @apply xl:flex; }
+  .header__menu-toggle { @apply xl:hidden; }
+}
+
+.header--collapse-2xl {
+  .header__nav { @apply 2xl:flex; }
+  .header__menu-toggle { @apply 2xl:hidden; }
+}
+
+.header__drawer-head {
+  @apply flex items-center justify-end pb-2;
+}
+
+.header__drawer-close {
+  @apply inline-flex bg-transparent;
+}
+
+/* ── Sticky ─────────────────────────────────────────────────────────────────
+  The host is what sticks, offset upward by the banner's measured height, so the
+  banner scrolls away and the bar lands at exactly 0. `position: sticky` on
+  .header__head alone cannot work — a sticky element is confined to its parent's
+  box, so it would unstick the moment the header scrolled past.
+
+  Driven by a class on the host, never a reflected boolean attribute: Stencil
+  sets a reflected attribute when a boolean prop becomes true but does not
+  remove it when it becomes false, so `:host([is-sticky])` would stay sticky
+  forever after one toggle.
+
+  z-index sits below aegov-drawer (50 and up, via pushZIndex) so an open menu
+  and its backdrop still cover the bar.
+*/
+:host(.header--sticky) {
+  position: sticky;
+  top: calc(-1 * var(--aegov-header-banner-height, 0px));
+  z-index: 30;
+}
+
+/*
+  Only once pinned: translucent blurred backdrop plus a shadow, so scrolling
+  content stays faintly visible behind the bar.
+
+  --aegov-header-stuck-bg is the theming hook. `dark:` utilities and
+  :host-context(.dark) are both unreliable here — the .dark class lives on
+  :root, outside this shadow tree, and :host-context() is not implemented
+  across engines — so a dark theme sets the variable instead:
+    aegov-header { --aegov-header-stuck-bg: oklch(22.66% .008 264 / 0.7); }
+*/
+:host(.header--stuck) .header__head {
+  background-color: var(--aegov-header-stuck-bg, color-mix(in oklab, var(--color-whitely-50, oklch(100% 0 0)) 70%, transparent));
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  @apply shadow-md;
+}
+
+/* No backdrop-filter support: fall back to an opaque bar rather than a
+   see-through one with unreadable text. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :host(.header--stuck) .header__head {
+    background-color: var(--aegov-header-stuck-bg-fallback, var(--color-whitely-50, oklch(100% 0 0)));
+  }
+}
 
 /* Ministry variant */
 .header--ministry {

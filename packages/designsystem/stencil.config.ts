@@ -93,6 +93,7 @@ export const config: Config = {
       '/dist/',
       '/www/',
       '/tests/',
+      '/backup/',
     ],
   },
 

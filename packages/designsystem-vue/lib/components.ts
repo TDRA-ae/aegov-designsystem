@@ -256,6 +256,7 @@ export const AegovDrawer = /*@__PURE__*/ defineContainer<JSX.AegovDrawer>('aegov
   'overlayOpacity',
   'isCloseWithOverlay',
   'isPreventScroll',
+  'isPortal',
   'size',
   'isPadding',
   'label',
@@ -322,7 +323,16 @@ export const AegovHeader = /*@__PURE__*/ defineContainer<JSX.AegovHeader>('aegov
   'entityName',
   'entityDomain',
   'skipContentContainer',
-  'logoLabel'
+  'logoLabel',
+  'labelMenu',
+  'labelMenuClose',
+  'collapseAt',
+  'drawerSize',
+  'isSticky',
+  'aegovHeaderMenuOpen',
+  'aegovHeaderMenuClose',
+  'aegovHeaderStuck',
+  'aegovHeaderUnstuck'
 ]);
 
 
