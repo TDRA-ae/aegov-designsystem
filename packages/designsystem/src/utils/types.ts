@@ -680,6 +680,12 @@ export const NAVBLOCK_VARIANTS = ['collapsible', 'flat'] as const;
 export type NavblockVariant = typeof NAVBLOCK_VARIANTS[number];
 
 /**
+ * Footer component nav-column variant types
+ */
+export const FOOTER_NAV_VARIANTS = ['collapsible', 'flat'] as const;
+export type FooterNavVariant = typeof FOOTER_NAV_VARIANTS[number];
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

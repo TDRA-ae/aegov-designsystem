@@ -29,6 +29,7 @@ import { AegovDatepicker as AegovDatepickerElement, defineCustomElement as defin
 import { AegovDrawer as AegovDrawerElement, defineCustomElement as defineAegovDrawer } from "@aegov/designsystem/dist/components/aegov-drawer.js";
 import { AegovDropdown as AegovDropdownElement, defineCustomElement as defineAegovDropdown } from "@aegov/designsystem/dist/components/aegov-dropdown.js";
 import { AegovFileupload as AegovFileuploadElement, defineCustomElement as defineAegovFileupload } from "@aegov/designsystem/dist/components/aegov-fileupload.js";
+import { AegovFooter as AegovFooterElement, defineCustomElement as defineAegovFooter } from "@aegov/designsystem/dist/components/aegov-footer.js";
 import { AegovFormField as AegovFormFieldElement, defineCustomElement as defineAegovFormField } from "@aegov/designsystem/dist/components/aegov-form-field.js";
 import { AegovHeaderBanner as AegovHeaderBannerElement, defineCustomElement as defineAegovHeaderBanner } from "@aegov/designsystem/dist/components/aegov-header-banner.js";
 import { AegovHeader as AegovHeaderElement, defineCustomElement as defineAegovHeader } from "@aegov/designsystem/dist/components/aegov-header.js";
@@ -362,6 +363,17 @@ export const AegovFileupload: StencilReactComponent<AegovFileuploadElement, Aego
         onAegovValidate: 'aegovValidate'
     } as AegovFileuploadEvents,
     defineCustomElement: defineAegovFileupload
+});
+
+type AegovFooterEvents = NonNullable<unknown>;
+
+export const AegovFooter: StencilReactComponent<AegovFooterElement, AegovFooterEvents> = /*@__PURE__*/ createComponent<AegovFooterElement, AegovFooterEvents>({
+    tagName: 'aegov-footer',
+    elementClass: AegovFooterElement,
+    // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
+    react: React,
+    events: {} as AegovFooterEvents,
+    defineCustomElement: defineAegovFooter
 });
 
 type AegovFormFieldEvents = NonNullable<unknown>;
