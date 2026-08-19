@@ -936,7 +936,7 @@ export namespace Components {
          */
         "position": DropdownPosition;
         /**
-          * Controls Tab key behaviour when the dropdown is open.  - `'menu-button'` (default): Tab closes the menu and lets the browser move   focus to the next element — follows the WAI-ARIA Menu Button pattern.   Use this for action menus, settings menus, and other non-navigation dropdowns.  - `'disclosure'`: Tab moves focus through the links inside the open menu,   then closes it when focus leaves the last item — follows the WAI-ARIA   Disclosure Navigation Hybrid pattern. Set automatically by   `aegov-navbar-item` when the dropdown is used as a nav sub-menu.
+          * Controls Tab key behaviour when the dropdown is open.  - `'menu-button'` (default): Tab and Shift+Tab trap focus inside the open   menu, cycling through its items with wraparound — identical to   ArrowDown/ArrowUp. Use this for action menus, settings menus, and other   non-navigation dropdowns.  - `'disclosure'`: Tab moves focus through the links inside the open menu,   then closes it when focus leaves the last item — follows the WAI-ARIA   Disclosure Navigation Hybrid pattern. Set automatically by   `aegov-navbar-item` when the dropdown is used as a nav sub-menu.
           * @default 'menu-button'
          */
         "tabBehavior": 'menu-button' | 'disclosure';
@@ -4682,7 +4682,7 @@ declare namespace LocalJSX {
          */
         "position"?: DropdownPosition;
         /**
-          * Controls Tab key behaviour when the dropdown is open.  - `'menu-button'` (default): Tab closes the menu and lets the browser move   focus to the next element — follows the WAI-ARIA Menu Button pattern.   Use this for action menus, settings menus, and other non-navigation dropdowns.  - `'disclosure'`: Tab moves focus through the links inside the open menu,   then closes it when focus leaves the last item — follows the WAI-ARIA   Disclosure Navigation Hybrid pattern. Set automatically by   `aegov-navbar-item` when the dropdown is used as a nav sub-menu.
+          * Controls Tab key behaviour when the dropdown is open.  - `'menu-button'` (default): Tab and Shift+Tab trap focus inside the open   menu, cycling through its items with wraparound — identical to   ArrowDown/ArrowUp. Use this for action menus, settings menus, and other   non-navigation dropdowns.  - `'disclosure'`: Tab moves focus through the links inside the open menu,   then closes it when focus leaves the last item — follows the WAI-ARIA   Disclosure Navigation Hybrid pattern. Set automatically by   `aegov-navbar-item` when the dropdown is used as a nav sub-menu.
           * @default 'menu-button'
          */
         "tabBehavior"?: 'menu-button' | 'disclosure';
