@@ -40,41 +40,25 @@ describe('aegov-footer (e2e)', () => {
     expect(await panel.getProperty('hidden')).toBe(false);
   });
 
-  it('grid is 2 columns at 700px, 4 columns at 1280px — the grid-column breakpoint is `lg`, independent of the `sm` interactive cutover', async () => {
+  it('columns grid is 2-up at 700px, 4-up at 1280px — brand column + nav groups share one flat grid', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-footer>
+      <span slot="brand">Example Entity</span>
       ${GROUP}
       <div class="aegov-footer__group"><h2>Using the website</h2><ul role="list"><li><a href="/b">B</a></li></ul></div>
       <div class="aegov-footer__group"><h2>Information and support</h2><ul role="list"><li><a href="/c">C</a></li></ul></div>
-      <div class="aegov-footer__group"><h2>References</h2><ul role="list"><li><a href="/d">D</a></li></ul></div>
     </aegov-footer>`);
 
     await page.setViewport({ width: 700, height: 900 });
     await page.waitForChanges();
-    const nav = await page.find('aegov-footer .aegov-footer__nav');
-    let cols = (await nav.getComputedStyle()).gridTemplateColumns as string;
+    const columns = await page.find('aegov-footer .aegov-footer__columns');
+    let cols = (await columns.getComputedStyle()).gridTemplateColumns as string;
     expect(cols.trim().split(/\s+/).length).toBe(2);
 
     await page.setViewport({ width: 1280, height: 900 });
     await page.waitForChanges();
-    cols = (await nav.getComputedStyle()).gridTemplateColumns as string;
+    cols = (await columns.getComputedStyle()).gridTemplateColumns as string;
     expect(cols.trim().split(/\s+/).length).toBe(4);
-  });
-
-  it('main layout and Tawasul block go side-by-side at `sm`; the bottom bar stays stacked until `lg`', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<aegov-footer>${GROUP}</aegov-footer>`);
-
-    await page.setViewport({ width: 700, height: 900 });
-    await page.waitForChanges();
-    const main = await page.find('aegov-footer .aegov-footer__main');
-    const bottom = await page.find('aegov-footer .aegov-footer__bottom');
-    expect((await main.getComputedStyle()).flexDirection).toBe('row');
-    expect((await bottom.getComputedStyle()).flexDirection).toBe('column');
-
-    await page.setViewport({ width: 1280, height: 900 });
-    await page.waitForChanges();
-    expect((await bottom.getComputedStyle()).flexDirection).toBe('row');
   });
 
   it('nav-variant="flat": no button on any viewport, panel always visible', async () => {
@@ -105,12 +89,16 @@ describe('aegov-footer (e2e)', () => {
     expect(title.textContent.trim()).toBe('The Ministry');
   });
 
-  it('renders the tel: and WhatsApp Tawasul links with accessible names', async () => {
+  it('embeds aegov-footer-highlights above the columns and forwards entity-contact-* props to it', async () => {
     const page = await newE2EPage();
-    await page.setContent(`<aegov-footer>${GROUP}</aegov-footer>`);
-    const callLink = await page.find('aegov-footer a[href="tel:171"]');
-    expect(callLink.textContent).toContain('171');
-    const waLink = await page.find('aegov-footer a[href="https://wa.me/97147771777"]');
-    expect(waLink.textContent).toContain('04-7771777');
+    await page.setContent(`<aegov-footer entity-contact-number="800 8877" entity-email="info@example.gov.ae">${GROUP}</aegov-footer>`);
+    await page.waitForChanges();
+
+    const highlights = await page.find('aegov-footer aegov-footer-highlights');
+    expect(highlights).not.toBeNull();
+    const contactLink = await page.find('aegov-footer aegov-footer-highlights a[href="tel:8008877"]');
+    expect(contactLink.textContent).toContain('800 8877');
+    const emailLink = await page.find('aegov-footer aegov-footer-highlights a[href="mailto:info@example.gov.ae"]');
+    expect(emailLink.textContent).toContain('info@example.gov.ae');
   });
 });

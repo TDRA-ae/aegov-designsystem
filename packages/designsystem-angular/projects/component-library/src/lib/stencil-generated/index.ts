@@ -24,6 +24,7 @@ export const DIRECTIVES = [
   d.AegovDropdown,
   d.AegovFileupload,
   d.AegovFooter,
+  d.AegovFooterHighlights,
   d.AegovFormField,
   d.AegovHeader,
   d.AegovHeaderBanner,

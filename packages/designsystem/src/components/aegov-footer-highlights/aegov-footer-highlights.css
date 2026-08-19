@@ -1,0 +1,96 @@
+/* `:host` only has meaning inside a real Shadow Root — this component is
+   `scoped: false`, so it matches nothing and every declaration here would
+   silently be dead code (confirmed via computed-style: the host defaulted
+   to `display: inline` and this padding never applied). Target the actual
+   class already on the Host element instead. */
+.aegov-footer-highlights {
+  @apply block w-full py-16;
+}
+
+.aegov-footer-highlights__grid {
+  @apply grid grid-cols-1 gap-6 xl:grid-cols-2;
+}
+
+/* ---------- start card (author-slotted) ---------- */
+
+/* Only the card's own chrome is styled here — its inner content (newsletter
+   form, app-download links, or anything else) is entirely author-provided
+   via the default slot, so there is nothing else to style on this side. */
+.aegov-footer-highlights__card--start {
+  @apply bg-primary-900 shadow-lg dark:bg-primary-950;
+}
+
+/* ---------- end card (fixed content) ---------- */
+
+/* The gradient spans the whole card, so it's set on aegov-card's own host
+   rather than one half of its inner grid. aegov-card's internal `.aegov-card`
+   / `.card__inner` wrapper divs otherwise paint an opaque background-color
+   (inherited from the card's own base styling) over that gradient — the
+   `!` (important) overrides are required to win against that layer. */
+.aegov-footer-highlights__card--end {
+  @apply relative shadow-lg;
+  @apply bg-linear-to-br from-secondary-100 via-whitely-100 to-primary-100;
+  @apply dark:from-secondary-950 dark:via-aeblack-900 dark:to-primary-950;
+
+  & .aegov-card,
+  & .card__inner {
+    background-color: transparent !important;
+  }
+}
+
+.aegov-footer-highlights__end-grid {
+  @apply grid grid-cols-1 divide-y divide-aeblack-100/70 sm:grid-cols-2 sm:divide-x sm:divide-y-0 dark:divide-aeblack-800/70;
+}
+
+.aegov-footer-highlights__panel {
+  @apply p-6 sm:p-8;
+}
+
+.aegov-footer-highlights__eyebrow {
+  @apply m-0 text-xs font-semibold tracking-wide text-secondary-700 uppercase dark:text-secondary-400;
+}
+
+.aegov-footer-highlights__tawasul-mark {
+  @apply mt-3 block w-32;
+
+  svg {
+    @apply block h-auto w-full;
+
+    /* The source SVG (TAWASUL_LOGO_SVG) hardcodes most of the "171"/"تواصل"
+       glyph as fill="#141818" — near-black, with no light counterpart baked
+       in. Confirmed via a real dark-mode screenshot that this reads as
+       almost invisible against the block's dark background. Override just
+       those paths via an attribute selector; the red/green accent paths
+       already have enough luminance to stay legible as-is. */
+    path[fill='#141818']:where(.dark, .dark *) {
+      fill: var(--color-whitely-50);
+    }
+  }
+}
+
+.aegov-footer-highlights__desc {
+  @apply mt-3 text-sm text-aeblack-600 dark:text-aeblack-300;
+}
+
+.aegov-footer-highlights__tawasul-actions {
+  @apply mt-5 flex flex-wrap gap-3;
+}
+
+.aegov-footer-highlights__rows {
+  @apply mt-4;
+}
+
+.aegov-footer-highlights__row {
+  @apply flex items-center justify-between gap-4 border-b border-aeblack-100/70 py-3 dark:border-aeblack-800/70;
+}
+.aegov-footer-highlights__row:last-child {
+  @apply border-b-0;
+}
+
+.aegov-footer-highlights__row-label {
+  @apply text-sm text-aeblack-500 dark:text-aeblack-400;
+}
+
+.aegov-footer-highlights__contact-link {
+  @apply mt-4 inline-flex items-center gap-1.5;
+}
