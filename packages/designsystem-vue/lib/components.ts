@@ -308,6 +308,13 @@ export const AegovFileupload = /*@__PURE__*/ defineContainer<JSX.AegovFileupload
 ]);
 
 
+export const AegovFooter = /*@__PURE__*/ defineContainer<JSX.AegovFooter>('aegov-footer', undefined, [
+  'navVariant',
+  'entityTollFree',
+  'entityTollFreeLabel'
+]);
+
+
 export const AegovFormField = /*@__PURE__*/ defineContainer<JSX.AegovFormField>('aegov-form-field', undefined, [
   'fieldId',
   'isInvalid',

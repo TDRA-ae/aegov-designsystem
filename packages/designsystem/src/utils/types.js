@@ -393,3 +393,7 @@ export const HEADER_VARIANTS = ['ministry', 'authority'];
  * Navbar component size types
  */
 export const NAVBAR_SIZES = ['sm', 'base', 'lg'];
+/**
+ * Footer component nav-column variant types
+ */
+export const FOOTER_NAV_VARIANTS = ['collapsible', 'flat'];

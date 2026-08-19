@@ -488,11 +488,16 @@ export type DrawerSize = typeof DRAWER_SIZES[number];
  */
 export declare const HEADER_VARIANTS: readonly ["ministry", "authority"];
 export type HeaderVariant = typeof HEADER_VARIANTS[number];
-/**
+/**`
  * Navbar component size types
  */
 export declare const NAVBAR_SIZES: readonly ["sm", "base", "lg"];
 export type NavbarSize = typeof NAVBAR_SIZES[number];
+/**
+ * Footer component nav-column variant types
+ */
+export declare const FOOTER_NAV_VARIANTS: readonly ["collapsible", "flat"];
+export type FooterNavVariant = typeof FOOTER_NAV_VARIANTS[number];
 /**
  * Common component props
  */
