@@ -26,6 +26,14 @@ export class AegovModal {
   private focusableElements: HTMLElement[] = [];
   private modalZIndex: number = 50;
   private movedToBody: boolean = false;
+  // Tracks whether THIS instance actually holds the shared scroll-lock/z-index
+  // resources (i.e. handleOpen() ran and handleCloseComplete() hasn't undone it
+  // yet) — connectedCallback's body-move triggers a disconnect/reconnect pair
+  // before handleOpen ever runs for an initially-open modal, so disconnectedCallback
+  // can't just check `this.isOpen`: that would call unlockBodyScroll()/popZIndex()
+  // for resources this instance never acquired, corrupting the shared counters for
+  // whatever OTHER overlay is genuinely open at that moment.
+  private overlayResourcesHeld: boolean = false;
 
   /**
    * Unique ID for the modal dialog element. Auto-generated if not provided.
@@ -153,8 +161,20 @@ export class AegovModal {
     warnIfInvalidEnumProp(this.overlayOpacity, MODAL_OVERLAY_OPACITIES, 'base', ctx('overlayOpacity'));
     warnIfInvalidEnumProp(this.position, MODAL_POSITIONS, 'center', ctx('position'));
     warnIfInvalidEnumProp(this.size, MODAL_SIZES, 'base', ctx('size'));
-    if (!this.label && !this.el.getAttribute('aria-labelledby')) {
+    if (!this.label && !this.el.getAttribute('aria-labelledby') && !this.el.getAttribute('aria-label')) {
       console.warn('[aegov-modal] Dialog has no accessible name. Provide a label prop.');
+    }
+  }
+
+  componentDidLoad() {
+    // @Watch('isOpen') only fires on a SUBSEQUENT change, never for the prop's
+    // initial value — so a modal declared with is-open="true" from the start (the
+    // docs' own declarative example) would otherwise never run handleOpen(): no
+    // scroll lock, no focus trap, and critically no Escape-key listener (only ever
+    // attached inside handleOpen()), leaving it visible but completely inert to
+    // the keyboard and unable to be dismissed with Escape.
+    if (this.isOpen) {
+      this.handleOpen();
     }
   }
 
@@ -183,8 +203,18 @@ export class AegovModal {
     // here — the disconnect IS the removal, and re-removing inside the
     // callback caused a "Maximum call stack size exceeded" loop with
     // connectedCallback under Stencil's shadow-DOM hydration.
-    if (this.isPreventScroll && this.isOpen) {
-      unlockBodyScroll();
+    //
+    // Covers a framework removing the element entirely (e.g. React unmounting
+    // it) while still open, without ever calling close()/handleCloseComplete() —
+    // otherwise the z-index stack leaks (popZIndex() never called to match the
+    // earlier pushZIndex()) and every subsequently-opened overlay stacks one
+    // increment higher than it should, forever.
+    if (this.overlayResourcesHeld) {
+      this.overlayResourcesHeld = false;
+      if (this.isPreventScroll) {
+        unlockBodyScroll();
+      }
+      popZIndex();
     }
     document.removeEventListener('keydown', this.handleKeyDown);
   }
@@ -195,6 +225,7 @@ export class AegovModal {
 
     // Assign z-index for this modal
     this.modalZIndex = pushZIndex();
+    this.overlayResourcesHeld = true;
 
     // Set animation state
     this.animationState = 'opening';
@@ -218,6 +249,19 @@ export class AegovModal {
   }
 
   private handleClose() {
+    // Guard against a redundant close() while already closed/closing. Without this,
+    // calling close() again (e.g. a consumer defensively "ensuring" it's closed, or a
+    // double-click on a close button) would re-run the block below and re-arm
+    // animationState = 'closing' with a setTimeout that sets isOpen = false — but
+    // isOpen is ALREADY false, so @Watch('isOpen') never fires (no actual value
+    // change), handleCloseComplete() never runs, and animationState gets stuck at
+    // 'closing' forever. render() only returns null once BOTH !isOpen AND
+    // animationState === 'closed', so the dialog would stay rendered in the DOM
+    // permanently even though isOpen correctly reports false.
+    if (!this.isOpen || this.animationState === 'closing') {
+      return;
+    }
+
     // Emit cancellable before-close event; consumer calls event.preventDefault() to cancel
     const beforeClose = this.aegovModalBeforeClose.emit();
     if (beforeClose.defaultPrevented) {
@@ -236,6 +280,7 @@ export class AegovModal {
   private handleCloseComplete() {
     // Decrement overlay stack
     popZIndex();
+    this.overlayResourcesHeld = false;
 
     // Unlock body scroll (ref-counted, only unlocks when last overlay closes)
     if (this.isPreventScroll) {
@@ -336,6 +381,12 @@ export class AegovModal {
     }
 
     const passThroughAttributes = getPassThroughAttributes(this.el);
+    // The `label` prop wins when set; otherwise fall back to whatever
+    // passThroughAttributes already collected from a raw host aria-label
+    // attribute — a literal `aria-label={undefined}` in the JSX below would
+    // otherwise override (erase) that spread value, since it's a later key in
+    // the same merged attrs object.
+    const dialogAriaLabel = this.label || passThroughAttributes['aria-label'];
 
     return (
       <Host data-state={this.animationState} style={{ '--modal-z-index': this.modalZIndex.toString() }}>
@@ -352,7 +403,7 @@ export class AegovModal {
             data-state={this.animationState}
             role="dialog"
             aria-modal="true"
-            aria-label={this.label || undefined}
+            aria-label={dialogAriaLabel}
             tabindex={-1}
           >
             <slot></slot>

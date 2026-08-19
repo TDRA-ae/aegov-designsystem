@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, Element, Event, EventEmitter, Watch, State } from '@stencil/core';
-import { AccordionIcon, AccordionSize } from '../../utils/types';
+import { AccordionIcon, AccordionSize, ACCORDION_ICONS } from '../../utils/types';
 import { generateId } from '../../utils/id-generator';
 
 /**
@@ -154,6 +154,7 @@ export class AegovAccordionItem {
 
     const level = Math.min(6, Math.max(1, this.headingLevel || 3));
     const HeadingTag = `h${level}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+    const icon: AccordionIcon = (ACCORDION_ICONS as readonly string[]).includes(this.icon) ? this.icon : 'chevron';
 
     const triggerButton = (
       <button
@@ -172,7 +173,7 @@ export class AegovAccordionItem {
             this.heading
           )}
         </div>
-        {this.icon === 'chevron' ? (
+        {icon === 'chevron' ? (
           <svg class="accordion-item__icon accordion-item__icon-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true">
             <rect width="256" height="256" fill="none"/>
             <polyline points="208 96 128 176 48 96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/>

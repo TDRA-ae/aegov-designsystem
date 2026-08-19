@@ -139,6 +139,8 @@ export class AegovDropdown {
   private positionUpdateScheduled: boolean = false;
   private positionRetryCount: number = 0;
   private readonly MAX_POSITION_RETRIES = 10;
+  private outOfViewportStreak: number = 0;
+  private readonly OUT_OF_VIEWPORT_CLOSE_THRESHOLD = 2;
   private focusableElements: HTMLElement[] = [];
   private currentFocusIndex: number = -1;
   private triggerElement?: HTMLElement;
@@ -184,9 +186,10 @@ export class AegovDropdown {
   /**
    * Controls Tab key behaviour when the dropdown is open.
    *
-   * - `'menu-button'` (default): Tab closes the menu and lets the browser move
-   *   focus to the next element — follows the WAI-ARIA Menu Button pattern.
-   *   Use this for action menus, settings menus, and other non-navigation dropdowns.
+   * - `'menu-button'` (default): Tab and Shift+Tab trap focus inside the open
+   *   menu, cycling through its items with wraparound — identical to
+   *   ArrowDown/ArrowUp. Use this for action menus, settings menus, and other
+   *   non-navigation dropdowns.
    *
    * - `'disclosure'`: Tab moves focus through the links inside the open menu,
    *   then closes it when focus leaves the last item — follows the WAI-ARIA
@@ -263,6 +266,16 @@ export class AegovDropdown {
 
   private get triggerId(): string {
     return `${this.fieldId}-trigger`;
+  }
+
+  /**
+   * Sanitized `trigger` value — falls back to the documented default ('click')
+   * for any invalid value. Every runtime branch below compares against this,
+   * not the raw prop: an invalid `trigger` must still behave like the default,
+   * not silently disable click-opening (the only comparison that isn't 'hover').
+   */
+  private get safeTrigger(): DropdownTrigger {
+    return (DROPDOWN_TRIGGERS as readonly string[]).includes(this.trigger) ? this.trigger : 'click';
   }
 
   @Watch('trigger')
@@ -379,6 +392,7 @@ export class AegovDropdown {
 
       // Reset retry count when showing dropdown
       this.positionRetryCount = 0;
+      this.outOfViewportStreak = 0;
       // Render portal content
       this.renderPortalContent();
       // Schedule position update after dropdown is rendered
@@ -498,16 +512,27 @@ export class AegovDropdown {
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
-    // Close dropdown if trigger has scrolled out of the viewport
+    // Close dropdown if trigger has scrolled out of the viewport. Require two
+    // consecutive out-of-viewport readings before actually closing: other concurrent
+    // DOM activity (layout shifts, an in-flight transition, a momentary reflow) can
+    // make a single rAF tick see a stale/transient rect even though the trigger is
+    // genuinely still in view a frame later — closing on that first reading was
+    // flipping the dropdown shut moments after it opened.
     if (
       triggerRect.bottom < 0 ||
       triggerRect.top > viewportHeight ||
       triggerRect.right < 0 ||
       triggerRect.left > viewportWidth
     ) {
-      this.isOpen = false;
+      this.outOfViewportStreak++;
+      if (this.outOfViewportStreak >= this.OUT_OF_VIEWPORT_CLOSE_THRESHOLD) {
+        this.isOpen = false;
+        return;
+      }
+      requestAnimationFrame(() => this.updateDropdownPosition());
       return;
     }
+    this.outOfViewportStreak = 0;
 
     // If dropdown hasn't been measured yet (width/height = 0), retry with limit
     if (dropdownRect.width === 0 || dropdownRect.height === 0) {
@@ -641,7 +666,7 @@ export class AegovDropdown {
 
     // For hover-triggered dropdowns, enforce a minimum grace period
     // so the cursor can cross the gap between trigger and dropdown panel.
-    const delay = this.trigger === 'hover'
+    const delay = this.safeTrigger === 'hover'
       ? Math.max(this.delayEnd, AegovDropdown.HOVER_HIDE_GRACE)
       : this.delayEnd;
 
@@ -652,13 +677,13 @@ export class AegovDropdown {
   };
 
   private handleTriggerMouseEnter = () => {
-    if (this.trigger === 'hover') {
+    if (this.safeTrigger === 'hover') {
       this.showDropdown();
     }
   };
 
   private handleTriggerMouseLeave = (event: MouseEvent) => {
-    if (this.trigger === 'hover') {
+    if (this.safeTrigger === 'hover') {
       const relatedTarget = event.relatedTarget as HTMLElement;
       if (relatedTarget) {
         // Moving to our own dropdown content — don't hide
@@ -686,7 +711,7 @@ export class AegovDropdown {
     // Click trigger: always toggle. Hover trigger: toggle only on keyboard
     // activation so mouse users still rely on hover, but keyboard users get
     // Enter/Space support (WCAG 2.5.1).
-    if (this.trigger === 'click' || (this.trigger === 'hover' && isKeyboard)) {
+    if (this.safeTrigger === 'click' || (this.safeTrigger === 'hover' && isKeyboard)) {
       event.stopPropagation();
       this.openedViaKeyboard = isKeyboard;
       this.isOpen = !this.isOpen;
@@ -694,13 +719,13 @@ export class AegovDropdown {
   };
 
   private handleDropdownMouseEnter = () => {
-    if (this.trigger === 'hover') {
+    if (this.safeTrigger === 'hover') {
       this.clearTimeouts();
     }
   };
 
   private handleDropdownMouseLeave = (event: MouseEvent) => {
-    if (this.trigger === 'hover') {
+    if (this.safeTrigger === 'hover') {
       const relatedTarget = event.relatedTarget as HTMLElement;
 
       if (relatedTarget) {
@@ -854,7 +879,38 @@ export class AegovDropdown {
         }
       }
 
-      // Default (menu-button pattern): Tab closes menu, browser handles focus naturally
+      // Default (menu-button pattern): trap Tab/Shift+Tab inside the open menu,
+      // cycling with wraparound exactly like ArrowDown/ArrowUp — the same "trapped
+      // focus" behavior aegov-popover already uses for its own Tab handling.
+      // Previously this just closed the menu and left the browser to move focus
+      // "naturally," but the menu content lives in a document.body portal — the
+      // currently-focused item gets unmounted (returnPortalContent) as part of the
+      // same isOpen=false update, before any native Tab default can run, so the
+      // browser had nothing sensible to tab to and jumped to the very first
+      // focusable element in the whole document instead of anywhere near the trigger.
+      const tabFocusedEl = document.activeElement as HTMLElement;
+      const isTabFocusInMenu = !!(this.dropdownRef?.contains(tabFocusedEl));
+      const isTabFocusOnTrigger = !!(this.triggerRef?.contains(tabFocusedEl));
+
+      if (isTabFocusInMenu) {
+        event.preventDefault();
+        this.focusNextElement(event.shiftKey);
+        return;
+      }
+      if (isTabFocusOnTrigger && !event.shiftKey) {
+        event.preventDefault();
+        if (this.focusableElements.length === 0 && this.dropdownRef) {
+          this.focusableElements = getFocusableElements(this.dropdownRef, FOCUSABLE_SELECTORS);
+        }
+        if (this.focusableElements.length > 0) {
+          this.currentFocusIndex = 0;
+          this.focusableElements[0].focus();
+        }
+        return;
+      }
+
+      // Focus is neither on the trigger nor inside the menu — shouldn't normally
+      // happen while open, but close rather than leave a stale trapped state.
       this.isOpen = false;
       return;
     }

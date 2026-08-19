@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, Element, Event, EventEmitter, State, Watch } from '@stencil/core';
 import type { NavblockIcon, NavblockSize, NavblockVariant, LinkTarget } from '../../utils/types';
+import { NAVBLOCK_ICONS } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 
@@ -271,7 +272,8 @@ export class AegovNavblockItem {
 
   private renderChevron() {
     const baseClass = 'aegov-navblock-item__chevron';
-    if (this.icon === 'chevron') {
+    const icon: NavblockIcon = (NAVBLOCK_ICONS as readonly string[]).includes(this.icon) ? this.icon : 'chevron';
+    if (icon === 'chevron') {
       return (
         <svg
           class={`${baseClass} ${baseClass}-chevron`}
