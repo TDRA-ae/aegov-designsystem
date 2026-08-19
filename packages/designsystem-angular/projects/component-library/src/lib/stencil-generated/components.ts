@@ -27,6 +27,7 @@ import { defineCustomElement as defineAegovDatepicker } from '@aegov/designsyste
 import { defineCustomElement as defineAegovDrawer } from '@aegov/designsystem/components/aegov-drawer.js';
 import { defineCustomElement as defineAegovDropdown } from '@aegov/designsystem/components/aegov-dropdown.js';
 import { defineCustomElement as defineAegovFileupload } from '@aegov/designsystem/components/aegov-fileupload.js';
+import { defineCustomElement as defineAegovFooter } from '@aegov/designsystem/components/aegov-footer.js';
 import { defineCustomElement as defineAegovFormField } from '@aegov/designsystem/components/aegov-form-field.js';
 import { defineCustomElement as defineAegovHeader } from '@aegov/designsystem/components/aegov-header.js';
 import { defineCustomElement as defineAegovHeaderBanner } from '@aegov/designsystem/components/aegov-header-banner.js';
@@ -749,6 +750,29 @@ export declare interface AegovFileupload extends Components.AegovFileupload {
    */
   aegovValidate: EventEmitter<AegovFileuploadCustomEvent<IAegovFileuploadAegovValidationDetail<File[]>>>;
 }
+
+
+@ProxyCmp({
+  defineCustomElementFn: defineAegovFooter,
+  inputs: ['entityTollFree', 'entityTollFreeLabel', 'navVariant']
+})
+@Component({
+  selector: 'aegov-footer',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: ['entityTollFree', 'entityTollFreeLabel', 'navVariant'],
+})
+export class AegovFooter {
+  protected el: HTMLAegovFooterElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface AegovFooter extends Components.AegovFooter {}
 
 
 @ProxyCmp({

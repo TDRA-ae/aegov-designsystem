@@ -56,6 +56,7 @@ export type {
   FileuploadSize,
   FileuploadVariant,
   FormVariant,
+  FooterNavVariant,
   InputSize,
   InputType,
   LinkTarget,

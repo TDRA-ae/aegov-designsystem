@@ -5,11 +5,11 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FormVariant, HeaderCollapseBreakpoint, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, NavblockVariant, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FooterNavVariant, FormVariant, HeaderCollapseBreakpoint, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, NavblockVariant, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 import { AegovRangeValue } from "./components/aegov-range/aegov-range";
 import { AegovSelectValue } from "./components/aegov-select/aegov-select";
-export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FormVariant, HeaderCollapseBreakpoint, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, NavblockVariant, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FooterNavVariant, FormVariant, HeaderCollapseBreakpoint, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, NavblockVariant, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 export { AegovRangeValue } from "./components/aegov-range/aegov-range";
 export { AegovSelectValue } from "./components/aegov-select/aegov-select";
@@ -1044,6 +1044,49 @@ export namespace Components {
           * @default 'primary'
          */
         "variant": FormVariant;
+    }
+    /**
+     * @component aegov-footer
+     * @description Full-width government website footer. Holds an open slot for
+     * author-written link columns — each authored as PLAIN HTML: a title element
+     * (any tag — `<h2>`–`<h6>` recommended) as the group's first child, followed
+     * by the rest of the column's content (typically a `<ul>`). No button, no
+     * disclosure markup, no special classes beyond `.aegov-footer__group` — the
+     * component synthesizes a trigger button around the title's own content only
+     * when a column genuinely needs to be toggleable (below `sm`, with
+     * `nav-variant="collapsible"`), and unwraps it completely otherwise, so an
+     * author never has to reason about interactivity that doesn't apply to their
+     * content. This also means no button exists in the DOM at all outside that
+     * one state — not hidden, not neutralized, never created — which is what
+     * makes the title read as a plain heading to assistive tech everywhere else
+     * (confirmed with real VoiceOver testing; reassigning ARIA roles on a
+     * still-focusable element does not reliably suppress its native role, per
+     * WAI-ARIA's Presentational Roles Conflict Resolution rule). Also renders a
+     * fixed bilingual Tawasul contact block and a bottom bar for copyright +
+     * social actions.
+     * @example <aegov-footer nav-variant="collapsible">
+     *   <div class="aegov-footer__group">
+     *     <h2>The Ministry</h2>
+     *     <ul role="list"><li><a href="/about">About the ministry</a></li></ul>
+     *   </div>
+     *   <p slot="copyright">© 2026. Ministry of Example. All rights reserved.</p>
+     *   <a slot="actions" href="https://facebook.com/example"><span class="sr-only">Facebook</span>…</a>
+     * </aegov-footer>
+     */
+    interface AegovFooter {
+        /**
+          * The entity's own toll-free number (e.g. "600 522222"), shown as its own line below the fixed logo/171/WhatsApp block — per the design system guidance that "the entity's toll-free contact number must be below the '171 tawasul' container". Entirely optional and site-specific, so nothing renders unless it's provided — there is no fixed Tawasul toll-free number of its own to fall back to.
+         */
+        "entityTollFree"?: string;
+        /**
+          * Overrides the label shown before `entityTollFree` (defaults to the same bilingual "Toll free"/"الرقم المجاني" text used elsewhere in the block).
+         */
+        "entityTollFreeLabel"?: string;
+        /**
+          * Controls how footer link columns behave below the `sm` breakpoint (640px) — the point at which the reference footer block stops being collapsible altogether, well before the grid switches from 2 to 4 columns at `lg`. - "collapsible" (default): each column's content toggles below `sm`, always expanded at `sm+`. - "flat": columns are always expanded, at every breakpoint. Author each column as a plain title element + content — no extra markup needed for either value.
+          * @default 'collapsible'
+         */
+        "navVariant": FooterNavVariant;
     }
     interface AegovFormField {
         /**
@@ -3130,6 +3173,40 @@ declare global {
         prototype: HTMLAegovFileuploadElement;
         new (): HTMLAegovFileuploadElement;
     };
+    /**
+     * @component aegov-footer
+     * @description Full-width government website footer. Holds an open slot for
+     * author-written link columns — each authored as PLAIN HTML: a title element
+     * (any tag — `<h2>`–`<h6>` recommended) as the group's first child, followed
+     * by the rest of the column's content (typically a `<ul>`). No button, no
+     * disclosure markup, no special classes beyond `.aegov-footer__group` — the
+     * component synthesizes a trigger button around the title's own content only
+     * when a column genuinely needs to be toggleable (below `sm`, with
+     * `nav-variant="collapsible"`), and unwraps it completely otherwise, so an
+     * author never has to reason about interactivity that doesn't apply to their
+     * content. This also means no button exists in the DOM at all outside that
+     * one state — not hidden, not neutralized, never created — which is what
+     * makes the title read as a plain heading to assistive tech everywhere else
+     * (confirmed with real VoiceOver testing; reassigning ARIA roles on a
+     * still-focusable element does not reliably suppress its native role, per
+     * WAI-ARIA's Presentational Roles Conflict Resolution rule). Also renders a
+     * fixed bilingual Tawasul contact block and a bottom bar for copyright +
+     * social actions.
+     * @example <aegov-footer nav-variant="collapsible">
+     *   <div class="aegov-footer__group">
+     *     <h2>The Ministry</h2>
+     *     <ul role="list"><li><a href="/about">About the ministry</a></li></ul>
+     *   </div>
+     *   <p slot="copyright">© 2026. Ministry of Example. All rights reserved.</p>
+     *   <a slot="actions" href="https://facebook.com/example"><span class="sr-only">Facebook</span>…</a>
+     * </aegov-footer>
+     */
+    interface HTMLAegovFooterElement extends Components.AegovFooter, HTMLStencilElement {
+    }
+    var HTMLAegovFooterElement: {
+        prototype: HTMLAegovFooterElement;
+        new (): HTMLAegovFooterElement;
+    };
     interface HTMLAegovFormFieldElement extends Components.AegovFormField, HTMLStencilElement {
     }
     var HTMLAegovFormFieldElement: {
@@ -3672,6 +3749,7 @@ declare global {
         "aegov-drawer": HTMLAegovDrawerElement;
         "aegov-dropdown": HTMLAegovDropdownElement;
         "aegov-fileupload": HTMLAegovFileuploadElement;
+        "aegov-footer": HTMLAegovFooterElement;
         "aegov-form-field": HTMLAegovFormFieldElement;
         "aegov-header": HTMLAegovHeaderElement;
         "aegov-header-banner": HTMLAegovHeaderBannerElement;
@@ -4789,6 +4867,49 @@ declare namespace LocalJSX {
           * @default 'primary'
          */
         "variant"?: FormVariant;
+    }
+    /**
+     * @component aegov-footer
+     * @description Full-width government website footer. Holds an open slot for
+     * author-written link columns — each authored as PLAIN HTML: a title element
+     * (any tag — `<h2>`–`<h6>` recommended) as the group's first child, followed
+     * by the rest of the column's content (typically a `<ul>`). No button, no
+     * disclosure markup, no special classes beyond `.aegov-footer__group` — the
+     * component synthesizes a trigger button around the title's own content only
+     * when a column genuinely needs to be toggleable (below `sm`, with
+     * `nav-variant="collapsible"`), and unwraps it completely otherwise, so an
+     * author never has to reason about interactivity that doesn't apply to their
+     * content. This also means no button exists in the DOM at all outside that
+     * one state — not hidden, not neutralized, never created — which is what
+     * makes the title read as a plain heading to assistive tech everywhere else
+     * (confirmed with real VoiceOver testing; reassigning ARIA roles on a
+     * still-focusable element does not reliably suppress its native role, per
+     * WAI-ARIA's Presentational Roles Conflict Resolution rule). Also renders a
+     * fixed bilingual Tawasul contact block and a bottom bar for copyright +
+     * social actions.
+     * @example <aegov-footer nav-variant="collapsible">
+     *   <div class="aegov-footer__group">
+     *     <h2>The Ministry</h2>
+     *     <ul role="list"><li><a href="/about">About the ministry</a></li></ul>
+     *   </div>
+     *   <p slot="copyright">© 2026. Ministry of Example. All rights reserved.</p>
+     *   <a slot="actions" href="https://facebook.com/example"><span class="sr-only">Facebook</span>…</a>
+     * </aegov-footer>
+     */
+    interface AegovFooter {
+        /**
+          * The entity's own toll-free number (e.g. "600 522222"), shown as its own line below the fixed logo/171/WhatsApp block — per the design system guidance that "the entity's toll-free contact number must be below the '171 tawasul' container". Entirely optional and site-specific, so nothing renders unless it's provided — there is no fixed Tawasul toll-free number of its own to fall back to.
+         */
+        "entityTollFree"?: string;
+        /**
+          * Overrides the label shown before `entityTollFree` (defaults to the same bilingual "Toll free"/"الرقم المجاني" text used elsewhere in the block).
+         */
+        "entityTollFreeLabel"?: string;
+        /**
+          * Controls how footer link columns behave below the `sm` breakpoint (640px) — the point at which the reference footer block stops being collapsible altogether, well before the grid switches from 2 to 4 columns at `lg`. - "collapsible" (default): each column's content toggles below `sm`, always expanded at `sm+`. - "flat": columns are always expanded, at every breakpoint. Author each column as a plain title element + content — no extra markup needed for either value.
+          * @default 'collapsible'
+         */
+        "navVariant"?: FooterNavVariant;
     }
     interface AegovFormField {
         /**
@@ -6805,6 +6926,11 @@ declare namespace LocalJSX {
         "labelHelp": string;
         "labelButton": string;
     }
+    interface AegovFooterAttributes {
+        "navVariant": FooterNavVariant;
+        "entityTollFree": string;
+        "entityTollFreeLabel": string;
+    }
     interface AegovFormFieldAttributes {
         "fieldId": string;
         "isInvalid": boolean;
@@ -7192,6 +7318,7 @@ declare namespace LocalJSX {
         "aegov-drawer": Omit<AegovDrawer, keyof AegovDrawerAttributes> & { [K in keyof AegovDrawer & keyof AegovDrawerAttributes]?: AegovDrawer[K] } & { [K in keyof AegovDrawer & keyof AegovDrawerAttributes as `attr:${K}`]?: AegovDrawerAttributes[K] } & { [K in keyof AegovDrawer & keyof AegovDrawerAttributes as `prop:${K}`]?: AegovDrawer[K] };
         "aegov-dropdown": Omit<AegovDropdown, keyof AegovDropdownAttributes> & { [K in keyof AegovDropdown & keyof AegovDropdownAttributes]?: AegovDropdown[K] } & { [K in keyof AegovDropdown & keyof AegovDropdownAttributes as `attr:${K}`]?: AegovDropdownAttributes[K] } & { [K in keyof AegovDropdown & keyof AegovDropdownAttributes as `prop:${K}`]?: AegovDropdown[K] };
         "aegov-fileupload": Omit<AegovFileupload, keyof AegovFileuploadAttributes> & { [K in keyof AegovFileupload & keyof AegovFileuploadAttributes]?: AegovFileupload[K] } & { [K in keyof AegovFileupload & keyof AegovFileuploadAttributes as `attr:${K}`]?: AegovFileuploadAttributes[K] } & { [K in keyof AegovFileupload & keyof AegovFileuploadAttributes as `prop:${K}`]?: AegovFileupload[K] };
+        "aegov-footer": Omit<AegovFooter, keyof AegovFooterAttributes> & { [K in keyof AegovFooter & keyof AegovFooterAttributes]?: AegovFooter[K] } & { [K in keyof AegovFooter & keyof AegovFooterAttributes as `attr:${K}`]?: AegovFooterAttributes[K] } & { [K in keyof AegovFooter & keyof AegovFooterAttributes as `prop:${K}`]?: AegovFooter[K] };
         "aegov-form-field": Omit<AegovFormField, keyof AegovFormFieldAttributes> & { [K in keyof AegovFormField & keyof AegovFormFieldAttributes]?: AegovFormField[K] } & { [K in keyof AegovFormField & keyof AegovFormFieldAttributes as `attr:${K}`]?: AegovFormFieldAttributes[K] } & { [K in keyof AegovFormField & keyof AegovFormFieldAttributes as `prop:${K}`]?: AegovFormField[K] };
         "aegov-header": Omit<AegovHeader, keyof AegovHeaderAttributes> & { [K in keyof AegovHeader & keyof AegovHeaderAttributes]?: AegovHeader[K] } & { [K in keyof AegovHeader & keyof AegovHeaderAttributes as `attr:${K}`]?: AegovHeaderAttributes[K] } & { [K in keyof AegovHeader & keyof AegovHeaderAttributes as `prop:${K}`]?: AegovHeader[K] };
         "aegov-header-banner": Omit<AegovHeaderBanner, keyof AegovHeaderBannerAttributes> & { [K in keyof AegovHeaderBanner & keyof AegovHeaderBannerAttributes]?: AegovHeaderBanner[K] } & { [K in keyof AegovHeaderBanner & keyof AegovHeaderBannerAttributes as `attr:${K}`]?: AegovHeaderBannerAttributes[K] } & { [K in keyof AegovHeaderBanner & keyof AegovHeaderBannerAttributes as `prop:${K}`]?: AegovHeaderBanner[K] };
@@ -7280,6 +7407,35 @@ declare module "@stencil/core" {
              */
             "aegov-dropdown": LocalJSX.IntrinsicElements["aegov-dropdown"] & JSXBase.HTMLAttributes<HTMLAegovDropdownElement>;
             "aegov-fileupload": LocalJSX.IntrinsicElements["aegov-fileupload"] & JSXBase.HTMLAttributes<HTMLAegovFileuploadElement>;
+            /**
+             * @component aegov-footer
+             * @description Full-width government website footer. Holds an open slot for
+             * author-written link columns — each authored as PLAIN HTML: a title element
+             * (any tag — `<h2>`–`<h6>` recommended) as the group's first child, followed
+             * by the rest of the column's content (typically a `<ul>`). No button, no
+             * disclosure markup, no special classes beyond `.aegov-footer__group` — the
+             * component synthesizes a trigger button around the title's own content only
+             * when a column genuinely needs to be toggleable (below `sm`, with
+             * `nav-variant="collapsible"`), and unwraps it completely otherwise, so an
+             * author never has to reason about interactivity that doesn't apply to their
+             * content. This also means no button exists in the DOM at all outside that
+             * one state — not hidden, not neutralized, never created — which is what
+             * makes the title read as a plain heading to assistive tech everywhere else
+             * (confirmed with real VoiceOver testing; reassigning ARIA roles on a
+             * still-focusable element does not reliably suppress its native role, per
+             * WAI-ARIA's Presentational Roles Conflict Resolution rule). Also renders a
+             * fixed bilingual Tawasul contact block and a bottom bar for copyright +
+             * social actions.
+             * @example <aegov-footer nav-variant="collapsible">
+             *   <div class="aegov-footer__group">
+             *     <h2>The Ministry</h2>
+             *     <ul role="list"><li><a href="/about">About the ministry</a></li></ul>
+             *   </div>
+             *   <p slot="copyright">© 2026. Ministry of Example. All rights reserved.</p>
+             *   <a slot="actions" href="https://facebook.com/example"><span class="sr-only">Facebook</span>…</a>
+             * </aegov-footer>
+             */
+            "aegov-footer": LocalJSX.IntrinsicElements["aegov-footer"] & JSXBase.HTMLAttributes<HTMLAegovFooterElement>;
             "aegov-form-field": LocalJSX.IntrinsicElements["aegov-form-field"] & JSXBase.HTMLAttributes<HTMLAegovFormFieldElement>;
             "aegov-header": LocalJSX.IntrinsicElements["aegov-header"] & JSXBase.HTMLAttributes<HTMLAegovHeaderElement>;
             "aegov-header-banner": LocalJSX.IntrinsicElements["aegov-header-banner"] & JSXBase.HTMLAttributes<HTMLAegovHeaderBannerElement>;
