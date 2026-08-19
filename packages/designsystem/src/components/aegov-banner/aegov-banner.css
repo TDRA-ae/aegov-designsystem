@@ -75,6 +75,9 @@
      Override rules live in action-buttons.css (shared with callout). */
   & .banner__actions {
     @apply pt-4 pb-2 self-stretch flex flex-wrap gap-3 items-center;
+    & > div {
+      @apply flex flex-wrap gap-3 items-center;
+    }
   }
 
   & .banner__icon {

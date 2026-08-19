@@ -108,6 +108,15 @@ function getOrCreateLiveRegion(): HTMLDivElement {
   if (liveRegion && document.body.contains(liveRegion)) {
     return liveRegion;
   }
+  // The globalScript (src/global/app.ts) pre-creates this exact element by id at app
+  // bootstrap, before this module's own `liveRegion` cache is ever populated — check the
+  // DOM first so we reuse it instead of creating a second, duplicate-id element that
+  // announceToast() would never actually be able to update via getElementById lookups.
+  const existing = document.getElementById(CSS.liveRegionId) as HTMLDivElement | null;
+  if (existing) {
+    liveRegion = existing;
+    return liveRegion;
+  }
   liveRegion = document.createElement('div');
   liveRegion.id = CSS.liveRegionId;
   liveRegion.setAttribute('role', 'status');
@@ -120,6 +129,11 @@ function getOrCreateLiveRegion(): HTMLDivElement {
 
 function getOrCreateAssertiveLiveRegion(): HTMLDivElement {
   if (assertiveLiveRegion && document.body.contains(assertiveLiveRegion)) {
+    return assertiveLiveRegion;
+  }
+  const existing = document.getElementById(`${CSS.liveRegionId}-assertive`) as HTMLDivElement | null;
+  if (existing) {
+    assertiveLiveRegion = existing;
     return assertiveLiveRegion;
   }
   assertiveLiveRegion = document.createElement('div');
@@ -437,6 +451,15 @@ export class AegovToast {
   @State() isPaused: boolean = false;
 
   /**
+   * Captured in componentWillLoad(), before the first render. The first render
+   * returns null (isVisible starts false), which makes Stencil hide the original
+   * slotted text behind an internal comment placeholder — by the time show() runs,
+   * this.el.textContent would read as empty otherwise, silently breaking the
+   * screen-reader announcement. Same pattern as aegov-timeline-step's slotContent.
+   */
+  private capturedMessage: string = '';
+
+  /**
    * Show the toast notification.
    */
   @Method()
@@ -444,8 +467,9 @@ export class AegovToast {
     if (this.isVisible) return;
 
     // Move to portal container
-    const container = getOrCreateContainer(this.position);
-    const isBottom = this.position.startsWith('bottom');
+    const position = this.getSafePosition();
+    const container = getOrCreateContainer(position);
+    const isBottom = position.startsWith('bottom');
 
     if (this.mode === 'rack') {
       // Rack: always prepend so newest = first child = closest to screen edge
@@ -457,15 +481,15 @@ export class AegovToast {
       container.prepend(this.el);
     }
 
-    registerToast(this.position, this.el);
+    registerToast(position, this.el);
 
     // Setup rack mode if needed
     if (this.mode === 'rack') {
       injectRackStyles();
-      if (!rackContainers.has(this.position)) {
-        setupRackContainer(container, this.position);
+      if (!rackContainers.has(position)) {
+        setupRackContainer(container, position);
       }
-      updateRackIndices(this.position);
+      updateRackIndices(position);
     }
 
     // Trigger enter animation
@@ -473,10 +497,9 @@ export class AegovToast {
     this.isVisible = true;
 
     // Announce to screen readers; error/warning use assertive so they interrupt
-    const message = this.el.textContent?.trim();
-    if (message) {
+    if (this.capturedMessage) {
       const isUrgent = this.variant === 'error' || this.variant === 'warning';
-      announceToast(message, isUrgent);
+      announceToast(this.capturedMessage, isUrgent);
     }
 
     requestAnimationFrame(() => {
@@ -516,9 +539,10 @@ export class AegovToast {
       this.isClosing = false;
 
       const wasRack = this.mode === 'rack';
+      const position = this.getSafePosition();
 
       // Unregister and emit
-      unregisterToast(this.position, this.el);
+      unregisterToast(position, this.el);
       this.aegovToastClose.emit();
 
       // Auto-remove from DOM
@@ -528,7 +552,7 @@ export class AegovToast {
 
       // Recalculate rack indices after removal
       if (wasRack) {
-        updateRackIndices(this.position);
+        updateRackIndices(position);
       }
     }, 300);
   }
@@ -581,9 +605,13 @@ export class AegovToast {
     this.hasActionsSlot = !!this.el.querySelector('[slot="actions"]');
   };
 
-  private getPositionDirection(): string {
-    if (this.position.endsWith('left')) return 'left';
-    if (this.position.endsWith('center')) return 'center';
+  private getSafePosition(): ToastPosition {
+    return (TOAST_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'top-right';
+  }
+
+  private getPositionDirection(position: ToastPosition): string {
+    if (position.endsWith('left')) return 'left';
+    if (position.endsWith('center')) return 'center';
     return 'right';
   }
 
@@ -592,7 +620,7 @@ export class AegovToast {
 
     const variant: ToastVariant = (TOAST_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
     const appearance: ToastAppearance = (TOAST_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'soft';
-    const position: ToastPosition = (TOAST_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'top-right';
+    const position: ToastPosition = this.getSafePosition();
 
     // Variant
     classes.push(`toast--${variant}`);
@@ -601,7 +629,7 @@ export class AegovToast {
     classes.push(`toast--${appearance}`);
 
     // Direction for animations
-    const direction = this.getPositionDirection();
+    const direction = this.getPositionDirection(position);
     classes.push(`toast--${direction}`);
 
     // Position vertical for center animations
@@ -622,6 +650,7 @@ export class AegovToast {
   }
 
   componentWillLoad() {
+    this.capturedMessage = this.el.textContent?.trim() || '';
     warnIfInvalidEnumProp(this.variant, TOAST_VARIANTS, 'default', ctx('variant'));
     warnIfInvalidEnumProp(this.appearance, TOAST_APPEARANCES, 'soft', ctx('appearance'));
     warnIfInvalidEnumProp(this.position, TOAST_POSITIONS, 'top-right', ctx('position'));

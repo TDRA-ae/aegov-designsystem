@@ -107,6 +107,16 @@ export class AegovTooltip {
   @Watch('trigger')
   onTriggerChange(v: unknown) { warnIfInvalidEnumProp(v, TOOLTIP_TRIGGERS, 'hover', ctx('trigger')); }
 
+  /**
+   * Sanitized `trigger` value — falls back to the documented default ('hover') for any
+   * invalid value. Every runtime branch below compares against this, not the raw prop:
+   * an invalid `trigger` must still behave like the default, not silently disable both
+   * the hover AND click code paths (each guarded by a bare `=== 'hover'`/`=== 'click'`).
+   */
+  private get safeTrigger(): TooltipTrigger {
+    return (TOOLTIP_TRIGGERS as readonly string[]).includes(this.trigger) ? this.trigger : 'hover';
+  }
+
   private checkSlotContent() {
     const contentSlot = this.el.querySelector('[slot="tooltip-content"]');
     const hasSlot = contentSlot !== null && contentSlot.textContent?.trim().length > 0;
@@ -125,10 +135,60 @@ export class AegovTooltip {
     }
   }
 
-  componentDidLoad() {
+  /**
+   * Finds the trigger's real focusable element so `aria-describedby` lands where AT
+   * actually reads it. A plain light-DOM search covers native elements and non-shadow
+   * custom elements (e.g. `aegov-link`), but a `shadow:true` trigger like `aegov-button`
+   * never reflects `tabindex`/role onto its own host — its real `<button>` lives inside
+   * its shadow root, unreachable by a plain `querySelector` from here.
+   *
+   * Search within `triggerRef`, not `this.el`: for a `scoped:false` component, Stencil's
+   * light-DOM slot emulation physically relocates slotted nodes to wherever `<slot/>`
+   * sits in the render tree — here, one level inside the `.aegov-tooltip-trigger` wrapper
+   * div — so the slotted trigger is never a direct child of `this.el` at all.
+   */
+  private getTriggerFocusable(): HTMLElement | null {
+    if (!this.triggerRef) return null;
+    const direct = this.triggerRef.querySelector<HTMLElement>('button, a, [tabindex]');
+    if (direct) return direct;
+    for (const child of Array.from(this.triggerRef.querySelectorAll<HTMLElement>('*'))) {
+      if (child.shadowRoot) {
+        const inner = child.shadowRoot.querySelector<HTMLElement>('button, a, [tabindex]');
+        if (inner) return inner;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Same search as `getTriggerFocusable`, but awaits each shadow-DOM candidate's own
+   * `componentOnReady()` first. At `componentDidLoad()` time a nested Stencil component's
+   * shadow root already exists (`attachShadow` runs synchronously on connection) but is
+   * often still empty — its own render hasn't completed yet, since each component follows
+   * its own independently-queued render cycle. Searching it immediately would find nothing
+   * even though it becomes populated moments later.
+   */
+  private async getTriggerFocusableAsync(): Promise<HTMLElement | null> {
+    if (!this.triggerRef) return null;
+    const direct = this.triggerRef.querySelector<HTMLElement>('button, a, [tabindex]');
+    if (direct) return direct;
+    for (const child of Array.from(this.triggerRef.querySelectorAll<HTMLElement>('*'))) {
+      const maybeStencilEl = child as unknown as { componentOnReady?: () => Promise<unknown> };
+      if (typeof maybeStencilEl.componentOnReady === 'function') {
+        await maybeStencilEl.componentOnReady();
+      }
+      if (child.shadowRoot) {
+        const inner = child.shadowRoot.querySelector<HTMLElement>('button, a, [tabindex]');
+        if (inner) return inner;
+      }
+    }
+    return null;
+  }
+
+  async componentDidLoad() {
     // Apply aria-describedby to the slotted trigger element so AT reads
     // the tooltip content regardless of Shadow DOM boundary
-    const triggerEl = this.el.querySelector<HTMLElement>('button, a, [tabindex]');
+    const triggerEl = await this.getTriggerFocusableAsync();
     if (triggerEl) {
       triggerEl.setAttribute('aria-describedby', this.tooltipId);
     }
@@ -136,7 +196,7 @@ export class AegovTooltip {
 
   disconnectedCallback() {
     this.clearTimeouts();
-    const triggerEl = this.el.querySelector<HTMLElement>('button, a, [tabindex]');
+    const triggerEl = this.getTriggerFocusable();
     if (triggerEl) {
       triggerEl.removeAttribute('aria-describedby');
     }
@@ -314,13 +374,13 @@ export class AegovTooltip {
   };
 
   private handleTriggerMouseEnter = () => {
-    if (this.trigger === 'hover') {
+    if (this.safeTrigger === 'hover') {
       this.showTooltip();
     }
   };
 
   private handleTriggerMouseLeave = () => {
-    if (this.trigger === 'hover') {
+    if (this.safeTrigger === 'hover') {
       this.hideTooltip();
     }
   };
@@ -341,13 +401,14 @@ export class AegovTooltip {
   };
 
   private handleTooltipMouseLeave = () => {
-    if (this.trigger === 'hover') {
+    if (this.safeTrigger === 'hover') {
       this.hideTooltip();
     }
   };
 
   private handleTriggerClick = (event: MouseEvent) => {
-    if (this.trigger === 'click') {
+    if (this.isDisabled) return;
+    if (this.safeTrigger === 'click') {
       event.stopPropagation();
       this.isVisible = !this.isVisible;
     }
@@ -355,7 +416,7 @@ export class AegovTooltip {
 
   @Listen('click', { target: 'document' })
   handleDocumentClick(event: MouseEvent) {
-    if (this.trigger === 'click' && this.isVisible) {
+    if (this.safeTrigger === 'click' && this.isVisible) {
       const target = event.target as Node;
       if (!this.el.contains(target)) {
         this.isVisible = false;
@@ -363,7 +424,12 @@ export class AegovTooltip {
     }
   }
 
-  @Listen('keydown')
+  // target: 'document' (not the default host-only bubble path) so Escape dismisses a
+  // tooltip shown purely by mouse hover, with no keyboard focus anywhere inside it —
+  // required by WCAG SC 1.4.13 (Content on Hover or Focus), which the docs cite as the
+  // reason Escape must work. A host-scoped listener would miss that exact case, since
+  // the keydown event never passes through the host when focus is elsewhere entirely.
+  @Listen('keydown', { target: 'document' })
   handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'Escape' && this.isVisible) {
       this.isVisible = false;
