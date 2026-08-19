@@ -27,12 +27,13 @@ const ctx = (prop: string) => ({ component: TAG, prop });
  * An anchor element wrapper.
  *
  * In its default form `aegov-link` renders a plain styled `<a>`. Opt into a
- * button-shaped link by setting any of the button-style props
- * (`variant`, `appearance`, `size`, `isIcon`, `isFull`, `isBold`, `isDisabled`).
- * When any of those are set the component switches its class output to the
- * shared `getActionClasses` util so it matches `aegov-button` exactly while
- * keeping native `<a>` semantics (right-click, middle-click new tab,
- * screen-reader link role, copy-link, etc.).
+ * button-shaped link by setting any of `variant`, `appearance`, `size`, `isIcon`,
+ * `isFull`, or `isDisabled`. When any of those are set the component switches its
+ * class output to the shared `getActionClasses` util so it matches `aegov-button`
+ * exactly while keeping native `<a>` semantics (right-click, middle-click new tab,
+ * screen-reader link role, copy-link, etc.). `isBold` only has an effect once one
+ * of the props above has already opted in — it can't itself trigger button styling
+ * since it defaults to `true`.
  *
  * `isLoading` is intentionally NOT supported — loading states belong on
  * `<button>` (use `aegov-button isLoading` instead).
@@ -172,7 +173,12 @@ export class AegovLink {
    * Tailwind utilities.
    */
   private get isButtonStyled(): boolean {
-    return this.variant !== undefined || this.appearance !== undefined;
+    // isBold is deliberately excluded: it defaults to `true`, so an explicit
+    // `is-bold="true"` is indistinguishable from never having set it, and treating
+    // an explicit `is-bold="false"` alone as an opt-in would silently switch a plain
+    // text link (where isBold has no effect either way) into full button styling.
+    return this.variant !== undefined || this.appearance !== undefined || this.size !== undefined ||
+      this.isIcon === true || this.isFull === true || this.isDisabled === true;
   }
 
   private handleClick = (event: MouseEvent) => {
