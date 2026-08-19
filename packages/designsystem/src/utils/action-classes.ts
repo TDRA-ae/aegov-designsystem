@@ -57,10 +57,10 @@ const VARIANT_CLASSES: Record<ButtonVariant, string[]> = {
 };
 
 const APPEARANCE_CLASSES: Record<ButtonAppearance, string[]> = {
-  solid: ['btn-solid', 'shadow-[inset_0px_1px_--theme(--color-whitely-50/.2)]', 'active:shadow-none', 'border-1', 'focus-visible:outline-offset-2', 'disabled:opacity-40'],
-  outline: ['btn-outline', 'bg-transparent', 'border-2', 'focus-visible:outline-offset-0', 'disabled:opacity-40'],
-  soft: ['btn-soft', 'border-0', 'focus-visible:outline-offset-2', 'disabled:opacity-40'],
-  link: ['btn-link', 'bg-transparent', 'border-0', 'hover:underline', 'hover:decoration-2', 'hover:underline-offset-2', 'focus-visible:outline-offset-2', 'disabled:opacity-40'],
+  solid: ['btn-solid', 'shadow-[inset_0px_1px_--theme(--color-whitely-50/.2)]', 'active:shadow-none', 'border-1', 'focus-visible:outline-offset-2'],
+  outline: ['btn-outline', 'bg-transparent', 'border-2', 'focus-visible:outline-offset-0'],
+  soft: ['btn-soft', 'border-0', 'focus-visible:outline-offset-2'],
+  link: ['btn-link', 'bg-transparent', 'border-0', 'hover:underline', 'hover:decoration-2', 'hover:underline-offset-2', 'focus-visible:outline-offset-2'],
 };
 
 /**
@@ -86,7 +86,13 @@ export function getActionClasses(opts: ActionClassOptions = {}): string {
   classes.push(...APPEARANCE_CLASSES[appearance]);
 
   if (opts.isDisabled || opts.isLoading) {
-    classes.push('cursor-not-allowed', 'pointer-events-none');
+    // Plain classes, not Tailwind's `disabled:` variant: that compiles to the CSS
+    // `:disabled` pseudo-class, which only ever matches native form elements with a
+    // real `disabled` attribute (button, input, select...). aegov-link renders an
+    // `<a>`, which can never be `:disabled` no matter what ARIA/tabindex is set — so
+    // `disabled:opacity-40` silently never applied for a disabled link, even though
+    // aegov-button (which does set the native attribute) happened to look right.
+    classes.push('cursor-not-allowed', 'pointer-events-none', 'opacity-40');
   }
 
   if (opts.isIcon) classes.push('btn-icon');

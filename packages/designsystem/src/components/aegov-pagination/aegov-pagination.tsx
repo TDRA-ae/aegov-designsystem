@@ -270,7 +270,7 @@ export class AegovPagination {
     const t = isRtl(this.el) ? STRINGS.ar : STRINGS.en;
 
     return (
-      <nav {...passThroughAttributes} aria-label={t.pagination} id={this.fieldId} class={`aegov-pagination pagination--${size}${isCompact ? ' pagination--compact' : ''}`}>
+      <nav aria-label={t.pagination} id={this.fieldId} class={`aegov-pagination pagination--${size}${isCompact ? ' pagination--compact' : ''}`} {...passThroughAttributes}>
         <ul class="pagination__list">
 
           {/* First button */}

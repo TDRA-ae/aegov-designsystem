@@ -145,8 +145,12 @@ export class AegovPopover {
   private positionUpdateScheduled: boolean = false;
   private positionRetryCount: number = 0;
   private readonly MAX_POSITION_RETRIES = 10;
+  private outOfViewportStreak: number = 0;
+  private readonly OUT_OF_VIEWPORT_CLOSE_THRESHOLD = 2;
+  private suppressFocusRestore: boolean = false;
   private focusableElements: HTMLElement[] = [];
   private currentFocusIndex: number = -1;
+  private focusTrapPending: boolean = false;
   private triggerElement?: HTMLElement;
 
   /**
@@ -227,6 +231,17 @@ export class AegovPopover {
     return `${this.fieldId}-trigger`;
   }
 
+  /**
+   * Sanitized `trigger` value — falls back to the documented default ('click') for any
+   * invalid value. Every runtime branch below compares against this, not the raw prop:
+   * an invalid `trigger` must still behave like the default, not silently disable both
+   * the hover AND click code paths (each guarded by a bare `=== 'hover'`/`=== 'click'`) —
+   * same bug class already fixed on aegov-dropdown and aegov-tooltip.
+   */
+  private get safeTrigger(): PopoverTrigger {
+    return (POPOVER_TRIGGERS as readonly string[]).includes(this.trigger) ? this.trigger : 'click';
+  }
+
   @Watch('trigger')
   onTriggerChange(v: unknown) { warnIfInvalidEnumProp(v, POPOVER_TRIGGERS, 'click', ctx('trigger')); }
 
@@ -236,9 +251,10 @@ export class AegovPopover {
   @Watch('align')
   onAlignChange(v: unknown) { warnIfInvalidEnumProp(v, POPOVER_ALIGNS, 'center', ctx('align')); }
 
-  componentDidLoad() {
+  async componentDidLoad() {
     this.createPortalElement();
-    this.syncTriggerAria();
+    const inner = await this.getTriggerFocusableAsync();
+    this.syncTriggerAria(inner);
   }
 
   connectedCallback() {
@@ -278,17 +294,34 @@ export class AegovPopover {
       currentOpenPopover = this;
 
       this.positionRetryCount = 0;
+      this.outOfViewportStreak = 0;
       this.renderPortalContent();
       this.schedulePositionUpdate();
       this.aegovPopoverOpen.emit();
       this.triggerElement = document.activeElement as HTMLElement;
       this.syncTriggerAria();
-      setTimeout(() => this.setupFocusTrap(), 0);
+      // Deferred to updatePopoverPosition(), which runs the focus trap only once the
+      // panel is actually visible: setupFocusTrap() calls .focus() unconditionally, but
+      // the panel starts CSS `visibility: hidden` until positioning sets it visible, and
+      // .focus() on an element inside a visibility:hidden ancestor is a silent no-op —
+      // a setTimeout(0) here would race that rAF-scheduled visibility flip and could lose.
+      //
+      // Only for trigger="click" (dialog/menu semantics — the user explicitly activated
+      // it, so moving focus into the resulting content is expected). trigger="hover" is a
+      // tooltip/hovercard pattern (SC 2.1.1's keyboard-focus equivalent to hover): focus
+      // must stay on the trigger so "closes on blur" is meaningful — handleTriggerFocusout
+      // already keeps it open if the user voluntarily tabs on into the panel content.
+      // Auto-stealing focus into the panel here would make every hover-triggered open
+      // immediately blur the trigger via its own doing, closing itself right away.
+      if (this.safeTrigger !== 'hover') {
+        this.focusTrapPending = true;
+      }
     } else {
       if (currentOpenPopover === this) {
         currentOpenPopover = null;
       }
 
+      this.focusTrapPending = false;
       this.cleanupPopoverListeners();
       this.returnPortalContent();
       this.popoverRef = undefined;
@@ -302,9 +335,15 @@ export class AegovPopover {
 
       this.aegovPopoverClose.emit();
 
-      if (this.triggerElement) {
+      // Skip for a hover-trigger's own natural blur-away close: triggerElement IS the
+      // element that was just blurred, so focusing it back would immediately re-fire
+      // handleTriggerFocusin -> showPopover(), silently reopening the popover the
+      // instant the user moved focus away from it. Escape/click-outside/scroll-away
+      // closes still restore focus as normal.
+      if (this.triggerElement && !this.suppressFocusRestore) {
         this.triggerElement.focus({ preventScroll: true });
       }
+      this.suppressFocusRestore = false;
 
       this.syncTriggerAria();
     }
@@ -360,16 +399,27 @@ export class AegovPopover {
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
-    // Close if trigger has scrolled out of viewport
+    // Close if trigger has scrolled out of viewport. Require two consecutive
+    // out-of-viewport readings before actually closing: other concurrent DOM activity
+    // (layout shifts, in-flight CSS transitions, a momentary reflow) can make a single
+    // rAF tick see a stale/transient rect even though the trigger is genuinely still in
+    // view a frame later — closing on that first reading was flipping the popover shut
+    // moments after it opened.
     if (
       triggerRect.bottom < 0 ||
       triggerRect.top > viewportHeight ||
       triggerRect.right < 0 ||
       triggerRect.left > viewportWidth
     ) {
-      this.isOpen = false;
+      this.outOfViewportStreak++;
+      if (this.outOfViewportStreak >= this.OUT_OF_VIEWPORT_CLOSE_THRESHOLD) {
+        this.isOpen = false;
+        return;
+      }
+      requestAnimationFrame(() => this.updatePopoverPosition());
       return;
     }
+    this.outOfViewportStreak = 0;
 
     // Retry if not yet measured
     if (popoverRect.width === 0 || popoverRect.height === 0) {
@@ -440,6 +490,13 @@ export class AegovPopover {
 
     // Position the arrow relative to the trigger center
     this.positionArrow(triggerRect, top, left, popoverRect, position);
+
+    // Only now is the panel actually focusable — see handleOpenChange() for why this
+    // can't just run on open.
+    if (this.focusTrapPending) {
+      this.focusTrapPending = false;
+      this.setupFocusTrap();
+    }
   }
 
   private positionArrow(
@@ -472,8 +529,19 @@ export class AegovPopover {
     }
   }
 
+  private isRtl(): boolean {
+    return getComputedStyle(this.el).direction === 'rtl';
+  }
+
   private calculateHorizontalPosition(triggerRect: DOMRect, popoverRect: DOMRect): number {
-    switch (this.align) {
+    // In RTL, 'start' means the trigger's right edge and 'end' means its left edge —
+    // documented explicitly ("align='start'/'end' follow the reading direction"), but
+    // this switch used to ignore direction entirely.
+    const rtl = this.isRtl();
+    const effectiveAlign = rtl
+      ? this.align === 'start' ? 'end' : this.align === 'end' ? 'start' : this.align
+      : this.align;
+    switch (effectiveAlign) {
       case 'start':
         return triggerRect.left;
       case 'end':
@@ -499,6 +567,9 @@ export class AegovPopover {
   private showPopover = () => {
     if (this.isDisabled) return;
     this.clearTimeouts();
+    // Re-entering hover/focus cancels any pending hide, so any suppress-focus-restore
+    // intent from that cancelled hide is stale too.
+    this.suppressFocusRestore = false;
     this.showTimeout = window.setTimeout(() => {
       this.isOpen = true;
     }, this.delayStart);
@@ -508,7 +579,7 @@ export class AegovPopover {
 
   private hidePopover = () => {
     this.clearTimeouts();
-    const delay = this.trigger === 'hover'
+    const delay = this.safeTrigger === 'hover'
       ? Math.max(this.delayEnd, AegovPopover.HOVER_HIDE_GRACE)
       : this.delayEnd;
 
@@ -518,13 +589,13 @@ export class AegovPopover {
   };
 
   private handleTriggerMouseEnter = () => {
-    if (this.trigger === 'hover') {
+    if (this.safeTrigger === 'hover') {
       this.showPopover();
     }
   };
 
   private handleTriggerMouseLeave = (event: MouseEvent) => {
-    if (this.trigger === 'hover') {
+    if (this.safeTrigger === 'hover') {
       const relatedTarget = event.relatedTarget as HTMLElement;
       if (relatedTarget && this.portalElement && this.portalElement.contains(relatedTarget)) {
         return;
@@ -534,38 +605,42 @@ export class AegovPopover {
   };
 
   // SC 2.1.1: hover trigger must also open on keyboard focus
-  private handleTriggerFocus = () => {
-    if (this.trigger === 'hover') {
+  private handleTriggerFocusin = () => {
+    if (this.safeTrigger === 'hover') {
       this.showPopover();
     }
   };
 
-  private handleTriggerBlur = (event: FocusEvent) => {
-    if (this.trigger === 'hover') {
+  private handleTriggerFocusout = (event: FocusEvent) => {
+    if (this.safeTrigger === 'hover') {
       const relatedTarget = event.relatedTarget as HTMLElement;
       // Keep open if focus moves into the popover content
       if (relatedTarget && this.portalElement && this.portalElement.contains(relatedTarget)) {
         return;
       }
+      // The trigger is the element blurring here, so restoring focus to it on close
+      // would immediately re-focus it and reopen via handleTriggerFocusin — see
+      // handleOpenChange()'s close branch.
+      this.suppressFocusRestore = true;
       this.hidePopover();
     }
   };
 
   private handleTriggerClick = (event: MouseEvent) => {
-    if (this.trigger === 'click' && !this.isDisabled) {
+    if (this.safeTrigger === 'click' && !this.isDisabled) {
       event.stopPropagation();
       this.isOpen = !this.isOpen;
     }
   };
 
   private handlePopoverMouseEnter = () => {
-    if (this.trigger === 'hover') {
+    if (this.safeTrigger === 'hover') {
       this.clearTimeouts();
     }
   };
 
   private handlePopoverMouseLeave = (event: MouseEvent) => {
-    if (this.trigger === 'hover') {
+    if (this.safeTrigger === 'hover') {
       const relatedTarget = event.relatedTarget as HTMLElement;
       if (relatedTarget && this.triggerRef && this.triggerRef.contains(relatedTarget)) {
         return;
@@ -597,19 +672,67 @@ export class AegovPopover {
     this.keyHandler(event);
   }
 
+  private static readonly TRIGGER_FOCUSABLE_SELECTOR =
+    'button, a, [role="button"], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+  /**
+   * Finds the trigger's real focusable element so ARIA state lands where AT actually
+   * reads it. A plain light-DOM search covers native elements and non-shadow custom
+   * elements (e.g. `aegov-link`), but a `shadow:true` trigger like `aegov-button` (used
+   * as the trigger in every doc example) never reflects `tabindex`/role onto its own
+   * host — its real `<button>` lives inside its shadow root, unreachable by a plain
+   * `querySelector` from here. Fall back to checking each trigger descendant's
+   * `shadowRoot` when the light-DOM search finds nothing (same fix already applied to
+   * aegov-tooltip's `aria-describedby` wiring, same root cause).
+   */
+  private getTriggerFocusable(): HTMLElement | null {
+    if (!this.triggerRef) return null;
+    const direct = this.triggerRef.querySelector<HTMLElement>(AegovPopover.TRIGGER_FOCUSABLE_SELECTOR);
+    if (direct) return direct;
+    for (const child of Array.from(this.triggerRef.querySelectorAll<HTMLElement>('*'))) {
+      if (child.shadowRoot) {
+        const inner = child.shadowRoot.querySelector<HTMLElement>(AegovPopover.TRIGGER_FOCUSABLE_SELECTOR);
+        if (inner) return inner;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Same search as `getTriggerFocusable`, but awaits a shadow-DOM candidate's own
+   * `componentOnReady()` first. At `componentDidLoad()` time a nested Stencil component's
+   * shadow root already exists (`attachShadow` runs synchronously on connection) but is
+   * often still empty — its own render hasn't completed yet, since each component follows
+   * its own independently-queued render cycle. Searching it immediately would find
+   * nothing even though it becomes populated moments later.
+   */
+  private async getTriggerFocusableAsync(): Promise<HTMLElement | null> {
+    if (!this.triggerRef) return null;
+    const direct = this.triggerRef.querySelector<HTMLElement>(AegovPopover.TRIGGER_FOCUSABLE_SELECTOR);
+    if (direct) return direct;
+    for (const child of Array.from(this.triggerRef.querySelectorAll<HTMLElement>('*'))) {
+      const maybeStencilEl = child as unknown as { componentOnReady?: () => Promise<unknown> };
+      if (typeof maybeStencilEl.componentOnReady === 'function') {
+        await maybeStencilEl.componentOnReady();
+      }
+      if (child.shadowRoot) {
+        const inner = child.shadowRoot.querySelector<HTMLElement>(AegovPopover.TRIGGER_FOCUSABLE_SELECTOR);
+        if (inner) return inner;
+      }
+    }
+    return null;
+  }
+
   // SC 4.1.2: propagate ARIA state to the first focusable child inside the trigger wrapper
-  private syncTriggerAria() {
-    if (!this.triggerRef) return;
-    const inner = this.triggerRef.querySelector<HTMLElement>(
-      'button, a, [role="button"], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-    );
-    if (!inner) return;
-    inner.setAttribute('aria-haspopup', 'dialog');
-    inner.setAttribute('aria-expanded', this.isOpen.toString());
+  private syncTriggerAria(inner?: HTMLElement | null) {
+    const el = inner !== undefined ? inner : this.getTriggerFocusable();
+    if (!el) return;
+    el.setAttribute('aria-haspopup', 'dialog');
+    el.setAttribute('aria-expanded', this.isOpen.toString());
     if (this.isOpen && this.fieldId) {
-      inner.setAttribute('aria-controls', this.fieldId);
+      el.setAttribute('aria-controls', this.fieldId);
     } else {
-      inner.removeAttribute('aria-controls');
+      el.removeAttribute('aria-controls');
     }
   }
 
@@ -692,8 +815,8 @@ export class AegovPopover {
           onMouseEnter={this.handleTriggerMouseEnter}
           onMouseLeave={this.handleTriggerMouseLeave}
           onClick={this.handleTriggerClick}
-          onFocus={this.handleTriggerFocus}
-          onBlur={this.handleTriggerBlur}
+          onFocusin={this.handleTriggerFocusin}
+          onFocusout={this.handleTriggerFocusout}
         >
           <slot />
         </div>
