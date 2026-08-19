@@ -1,5 +1,6 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { AegovFooter } from './aegov-footer';
+import { AegovFooterHighlights } from '../aegov-footer-highlights/aegov-footer-highlights';
 
 const GROUP = `
   <div class="aegov-footer__group">
@@ -11,7 +12,7 @@ const GROUP = `
 describe('aegov-footer', () => {
   it('renders a top-level footer with a single nav landmark wrapping the groups', async () => {
     const page = await newSpecPage({
-      components: [AegovFooter],
+      components: [AegovFooter, AegovFooterHighlights],
       html: `<aegov-footer>${GROUP}</aegov-footer>`,
     });
     const footer = page.root.querySelector('footer.aegov-footer');
@@ -25,7 +26,7 @@ describe('aegov-footer', () => {
 
   it('translates the nav label under an RTL ancestor', async () => {
     const page = await newSpecPage({
-      components: [AegovFooter],
+      components: [AegovFooter, AegovFooterHighlights],
       html: `<div dir="rtl"><aegov-footer>${GROUP}</aegov-footer></div>`,
     });
     const nav = page.body.querySelector('nav');
@@ -34,7 +35,7 @@ describe('aegov-footer', () => {
 
   it('leaves the title as plain, untouched markup — no trigger, no button, no ARIA — when non-interactive (matchMedia unavailable in jsdom degrades desktop-safe)', async () => {
     const page = await newSpecPage({
-      components: [AegovFooter],
+      components: [AegovFooter, AegovFooterHighlights],
       html: `<aegov-footer nav-variant="flat">${GROUP}</aegov-footer>`,
     });
     const group = page.root.querySelector('.aegov-footer__group');
@@ -51,7 +52,7 @@ describe('aegov-footer', () => {
 
   it('supports any tag for the title, not just h2', async () => {
     const page = await newSpecPage({
-      components: [AegovFooter],
+      components: [AegovFooter, AegovFooterHighlights],
       html: `<aegov-footer nav-variant="flat">
         <div class="aegov-footer__group">
           <h4>References</h4>
@@ -66,7 +67,7 @@ describe('aegov-footer', () => {
 
   it('interactive: synthesizes a trigger button around the title\'s own text, moves the list into a panel, and toggles on click', async () => {
     const page = await newSpecPage({
-      components: [AegovFooter],
+      components: [AegovFooter, AegovFooterHighlights],
       html: `<aegov-footer>${GROUP}</aegov-footer>`,
     });
     const group = page.root.querySelector('.aegov-footer__group');
@@ -94,7 +95,7 @@ describe('aegov-footer', () => {
 
   it('first sync with multiple columns: only the first starts open, the rest closed', async () => {
     const page = await newSpecPage({
-      components: [AegovFooter],
+      components: [AegovFooter, AegovFooterHighlights],
       html: `<aegov-footer>
         <div class="aegov-footer__group"><h2>The Ministry</h2><ul role="list"><li><a href="/a">A</a></li></ul></div>
         <div class="aegov-footer__group"><h2>Using the website</h2><ul role="list"><li><a href="/b">B</a></li></ul></div>
@@ -107,7 +108,7 @@ describe('aegov-footer', () => {
 
   it('unwraps the trigger back to plain text when switching from interactive to non-interactive', async () => {
     const page = await newSpecPage({
-      components: [AegovFooter],
+      components: [AegovFooter, AegovFooterHighlights],
       html: `<aegov-footer>${GROUP}</aegov-footer>`,
     });
     const group = page.root.querySelector('.aegov-footer__group');
@@ -122,117 +123,71 @@ describe('aegov-footer', () => {
     expect(group.querySelector('h2').textContent.trim()).toBe('The Ministry');
   });
 
-  it('renders the hardcoded Tawasul block by default with tel/whatsapp links, and no fixed toll-free line', async () => {
-    const page = await newSpecPage({
-      components: [AegovFooter],
-      html: `<aegov-footer>${GROUP}</aegov-footer>`,
-    });
-    const tawasul = page.root.querySelector('.aegov-footer__tawasul');
-    expect(tawasul).not.toBeNull();
-    expect(tawasul.querySelector('a[href="tel:171"]')).not.toBeNull();
-    expect(tawasul.querySelector('a[href="https://wa.me/97147771777"]')).not.toBeNull();
-    expect(tawasul.querySelector('.aegov-footer__tawasul-tollfree')).toBeNull();
-  });
-
-  it('makes the entity toll-free number a tappable tel: link, sanitizing formatting characters', async () => {
-    const page = await newSpecPage({
-      components: [AegovFooter],
-      html: `<aegov-footer entity-toll-free="600 522222">${GROUP}</aegov-footer>`,
-    });
-    const link = page.root.querySelector('.aegov-footer__entity-tollfree-link');
-    expect(link).not.toBeNull();
-    expect(link.getAttribute('href')).toBe('tel:600522222');
-  });
-
-  it('does not render an entity toll-free line when entityTollFree is not provided', async () => {
-    const page = await newSpecPage({
-      components: [AegovFooter],
-      html: `<aegov-footer>${GROUP}</aegov-footer>`,
-    });
-    expect(page.root.querySelector('.aegov-footer__entity-tollfree')).toBeNull();
-  });
-
-  it('renders the entity toll-free number below the Tawasul block when provided', async () => {
-    const page = await newSpecPage({
-      components: [AegovFooter],
-      html: `<aegov-footer entity-toll-free="600 522222">${GROUP}</aegov-footer>`,
-    });
-    const tawasul = page.root.querySelector('.aegov-footer__tawasul');
-    const entityLine = page.root.querySelector('.aegov-footer__entity-tollfree');
-    expect(entityLine).not.toBeNull();
-    expect(entityLine.textContent).toContain('600 522222');
-    // Rendered inside/after the Tawasul container, not standalone.
-    expect(tawasul.contains(entityLine)).toBe(true);
-  });
-
-  it('defaults the entity toll-free label to the same bilingual "Toll free" text as Tawasul\'s own line', async () => {
-    const page = await newSpecPage({
-      components: [AegovFooter],
-      html: `<aegov-footer entity-toll-free="600 522222">${GROUP}</aegov-footer>`,
-    });
-    const label = page.root.querySelector('.aegov-footer__entity-tollfree-label');
-    expect(label.textContent.trim()).toBe('Toll free:');
-  });
-
-  it('overrides the entity toll-free label with entityTollFreeLabel', async () => {
-    const page = await newSpecPage({
-      components: [AegovFooter],
-      html: `<aegov-footer entity-toll-free="600 522222" entity-toll-free-label="Hotline">${GROUP}</aegov-footer>`,
-    });
-    const label = page.root.querySelector('.aegov-footer__entity-tollfree-label');
-    expect(label.textContent.trim()).toBe('Hotline:');
-  });
-
-  it('always renders the Tawasul block — it is required, not optional, and has no prop to hide it', async () => {
-    const page = await newSpecPage({
-      components: [AegovFooter],
-      html: `<aegov-footer>${GROUP}</aegov-footer>`,
-    });
-    expect(page.root.querySelector('.aegov-footer__tawasul')).not.toBeNull();
-    expect('isTawasul' in page.rootInstance).toBe(false);
-  });
-
-  it('always renders the fixed Tawasul logo — no slot to override it with', async () => {
-    const page = await newSpecPage({
-      components: [AegovFooter],
-      html: `<aegov-footer>${GROUP}<img slot="tawasul-logo" src="tawasul.svg" alt="Custom" /></aegov-footer>`,
-    });
-    const mark = page.root.querySelector('.aegov-footer__tawasul-mark-svg');
-    expect(mark).not.toBeNull();
-    expect(mark.getAttribute('aria-hidden')).toBe('true');
-    expect(mark.querySelector('svg')).not.toBeNull();
-    // "Tawasul" is still announced to AT via a dedicated label, since the
-    // logo graphic itself is aria-hidden.
-    expect(page.root.querySelector('.aegov-footer__tawasul-mark .sr-only').textContent).toBe('Tawasul');
-    // An img with slot="tawasul-logo" is just unslotted, inert light DOM now —
-    // there is no slot left for it to project into.
-    expect(page.root.querySelector('.aegov-footer__tawasul-logo img')).toBeNull();
-    expect('hasTawasulLogoSlot' in page.rootInstance).toBe(false);
-  });
-
   it('defaults navVariant to collapsible and falls back on an invalid value', async () => {
     const page = await newSpecPage({
-      components: [AegovFooter],
+      components: [AegovFooter, AegovFooterHighlights],
       html: `<aegov-footer nav-variant="bogus">${GROUP}</aegov-footer>`,
     });
     expect(page.root.querySelector('nav').className).toContain('footer--collapsible');
   });
 
-  it('warns when an actions-slot link has no accessible name', async () => {
+  it('embeds aegov-footer-highlights and forwards the highlights slot content into it', async () => {
+    const page = await newSpecPage({
+      components: [AegovFooter, AegovFooterHighlights],
+      html: `<aegov-footer>${GROUP}<p slot="highlights">Sign up</p></aegov-footer>`,
+    });
+    const highlights = page.root.querySelector('aegov-footer-highlights');
+    expect(highlights).not.toBeNull();
+    expect(highlights.querySelector('p')?.textContent).toBe('Sign up');
+  });
+
+  it('forwards the entity-contact-* props to the embedded aegov-footer-highlights', async () => {
+    const page = await newSpecPage({
+      components: [AegovFooter, AegovFooterHighlights],
+      html: `<aegov-footer entity-contact-number="800 8877" entity-contact-number-label="Hotline" entity-email="info@example.gov.ae" entity-email-label="Support email" entity-contact-href="/contact">${GROUP}</aegov-footer>`,
+    });
+    const highlights = page.root.querySelector('aegov-footer-highlights');
+    expect(highlights.getAttribute('entity-contact-number')).toBe('800 8877');
+    expect(highlights.getAttribute('entity-contact-number-label')).toBe('Hotline');
+    expect(highlights.getAttribute('entity-email')).toBe('info@example.gov.ae');
+    expect(highlights.getAttribute('entity-email-label')).toBe('Support email');
+    expect(highlights.getAttribute('entity-contact-href')).toBe('/contact');
+  });
+
+  it('renders brand-slot content as the first item of the columns grid', async () => {
+    const page = await newSpecPage({
+      components: [AegovFooter, AegovFooterHighlights],
+      html: `<aegov-footer><span slot="brand">Example Entity</span>${GROUP}</aegov-footer>`,
+    });
+    const brand = page.root.querySelector('.aegov-footer__brand');
+    expect(brand).not.toBeNull();
+    expect(brand.textContent.trim()).toBe('Example Entity');
+  });
+
+  it('renders legal-slot content inside the bottom-bar list', async () => {
+    const page = await newSpecPage({
+      components: [AegovFooter, AegovFooterHighlights],
+      html: `<aegov-footer>${GROUP}<li slot="legal"><a href="/privacy">Privacy policy</a></li></aegov-footer>`,
+    });
+    const legal = page.root.querySelector('.aegov-footer__legal');
+    expect(legal.querySelector('a[href="/privacy"]')).not.toBeNull();
+  });
+
+  it('warns when a brand-slot link has no accessible name', async () => {
     const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     await newSpecPage({
-      components: [AegovFooter],
-      html: `<aegov-footer>${GROUP}<a slot="actions" href="#"><svg aria-hidden="true"></svg></a></aegov-footer>`,
+      components: [AegovFooter, AegovFooterHighlights],
+      html: `<aegov-footer>${GROUP}<div slot="brand"><a href="#"><svg aria-hidden="true"></svg></a></div></aegov-footer>`,
     });
     expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('no accessible name'));
     warnSpy.mockRestore();
   });
 
-  it('does not warn when an actions-slot link has an aria-label', async () => {
+  it('does not warn when a brand-slot link has an aria-label', async () => {
     const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     await newSpecPage({
-      components: [AegovFooter],
-      html: `<aegov-footer>${GROUP}<a slot="actions" href="#" aria-label="Facebook"><svg aria-hidden="true"></svg></a></aegov-footer>`,
+      components: [AegovFooter, AegovFooterHighlights],
+      html: `<aegov-footer>${GROUP}<div slot="brand"><a href="#" aria-label="Facebook"><svg aria-hidden="true"></svg></a></div></aegov-footer>`,
     });
     expect(warnSpy).not.toHaveBeenCalledWith(expect.stringContaining('no accessible name'));
     warnSpy.mockRestore();

@@ -28,6 +28,7 @@ import { defineCustomElement as defineAegovDrawer } from '@aegov/designsystem/co
 import { defineCustomElement as defineAegovDropdown } from '@aegov/designsystem/components/aegov-dropdown.js';
 import { defineCustomElement as defineAegovFileupload } from '@aegov/designsystem/components/aegov-fileupload.js';
 import { defineCustomElement as defineAegovFooter } from '@aegov/designsystem/components/aegov-footer.js';
+import { defineCustomElement as defineAegovFooterHighlights } from '@aegov/designsystem/components/aegov-footer-highlights.js';
 import { defineCustomElement as defineAegovFormField } from '@aegov/designsystem/components/aegov-form-field.js';
 import { defineCustomElement as defineAegovHeader } from '@aegov/designsystem/components/aegov-header.js';
 import { defineCustomElement as defineAegovHeaderBanner } from '@aegov/designsystem/components/aegov-header-banner.js';
@@ -754,14 +755,14 @@ export declare interface AegovFileupload extends Components.AegovFileupload {
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovFooter,
-  inputs: ['entityTollFree', 'entityTollFreeLabel', 'navVariant']
+  inputs: ['entityContactHref', 'entityContactNumber', 'entityContactNumberLabel', 'entityEmail', 'entityEmailLabel', 'navVariant']
 })
 @Component({
   selector: 'aegov-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['entityTollFree', 'entityTollFreeLabel', 'navVariant'],
+  inputs: ['entityContactHref', 'entityContactNumber', 'entityContactNumberLabel', 'entityEmail', 'entityEmailLabel', 'navVariant'],
 })
 export class AegovFooter {
   protected el: HTMLAegovFooterElement;
@@ -773,6 +774,29 @@ export class AegovFooter {
 
 
 export declare interface AegovFooter extends Components.AegovFooter {}
+
+
+@ProxyCmp({
+  defineCustomElementFn: defineAegovFooterHighlights,
+  inputs: ['entityContactHref', 'entityContactNumber', 'entityContactNumberLabel', 'entityEmail', 'entityEmailLabel']
+})
+@Component({
+  selector: 'aegov-footer-highlights',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: ['entityContactHref', 'entityContactNumber', 'entityContactNumberLabel', 'entityEmail', 'entityEmailLabel'],
+})
+export class AegovFooterHighlights {
+  protected el: HTMLAegovFooterHighlightsElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface AegovFooterHighlights extends Components.AegovFooterHighlights {}
 
 
 @ProxyCmp({

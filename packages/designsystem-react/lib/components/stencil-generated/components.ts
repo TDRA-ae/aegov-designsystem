@@ -29,6 +29,7 @@ import { AegovDatepicker as AegovDatepickerElement, defineCustomElement as defin
 import { AegovDrawer as AegovDrawerElement, defineCustomElement as defineAegovDrawer } from "@aegov/designsystem/dist/components/aegov-drawer.js";
 import { AegovDropdown as AegovDropdownElement, defineCustomElement as defineAegovDropdown } from "@aegov/designsystem/dist/components/aegov-dropdown.js";
 import { AegovFileupload as AegovFileuploadElement, defineCustomElement as defineAegovFileupload } from "@aegov/designsystem/dist/components/aegov-fileupload.js";
+import { AegovFooterHighlights as AegovFooterHighlightsElement, defineCustomElement as defineAegovFooterHighlights } from "@aegov/designsystem/dist/components/aegov-footer-highlights.js";
 import { AegovFooter as AegovFooterElement, defineCustomElement as defineAegovFooter } from "@aegov/designsystem/dist/components/aegov-footer.js";
 import { AegovFormField as AegovFormFieldElement, defineCustomElement as defineAegovFormField } from "@aegov/designsystem/dist/components/aegov-form-field.js";
 import { AegovHeaderBanner as AegovHeaderBannerElement, defineCustomElement as defineAegovHeaderBanner } from "@aegov/designsystem/dist/components/aegov-header-banner.js";
@@ -374,6 +375,17 @@ export const AegovFooter: StencilReactComponent<AegovFooterElement, AegovFooterE
     react: React,
     events: {} as AegovFooterEvents,
     defineCustomElement: defineAegovFooter
+});
+
+type AegovFooterHighlightsEvents = NonNullable<unknown>;
+
+export const AegovFooterHighlights: StencilReactComponent<AegovFooterHighlightsElement, AegovFooterHighlightsEvents> = /*@__PURE__*/ createComponent<AegovFooterHighlightsElement, AegovFooterHighlightsEvents>({
+    tagName: 'aegov-footer-highlights',
+    elementClass: AegovFooterHighlightsElement,
+    // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
+    react: React,
+    events: {} as AegovFooterHighlightsEvents,
+    defineCustomElement: defineAegovFooterHighlights
 });
 
 type AegovFormFieldEvents = NonNullable<unknown>;
