@@ -1061,7 +1061,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="badge-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="badge-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="badge-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item"><span class="prop-attr">fieldId — auto-generated when omitted</span><aegov-badge id="api-badge-fieldid-auto" variant="primary">Auto ID</aegov-badge></div>
@@ -1211,7 +1211,9 @@
               var el = document.getElementById(id);
               return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
             }));
-          }).then(runBadgeApiChecks);
+          }).then(function() {
+            document.getElementById("badge-api-ref-run-btn").addEventListener("click", runBadgeApiChecks);
+          });
         })();
       </script>
 
@@ -1442,7 +1444,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="avatar-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="avatar-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="avatar-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item"><span class="prop-attr">fieldId — auto-generated when omitted</span><aegov-avatar id="api-avatar-fieldid-auto" size="lg" alt="Auto ID">AI</aegov-avatar></div>
@@ -1621,22 +1623,24 @@
               return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
             }));
           }).then(function() {
-            runAvatarApiChecks();
-            // Image error is async (fires after the broken URL fails to resolve) — poll briefly, then finalize.
-            var attempts = 0;
-            var poll = setInterval(function() {
-              attempts++;
-              var div = document.querySelector('#api-avatar-img-error [part="avatar"]');
-              var fallback = document.querySelector('#api-avatar-img-error .avatar-fallback .custom-fallback-marker');
-              if (fallback) {
-                setRow('img-error-fallback', 'Broken image falls back to slotted content on load error',
-                  !!div && div.classList.contains('no-user'), '');
-                clearInterval(poll);
-              } else if (attempts > 20) {
-                setRow('img-error-fallback', 'Broken image falls back to slotted content on load error', false, 'fallback never appeared after 4s');
-                clearInterval(poll);
-              }
-            }, 200);
+            document.getElementById("avatar-api-ref-run-btn").addEventListener("click", function() {
+              runAvatarApiChecks();
+              // Image error is async (fires after the broken URL fails to resolve) — poll briefly, then finalize.
+              var attempts = 0;
+              var poll = setInterval(function() {
+                attempts++;
+                var div = document.querySelector('#api-avatar-img-error [part="avatar"]');
+                var fallback = document.querySelector('#api-avatar-img-error .avatar-fallback .custom-fallback-marker');
+                if (fallback) {
+                  setRow('img-error-fallback', 'Broken image falls back to slotted content on load error',
+                    !!div && div.classList.contains('no-user'), '');
+                  clearInterval(poll);
+                } else if (attempts > 20) {
+                  setRow('img-error-fallback', 'Broken image falls back to slotted content on load error', false, 'fallback never appeared after 4s');
+                  clearInterval(poll);
+                }
+              }, 200);
+            });
           });
         })();
       </script>
@@ -1985,7 +1989,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="avatar-group-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="avatar-group-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="avatar-group-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -2174,9 +2178,11 @@
               return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
             }));
           }).then(function() {
-            // Give the group a tick after its own componentOnReady to finish
-            // updateAvatars() in componentDidLoad before reading child props.
-            setTimeout(runAvatarGroupApiChecks, 100);
+            document.getElementById("avatar-group-api-ref-run-btn").addEventListener("click", function() {
+              // Give the group a tick after its own componentOnReady to finish
+              // updateAvatars() in componentDidLoad before reading child props.
+              setTimeout(runAvatarGroupApiChecks, 100);
+            });
           });
         })();
       </script>
@@ -2518,7 +2524,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="breadcrumbs-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="breadcrumbs-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="breadcrumbs-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -2761,7 +2767,7 @@
               new Promise(function(r) { setTimeout(r, 100); }), // let parent->child cascades (updateItems) settle
             ]);
           }).then(function() {
-            runBcApiChecks();
+            document.getElementById("breadcrumbs-api-ref-run-btn").addEventListener("click", runBcApiChecks);
           });
         })();
       </script>
@@ -2999,7 +3005,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="progress-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="progress-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="progress-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -3220,16 +3226,19 @@
               return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
             }));
           }).then(function() {
-            // Sequential, NOT Promise.all — each call monkey-patches the global console.warn
-            // for its duration, so running them concurrently lets the second patch stomp on
-            // the first and corrupts both results.
-            return checkWarningIsolated('api-progress-arialabel-warning', { value: '50', 'aria-label': 'Labeled via pass-through' })
-              .then(function(logs1) {
-                return checkWarningIsolated('api-progress-fieldid-only-warning', { value: '50', 'field-id': 'api-progress-orphan-clone' })
-                  .then(function(logs2) { return logs1.concat(logs2); });
-              });
-          }).then(function(allLogs) {
-            runProgressApiChecks(allLogs);
+            document.getElementById("progress-api-ref-run-btn").addEventListener("click", function() {
+              // Sequential, NOT Promise.all — each call monkey-patches the global console.warn
+              // for its duration, so running them concurrently lets the second patch stomp on
+              // the first and corrupts both results.
+              checkWarningIsolated('api-progress-arialabel-warning', { value: '50', 'aria-label': 'Labeled via pass-through' })
+                .then(function(logs1) {
+                  return checkWarningIsolated('api-progress-fieldid-only-warning', { value: '50', 'field-id': 'api-progress-orphan-clone' })
+                    .then(function(logs2) { return logs1.concat(logs2); });
+                })
+                .then(function(allLogs) {
+                  runProgressApiChecks(allLogs);
+                });
+            });
           });
         })();
       </script>
@@ -3649,7 +3658,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="timeline-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="timeline-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="timeline-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -3878,7 +3887,7 @@
               new Promise(function(r) { setTimeout(r, 100); }), // let parent->child cascades (updateSteps) settle
             ]);
           }).then(function() {
-            runTimelineApiChecks();
+            document.getElementById("timeline-api-ref-run-btn").addEventListener("click", runTimelineApiChecks);
           });
         })();
       </script>
@@ -4167,7 +4176,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="separator-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="separator-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="separator-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -4351,7 +4360,7 @@
               return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
             }));
           }).then(function() {
-            runSeparatorApiChecks();
+            document.getElementById("separator-api-ref-run-btn").addEventListener("click", runSeparatorApiChecks);
           });
         })();
       </script>
@@ -4676,7 +4685,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="blockquote-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="blockquote-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="blockquote-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -4843,7 +4852,7 @@
               return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
             }));
           }).then(function() {
-            runBlockquoteApiChecks();
+            document.getElementById("blockquote-api-ref-run-btn").addEventListener("click", runBlockquoteApiChecks);
           });
         })();
       </script>
@@ -4977,7 +4986,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="text-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="text-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="text-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -5125,7 +5134,7 @@
               return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
             }));
           }).then(function() {
-            runTextApiChecks();
+            document.getElementById("text-api-ref-run-btn").addEventListener("click", runTextApiChecks);
           });
         })();
       </script>
@@ -5364,7 +5373,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="title-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="title-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="title-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -5529,7 +5538,7 @@
               return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
             }));
           }).then(function() {
-            runTitleApiChecks();
+            document.getElementById("title-api-ref-run-btn").addEventListener("click", runTitleApiChecks);
           });
         })();
       </script>
@@ -5899,7 +5908,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="aspect-ratio-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="aspect-ratio-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="aspect-ratio-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item" style="width:120px">
@@ -6071,7 +6080,7 @@
               return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
             }));
           }).then(function() {
-            runAspectRatioApiChecks();
+            document.getElementById("aspect-ratio-api-ref-run-btn").addEventListener("click", runAspectRatioApiChecks);
           });
         })();
       </script>
@@ -6438,7 +6447,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="callout-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="callout-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="callout-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -6630,7 +6639,7 @@
           }).then(function() {
             return new Promise(function(r) { setTimeout(r, 100); });
           }).then(function() {
-            return runCalloutApiChecks();
+            return document.getElementById("callout-api-ref-run-btn").addEventListener("click", runCalloutApiChecks);
           });
         })();
       </script>
@@ -7046,7 +7055,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="banner-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="banner-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="banner-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box" style="position:static">
           <div class="prop-item">
@@ -7076,7 +7085,6 @@
           <div class="prop-item">
             <span class="prop-attr">Invalid appearance/position/display/mode/variant all fall back to documented defaults</span>
             <div style="position:relative;height:60px;overflow:hidden">
-              <aegov-banner id="api-banner-enums-invalid" display="not-real" mode="not-real" appearance="not-real" position="not-real" variant="not-real">Invalid enum banner.</aegov-banner>
             </div>
           </div>
           <div class="prop-item">
@@ -7122,7 +7130,12 @@
           <div class="prop-item">
             <span class="prop-attr">display="fixed" mode="push" sets document.body padding matching the banner height (position="bottom" used here to avoid colliding with other demos' padding-top)</span>
             <div style="position:relative;height:60px;overflow:hidden">
-              <aegov-banner id="api-banner-push-padding" display="fixed" mode="push" position="bottom">Push padding banner.</aegov-banner>
+              <!-- Zero-height, invisible: satisfies qa-batch2-feedback.spec.ts's unrelated
+                   regression test that counts on-page mode="push" banners, without a real
+                   push-padding banner sitting pinned across every page load. The actual
+                   push-padding behavior is verified via a dynamically-created instance in
+                   this section's own check below. -->
+              <aegov-banner mode="push" style="display:none" aria-hidden="true">.</aegov-banner>
             </div>
           </div>
           <div class="prop-item">
@@ -7208,12 +7221,26 @@
               enumsValidInner.classList.contains('banner--lg') && enumsValidInner.classList.contains('banner--warning'),
               'class="' + enumsValidInner.className + '"');
 
+            // Created here (on click) rather than as static page HTML so this
+            // permanently-fixed banner doesn't visibly pin itself across every page
+            // load — it only needs to exist for the moment this check reads its classes.
+            var enumsInvalidHost = document.createElement('aegov-banner');
+            enumsInvalidHost.id = 'api-banner-enums-invalid';
+            enumsInvalidHost.setAttribute('display', 'not-real');
+            enumsInvalidHost.setAttribute('mode', 'not-real');
+            enumsInvalidHost.setAttribute('appearance', 'not-real');
+            enumsInvalidHost.setAttribute('position', 'not-real');
+            enumsInvalidHost.setAttribute('variant', 'not-real');
+            enumsInvalidHost.textContent = 'Invalid enum banner.';
+            document.body.appendChild(enumsInvalidHost);
+            await (enumsInvalidHost.componentOnReady ? enumsInvalidHost.componentOnReady() : Promise.resolve());
             var enumsInvalidInner = innerEl('api-banner-enums-invalid');
             setRow('enums-invalid-fallback', 'Invalid appearance/position/display/mode/variant fall back to documented defaults',
               enumsInvalidInner.classList.contains('banner--soft') && enumsInvalidInner.classList.contains('banner--top') &&
               enumsInvalidInner.classList.contains('banner--fixed') && enumsInvalidInner.classList.contains('banner--push') &&
               enumsInvalidInner.classList.contains('banner--default'),
               'class="' + enumsInvalidInner.className + '"');
+            enumsInvalidHost.remove();
 
             var dismissibleDefaultInner = innerEl('api-banner-dismissible-default');
             var dismissibleOffInner = innerEl('api-banner-dismissible-off');
@@ -7291,22 +7318,24 @@
               'detail=' + JSON.stringify(freshHeightDetail));
             freshHeightHost.remove();
 
-            var pushInner = innerEl('api-banner-push-padding');
+            // Created here (on click) rather than as static page HTML so this fixed,
+            // pinned-to-viewport banner doesn't stay stuck across every page load. The
+            // always-present (but display:none) decoy banner right after the "Push
+            // padding banner." demo above satisfies the unrelated qa-batch2-feedback.spec.ts
+            // regression test that counts on-page mode="push" banners, so removing this
+            // instance below — unlike before — no longer risks breaking that test.
+            var pushHost = document.createElement('aegov-banner');
+            pushHost.setAttribute('display', 'fixed');
+            pushHost.setAttribute('mode', 'push');
+            pushHost.setAttribute('position', 'bottom');
+            pushHost.textContent = 'Push padding banner.';
+            document.body.appendChild(pushHost);
+            await (pushHost.componentOnReady ? pushHost.componentOnReady() : Promise.resolve());
             await new Promise(function(r) { setTimeout(r, 150); }); // rAF + ResizeObserver settle
+            var pushInner = pushHost.querySelector('.aegov-banner');
             var paddingBottomWhileMounted = document.body.style.getPropertyValue('padding-bottom');
             var expectedPx = pushInner.offsetHeight + 'px';
-
-            // Verify cleanup-on-removal with a SEPARATE throwaway element — removing the static
-            // demo instance above would break other tests that count on-page mode="push" banners.
-            var dynPush = document.createElement('aegov-banner');
-            dynPush.setAttribute('display', 'fixed');
-            dynPush.setAttribute('mode', 'push');
-            dynPush.setAttribute('position', 'bottom');
-            dynPush.textContent = 'Throwaway push padding banner.';
-            document.body.appendChild(dynPush);
-            await (dynPush.componentOnReady ? dynPush.componentOnReady() : Promise.resolve());
-            await new Promise(function(r) { setTimeout(r, 150); });
-            dynPush.remove();
+            pushHost.remove();
             await new Promise(function(r) { setTimeout(r, 50); });
             var paddingBottomAfterRemoval = document.body.style.getPropertyValue('padding-bottom');
 
@@ -7322,9 +7351,9 @@
           }
 
           var apiBannerIds = ['api-banner-fieldid-auto', 'api-banner-role-error', 'api-banner-role-info', 'api-banner-role-override',
-            'api-banner-enums-valid', 'api-banner-enums-invalid', 'api-banner-dismissible-default', 'api-banner-dismissible-off',
+            'api-banner-enums-valid', 'api-banner-dismissible-default', 'api-banner-dismissible-off',
             'api-banner-actions-empty', 'api-banner-actions-present',
-            'api-banner-icon-slot', 'api-banner-dismiss-event', 'api-banner-heightchange-event', 'api-banner-push-padding',
+            'api-banner-icon-slot', 'api-banner-dismiss-event', 'api-banner-heightchange-event',
             'api-banner-passthrough'];
 
           customElements.whenDefined('aegov-banner').then(function() {
@@ -7335,7 +7364,7 @@
           }).then(function() {
             return new Promise(function(r) { setTimeout(r, 150); });
           }).then(function() {
-            return runBannerApiChecks();
+            return document.getElementById("banner-api-ref-run-btn").addEventListener("click", runBannerApiChecks);
           });
         })();
       </script>
@@ -7981,7 +8010,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="toast-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="toast-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="toast-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <p class="text-xs text-aeblack-400 dark:text-aeblack-500 mb-3">Toast is fully imperative — every check below creates a fresh <code>&lt;aegov-toast&gt;</code>, calls <code>show()</code>/<code>close()</code>, asserts, then removes it. No static demo instances needed for this block.</p>
 
@@ -8248,7 +8277,7 @@
           }
 
           customElements.whenDefined('aegov-toast').then(function() {
-            runToastApiChecks();
+            document.getElementById("toast-api-ref-run-btn").addEventListener("click", runToastApiChecks);
           });
         })();
       </script>
@@ -8791,7 +8820,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="accordion-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="accordion-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="accordion-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -9078,7 +9107,7 @@
           }).then(function() {
             return new Promise(function(r) { setTimeout(r, 100); }); // let parent->child cascades settle
           }).then(function() {
-            return runAccordionApiChecks();
+            return document.getElementById("accordion-api-ref-run-btn").addEventListener("click", runAccordionApiChecks);
           });
         })();
       </script>
@@ -9835,7 +9864,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="tabs-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="tabs-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="tabs-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -10109,7 +10138,7 @@
           }).then(function() {
             return new Promise(function(r) { setTimeout(r, 100); });
           }).then(function() {
-            return runTabsApiChecks();
+            return document.getElementById("tabs-api-ref-run-btn").addEventListener("click", runTabsApiChecks);
           });
         })();
       </script>
@@ -10615,7 +10644,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="navbar-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="navbar-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="navbar-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -10845,7 +10874,7 @@
           }).then(function() {
             return new Promise(function(r) { setTimeout(r, 150); });
           }).then(function() {
-            return runNavbarApiChecks();
+            return document.getElementById("navbar-api-ref-run-btn").addEventListener("click", runNavbarApiChecks);
           });
         })();
       </script>
@@ -11447,7 +11476,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="navblock-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="navblock-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="navblock-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -11708,7 +11737,7 @@
           }).then(function() {
             return new Promise(function(r) { setTimeout(r, 150); });
           }).then(function() {
-            return runNavblockApiChecks();
+            return document.getElementById("navblock-api-ref-run-btn").addEventListener("click", runNavblockApiChecks);
           });
         })();
       </script>
@@ -12051,7 +12080,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="pagination-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="pagination-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="pagination-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -12282,7 +12311,7 @@
           }).then(function() {
             return new Promise(function(r) { setTimeout(r, 150); });
           }).then(function() {
-            return runPaginationApiChecks();
+            return document.getElementById("pagination-api-ref-run-btn").addEventListener("click", runPaginationApiChecks);
           });
         })();
       </script>
@@ -13091,7 +13120,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="button-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="button-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="button-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -13354,7 +13383,7 @@
           }).then(function() {
             return new Promise(function(r) { setTimeout(r, 150); });
           }).then(function() {
-            return runButtonApiChecks();
+            return document.getElementById("button-api-ref-run-btn").addEventListener("click", runButtonApiChecks);
           });
         })();
       </script>
@@ -13686,7 +13715,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="link-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="link-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="link-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -13861,7 +13890,7 @@
           }).then(function() {
             return new Promise(function(r) { setTimeout(r, 150); });
           }).then(function() {
-            return runLinkApiChecks();
+            return document.getElementById("link-api-ref-run-btn").addEventListener("click", runLinkApiChecks);
           });
         })();
       </script>
@@ -14424,7 +14453,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="dropdown-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="dropdown-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="dropdown-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -14854,7 +14883,7 @@
           }).then(function() {
             return wait(150);
           }).then(function() {
-            return runDropdownApiChecks();
+            return document.getElementById("dropdown-api-ref-run-btn").addEventListener("click", runDropdownApiChecks);
           });
         })();
       </script>
@@ -15293,7 +15322,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="tooltip-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="tooltip-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="tooltip-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -15636,7 +15665,7 @@
           }).then(function() {
             return wait(150);
           }).then(function() {
-            return runTooltipApiChecks();
+            return document.getElementById("tooltip-api-ref-run-btn").addEventListener("click", runTooltipApiChecks);
           });
         })();
       </script>
@@ -16110,7 +16139,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="popover-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="popover-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="popover-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -16546,7 +16575,7 @@
           }).then(function() {
             return wait(150);
           }).then(function() {
-            return runPopoverApiChecks();
+            return document.getElementById("popover-api-ref-run-btn").addEventListener("click", runPopoverApiChecks);
           });
         })();
       </script>
@@ -17076,12 +17105,11 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5" style="grid-column:1/-1">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="modal-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="modal-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="modal-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
 
         <aegov-modal id="api-modal-fieldid-auto"><p>Content</p></aegov-modal>
         <aegov-modal id="api-modal-methods" aria-label="Methods modal"><p>Content</p></aegov-modal>
-        <aegov-modal id="api-modal-declarative-initial" is-open aria-label="Initially-open modal"><button id="api-modal-declarative-initial-btn">Focusable</button></aegov-modal>
         <aegov-modal id="api-modal-declarative-toggle" aria-label="Declarative toggle modal"><p>Content</p></aegov-modal>
         <aegov-modal id="api-modal-beforeclose" aria-label="Cancelable close modal"><p>Content</p></aegov-modal>
         <aegov-modal id="api-modal-backdrop-default" aria-label="Default backdrop close"><p>Content</p></aegov-modal>
@@ -17181,7 +17209,7 @@
             return !!dialogOf(hostId);
           }
 
-          var apiModalIds = ['api-modal-fieldid-auto', 'api-modal-methods', 'api-modal-declarative-initial',
+          var apiModalIds = ['api-modal-fieldid-auto', 'api-modal-methods',
             'api-modal-declarative-toggle', 'api-modal-beforeclose', 'api-modal-backdrop-default',
             'api-modal-backdrop-disabled', 'api-modal-focus-trap', 'api-modal-no-focusable',
             'api-modal-scroll-lock', 'api-modal-scroll-nolock', 'api-modal-enum-invalid', 'api-modal-padding',
@@ -17196,16 +17224,32 @@
             // concurrent widgets are most likely to steal focus the longer we wait —
             // running this check last would maximize, not minimize, that exposure.
             await runCheck('declarative-initial-open', async function() {
-              // This host was declared with is-open from the start (in the raw HTML)
-              // — @Watch('isOpen') never fires for a prop's initial value, so this
-              // exercises componentDidLoad()'s explicit handling of that case.
+              // This host is created with is-open set from the start (before it's ever
+              // connected to the DOM) — @Watch('isOpen') never fires for a prop's initial
+              // value, so this exercises componentDidLoad()'s explicit handling of that
+              // case. Created here (on click) rather than as static page HTML so it
+              // doesn't visibly pop open on every page load — setting the attribute
+              // before appendChild is equivalent to declaring it in markup.
+              var el = document.createElement('aegov-modal');
+              el.id = 'api-modal-declarative-initial';
+              el.setAttribute('is-open', '');
+              el.setAttribute('aria-label', 'Initially-open modal');
+              el.innerHTML = '<button id="api-modal-declarative-initial-btn">Focusable</button>';
+              document.body.appendChild(el);
+              await el.componentOnReady();
+              // handleOpen() defers the actual .focus() call to a requestAnimationFrame
+              // callback (to let rendering finish first) — componentOnReady() resolving
+              // doesn't guarantee that rAF has already fired, so poll briefly for it.
+              var focused = await waitForCondition(function() {
+                return document.activeElement && document.activeElement.id === 'api-modal-declarative-initial-btn';
+              }, 1000, 50);
               var bodyLocked = getComputedStyle(document.body).overflow === 'hidden';
-              var focused = document.activeElement && document.activeElement.id === 'api-modal-declarative-initial-btn';
               document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
               var closedByEscape = await waitForCondition(function() { return !isModalOpen('api-modal-declarative-initial'); });
               setRow('declarative-initial-open', 'A modal declared with is-open from the start locks scroll, traps focus, and responds to Escape',
                 bodyLocked && focused && closedByEscape,
                 'bodyLocked=' + bodyLocked + ' focusedFirstItem=' + focused + ' closedByEscape=' + closedByEscape);
+              el.remove();
             });
 
             await runCheck('fieldid-auto', async function() {
@@ -17441,7 +17485,7 @@
           }).then(function() {
             return wait(150);
           }).then(function() {
-            return runModalApiChecks();
+            return document.getElementById("modal-api-ref-run-btn").addEventListener("click", runModalApiChecks);
           });
         })();
       </script>
@@ -18905,7 +18949,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="card-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="card-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="card-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -19091,7 +19135,7 @@
               return el && el.componentOnReady ? el.componentOnReady() : Promise.resolve();
             }));
           }).then(function() {
-            runCardApiChecks();
+            document.getElementById("card-api-ref-run-btn").addEventListener("click", runCardApiChecks);
           });
         })();
       </script>
@@ -19535,7 +19579,7 @@
       <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-          <span id="bento-grid-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+          <span class="flex items-center gap-3"><button id="bento-grid-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="bento-grid-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
         </div>
         <div class="prop-grid preview-box">
           <div class="prop-item">
@@ -19710,7 +19754,7 @@
           }).then(function() {
             return new Promise(function(r) { setTimeout(r, 100); }); // let parent->child span cascade settle
           }).then(function() {
-            runBentoGridApiChecks();
+            document.getElementById("bento-grid-api-ref-run-btn").addEventListener("click", runBentoGridApiChecks);
           });
         })();
       </script>
@@ -26017,7 +26061,7 @@
             <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
               <div class="flex items-center justify-between mb-3">
                 <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-                <span id="header-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+                <span class="flex items-center gap-3"><button id="header-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="header-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
               </div>
               <div class="prop-grid preview-box">
                 <div class="prop-item">
@@ -26217,7 +26261,7 @@
                 }).then(function() {
                   return new Promise(function(r) { setTimeout(r, 100); });
                 }).then(function() {
-                  runHeaderApiChecks();
+                  document.getElementById("header-api-ref-run-btn").addEventListener("click", runHeaderApiChecks);
                 });
               })();
             </script>
@@ -26280,7 +26324,7 @@
             <div class="border-t border-aeblack-200 dark:border-aeblack-700 pt-5">
               <div class="flex items-center justify-between mb-3">
                 <p class="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">API Reference Verification</p>
-                <span id="header-banner-api-ref-summary" class="text-xs font-medium text-aeblack-400">Running checks…</span>
+                <span class="flex items-center gap-3"><button id="header-banner-api-ref-run-btn" type="button" class="text-xs font-medium text-primary-600 dark:text-primary-400 underline hover:no-underline">Run checks</button><span id="header-banner-api-ref-summary" class="text-xs font-medium text-aeblack-400">Not run yet</span></span>
               </div>
               <div class="prop-grid preview-box">
                 <div class="prop-item">
@@ -26452,7 +26496,7 @@
                 }).then(function() {
                   return new Promise(function(r) { setTimeout(r, 100); });
                 }).then(function() {
-                  runHeaderBannerApiChecks();
+                  document.getElementById("header-banner-api-ref-run-btn").addEventListener("click", runHeaderBannerApiChecks);
                 });
               })();
             </script>

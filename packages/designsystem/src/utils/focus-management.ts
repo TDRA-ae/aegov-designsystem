@@ -33,45 +33,50 @@ export function getFocusableElements(container: Element, selector: string = FOCU
 }
 
 /**
+ * Depth-first walk that finds every element matching `selector`, piercing into
+ * any descendant's OWN shadow root along the way. A plain `querySelectorAll`
+ * only searches an element's light-DOM descendants — it cannot see inside a
+ * `shadow: true` child like `aegov-button` (used as the action buttons in
+ * nearly every documented modal/drawer example), whose real `<button>` lives
+ * in its own shadow root. Recursing into `child.shadowRoot` when present
+ * (falling back to the element's own light-DOM children otherwise) mirrors
+ * what's actually rendered, so focus order matches visual order.
+ */
+function collectFocusableDeep(root: Element | ShadowRoot, selector: string, results: HTMLElement[]): void {
+  const children = Array.from(root.children) as HTMLElement[];
+  for (const child of children) {
+    if (child.matches(selector)) {
+      results.push(child);
+    }
+    if (child.shadowRoot) {
+      collectFocusableDeep(child.shadowRoot, selector, results);
+    } else {
+      collectFocusableDeep(child, selector, results);
+    }
+  }
+}
+
+/**
  * Query focusable elements from shadow DOM slot assigned elements.
  * Used by shadow DOM components (modal, drawer) where content is slotted.
  */
-/**
- * Collect focusable elements from the shadow roots of an element and its
- * descendants. Custom elements only — a tag name containing a hyphen.
- */
-function getShadowFocusableElements(root: Element, selector: string): HTMLElement[] {
-  const candidates = [root, ...Array.from(root.querySelectorAll('*'))];
-  const focusable: HTMLElement[] = [];
-
-  candidates.forEach((candidate) => {
-    if (!candidate.tagName.includes('-')) return;
-    const shadowRoot = (candidate as HTMLElement).shadowRoot;
-    if (!shadowRoot) return;
-    focusable.push(...(Array.from(shadowRoot.querySelectorAll(selector)) as HTMLElement[]));
-  });
-
-  return focusable;
-}
-
 export function getSlottedFocusableElements(shadowRoot: ShadowRoot, selector: string = FOCUSABLE_SELECTORS): HTMLElement[] {
   const slot = shadowRoot.querySelector('slot');
   if (!slot) return [];
 
-  const slottedElements = slot.assignedElements({ flatten: true });
+  const slottedElements = slot.assignedElements({ flatten: true }) as HTMLElement[];
   const focusable: HTMLElement[] = [];
 
   slottedElements.forEach((element) => {
     // Include the slotted element itself if it is directly focusable
-    if ((element as HTMLElement).matches?.(selector)) {
-      focusable.push(element as HTMLElement);
+    if (element.matches?.(selector)) {
+      focusable.push(element);
     }
-    focusable.push(...(Array.from(element.querySelectorAll(selector)) as HTMLElement[]));
-    // Descend into shadow DOM web components. A slotted `aegov-button` is not
-    // itself focusable and `querySelectorAll` cannot see the native <button>
-    // in its shadow root, so without this the control is missing from the
-    // trap — invisible to Tab and to the initial focus.
-    focusable.push(...getShadowFocusableElements(element, selector));
+    if (element.shadowRoot) {
+      collectFocusableDeep(element.shadowRoot, selector, focusable);
+    } else {
+      collectFocusableDeep(element, selector, focusable);
+    }
   });
 
   return focusable;
@@ -83,12 +88,30 @@ export function getSlottedFocusableElements(shadowRoot: ShadowRoot, selector: st
  *
  * @returns true if focus was wrapped (event should be prevented), false otherwise
  */
+/**
+ * `document.activeElement` stops at the first shadow boundary it would have to
+ * cross — if the truly-focused element lives inside e.g. `aegov-button`'s own
+ * shadow root, `document.activeElement` reports the `<aegov-button>` HOST, not
+ * the inner `<button>` that `getSlottedFocusableElements` actually collected
+ * and focused. Drill down through each shadow root's own `activeElement`
+ * (recursively, in case of further nesting) to find the true focused element,
+ * so comparisons against `focusableElements` (which stores the deep, real
+ * targets) can actually match.
+ */
+function getDeepActiveElement(root: Document | ShadowRoot = document): Element | null {
+  let active = root.activeElement;
+  while (active && active.shadowRoot && active.shadowRoot.activeElement) {
+    active = active.shadowRoot.activeElement;
+  }
+  return active;
+}
+
 export function handleTabKeyWrap(event: KeyboardEvent, focusableElements: HTMLElement[]): boolean {
   if (!focusableElements.length) return false;
 
   const firstElement = focusableElements[0];
   const lastElement = focusableElements[focusableElements.length - 1];
-  const activeElement = document.activeElement;
+  const activeElement = getDeepActiveElement();
 
   if (event.shiftKey) {
     if (activeElement === firstElement || !focusableElements.includes(activeElement as HTMLElement)) {
