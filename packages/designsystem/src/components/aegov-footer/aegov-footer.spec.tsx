@@ -173,6 +173,23 @@ describe('aegov-footer', () => {
     expect(legal.querySelector('a[href="/privacy"]')).not.toBeNull();
   });
 
+  it('wraps the legal slot\'s plain <a> tags in a synthesized <ul role="list"><li> structure', async () => {
+    const page = await newSpecPage({
+      components: [AegovFooter, AegovFooterHighlights],
+      html: `<aegov-footer>${GROUP}<div slot="legal"><a href="/privacy">Privacy policy</a><a href="/accessibility-statement">Accessibility statement</a></div></aegov-footer>`,
+    });
+    const legal = page.root.querySelector('[slot="legal"]');
+    expect(legal.tagName).toBe('UL');
+    expect(legal.className).toBe('aegov-footer__legal');
+    expect(legal.getAttribute('role')).toBe('list');
+    const items = legal.querySelectorAll('li');
+    expect(items.length).toBe(2);
+    expect(items[0].querySelector('a[href="/privacy"]')).not.toBeNull();
+    expect(items[1].querySelector('a[href="/accessibility-statement"]')).not.toBeNull();
+    // No leftover author-authored <div> wrapper.
+    expect(page.root.querySelector('div[slot="legal"]')).toBeNull();
+  });
+
   it('warns when a brand-slot link has no accessible name', async () => {
     const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     await newSpecPage({

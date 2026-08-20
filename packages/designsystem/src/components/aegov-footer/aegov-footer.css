@@ -149,15 +149,19 @@ aegov-footer {
 }
 
 /* Authors write ONE wrapper — `<div slot="legal"><a>…</a><a>…</a></div>` —
-   plain links, no `<li>` per item. The non-shadow slot polyfill reparents
-   that div into `.aegov-footer__bottom` (confirmed via computed DOM: it
-   ends up 3 levels deep, not a direct child of `aegov-footer` — unlike the
-   retired `[slot='actions']` case below, which is never reparented because
-   no matching `<slot>` exists in render anymore, so it stays wherever the
-   author wrote it). Styled off the `slot` attribute itself, still present
-   post-move, rather than a class the author would have to remember to add. */
-.aegov-footer__bottom [slot='legal'] {
-  @apply flex flex-wrap justify-center gap-3 md:gap-6;
+   plain links, no `<li>` per item. syncLegalLinks() (in the .tsx) replaces
+   that wrapper with a real `<ul class="aegov-footer__legal" role="list">`,
+   each `<a>` moved into its own `<li>`, so this targets the synthesized
+   class rather than the `[slot='legal']` attribute the author's own
+   wrapper carried — list-none/m-0/p-0 undo the real `<ul>`/`<li>` UA
+   defaults (bullet, indent, margin) now that these are genuine list
+   elements instead of a bare div. */
+.aegov-footer__legal {
+  @apply m-0 flex list-none flex-wrap justify-center gap-3 p-0 md:gap-6;
+
+  li {
+    @apply m-0 p-0;
+  }
 
   /* Matches the reference footer block exactly: no color shift on hover,
      just an underline — unlike the nav-column links, which do shift to
