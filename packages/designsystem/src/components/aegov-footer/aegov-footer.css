@@ -11,8 +11,12 @@ aegov-footer {
 
 /* ---------- brand column + nav columns ---------- */
 
+/* Responsive, not a flat 64px at every width — confirmed via measurement
+   that the old flat `pb-16` (matched by `.aegov-footer-highlights`'s own
+   flat `py-16` above it) read as an oversized, non-scaling gap on mobile,
+   where there's much less room to spare than on desktop. */
 .aegov-footer__main {
-  @apply pb-16;
+  @apply pb-10 sm:pb-12 lg:pb-16;
 }
 
 /* One flat, responsive grid holding the brand column and every author-
@@ -24,12 +28,11 @@ aegov-footer {
    columns" ahead of time.
 
    Below `sm` the grid is a single stacked column, and each `.aegov-footer__group`
-   already draws its own `border-b`/`pb-4` divider (accordion-row style) — a
-   grid row-gap on top of that doubled up the spacing (confirmed: 40px gap +
-   16px pb-4 + border read as one oversized gap between rows). `gap-0` at the
-   base breakpoint leaves rows relying solely on their own divider; `sm:gap-10`
-   restores real column spacing once groups drop their border/padding
-   (`sm:border-b-0 sm:pb-0` below) and become true grid columns. */
+   already draws its own `border-b` divider (accordion-row style) — a grid
+   row-gap on top of that would double up the spacing. `gap-0` at the base
+   breakpoint leaves rows relying solely on their own divider; `sm:gap-10`
+   restores real column spacing once groups drop their border (`sm:border-b-0`
+   below) and become true grid columns. */
 .aegov-footer__columns {
   @apply grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4;
 }
@@ -69,7 +72,7 @@ aegov-footer {
    So the trigger styles below only ever apply when a real, genuinely
    interactive button exists. */
 .aegov-footer__group {
-  @apply m-0 border-x-0 border-t-0 border-b border-aeblack-100 p-0 pb-4 sm:border-b-0 sm:pb-0 dark:border-aeblack-800;
+  @apply m-0 border-x-0 border-t-0 border-b border-aeblack-100 p-0 sm:border-b-0 dark:border-aeblack-800;
 }
 .aegov-footer__group:last-child {
   @apply border-b-0;
@@ -80,9 +83,17 @@ aegov-footer {
    chevron pushed to the far end" layout belongs on .aegov-footer__group-trigger
    itself below, not here: with only one child (the button), justify-between
    on this wrapper would do nothing, and a plain <button> centers its own
-   text by default in most browsers' UA stylesheet if not reset. */
+   text by default in most browsers' UA stylesheet if not reset.
+
+   `py-4` alone (not a smaller py- paired with the group's own pb-* like an
+   earlier version had) is deliberate: it's the ONLY padding on this row, so
+   it's also the ONLY thing that has to make the divider spacing symmetric.
+   Measured before this: 28px above each divider (this title's own pb-3 +
+   the group's separate pb-4) vs. 12px below it (next title's pt-3 alone) —
+   a real, visible mismatch. One shared 16px on both sides of every title
+   fixes that, above and below every divider alike. */
 .aegov-footer__group > :first-child {
-  @apply m-0 py-3 text-base font-bold text-primary-900 text-start dark:text-primary-300;
+  @apply m-0 py-4 text-base font-bold text-primary-900 text-start dark:text-primary-300;
 }
 
 .aegov-footer__group-trigger {
@@ -120,6 +131,17 @@ aegov-footer {
   @apply rotate-180 bg-primary-700 dark:bg-primary-300;
 }
 
+/* Bottom breathing room for the OPEN state only — the panel is simply not
+   rendered (`hidden`) while closed, so this can never reintroduce the
+   closed-row divider asymmetry the group's own padding used to cause (see
+   the note on `.aegov-footer__group > :first-child` above). Without it,
+   the last link sat flush against the next row's divider with no gap at
+   all. Only matters below `sm`; at `sm`+ there's no divider to separate
+   from, and no reason to add space the grid's own `sm:gap-10` doesn't
+   already need. */
+.aegov-footer__group-panel {
+  @apply pb-4 sm:pb-0;
+}
 .aegov-footer__group-panel ul {
   @apply m-0 flex list-none flex-col gap-2 p-0 pt-3 sm:pt-4;
 }
