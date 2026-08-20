@@ -25,6 +25,20 @@
   cursor: not-allowed;
 }
 
+/* The default (non-button-styled) text-link path's dark-mode color is set
+   via a plain class string in aegov-link.tsx's getLinkClasses() — but the
+   Tailwind build only scans this component's own CSS (plus the `@source`
+   above), never its .tsx, so a utility referenced only in JS compiles to
+   nothing (confirmed: the class was landing on the element with zero CSS
+   rule behind it). This rule exists purely so the scanner sees the exact
+   class combination and generates it. `.text-primary-600.no-underline`
+   uniquely matches that default path — button-styled variants get an
+   entirely different class list from getActionClasses(), never both of
+   these together. */
+a.text-primary-600.no-underline {
+  @apply dark:text-primary-400;
+}
+
 /* Suppress the global <a> hover underline when the link is rendered as a
    button. The global rule (`a { @apply hover:underline ... }` in global.css)
    would otherwise bleed through every button-styled aegov-link variant —

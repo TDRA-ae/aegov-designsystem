@@ -140,9 +140,18 @@
 
 .btn-secondary {
   @apply outline-secondary-600 dark:outline-secondary-500;
+  /* dark:bg/border deliberately reuse secondary-600, not secondary-500 —
+     secondary-500 only measures ~3.2:1 against secondary-50 text (confirmed
+     via canvas-readback), and secondary-500 is used far too widely elsewhere
+     (checkbox/radio checked states, toggle track, toast progress, datepicker
+     portal, card hover borders) to darken it without a much wider ripple
+     effect. Reusing the already-corrected secondary-600 fixes this button's
+     dark-mode contrast without touching that shared token. Hover goes darker
+     (700) to match the light-mode direction, since a lighter hover would
+     have needed secondary-500 (still failing) or lighter. */
   &.btn-solid {
     @apply bg-secondary-600 hover:bg-secondary-700 border-secondary-600 hover:border-secondary-700 focus-visible:bg-secondary-support-400 focus-visible:text-secondary-support-950 focus-visible:border-secondary-support-400 text-secondary-50
-           dark:bg-secondary-500 dark:hover:bg-secondary-400 dark:border-secondary-500 dark:hover:border-secondary-400 dark:focus-visible:bg-secondary-support-400 dark:focus-visible:text-secondary-support-950 dark:focus-visible:border-secondary-support-400 dark:text-secondary-50;
+           dark:bg-secondary-600 dark:hover:bg-secondary-700 dark:border-secondary-600 dark:hover:border-secondary-700 dark:focus-visible:bg-secondary-support-400 dark:focus-visible:text-secondary-support-950 dark:focus-visible:border-secondary-support-400 dark:text-secondary-50;
   }
   &.btn-outline {
     @apply text-secondary-600 hover:bg-secondary-50 hover:text-secondary-700 border-secondary-600 hover:border-secondary-700 focus-visible:border-secondary-50 focus-visible:bg-secondary-support-400 focus-visible:text-secondary-support-950

@@ -310,8 +310,20 @@ export const AegovFileupload = /*@__PURE__*/ defineContainer<JSX.AegovFileupload
 
 export const AegovFooter = /*@__PURE__*/ defineContainer<JSX.AegovFooter>('aegov-footer', undefined, [
   'navVariant',
-  'entityTollFree',
-  'entityTollFreeLabel'
+  'entityContactNumber',
+  'entityContactNumberLabel',
+  'entityEmail',
+  'entityEmailLabel',
+  'entityContactHref'
+]);
+
+
+export const AegovFooterHighlights = /*@__PURE__*/ defineContainer<JSX.AegovFooterHighlights>('aegov-footer-highlights', undefined, [
+  'entityContactNumber',
+  'entityContactNumberLabel',
+  'entityEmail',
+  'entityEmailLabel',
+  'entityContactHref'
 ]);
 
 
