@@ -221,12 +221,18 @@ export class AegovLink {
       return this.extraClass ? `${action} ${this.extraClass}` : action;
     }
 
+    // dark:text-primary-400 matches the same pairing the global `a{}` base
+    // style uses — without it, this default (unstyled) path stayed at
+    // text-primary-600 on dark backgrounds, measuring ~3.6:1 against
+    // aeblack-950 (confirmed via canvas-readback), well under the 4.5:1 a
+    // plain text link needs.
     const classes = [
       'no-underline',
       'ease-in-out',
       'transition-colors',
       'duration-200',
       'text-primary-600',
+      'dark:text-primary-400',
     ];
     if (this.extraClass) classes.push(this.extraClass);
     return classes.join(' ');

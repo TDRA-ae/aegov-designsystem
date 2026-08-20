@@ -1,61 +1,61 @@
-:host {
+/* `:host` only has meaning inside a real Shadow Root — this component is
+   `scoped: false`, so it matches nothing (confirmed via computed-style: the
+   host defaulted to `display: inline`). Target the tag directly instead. */
+aegov-footer {
   @apply block w-full;
 }
 
-/* The Tawasul logo has no override slot — it's fixed, matching every other
-   part of that block. But this component is `scoped: false`, and a light-DOM
-   child carrying a stale `slot="tawasul-logo"` attribute (from before that
-   slot existed, or copy-pasted from old docs) still renders as an unstyled
-   orphan even with no matching <slot> in the template — confirmed directly,
-   not assumed. Hide it rather than let it silently show up unstyled. */
-aegov-footer > [slot='tawasul-logo'] {
-  display: none;
-}
-
-/* Colors/sizing below are matched against the reference implementation at
-   github.com/TDRA-ae/aegov-dls/blob/master/src/blocks/footer/footer.css and
-   designsystem.gov.ae/docs/blocks/footer — not invented. The one deliberate
-   deviation: that reference's `.footer-contact { max-lg:text-center }` would
-   center the Tawasul block's content up through `lg`, but this component's
-   current right-aligned, side-by-side-from-`sm` layout was already
-   pixel-verified against real reference screenshots earlier, so it's kept
-   as-is rather than blindly overwritten by an isolated CSS fragment lacking
-   its companion grid markup. */
 .aegov-footer {
-  @apply relative w-full bg-aeblack-50 pt-2 dark:bg-aeblack-950;
-
-  &::before {
-    content: '';
-    @apply absolute top-0 h-2 w-full bg-linear-to-b from-primary-400 to-primary-600 dark:from-primary-500 dark:to-primary-400;
-  }
+  @apply relative w-full border-t border-primary-100 bg-whitely-100 dark:border-primary-900 dark:bg-aeblack-950;
 }
 
-/* ---------- main area: nav columns + tawasul ---------- */
+/* ---------- brand column + nav columns ---------- */
 
 .aegov-footer__main {
-  @apply flex flex-col gap-8 py-10 sm:flex-row sm:items-start sm:justify-between sm:gap-12;
+  @apply pb-16;
 }
 
-/* Mutually exclusive width ranges — not sm:/lg: variants on one @apply line,
-   and not two plain overlapping min-width queries either. Tailwind v4's
-   bundler hoists/merges same-condition rules to that breakpoint's FIRST use
-   ANYWHERE in the file, not to where a given rule is written — so if any
-   other selector in this file (now or later) uses `lg:` before this point,
-   relative source order here still can't be trusted to arbitrate an overlap
-   between a `sm:` and an `lg:` rule on the same property. Bounding the
-   smaller range with max-width sidesteps that entirely: only one query is
-   ever true for a given viewport, so there is no overlap to arbitrate. */
+/* One flat, responsive grid holding the brand column and every author-
+   provided `.aegov-footer__group`. `.aegov-footer__nav` (the `<nav>`
+   landmark wrapping the groups) is `display: contents` below so its
+   children become direct items of THIS grid instead of a nested one —
+   the group count is author-controlled and can't be assumed to always be
+   3, so the grid can't be split into "brand's 1 column" + "nav's fixed N
+   columns" ahead of time.
+
+   Below `sm` the grid is a single stacked column, and each `.aegov-footer__group`
+   already draws its own `border-b`/`pb-4` divider (accordion-row style) — a
+   grid row-gap on top of that doubled up the spacing (confirmed: 40px gap +
+   16px pb-4 + border read as one oversized gap between rows). `gap-0` at the
+   base breakpoint leaves rows relying solely on their own divider; `sm:gap-10`
+   restores real column spacing once groups drop their border/padding
+   (`sm:border-b-0 sm:pb-0` below) and become true grid columns. */
+.aegov-footer__columns {
+  @apply grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4;
+}
+
 .aegov-footer__nav {
-  @apply grid flex-1 grid-cols-1 gap-x-6 gap-y-2;
+  display: contents;
 }
-@media (min-width: 640px) and (max-width: 1023.98px) {
-  .aegov-footer__nav {
-    @apply grid-cols-2;
-  }
+
+/* The brand column has no divider of its own like the nav groups below it
+   (border-b/pb-4) — now that the grid's row-gap is 0 below `sm` (see
+   `.aegov-footer__columns` above), it needs its own bottom space so it
+   doesn't sit flush against the first group's title. */
+.aegov-footer__brand {
+  @apply pb-8 sm:pb-0;
 }
-@media (min-width: 1024px) {
-  .aegov-footer__nav {
-    @apply grid-cols-4;
+
+/* Social icon size is enforced here — w-5/h-5 — rather than left to
+   whatever width/height the consumer's own slotted <svg> happens to
+   declare, so every site's footer reads consistently regardless of the
+   icon markup authors paste in. size-11 keeps a >=44px touch target
+   regardless of the 20px icon inside it. */
+.aegov-footer__brand a {
+  @apply flex size-11 items-center justify-center text-aeblack-700 no-underline hover:text-primary-800 focus-visible:rounded focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-600 dark:text-aeblack-300 dark:hover:text-primary-400 dark:focus-visible:outline-primary-500;
+
+  svg {
+    @apply size-5;
   }
 }
 
@@ -68,15 +68,6 @@ aegov-footer > [slot='tawasul-logo'] {
    .aegov-footer__group-trigger button, unwrapping it again everywhere else.
    So the trigger styles below only ever apply when a real, genuinely
    interactive button exists. */
-/* Divider between mobile accordion rows only — matches the reference's
-   "borders separate each accordion section" on mobile, and the same
-   aeblack-100 used by the bottom bar's own top border, so both dividers
-   read as the same visual language rather than two different greys. Gone
-   again at `sm`, once the layout is a non-collapsible grid. pb-4 keeps the
-   panel's own content off that line — p-0 alone left the last link flush
-   against the border with no breathing room. The last group skips the
-   border entirely: it would otherwise sit right above the Tawasul block's
-   own border-t, reading as one doubled-up line rather than a single divider. */
 .aegov-footer__group {
   @apply m-0 border-x-0 border-t-0 border-b border-aeblack-100 p-0 pb-4 sm:border-b-0 sm:pb-0 dark:border-aeblack-800;
 }
@@ -91,7 +82,7 @@ aegov-footer > [slot='tawasul-logo'] {
    on this wrapper would do nothing, and a plain <button> centers its own
    text by default in most browsers' UA stylesheet if not reset. */
 .aegov-footer__group > :first-child {
-  @apply m-0 py-3 text-start text-base font-bold text-primary-600 md:text-lg lg:text-xl dark:text-primary-400;
+  @apply m-0 py-3 text-base font-bold text-primary-900 text-start dark:text-primary-300;
 }
 
 .aegov-footer__group-trigger {
@@ -135,93 +126,59 @@ aegov-footer > [slot='tawasul-logo'] {
 .aegov-footer__group-panel li {
   @apply m-0 p-0;
 }
+/* Color only — underline and focus-visible are intentionally left alone so
+   the global `a{}` base style's defaults for those apply untouched. */
 .aegov-footer__group-panel a {
-  @apply text-sm text-aeblack-700 no-underline hover:text-primary-600 focus-visible:rounded focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-600 xl:text-base dark:text-aeblack-300 dark:hover:text-primary-400 dark:focus-visible:outline-primary-500;
-}
-
-/* ---------- tawasul block ---------- */
-
-/* Border color matches .aegov-footer__bottom's own top border (aeblack-100)
-   rather than a separate shade, so the mobile divider above Tawasul and the
-   one above the copyright bar read as the same line, not two different greys. */
-.aegov-footer__tawasul {
-  @apply flex w-full flex-col items-start gap-3 border-t border-aeblack-100 pt-6 sm:w-auto sm:min-w-64 sm:items-end sm:border-t-0 sm:border-s sm:border-aeblack-100 sm:pt-0 sm:ps-8 dark:border-aeblack-800;
-}
-
-/* Default logo mark — the real Tawasul 171 SVG, inlined by the component
-   (see TAWASUL_LOGO_SVG in aegov-footer.tsx). Sized by breakpoint so it
-   never dominates the block: modest on mobile, up to its natural ~170px
-   width at `lg`, where it sits alongside the 4-column grid. h-auto keeps
-   the SVG's own aspect ratio, so only width needs setting per breakpoint. */
-.aegov-footer__tawasul-mark-svg {
-  @apply block w-32 sm:w-36 lg:w-[170px];
-
-  svg {
-    @apply block h-auto w-full;
-  }
-}
-
-.aegov-footer__tawasul-contacts {
-  @apply m-0 flex list-none flex-wrap items-center gap-x-3 gap-y-1 p-0;
-}
-
-/* Contact links intentionally do NOT hover to primary, matching the
-   reference's --footer-contact-link-fg / -fg-hover — a tone-shift within
-   the same neutral scale, distinct from the nav links' hover-to-primary. */
-.aegov-footer__tawasul-link {
-  @apply flex min-h-11 items-center gap-1.5 text-sm font-bold text-aeblack-800 no-underline hover:text-aeblack-600 focus-visible:rounded focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-600 dark:text-aeblack-100 dark:hover:text-aeblack-300 dark:focus-visible:outline-primary-500;
-
-  svg {
-    @apply size-4 shrink-0;
-  }
-}
-
-/* Entity's own toll-free number, shown below the fixed logo/171/WhatsApp
-   block — the only toll-free line the component renders; there is no fixed
-   Tawasul "800 12" line, unlike an earlier version of this component. */
-.aegov-footer__entity-tollfree {
-  @apply m-0;
-}
-.aegov-footer__entity-tollfree-link {
-  @apply flex min-h-11 items-center gap-1.5 text-sm text-aeblack-500 no-underline hover:text-aeblack-600 focus-visible:rounded focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-600 dark:text-aeblack-400 dark:hover:text-aeblack-300 dark:focus-visible:outline-primary-500;
-
-  svg {
-    @apply size-4 shrink-0;
-  }
-  strong {
-    @apply font-semibold text-aeblack-700 dark:text-aeblack-200;
-  }
+  @apply text-aeblack-700 hover:text-primary-600 dark:text-aeblack-300 dark:hover:text-primary-400;
 }
 
 /* ---------- bottom bar ---------- */
 
+/* Stacked through tablet (`sm`/`md`) — at 768px there isn't room for the
+   copyright text plus all legal links on one row without the legal links
+   wrapping mid-list and reading as unbalanced. Only becomes a row at `lg`,
+   where both sides reliably fit side by side. */
 .aegov-footer__bottom {
-  @apply flex flex-col items-center gap-4 border-t border-aeblack-100 py-6 text-center lg:flex-row lg:justify-between lg:text-start dark:border-aeblack-800;
+  @apply flex flex-col items-center justify-between gap-3 border-t border-primary-100 bg-primary-50/50 py-6 text-center text-sm text-aeblack-500 lg:flex-row lg:text-start dark:border-primary-900 dark:bg-primary-950/30 dark:text-aeblack-400;
 }
 
 .aegov-footer__copyright {
-  @apply text-xs text-aeblack-700 sm:text-sm dark:text-aeblack-300;
-
   a {
     @apply text-aeblack-700 underline hover:text-primary-600 focus-visible:rounded focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-600 dark:text-aeblack-300 dark:hover:text-primary-400 dark:focus-visible:outline-primary-500;
   }
 }
 
-/* Social icon size is enforced here — h-8/w-8, matching the reference's
-   .social-sharing svg — rather than left to whatever width/height the
-   consumer's own slotted <svg> happens to declare, so every site's footer
-   reads consistently regardless of the icon markup authors paste in. */
-.aegov-footer__actions {
-  @apply flex items-center gap-6;
+/* Authors write ONE wrapper — `<div slot="legal"><a>…</a><a>…</a></div>` —
+   plain links, no `<li>` per item. syncLegalLinks() (in the .tsx) replaces
+   that wrapper with a real `<ul class="aegov-footer__legal" role="list">`,
+   each `<a>` moved into its own `<li>`, so this targets the synthesized
+   class rather than the `[slot='legal']` attribute the author's own
+   wrapper carried — list-none/m-0/p-0 undo the real `<ul>`/`<li>` UA
+   defaults (bullet, indent, margin) now that these are genuine list
+   elements instead of a bare div. */
+.aegov-footer__legal {
+  @apply m-0 flex list-none flex-wrap justify-center gap-3 p-0 md:gap-6;
 
-  a {
-    /* size-11 keeps a >=44px touch target regardless of the 32px icon inside
-       it — matching the reference's visual icon size without shrinking the
-       tappable area below the accessible minimum. */
-    @apply flex size-11 items-center justify-center text-aeblack-600 no-underline hover:text-aeblack-500 focus-visible:rounded focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-600 dark:text-aeblack-400 dark:hover:text-aeblack-300 dark:focus-visible:outline-primary-500;
-
-    svg {
-      @apply size-8;
-    }
+  li {
+    @apply m-0 p-0;
   }
+
+  /* Matches the reference footer block exactly: no color shift on hover,
+     just an underline — unlike the nav-column links, which do shift to
+     primary. Kept as its own rule rather than merged with those so the two
+     link groups don't silently drift back into matching each other. */
+  a {
+    @apply text-aeblack-600 no-underline hover:underline focus-visible:rounded focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-600 dark:text-aeblack-300 dark:focus-visible:outline-primary-500;
+  }
+}
+
+/* Safety net for consumers upgrading from the previous `actions` slot (which
+   held social icons in the bottom bar) — that slot no longer exists, so a
+   leftover `slot="actions"` child would otherwise render as an unstyled
+   orphan even with no matching <slot> in the template (this component is
+   `scoped: false`; confirmed directly, not assumed — see the equivalent note
+   this file used to carry for a retired `tawasul-logo` slot). Hide it rather
+   than let it silently show up unstyled. */
+aegov-footer > [slot='actions'] {
+  display: none;
 }

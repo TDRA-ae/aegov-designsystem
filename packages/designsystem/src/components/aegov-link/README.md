@@ -37,6 +37,19 @@
 | `"default"` | The link text content  An anchor element wrapper.  In its default form `aegov-link` renders a plain styled `<a>`. Opt into a button-shaped link by setting any of `variant`, `appearance`, `size`, `isIcon`, `isFull`, or `isDisabled`. When any of those are set the component switches its class output to the shared `getActionClasses` util so it matches `aegov-button` exactly while keeping native `<a>` semantics (right-click, middle-click new tab, screen-reader link role, copy-link, etc.). `isBold` only has an effect once one of the props above has already opted in — it can't itself trigger button styling since it defaults to `true`.  `isLoading` is intentionally NOT supported — loading states belong on `<button>` (use `aegov-button isLoading` instead). |
 
 
+## Dependencies
+
+### Used by
+
+ - [aegov-footer-highlights](../aegov-footer-highlights)
+
+### Graph
+```mermaid
+graph TD;
+  aegov-footer-highlights --> aegov-link
+  style aegov-link fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

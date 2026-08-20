@@ -1047,13 +1047,21 @@ export namespace Components {
     }
     /**
      * @component aegov-footer
-     * @description Full-width government website footer. Holds an open slot for
-     * author-written link columns — each authored as PLAIN HTML: a title element
-     * (any tag — `<h2>`–`<h6>` recommended) as the group's first child, followed
-     * by the rest of the column's content (typically a `<ul>`). No button, no
-     * disclosure markup, no special classes beyond `.aegov-footer__group` — the
-     * component synthesizes a trigger button around the title's own content only
-     * when a column genuinely needs to be toggleable (below `sm`, with
+     * @description Full-width government website footer. Internally embeds
+     * `aegov-footer-highlights` as its hero row (same relationship
+     * `aegov-header` has with `aegov-header-banner`) — the `highlights` slot is
+     * forwarded straight through to it (a plain slot with no chrome of its own;
+     * the author's own slotted markup owns background/shadow/radius/padding
+     * alike), and the `entity-contact-*` props below are forwarded to its own
+     * identically-named props. Below that: a brand
+     * column (logo, description, social links — entirely author-provided via
+     * the `brand` slot) alongside an open slot for author-written link columns
+     * — each authored as PLAIN HTML: a title element (any tag — `<h2>`–`<h6>`
+     * recommended) as the group's first child, followed by the rest of the
+     * column's content (typically a `<ul>`). No button, no disclosure markup,
+     * no special classes beyond `.aegov-footer__group` — the component
+     * synthesizes a trigger button around the title's own content only when a
+     * column genuinely needs to be toggleable (below `sm`, with
      * `nav-variant="collapsible"`), and unwraps it completely otherwise, so an
      * author never has to reason about interactivity that doesn't apply to their
      * content. This also means no button exists in the DOM at all outside that
@@ -1062,31 +1070,97 @@ export namespace Components {
      * (confirmed with real VoiceOver testing; reassigning ARIA roles on a
      * still-focusable element does not reliably suppress its native role, per
      * WAI-ARIA's Presentational Roles Conflict Resolution rule). Also renders a
-     * fixed bilingual Tawasul contact block and a bottom bar for copyright +
-     * social actions.
-     * @example <aegov-footer nav-variant="collapsible">
+     * bottom bar for copyright + legal links.
+     * @example <aegov-footer nav-variant="collapsible" entity-contact-number="800 8877" entity-email="info@example.gov.ae">
+     *   <div slot="highlights">
+     *     <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+     *       <p>Sign up for updates.</p>
+     *     </div>
+     *   </div>
+     *   <div slot="brand">
+     *     <span>Example Entity</span>
+     *     <p>An entity of the UAE Federal Government.</p>
+     *     <a href="https://facebook.com/example"><span class="sr-only">Facebook</span>…</a>
+     *   </div>
      *   <div class="aegov-footer__group">
      *     <h2>The Ministry</h2>
      *     <ul role="list"><li><a href="/about">About the ministry</a></li></ul>
      *   </div>
      *   <p slot="copyright">© 2026. Ministry of Example. All rights reserved.</p>
-     *   <a slot="actions" href="https://facebook.com/example"><span class="sr-only">Facebook</span>…</a>
+     *   <div slot="legal">
+     *     <a href="/privacy">Privacy policy</a>
+     *     <a href="/accessibility-statement">Accessibility statement</a>
+     *   </div>
      * </aegov-footer>
      */
     interface AegovFooter {
         /**
-          * The entity's own toll-free number (e.g. "600 522222"), shown as its own line below the fixed logo/171/WhatsApp block — per the design system guidance that "the entity's toll-free contact number must be below the '171 tawasul' container". Entirely optional and site-specific, so nothing renders unless it's provided — there is no fixed Tawasul toll-free number of its own to fall back to.
+          * Forwarded to the embedded `aegov-footer-highlights`.
          */
-        "entityTollFree"?: string;
+        "entityContactHref"?: string;
         /**
-          * Overrides the label shown before `entityTollFree` (defaults to the same bilingual "Toll free"/"الرقم المجاني" text used elsewhere in the block).
+          * Forwarded to the embedded `aegov-footer-highlights`.
          */
-        "entityTollFreeLabel"?: string;
+        "entityContactNumber"?: string;
+        /**
+          * Forwarded to the embedded `aegov-footer-highlights`.
+         */
+        "entityContactNumberLabel"?: string;
+        /**
+          * Forwarded to the embedded `aegov-footer-highlights`.
+         */
+        "entityEmail"?: string;
+        /**
+          * Forwarded to the embedded `aegov-footer-highlights`.
+         */
+        "entityEmailLabel"?: string;
         /**
           * Controls how footer link columns behave below the `sm` breakpoint (640px) — the point at which the reference footer block stops being collapsible altogether, well before the grid switches from 2 to 4 columns at `lg`. - "collapsible" (default): each column's content toggles below `sm`, always expanded at `sm+`. - "flat": columns are always expanded, at every breakpoint. Author each column as a plain title element + content — no extra markup needed for either value.
           * @default 'collapsible'
          */
         "navVariant": FooterNavVariant;
+    }
+    /**
+     * @component aegov-footer-highlights
+     * @description A two-card hero row for the top of a government website
+     * footer, sitting above the link columns. The start-side card is a plain
+     * slot — this component renders no chrome for it at all (no background, no
+     * shadow, no radius, no padding); the author's own slotted markup supplies
+     * everything, content and styling alike. The end-side card is fixed:
+     * a "Comments or complaints" block with the Tawasul 171/WhatsApp channels
+     * (always shown, matching design-system guidance) and a "Contact us" block
+     * where only the entity's own contact number and email are dynamic.
+     * This is not a standalone top-level component in the docs nav — it is
+     * embedded inside `aegov-footer`'s own render output (the same relationship
+     * `aegov-header-banner` has with `aegov-header`) but can be used on its own
+     * wherever just the hero row is needed.
+     * @example <aegov-footer-highlights entity-contact-number="800 8877" entity-email="info@example.gov.ae" entity-contact-href="/contact">
+     *   <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+     *     <p>Sign up for updates.</p>
+     *   </div>
+     * </aegov-footer-highlights>
+     */
+    interface AegovFooterHighlights {
+        /**
+          * Target for the fixed "Contact us" link at the end of the card. The link text itself is fixed — only the destination is site-specific — so nothing renders unless this is provided.
+         */
+        "entityContactHref"?: string;
+        /**
+          * The entity's own contact number (e.g. "800 8877"), shown in the fixed "Contact us" card alongside the Tawasul 171/WhatsApp channels. Entirely optional and site-specific — nothing renders unless it's provided.
+         */
+        "entityContactNumber"?: string;
+        /**
+          * Overrides the label shown before `entityContactNumber` (defaults to the bilingual "Toll free"/"الرقم المجاني" text used elsewhere in this block).
+         */
+        "entityContactNumberLabel"?: string;
+        /**
+          * The entity's own contact email, shown below the contact number. Entirely optional — nothing renders unless it's provided.
+         */
+        "entityEmail"?: string;
+        /**
+          * Overrides the label shown before `entityEmail` (defaults to the bilingual "Email"/"البريد الإلكتروني" text).
+         */
+        "entityEmailLabel"?: string;
     }
     interface AegovFormField {
         /**
@@ -3175,13 +3249,21 @@ declare global {
     };
     /**
      * @component aegov-footer
-     * @description Full-width government website footer. Holds an open slot for
-     * author-written link columns — each authored as PLAIN HTML: a title element
-     * (any tag — `<h2>`–`<h6>` recommended) as the group's first child, followed
-     * by the rest of the column's content (typically a `<ul>`). No button, no
-     * disclosure markup, no special classes beyond `.aegov-footer__group` — the
-     * component synthesizes a trigger button around the title's own content only
-     * when a column genuinely needs to be toggleable (below `sm`, with
+     * @description Full-width government website footer. Internally embeds
+     * `aegov-footer-highlights` as its hero row (same relationship
+     * `aegov-header` has with `aegov-header-banner`) — the `highlights` slot is
+     * forwarded straight through to it (a plain slot with no chrome of its own;
+     * the author's own slotted markup owns background/shadow/radius/padding
+     * alike), and the `entity-contact-*` props below are forwarded to its own
+     * identically-named props. Below that: a brand
+     * column (logo, description, social links — entirely author-provided via
+     * the `brand` slot) alongside an open slot for author-written link columns
+     * — each authored as PLAIN HTML: a title element (any tag — `<h2>`–`<h6>`
+     * recommended) as the group's first child, followed by the rest of the
+     * column's content (typically a `<ul>`). No button, no disclosure markup,
+     * no special classes beyond `.aegov-footer__group` — the component
+     * synthesizes a trigger button around the title's own content only when a
+     * column genuinely needs to be toggleable (below `sm`, with
      * `nav-variant="collapsible"`), and unwraps it completely otherwise, so an
      * author never has to reason about interactivity that doesn't apply to their
      * content. This also means no button exists in the DOM at all outside that
@@ -3190,15 +3272,27 @@ declare global {
      * (confirmed with real VoiceOver testing; reassigning ARIA roles on a
      * still-focusable element does not reliably suppress its native role, per
      * WAI-ARIA's Presentational Roles Conflict Resolution rule). Also renders a
-     * fixed bilingual Tawasul contact block and a bottom bar for copyright +
-     * social actions.
-     * @example <aegov-footer nav-variant="collapsible">
+     * bottom bar for copyright + legal links.
+     * @example <aegov-footer nav-variant="collapsible" entity-contact-number="800 8877" entity-email="info@example.gov.ae">
+     *   <div slot="highlights">
+     *     <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+     *       <p>Sign up for updates.</p>
+     *     </div>
+     *   </div>
+     *   <div slot="brand">
+     *     <span>Example Entity</span>
+     *     <p>An entity of the UAE Federal Government.</p>
+     *     <a href="https://facebook.com/example"><span class="sr-only">Facebook</span>…</a>
+     *   </div>
      *   <div class="aegov-footer__group">
      *     <h2>The Ministry</h2>
      *     <ul role="list"><li><a href="/about">About the ministry</a></li></ul>
      *   </div>
      *   <p slot="copyright">© 2026. Ministry of Example. All rights reserved.</p>
-     *   <a slot="actions" href="https://facebook.com/example"><span class="sr-only">Facebook</span>…</a>
+     *   <div slot="legal">
+     *     <a href="/privacy">Privacy policy</a>
+     *     <a href="/accessibility-statement">Accessibility statement</a>
+     *   </div>
      * </aegov-footer>
      */
     interface HTMLAegovFooterElement extends Components.AegovFooter, HTMLStencilElement {
@@ -3206,6 +3300,32 @@ declare global {
     var HTMLAegovFooterElement: {
         prototype: HTMLAegovFooterElement;
         new (): HTMLAegovFooterElement;
+    };
+    /**
+     * @component aegov-footer-highlights
+     * @description A two-card hero row for the top of a government website
+     * footer, sitting above the link columns. The start-side card is a plain
+     * slot — this component renders no chrome for it at all (no background, no
+     * shadow, no radius, no padding); the author's own slotted markup supplies
+     * everything, content and styling alike. The end-side card is fixed:
+     * a "Comments or complaints" block with the Tawasul 171/WhatsApp channels
+     * (always shown, matching design-system guidance) and a "Contact us" block
+     * where only the entity's own contact number and email are dynamic.
+     * This is not a standalone top-level component in the docs nav — it is
+     * embedded inside `aegov-footer`'s own render output (the same relationship
+     * `aegov-header-banner` has with `aegov-header`) but can be used on its own
+     * wherever just the hero row is needed.
+     * @example <aegov-footer-highlights entity-contact-number="800 8877" entity-email="info@example.gov.ae" entity-contact-href="/contact">
+     *   <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+     *     <p>Sign up for updates.</p>
+     *   </div>
+     * </aegov-footer-highlights>
+     */
+    interface HTMLAegovFooterHighlightsElement extends Components.AegovFooterHighlights, HTMLStencilElement {
+    }
+    var HTMLAegovFooterHighlightsElement: {
+        prototype: HTMLAegovFooterHighlightsElement;
+        new (): HTMLAegovFooterHighlightsElement;
     };
     interface HTMLAegovFormFieldElement extends Components.AegovFormField, HTMLStencilElement {
     }
@@ -3750,6 +3870,7 @@ declare global {
         "aegov-dropdown": HTMLAegovDropdownElement;
         "aegov-fileupload": HTMLAegovFileuploadElement;
         "aegov-footer": HTMLAegovFooterElement;
+        "aegov-footer-highlights": HTMLAegovFooterHighlightsElement;
         "aegov-form-field": HTMLAegovFormFieldElement;
         "aegov-header": HTMLAegovHeaderElement;
         "aegov-header-banner": HTMLAegovHeaderBannerElement;
@@ -4870,13 +4991,21 @@ declare namespace LocalJSX {
     }
     /**
      * @component aegov-footer
-     * @description Full-width government website footer. Holds an open slot for
-     * author-written link columns — each authored as PLAIN HTML: a title element
-     * (any tag — `<h2>`–`<h6>` recommended) as the group's first child, followed
-     * by the rest of the column's content (typically a `<ul>`). No button, no
-     * disclosure markup, no special classes beyond `.aegov-footer__group` — the
-     * component synthesizes a trigger button around the title's own content only
-     * when a column genuinely needs to be toggleable (below `sm`, with
+     * @description Full-width government website footer. Internally embeds
+     * `aegov-footer-highlights` as its hero row (same relationship
+     * `aegov-header` has with `aegov-header-banner`) — the `highlights` slot is
+     * forwarded straight through to it (a plain slot with no chrome of its own;
+     * the author's own slotted markup owns background/shadow/radius/padding
+     * alike), and the `entity-contact-*` props below are forwarded to its own
+     * identically-named props. Below that: a brand
+     * column (logo, description, social links — entirely author-provided via
+     * the `brand` slot) alongside an open slot for author-written link columns
+     * — each authored as PLAIN HTML: a title element (any tag — `<h2>`–`<h6>`
+     * recommended) as the group's first child, followed by the rest of the
+     * column's content (typically a `<ul>`). No button, no disclosure markup,
+     * no special classes beyond `.aegov-footer__group` — the component
+     * synthesizes a trigger button around the title's own content only when a
+     * column genuinely needs to be toggleable (below `sm`, with
      * `nav-variant="collapsible"`), and unwraps it completely otherwise, so an
      * author never has to reason about interactivity that doesn't apply to their
      * content. This also means no button exists in the DOM at all outside that
@@ -4885,31 +5014,97 @@ declare namespace LocalJSX {
      * (confirmed with real VoiceOver testing; reassigning ARIA roles on a
      * still-focusable element does not reliably suppress its native role, per
      * WAI-ARIA's Presentational Roles Conflict Resolution rule). Also renders a
-     * fixed bilingual Tawasul contact block and a bottom bar for copyright +
-     * social actions.
-     * @example <aegov-footer nav-variant="collapsible">
+     * bottom bar for copyright + legal links.
+     * @example <aegov-footer nav-variant="collapsible" entity-contact-number="800 8877" entity-email="info@example.gov.ae">
+     *   <div slot="highlights">
+     *     <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+     *       <p>Sign up for updates.</p>
+     *     </div>
+     *   </div>
+     *   <div slot="brand">
+     *     <span>Example Entity</span>
+     *     <p>An entity of the UAE Federal Government.</p>
+     *     <a href="https://facebook.com/example"><span class="sr-only">Facebook</span>…</a>
+     *   </div>
      *   <div class="aegov-footer__group">
      *     <h2>The Ministry</h2>
      *     <ul role="list"><li><a href="/about">About the ministry</a></li></ul>
      *   </div>
      *   <p slot="copyright">© 2026. Ministry of Example. All rights reserved.</p>
-     *   <a slot="actions" href="https://facebook.com/example"><span class="sr-only">Facebook</span>…</a>
+     *   <div slot="legal">
+     *     <a href="/privacy">Privacy policy</a>
+     *     <a href="/accessibility-statement">Accessibility statement</a>
+     *   </div>
      * </aegov-footer>
      */
     interface AegovFooter {
         /**
-          * The entity's own toll-free number (e.g. "600 522222"), shown as its own line below the fixed logo/171/WhatsApp block — per the design system guidance that "the entity's toll-free contact number must be below the '171 tawasul' container". Entirely optional and site-specific, so nothing renders unless it's provided — there is no fixed Tawasul toll-free number of its own to fall back to.
+          * Forwarded to the embedded `aegov-footer-highlights`.
          */
-        "entityTollFree"?: string;
+        "entityContactHref"?: string;
         /**
-          * Overrides the label shown before `entityTollFree` (defaults to the same bilingual "Toll free"/"الرقم المجاني" text used elsewhere in the block).
+          * Forwarded to the embedded `aegov-footer-highlights`.
          */
-        "entityTollFreeLabel"?: string;
+        "entityContactNumber"?: string;
+        /**
+          * Forwarded to the embedded `aegov-footer-highlights`.
+         */
+        "entityContactNumberLabel"?: string;
+        /**
+          * Forwarded to the embedded `aegov-footer-highlights`.
+         */
+        "entityEmail"?: string;
+        /**
+          * Forwarded to the embedded `aegov-footer-highlights`.
+         */
+        "entityEmailLabel"?: string;
         /**
           * Controls how footer link columns behave below the `sm` breakpoint (640px) — the point at which the reference footer block stops being collapsible altogether, well before the grid switches from 2 to 4 columns at `lg`. - "collapsible" (default): each column's content toggles below `sm`, always expanded at `sm+`. - "flat": columns are always expanded, at every breakpoint. Author each column as a plain title element + content — no extra markup needed for either value.
           * @default 'collapsible'
          */
         "navVariant"?: FooterNavVariant;
+    }
+    /**
+     * @component aegov-footer-highlights
+     * @description A two-card hero row for the top of a government website
+     * footer, sitting above the link columns. The start-side card is a plain
+     * slot — this component renders no chrome for it at all (no background, no
+     * shadow, no radius, no padding); the author's own slotted markup supplies
+     * everything, content and styling alike. The end-side card is fixed:
+     * a "Comments or complaints" block with the Tawasul 171/WhatsApp channels
+     * (always shown, matching design-system guidance) and a "Contact us" block
+     * where only the entity's own contact number and email are dynamic.
+     * This is not a standalone top-level component in the docs nav — it is
+     * embedded inside `aegov-footer`'s own render output (the same relationship
+     * `aegov-header-banner` has with `aegov-header`) but can be used on its own
+     * wherever just the hero row is needed.
+     * @example <aegov-footer-highlights entity-contact-number="800 8877" entity-email="info@example.gov.ae" entity-contact-href="/contact">
+     *   <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+     *     <p>Sign up for updates.</p>
+     *   </div>
+     * </aegov-footer-highlights>
+     */
+    interface AegovFooterHighlights {
+        /**
+          * Target for the fixed "Contact us" link at the end of the card. The link text itself is fixed — only the destination is site-specific — so nothing renders unless this is provided.
+         */
+        "entityContactHref"?: string;
+        /**
+          * The entity's own contact number (e.g. "800 8877"), shown in the fixed "Contact us" card alongside the Tawasul 171/WhatsApp channels. Entirely optional and site-specific — nothing renders unless it's provided.
+         */
+        "entityContactNumber"?: string;
+        /**
+          * Overrides the label shown before `entityContactNumber` (defaults to the bilingual "Toll free"/"الرقم المجاني" text used elsewhere in this block).
+         */
+        "entityContactNumberLabel"?: string;
+        /**
+          * The entity's own contact email, shown below the contact number. Entirely optional — nothing renders unless it's provided.
+         */
+        "entityEmail"?: string;
+        /**
+          * Overrides the label shown before `entityEmail` (defaults to the bilingual "Email"/"البريد الإلكتروني" text).
+         */
+        "entityEmailLabel"?: string;
     }
     interface AegovFormField {
         /**
@@ -6928,8 +7123,18 @@ declare namespace LocalJSX {
     }
     interface AegovFooterAttributes {
         "navVariant": FooterNavVariant;
-        "entityTollFree": string;
-        "entityTollFreeLabel": string;
+        "entityContactNumber": string;
+        "entityContactNumberLabel": string;
+        "entityEmail": string;
+        "entityEmailLabel": string;
+        "entityContactHref": string;
+    }
+    interface AegovFooterHighlightsAttributes {
+        "entityContactNumber": string;
+        "entityContactNumberLabel": string;
+        "entityEmail": string;
+        "entityEmailLabel": string;
+        "entityContactHref": string;
     }
     interface AegovFormFieldAttributes {
         "fieldId": string;
@@ -7319,6 +7524,7 @@ declare namespace LocalJSX {
         "aegov-dropdown": Omit<AegovDropdown, keyof AegovDropdownAttributes> & { [K in keyof AegovDropdown & keyof AegovDropdownAttributes]?: AegovDropdown[K] } & { [K in keyof AegovDropdown & keyof AegovDropdownAttributes as `attr:${K}`]?: AegovDropdownAttributes[K] } & { [K in keyof AegovDropdown & keyof AegovDropdownAttributes as `prop:${K}`]?: AegovDropdown[K] };
         "aegov-fileupload": Omit<AegovFileupload, keyof AegovFileuploadAttributes> & { [K in keyof AegovFileupload & keyof AegovFileuploadAttributes]?: AegovFileupload[K] } & { [K in keyof AegovFileupload & keyof AegovFileuploadAttributes as `attr:${K}`]?: AegovFileuploadAttributes[K] } & { [K in keyof AegovFileupload & keyof AegovFileuploadAttributes as `prop:${K}`]?: AegovFileupload[K] };
         "aegov-footer": Omit<AegovFooter, keyof AegovFooterAttributes> & { [K in keyof AegovFooter & keyof AegovFooterAttributes]?: AegovFooter[K] } & { [K in keyof AegovFooter & keyof AegovFooterAttributes as `attr:${K}`]?: AegovFooterAttributes[K] } & { [K in keyof AegovFooter & keyof AegovFooterAttributes as `prop:${K}`]?: AegovFooter[K] };
+        "aegov-footer-highlights": Omit<AegovFooterHighlights, keyof AegovFooterHighlightsAttributes> & { [K in keyof AegovFooterHighlights & keyof AegovFooterHighlightsAttributes]?: AegovFooterHighlights[K] } & { [K in keyof AegovFooterHighlights & keyof AegovFooterHighlightsAttributes as `attr:${K}`]?: AegovFooterHighlightsAttributes[K] } & { [K in keyof AegovFooterHighlights & keyof AegovFooterHighlightsAttributes as `prop:${K}`]?: AegovFooterHighlights[K] };
         "aegov-form-field": Omit<AegovFormField, keyof AegovFormFieldAttributes> & { [K in keyof AegovFormField & keyof AegovFormFieldAttributes]?: AegovFormField[K] } & { [K in keyof AegovFormField & keyof AegovFormFieldAttributes as `attr:${K}`]?: AegovFormFieldAttributes[K] } & { [K in keyof AegovFormField & keyof AegovFormFieldAttributes as `prop:${K}`]?: AegovFormField[K] };
         "aegov-header": Omit<AegovHeader, keyof AegovHeaderAttributes> & { [K in keyof AegovHeader & keyof AegovHeaderAttributes]?: AegovHeader[K] } & { [K in keyof AegovHeader & keyof AegovHeaderAttributes as `attr:${K}`]?: AegovHeaderAttributes[K] } & { [K in keyof AegovHeader & keyof AegovHeaderAttributes as `prop:${K}`]?: AegovHeader[K] };
         "aegov-header-banner": Omit<AegovHeaderBanner, keyof AegovHeaderBannerAttributes> & { [K in keyof AegovHeaderBanner & keyof AegovHeaderBannerAttributes]?: AegovHeaderBanner[K] } & { [K in keyof AegovHeaderBanner & keyof AegovHeaderBannerAttributes as `attr:${K}`]?: AegovHeaderBannerAttributes[K] } & { [K in keyof AegovHeaderBanner & keyof AegovHeaderBannerAttributes as `prop:${K}`]?: AegovHeaderBanner[K] };
@@ -7409,13 +7615,21 @@ declare module "@stencil/core" {
             "aegov-fileupload": LocalJSX.IntrinsicElements["aegov-fileupload"] & JSXBase.HTMLAttributes<HTMLAegovFileuploadElement>;
             /**
              * @component aegov-footer
-             * @description Full-width government website footer. Holds an open slot for
-             * author-written link columns — each authored as PLAIN HTML: a title element
-             * (any tag — `<h2>`–`<h6>` recommended) as the group's first child, followed
-             * by the rest of the column's content (typically a `<ul>`). No button, no
-             * disclosure markup, no special classes beyond `.aegov-footer__group` — the
-             * component synthesizes a trigger button around the title's own content only
-             * when a column genuinely needs to be toggleable (below `sm`, with
+             * @description Full-width government website footer. Internally embeds
+             * `aegov-footer-highlights` as its hero row (same relationship
+             * `aegov-header` has with `aegov-header-banner`) — the `highlights` slot is
+             * forwarded straight through to it (a plain slot with no chrome of its own;
+             * the author's own slotted markup owns background/shadow/radius/padding
+             * alike), and the `entity-contact-*` props below are forwarded to its own
+             * identically-named props. Below that: a brand
+             * column (logo, description, social links — entirely author-provided via
+             * the `brand` slot) alongside an open slot for author-written link columns
+             * — each authored as PLAIN HTML: a title element (any tag — `<h2>`–`<h6>`
+             * recommended) as the group's first child, followed by the rest of the
+             * column's content (typically a `<ul>`). No button, no disclosure markup,
+             * no special classes beyond `.aegov-footer__group` — the component
+             * synthesizes a trigger button around the title's own content only when a
+             * column genuinely needs to be toggleable (below `sm`, with
              * `nav-variant="collapsible"`), and unwraps it completely otherwise, so an
              * author never has to reason about interactivity that doesn't apply to their
              * content. This also means no button exists in the DOM at all outside that
@@ -7424,18 +7638,51 @@ declare module "@stencil/core" {
              * (confirmed with real VoiceOver testing; reassigning ARIA roles on a
              * still-focusable element does not reliably suppress its native role, per
              * WAI-ARIA's Presentational Roles Conflict Resolution rule). Also renders a
-             * fixed bilingual Tawasul contact block and a bottom bar for copyright +
-             * social actions.
-             * @example <aegov-footer nav-variant="collapsible">
+             * bottom bar for copyright + legal links.
+             * @example <aegov-footer nav-variant="collapsible" entity-contact-number="800 8877" entity-email="info@example.gov.ae">
+             *   <div slot="highlights">
+             *     <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+             *       <p>Sign up for updates.</p>
+             *     </div>
+             *   </div>
+             *   <div slot="brand">
+             *     <span>Example Entity</span>
+             *     <p>An entity of the UAE Federal Government.</p>
+             *     <a href="https://facebook.com/example"><span class="sr-only">Facebook</span>…</a>
+             *   </div>
              *   <div class="aegov-footer__group">
              *     <h2>The Ministry</h2>
              *     <ul role="list"><li><a href="/about">About the ministry</a></li></ul>
              *   </div>
              *   <p slot="copyright">© 2026. Ministry of Example. All rights reserved.</p>
-             *   <a slot="actions" href="https://facebook.com/example"><span class="sr-only">Facebook</span>…</a>
+             *   <div slot="legal">
+             *     <a href="/privacy">Privacy policy</a>
+             *     <a href="/accessibility-statement">Accessibility statement</a>
+             *   </div>
              * </aegov-footer>
              */
             "aegov-footer": LocalJSX.IntrinsicElements["aegov-footer"] & JSXBase.HTMLAttributes<HTMLAegovFooterElement>;
+            /**
+             * @component aegov-footer-highlights
+             * @description A two-card hero row for the top of a government website
+             * footer, sitting above the link columns. The start-side card is a plain
+             * slot — this component renders no chrome for it at all (no background, no
+             * shadow, no radius, no padding); the author's own slotted markup supplies
+             * everything, content and styling alike. The end-side card is fixed:
+             * a "Comments or complaints" block with the Tawasul 171/WhatsApp channels
+             * (always shown, matching design-system guidance) and a "Contact us" block
+             * where only the entity's own contact number and email are dynamic.
+             * This is not a standalone top-level component in the docs nav — it is
+             * embedded inside `aegov-footer`'s own render output (the same relationship
+             * `aegov-header-banner` has with `aegov-header`) but can be used on its own
+             * wherever just the hero row is needed.
+             * @example <aegov-footer-highlights entity-contact-number="800 8877" entity-email="info@example.gov.ae" entity-contact-href="/contact">
+             *   <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+             *     <p>Sign up for updates.</p>
+             *   </div>
+             * </aegov-footer-highlights>
+             */
+            "aegov-footer-highlights": LocalJSX.IntrinsicElements["aegov-footer-highlights"] & JSXBase.HTMLAttributes<HTMLAegovFooterHighlightsElement>;
             "aegov-form-field": LocalJSX.IntrinsicElements["aegov-form-field"] & JSXBase.HTMLAttributes<HTMLAegovFormFieldElement>;
             "aegov-header": LocalJSX.IntrinsicElements["aegov-header"] & JSXBase.HTMLAttributes<HTMLAegovHeaderElement>;
             "aegov-header-banner": LocalJSX.IntrinsicElements["aegov-header-banner"] & JSXBase.HTMLAttributes<HTMLAegovHeaderBannerElement>;
