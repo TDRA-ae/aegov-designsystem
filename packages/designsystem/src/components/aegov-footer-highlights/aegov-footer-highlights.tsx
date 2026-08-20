@@ -103,9 +103,10 @@ const STRINGS = {
 /**
  * @component aegov-footer-highlights
  * @description A two-card hero row for the top of a government website
- * footer, sitting above the link columns. The start-side card (default slot)
- * is entirely author-controlled — a newsletter signup, app-download links,
- * or any other content a page wants to promote. The end-side card is fixed:
+ * footer, sitting above the link columns. The start-side card is a plain
+ * slot — this component renders no chrome for it at all (no background, no
+ * shadow, no radius, no padding); the author's own slotted markup supplies
+ * everything, content and styling alike. The end-side card is fixed:
  * a "Comments or complaints" block with the Tawasul 171/WhatsApp channels
  * (always shown, matching design-system guidance) and a "Contact us" block
  * where only the entity's own contact number and email are dynamic.
@@ -115,11 +116,15 @@ const STRINGS = {
  * `aegov-header-banner` has with `aegov-header`) but can be used on its own
  * wherever just the hero row is needed.
  *
- * @slot - The start-side card's content (e.g. a newsletter form, app links).
+ * @slot - The start-side card's content. Author-owned end to end — wrap it
+ * in your own `<div>` carrying whatever background/shadow/radius/padding
+ * classes you want; nothing is applied for you.
  *
  * @example
  * <aegov-footer-highlights entity-contact-number="800 8877" entity-email="info@example.gov.ae" entity-contact-href="/contact">
- *   <p>Sign up for updates.</p>
+ *   <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+ *     <p>Sign up for updates.</p>
+ *   </div>
  * </aegov-footer-highlights>
  */
 @Component({
@@ -172,22 +177,16 @@ export class AegovFooterHighlights {
     return (
       <Host class="aegov-footer-highlights aegov-container">
         <div class="aegov-footer-highlights__grid">
-          <aegov-card
-            class="aegov-footer-highlights__card aegov-footer-highlights__card--start"
-            variant="neutral-max"
-            appearance="solid"
-            border-width={1}
-            is-padding={false}
-          >
+          <div class="aegov-footer-highlights__card aegov-footer-highlights__card--start">
             <slot></slot>
-          </aegov-card>
+          </div>
 
           <aegov-card
             class="aegov-footer-highlights__card aegov-footer-highlights__card--end"
             variant="neutral-min"
             appearance="light"
             border-width={1}
-            is-padding={false}
+            is-padding="false"
           >
             <div class="aegov-footer-highlights__end-grid">
               <div class="aegov-footer-highlights__panel">

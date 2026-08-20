@@ -39,8 +39,10 @@ const STRINGS = {
  * @description Full-width government website footer. Internally embeds
  * `aegov-footer-highlights` as its hero row (same relationship
  * `aegov-header` has with `aegov-header-banner`) — the `highlights` slot is
- * forwarded straight through to it, and the `entity-contact-*` props below
- * are forwarded to its own identically-named props. Below that: a brand
+ * forwarded straight through to it (a plain slot with no chrome of its own;
+ * the author's own slotted markup owns background/shadow/radius/padding
+ * alike), and the `entity-contact-*` props below are forwarded to its own
+ * identically-named props. Below that: a brand
  * column (logo, description, social links — entirely author-provided via
  * the `brand` slot) alongside an open slot for author-written link columns
  * — each authored as PLAIN HTML: a title element (any tag — `<h2>`–`<h6>`
@@ -64,11 +66,15 @@ const STRINGS = {
  * @slot - Footer link columns. Each column: `<div class="aegov-footer__group">
  * <h2>Title</h2><ul>…</ul></div>`.
  * @slot copyright - Copyright / last-updated text in the bottom bar.
- * @slot legal - Legal links (privacy policy, accessibility statement, etc.) in the bottom bar. Each item: `<li slot="legal"><a href="…">…</a></li>`.
+ * @slot legal - Legal links (privacy policy, accessibility statement, etc.) in the bottom bar. One wrapper, plain links: `<div slot="legal"><a href="…">…</a><a href="…">…</a></div>`.
  *
  * @example
  * <aegov-footer nav-variant="collapsible" entity-contact-number="800 8877" entity-email="info@example.gov.ae">
- *   <div slot="highlights"><p>Sign up for updates.</p></div>
+ *   <div slot="highlights">
+ *     <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+ *       <p>Sign up for updates.</p>
+ *     </div>
+ *   </div>
  *   <div slot="brand">
  *     <span>Example Entity</span>
  *     <p>An entity of the UAE Federal Government.</p>
@@ -79,7 +85,10 @@ const STRINGS = {
  *     <ul role="list"><li><a href="/about">About the ministry</a></li></ul>
  *   </div>
  *   <p slot="copyright">© 2026. Ministry of Example. All rights reserved.</p>
- *   <li slot="legal"><a href="/privacy">Privacy policy</a></li>
+ *   <div slot="legal">
+ *     <a href="/privacy">Privacy policy</a>
+ *     <a href="/accessibility-statement">Accessibility statement</a>
+ *   </div>
  * </aegov-footer>
  */
 @Component({
@@ -339,9 +348,7 @@ export class AegovFooter {
             <div class="aegov-footer__copyright">
               <slot name="copyright"></slot>
             </div>
-            <ul class="aegov-footer__legal" role="list">
-              <slot name="legal"></slot>
-            </ul>
+            <slot name="legal"></slot>
           </div>
         </footer>
       </Host>

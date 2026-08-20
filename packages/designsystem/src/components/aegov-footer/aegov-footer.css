@@ -21,13 +21,29 @@ aegov-footer {
    children become direct items of THIS grid instead of a nested one —
    the group count is author-controlled and can't be assumed to always be
    3, so the grid can't be split into "brand's 1 column" + "nav's fixed N
-   columns" ahead of time. */
+   columns" ahead of time.
+
+   Below `sm` the grid is a single stacked column, and each `.aegov-footer__group`
+   already draws its own `border-b`/`pb-4` divider (accordion-row style) — a
+   grid row-gap on top of that doubled up the spacing (confirmed: 40px gap +
+   16px pb-4 + border read as one oversized gap between rows). `gap-0` at the
+   base breakpoint leaves rows relying solely on their own divider; `sm:gap-10`
+   restores real column spacing once groups drop their border/padding
+   (`sm:border-b-0 sm:pb-0` below) and become true grid columns. */
 .aegov-footer__columns {
-  @apply grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4;
+  @apply grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4;
 }
 
 .aegov-footer__nav {
   display: contents;
+}
+
+/* The brand column has no divider of its own like the nav groups below it
+   (border-b/pb-4) — now that the grid's row-gap is 0 below `sm` (see
+   `.aegov-footer__columns` above), it needs its own bottom space so it
+   doesn't sit flush against the first group's title. */
+.aegov-footer__brand {
+  @apply pb-8 sm:pb-0;
 }
 
 /* Social icon size is enforced here — w-5/h-5 — rather than left to
@@ -110,14 +126,20 @@ aegov-footer {
 .aegov-footer__group-panel li {
   @apply m-0 p-0;
 }
+/* Color only — underline and focus-visible are intentionally left alone so
+   the global `a{}` base style's defaults for those apply untouched. */
 .aegov-footer__group-panel a {
-  @apply text-base text-aeblack-700 no-underline hover:text-primary-600 focus-visible:rounded focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-600 dark:text-aeblack-300 dark:hover:text-primary-400 dark:focus-visible:outline-primary-500;
+  @apply text-aeblack-700 hover:text-primary-600 dark:text-aeblack-300 dark:hover:text-primary-400;
 }
 
 /* ---------- bottom bar ---------- */
 
+/* Stacked through tablet (`sm`/`md`) — at 768px there isn't room for the
+   copyright text plus all legal links on one row without the legal links
+   wrapping mid-list and reading as unbalanced. Only becomes a row at `lg`,
+   where both sides reliably fit side by side. */
 .aegov-footer__bottom {
-  @apply flex flex-col items-center justify-between gap-3 border-t border-primary-100 bg-primary-50/50 py-6 text-center text-sm text-aeblack-500 sm:flex-row sm:text-start dark:border-primary-900 dark:bg-primary-950/30 dark:text-aeblack-400;
+  @apply flex flex-col items-center justify-between gap-3 border-t border-primary-100 bg-primary-50/50 py-6 text-center text-sm text-aeblack-500 lg:flex-row lg:text-start dark:border-primary-900 dark:bg-primary-950/30 dark:text-aeblack-400;
 }
 
 .aegov-footer__copyright {
@@ -126,12 +148,16 @@ aegov-footer {
   }
 }
 
-.aegov-footer__legal {
-  @apply m-0 flex flex-wrap justify-center gap-3 p-0 md:gap-6;
-
-  li {
-    @apply m-0 p-0;
-  }
+/* Authors write ONE wrapper — `<div slot="legal"><a>…</a><a>…</a></div>` —
+   plain links, no `<li>` per item. The non-shadow slot polyfill reparents
+   that div into `.aegov-footer__bottom` (confirmed via computed DOM: it
+   ends up 3 levels deep, not a direct child of `aegov-footer` — unlike the
+   retired `[slot='actions']` case below, which is never reparented because
+   no matching `<slot>` exists in render anymore, so it stays wherever the
+   author wrote it). Styled off the `slot` attribute itself, still present
+   post-move, rather than a class the author would have to remember to add. */
+.aegov-footer__bottom [slot='legal'] {
+  @apply flex flex-wrap justify-center gap-3 md:gap-6;
 
   /* Matches the reference footer block exactly: no color shift on hover,
      just an underline — unlike the nav-column links, which do shift to

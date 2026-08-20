@@ -11,14 +11,14 @@
   @apply grid grid-cols-1 gap-6 xl:grid-cols-2;
 }
 
-/* ---------- start card (author-slotted) ---------- */
+/* ---------- start card (fully author-owned) ---------- */
 
-/* Only the card's own chrome is styled here — its inner content (newsletter
-   form, app-download links, or anything else) is entirely author-provided
-   via the default slot, so there is nothing else to style on this side. */
-.aegov-footer-highlights__card--start {
-  @apply bg-primary-900 shadow-lg dark:bg-primary-950;
-}
+/* Deliberately no rule for `.aegov-footer-highlights__card--start` — this
+   slot gets no chrome from the design system at all (no background, no
+   shadow, no radius, no padding). The class exists only so the grid cell
+   is addressable; every visual decision is the author's own slotted
+   markup, same as the docs example's `rounded-xl shadow-lg bg-primary-900
+   dark:bg-primary-950 p-6 sm:p-8` wrapper div. */
 
 /* ---------- end card (fixed content) ---------- */
 
@@ -87,8 +87,11 @@
   @apply border-b-0;
 }
 
+/* dark:text-aeblack-300, not -400 — -400 measured a borderline 4.45:1
+   against the gradient card's dark-mode background (canvas-readback
+   confirmed), just under the 4.5:1 minimum. -300 gives 6.37:1. */
 .aegov-footer-highlights__row-label {
-  @apply text-sm text-aeblack-500 dark:text-aeblack-400;
+  @apply text-sm text-aeblack-500 dark:text-aeblack-300;
 }
 
 .aegov-footer-highlights__contact-link {
