@@ -13,6 +13,19 @@ describe('aegov-footer-highlights', () => {
     expect(startCard.querySelector('p').textContent).toBe('Sign up for updates.');
   });
 
+  it('renders the start card as a plain div with no imposed background/shadow classes', async () => {
+    const page = await newSpecPage({
+      components: [AegovFooterHighlights, AegovLink],
+      html: `<aegov-footer-highlights><div class="bg-primary-900 shadow-lg rounded-xl p-6"><p>Sign up for updates.</p></div></aegov-footer-highlights>`,
+    });
+    const startCard = page.root.querySelector('.aegov-footer-highlights__card--start');
+    expect(startCard.tagName).toBe('DIV');
+    expect(startCard.className.trim()).toBe('aegov-footer-highlights__card aegov-footer-highlights__card--start');
+    // The background/shadow/radius/padding all come from the author's own slotted div, not this wrapper.
+    const authored = startCard.querySelector('.bg-primary-900');
+    expect(authored).not.toBeNull();
+  });
+
   it('always renders the fixed Tawasul block with tel/whatsapp links — no prop to hide it', async () => {
     const page = await newSpecPage({
       components: [AegovFooterHighlights, AegovLink],
