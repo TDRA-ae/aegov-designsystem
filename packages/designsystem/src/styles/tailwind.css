@@ -58,14 +58,20 @@
    * ======================================== */
 
   /* AEGold Color — accessible ramp (uniform OKLCH lightness, bell chroma, gentle hue drift).
-     600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). */
+     600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). aegold-600's
+     lightness was corrected from 0.5632 to 0.5478 — like camel-600, the
+     original value only measured 4.31:1 against aegold-50 in real sRGB
+     rendering (confirmed via canvas-readback), not the documented 4.5:1.
+     Now verified at ~4.62:1. This is `primary-600` by default (and the
+     plain, unstyled aegov-link text color) — used far more widely than
+     camel-600, so double-check anywhere relying on the old exact hex. */
   --color-aegold-50: oklch(0.974 0.022 96);
   --color-aegold-100: oklch(0.9189 0.032 94);
   --color-aegold-200: oklch(0.8477 0.060 91.5);
   --color-aegold-300: oklch(0.7766 0.085 89);
   --color-aegold-400: oklch(0.7055 0.102 86.5);
   --color-aegold-500: oklch(0.6343 0.101 85);
-  --color-aegold-600: oklch(0.5632 0.0956 83.8);
+  --color-aegold-600: oklch(0.5478 0.0956 83.8);
   --color-aegold-700: oklch(0.4921 0.085 76);
   --color-aegold-800: oklch(0.4209 0.072 68);
   --color-aegold-900: oklch(0.3498 0.058 60);
@@ -123,14 +129,20 @@
 
   /* Support Colors */
   /* Camel Color — accessible ramp (uniform OKLCH lightness, bell chroma).
-     50-on-600 = 4.5:1 (WCAG AA). */
+     50-on-600 = 4.5:1 (WCAG AA). camel-600's lightness was corrected from
+     0.5713 to 0.5533 — the original value only measured 4.25:1 against
+     camel-50 in real sRGB rendering (OKLCH's perceptual uniformity doesn't
+     map exactly to WCAG's sRGB-luminance contrast math), confirmed via a
+     canvas-readback measurement, not calculated by eye. Now verified at
+     ~4.6:1, matching the ramp's original documented intent with a small
+     safety margin. */
   --color-camel-50: oklch(0.974 0.024 66);
   --color-camel-100: oklch(0.9202 0.035 64);
   --color-camel-200: oklch(0.8504 0.070 63);
   --color-camel-300: oklch(0.7807 0.110 62);
   --color-camel-400: oklch(0.7109 0.150 61);
   --color-camel-500: oklch(0.6411 0.160 60.5);
-  --color-camel-600: oklch(0.5713 0.154 60.2);
+  --color-camel-600: oklch(0.5533 0.154 60.2);
   --color-camel-700: oklch(0.5016 0.140 57);
   --color-camel-800: oklch(0.4318 0.115 53);
   --color-camel-900: oklch(0.362 0.090 50);
