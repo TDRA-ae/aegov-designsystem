@@ -164,12 +164,12 @@ describe('aegov-footer', () => {
     expect(brand.textContent.trim()).toBe('Example Entity');
   });
 
-  it('renders legal-slot content inside the bottom-bar list', async () => {
+  it('renders legal-slot content inside the bottom bar', async () => {
     const page = await newSpecPage({
       components: [AegovFooter, AegovFooterHighlights],
-      html: `<aegov-footer>${GROUP}<li slot="legal"><a href="/privacy">Privacy policy</a></li></aegov-footer>`,
+      html: `<aegov-footer>${GROUP}<div slot="legal"><a href="/privacy">Privacy policy</a></div></aegov-footer>`,
     });
-    const legal = page.root.querySelector('.aegov-footer__legal');
+    const legal = page.root.querySelector('[slot="legal"]');
     expect(legal.querySelector('a[href="/privacy"]')).not.toBeNull();
   });
 

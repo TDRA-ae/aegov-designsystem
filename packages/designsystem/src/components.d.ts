@@ -1050,8 +1050,10 @@ export namespace Components {
      * @description Full-width government website footer. Internally embeds
      * `aegov-footer-highlights` as its hero row (same relationship
      * `aegov-header` has with `aegov-header-banner`) — the `highlights` slot is
-     * forwarded straight through to it, and the `entity-contact-*` props below
-     * are forwarded to its own identically-named props. Below that: a brand
+     * forwarded straight through to it (a plain slot with no chrome of its own;
+     * the author's own slotted markup owns background/shadow/radius/padding
+     * alike), and the `entity-contact-*` props below are forwarded to its own
+     * identically-named props. Below that: a brand
      * column (logo, description, social links — entirely author-provided via
      * the `brand` slot) alongside an open slot for author-written link columns
      * — each authored as PLAIN HTML: a title element (any tag — `<h2>`–`<h6>`
@@ -1070,7 +1072,11 @@ export namespace Components {
      * WAI-ARIA's Presentational Roles Conflict Resolution rule). Also renders a
      * bottom bar for copyright + legal links.
      * @example <aegov-footer nav-variant="collapsible" entity-contact-number="800 8877" entity-email="info@example.gov.ae">
-     *   <div slot="highlights"><p>Sign up for updates.</p></div>
+     *   <div slot="highlights">
+     *     <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+     *       <p>Sign up for updates.</p>
+     *     </div>
+     *   </div>
      *   <div slot="brand">
      *     <span>Example Entity</span>
      *     <p>An entity of the UAE Federal Government.</p>
@@ -1081,7 +1087,10 @@ export namespace Components {
      *     <ul role="list"><li><a href="/about">About the ministry</a></li></ul>
      *   </div>
      *   <p slot="copyright">© 2026. Ministry of Example. All rights reserved.</p>
-     *   <li slot="legal"><a href="/privacy">Privacy policy</a></li>
+     *   <div slot="legal">
+     *     <a href="/privacy">Privacy policy</a>
+     *     <a href="/accessibility-statement">Accessibility statement</a>
+     *   </div>
      * </aegov-footer>
      */
     interface AegovFooter {
@@ -1114,9 +1123,10 @@ export namespace Components {
     /**
      * @component aegov-footer-highlights
      * @description A two-card hero row for the top of a government website
-     * footer, sitting above the link columns. The start-side card (default slot)
-     * is entirely author-controlled — a newsletter signup, app-download links,
-     * or any other content a page wants to promote. The end-side card is fixed:
+     * footer, sitting above the link columns. The start-side card is a plain
+     * slot — this component renders no chrome for it at all (no background, no
+     * shadow, no radius, no padding); the author's own slotted markup supplies
+     * everything, content and styling alike. The end-side card is fixed:
      * a "Comments or complaints" block with the Tawasul 171/WhatsApp channels
      * (always shown, matching design-system guidance) and a "Contact us" block
      * where only the entity's own contact number and email are dynamic.
@@ -1125,7 +1135,9 @@ export namespace Components {
      * `aegov-header-banner` has with `aegov-header`) but can be used on its own
      * wherever just the hero row is needed.
      * @example <aegov-footer-highlights entity-contact-number="800 8877" entity-email="info@example.gov.ae" entity-contact-href="/contact">
-     *   <p>Sign up for updates.</p>
+     *   <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+     *     <p>Sign up for updates.</p>
+     *   </div>
      * </aegov-footer-highlights>
      */
     interface AegovFooterHighlights {
@@ -3240,8 +3252,10 @@ declare global {
      * @description Full-width government website footer. Internally embeds
      * `aegov-footer-highlights` as its hero row (same relationship
      * `aegov-header` has with `aegov-header-banner`) — the `highlights` slot is
-     * forwarded straight through to it, and the `entity-contact-*` props below
-     * are forwarded to its own identically-named props. Below that: a brand
+     * forwarded straight through to it (a plain slot with no chrome of its own;
+     * the author's own slotted markup owns background/shadow/radius/padding
+     * alike), and the `entity-contact-*` props below are forwarded to its own
+     * identically-named props. Below that: a brand
      * column (logo, description, social links — entirely author-provided via
      * the `brand` slot) alongside an open slot for author-written link columns
      * — each authored as PLAIN HTML: a title element (any tag — `<h2>`–`<h6>`
@@ -3260,7 +3274,11 @@ declare global {
      * WAI-ARIA's Presentational Roles Conflict Resolution rule). Also renders a
      * bottom bar for copyright + legal links.
      * @example <aegov-footer nav-variant="collapsible" entity-contact-number="800 8877" entity-email="info@example.gov.ae">
-     *   <div slot="highlights"><p>Sign up for updates.</p></div>
+     *   <div slot="highlights">
+     *     <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+     *       <p>Sign up for updates.</p>
+     *     </div>
+     *   </div>
      *   <div slot="brand">
      *     <span>Example Entity</span>
      *     <p>An entity of the UAE Federal Government.</p>
@@ -3271,7 +3289,10 @@ declare global {
      *     <ul role="list"><li><a href="/about">About the ministry</a></li></ul>
      *   </div>
      *   <p slot="copyright">© 2026. Ministry of Example. All rights reserved.</p>
-     *   <li slot="legal"><a href="/privacy">Privacy policy</a></li>
+     *   <div slot="legal">
+     *     <a href="/privacy">Privacy policy</a>
+     *     <a href="/accessibility-statement">Accessibility statement</a>
+     *   </div>
      * </aegov-footer>
      */
     interface HTMLAegovFooterElement extends Components.AegovFooter, HTMLStencilElement {
@@ -3283,9 +3304,10 @@ declare global {
     /**
      * @component aegov-footer-highlights
      * @description A two-card hero row for the top of a government website
-     * footer, sitting above the link columns. The start-side card (default slot)
-     * is entirely author-controlled — a newsletter signup, app-download links,
-     * or any other content a page wants to promote. The end-side card is fixed:
+     * footer, sitting above the link columns. The start-side card is a plain
+     * slot — this component renders no chrome for it at all (no background, no
+     * shadow, no radius, no padding); the author's own slotted markup supplies
+     * everything, content and styling alike. The end-side card is fixed:
      * a "Comments or complaints" block with the Tawasul 171/WhatsApp channels
      * (always shown, matching design-system guidance) and a "Contact us" block
      * where only the entity's own contact number and email are dynamic.
@@ -3294,7 +3316,9 @@ declare global {
      * `aegov-header-banner` has with `aegov-header`) but can be used on its own
      * wherever just the hero row is needed.
      * @example <aegov-footer-highlights entity-contact-number="800 8877" entity-email="info@example.gov.ae" entity-contact-href="/contact">
-     *   <p>Sign up for updates.</p>
+     *   <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+     *     <p>Sign up for updates.</p>
+     *   </div>
      * </aegov-footer-highlights>
      */
     interface HTMLAegovFooterHighlightsElement extends Components.AegovFooterHighlights, HTMLStencilElement {
@@ -4970,8 +4994,10 @@ declare namespace LocalJSX {
      * @description Full-width government website footer. Internally embeds
      * `aegov-footer-highlights` as its hero row (same relationship
      * `aegov-header` has with `aegov-header-banner`) — the `highlights` slot is
-     * forwarded straight through to it, and the `entity-contact-*` props below
-     * are forwarded to its own identically-named props. Below that: a brand
+     * forwarded straight through to it (a plain slot with no chrome of its own;
+     * the author's own slotted markup owns background/shadow/radius/padding
+     * alike), and the `entity-contact-*` props below are forwarded to its own
+     * identically-named props. Below that: a brand
      * column (logo, description, social links — entirely author-provided via
      * the `brand` slot) alongside an open slot for author-written link columns
      * — each authored as PLAIN HTML: a title element (any tag — `<h2>`–`<h6>`
@@ -4990,7 +5016,11 @@ declare namespace LocalJSX {
      * WAI-ARIA's Presentational Roles Conflict Resolution rule). Also renders a
      * bottom bar for copyright + legal links.
      * @example <aegov-footer nav-variant="collapsible" entity-contact-number="800 8877" entity-email="info@example.gov.ae">
-     *   <div slot="highlights"><p>Sign up for updates.</p></div>
+     *   <div slot="highlights">
+     *     <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+     *       <p>Sign up for updates.</p>
+     *     </div>
+     *   </div>
      *   <div slot="brand">
      *     <span>Example Entity</span>
      *     <p>An entity of the UAE Federal Government.</p>
@@ -5001,7 +5031,10 @@ declare namespace LocalJSX {
      *     <ul role="list"><li><a href="/about">About the ministry</a></li></ul>
      *   </div>
      *   <p slot="copyright">© 2026. Ministry of Example. All rights reserved.</p>
-     *   <li slot="legal"><a href="/privacy">Privacy policy</a></li>
+     *   <div slot="legal">
+     *     <a href="/privacy">Privacy policy</a>
+     *     <a href="/accessibility-statement">Accessibility statement</a>
+     *   </div>
      * </aegov-footer>
      */
     interface AegovFooter {
@@ -5034,9 +5067,10 @@ declare namespace LocalJSX {
     /**
      * @component aegov-footer-highlights
      * @description A two-card hero row for the top of a government website
-     * footer, sitting above the link columns. The start-side card (default slot)
-     * is entirely author-controlled — a newsletter signup, app-download links,
-     * or any other content a page wants to promote. The end-side card is fixed:
+     * footer, sitting above the link columns. The start-side card is a plain
+     * slot — this component renders no chrome for it at all (no background, no
+     * shadow, no radius, no padding); the author's own slotted markup supplies
+     * everything, content and styling alike. The end-side card is fixed:
      * a "Comments or complaints" block with the Tawasul 171/WhatsApp channels
      * (always shown, matching design-system guidance) and a "Contact us" block
      * where only the entity's own contact number and email are dynamic.
@@ -5045,7 +5079,9 @@ declare namespace LocalJSX {
      * `aegov-header-banner` has with `aegov-header`) but can be used on its own
      * wherever just the hero row is needed.
      * @example <aegov-footer-highlights entity-contact-number="800 8877" entity-email="info@example.gov.ae" entity-contact-href="/contact">
-     *   <p>Sign up for updates.</p>
+     *   <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+     *     <p>Sign up for updates.</p>
+     *   </div>
      * </aegov-footer-highlights>
      */
     interface AegovFooterHighlights {
@@ -7582,8 +7618,10 @@ declare module "@stencil/core" {
              * @description Full-width government website footer. Internally embeds
              * `aegov-footer-highlights` as its hero row (same relationship
              * `aegov-header` has with `aegov-header-banner`) — the `highlights` slot is
-             * forwarded straight through to it, and the `entity-contact-*` props below
-             * are forwarded to its own identically-named props. Below that: a brand
+             * forwarded straight through to it (a plain slot with no chrome of its own;
+             * the author's own slotted markup owns background/shadow/radius/padding
+             * alike), and the `entity-contact-*` props below are forwarded to its own
+             * identically-named props. Below that: a brand
              * column (logo, description, social links — entirely author-provided via
              * the `brand` slot) alongside an open slot for author-written link columns
              * — each authored as PLAIN HTML: a title element (any tag — `<h2>`–`<h6>`
@@ -7602,7 +7640,11 @@ declare module "@stencil/core" {
              * WAI-ARIA's Presentational Roles Conflict Resolution rule). Also renders a
              * bottom bar for copyright + legal links.
              * @example <aegov-footer nav-variant="collapsible" entity-contact-number="800 8877" entity-email="info@example.gov.ae">
-             *   <div slot="highlights"><p>Sign up for updates.</p></div>
+             *   <div slot="highlights">
+             *     <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+             *       <p>Sign up for updates.</p>
+             *     </div>
+             *   </div>
              *   <div slot="brand">
              *     <span>Example Entity</span>
              *     <p>An entity of the UAE Federal Government.</p>
@@ -7613,16 +7655,20 @@ declare module "@stencil/core" {
              *     <ul role="list"><li><a href="/about">About the ministry</a></li></ul>
              *   </div>
              *   <p slot="copyright">© 2026. Ministry of Example. All rights reserved.</p>
-             *   <li slot="legal"><a href="/privacy">Privacy policy</a></li>
+             *   <div slot="legal">
+             *     <a href="/privacy">Privacy policy</a>
+             *     <a href="/accessibility-statement">Accessibility statement</a>
+             *   </div>
              * </aegov-footer>
              */
             "aegov-footer": LocalJSX.IntrinsicElements["aegov-footer"] & JSXBase.HTMLAttributes<HTMLAegovFooterElement>;
             /**
              * @component aegov-footer-highlights
              * @description A two-card hero row for the top of a government website
-             * footer, sitting above the link columns. The start-side card (default slot)
-             * is entirely author-controlled — a newsletter signup, app-download links,
-             * or any other content a page wants to promote. The end-side card is fixed:
+             * footer, sitting above the link columns. The start-side card is a plain
+             * slot — this component renders no chrome for it at all (no background, no
+             * shadow, no radius, no padding); the author's own slotted markup supplies
+             * everything, content and styling alike. The end-side card is fixed:
              * a "Comments or complaints" block with the Tawasul 171/WhatsApp channels
              * (always shown, matching design-system guidance) and a "Contact us" block
              * where only the entity's own contact number and email are dynamic.
@@ -7631,7 +7677,9 @@ declare module "@stencil/core" {
              * `aegov-header-banner` has with `aegov-header`) but can be used on its own
              * wherever just the hero row is needed.
              * @example <aegov-footer-highlights entity-contact-number="800 8877" entity-email="info@example.gov.ae" entity-contact-href="/contact">
-             *   <p>Sign up for updates.</p>
+             *   <div class="rounded-xl shadow-lg bg-primary-900 dark:bg-primary-950 p-6 sm:p-8">
+             *     <p>Sign up for updates.</p>
+             *   </div>
              * </aegov-footer-highlights>
              */
             "aegov-footer-highlights": LocalJSX.IntrinsicElements["aegov-footer-highlights"] & JSXBase.HTMLAttributes<HTMLAegovFooterHighlightsElement>;
