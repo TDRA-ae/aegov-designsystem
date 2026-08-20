@@ -66,7 +66,7 @@ const STRINGS = {
  * @slot - Footer link columns. Each column: `<div class="aegov-footer__group">
  * <h2>Title</h2><ul>…</ul></div>`.
  * @slot copyright - Copyright / last-updated text in the bottom bar.
- * @slot legal - Legal links (privacy policy, accessibility statement, etc.) in the bottom bar. One wrapper, plain links: `<div slot="legal"><a href="…">…</a><a href="…">…</a></div>`.
+ * @slot legal - Legal links (privacy policy, accessibility statement, etc.) in the bottom bar. One wrapper, plain links — no `<li>` needed: `<div slot="legal"><a href="…">…</a><a href="…">…</a></div>`. The component wraps each `<a>` in a real `<li>` and turns the wrapper into a `<ul role="list">` itself; structure and styling are entirely managed by the design system.
  *
  * @example
  * <aegov-footer nav-variant="collapsible" entity-contact-number="800 8877" entity-email="info@example.gov.ae">
@@ -138,6 +138,7 @@ export class AegovFooter {
       this._mql.addEventListener('change', this.handleBreakpointChange);
     }
     this.syncGroups();
+    this.syncLegalLinks();
 
     // Attached here rather than componentDidLoad so the click-block is in
     // place before the first paint, not after it — closes the (tiny) window
@@ -295,6 +296,34 @@ export class AegovFooter {
     trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
     if (open) panel.removeAttribute('hidden');
     else panel.setAttribute('hidden', '');
+  }
+
+  /**
+   * The author writes one plain wrapper — `<div slot="legal"><a>…</a><a>…</a></div>` —
+   * no `<li>` needed. This wraps each `<a>` in a real `<li>` and replaces the
+   * author's wrapper with a `<ul>` carrying the same `slot="legal"` attribute
+   * (so it still lands in the same spot), giving the legal links genuine list
+   * semantics without asking the author for any extra markup. Same synthesis
+   * pattern as the trigger/panel above — just run once, since unlike those,
+   * nothing here needs to react to breakpoint or nav-variant changes.
+   */
+  private syncLegalLinks() {
+    const authored = this.el.querySelector('[slot="legal"]');
+    if (!authored || authored.tagName === 'UL') return;
+
+    const links = Array.from(authored.children).filter(c => c.tagName === 'A');
+    if (links.length === 0) return;
+
+    const list = document.createElement('ul');
+    list.className = 'aegov-footer__legal';
+    list.setAttribute('slot', 'legal');
+    list.setAttribute('role', 'list');
+    links.forEach(link => {
+      const item = document.createElement('li');
+      item.appendChild(link);
+      list.appendChild(item);
+    });
+    authored.parentNode?.replaceChild(list, authored);
   }
 
   /**
