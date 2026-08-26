@@ -26,6 +26,7 @@ export class AegovDrawer {
   private focusableElements: HTMLElement[] = [];
   private drawerZIndex: number = 50;
   private movedToBody: boolean = false;
+  private overlayResourcesHeld: boolean = false;
 
   /**
    * Unique ID for the drawer dialog element. Auto-generated if not provided.
@@ -190,8 +191,20 @@ export class AegovDrawer {
     warnIfInvalidEnumProp(this.animation, DRAWER_ANIMATIONS, 'slide', ctx('animation'));
     warnIfInvalidEnumProp(this.overlayOpacity, DRAWER_OVERLAY_OPACITIES, 'base', ctx('overlayOpacity'));
     warnIfInvalidEnumProp(this.size, DRAWER_SIZES, 'base', ctx('size'));
-    if (!this.label && !this.el.getAttribute('aria-labelledby')) {
+    if (!this.label && !this.el.getAttribute('aria-labelledby') && !this.el.getAttribute('aria-label')) {
       console.warn('[aegov-drawer] Dialog has no accessible name. Provide a label prop.');
+    }
+  }
+
+  componentDidLoad() {
+    // @Watch('isOpen') only fires on a SUBSEQUENT change, never for the prop's
+    // initial value — so a drawer declared with is-open="true" from the start
+    // (every documented example uses this pattern) would otherwise never run
+    // handleOpen(): no scroll lock, no focus trap, and no Escape-key listener
+    // (only ever attached inside handleOpen()), leaving it visible but
+    // completely inert to the keyboard and unable to be dismissed.
+    if (this.isOpen) {
+      this.handleOpen();
     }
   }
 
@@ -223,8 +236,28 @@ export class AegovDrawer {
     // here — the disconnect IS the removal, and re-removing inside the
     // callback caused a "Maximum call stack size exceeded" loop with
     // connectedCallback under Stencil's shadow-DOM hydration.
-    if (this.isPreventScroll && this.isOpen) {
-      unlockBodyScroll();
+    //
+    // Covers a framework removing the element entirely while still open,
+    // without ever calling close()/handleCloseComplete() — otherwise the
+    // z-index stack leaks (popZIndex() never called to match the earlier
+    // pushZIndex()) and every subsequently-opened overlay stacks one
+    // increment higher than it should, forever.
+    //
+    // Guarded on overlayResourcesHeld, not this.isOpen: connectedCallback's
+    // own document.body.appendChild portal-move triggers a synchronous
+    // disconnect/reconnect pair, which for a declaratively `is-open="true"`
+    // drawer can fire BEFORE handleOpen() has ever run — at that moment
+    // isOpen is already true but no lock/z-index was ever acquired. A naive
+    // `if (this.isOpen)` guard would then call unlockBodyScroll() for a lock
+    // this instance never took, decrementing the shared ref-counted lock and
+    // potentially releasing scroll out from under some OTHER genuinely-open
+    // overlay (confirmed via direct reproduction, not hypothetical).
+    if (this.overlayResourcesHeld) {
+      this.overlayResourcesHeld = false;
+      if (this.isPreventScroll) {
+        unlockBodyScroll();
+      }
+      popZIndex();
     }
     document.removeEventListener('keydown', this.handleKeyDown);
   }
@@ -240,6 +273,7 @@ export class AegovDrawer {
 
     // Assign z-index for this drawer
     this.drawerZIndex = pushZIndex();
+    this.overlayResourcesHeld = true;
 
     // Phase 1: Render at off-screen / invisible position.
     // CSS transitions need a painted "from" state before they can animate to a "to" state.
@@ -298,6 +332,7 @@ export class AegovDrawer {
   private handleCloseComplete() {
     // Decrement overlay stack
     popZIndex();
+    this.overlayResourcesHeld = false;
 
     // Unlock body scroll (ref-counted, only unlocks when last overlay closes)
     if (this.isPreventScroll) {
@@ -372,6 +407,10 @@ export class AegovDrawer {
     }
 
     const passThroughAttributes = getPassThroughAttributes(this.el);
+    // passThroughAttributes already collected from a raw host aria-label
+    // attribute — a literal `aria-label={undefined}` in the JSX below would
+    // silently overwrite it. Merge once, before the JSX, instead.
+    const dialogAriaLabel = this.label || passThroughAttributes['aria-label'];
     const position: DrawerPosition = (DRAWER_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'right';
     const size: DrawerSize = (DRAWER_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
     const containerClasses = [
@@ -410,7 +449,7 @@ export class AegovDrawer {
           data-animation={this.animation}
           role="dialog"
           aria-modal="true"
-          aria-label={this.label || undefined}
+          aria-label={dialogAriaLabel}
           tabindex={-1}
         >
           <div class={contentClasses}>
