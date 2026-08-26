@@ -755,14 +755,14 @@ export declare interface AegovFileupload extends Components.AegovFileupload {
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovFooter,
-  inputs: ['entityContactHref', 'entityContactNumber', 'entityContactNumberLabel', 'entityEmail', 'entityEmailLabel', 'navVariant']
+  inputs: ['appStoreHref', 'entityContactHref', 'entityContactNumber', 'entityContactNumberLabel', 'entityEmail', 'entityEmailLabel', 'googlePlayHref', 'navVariant']
 })
 @Component({
   selector: 'aegov-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['entityContactHref', 'entityContactNumber', 'entityContactNumberLabel', 'entityEmail', 'entityEmailLabel', 'navVariant'],
+  inputs: ['appStoreHref', 'entityContactHref', 'entityContactNumber', 'entityContactNumberLabel', 'entityEmail', 'entityEmailLabel', 'googlePlayHref', 'navVariant'],
 })
 export class AegovFooter {
   protected el: HTMLAegovFooterElement;
