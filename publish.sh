@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-ROOT="/Users/anis/Sites/aegov-designsystem3"
+ROOT="/Users/moiz/Projects/TDRA/aegov-dls-3"
 
 echo "Publishing @aegov/designsystem..."
 (cd "$ROOT/packages/designsystem" && npm publish --ignore-scripts)
