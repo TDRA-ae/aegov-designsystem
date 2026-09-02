@@ -5,7 +5,7 @@
  *   @import "@aegov/designsystem/theme";
  */
 
-@layer theme, base, components, aegov-internals, utilities;
+@layer theme, base, components, utilities;
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
@@ -15,6 +15,9 @@
    does not yet support alongside &:where(). Tracked as a follow-up: add per-component
    :host-context(.dark) overrides once Tailwind v4 supports multi-selector @custom-variant. */
 @custom-variant dark (&:where(.dark, .dark *));
+
+@source inline("bg-{aegold,aered,aegreen,aeblack,camel,desert,fuchsia,slate,techblue,seablue,purple,indigo,pink,lime,primary,primary-support,secondary,secondary-support}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("bg-{whitely,neutral}-{50,100,200,300,400,500}");
 
 @theme {
   /* ========================================
