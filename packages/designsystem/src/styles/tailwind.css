@@ -16,42 +16,6 @@
    :host-context(.dark) overrides once Tailwind v4 supports multi-selector @custom-variant. */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Force-keep every AEGOV palette token + the handful of stock Tailwind
-   colors components reference internally. Components reference these
-   tokens (e.g. `color: var(--color-primary-50, ...)`) from pre-compiled
-   shadow-DOM CSS that ships in node_modules — a directory Tailwind's
-   content scanner never looks inside — so without this, tokens with no
-   matching utility class in the consumer's own markup get tree-shaken out
-   of the compiled theme even though a component still depends on them.
-   Deliberately plain `@theme` (not `@theme static`) plus `@source inline()`
-   rather than `@theme static` alone: this keeps the *theme key* globally
-   "used" without pinning any specific @theme block as authoritative, so a
-   consumer's own later, completely ordinary `@theme { --color-primary-600:
-   ...; }` override — no special syntax — still correctly wins. `@theme
-   static` alone would have made this block's own values un-overridable by
-   a plain consumer override for tokens with no other usage anywhere. */
-@source inline("text-aeblack-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-aegold-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-aegreen-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-aered-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-camel-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-desert-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-fuchsia-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-indigo-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-pink-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-primary-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-primary-support-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-purple-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-seablue-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-secondary-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-secondary-support-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-slate-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-techblue-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("text-whitely-{50,100,200,300,400,500}");
-/* Stock Tailwind colors (not AEGOV's own palette) referenced by a few components */
-@source inline("text-neutral-{100,200}");
-@source inline("text-lime-{50,100,200,700,800,900}");
-
 @theme {
   /* ========================================
    * COLOR PALETTE
@@ -65,17 +29,17 @@
      Now verified at ~4.62:1. This is `primary-600` by default (and the
      plain, unstyled aegov-link text color) — used far more widely than
      camel-600, so double-check anywhere relying on the old exact hex. */
-  --color-aegold-50: oklch(0.974 0.022 96);
-  --color-aegold-100: oklch(0.9189 0.032 94);
-  --color-aegold-200: oklch(0.8477 0.060 91.5);
-  --color-aegold-300: oklch(0.7766 0.085 89);
-  --color-aegold-400: oklch(0.7055 0.102 86.5);
-  --color-aegold-500: oklch(0.6343 0.101 85);
-  --color-aegold-600: oklch(0.5478 0.0956 83.8);
-  --color-aegold-700: oklch(0.4921 0.085 76);
-  --color-aegold-800: oklch(0.4209 0.072 68);
-  --color-aegold-900: oklch(0.3498 0.058 60);
-  --color-aegold-950: oklch(0.2787 0.044 52);
+  --color-aegold-50: oklch(0.9904 0.0107 95.16);
+  --color-aegold-100: oklch(0.9402 0.0387 97.45);
+  --color-aegold-200: oklch(0.8468 0.0593 91.1);
+  --color-aegold-300: oklch(0.7764 0.0851 89.15);
+  --color-aegold-400: oklch(0.7061 0.1025 86.79);
+  --color-aegold-500: oklch(0.6332 0.1005 85.01);
+  --color-aegold-600: oklch(0.5632 0.0956 83.8);
+  --color-aegold-700: oklch(0.4922 0.0846 76.73);
+  --color-aegold-800: oklch(0.4204 0.0721 67.86);
+  --color-aegold-900: oklch(0.3498 0.0574 61.02);
+  --color-aegold-950: oklch(0.2791 0.0447 51.99);
 
   /* AERed Color — accessible ramp (uniform OKLCH lightness, bell chroma).
      600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). */
