@@ -11,8 +11,12 @@ aegov-footer {
 
 /* ---------- brand column + nav columns ---------- */
 
+/* Responsive, not a flat 64px at every width — confirmed via measurement
+   that the old flat `pb-16` (matched by `.aegov-footer-highlights`'s own
+   flat `py-16` above it) read as an oversized, non-scaling gap on mobile,
+   where there's much less room to spare than on desktop. */
 .aegov-footer__main {
-  @apply pb-16;
+  @apply pb-10 sm:pb-12 lg:pb-16;
 }
 
 /* One flat, responsive grid holding the brand column and every author-
@@ -24,12 +28,11 @@ aegov-footer {
    columns" ahead of time.
 
    Below `sm` the grid is a single stacked column, and each `.aegov-footer__group`
-   already draws its own `border-b`/`pb-4` divider (accordion-row style) — a
-   grid row-gap on top of that doubled up the spacing (confirmed: 40px gap +
-   16px pb-4 + border read as one oversized gap between rows). `gap-0` at the
-   base breakpoint leaves rows relying solely on their own divider; `sm:gap-10`
-   restores real column spacing once groups drop their border/padding
-   (`sm:border-b-0 sm:pb-0` below) and become true grid columns. */
+   already draws its own `border-b` divider (accordion-row style) — a grid
+   row-gap on top of that would double up the spacing. `gap-0` at the base
+   breakpoint leaves rows relying solely on their own divider; `sm:gap-10`
+   restores real column spacing once groups drop their border (`sm:border-b-0`
+   below) and become true grid columns. */
 .aegov-footer__columns {
   @apply grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4;
 }
@@ -50,13 +53,37 @@ aegov-footer {
    whatever width/height the consumer's own slotted <svg> happens to
    declare, so every site's footer reads consistently regardless of the
    icon markup authors paste in. size-11 keeps a >=44px touch target
-   regardless of the 20px icon inside it. */
-.aegov-footer__brand a {
+   regardless of the 20px icon inside it.
+
+   `:not(.aegov-btn)` excludes any button-styled `aegov-link` (e.g. the
+   "Download our app" badges below) — `aegov-btn` is the base class
+   `getActionClasses` always adds once a link opts into button styling, so
+   this rule stays scoped to plain icon-only social links, the only thing
+   it was ever meant to size. Without it, the badges' own xs/solid/
+   neutral-min sizing was overridden by this fixed 44px icon-only square. */
+.aegov-footer__brand a:not(.aegov-btn) {
   @apply flex size-11 items-center justify-center text-aeblack-700 no-underline hover:text-primary-800 focus-visible:rounded focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-600 dark:text-aeblack-300 dark:hover:text-primary-400 dark:focus-visible:outline-primary-500;
 
   svg {
     @apply size-5;
   }
+}
+
+/* Optional "Download our app" block, rendered only when `app-store-href`
+   and/or `google-play-href` is set. Each badge is a plain, unmodified
+   `aegov-link` (`size="xs"`, `appearance="solid"`, `variant="neutral-min"`,
+   no `extra-class`) — the `:not(.aegov-btn)` on `.aegov-footer__brand a`
+   above is what makes that possible. */
+.aegov-footer__apps {
+  @apply mt-6;
+}
+
+.aegov-footer__apps-title {
+  @apply m-0 mb-3 text-sm font-bold text-primary-900 dark:text-primary-300;
+}
+
+.aegov-footer__apps-badges {
+  @apply flex flex-row flex-wrap gap-2;
 }
 
 /* Each column is authored as plain HTML: <div class="aegov-footer__group">
@@ -69,7 +96,7 @@ aegov-footer {
    So the trigger styles below only ever apply when a real, genuinely
    interactive button exists. */
 .aegov-footer__group {
-  @apply m-0 border-x-0 border-t-0 border-b border-aeblack-100 p-0 pb-4 sm:border-b-0 sm:pb-0 dark:border-aeblack-800;
+  @apply m-0 border-x-0 border-t-0 border-b border-aeblack-100 p-0 sm:border-b-0 dark:border-aeblack-800;
 }
 .aegov-footer__group:last-child {
   @apply border-b-0;
@@ -80,9 +107,17 @@ aegov-footer {
    chevron pushed to the far end" layout belongs on .aegov-footer__group-trigger
    itself below, not here: with only one child (the button), justify-between
    on this wrapper would do nothing, and a plain <button> centers its own
-   text by default in most browsers' UA stylesheet if not reset. */
+   text by default in most browsers' UA stylesheet if not reset.
+
+   `py-4` alone (not a smaller py- paired with the group's own pb-* like an
+   earlier version had) is deliberate: it's the ONLY padding on this row, so
+   it's also the ONLY thing that has to make the divider spacing symmetric.
+   Measured before this: 28px above each divider (this title's own pb-3 +
+   the group's separate pb-4) vs. 12px below it (next title's pt-3 alone) —
+   a real, visible mismatch. One shared 16px on both sides of every title
+   fixes that, above and below every divider alike. */
 .aegov-footer__group > :first-child {
-  @apply m-0 py-3 text-base font-bold text-primary-900 text-start dark:text-primary-300;
+  @apply m-0 py-4 text-base font-bold text-primary-900 text-start dark:text-primary-300;
 }
 
 .aegov-footer__group-trigger {
@@ -120,6 +155,17 @@ aegov-footer {
   @apply rotate-180 bg-primary-700 dark:bg-primary-300;
 }
 
+/* Bottom breathing room for the OPEN state only — the panel is simply not
+   rendered (`hidden`) while closed, so this can never reintroduce the
+   closed-row divider asymmetry the group's own padding used to cause (see
+   the note on `.aegov-footer__group > :first-child` above). Without it,
+   the last link sat flush against the next row's divider with no gap at
+   all. Only matters below `sm`; at `sm`+ there's no divider to separate
+   from, and no reason to add space the grid's own `sm:gap-10` doesn't
+   already need. */
+.aegov-footer__group-panel {
+  @apply pb-4 sm:pb-0;
+}
 .aegov-footer__group-panel ul {
   @apply m-0 flex list-none flex-col gap-2 p-0 pt-3 sm:pt-4;
 }
@@ -134,12 +180,24 @@ aegov-footer {
 
 /* ---------- bottom bar ---------- */
 
+/* Border/background live on this OUTER, full-width element — same split
+   `aegov-header` uses for its own bar (`.header__head` + inner
+   `.aegov-container.header__bar`) — so the tint spans the entire viewport
+   width. `.aegov-footer__bottom-inner` below carries `aegov-container`,
+   which only constrains max-width/horizontal padding for the copyright +
+   legal content, not the background. Before this split, `aegov-container`
+   and the background classes lived on the same element, so the bar's tint
+   was clipped to the container's max-width instead of running edge to edge. */
+.aegov-footer__bottom {
+  @apply border-t border-primary-100 bg-primary-50/50 dark:border-primary-900 dark:bg-primary-950/30;
+}
+
 /* Stacked through tablet (`sm`/`md`) — at 768px there isn't room for the
    copyright text plus all legal links on one row without the legal links
    wrapping mid-list and reading as unbalanced. Only becomes a row at `lg`,
    where both sides reliably fit side by side. */
-.aegov-footer__bottom {
-  @apply flex flex-col items-center justify-between gap-3 border-t border-primary-100 bg-primary-50/50 py-6 text-center text-sm text-aeblack-500 lg:flex-row lg:text-start dark:border-primary-900 dark:bg-primary-950/30 dark:text-aeblack-400;
+.aegov-footer__bottom-inner {
+  @apply flex flex-col items-center justify-between gap-3 py-6 text-center text-sm text-aeblack-500 lg:flex-row lg:text-start dark:text-aeblack-400;
 }
 
 .aegov-footer__copyright {

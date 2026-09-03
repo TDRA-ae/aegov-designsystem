@@ -3,8 +3,13 @@
    silently be dead code (confirmed via computed-style: the host defaulted
    to `display: inline` and this padding never applied). Target the actual
    class already on the Host element instead. */
+/* Responsive, not a flat 64px at every width — paired with
+   `.aegov-footer__main`'s own matching pb-10/12/16 scale in aegov-footer.css
+   when embedded, so the gap above the nav columns scales down on mobile
+   the same way the gap below them does, rather than staying oversized
+   on the width that has the least room to spare. */
 .aegov-footer-highlights {
-  @apply block w-full py-16;
+  @apply block w-full py-10 sm:py-12 lg:py-16;
 }
 
 .aegov-footer-highlights__grid {
@@ -13,12 +18,49 @@
 
 /* ---------- start card (fully author-owned) ---------- */
 
-/* Deliberately no rule for `.aegov-footer-highlights__card--start` — this
-   slot gets no chrome from the design system at all (no background, no
-   shadow, no radius, no padding). The class exists only so the grid cell
-   is addressable; every visual decision is the author's own slotted
-   markup, same as the docs example's `rounded-xl shadow-lg bg-primary-900
-   dark:bg-primary-950 p-6 sm:p-8` wrapper div. */
+/* No rule for `.aegov-footer-highlights__card--start` itself — this slot
+   still gets no chrome from the design system (no background, no shadow,
+   no radius, no padding); every visual decision stays the author's own
+   slotted markup, same as the docs example's `rounded-xl shadow-lg
+   bg-primary-900 dark:bg-primary-950 p-6 sm:p-8` wrapper div.
+
+   The rule below is structural, not visual, and exists for a real reason:
+   `.aegov-footer-highlights__grid`'s xl:grid-cols-2 correctly stretches
+   `.aegov-footer-highlights__card--start` itself to match the end card's
+   height (confirmed via measurement — both grid items already come out
+   pixel-equal). But whatever the author slots in is a plain block with
+   `height: auto`, which does NOT inherit that stretched height
+   automatically — so the *visible* card (the author's own bg-primary-900
+   div) could end up shorter than the grid cell around it, with invisible
+   leftover space below it.
+
+   `h-full` on the direct child covers the standalone shape (a bare
+   `<div class="bg-primary-900 …">` — one level, and this IS the visible
+   card). The embedded shape nests one level deeper — `<div slot="highlights">`
+   wrapping `<div class="bg-primary-900 …">` — so that visible card also
+   needs `h-full` cascaded to the grandchild.
+
+   The grandchild selector is deliberately guarded with `:has(> *:only-child)`,
+   not a blanket `> * > *`: an earlier version applied `h-full` (actually
+   `flex h-full`) unconditionally to `> *`, which in the *standalone* shape
+   IS the visible card itself, and making it a flex container laid its own
+   title/paragraph children out in a row instead of stacked (confirmed
+   visually — a real regression, not hypothetical). A blanket grandchild
+   rule has the same problem one level down: in the standalone shape, `>
+   * > *` would match the visible card's own text children (its eyebrow
+   <p>, heading, description …), stretching each of THEM to full height
+   for no reason and pushing the rest out of place. `:has(> *:only-child)`
+   only matches a direct child that itself has exactly one child of its
+   own — true for the embedded shape's `[slot="highlights"]` wrapper
+   (always exactly one visual-card div inside it, per every documented
+   example), never true for the standalone shape's visible card (which
+   always has multiple sibling content children). */
+.aegov-footer-highlights__card--start > * {
+  @apply h-full;
+}
+.aegov-footer-highlights__card--start > *:has(> *:only-child) > * {
+  @apply h-full;
+}
 
 /* ---------- end card (fixed content) ---------- */
 
