@@ -1,6 +1,6 @@
 {
   "name": "@aegov/designsystem-vue",
-  "version": "0.2.22",
+  "version": "0.2.23",
   "description": "AEGOV Design System - Framework-agnostic web components with Tailwind CSS",
   "author": "Anis conceptlz <124657785+anismansuriui@users.noreply.github.com>",
   "homepage": "",
@@ -24,7 +24,7 @@
     "access": "restricted"
   },
   "dependencies": {
-    "@aegov/designsystem": "^0.2.22"
+    "@aegov/designsystem": "^0.2.23"
   },
   "devDependencies": {
     "vue": "^3.5.39"
