@@ -74,17 +74,17 @@
 
   /* AEBlack Color — accessible neutral ramp (uniform light half, softened dark
      half so 950 is a deep gray, not pure black). 600 locked; 50-on-600 = 8.0:1. */
-  --color-aeblack-50: oklch(0.974 0.003 262);
-  --color-aeblack-100: oklch(0.8962 0.004 262);
-  --color-aeblack-200: oklch(0.8023 0.006 262);
-  --color-aeblack-300: oklch(0.7085 0.008 262);
-  --color-aeblack-400: oklch(0.6147 0.010 262);
-  --color-aeblack-500: oklch(0.5208 0.014 264);
-  --color-aeblack-600: oklch(0.427 0.016 266.5);
-  --color-aeblack-700: oklch(0.3602 0.014 268);
-  --color-aeblack-800: oklch(0.2934 0.011 266);
-  --color-aeblack-900: oklch(0.2266 0.008 264);
-  --color-aeblack-950: oklch(0.16 0.006 262);
+  --color-aeblack-50: oklch(0.9906 0.0017 247.84);
+  --color-aeblack-100: oklch(0.8966 0.0035 247.86);
+  --color-aeblack-200: oklch(0.8011 0.006 264.53);
+  --color-aeblack-300: oklch(0.7081 0.008 260.73);
+  --color-aeblack-400: oklch(0.6153 0.0102 258.35);
+  --color-aeblack-500: oklch(0.5204 0.015 266.6);
+  --color-aeblack-600: oklch(0.4273 0.0158 266.54);
+  --color-aeblack-700: oklch(0.3603 0.0144 269.29);
+  --color-aeblack-800: oklch(0.2936 0.0112 271.01);
+  --color-aeblack-900: oklch(0.226 0.0083 264.39);
+  --color-aeblack-950: oklch(0.1593 0.0066 270.98);
 
   /* Neutral Color - Whitely */
   --color-whitely-50: oklch(1.000 0.000 0.0);
@@ -103,17 +103,17 @@
      canvas-readback measurement, not calculated by eye. Now verified at
      ~4.6:1, matching the ramp's original documented intent with a small
      safety margin. */
-  --color-camel-50: oklch(0.974 0.024 66);
-  --color-camel-100: oklch(0.9202 0.035 64);
-  --color-camel-200: oklch(0.8504 0.070 63);
-  --color-camel-300: oklch(0.7807 0.110 62);
-  --color-camel-400: oklch(0.7109 0.150 61);
-  --color-camel-500: oklch(0.6411 0.160 60.5);
-  --color-camel-600: oklch(0.5533 0.154 60.2);
-  --color-camel-700: oklch(0.5016 0.140 57);
-  --color-camel-800: oklch(0.4318 0.115 53);
-  --color-camel-900: oklch(0.362 0.090 50);
-  --color-camel-950: oklch(0.2922 0.065 47);
+  --color-camel-50: oklch(0.9925 0.0051 67.77);
+  --color-camel-100: oklch(0.9447 0.0307 64.3);
+  --color-camel-200: oklch(0.8508 0.0695 63.82);
+  --color-camel-300: oklch(0.7798 0.1101 61.94);
+  --color-camel-400: oklch(0.7121 0.1503 61.16);
+  --color-camel-500: oklch(0.641862 0.154175 57.6737);
+  --color-camel-600: oklch(0.5737 0.1435 54.15);
+  --color-camel-700: oklch(0.5026 0.1306 51.21);
+  --color-camel-800: oklch(0.4325 0.1126 51.09);
+  --color-camel-900: oklch(0.3634 0.0898 50.17);
+  --color-camel-950: oklch(0.2914 0.0645 46.86);
 
   /* Slate Color */
   --color-slate-50: oklch(0.974 0.006 247.9);
