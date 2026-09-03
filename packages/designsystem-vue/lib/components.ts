@@ -314,7 +314,9 @@ export const AegovFooter = /*@__PURE__*/ defineContainer<JSX.AegovFooter>('aegov
   'entityContactNumberLabel',
   'entityEmail',
   'entityEmailLabel',
-  'entityContactHref'
+  'entityContactHref',
+  'appStoreHref',
+  'googlePlayHref'
 ]);
 
 

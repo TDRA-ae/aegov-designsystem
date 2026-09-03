@@ -101,4 +101,26 @@ describe('aegov-footer (e2e)', () => {
     const emailLink = await page.find('aegov-footer aegov-footer-highlights a[href="mailto:info@example.gov.ae"]');
     expect(emailLink.textContent).toContain('info@example.gov.ae');
   });
+
+  it('renders the "Download our app" badges as real, focusable, keyboard-activatable aegov-link buttons in the brand column', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<aegov-footer app-store-href="https://apps.apple.com/example" google-play-href="https://play.google.com/example">
+      <span slot="brand">Example Entity</span>
+      ${GROUP}
+    </aegov-footer>`);
+    await page.waitForChanges();
+
+    const badges = await page.findAll('aegov-footer .aegov-footer__apps-badges a');
+    expect(badges.length).toBe(2);
+
+    const appStoreBadge = badges[0];
+    expect(await appStoreBadge.getAttribute('href')).toBe('https://apps.apple.com/example');
+    expect(await appStoreBadge.getAttribute('target')).toBe('_blank');
+    expect(await appStoreBadge.getAttribute('rel')).toBe('noopener noreferrer');
+    expect(appStoreBadge.textContent).toContain('App Store');
+
+    // Real, native focus/activation — no custom keydown handling, same as any other aegov-link.
+    await appStoreBadge.focus();
+    expect(await page.evaluate(() => document.activeElement === document.querySelector('aegov-footer .aegov-footer__apps-badges a'))).toBe(true);
+  });
 });
