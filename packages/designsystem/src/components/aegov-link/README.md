@@ -41,11 +41,13 @@
 
 ### Used by
 
+ - [aegov-footer](../aegov-footer)
  - [aegov-footer-highlights](../aegov-footer-highlights)
 
 ### Graph
 ```mermaid
 graph TD;
+  aegov-footer --> aegov-link
   aegov-footer-highlights --> aegov-link
   style aegov-link fill:#f9f,stroke:#333,stroke-width:4px
 ```
