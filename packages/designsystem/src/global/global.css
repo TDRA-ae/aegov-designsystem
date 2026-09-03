@@ -443,4 +443,32 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+
   .aegov-container {
     @apply mx-auto w-full max-w-[1536px] px-3 sm:px-5 md:px-3.5 lg:px-6 xl:px-6;
   }
+
+  /* ==========================================================
+     PRE-HYDRATION LAYOUT RESERVATION
+     Component stylesheets ship inside the lazy chunk, so nothing
+     in them applies until that chunk lands. These rules live in the
+     global sheet (loaded with the page) so an un-hydrated element
+     occupies the same box as the hydrated one. Rules scoped with
+     :not(.hydrated) disable themselves once Stencil flags the host.
+     ========================================================== */
+
+  /* Overlays: once hydrated their content lives in the shadow root and only
+    shows when opened, so the inline footprint is 0. Before hydration that
+    content is plain light DOM and stacks in the page flow. */
+  aegov-drawer:not(.hydrated),
+  aegov-modal:not(.hydrated) { display: none; }
+
+  /* Dropdown/popover: keep the trigger, hide only the panel slot. */
+  aegov-dropdown:not(.hydrated) > [slot="dropdown-content"],
+  aegov-popover:not(.hydrated) > [slot="popover-content"] { display: none; }
+
+  /* Navbar: un-hydrated items stack vertically (no flex yet). Lay them out as
+     a row so the bar approximates its final height without a magic number. */
+  aegov-navbar:not(.hydrated) { @apply flex items-center gap-2; }
+  aegov-navbar-item:not(.hydrated) { @apply inline-flex items-center; }
+
+  /* Safety valve — see note below. */
+  html.aegov-hydration-timeout :not(.hydrated) { visibility: inherit !important; }
+
 }

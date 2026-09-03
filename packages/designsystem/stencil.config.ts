@@ -120,7 +120,7 @@ export const config: Config = {
   // Disable the injected <style> that hides components until hydrated.
   // Safe because our components have well-defined CSS (Tailwind utilities + aegov-* classes).
   // If you see a flash of unstyled content (FOUC), revert this to true.
-  invisiblePrehydration: false,
+  invisiblePrehydration: true,
 
   // Extras for better compatibility
   extras: {
