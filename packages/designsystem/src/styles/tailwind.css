@@ -46,31 +46,31 @@
 
   /* AERed Color — accessible ramp (uniform OKLCH lightness, bell chroma).
      600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). */
-  --color-aered-50: oklch(0.974 0.030 18);
-  --color-aered-100: oklch(0.9223 0.045 20);
-  --color-aered-200: oklch(0.8547 0.085 22);
-  --color-aered-300: oklch(0.787 0.140 24);
-  --color-aered-400: oklch(0.7193 0.190 26);
-  --color-aered-500: oklch(0.6517 0.205 27);
-  --color-aered-600: oklch(0.584 0.199 27.5);
-  --color-aered-700: oklch(0.5163 0.180 28);
-  --color-aered-800: oklch(0.4487 0.150 28);
-  --color-aered-900: oklch(0.381 0.120 27);
-  --color-aered-950: oklch(0.3133 0.085 27);
+  --color-aered-50: oklch(0.9911 0.0043 17.23);
+  --color-aered-100: oklch(0.9389 0.0276 20.41);
+  --color-aered-200: oklch(0.8516 0.0806 22.65);
+  --color-aered-300: oklch(0.7761 0.1311 23.9);
+  --color-aered-400: oklch(0.71 0.1825 26.23);
+  --color-aered-500: oklch(0.6513 0.2047 26.88);
+  --color-aered-600: oklch(0.5836 0.1986 27.5);
+  --color-aered-700: oklch(0.5161 0.1804 27.98);
+  --color-aered-800: oklch(0.4499 0.15 27.94);
+  --color-aered-900: oklch(0.3819 0.1204 27.12);
+  --color-aered-950: oklch(0.3129 0.0845 27.11);
 
   /* AEGreen Color — accessible ramp (uniform OKLCH lightness, bell chroma).
      600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). */
-  --color-aegreen-50: oklch(0.974 0.020 150);
-  --color-aegreen-100: oklch(0.9163 0.030 150.5);
-  --color-aegreen-200: oklch(0.8427 0.055 150);
-  --color-aegreen-300: oklch(0.769 0.085 150);
-  --color-aegreen-400: oklch(0.6954 0.110 149.5);
-  --color-aegreen-500: oklch(0.6217 0.125 148.8);
-  --color-aegreen-600: oklch(0.548 0.122 148.5);
-  --color-aegreen-700: oklch(0.4744 0.105 149);
-  --color-aegreen-800: oklch(0.4007 0.085 149.5);
-  --color-aegreen-900: oklch(0.3271 0.065 150);
-  --color-aegreen-950: oklch(0.2534 0.048 151);
+  --color-aegreen-50: oklch(0.9932 0.0058 153.78);
+  --color-aegreen-100: oklch(0.9517 0.0241 151.18);
+  --color-aegreen-200: oklch(0.8427 0.0545 150.05);
+  --color-aegreen-300: oklch(0.7699 0.0858 149.62);
+  --color-aegreen-400: oklch(0.6954 0.1091 149.62);
+  --color-aegreen-500: oklch(0.6215 0.125 148.82);
+  --color-aegreen-600: oklch(0.5482 0.1217 148.68);
+  --color-aegreen-700: oklch(0.4748 0.1055 148.71);
+  --color-aegreen-800: oklch(0.3998 0.0844 149.82);
+  --color-aegreen-900: oklch(0.3276 0.0657 149.98);
+  --color-aegreen-950: oklch(0.2541 0.0481 150.47);
 
   /* AEBlack Color — accessible neutral ramp (uniform light half, softened dark
      half so 950 is a deep gray, not pure black). 600 locked; 50-on-600 = 8.0:1. */
