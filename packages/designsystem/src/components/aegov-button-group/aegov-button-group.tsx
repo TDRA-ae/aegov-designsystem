@@ -64,6 +64,10 @@ export class AegovButtonGroup {
    * ever see that wrapper, so the check never fired.
    *
    * A wrapping `div` stays allowed so consumers can group buttons inside a layout element.
+   * `aegov-tooltip` is also allowed as a wrapper, so a per-button tooltip can be added
+   * without breaking the group — `getDirectChildButtons()` already finds the real
+   * `<aegov-button>` through any such wrapper via `querySelectorAll` + `.closest()`, so no
+   * extra unwrapping logic is needed here beyond allow-listing the tag.
    */
   private validateChildren() {
     const container = this.el.querySelector('.aegov-button-group') ?? this.el;
@@ -72,8 +76,9 @@ export class AegovButtonGroup {
       (child) => child.tagName !== 'STYLE' && child.tagName !== 'SCRIPT'
     );
 
+    const ALLOWED_TAGS = new Set(['aegov-button', 'div', 'aegov-tooltip']);
     const invalidChildren = slottedChildren.filter(
-      (child) => child.tagName.toLowerCase() !== 'aegov-button' && child.tagName.toLowerCase() !== 'div'
+      (child) => !ALLOWED_TAGS.has(child.tagName.toLowerCase())
     );
 
     if (invalidChildren.length > 0) {

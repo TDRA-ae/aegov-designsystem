@@ -42,10 +42,10 @@ describe('aegov-badge', () => {
     expect(page.root.querySelector('span').className).toContain('badge-solid');
   });
 
-  it('applies color class', async () => {
+  it('applies variant class', async () => {
     const page = await newSpecPage({
       components: [AegovBadge],
-      html: `<aegov-badge color="aered">X</aegov-badge>`,
+      html: `<aegov-badge variant="aered">X</aegov-badge>`,
     });
     expect(page.root.querySelector('span').className).toContain('badge-aered');
   });

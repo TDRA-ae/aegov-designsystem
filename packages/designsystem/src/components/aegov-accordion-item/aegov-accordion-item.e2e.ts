@@ -1,6 +1,26 @@
 import { newE2EPage } from '@stencil/core/testing';
 
 describe('aegov-accordion-item (e2e)', () => {
+  it('scales the toggle icon alongside the heading text at each size (regression test for issue #15)', async () => {
+    const widths: Record<string, number> = {};
+    for (const size of ['sm', 'base', 'lg']) {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion size="${size}">
+          <aegov-accordion-item heading="Title">Body</aegov-accordion-item>
+        </aegov-accordion>
+      `);
+      widths[size] = await page.evaluate(() => {
+        const icon = document.querySelector('aegov-accordion-item .accordion-item__icon');
+        return icon.getBoundingClientRect().width;
+      });
+    }
+    // sm (size-5 = 20px) < base (size-6 = 24px) < lg (size-6.5 = 26px) — previously all three were
+    // identical (24px) because the size-variant CSS rules never targeted .accordion-item__icon.
+    expect(widths.sm).toBeLessThan(widths.base);
+    expect(widths.base).toBeLessThan(widths.lg);
+  });
+
   it('renders header with aria attributes linking to content', async () => {
     const page = await newE2EPage();
     await page.setContent(`
