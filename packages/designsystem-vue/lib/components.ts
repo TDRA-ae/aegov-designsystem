@@ -62,7 +62,6 @@ export const AegovBadge = /*@__PURE__*/ defineContainer<JSX.AegovBadge>('aegov-b
   'fieldId',
   'appearance',
   'variant',
-  'color',
   'isDismissible',
   'size',
   'aegovBadgeDismiss'

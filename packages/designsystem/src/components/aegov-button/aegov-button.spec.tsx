@@ -121,6 +121,18 @@ describe('aegov-button', () => {
     expect(inner(page).className).toContain('w-full');
   });
 
+  it('reflects isFull to the is-full attribute when set as a JS property (regression test for issue #12)', async () => {
+    const page = await newSpecPage({
+      components: [AegovButton],
+      html: `<aegov-button>X</aegov-button>`,
+    });
+    (page.root as any).isFull = true;
+    await page.waitForChanges();
+    // Boolean prop reflection mirrors native HTML boolean attributes: present (empty
+    // string) when true, absent when false — not the literal string "true".
+    expect(page.root.hasAttribute('is-full')).toBe(true);
+  });
+
   it('applies isIcon class', async () => {
     const page = await newSpecPage({
       components: [AegovButton],
