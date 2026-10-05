@@ -16,7 +16,7 @@
   display: inline-block;
 }
 
-:host([full]) {
+:host([is-full]) {
   display: block;
 }
 

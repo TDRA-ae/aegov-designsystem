@@ -45,11 +45,6 @@ export class AegovBadge {
     @Prop() variant: BadgeColor = 'default';
 
     /**
-     * @deprecated Use `variant` instead.
-     */
-    @Prop() color?: BadgeColor;
-
-    /**
      * Whether the badge can be dismissed/closed.
      * @default false
      */
@@ -78,7 +73,7 @@ export class AegovBadge {
         // At componentWillLoad the component hasn't rendered yet, so textContent is slot-only.
         this._badgeText = this.el.textContent?.trim() || '';
         warnIfInvalidEnumProp(this.appearance, BADGE_APPEARANCES, 'soft', ctx('appearance'));
-        warnIfInvalidEnumProp(this.resolvedColor, BADGE_COLORS, 'default', ctx('variant'));
+        warnIfInvalidEnumProp(this.variant, BADGE_COLORS, 'default', ctx('variant'));
         this._sizeWatcher = watchResponsiveProp(this.size, BADGE_SIZES, 'base', v => {
             this._resolvedSize = v as BadgeSize;
         });
@@ -95,9 +90,6 @@ export class AegovBadge {
     @Watch('variant')
     onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, BADGE_COLORS, 'default', ctx('variant')); }
 
-    @Watch('color')
-    onColorChange(v: unknown) { if (v !== undefined) warnIfInvalidEnumProp(v, BADGE_COLORS, 'default', ctx('color')); }
-
     @Watch('size')
     onSizeChange() {
         this._sizeWatcher?.destroy();
@@ -105,10 +97,6 @@ export class AegovBadge {
             this._resolvedSize = v as BadgeSize;
         });
         this._resolvedSize = this._sizeWatcher.current as BadgeSize;
-    }
-
-    private get resolvedColor(): BadgeColor {
-        return this.color ?? this.variant;
     }
 
     /**
@@ -167,7 +155,7 @@ export class AegovBadge {
             lime: ['badge-lime']
         };
 
-        const color: BadgeColor = (BADGE_COLORS as readonly string[]).includes(this.resolvedColor) ? this.resolvedColor : 'default';
+        const color: BadgeColor = (BADGE_COLORS as readonly string[]).includes(this.variant) ? this.variant : 'default';
         classes.push(...colorClasses[color]);
         
         return classes.join(' ');

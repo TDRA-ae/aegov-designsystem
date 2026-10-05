@@ -56,7 +56,7 @@ export default function App() {
       {/* ── Topbar ─────────────────────────────────────── */}
       <header className="sticky top-0 z-50 flex items-center gap-4 border-b border-aeblack-200 dark:border-aeblack-700 bg-white/95 dark:bg-aeblack-900/95 backdrop-blur px-5 py-2.5">
         <div className="flex items-center gap-2 me-4">
-          <AegovBadge color="primary" appearance="solid">AEGOV DS</AegovBadge>
+          <AegovBadge variant="primary" appearance="solid">AEGOV DS</AegovBadge>
           <span className="text-sm font-medium text-aeblack-600 dark:text-aeblack-400">Test App — React</span>
         </div>
 
@@ -79,8 +79,8 @@ export default function App() {
         />
 
         <div className="ms-auto flex items-center gap-2">
-          <AegovBadge color={isDark ? 'purple' : 'aeblack'}>{isDark ? 'Dark' : 'Light'}</AegovBadge>
-          <AegovBadge color={isRtl ? 'aegold' : 'techblue'}>{isRtl ? 'RTL' : 'LTR'}</AegovBadge>
+          <AegovBadge variant={isDark ? 'purple' : 'aeblack'}>{isDark ? 'Dark' : 'Light'}</AegovBadge>
+          <AegovBadge variant={isRtl ? 'aegold' : 'techblue'}>{isRtl ? 'RTL' : 'LTR'}</AegovBadge>
         </div>
       </header>
 
@@ -139,7 +139,7 @@ export default function App() {
               <h1 className="text-h4 font-extrabold text-aeblack-900 dark:text-whitely-100">AEGOV Design System</h1>
               <p className="text-sm text-aeblack-500 dark:text-aeblack-400 mt-1">All components · React 18 + Tailwind v4 + Vite</p>
             </div>
-            <AegovBadge color="aegreen" appearance="soft">v0.0.3</AegovBadge>
+            <AegovBadge variant="aegreen" appearance="soft">v0.0.3</AegovBadge>
           </div>
 
           {/* ══ TYPOGRAPHY ══ */}
@@ -150,7 +150,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Typography</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Semantic heading elements and utility-class equivalents</p>
                 </div>
-                <AegovBadge color="primary" appearance="soft">Foundation</AegovBadge>
+                <AegovBadge variant="primary" appearance="soft">Foundation</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="grid grid-cols-2 gap-6">
@@ -189,7 +189,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Color Palette</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">All 18 theme color families — 50 to 950 shades</p>
                 </div>
-                <AegovBadge color="primary" appearance="soft">Foundation</AegovBadge>
+                <AegovBadge variant="primary" appearance="soft">Foundation</AegovBadge>
               </div>
               <div className="section-card-body space-y-2.5">
                 {([
@@ -253,7 +253,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Buttons</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">All variants — primary, secondary, danger, neutral-min, neutral-max</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="preview-box flex gap-3 flex-wrap items-center">
@@ -287,7 +287,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Button Sizes</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">All 5 variants × all 5 sizes — xs, sm, base, lg, xl</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body overflow-x-auto">
                 <table className="w-full text-sm">
@@ -323,12 +323,12 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Badges</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">All 17 color values</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="preview-box flex gap-2 flex-wrap">
-                  {(['default','primary','secondary','aegreen','aegold','aered','aeblack','techblue','seablue','camel','desert','fuchsia','slate','purple','pink','indigo','lime'] as const).map(color => (
-                    <AegovBadge key={color} color={color}>{color}</AegovBadge>
+                  {(['default','primary','secondary','aegreen','aegold','aered','aeblack','techblue','seablue','camel','desert','fuchsia','slate','purple','pink','indigo','lime'] as const).map(variant => (
+                    <AegovBadge key={variant} variant={variant}>{variant}</AegovBadge>
                   ))}
                 </div>
               </div>
@@ -343,7 +343,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Badge Appearances</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Soft (default) vs Solid</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="grid grid-cols-2 gap-5">
@@ -351,8 +351,8 @@ export default function App() {
                     <div key={appearance} className="space-y-2">
                       <p className="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 capitalize">{appearance}</p>
                       <div className="preview-box flex flex-wrap gap-2">
-                        {(['default','primary','secondary','aegreen','aegold','aered','aeblack','techblue','seablue','camel','fuchsia','purple','pink','lime'] as const).map(color => (
-                          <AegovBadge key={color} color={color} appearance={appearance}>{color}</AegovBadge>
+                        {(['default','primary','secondary','aegreen','aegold','aered','aeblack','techblue','seablue','camel','fuchsia','purple','pink','lime'] as const).map(variant => (
+                          <AegovBadge key={variant} variant={variant} appearance={appearance}>{variant}</AegovBadge>
                         ))}
                       </div>
                     </div>
@@ -370,7 +370,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Input</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Text, email, password — <code className="font-mono text-[11px]">fieldId</code> (camelCase in React)</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="preview-box grid grid-cols-2 gap-4 max-w-2xl">
@@ -391,7 +391,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Select</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Single, searchable, clearable</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="preview-box grid grid-cols-2 gap-4 max-w-2xl">
@@ -419,7 +419,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Checkbox</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5"><code className="font-mono text-[11px]">isChecked</code> (camelCase in React)</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="preview-box flex flex-wrap gap-6">
@@ -439,7 +439,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Textarea</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Multi-line text · resize modes · copyable</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="grid grid-cols-2 gap-4 max-w-2xl">
@@ -462,7 +462,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Checkbox Group</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Grouped checkboxes · vertical / horizontal</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="grid grid-cols-2 gap-6 max-w-2xl">
@@ -490,7 +490,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Toggle</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">On/off switch · variants · sizes</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="space-y-4 max-w-md">
@@ -518,7 +518,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Radio Group</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Single-selection · vertical / horizontal</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="grid grid-cols-2 gap-6 max-w-2xl">
@@ -555,7 +555,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Range</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Single · dual (min/max) · display modes</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="space-y-6 max-w-lg">
@@ -588,7 +588,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">OTP</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">One-time password · continuous / segmented</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="space-y-6">
@@ -617,7 +617,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">File Upload</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Default · dropzone · multiple files</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="space-y-6 max-w-lg">
@@ -646,7 +646,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Datepicker</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Single · range · clearable</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="grid grid-cols-2 gap-4 max-w-2xl">
@@ -679,7 +679,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Form Field</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Wrapper that adds label + hint + error to any form component</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="space-y-4 max-w-lg">
@@ -716,7 +716,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Tabs</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5"><code className="font-mono text-[11px]">tabId</code> (camelCase in React) — required prop</p>
                 </div>
-                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+                <AegovBadge variant="techblue" appearance="soft">Component</AegovBadge>
               </div>
               <div className="section-card-body">
                 <AegovTabs defaultOpen="overview">
@@ -747,7 +747,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Component States</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Normal · Disabled · Readonly · Required</p>
                 </div>
-                <AegovBadge color="aegold" appearance="soft">Testing</AegovBadge>
+                <AegovBadge variant="aegold" appearance="soft">Testing</AegovBadge>
               </div>
               <div className="section-card-body space-y-6">
                 <div className="space-y-2">
@@ -813,7 +813,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Dark Mode</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5"><code className="font-mono text-[11px]">.dark</code> on <code className="font-mono text-[11px]">&lt;html&gt;</code> — use the toggle in the top bar</p>
                 </div>
-                <AegovBadge color="purple" appearance="soft">Theming</AegovBadge>
+                <AegovBadge variant="purple" appearance="soft">Theming</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="grid grid-cols-3 gap-4">
@@ -826,8 +826,8 @@ export default function App() {
                     <p className="text-sm font-semibold text-primary-800 dark:text-primary-200">Primary tint</p>
                     <p className="text-xs text-primary-600 dark:text-primary-400">Semantic text</p>
                     <div className="flex gap-1.5">
-                      <AegovBadge color="primary" appearance="soft">Active</AegovBadge>
-                      <AegovBadge color="aegreen" appearance="soft">Online</AegovBadge>
+                      <AegovBadge variant="primary" appearance="soft">Active</AegovBadge>
+                      <AegovBadge variant="aegreen" appearance="soft">Online</AegovBadge>
                     </div>
                   </div>
                   <div className="rounded-xl p-4 space-y-2 bg-aeblack-800 dark:bg-whitely-100 border border-aeblack-700 dark:border-aeblack-200 transition-colors duration-200">
@@ -847,7 +847,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">RTL / Arabic</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Toggle RTL in the top bar — flips layout + Noto Kufi Arabic font</p>
                 </div>
-                <AegovBadge color="purple" appearance="soft">Theming</AegovBadge>
+                <AegovBadge variant="purple" appearance="soft">Theming</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="preview-box space-y-4">
@@ -858,9 +858,9 @@ export default function App() {
                     <AegovButton variant="danger">تحذير</AegovButton>
                   </div>
                   <div className="flex gap-2 flex-wrap">
-                    <AegovBadge color="aegreen">نشط</AegovBadge>
-                    <AegovBadge color="aegold">قيد الانتظار</AegovBadge>
-                    <AegovBadge color="aered">مرفوض</AegovBadge>
+                    <AegovBadge variant="aegreen">نشط</AegovBadge>
+                    <AegovBadge variant="aegold">قيد الانتظار</AegovBadge>
+                    <AegovBadge variant="aered">مرفوض</AegovBadge>
                   </div>
                   <div className="grid grid-cols-2 gap-3 max-w-lg">
                     <AegovInput fieldId="rtl-name" placeholder="الاسم الكامل" />
@@ -883,7 +883,7 @@ export default function App() {
                   <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Form Shadow Test</h2>
                   <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">aegov-input with shadow:true — testing label association &amp; form submission</p>
                 </div>
-                <AegovBadge color="aered" appearance="soft">shadow:true</AegovBadge>
+                <AegovBadge variant="aered" appearance="soft">shadow:true</AegovBadge>
               </div>
               <div className="section-card-body">
                 <div className="preview-box space-y-8">
