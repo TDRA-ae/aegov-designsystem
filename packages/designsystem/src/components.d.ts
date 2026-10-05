@@ -178,10 +178,6 @@ export namespace Components {
          */
         "appearance": BadgeAppearance;
         /**
-          * @deprecated Use `variant` instead.
-         */
-        "color"?: BadgeColor;
-        /**
           * Unique ID for the badge element. Auto-generated if not provided.
          */
         "fieldId"?: string;
@@ -385,7 +381,7 @@ export namespace Components {
         "isDisabled": boolean;
         /**
           * Whether the button should take full width
-          * @default false
+          * @default false  Reflected to the `is-full` attribute: the host-level `:host([is-full])` CSS rule (in aegov-button.css) that switches the host to `display: block` only matches a real attribute, so a framework that sets this as a JS property binding instead of a literal string attribute (e.g. Angular's `[isFull]="true"`, React's JSX `isFull` shorthand) would otherwise never trigger it — only `reflect: true` makes every binding style reach the attribute the CSS depends on.
          */
         "isFull": boolean;
         /**
@@ -4090,10 +4086,6 @@ declare namespace LocalJSX {
          */
         "appearance"?: BadgeAppearance;
         /**
-          * @deprecated Use `variant` instead.
-         */
-        "color"?: BadgeColor;
-        /**
           * Unique ID for the badge element. Auto-generated if not provided.
          */
         "fieldId"?: string;
@@ -4313,7 +4305,7 @@ declare namespace LocalJSX {
         "isDisabled"?: boolean;
         /**
           * Whether the button should take full width
-          * @default false
+          * @default false  Reflected to the `is-full` attribute: the host-level `:host([is-full])` CSS rule (in aegov-button.css) that switches the host to `display: block` only matches a real attribute, so a framework that sets this as a JS property binding instead of a literal string attribute (e.g. Angular's `[isFull]="true"`, React's JSX `isFull` shorthand) would otherwise never trigger it — only `reflect: true` makes every binding style reach the attribute the CSS depends on.
          */
         "isFull"?: boolean;
         /**
@@ -6951,7 +6943,6 @@ declare namespace LocalJSX {
         "fieldId": string;
         "appearance": BadgeAppearance;
         "variant": BadgeColor;
-        "color": BadgeColor;
         "isDismissible": boolean;
         "size": string;
     }

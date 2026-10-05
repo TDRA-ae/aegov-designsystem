@@ -154,4 +154,37 @@ describe('aegov-avatar', () => {
     expect(img.getAttribute('loading')).toBe('lazy');
     expect(img.getAttribute('srcset')).toBe('/x@2x.jpg 2x');
   });
+
+  it('auto-computes a sizes attribute matching the resolved size when srcset is present', async () => {
+    const page = await newSpecPage({
+      components: [AegovAvatar],
+      html: `<aegov-avatar src="/x.jpg" alt="X" size="lg" srcset="/x-100w.jpg 100w, /x-3000w.jpg 3000w"></aegov-avatar>`,
+    });
+    expect(page.root.querySelector('img').getAttribute('sizes')).toBe('48px');
+  });
+
+  it('does not add a sizes attribute when srcset is absent', async () => {
+    const page = await newSpecPage({
+      components: [AegovAvatar],
+      html: `<aegov-avatar src="/x.jpg" alt="X"></aegov-avatar>`,
+    });
+    expect(page.root.querySelector('img').hasAttribute('sizes')).toBe(false);
+  });
+
+  it('respects an explicit author-supplied sizes attribute over the auto-computed one', async () => {
+    const page = await newSpecPage({
+      components: [AegovAvatar],
+      html: `<aegov-avatar src="/x.jpg" alt="X" srcset="/x-100w.jpg 100w, /x-3000w.jpg 3000w" sizes="12345px"></aegov-avatar>`,
+    });
+    expect(page.root.querySelector('img').getAttribute('sizes')).toBe('12345px');
+  });
+
+  it('auto-computes a media-query-aware sizes attribute from a responsive size string', async () => {
+    const page = await newSpecPage({
+      components: [AegovAvatar],
+      html: `<aegov-avatar src="/x.jpg" alt="X" size="sm md:lg" srcset="/x-100w.jpg 100w, /x-3000w.jpg 3000w"></aegov-avatar>`,
+    });
+    const sizes = page.root.querySelector('img').getAttribute('sizes');
+    expect(sizes).toBe('(min-width: 768px) 48px, 32px');
+  });
 });

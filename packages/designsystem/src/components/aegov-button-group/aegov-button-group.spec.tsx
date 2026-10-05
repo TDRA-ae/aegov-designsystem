@@ -1,6 +1,7 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { AegovButtonGroup } from './aegov-button-group';
 import { AegovButton } from '../aegov-button/aegov-button';
+import { AegovTooltip } from '../aegov-tooltip/aegov-tooltip';
 
 describe('aegov-button-group', () => {
   it('renders with default horizontal orientation', async () => {
@@ -81,6 +82,29 @@ describe('aegov-button-group', () => {
     // inside a layout wrapper.
     expect(warn).not.toHaveBeenCalled();
     warn.mockRestore();
+  });
+
+  it('tolerates a wrapping <aegov-tooltip> without warning (regression test for issue #10)', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    await newSpecPage({
+      components: [AegovButtonGroup, AegovButton, AegovTooltip],
+      html: `<aegov-button-group><aegov-tooltip content="Tip"><aegov-button>Ok</aegov-button></aegov-tooltip></aegov-button-group>`,
+    });
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
+  });
+
+  it('still applies group position to a button wrapped in <aegov-tooltip>', async () => {
+    const page = await newSpecPage({
+      components: [AegovButtonGroup, AegovButton, AegovTooltip],
+      html: `<aegov-button-group>
+        <aegov-tooltip content="First"><aegov-button>1</aegov-button></aegov-tooltip>
+        <aegov-tooltip content="Second"><aegov-button>2</aegov-button></aegov-tooltip>
+      </aegov-button-group>`,
+    });
+    const btns = page.root.querySelectorAll('aegov-button');
+    expect((btns[0] as any).groupPosition).toBe('first');
+    expect((btns[1] as any).groupPosition).toBe('last');
   });
 
   it('renders default slot for buttons', async () => {
