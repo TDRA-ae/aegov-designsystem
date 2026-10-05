@@ -93,6 +93,9 @@
 .accordion-item--sm .accordion-item__heading {
   @apply text-sm;
 }
+.accordion-item--sm .accordion-item__icon {
+  @apply size-5;
+}
 
 /* base is the default — no override needed */
 
@@ -102,6 +105,9 @@
 }
 .accordion-item--lg .accordion-item__heading {
   @apply text-lg;
+}
+.accordion-item--lg .accordion-item__icon {
+  @apply size-6.5;
 }
 
 /* RTL Support */

@@ -18,9 +18,9 @@ describe('aegov-badge (e2e)', () => {
     expect(el.textContent).toContain('Hello');
   });
 
-  it('applies color and appearance classes', async () => {
+  it('applies variant and appearance classes', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-badge color="primary" appearance="solid">X</aegov-badge>');
+    await page.setContent('<aegov-badge variant="primary" appearance="solid">X</aegov-badge>');
     const span = await page.find('aegov-badge span');
     expect(span).toHaveClass('badge-solid');
     expect(span).toHaveClass('badge-primary');
