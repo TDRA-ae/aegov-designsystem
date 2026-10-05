@@ -1,6 +1,31 @@
 import { newE2EPage } from '@stencil/core/testing';
 
 describe('aegov-button e2e', () => {
+  it('stays inline-block by default (not full width)', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<aegov-button>X</aegov-button>`);
+    const display = await page.evaluate(() => getComputedStyle(document.querySelector('aegov-button')).display);
+    expect(display).toBe('inline-block');
+  });
+
+  it('switches the host to display:block under is-full (regression test for issue #12 — selector checked [full] but the attribute is [is-full])', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<aegov-button is-full="true">X</aegov-button>`);
+    const display = await page.evaluate(() => getComputedStyle(document.querySelector('aegov-button')).display);
+    expect(display).toBe('block');
+  });
+
+  it('switches to display:block when isFull is set as a JS property, not just a string attribute (regression test for issue #12 — frameworks like Angular/React bind this as a property, which only reflect:true propagates to the attribute the CSS depends on)', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<aegov-button>X</aegov-button>`);
+    await page.evaluate(() => {
+      (document.querySelector('aegov-button') as any).isFull = true;
+    });
+    await page.waitForChanges();
+    const display = await page.evaluate(() => getComputedStyle(document.querySelector('aegov-button')).display);
+    expect(display).toBe('block');
+  });
+
   it('renders the host element with native button', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-button>Click</aegov-button>`);

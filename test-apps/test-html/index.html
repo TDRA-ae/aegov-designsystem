@@ -140,7 +140,7 @@
   <header class="sticky top-0 z-50 flex items-center gap-4 border-b border-aeblack-200 dark:border-aeblack-700 bg-white/95 dark:bg-aeblack-900/95 backdrop-blur px-5 py-2.5">
     <!-- Brand -->
     <div class="flex items-center gap-2 me-4">
-      <aegov-badge color="primary" appearance="solid">AEGOV DS</aegov-badge>
+      <aegov-badge variant="primary" appearance="solid">AEGOV DS</aegov-badge>
       <span class="text-sm font-medium text-aeblack-600 dark:text-aeblack-400">Test App — HTML</span>
     </div>
 
@@ -160,8 +160,8 @@
 
     <!-- Mode indicator -->
     <div class="ms-auto flex items-center gap-2">
-      <aegov-badge id="theme-badge" color="aeblack">Light</aegov-badge>
-      <aegov-badge id="dir-badge" color="techblue">LTR</aegov-badge>
+      <aegov-badge id="theme-badge" variant="aeblack">Light</aegov-badge>
+      <aegov-badge id="dir-badge" variant="techblue">LTR</aegov-badge>
     </div>
   </header>
 
@@ -265,7 +265,7 @@
           <h1 class="text-h4 font-extrabold text-aeblack-900 dark:text-whitely-100">AEGOV Design System</h1>
           <p class="text-sm text-aeblack-500 dark:text-aeblack-400 mt-1">All components · Plain HTML + Tailwind v4 + Vite</p>
         </div>
-        <aegov-badge color="aegreen" appearance="soft">v0.0.3</aegov-badge>
+        <aegov-badge variant="aegreen" appearance="soft">v0.0.3</aegov-badge>
       </div>
 
       <!-- ══ TYPOGRAPHY ═════════════════════════════════ -->
@@ -276,7 +276,7 @@
               <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Typography</h2>
               <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Full type scale — display, headings, body, font weights</p>
             </div>
-            <aegov-badge color="primary" appearance="soft">Foundation</aegov-badge>
+            <aegov-badge variant="primary" appearance="soft">Foundation</aegov-badge>
           </div>
           <div class="section-card-body space-y-6">
 
@@ -408,7 +408,7 @@
               <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Color Palette</h2>
               <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">All 18 theme color families — 50 to 950 shades</p>
             </div>
-            <aegov-badge color="primary" appearance="soft">Foundation</aegov-badge>
+            <aegov-badge variant="primary" appearance="soft">Foundation</aegov-badge>
           </div>
           <div class="section-card-body space-y-2.5">
 
@@ -943,16 +943,6 @@
         </div>
       </div>
 
-      <!-- ── color (deprecated) — alias for variant ── -->
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">color (deprecated — use variant)</p>
-          <div class="prop-grid preview-box">
-            <div class="prop-item"><span class="prop-attr">color="primary"</span><aegov-badge color="primary">Legacy primary</aegov-badge></div>
-            <div class="prop-item"><span class="prop-attr">color="aered"</span><aegov-badge color="aered">Legacy aered</aegov-badge></div>
-            <div class="prop-item"><span class="prop-attr">color="aegreen"</span><aegov-badge color="aegreen">Legacy aegreen</aegov-badge></div>
-          </div>
-        </div>
-
       <!-- ── Zone 3: Combinations — 2-col ── -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <!-- size × appearance -->
@@ -1066,7 +1056,6 @@
         <div class="prop-grid preview-box">
           <div class="prop-item"><span class="prop-attr">fieldId — auto-generated when omitted</span><aegov-badge id="api-badge-fieldid-auto" variant="primary">Auto ID</aegov-badge></div>
           <div class="prop-item"><span class="prop-attr">field-id="api-badge-explicit"</span><aegov-badge id="api-badge-fieldid-explicit" field-id="api-badge-explicit" variant="primary">Explicit ID</aegov-badge></div>
-          <div class="prop-item"><span class="prop-attr">variant="aegreen" color="aered" (deprecated wins)</span><aegov-badge id="api-badge-color-override" variant="aegreen" color="aered">Color Override</aegov-badge></div>
           <div class="prop-item"><span class="prop-attr">variant/appearance="not-real" (fallback)</span><aegov-badge id="api-badge-invalid" variant="not-real-color" appearance="not-real-appearance">Invalid Values</aegov-badge></div>
           <div class="prop-item"><span class="prop-attr">slot (default) — inline HTML content</span><aegov-badge id="api-badge-slot-html" variant="aegreen"><strong>Bold</strong> label</aegov-badge></div>
           <div class="prop-item"><span class="prop-attr">aria-label + data-testid (pass-through)</span><aegov-badge id="api-badge-passthrough" aria-label="custom label" data-testid="my-badge" variant="techblue">Pass-through</aegov-badge></div>
@@ -1148,11 +1137,6 @@
               !!explicitSpan && explicitSpan.id === 'api-badge-explicit',
               'span#' + (explicitSpan && explicitSpan.id));
 
-            var overrideSpan = document.querySelector('#api-badge-color-override span');
-            setRow('color-override', 'Deprecated color prop overrides variant when both are set',
-              !!overrideSpan && overrideSpan.classList.contains('badge-aered') && !overrideSpan.classList.contains('badge-aegreen'),
-              'class="' + (overrideSpan && overrideSpan.className) + '"');
-
             var invalidSpan = document.querySelector('#api-badge-invalid span');
             setRow('invalid-fallback', 'Invalid variant/appearance falls back to documented default (default/soft)',
               !!invalidSpan && invalidSpan.classList.contains('badge-default') && invalidSpan.classList.contains('badge-soft'),
@@ -1202,7 +1186,7 @@
 
           // Wait for every badge instance in this block to finish its first Stencil render —
           // a fixed timeout is unreliable this far down a page with hundreds of components queued to hydrate.
-          var apiBadgeIds = ['api-badge-fieldid-auto', 'api-badge-fieldid-explicit', 'api-badge-color-override',
+          var apiBadgeIds = ['api-badge-fieldid-auto', 'api-badge-fieldid-explicit',
             'api-badge-invalid', 'api-badge-slot-html', 'api-badge-passthrough', 'api-badge-host-class',
             'api-badge-size-sm', 'api-badge-size-base', 'api-badge-size-lg', 'api-badge-dismiss-en',
             'api-badge-dismiss-rtl', 'api-badge-dismiss-event'];
@@ -1309,6 +1293,9 @@
             <div class="prop-item"><span class="prop-attr">loading="lazy"</span><aegov-avatar size="lg" loading="lazy" src="https://i.pravatar.cc/60?img=50" alt="Lazy loaded"></aegov-avatar></div>
             <div class="prop-item"><span class="prop-attr">srcset (2x)</span><aegov-avatar size="lg" src="https://i.pravatar.cc/60?img=51" srcset="https://i.pravatar.cc/120?img=51 2x" alt="Hi-DPI"></aegov-avatar></div>
             <div class="prop-item"><span class="prop-attr">loading="eager"</span><aegov-avatar size="lg" loading="eager" src="https://i.pravatar.cc/60?img=52" alt="Eager loaded"></aegov-avatar></div>
+            <div class="prop-item" id="sizes-auto-static"><span class="prop-attr">srcset (w) + auto sizes, static size="lg"</span><aegov-avatar size="lg" src="https://i.pravatar.cc/48?img=53" srcset="https://i.pravatar.cc/48?img=53 48w, https://i.pravatar.cc/200?img=53 200w" alt="Auto sizes static"></aegov-avatar></div>
+            <div class="prop-item" id="sizes-auto-responsive"><span class="prop-attr">srcset (w) + auto sizes, size="sm md:lg"</span><aegov-avatar size="sm md:lg" src="https://i.pravatar.cc/48?img=54" srcset="https://i.pravatar.cc/48?img=54 48w, https://i.pravatar.cc/200?img=54 200w" alt="Auto sizes responsive"></aegov-avatar></div>
+            <div class="prop-item" id="sizes-explicit-override"><span class="prop-attr">srcset (w) + explicit sizes="100px"</span><aegov-avatar size="lg" sizes="100px" src="https://i.pravatar.cc/48?img=55" srcset="https://i.pravatar.cc/48?img=55 48w, https://i.pravatar.cc/200?img=55 200w" alt="Explicit sizes override"></aegov-avatar></div>
           </div>
         </div>
       </div>
@@ -11035,7 +11022,7 @@
             <span slot="title" style="display:flex;align-items:center;gap:0.5rem;">
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5v-5h3v5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146z"/></svg>
               My Workspace
-              <aegov-badge color="primary" appearance="soft" size="sm">New</aegov-badge>
+              <aegov-badge variant="primary" appearance="soft" size="sm">New</aegov-badge>
             </span>
             <aegov-navblock-item href="/" is-active>Overview</aegov-navblock-item>
             <aegov-navblock-item href="/projects">Projects</aegov-navblock-item>
@@ -11178,11 +11165,11 @@
           <aegov-navblock block-title="Inbox" label-nav="Inbox sidebar">
             <aegov-navblock-item href="/messages" is-active>
               <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.708 2.825L15 11.105V5.383zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741z"/></svg>
-              Messages <aegov-badge color="primary" appearance="solid" size="sm">12</aegov-badge>
+              Messages <aegov-badge variant="primary" appearance="solid" size="sm">12</aegov-badge>
             </aegov-navblock-item>
             <aegov-navblock-item href="/alerts">
               <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.921L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/></svg>
-              Alerts <aegov-badge color="danger" appearance="solid" size="sm">3</aegov-badge>
+              Alerts <aegov-badge variant="danger" appearance="solid" size="sm">3</aegov-badge>
             </aegov-navblock-item>
             <aegov-navblock-item href="/tasks">
               <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm2 3a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm2 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3z"/></svg>
@@ -11234,9 +11221,9 @@
             </aegov-navblock-item>
             <aegov-navblock-item is-open>
               <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.708 2.825L15 11.105V5.383zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741z"/></svg>
-              Inbox <aegov-badge color="primary" appearance="solid" size="sm">7</aegov-badge>
+              Inbox <aegov-badge variant="primary" appearance="solid" size="sm">7</aegov-badge>
               <aegov-navblock-item href="/inbox/new">New Requests</aegov-navblock-item>
-              <aegov-navblock-item href="/inbox/pending">Pending Review <aegov-badge color="warning" appearance="soft" size="sm">4</aegov-badge></aegov-navblock-item>
+              <aegov-navblock-item href="/inbox/pending">Pending Review <aegov-badge variant="warning" appearance="soft" size="sm">4</aegov-badge></aegov-navblock-item>
               <aegov-navblock-item href="/inbox/closed">Closed</aegov-navblock-item>
             </aegov-navblock-item>
             <aegov-navblock-item is-open>
@@ -11248,7 +11235,7 @@
             </aegov-navblock-item>
             <aegov-navblock-item href="/notifications">
               <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.921L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/></svg>
-              Notifications <aegov-badge color="danger" appearance="solid" size="sm">2</aegov-badge>
+              Notifications <aegov-badge variant="danger" appearance="solid" size="sm">2</aegov-badge>
             </aegov-navblock-item>
           </aegov-navblock>
         </div>
@@ -11293,13 +11280,13 @@
                 Home
               </aegov-navblock-item>
               <aegov-navblock-item>
-                Applications <aegov-badge color="primary" appearance="soft" size="sm">5</aegov-badge>
+                Applications <aegov-badge variant="primary" appearance="soft" size="sm">5</aegov-badge>
                 <aegov-navblock-item href="/apps/permits">Permits</aegov-navblock-item>
                 <aegov-navblock-item href="/apps/licenses">Licenses</aegov-navblock-item>
                 <aegov-navblock-item href="/apps/renewals">Renewals</aegov-navblock-item>
               </aegov-navblock-item>
               <aegov-navblock-item>
-                Notifications <aegov-badge color="danger" appearance="solid" size="sm">3</aegov-badge>
+                Notifications <aegov-badge variant="danger" appearance="solid" size="sm">3</aegov-badge>
                 <aegov-navblock-item href="/notif/alerts">Alerts</aegov-navblock-item>
                 <aegov-navblock-item href="/notif/updates">Updates</aegov-navblock-item>
               </aegov-navblock-item>
@@ -11362,17 +11349,17 @@
             <span slot="title" style="display:flex;align-items:center;gap:0.5rem;">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707L9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1z"/></svg>
               My Dashboard
-              <aegov-badge color="primary" appearance="soft" size="sm">Beta</aegov-badge>
+              <aegov-badge variant="primary" appearance="soft" size="sm">Beta</aegov-badge>
             </span>
             <aegov-navblock-item href="/dashboard" is-active>
               <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5v-5h3v5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146z"/></svg>
               Overview
             </aegov-navblock-item>
             <aegov-navblock-item>
-              Tasks <aegov-badge color="primary" appearance="solid" size="sm">9</aegov-badge>
-              <aegov-navblock-item href="/tasks/mine">Assigned to Me <aegov-badge color="danger" appearance="solid" size="sm">3</aegov-badge></aegov-navblock-item>
+              Tasks <aegov-badge variant="primary" appearance="solid" size="sm">9</aegov-badge>
+              <aegov-navblock-item href="/tasks/mine">Assigned to Me <aegov-badge variant="danger" appearance="solid" size="sm">3</aegov-badge></aegov-navblock-item>
               <aegov-navblock-item href="/tasks/team">Team Tasks</aegov-navblock-item>
-              <aegov-navblock-item href="/tasks/overdue">Overdue <aegov-badge color="warning" appearance="soft" size="sm">6</aegov-badge></aegov-navblock-item>
+              <aegov-navblock-item href="/tasks/overdue">Overdue <aegov-badge variant="warning" appearance="soft" size="sm">6</aegov-badge></aegov-navblock-item>
             </aegov-navblock-item>
             <aegov-navblock-item>
               Reports
@@ -26525,7 +26512,7 @@
               <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Dark Mode</h2>
               <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Toggled via the <code class="font-mono text-[11px] bg-aeblack-100 dark:bg-aeblack-800 px-1 rounded">.dark</code> class on <code class="font-mono text-[11px] bg-aeblack-100 dark:bg-aeblack-800 px-1 rounded">&lt;html&gt;</code> — use the toggle in the top bar</p>
             </div>
-            <aegov-badge color="purple" appearance="soft">Theming</aegov-badge>
+            <aegov-badge variant="purple" appearance="soft">Theming</aegov-badge>
           </div>
           <div class="section-card-body space-y-4">
             <div class="grid grid-cols-3 gap-4">
@@ -26538,8 +26525,8 @@
                 <p class="text-sm font-semibold text-primary-800 dark:text-primary-200">Primary tint</p>
                 <p class="text-xs text-primary-600 dark:text-primary-400">Semantic text</p>
                 <div class="flex gap-1.5">
-                  <aegov-badge color="primary" appearance="soft">Active</aegov-badge>
-                  <aegov-badge color="aegreen" appearance="soft">Online</aegov-badge>
+                  <aegov-badge variant="primary" appearance="soft">Active</aegov-badge>
+                  <aegov-badge variant="aegreen" appearance="soft">Online</aegov-badge>
                 </div>
               </div>
               <div class="rounded-xl p-4 space-y-2 bg-aeblack-800 dark:bg-whitely-100 border border-aeblack-700 dark:border-aeblack-200 transition-colors duration-200">
@@ -26559,7 +26546,7 @@
               <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">RTL / Arabic</h2>
               <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Toggle RTL in the top bar — flips layout + switches to Noto Kufi Arabic font</p>
             </div>
-            <aegov-badge color="purple" appearance="soft">Theming</aegov-badge>
+            <aegov-badge variant="purple" appearance="soft">Theming</aegov-badge>
           </div>
           <div class="section-card-body space-y-4">
             <div class="preview-box space-y-4">
@@ -26570,9 +26557,9 @@
                 <aegov-button variant="danger">تحذير</aegov-button>
               </div>
               <div class="flex gap-2 flex-wrap">
-                <aegov-badge color="aegreen">نشط</aegov-badge>
-                <aegov-badge color="aegold">قيد الانتظار</aegov-badge>
-                <aegov-badge color="aered">مرفوض</aegov-badge>
+                <aegov-badge variant="aegreen">نشط</aegov-badge>
+                <aegov-badge variant="aegold">قيد الانتظار</aegov-badge>
+                <aegov-badge variant="aered">مرفوض</aegov-badge>
               </div>
               <div class="grid grid-cols-2 gap-3 max-w-lg">
                 <aegov-input field-id="rtl-name" placeholder="الاسم الكامل"></aegov-input>
@@ -26595,7 +26582,7 @@
               <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Form Controls Test</h2>
               <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Label association &amp; form submission using the design system pattern</p>
             </div>
-            <aegov-badge color="techblue" appearance="soft">Form Test</aegov-badge>
+            <aegov-badge variant="techblue" appearance="soft">Form Test</aegov-badge>
           </div>
           <div class="section-card-body demos-grid">
 
