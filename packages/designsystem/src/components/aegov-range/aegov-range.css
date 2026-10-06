@@ -73,7 +73,7 @@
 .aegov-range.range-variant-primary .range__fill     { @apply bg-primary-600 dark:bg-primary-500; }
 .aegov-range.range-variant-secondary .range__fill   { @apply bg-secondary-600 dark:bg-secondary-500; }
 .aegov-range.range-variant-neutral-max .range__fill { @apply bg-aeblack-800 dark:bg-aeblack-300; }
-.aegov-range.range-variant-neutral-min .range__fill { @apply bg-aeblack-300 dark:bg-aeblack-500; }
+.aegov-range.range-variant-neutral-min .range__fill { @apply bg-aeblack-400 dark:bg-aeblack-500; }
 
 .range--horizontal .range__fill {
   top: 0;

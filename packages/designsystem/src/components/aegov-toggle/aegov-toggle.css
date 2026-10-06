@@ -39,7 +39,7 @@
 .aegov-toggle.toggle-variant-primary .toggle__input:checked + .toggle__track { @apply bg-primary-600 dark:bg-primary-500; }
 .aegov-toggle.toggle-variant-secondary .toggle__input:checked + .toggle__track { @apply bg-secondary-600 dark:bg-secondary-500; }
 .aegov-toggle.toggle-variant-neutral-max .toggle__input:checked + .toggle__track { @apply bg-aeblack-800 dark:bg-aeblack-300; }
-.aegov-toggle.toggle-variant-neutral-min .toggle__input:checked + .toggle__track { @apply bg-aeblack-300 dark:bg-aeblack-500; }
+.aegov-toggle.toggle-variant-neutral-min .toggle__input:checked + .toggle__track { @apply bg-aeblack-400 dark:bg-aeblack-500; }
 
 /* Focus ring */
 .toggle__input:focus-visible + .toggle__track {
