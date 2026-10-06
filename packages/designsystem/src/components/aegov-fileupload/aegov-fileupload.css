@@ -141,13 +141,13 @@
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__dropzone--dragover  { @apply border-aeblack-500 bg-aeblack-50 dark:border-aeblack-300 dark:bg-aeblack-700; }
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__drop-icon           { @apply text-aeblack-800 dark:text-whitely-100; }
 
-.aegov-fileupload.fileupload-variant-neutral-min .fileupload__input-wrapper       { @apply border-aeblack-300 dark:border-aeblack-600; }
+.aegov-fileupload.fileupload-variant-neutral-min .fileupload__input-wrapper       { @apply border-aeblack-400 dark:border-aeblack-600; }
 .aegov-fileupload.fileupload-variant-neutral-min .fileupload__filename            { @apply text-aeblack-700 dark:text-aeblack-200; }
 .aegov-fileupload.fileupload-variant-neutral-min .fileupload__browse-btn          { @apply text-aeblack-950 bg-aeblack-200 border-s-aeblack-300 hover:border-s-aeblack-400 hover:bg-aeblack-300 hover:text-aeblack-900 dark:text-whitely-100 dark:bg-aeblack-700 dark:border-s-aeblack-600 dark:hover:bg-aeblack-600 dark:hover:border-s-aeblack-600 dark:hover:text-whitely-100; }
 
 .aegov-fileupload.fileupload-variant-neutral-min .fileupload__dropzone            { @apply border-aeblack-200 dark:border-aeblack-700; }
-.aegov-fileupload.fileupload-variant-neutral-min .fileupload__dropzone--dragover  { @apply border-aeblack-300 bg-aeblack-50 dark:border-aeblack-500 dark:bg-aeblack-700; }
-.aegov-fileupload.fileupload-variant-neutral-min .fileupload__drop-icon           { @apply text-aeblack-300 dark:text-aeblack-500; }
+.aegov-fileupload.fileupload-variant-neutral-min .fileupload__dropzone--dragover  { @apply border-aeblack-400 bg-aeblack-50 dark:border-aeblack-500 dark:bg-aeblack-700; }
+.aegov-fileupload.fileupload-variant-neutral-min .fileupload__drop-icon           { @apply text-aeblack-400 dark:text-aeblack-500; }
 
 /* Focus-within when native input has focus — mirrors aegov-input focus look (ring + offset + border swap). */
 .aegov-fileupload.fileupload-variant-primary .fileupload__input-wrapper:has(:focus-visible) {
