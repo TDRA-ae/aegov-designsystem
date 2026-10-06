@@ -22,7 +22,7 @@
 .aegov-input.input-variant-primary       { @apply border-primary-600 text-primary-900 dark:border-primary-400 dark:text-whitely-100 }
 .aegov-input.input-variant-secondary     { @apply border-secondary-600 text-secondary-900 dark:border-secondary-400 dark:text-whitely-100 }
 .aegov-input.input-variant-neutral-max   { @apply border-aeblack-800 text-aeblack-950 dark:border-aeblack-300 dark:text-whitely-100 }
-.aegov-input.input-variant-neutral-min   { @apply border-aeblack-300 text-aeblack-700 dark:border-aeblack-600 dark:text-aeblack-200 }
+.aegov-input.input-variant-neutral-min   { @apply border-aeblack-400 text-aeblack-700 dark:border-aeblack-600 dark:text-aeblack-200 }
 
 /* Focus ring — overrides variant idle border. Specificity (0,2,1) beats variant (0,2,0). */
 .aegov-input.input-variant-primary:focus-visible {

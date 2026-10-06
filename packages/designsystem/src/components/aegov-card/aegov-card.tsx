@@ -22,7 +22,8 @@ export class AegovCard {
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /**
-   * Whether to apply inner padding (1.5rem / 24px). On by default.
+   * Whether to apply inner padding. On by default. The amount varies by `size`: 1rem/16px
+   * (sm), 1.25rem/20px (base), 1.5rem/24px (lg).
    */
   @Prop() isPadding: boolean = true;
 
@@ -47,7 +48,9 @@ export class AegovCard {
   @Prop() hover: CardHover = 'off';
 
   /**
-   * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). All sizes scale down responsively at md (768px) and xs (480px) breakpoints.
+   * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). A fixed
+   * token — unlike Badge, Banner, and Callout's `size`, this does not accept a responsive breakpoint
+   * string, and padding/radius do not change by viewport width.
    */
   @Prop() size: CardSize = 'base';
 
