@@ -587,7 +587,7 @@ export class AegovFileupload {
 
   // --- Variant renderers ---
 
-  private renderDefault(passThroughAttrs: Record<string, string>, showError: boolean, showHint: boolean) {
+  private renderDefault(passThroughAttrs: Record<string, string | boolean>, showError: boolean, showHint: boolean) {
     const helperText = this.getHelperText();
     const describedBy = composeDescribedBy(
       helperText ? `${this.fieldId}-helper` : null,
@@ -622,7 +622,7 @@ export class AegovFileupload {
     );
   }
 
-  private renderButton(passThroughAttrs: Record<string, string>, showError: boolean, showHint: boolean) {
+  private renderButton(passThroughAttrs: Record<string, string | boolean>, showError: boolean, showHint: boolean) {
     const describedBy = composeDescribedBy(
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
@@ -665,7 +665,7 @@ export class AegovFileupload {
     );
   }
 
-  private renderDropzone(passThroughAttrs: Record<string, string>, showError: boolean, showHint: boolean) {
+  private renderDropzone(passThroughAttrs: Record<string, string | boolean>, showError: boolean, showHint: boolean) {
     const dropzoneClasses = [
       'fileupload__dropzone',
       this.isDragOver ? 'fileupload__dropzone--dragover' : '',

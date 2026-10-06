@@ -476,12 +476,12 @@ export namespace Components {
          */
         "hover": CardHover;
         /**
-          * Whether to apply inner padding (1.5rem / 24px). On by default.
+          * Whether to apply inner padding. On by default. The amount varies by `size`: 1rem/16px (sm), 1.25rem/20px (base), 1.5rem/24px (lg).
           * @default true
          */
         "isPadding": boolean;
         /**
-          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). All sizes scale down responsively at md (768px) and xs (480px) breakpoints.
+          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). A fixed token — unlike Badge, Banner, and Callout's `size`, this does not accept a responsive breakpoint string, and padding/radius do not change by viewport width.
           * @default 'base'
          */
         "size": CardSize;
@@ -4412,12 +4412,12 @@ declare namespace LocalJSX {
          */
         "hover"?: CardHover;
         /**
-          * Whether to apply inner padding (1.5rem / 24px). On by default.
+          * Whether to apply inner padding. On by default. The amount varies by `size`: 1rem/16px (sm), 1.25rem/20px (base), 1.5rem/24px (lg).
           * @default true
          */
         "isPadding"?: boolean;
         /**
-          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). All sizes scale down responsively at md (768px) and xs (480px) breakpoints.
+          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). A fixed token — unlike Badge, Banner, and Callout's `size`, this does not accept a responsive breakpoint string, and padding/radius do not change by viewport width.
           * @default 'base'
          */
         "size"?: CardSize;
