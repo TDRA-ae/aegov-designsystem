@@ -5,8 +5,7 @@ A flexible alert/notification component for displaying important messages, warni
 ## Features
 
 - **5 Variants**: Default, Error, Warning, Success, and Info with semantic color coding
-- **2 Appearances**: Soft (subtle) and Solid (bold) styles
-- **Optional Border**: Add bordered style for additional emphasis
+- **2 Appearances**: Soft (subtle, with a coloured start-side border) and Solid (bold, no border)
 - **Dismissible**: Optional close button with custom event handling
 - **Rich Content**: Supports HTML content via default slot
 - **Semantic HTML**: Uses `role="alert"` for accessibility

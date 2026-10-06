@@ -44,7 +44,7 @@
 .aegov-radio.radio-variant-neutral-max input[type="radio"]   { @apply border-aeblack-800 checked:bg-aeblack-800 focus-visible:outline-seablue-400 dark:border-aeblack-300 dark:checked:bg-aeblack-300 dark:focus-visible:outline-seablue-400; }
 .aegov-radio.radio-variant-neutral-max input[type="radio"]::before { @apply bg-aeblack-100 dark:bg-aeblack-700; }
 
-.aegov-radio.radio-variant-neutral-min input[type="radio"]   { @apply border-aeblack-300 checked:bg-aeblack-300 focus-visible:outline-seablue-400 dark:border-aeblack-500 dark:checked:bg-aeblack-500 dark:focus-visible:outline-seablue-400; }
+.aegov-radio.radio-variant-neutral-min input[type="radio"]   { @apply border-aeblack-400 checked:bg-aeblack-400 focus-visible:outline-seablue-400 dark:border-aeblack-500 dark:checked:bg-aeblack-500 dark:focus-visible:outline-seablue-400; }
 .aegov-radio.radio-variant-neutral-min input[type="radio"]::before { @apply bg-aeblack-50 dark:bg-aeblack-800; }
 
 /* Wrapper label for inline label mode */
@@ -321,7 +321,7 @@
 :host(.radio-appearance-cards) .radio-variant-primary .radio__wrapper:has(input:checked)    { @apply border-primary-600 bg-primary-50 dark:border-primary-400 dark:bg-primary-900/30; }
 :host(.radio-appearance-cards) .radio-variant-secondary .radio__wrapper:has(input:checked)  { @apply border-secondary-600 bg-secondary-50 dark:border-secondary-400 dark:bg-secondary-900/30; }
 :host(.radio-appearance-cards) .radio-variant-neutral-max .radio__wrapper:has(input:checked) { @apply border-aeblack-800 bg-aeblack-50 dark:border-aeblack-300 dark:bg-aeblack-700/30; }
-:host(.radio-appearance-cards) .radio-variant-neutral-min .radio__wrapper:has(input:checked) { @apply border-aeblack-300 bg-aeblack-50 dark:border-aeblack-500 dark:bg-aeblack-600/30; }
+:host(.radio-appearance-cards) .radio-variant-neutral-min .radio__wrapper:has(input:checked) { @apply border-aeblack-400 bg-aeblack-50 dark:border-aeblack-500 dark:bg-aeblack-600/30; }
 
 /* Card disabled */
 :host(.radio-appearance-cards) .radio__wrapper:has(input:disabled) {
@@ -358,7 +358,7 @@
 :host(.radio-appearance-pills) .radio-variant-primary .radio__wrapper    { @apply border-primary-600 dark:border-primary-400; }
 :host(.radio-appearance-pills) .radio-variant-secondary .radio__wrapper  { @apply border-secondary-600 dark:border-secondary-400; }
 :host(.radio-appearance-pills) .radio-variant-neutral-max .radio__wrapper { @apply border-aeblack-800 dark:border-aeblack-300; }
-:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__wrapper { @apply border-aeblack-300 dark:border-aeblack-500; }
+:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__wrapper { @apply border-aeblack-400 dark:border-aeblack-500; }
 
 /* Pill label text color */
 :host(.radio-appearance-pills) .radio-variant-primary .radio__label-text    { @apply text-primary-600! dark:text-primary-300!; }
@@ -382,13 +382,13 @@
 :host(.radio-appearance-pills) .radio-variant-primary .radio__wrapper:hover:not(:has(input:disabled))    { @apply border-primary-400 dark:border-primary-300; }
 :host(.radio-appearance-pills) .radio-variant-secondary .radio__wrapper:hover:not(:has(input:disabled))  { @apply border-secondary-400 dark:border-secondary-300; }
 :host(.radio-appearance-pills) .radio-variant-neutral-max .radio__wrapper:hover:not(:has(input:disabled)) { @apply border-aeblack-600 dark:border-aeblack-200; }
-:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__wrapper:hover:not(:has(input:disabled)) { @apply border-aeblack-400 dark:border-aeblack-400; }
+:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__wrapper:hover:not(:has(input:disabled)) { @apply border-aeblack-500 dark:border-aeblack-400; }
 
 /* Pill checked — filled background */
 :host(.radio-appearance-pills) .radio-variant-primary .radio__wrapper:has(input:checked)    { @apply bg-primary-600 border-primary-600 dark:bg-primary-500 dark:border-primary-500; }
 :host(.radio-appearance-pills) .radio-variant-secondary .radio__wrapper:has(input:checked)  { @apply bg-secondary-600 border-secondary-600 dark:bg-secondary-500 dark:border-secondary-500; }
 :host(.radio-appearance-pills) .radio-variant-neutral-max .radio__wrapper:has(input:checked) { @apply bg-aeblack-800 border-aeblack-800 dark:bg-aeblack-300 dark:border-aeblack-300; }
-:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__wrapper:has(input:checked) { @apply bg-aeblack-300 border-aeblack-300 dark:bg-aeblack-500 dark:border-aeblack-500; }
+:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__wrapper:has(input:checked) { @apply bg-aeblack-500 border-aeblack-500 dark:bg-aeblack-500 dark:border-aeblack-500; }
 
 /* Pill checked label text — white on filled background */
 :host(.radio-appearance-pills) .radio__wrapper:has(input:checked) .radio__label-text {
@@ -399,7 +399,7 @@
 :host(.radio-appearance-pills) .radio-variant-primary .radio__wrapper:has(input:checked):hover:not(:has(input:disabled))    { @apply bg-primary-500 border-primary-500 dark:bg-primary-400 dark:border-primary-400; }
 :host(.radio-appearance-pills) .radio-variant-secondary .radio__wrapper:has(input:checked):hover:not(:has(input:disabled))  { @apply bg-secondary-500 border-secondary-500 dark:bg-secondary-400 dark:border-secondary-400; }
 :host(.radio-appearance-pills) .radio-variant-neutral-max .radio__wrapper:has(input:checked):hover:not(:has(input:disabled)) { @apply bg-aeblack-700 border-aeblack-700 dark:bg-aeblack-200 dark:border-aeblack-200; }
-:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__wrapper:has(input:checked):hover:not(:has(input:disabled)) { @apply bg-aeblack-200 border-aeblack-200 dark:bg-aeblack-400 dark:border-aeblack-400; }
+:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__wrapper:has(input:checked):hover:not(:has(input:disabled)) { @apply bg-aeblack-500 border-aeblack-500 dark:bg-aeblack-500 dark:border-aeblack-500; }
 
 /* Pill disabled */
 :host(.radio-appearance-pills) .radio__wrapper:has(input:disabled) {

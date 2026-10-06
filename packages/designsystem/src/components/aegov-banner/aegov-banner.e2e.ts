@@ -1,6 +1,17 @@
 import { newE2EPage } from '@stencil/core/testing';
 
 describe('aegov-banner e2e', () => {
+  it('makes the host element display:block and position:relative (regression test for issue #21 — :host is dead CSS on a shadow:false/scoped:false component)', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<aegov-banner>Hello</aegov-banner>`);
+    const styles = await page.evaluate(() => {
+      const cs = getComputedStyle(document.querySelector('aegov-banner'));
+      return { display: cs.display, position: cs.position };
+    });
+    expect(styles.display).toBe('block');
+    expect(styles.position).toBe('relative');
+  });
+
   it('renders the banner', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-banner>Hello</aegov-banner>`);
