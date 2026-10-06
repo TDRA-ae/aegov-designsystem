@@ -1,6 +1,13 @@
 import { newE2EPage } from '@stencil/core/testing';
 
 describe('aegov-accordion (e2e)', () => {
+  it('makes the host element display:block (regression test for issue #21 — :host is dead CSS on a shadow:false/scoped:false component)', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<aegov-accordion><aegov-accordion-item heading="One">A</aegov-accordion-item></aegov-accordion>`);
+    const display = await page.evaluate(() => getComputedStyle(document.querySelector('aegov-accordion')).display);
+    expect(display).toBe('block');
+  });
+
   it('renders the accordion wrapper with items', async () => {
     const page = await newE2EPage();
     await page.setContent(`

@@ -15,7 +15,7 @@
 .aegov-input-group.input-group-variant-primary       { @apply border-primary-600 dark:border-primary-400; }
 .aegov-input-group.input-group-variant-secondary     { @apply border-secondary-600 dark:border-secondary-400; }
 .aegov-input-group.input-group-variant-neutral-max   { @apply border-aeblack-800 dark:border-aeblack-300; }
-.aegov-input-group.input-group-variant-neutral-min   { @apply border-aeblack-300 dark:border-aeblack-600; }
+.aegov-input-group.input-group-variant-neutral-min   { @apply border-aeblack-400 dark:border-aeblack-600; }
 
 /* Focus-within — mirror aegov-input focus treatment per variant.
    ring-1 + offset-2 + border swap to support colour. Matches input focus look. */
@@ -40,7 +40,7 @@
 .aegov-input-group.input-group-variant-primary > * + *       { @apply border-primary-600 dark:border-primary-400; }
 .aegov-input-group.input-group-variant-secondary > * + *     { @apply border-secondary-600 dark:border-secondary-400; }
 .aegov-input-group.input-group-variant-neutral-max > * + *   { @apply border-aeblack-800 dark:border-aeblack-300; }
-.aegov-input-group.input-group-variant-neutral-min > * + *   { @apply border-aeblack-300 dark:border-aeblack-600; }
+.aegov-input-group.input-group-variant-neutral-min > * + *   { @apply border-aeblack-400 dark:border-aeblack-600; }
 
 /* --------------------------------------------------------
    Child overrides: aegov-input inside group

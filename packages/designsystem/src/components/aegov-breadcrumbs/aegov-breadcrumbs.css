@@ -2,7 +2,7 @@
   display: block;
 }
 
-nav.aegov-breadcrumb {
+nav.aegov-breadcrumbs {
   @apply block;
   &>ol.breadcrumb__list,
   &>ul.breadcrumb__list {
