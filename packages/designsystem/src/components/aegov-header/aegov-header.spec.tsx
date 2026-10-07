@@ -78,12 +78,46 @@ describe('aegov-header', () => {
     expect(names).toContain('mobile-content');
   });
 
-  it('no longer renders the removed search slot', async () => {
+  it('renders the search slot on the ministry variant', async () => {
     const page = await newSpecPage({
       components: COMPONENTS,
       html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
     });
+    expect(page.root.shadowRoot.querySelector('.header__search slot[name="search"]')).not.toBeNull();
+    expect(page.root.shadowRoot.querySelector('.header__emblem')).toBeNull();
+  });
+
+  it('replaces search with the emblem on the authority variant', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header variant="authority" entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+    });
+    // Forced: the slot is not rendered at all, so any slotted search content
+    // stays unprojected.
     expect(page.root.shadowRoot.querySelector('slot[name="search"]')).toBeNull();
+    const emblem = page.root.shadowRoot.querySelector('.header__emblem svg');
+    expect(emblem).not.toBeNull();
+    expect(emblem.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('warns when search content is supplied to the authority variant', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header variant="authority" entity-name="N" entity-domain="https://x.gov.ae" logo-label="Home"><input slot="search" /><nav slot="mobile-content"></nav></aegov-header>`,
+    });
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('"search" slot is ignored'));
+    warn.mockRestore();
+  });
+
+  it('puts search and the emblem in the brand row, beside the menu toggle', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+    });
+    const end = page.root.shadowRoot.querySelector('.header__brand-row .header__brand-end');
+    expect(end.querySelector('.header__search')).not.toBeNull();
+    expect(end.querySelector('.header__menu-toggle')).not.toBeNull();
   });
 
   it('wraps the logo slot in an anchor pointing to entity-domain', async () => {
@@ -97,19 +131,28 @@ describe('aegov-header', () => {
     expect(anchor.querySelector('slot[name="logo"]')).not.toBeNull();
   });
 
-  it('hides navigation below lg and the menu toggle from lg up', async () => {
+  it('lays out two rows: brand row, then navigation row', async () => {
     const page = await newSpecPage({
       components: COMPONENTS,
       html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
     });
-    const nav = page.root.shadowRoot.querySelector('.header__nav');
-    const toggle = page.root.shadowRoot.querySelector('.header__menu-toggle');
-    expect(nav).not.toBeNull();
-    expect(toggle).not.toBeNull();
-    // Layout gating lives in aegov-header.css: .header__nav is hidden lg:flex,
-    // .header__menu-toggle is lg:hidden. Assert the hooks exist here; the
-    // visual behaviour is covered in the e2e suite.
-    expect(page.root.shadowRoot.querySelector('.header__actions .header__menu-toggle')).not.toBeNull();
+    const rows = Array.from(page.root.shadowRoot.querySelector('header').children)
+      .map((c) => c.className)
+      .filter((c) => c.includes('header__'));
+    expect(rows.indexOf('header__brand-row')).toBeGreaterThanOrEqual(0);
+    expect(rows.indexOf('header__nav-row')).toBeGreaterThan(rows.indexOf('header__brand-row'));
+  });
+
+  it('puts navigation and secondary-actions in the second row', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+    });
+    const navRow = page.root.shadowRoot.querySelector('.header__nav-row');
+    expect(navRow.querySelector('.header__nav slot[name="navigation"]')).not.toBeNull();
+    expect(navRow.querySelector('.header__actions slot[name="secondary-actions"]')).not.toBeNull();
+    // The toggle moved out of the actions group into the brand row.
+    expect(navRow.querySelector('.header__menu-toggle')).toBeNull();
   });
 
   it('defaults collapseAt to lg and applies the modifier class', async () => {
@@ -174,8 +217,13 @@ describe('aegov-header', () => {
       components: COMPONENTS,
       html: `<aegov-header is-sticky="true" entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
     });
+    // mock-doc's matchMedia stub always reports matches:false, so the desktop
+    // gate has to be set by hand here; e2e covers the real media query.
+    page.rootInstance.isDesktop = true;
+    await page.waitForChanges();
+
     // Sticky positioning has to apply to the host, because a sticky
-    // .header__head would be confined to its parent's box.
+    // .header__nav-row would be confined to its parent's box.
     expect(page.root.className).toContain('header--sticky');
     expect(page.root.shadowRoot.querySelector('header').className).not.toContain('header--sticky');
   });
@@ -185,6 +233,8 @@ describe('aegov-header', () => {
       components: COMPONENTS,
       html: `<aegov-header is-sticky="true" entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
     });
+    page.rootInstance.isDesktop = true;
+    await page.waitForChanges();
     expect(page.root.className).not.toContain('header--stuck');
 
     page.rootInstance.isStuck = true;
@@ -214,6 +264,7 @@ describe('aegov-header', () => {
     const unstuck = jest.fn();
     page.root.addEventListener('aegovHeaderUnstuck', unstuck);
 
+    page.rootInstance.isDesktop = true;
     page.rootInstance.isStuck = true;
     await page.waitForChanges();
 
@@ -223,6 +274,27 @@ describe('aegov-header', () => {
     expect(page.rootInstance.isStuck).toBe(false);
     expect(page.root.className).not.toContain('header--stuck');
     expect(unstuck).toHaveBeenCalled();
+  });
+
+  it('does not pin below the collapse breakpoint, even when isSticky is set', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: `<aegov-header is-sticky="true" entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+    });
+    page.rootInstance.isDesktop = true;
+    await page.waitForChanges();
+    expect(page.root.className).toContain('header--sticky');
+
+    // Below collapseAt the navigation row is hidden, so there is nothing to pin.
+    page.rootInstance.isDesktop = false;
+    page.rootInstance.isStuck = true;
+    await page.waitForChanges();
+    expect(page.root.className).not.toContain('header--sticky');
+    expect(page.root.className).not.toContain('header--stuck');
+
+    page.rootInstance.isDesktop = true;
+    await page.waitForChanges();
+    expect(page.root.className).toContain('header--sticky');
   });
 
   it('renders the menu toggle wired to the drawer', async () => {

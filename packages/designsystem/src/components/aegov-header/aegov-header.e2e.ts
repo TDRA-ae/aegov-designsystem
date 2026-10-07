@@ -60,7 +60,7 @@ describe('aegov-header e2e', () => {
 
     const visibility = await page.evaluate(() => {
       const host = document.querySelector('aegov-header');
-      const nav = host.shadowRoot.querySelector('.header__nav') as HTMLElement;
+      const nav = host.shadowRoot.querySelector('.header__nav-row') as HTMLElement;
       const toggle = host.shadowRoot.querySelector('.header__menu-toggle') as HTMLElement;
       return {
         nav: getComputedStyle(nav).display,
@@ -79,9 +79,9 @@ describe('aegov-header e2e', () => {
 
     const visibility = await page.evaluate(() => {
       const host = document.querySelector('aegov-header');
-      const nav = host.shadowRoot.querySelector('.header__nav') as HTMLElement;
+      const nav = host.shadowRoot.querySelector('.header__nav-row') as HTMLElement;
       const toggle = host.shadowRoot.querySelector('.header__menu-toggle') as HTMLElement;
-      const actions = host.shadowRoot.querySelector('.header__actions') as HTMLElement;
+      const actions = host.shadowRoot.querySelector('.header__nav-row') as HTMLElement;
       return {
         nav: getComputedStyle(nav).display,
         toggle: getComputedStyle(toggle).display,
@@ -90,8 +90,8 @@ describe('aegov-header e2e', () => {
     });
     expect(visibility.nav).toBe('none');
     expect(visibility.toggle).not.toBe('none');
-    // Secondary actions stay visible at every breakpoint.
-    expect(visibility.actions).not.toBe('none');
+    // Secondary actions live in the second row, so they collapse with it.
+    expect(visibility.actions).toBe('none');
   });
 
   it('keeps the drawer inside the header shadow root so mobile-content projects', async () => {
@@ -306,13 +306,13 @@ describe('aegov-header e2e', () => {
     const read = (id: string) => page.evaluate((hostId: string) => {
       const host = document.querySelector(hostId);
       return {
-        nav: getComputedStyle(host.shadowRoot.querySelector('.header__nav')).display,
+        nav: getComputedStyle(host.shadowRoot.querySelector('.header__nav-row')).display,
         toggle: getComputedStyle(host.shadowRoot.querySelector('.header__menu-toggle')).display,
       };
     }, id);
 
     const atLg = await read('#at-lg');
-    expect(atLg.nav).toBe('flex');
+    expect(atLg.nav).toBe('block');
     expect(atLg.toggle).toBe('none');
 
     const atXl = await read('#at-xl');
@@ -334,11 +334,11 @@ describe('aegov-header e2e', () => {
     const state = await page.evaluate(() => {
       const host = document.querySelector('aegov-header');
       return {
-        nav: getComputedStyle(host.shadowRoot.querySelector('.header__nav')).display,
+        nav: getComputedStyle(host.shadowRoot.querySelector('.header__nav-row')).display,
         toggle: getComputedStyle(host.shadowRoot.querySelector('.header__menu-toggle')).display,
       };
     });
-    expect(state.nav).toBe('flex');
+    expect(state.nav).toBe('block');
     expect(state.toggle).toBe('none');
   });
 
@@ -376,11 +376,14 @@ describe('aegov-header e2e', () => {
     expect(await isOpen()).toBe(false);
   });
 
+  // Sticky only engages at or above the collapse breakpoint, so every sticky
+  // case below runs at desktop width.
   const STICKY_PAGE = (attrs = 'is-sticky="true"') => `
     <style>body { margin: 0; }</style>
     <aegov-header ${attrs} entity-name="Ministry of Test" entity-domain="https://test.gov.ae" logo-label="Home">
       <img slot="logo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="logo" />
       <nav slot="navigation" aria-label="Main"><a href="#services">Services</a></nav>
+      <aegov-button slot="secondary-actions" size="base">Sign in</aegov-button>
       <nav slot="mobile-content" aria-label="Mobile"><a href="#services">Services</a></nav>
     </aegov-header>
     <main style="height: 4000px">Tall content</main>
@@ -388,16 +391,15 @@ describe('aegov-header e2e', () => {
 
   const stickyState = (page: any) => page.evaluate(() => {
     const host = document.querySelector('aegov-header') as HTMLElement;
-    const head = host.shadowRoot.querySelector('.header__head') as HTMLElement;
-    const banner = host.shadowRoot.querySelector('aegov-header-banner') as HTMLElement;
-    const styles = getComputedStyle(head);
+    const navRow = host.shadowRoot.querySelector('.header__nav-row') as HTMLElement;
+    const styles = getComputedStyle(navRow);
     return {
       hostPosition: getComputedStyle(host).position,
       hostClass: host.className,
-      headTop: Math.round(head.getBoundingClientRect().top),
-      bannerBottom: Math.round(banner.getBoundingClientRect().bottom),
-      bannerHeightVar: host.style.getPropertyValue('--aegov-header-banner-height'),
-      headHeightVar: host.style.getPropertyValue('--aegov-header-height'),
+      navRowTop: Math.round(navRow.getBoundingClientRect().top),
+      brandRowBottom: Math.round((host.shadowRoot.querySelector('.header__brand-row') as HTMLElement).getBoundingClientRect().bottom),
+      stickyOffsetVar: host.style.getPropertyValue('--aegov-header-sticky-offset'),
+      navHeightVar: host.style.getPropertyValue('--aegov-header-height'),
       backdropFilter: styles.backdropFilter || (styles as any).webkitBackdropFilter,
       boxShadow: styles.boxShadow,
       background: styles.backgroundColor,
@@ -418,7 +420,7 @@ describe('aegov-header e2e', () => {
 
     // Without is-sticky the whole header scrolls away with the page.
     const after = await stickyState(page);
-    expect(after.headTop).toBeLessThan(0);
+    expect(after.navRowTop).toBeLessThan(0);
     expect(after.hostClass).not.toContain('header--stuck');
   });
 
@@ -432,9 +434,9 @@ describe('aegov-header e2e', () => {
     expect(atRest.hostPosition).toBe('sticky');
     expect(atRest.hostClass).toContain('header--sticky');
     expect(atRest.hostClass).not.toContain('header--stuck');
-    // The banner height drives the host's negative top offset.
-    expect(parseFloat(atRest.bannerHeightVar)).toBeGreaterThan(0);
-    expect(atRest.headTop).toBeGreaterThan(0);
+    // Banner + brand row drive the host's negative top offset.
+    expect(parseFloat(atRest.stickyOffsetVar)).toBeGreaterThan(0);
+    expect(atRest.navRowTop).toBeGreaterThan(0);
 
     await page.evaluate(() => window.scrollTo(0, 1000));
     await new Promise((resolve) => setTimeout(resolve, 300));
@@ -442,9 +444,9 @@ describe('aegov-header e2e', () => {
 
     const stuck = await stickyState(page);
     // The bar sits at the very top of the viewport...
-    expect(stuck.headTop).toBe(0);
-    // ...and the banner has scrolled off above it.
-    expect(stuck.bannerBottom).toBeLessThanOrEqual(0);
+    expect(stuck.navRowTop).toBe(0);
+    // ...and the brand row has scrolled off above it.
+    expect(stuck.brandRowBottom).toBeLessThanOrEqual(0);
     expect(stuck.hostClass).toContain('header--stuck');
   });
 
@@ -454,14 +456,14 @@ describe('aegov-header e2e', () => {
     await page.setContent(STICKY_PAGE());
     await page.waitForChanges();
 
-    // Regression guard for the sticky-on-.header__head mistake: that version
+    // Regression guard for the sticky-on-.header__nav-row mistake: that version
     // unsticks once the header's own box has scrolled past, a few dozen pixels in.
     await page.evaluate(() => window.scrollTo(0, 3000));
     await new Promise((resolve) => setTimeout(resolve, 300));
     await page.waitForChanges();
 
     const state = await stickyState(page);
-    expect(state.headTop).toBe(0);
+    expect(state.navRowTop).toBe(0);
     expect(state.hostClass).toContain('header--stuck');
   });
 
@@ -517,10 +519,10 @@ describe('aegov-header e2e', () => {
     await page.waitForChanges();
 
     const state = await stickyState(page);
-    const published = parseFloat(state.headHeightVar);
+    const published = parseFloat(state.navHeightVar);
     const measured = await page.evaluate(() => {
-      const head = document.querySelector('aegov-header').shadowRoot.querySelector('.header__head') as HTMLElement;
-      return head.offsetHeight;
+      const navRow = document.querySelector('aegov-header').shadowRoot.querySelector('.header__nav-row') as HTMLElement;
+      return navRow.offsetHeight;
     });
     expect(published).toBe(measured);
     expect(published).toBeGreaterThan(0);
@@ -546,9 +548,9 @@ describe('aegov-header e2e', () => {
     const after = await stickyState(page);
     expect(after.hostPosition).not.toBe('sticky');
     expect(after.hostClass).not.toContain('header--stuck');
-    expect(after.headTop).toBeLessThan(0);
+    expect(after.navRowTop).toBeLessThan(0);
     // Measurement vars are cleaned up with the observers.
-    expect(after.bannerHeightVar).toBe('');
+    expect(after.stickyOffsetVar).toBe('');
   });
 
   it('does not report stuck for a sticky header still below the fold', async () => {
@@ -574,7 +576,7 @@ describe('aegov-header e2e', () => {
 
   it('keeps the open drawer above the sticky bar', async () => {
     const page = await newE2EPage();
-    await page.setViewport({ width: 390, height: 844 });
+    await page.setViewport({ width: 1280, height: 800 });
     await page.setContent(STICKY_PAGE());
     await page.waitForChanges();
 
@@ -582,7 +584,8 @@ describe('aegov-header e2e', () => {
     await new Promise((resolve) => setTimeout(resolve, 300));
     await page.waitForChanges();
 
-    await (await page.find('aegov-header >>> .header__menu-toggle')).click();
+    const host = await page.find('aegov-header');
+    await host.callMethod('openMenu');
     await page.waitForChanges();
     await new Promise((resolve) => setTimeout(resolve, 400));
 
@@ -596,6 +599,337 @@ describe('aegov-header e2e', () => {
       };
     });
     expect(z.panel).toBeGreaterThan(z.host);
+  });
+
+  const layoutAt = (page: any) => page.evaluate(() => {
+    const host = document.querySelector('aegov-header');
+    const box = (sel: string) => {
+      const el = host.shadowRoot.querySelector(sel) as HTMLElement;
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return { display: getComputedStyle(el).display, top: Math.round(r.top), width: Math.round(r.width) };
+    };
+    return {
+      brandRow: box('.header__brand-row'),
+      navRow: box('.header__nav-row'),
+      search: box('.header__search'),
+      emblem: box('.header__emblem'),
+      toggle: box('.header__menu-toggle'),
+      logo: box('.header__logo'),
+    };
+  });
+
+  const VARIANT_PAGE = (variant: string) => `
+    <style>body { margin: 0; }</style>
+    <aegov-header variant="${variant}" entity-name="N" entity-domain="https://x.gov.ae" logo-label="Home">
+      <img slot="logo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="logo" />
+      <input slot="search" type="search" aria-label="Search" />
+      <nav slot="navigation" aria-label="Main"><a href="#a">Services</a></nav>
+      <aegov-button slot="secondary-actions" size="base">Sign in</aegov-button>
+      <nav slot="mobile-content" aria-label="Mobile"><a href="#a">Services</a></nav>
+    </aegov-header>
+  `;
+
+  it('ministry shows the search slot at the inline end of the brand row', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 1280, height: 900 });
+    await page.setContent(VARIANT_PAGE('ministry'));
+    await page.waitForChanges();
+
+    const l = await layoutAt(page);
+    expect(l.search.display).not.toBe('none');
+    expect(l.emblem).toBeNull();
+    expect(l.toggle.display).toBe('none');
+    // Search sits in the brand row, beside the logo, not in the nav row.
+    expect(l.search.top).toBeLessThan(l.navRow.top);
+    expect(await page.find('aegov-header input[slot="search"]')).not.toBeNull();
+  });
+
+  it('authority renders the emblem and never the search slot', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 1280, height: 900 });
+    await page.setContent(VARIANT_PAGE('authority'));
+    await page.waitForChanges();
+
+    const l = await layoutAt(page);
+    expect(l.emblem.display).not.toBe('none');
+    expect(l.search).toBeNull();
+
+    // The slot is not rendered, so slotted search content is never projected:
+    // it has no layout box even though it is still in the light DOM.
+    const searchBox = await page.evaluate(() => {
+      const el = document.querySelector('aegov-header input[slot="search"]') as HTMLElement;
+      return { exists: !!el, width: el ? el.getBoundingClientRect().width : -1 };
+    });
+    expect(searchBox.exists).toBe(true);
+    expect(searchBox.width).toBe(0);
+  });
+
+  it('puts navigation and actions on a second row below the brand row', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 1280, height: 900 });
+    await page.setContent(VARIANT_PAGE('ministry'));
+    await page.waitForChanges();
+
+    const l = await layoutAt(page);
+    expect(l.navRow.display).not.toBe('none');
+    expect(l.navRow.top).toBeGreaterThanOrEqual(l.brandRow.top + 1);
+
+    // Nav at the inline start, actions at the inline end, in LTR.
+    const ends = await page.evaluate(() => {
+      const host = document.querySelector('aegov-header');
+      const nav = host.shadowRoot.querySelector('.header__nav').getBoundingClientRect();
+      const actions = host.shadowRoot.querySelector('.header__actions').getBoundingClientRect();
+      return { navLeft: Math.round(nav.left), actionsLeft: Math.round(actions.left) };
+    });
+    expect(ends.navLeft).toBeLessThan(ends.actionsLeft);
+  });
+
+  it('mirrors the second row under dir="rtl"', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 1280, height: 900 });
+    await page.setContent(`<div dir="rtl">${VARIANT_PAGE('ministry')}</div>`);
+    await page.waitForChanges();
+
+    const ends = await page.evaluate(() => {
+      const host = document.querySelector('aegov-header');
+      const nav = host.shadowRoot.querySelector('.header__nav').getBoundingClientRect();
+      const actions = host.shadowRoot.querySelector('.header__actions').getBoundingClientRect();
+      return { navLeft: Math.round(nav.left), actionsLeft: Math.round(actions.left) };
+    });
+    // Inline start is now the right-hand side.
+    expect(ends.navLeft).toBeGreaterThan(ends.actionsLeft);
+  });
+
+  it('hides the whole second row below the collapse breakpoint and shows the toggle', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 768, height: 900 });
+    await page.setContent(VARIANT_PAGE('ministry'));
+    await page.waitForChanges();
+
+    const l = await layoutAt(page);
+    expect(l.navRow.display).toBe('none');
+    expect(l.search.display).toBe('none');
+    expect(l.toggle.display).not.toBe('none');
+    // The toggle took the search slot's place in the brand row.
+    expect(Math.abs(l.toggle.top - l.brandRow.top)).toBeLessThan(l.brandRow.top + 100);
+  });
+
+  it('hides the emblem too when the toggle appears', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 768, height: 900 });
+    await page.setContent(VARIANT_PAGE('authority'));
+    await page.waitForChanges();
+
+    const l = await layoutAt(page);
+    expect(l.emblem.display).toBe('none');
+    expect(l.toggle.display).not.toBe('none');
+    expect(l.navRow.display).toBe('none');
+  });
+
+  it('does not pin anything below the collapse breakpoint, even with is-sticky', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 390, height: 844 });
+    await page.setContent(STICKY_PAGE());
+    await page.waitForChanges();
+
+    await page.evaluate(() => window.scrollTo(0, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    await page.waitForChanges();
+
+    const state = await page.evaluate(() => {
+      const host = document.querySelector('aegov-header') as HTMLElement;
+      return {
+        position: getComputedStyle(host).position,
+        cls: host.className,
+        hostTop: Math.round(host.getBoundingClientRect().top),
+      };
+    });
+    expect(state.position).not.toBe('sticky');
+    expect(state.cls).not.toContain('header--sticky');
+    expect(state.cls).not.toContain('header--stuck');
+    // The whole header scrolled away with the page.
+    expect(state.hostTop).toBeLessThan(0);
+  });
+
+  it('releases the pin when the viewport shrinks past the breakpoint while stuck', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 1280, height: 800 });
+    await page.setContent(STICKY_PAGE());
+    await page.waitForChanges();
+
+    await page.evaluate(() => window.scrollTo(0, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.querySelector('aegov-header').className)).toContain('header--stuck');
+
+    await page.setViewport({ width: 390, height: 844 });
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    await page.waitForChanges();
+
+    const cls = await page.evaluate(() => document.querySelector('aegov-header').className);
+    expect(cls).not.toContain('header--sticky');
+    expect(cls).not.toContain('header--stuck');
+  });
+
+  it('keeps the brand row scrolling away while the nav row stays pinned', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 1280, height: 800 });
+    await page.setContent(STICKY_PAGE());
+    await page.waitForChanges();
+
+    await page.evaluate(() => window.scrollTo(0, 1200));
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    await page.waitForChanges();
+
+    const state = await page.evaluate(() => {
+      const host = document.querySelector('aegov-header');
+      const brand = host.shadowRoot.querySelector('.header__brand-row').getBoundingClientRect();
+      const nav = host.shadowRoot.querySelector('.header__nav-row').getBoundingClientRect();
+      return { brandBottom: Math.round(brand.bottom), navTop: Math.round(nav.top) };
+    });
+    // Only the navigation row remains: the brand row is fully above the fold.
+    expect(state.navTop).toBe(0);
+    expect(state.brandBottom).toBeLessThanOrEqual(0);
+  });
+
+  const emblemFill = (page: any) => page.evaluate(() => {
+    const host = document.querySelector('aegov-header');
+    const path = host.shadowRoot.querySelector('.header__emblem svg path') as SVGElement;
+    return getComputedStyle(path).fill;
+  });
+
+  const EMBLEM_PAGE = (wrapper = '', style = '') => `
+    <style>body { margin: 0; } ${style}</style>
+    ${wrapper ? `<div ${wrapper}>` : ''}
+    <aegov-header variant="authority" entity-name="N" entity-domain="https://x.gov.ae" logo-label="Home">
+      <nav slot="navigation"><a href="#a">A</a></nav>
+      <nav slot="mobile-content"><a href="#a">A</a></nav>
+    </aegov-header>
+    ${wrapper ? '</div>' : ''}
+  `;
+
+  it('paints the emblem with its own fixed colour', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 1280, height: 900 });
+    await page.setContent(EMBLEM_PAGE());
+    await page.waitForChanges();
+
+    // aeblack-800, straight from EMBLEM_COLOR in the component.
+    expect(await emblemFill(page)).toBe('oklch(0.2936 0.0112 271.01)');
+  });
+
+  it('ignores the surrounding text colour', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 1280, height: 900 });
+    await page.setContent(EMBLEM_PAGE('style="color: rgb(255, 0, 0)"'));
+    await page.waitForChanges();
+
+    // `color` does cross the shadow boundary, so this has to be actively
+    // resisted rather than assumed — the inline fill on the container is what
+    // beats it.
+    const inherited = await page.evaluate(() => {
+      const host = document.querySelector('aegov-header');
+      return getComputedStyle(host.shadowRoot.querySelector('.header__emblem') as HTMLElement).color;
+    });
+    expect(inherited).toBe('rgb(255, 0, 0)');
+    expect(await emblemFill(page)).toBe('oklch(0.2936 0.0112 271.01)');
+  });
+
+  it('does not change in dark mode', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 1280, height: 900 });
+    await page.setContent(EMBLEM_PAGE('', ':root.dark aegov-header { color: rgb(0, 255, 0); }'));
+    await page.waitForChanges();
+
+    const light = await emblemFill(page);
+    await page.evaluate(() => document.documentElement.classList.add('dark'));
+    await page.waitForChanges();
+
+    expect(await emblemFill(page)).toBe(light);
+  });
+
+  it('cannot be retinted by a consumer custom property', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 1280, height: 900 });
+    await page.setContent(EMBLEM_PAGE('', `
+      aegov-header {
+        --aegov-emblem-fill: rgb(0, 0, 255);
+        --aegov-emblem-color: rgb(0, 0, 255);
+      }
+    `));
+    await page.waitForChanges();
+
+    // The component sets --aegov-emblem-fill inline on the emblem container, so
+    // an inherited value from the host loses.
+    expect(await emblemFill(page)).toBe('oklch(0.2936 0.0112 271.01)');
+  });
+
+  // A fresh page per measurement: Stencil's request interception throws
+  // "Request is already handled!" if one page is given setContent twice.
+  const measureEmblem = async (width: number, collapseAt: string) => {
+    const page = await newE2EPage();
+    await page.setViewport({ width, height: 900 });
+    await page.setContent(`
+      <style>body { margin: 0; }</style>
+      <aegov-header variant="authority" collapse-at="${collapseAt}" entity-name="N" entity-domain="https://x.gov.ae" logo-label="Home">
+        <nav slot="navigation"><a href="#a">A</a></nav>
+        <nav slot="mobile-content"><a href="#a">A</a></nav>
+      </aegov-header>
+    `);
+    await page.waitForChanges();
+    return page.evaluate(() => {
+      const svg = document.querySelector('aegov-header').shadowRoot
+        .querySelector('.header__emblem svg') as SVGElement;
+      const r = svg.getBoundingClientRect();
+      return { height: Math.round(r.height), width: Math.round(r.width) };
+    });
+  };
+
+  it('sizes the emblem to 80px tall from xl up', async () => {
+    const xl = await measureEmblem(1400, 'lg');
+    expect(xl.height).toBe(80);
+    // Height is the fixed dimension; width follows the 765x995 aspect ratio.
+    expect(xl.width).toBe(Math.round(80 * (765 / 995)));
+  });
+
+  it('sizes the emblem to 72px tall at lg', async () => {
+    const lg = await measureEmblem(1100, 'lg');
+    expect(lg.height).toBe(72);
+    expect(lg.width).toBe(Math.round(72 * (765 / 995)));
+  });
+
+  it('sizes the emblem to 64px tall at md, where it is only visible with collapse-at="md"', async () => {
+    const md = await measureEmblem(800, 'md');
+    expect(md.height).toBe(64);
+    expect(md.width).toBe(Math.round(64 * (765 / 995)));
+  });
+
+  it('centres the emblem vertically in the brand row', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 1400, height: 900 });
+    await page.setContent(`
+      <style>body { margin: 0; }</style>
+      <aegov-header variant="authority" entity-name="N" entity-domain="https://x.gov.ae" logo-label="Home">
+        <svg slot="logo" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="80" fill="#123"/></svg>
+        <nav slot="navigation"><a href="#a">A</a></nav>
+        <nav slot="mobile-content"><a href="#a">A</a></nav>
+      </aegov-header>
+    `);
+    await page.waitForChanges();
+
+    const gaps = await page.evaluate(() => {
+      const sr = document.querySelector('aegov-header').shadowRoot;
+      const bar = sr.querySelector('.header__brand-bar').getBoundingClientRect();
+      const svg = sr.querySelector('.header__emblem svg').getBoundingClientRect();
+      return { above: Math.round(svg.top - bar.top), below: Math.round(bar.bottom - svg.bottom) };
+    });
+
+    // An inline SVG would sit on the text baseline and leave ~7px of descender
+    // space below it, pushing the artwork to the top of the row. `display:block`
+    // is what keeps these equal.
+    expect(Math.abs(gaps.above - gaps.below)).toBeLessThanOrEqual(1);
+    expect(gaps.above).toBeGreaterThan(0);
   });
 
   it('slides the drawer from the inline end, flipping under dir="rtl"', async () => {
