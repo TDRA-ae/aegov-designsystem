@@ -6,6 +6,7 @@ import type {
 } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { generateId } from '../../utils/id-generator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
@@ -75,7 +76,14 @@ export class AegovCheckbox {
   /** Inline error message. Use `error` slot for rich markup. */
   @Prop({ mutable: true }) errorMessage: string = '';
 
-  /** Additional CSS classes to apply. */
+  /**
+   * Additional CSS classes to apply.
+   *
+   * This component renders in a real shadow root, which normally blocks the page's CSS
+   * from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied
+   * in from the page's own stylesheets at runtime and work as expected; other utilities
+   * (colour, border, typography, etc.) still have no effect — see #35.
+   */
   @Prop() extraClass?: string;
 
   /** Emitted when the checkbox checked state changes. */
@@ -141,6 +149,7 @@ export class AegovCheckbox {
 
   componentDidLoad() {
     this.syncInternalsValidity();
+    adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
     // Self-detect parent group appearance — bypasses syncChildren() timing dependency.
     // Stencil: children mount before parents, so we read the HTML attribute directly.
     const group = this.el.closest('aegov-checkbox-group');
@@ -253,6 +262,11 @@ export class AegovCheckbox {
     if (this.inputEl) {
       this.inputEl.indeterminate = this.isIndeterminate;
     }
+  }
+
+  @Watch('extraClass')
+  onExtraClassChange() {
+    adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
   }
 
   private handleChange = (event: Event) => {
