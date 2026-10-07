@@ -14,7 +14,7 @@
  * - Unrecognised base value → falls back to defaultValue
  */
 
-interface BreakpointEntry<T extends string> {
+export interface BreakpointEntry<T extends string> {
   minWidth: number;
   value: T;
 }
@@ -68,6 +68,21 @@ export function readBreakpointPx(name: string): number | null {
   // Fallback to Tailwind default scale when the CSS var is missing.
   if (name in DEFAULT_BREAKPOINTS) return DEFAULT_BREAKPOINTS[name];
   return null;
+}
+
+/**
+ * Parse a responsive prop string into its base value plus a descending-sorted
+ * list of breakpoint overrides — the same parsing `watchResponsiveProp` uses
+ * internally, exposed separately for callers that need the full breakpoint
+ * map rather than just the single currently-resolved value (e.g. building a
+ * media-query-aware `sizes` attribute for a responsively-sized `<img>`).
+ */
+export function parseResponsiveProp<T extends string>(
+  raw: string,
+  validate: ResponsivePropValidator<T>,
+  defaultValue: T,
+): { base: T; breakpoints: BreakpointEntry<T>[] } {
+  return parseRaw(raw, validate, defaultValue);
 }
 
 function parseRaw<T extends string>(

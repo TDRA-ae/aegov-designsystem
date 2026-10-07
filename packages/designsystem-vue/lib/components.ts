@@ -62,7 +62,6 @@ export const AegovBadge = /*@__PURE__*/ defineContainer<JSX.AegovBadge>('aegov-b
   'fieldId',
   'appearance',
   'variant',
-  'color',
   'isDismissible',
   'size',
   'aegovBadgeDismiss'
@@ -314,7 +313,9 @@ export const AegovFooter = /*@__PURE__*/ defineContainer<JSX.AegovFooter>('aegov
   'entityContactNumberLabel',
   'entityEmail',
   'entityEmailLabel',
-  'entityContactHref'
+  'entityContactHref',
+  'appStoreHref',
+  'googlePlayHref'
 ]);
 
 

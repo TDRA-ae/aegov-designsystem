@@ -36,7 +36,7 @@
 :host(.datepicker-variant-secondary) .datepicker__input             { @apply text-secondary-900 dark:text-whitely-100; }
 :host(.datepicker-variant-neutral-max) .datepicker__input-wrapper   { @apply border-aeblack-800 dark:border-aeblack-300; }
 :host(.datepicker-variant-neutral-max) .datepicker__input           { @apply text-aeblack-950 dark:text-whitely-100; }
-:host(.datepicker-variant-neutral-min) .datepicker__input-wrapper   { @apply border-aeblack-300 dark:border-aeblack-600; }
+:host(.datepicker-variant-neutral-min) .datepicker__input-wrapper   { @apply border-aeblack-400 dark:border-aeblack-600; }
 :host(.datepicker-variant-neutral-min) .datepicker__input           { @apply text-aeblack-700 dark:text-aeblack-200; }
 
 /* Focus ring — fires when input receives focus. Mirrors aegov-input focus look

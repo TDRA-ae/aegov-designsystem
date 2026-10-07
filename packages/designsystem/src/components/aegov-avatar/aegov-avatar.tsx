@@ -2,7 +2,7 @@ import { Component, Element, Prop, Watch, h, Host, State } from '@stencil/core';
 import { AVATAR_SIZES, AVATAR_APPEARANCES, AVATAR_STATUSES } from '../../utils/types';
 import type { AvatarSize, AvatarAppearance, AvatarStatus } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
-import { watchResponsiveProp } from '../../utils/responsive-prop';
+import { watchResponsiveProp, parseResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
@@ -31,6 +31,23 @@ const TAG = 'aegov-avatar';
 const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
+ * Rendered pixel width per size token — mirrors `aegov-avatar.css`'s
+ * `.avatar-{size}` rules (`h-6`/`w-6` = 24px, through `h-20`/`w-20` = 80px).
+ * Used to auto-compute a correct `sizes` attribute for `srcset` (see
+ * `computeAutoSizes()`) — kept in sync with the CSS by hand, same as
+ * `getAvatarClasses()`'s own `sizeClasses` map already is.
+ */
+const SIZE_PX: Record<AvatarSize, number> = {
+  xs: 24,
+  sm: 32,
+  base: 40,
+  lg: 48,
+  xl: 56,
+  '2xl': 64,
+  '3xl': 80,
+};
+
+/**
  * @slot - Avatar content (used when no src is provided)
  * @part avatar - The avatar container element
  * @part image - The avatar image element
@@ -44,9 +61,13 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 export class AegovAvatar {
   @Element() el: HTMLElement;
 
-  /** Native img attributes to pass through to the inner img element. */
+  /**
+   * Native img attributes to pass through to the inner img element.
+   * `sizes` is included so an author-supplied value always wins over the
+   * auto-computed one from `computeAutoSizes()` — see `render()`.
+   */
   private static readonly PASS_THROUGH_ATTRS = new Set([
-    'loading', 'crossorigin', 'referrerpolicy', 'srcset',
+    'loading', 'crossorigin', 'referrerpolicy', 'srcset', 'sizes',
   ]);
 
   /** Unique ID for the inner avatar element. Auto-generated if not provided. */
@@ -182,6 +203,23 @@ export class AegovAvatar {
     return `avatar-indicator avatar-${effectiveStatus}`;
   }
 
+  /**
+   * Auto-compute a `sizes` attribute from the avatar's own `size` prop, so a
+   * width-descriptor `srcset` resolves against the avatar's real rendered
+   * width instead of the browser's 100vw fallback (see PASS_THROUGH_ATTRS'
+   * own note — this is the default; an author-supplied `sizes` still wins).
+   * `size` can itself be a responsive breakpoint string (same mechanism as
+   * `watchResponsiveProp` above), so this mirrors every breakpoint as its
+   * own `(min-width: …) …px` media condition, falling back to the base
+   * value with no condition — exactly `sizes`' own expected syntax.
+   */
+  private computeAutoSizes(): string {
+    const { base, breakpoints } = parseResponsiveProp(this.size, AVATAR_SIZES, 'base');
+    const parts = breakpoints.map(bp => `(min-width: ${bp.minWidth}px) ${SIZE_PX[bp.value]}px`);
+    parts.push(`${SIZE_PX[base]}px`);
+    return parts.join(', ');
+  }
+
   render() {
     const showImage = this.src && !this.imageError;
     const passThroughAttributes = getPassThroughAttributes(this.el, AegovAvatar.PASS_THROUGH_ATTRS);
@@ -204,6 +242,7 @@ export class AegovAvatar {
           {showImage ? (
             <img
               part="image"
+              sizes={this.el.hasAttribute('srcset') ? this.computeAutoSizes() : undefined}
               {...passThroughAttributes}
               src={this.src}
               alt=""
