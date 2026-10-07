@@ -200,4 +200,67 @@ describe('aegov-datepicker (e2e)', () => {
     const host = await page.find('aegov-datepicker');
     expect(host.getAttribute('data-testid')).toBe('dp');
   });
+
+  it('a disabled day button stays focusable (aria-disabled, not native disabled) — #36', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker value="2024-06-15" max="2024-06-15" format="YYYY-MM-DD"></aegov-datepicker>');
+    const host = await page.find('aegov-datepicker');
+    await host.callMethod('open');
+    await page.waitForChanges();
+
+    const state = await page.evaluate(() => {
+      const btn = document.querySelector('.aegov-datepicker-portal .datepicker__day[data-date="2024-06-16"]') as HTMLButtonElement;
+      return {
+        ariaDisabled: btn?.getAttribute('aria-disabled'),
+        nativeDisabled: btn?.disabled,
+        hasDisabledClass: btn?.classList.contains('datepicker__day--disabled'),
+      };
+    });
+    expect(state.ariaDisabled).toBe('true');
+    expect(state.nativeDisabled).toBe(false);
+    expect(state.hasDisabledClass).toBe(true);
+  });
+
+  it('ArrowRight past the last enabled date lands on the next (disabled) date instead of losing focus — #36', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker value="2024-06-15" max="2024-06-15" format="YYYY-MM-DD"></aegov-datepicker>');
+    const host = await page.find('aegov-datepicker');
+    await host.callMethod('open');
+    await page.waitForChanges();
+
+    await page.keyboard.press('ArrowRight');
+    await page.waitForChanges();
+
+    const focused = await page.evaluate(() => {
+      const el = document.activeElement as HTMLButtonElement | null;
+      return {
+        tag: el?.tagName,
+        date: el?.getAttribute('data-date'),
+        ariaDisabled: el?.getAttribute('aria-disabled'),
+      };
+    });
+    // Before the fix, this landed 366 days away with focus lost to <body>.
+    expect(focused.tag).toBe('BUTTON');
+    expect(focused.date).toBe('2024-06-16');
+    expect(focused.ariaDisabled).toBe('true');
+  });
+
+  it('Enter on a focused disabled date does not select it or emit change — #36', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker value="2024-06-15" max="2024-06-15" format="YYYY-MM-DD"></aegov-datepicker>');
+    const host = await page.find('aegov-datepicker');
+    const changeSpy = await host.spyOnEvent('aegovDatepickerChange');
+    await host.callMethod('open');
+    await page.waitForChanges();
+
+    await page.keyboard.press('ArrowRight');
+    await page.waitForChanges();
+    await page.keyboard.press('Enter');
+    await page.waitForChanges();
+
+    expect(changeSpy.events.length).toBe(0);
+    // Calendar should still be open — Enter on a disabled date is a no-op, not a selection.
+    const portalDialog = await page.find('.aegov-datepicker-portal .aegov-datepicker');
+    expect(portalDialog).not.toBeNull();
+  });
 });

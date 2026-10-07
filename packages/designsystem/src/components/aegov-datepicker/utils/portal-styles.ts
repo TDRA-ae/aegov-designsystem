@@ -369,7 +369,7 @@ export const DATEPICKER_PORTAL_STYLES = `
   opacity: 0.6;
 }
 
-.datepicker__day--focused:not(.datepicker__day--disabled) {
+.datepicker__day--focused {
   outline: 2px solid var(--color-primary-500, #0ea5e9);
   outline-offset: -2px;
   z-index: 1;
@@ -674,7 +674,7 @@ export const DATEPICKER_PORTAL_STYLES = `
   background: var(--color-aeblack-800);
 }
 
-.dark .datepicker__day--focused:not(.datepicker__day--disabled) {
+.dark .datepicker__day--focused {
   outline-color: var(--color-primary-400);
 }
 
