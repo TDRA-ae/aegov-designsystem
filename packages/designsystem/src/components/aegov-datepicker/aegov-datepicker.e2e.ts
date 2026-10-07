@@ -263,4 +263,31 @@ describe('aegov-datepicker (e2e)', () => {
     const portalDialog = await page.find('.aegov-datepicker-portal .aegov-datepicker');
     expect(portalDialog).not.toBeNull();
   });
+
+  it('portal element carries dir="rtl" from a local ancestor wrapper — #37', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<div dir="rtl"><aegov-datepicker></aegov-datepicker></div>');
+    const host = await page.find('aegov-datepicker');
+    await host.callMethod('open');
+    await page.waitForChanges();
+
+    const portalDir = await page.evaluate(() => document.querySelector('.aegov-datepicker-portal')?.getAttribute('dir'));
+    const dialogDirection = await page.evaluate(() => {
+      const dialog = document.querySelector('.aegov-datepicker-portal .aegov-datepicker');
+      return dialog ? getComputedStyle(dialog).direction : null;
+    });
+    expect(portalDir).toBe('rtl');
+    expect(dialogDirection).toBe('rtl');
+  });
+
+  it('portal element defaults to dir="ltr" with no rtl ancestor — #37', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker></aegov-datepicker>');
+    const host = await page.find('aegov-datepicker');
+    await host.callMethod('open');
+    await page.waitForChanges();
+
+    const portalDir = await page.evaluate(() => document.querySelector('.aegov-datepicker-portal')?.getAttribute('dir'));
+    expect(portalDir).toBe('ltr');
+  });
 });
