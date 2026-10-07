@@ -142,6 +142,11 @@ export class AegovRadioGroup {
     if (this.el.isConnected) { this.syncChildren(); }
   }
 
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    if (this.el.isConnected) { this.syncChildren(); }
+  }
+
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
   }
@@ -174,6 +179,8 @@ export class AegovRadioGroup {
       if (!radio.variant || radio.variant === 'primary') {
         radio.variant = this.variant;
       }
+      // Group always wins — matches size/appearance's unconditional cascade (see issue #34).
+      radio.isDisabled = this.isDisabled;
     });
   }
 
