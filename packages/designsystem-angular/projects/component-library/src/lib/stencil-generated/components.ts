@@ -198,14 +198,14 @@ export declare interface AegovAvatarGroup extends Components.AegovAvatarGroup {
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovBadge,
-  inputs: ['appearance', 'color', 'fieldId', 'isDismissible', 'size', 'variant']
+  inputs: ['appearance', 'fieldId', 'isDismissible', 'size', 'variant']
 })
 @Component({
   selector: 'aegov-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['appearance', 'color', 'fieldId', 'isDismissible', 'size', 'variant'],
+  inputs: ['appearance', 'fieldId', 'isDismissible', 'size', 'variant'],
   outputs: ['aegovBadgeDismiss'],
 })
 export class AegovBadge {
@@ -755,14 +755,14 @@ export declare interface AegovFileupload extends Components.AegovFileupload {
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovFooter,
-  inputs: ['entityContactHref', 'entityContactNumber', 'entityContactNumberLabel', 'entityEmail', 'entityEmailLabel', 'navVariant']
+  inputs: ['appStoreHref', 'entityContactHref', 'entityContactNumber', 'entityContactNumberLabel', 'entityEmail', 'entityEmailLabel', 'googlePlayHref', 'navVariant']
 })
 @Component({
   selector: 'aegov-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['entityContactHref', 'entityContactNumber', 'entityContactNumberLabel', 'entityEmail', 'entityEmailLabel', 'navVariant'],
+  inputs: ['appStoreHref', 'entityContactHref', 'entityContactNumber', 'entityContactNumberLabel', 'entityEmail', 'entityEmailLabel', 'googlePlayHref', 'navVariant'],
 })
 export class AegovFooter {
   protected el: HTMLAegovFooterElement;

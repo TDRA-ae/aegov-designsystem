@@ -178,10 +178,6 @@ export namespace Components {
          */
         "appearance": BadgeAppearance;
         /**
-          * @deprecated Use `variant` instead.
-         */
-        "color"?: BadgeColor;
-        /**
           * Unique ID for the badge element. Auto-generated if not provided.
          */
         "fieldId"?: string;
@@ -385,7 +381,7 @@ export namespace Components {
         "isDisabled": boolean;
         /**
           * Whether the button should take full width
-          * @default false
+          * @default false  Reflected to the `is-full` attribute: the host-level `:host([is-full])` CSS rule (in aegov-button.css) that switches the host to `display: block` only matches a real attribute, so a framework that sets this as a JS property binding instead of a literal string attribute (e.g. Angular's `[isFull]="true"`, React's JSX `isFull` shorthand) would otherwise never trigger it — only `reflect: true` makes every binding style reach the attribute the CSS depends on.
          */
         "isFull": boolean;
         /**
@@ -480,12 +476,12 @@ export namespace Components {
          */
         "hover": CardHover;
         /**
-          * Whether to apply inner padding (1.5rem / 24px). On by default.
+          * Whether to apply inner padding. On by default. The amount varies by `size`: 1rem/16px (sm), 1.25rem/20px (base), 1.5rem/24px (lg).
           * @default true
          */
         "isPadding": boolean;
         /**
-          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). All sizes scale down responsively at md (768px) and xs (480px) breakpoints.
+          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). A fixed token — unlike Badge, Banner, and Callout's `size`, this does not accept a responsive breakpoint string, and padding/radius do not change by viewport width.
           * @default 'base'
          */
         "size": CardSize;
@@ -1095,6 +1091,10 @@ export namespace Components {
      */
     interface AegovFooter {
         /**
+          * Link to the entity's app on Apple's App Store. When set (alone or with `googlePlayHref`), a "Download our app" badge block renders in the `brand` column, below the slotted logo/description/social links. Entirely optional — nothing renders unless at least one of the two is provided.
+         */
+        "appStoreHref"?: string;
+        /**
           * Forwarded to the embedded `aegov-footer-highlights`.
          */
         "entityContactHref"?: string;
@@ -1114,6 +1114,10 @@ export namespace Components {
           * Forwarded to the embedded `aegov-footer-highlights`.
          */
         "entityEmailLabel"?: string;
+        /**
+          * Link to the entity's app on Google Play, shown alongside `appStoreHref` in the same "Download our app" block.
+         */
+        "googlePlayHref"?: string;
         /**
           * Controls how footer link columns behave below the `sm` breakpoint (640px) — the point at which the reference footer block stops being collapsible altogether, well before the grid switches from 2 to 4 columns at `lg`. - "collapsible" (default): each column's content toggles below `sm`, always expanded at `sm+`. - "flat": columns are always expanded, at every breakpoint. Author each column as a plain title element + content — no extra markup needed for either value.
           * @default 'collapsible'
@@ -4082,10 +4086,6 @@ declare namespace LocalJSX {
          */
         "appearance"?: BadgeAppearance;
         /**
-          * @deprecated Use `variant` instead.
-         */
-        "color"?: BadgeColor;
-        /**
           * Unique ID for the badge element. Auto-generated if not provided.
          */
         "fieldId"?: string;
@@ -4305,7 +4305,7 @@ declare namespace LocalJSX {
         "isDisabled"?: boolean;
         /**
           * Whether the button should take full width
-          * @default false
+          * @default false  Reflected to the `is-full` attribute: the host-level `:host([is-full])` CSS rule (in aegov-button.css) that switches the host to `display: block` only matches a real attribute, so a framework that sets this as a JS property binding instead of a literal string attribute (e.g. Angular's `[isFull]="true"`, React's JSX `isFull` shorthand) would otherwise never trigger it — only `reflect: true` makes every binding style reach the attribute the CSS depends on.
          */
         "isFull"?: boolean;
         /**
@@ -4412,12 +4412,12 @@ declare namespace LocalJSX {
          */
         "hover"?: CardHover;
         /**
-          * Whether to apply inner padding (1.5rem / 24px). On by default.
+          * Whether to apply inner padding. On by default. The amount varies by `size`: 1rem/16px (sm), 1.25rem/20px (base), 1.5rem/24px (lg).
           * @default true
          */
         "isPadding"?: boolean;
         /**
-          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). All sizes scale down responsively at md (768px) and xs (480px) breakpoints.
+          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). A fixed token — unlike Badge, Banner, and Callout's `size`, this does not accept a responsive breakpoint string, and padding/radius do not change by viewport width.
           * @default 'base'
          */
         "size"?: CardSize;
@@ -5039,6 +5039,10 @@ declare namespace LocalJSX {
      */
     interface AegovFooter {
         /**
+          * Link to the entity's app on Apple's App Store. When set (alone or with `googlePlayHref`), a "Download our app" badge block renders in the `brand` column, below the slotted logo/description/social links. Entirely optional — nothing renders unless at least one of the two is provided.
+         */
+        "appStoreHref"?: string;
+        /**
           * Forwarded to the embedded `aegov-footer-highlights`.
          */
         "entityContactHref"?: string;
@@ -5058,6 +5062,10 @@ declare namespace LocalJSX {
           * Forwarded to the embedded `aegov-footer-highlights`.
          */
         "entityEmailLabel"?: string;
+        /**
+          * Link to the entity's app on Google Play, shown alongside `appStoreHref` in the same "Download our app" block.
+         */
+        "googlePlayHref"?: string;
         /**
           * Controls how footer link columns behave below the `sm` breakpoint (640px) — the point at which the reference footer block stops being collapsible altogether, well before the grid switches from 2 to 4 columns at `lg`. - "collapsible" (default): each column's content toggles below `sm`, always expanded at `sm+`. - "flat": columns are always expanded, at every breakpoint. Author each column as a plain title element + content — no extra markup needed for either value.
           * @default 'collapsible'
@@ -6935,7 +6943,6 @@ declare namespace LocalJSX {
         "fieldId": string;
         "appearance": BadgeAppearance;
         "variant": BadgeColor;
-        "color": BadgeColor;
         "isDismissible": boolean;
         "size": string;
     }
@@ -7128,6 +7135,8 @@ declare namespace LocalJSX {
         "entityEmail": string;
         "entityEmailLabel": string;
         "entityContactHref": string;
+        "appStoreHref": string;
+        "googlePlayHref": string;
     }
     interface AegovFooterHighlightsAttributes {
         "entityContactNumber": string;

@@ -1865,7 +1865,7 @@ export class AegovDatepicker {
     return { showError, showHint };
   }
 
-  private renderSingleTrigger(passThroughAttrs: Record<string, string>) {
+  private renderSingleTrigger(passThroughAttrs: Record<string, string | boolean>) {
     const displayValue = this.getDisplayValue();
     const hasValue = !!displayValue;
     const placeholder = this.placeholder || this.t.selectDate;
@@ -1913,7 +1913,7 @@ export class AegovDatepicker {
     );
   }
 
-  private renderRangeTrigger(passThroughAttrs: Record<string, string>) {
+  private renderRangeTrigger(passThroughAttrs: Record<string, string | boolean>) {
     const startValue = this.getDisplayRangeStart();
     const endValue = this.getDisplayRangeEnd();
     const hasValue = !!(startValue || endValue);

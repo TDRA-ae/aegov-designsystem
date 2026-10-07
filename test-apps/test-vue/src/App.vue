@@ -4,7 +4,7 @@
     <!-- Topbar -->
     <header class="sticky top-0 z-50 flex items-center gap-4 border-b border-aeblack-200 dark:border-aeblack-700 bg-white/95 dark:bg-aeblack-900/95 backdrop-blur px-5 py-2.5">
       <div class="flex items-center gap-2 me-4">
-        <aegov-badge color="primary" appearance="solid">AEGOV DS</aegov-badge>
+        <aegov-badge variant="primary" appearance="solid">AEGOV DS</aegov-badge>
         <span class="text-sm font-medium text-aeblack-600 dark:text-aeblack-400">Test App — Vue 3</span>
       </div>
 
@@ -27,8 +27,8 @@
       ></aegov-toggle>
 
       <div class="ms-auto flex items-center gap-2">
-        <aegov-badge :color="isDark ? 'purple' : 'aeblack'">{{ isDark ? 'Dark' : 'Light' }}</aegov-badge>
-        <aegov-badge :color="isRtl ? 'aegold' : 'techblue'">{{ isRtl ? 'RTL' : 'LTR' }}</aegov-badge>
+        <aegov-badge :variant="isDark ? 'purple' : 'aeblack'">{{ isDark ? 'Dark' : 'Light' }}</aegov-badge>
+        <aegov-badge :variant="isRtl ? 'aegold' : 'techblue'">{{ isRtl ? 'RTL' : 'LTR' }}</aegov-badge>
       </div>
     </header>
 
@@ -87,7 +87,7 @@
             <h1 class="text-h4 font-extrabold text-aeblack-900 dark:text-whitely-100">AEGOV Design System</h1>
             <p class="text-sm text-aeblack-500 dark:text-aeblack-400 mt-1">All components · Vue 3 + Tailwind v4 + Vite</p>
           </div>
-          <aegov-badge color="aegreen" appearance="soft">v0.0.3</aegov-badge>
+          <aegov-badge variant="aegreen" appearance="soft">v0.0.3</aegov-badge>
         </div>
 
         <!-- TYPOGRAPHY -->
@@ -98,7 +98,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Typography</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Semantic heading elements and utility-class equivalents</p>
               </div>
-              <aegov-badge color="primary" appearance="soft">Foundation</aegov-badge>
+              <aegov-badge variant="primary" appearance="soft">Foundation</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="grid grid-cols-2 gap-6">
@@ -137,7 +137,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Color Palette</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">All 18 theme color families — 50 to 950 shades</p>
               </div>
-              <aegov-badge color="primary" appearance="soft">Foundation</aegov-badge>
+              <aegov-badge variant="primary" appearance="soft">Foundation</aegov-badge>
             </div>
             <div class="section-card-body space-y-2.5">
               <div v-for="palette in colorPalettes" :key="palette.name" class="space-y-1">
@@ -164,7 +164,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Buttons</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">All variants — primary, secondary, danger, neutral-min, neutral-max</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="preview-box flex gap-3 flex-wrap items-center">
@@ -190,7 +190,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Button Sizes</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">All 5 variants × all 5 sizes</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body overflow-x-auto">
               <table class="w-full text-sm">
@@ -220,11 +220,11 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Badges</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">All 17 color values</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="preview-box flex gap-2 flex-wrap">
-                <aegov-badge v-for="color in badgeColors" :key="color" :color="color">{{ color }}</aegov-badge>
+                <aegov-badge v-for="variant in badgeVariants" :key="variant" :variant="variant">{{ variant }}</aegov-badge>
               </div>
             </div>
           </div>
@@ -238,14 +238,14 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Badge Appearances</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Soft (default) vs Solid</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="grid grid-cols-2 gap-5">
                 <div v-for="appearance in ['soft','solid']" :key="appearance" class="space-y-2">
                   <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 capitalize">{{ appearance }}</p>
                   <div class="preview-box flex flex-wrap gap-2">
-                    <aegov-badge v-for="color in badgeColors.slice(0, 14)" :key="color" :color="color" :appearance="appearance">{{ color }}</aegov-badge>
+                    <aegov-badge v-for="variant in badgeVariants.slice(0, 14)" :key="variant" :variant="variant" :appearance="appearance">{{ variant }}</aegov-badge>
                   </div>
                 </div>
               </div>
@@ -261,7 +261,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Input</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Use <code class="font-mono text-[11px]">field-id</code> (kebab-case in Vue)</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="preview-box grid grid-cols-2 gap-4 max-w-2xl">
@@ -282,7 +282,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Select</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Single, searchable, clearable</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="preview-box grid grid-cols-2 gap-4 max-w-2xl">
@@ -309,7 +309,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Checkbox</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Use <code class="font-mono text-[11px]">is-checked</code> (kebab-case in Vue)</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="preview-box flex flex-wrap gap-6">
@@ -329,7 +329,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Textarea</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Multi-line text · resize modes · copyable</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="grid grid-cols-2 gap-4 max-w-2xl">
@@ -352,7 +352,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Checkbox Group</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Grouped checkboxes · vertical / horizontal</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="grid grid-cols-2 gap-6 max-w-2xl">
@@ -380,7 +380,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Toggle</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">On/off switch · variants · sizes</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="space-y-4 max-w-md">
@@ -409,7 +409,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Radio Group</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Single-selection · vertical / horizontal</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="grid grid-cols-2 gap-6 max-w-2xl">
@@ -446,7 +446,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Range</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Single · dual (min/max) · display modes</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="space-y-6 max-w-lg">
@@ -479,7 +479,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">OTP</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">One-time password · continuous / segmented</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="space-y-6">
@@ -508,7 +508,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">File Upload</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Default · dropzone · multiple files</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="space-y-6 max-w-lg">
@@ -537,7 +537,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Datepicker</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Single · range · clearable</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="grid grid-cols-2 gap-4 max-w-2xl">
@@ -570,7 +570,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Form Field</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Wrapper that adds label + hint + error to any form component</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="space-y-4 max-w-lg">
@@ -607,7 +607,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Tabs</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5"><code class="font-mono text-[11px]">tab-id</code> (kebab-case in Vue) — required prop</p>
               </div>
-              <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+              <aegov-badge variant="techblue" appearance="soft">Component</aegov-badge>
             </div>
             <div class="section-card-body">
               <aegov-tabs default-open="overview">
@@ -636,7 +636,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Component States</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Normal · Disabled · Readonly · Required</p>
               </div>
-              <aegov-badge color="aegold" appearance="soft">Testing</aegov-badge>
+              <aegov-badge variant="aegold" appearance="soft">Testing</aegov-badge>
             </div>
             <div class="section-card-body space-y-6">
               <div class="space-y-2">
@@ -682,7 +682,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Dark Mode</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5"><code class="font-mono text-[11px]">.dark</code> on <code class="font-mono text-[11px]">&lt;html&gt;</code> — use the toggle above</p>
               </div>
-              <aegov-badge color="purple" appearance="soft">Theming</aegov-badge>
+              <aegov-badge variant="purple" appearance="soft">Theming</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="grid grid-cols-3 gap-4">
@@ -695,8 +695,8 @@
                   <p class="text-sm font-semibold text-primary-800 dark:text-primary-200">Primary tint</p>
                   <p class="text-xs text-primary-600 dark:text-primary-400">Semantic text</p>
                   <div class="flex gap-1.5">
-                    <aegov-badge color="primary" appearance="soft">Active</aegov-badge>
-                    <aegov-badge color="aegreen" appearance="soft">Online</aegov-badge>
+                    <aegov-badge variant="primary" appearance="soft">Active</aegov-badge>
+                    <aegov-badge variant="aegreen" appearance="soft">Online</aegov-badge>
                   </div>
                 </div>
                 <div class="rounded-xl p-4 space-y-2 bg-aeblack-800 dark:bg-whitely-100 border border-aeblack-700 dark:border-aeblack-200 transition-colors duration-200">
@@ -716,7 +716,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">RTL / Arabic</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Toggle RTL in the top bar — flips layout + Noto Kufi Arabic font</p>
               </div>
-              <aegov-badge color="purple" appearance="soft">Theming</aegov-badge>
+              <aegov-badge variant="purple" appearance="soft">Theming</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="preview-box space-y-4">
@@ -727,9 +727,9 @@
                   <aegov-button variant="danger">تحذير</aegov-button>
                 </div>
                 <div class="flex gap-2 flex-wrap">
-                  <aegov-badge color="aegreen">نشط</aegov-badge>
-                  <aegov-badge color="aegold">قيد الانتظار</aegov-badge>
-                  <aegov-badge color="aered">مرفوض</aegov-badge>
+                  <aegov-badge variant="aegreen">نشط</aegov-badge>
+                  <aegov-badge variant="aegold">قيد الانتظار</aegov-badge>
+                  <aegov-badge variant="aered">مرفوض</aegov-badge>
                 </div>
                 <div class="grid grid-cols-2 gap-3 max-w-lg">
                   <aegov-input field-id="rtl-name" placeholder="الاسم الكامل"></aegov-input>
@@ -752,7 +752,7 @@
                 <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Form Shadow Test</h2>
                 <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">aegov-input with shadow:true — testing label association &amp; form submission</p>
               </div>
-              <aegov-badge color="aered" appearance="soft">shadow:true</aegov-badge>
+              <aegov-badge variant="aered" appearance="soft">shadow:true</aegov-badge>
             </div>
             <div class="section-card-body">
               <div class="preview-box space-y-8">
@@ -797,7 +797,7 @@ const isLoading = ref(false);
 const isDark = ref(false);
 const isRtl = ref(false);
 
-const badgeColors = [
+const badgeVariants = [
   'default','primary','secondary','aegreen','aegold','aered','aeblack',
   'techblue','seablue','camel','desert','fuchsia','slate','purple','pink','indigo','lime',
 ];

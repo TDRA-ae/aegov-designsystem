@@ -28,9 +28,15 @@ function readSmBreakpointPx(): number {
 const STRINGS = {
   en: {
     navLabel: 'Footer navigation',
+    downloadApp: 'Download our app',
+    appStore: 'App Store',
+    googlePlay: 'Google Play',
   },
   ar: {
     navLabel: 'التنقل في التذييل',
+    downloadApp: 'حمل تطبيقنا',
+    appStore: 'آب ستور',
+    googlePlay: 'جوجل بلاي',
   },
 };
 
@@ -62,7 +68,7 @@ const STRINGS = {
  * bottom bar for copyright + legal links.
  *
  * @slot highlights - Forwarded to the embedded `aegov-footer-highlights`'s own default slot (its start-side card content, e.g. a newsletter form or app-download links).
- * @slot brand - Logo, description, and social links for the first column above the nav groups.
+ * @slot brand - Logo, description, and social links for the first column above the nav groups. When `app-store-href` and/or `google-play-href` are set, a "Download our app" badge block renders in this same column, below the slotted content.
  * @slot - Footer link columns. Each column: `<div class="aegov-footer__group">
  * <h2>Title</h2><ul>…</ul></div>`.
  * @slot copyright - Copyright / last-updated text in the bottom bar.
@@ -123,6 +129,21 @@ export class AegovFooter {
 
   /** Forwarded to the embedded `aegov-footer-highlights`. */
   @Prop() entityContactHref?: string;
+
+  /**
+   * Link to the entity's app on Apple's App Store. When set (alone or with
+   * `googlePlayHref`), a "Download our app" badge block renders in the
+   * `brand` column, below the slotted logo/description/social links.
+   * Entirely optional — nothing renders unless at least one of the two is
+   * provided.
+   */
+  @Prop() appStoreHref?: string;
+
+  /**
+   * Link to the entity's app on Google Play, shown alongside `appStoreHref`
+   * in the same "Download our app" block.
+   */
+  @Prop() googlePlayHref?: string;
 
   private _isAboveMobile = false;
   private _mql: MediaQueryList | null = null;
@@ -366,6 +387,76 @@ export class AegovFooter {
             <div class="aegov-footer__columns">
               <div class="aegov-footer__brand">
                 <slot name="brand"></slot>
+
+                {(this.appStoreHref || this.googlePlayHref) && (
+                  <div class="aegov-footer__apps">
+                    <p class="aegov-footer__apps-title">{s.downloadApp}</p>
+                    <div class="aegov-footer__apps-badges">
+                      {this.appStoreHref && (
+                        <aegov-link href={this.appStoreHref} target="_blank" rel="noopener noreferrer" size="xs" appearance="solid" variant="neutral-min">
+                          <svg aria-hidden="true" class="w-4 h-4" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                            <rect width="256" height="256" fill="none" />
+                            <path
+                              d="M216,73.52C204.53,62.66,185,56,168,56a63.72,63.72,0,0,0-40,14h0A63.71,63.71,0,0,0,88.88,56C52,55.5,23.06,86.3,24,123.19a119.62,119.62,0,0,0,37.65,84.12A31.92,31.92,0,0,0,83.6,216h87.7a31.75,31.75,0,0,0,23.26-10c15.85-17,21.44-33.2,21.44-33.2h0c-16.79-11.53-24-30.87-24-52.78,0-18.3,11.68-34.81,24-46.48Z"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="16"
+                            />
+                            <path
+                              d="M168,8h-1a32,32,0,0,0-31,24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="16"
+                            />
+                          </svg>
+                          {s.appStore}
+                        </aegov-link>
+                      )}
+                      {this.googlePlayHref && (
+                        <aegov-link href={this.googlePlayHref} target="_blank" rel="noopener noreferrer" size="xs" appearance="solid" variant="neutral-min">
+                          <svg aria-hidden="true" class="w-4 h-4" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                            <rect width="256" height="256" fill="none" />
+                            <path
+                              d="M56,224.14a8,8,0,0,0,12.06,6.77L235.9,134.84a7.75,7.75,0,0,0,0-13.68L68.06,25.09A8,8,0,0,0,56,31.86Z"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="16"
+                            />
+                            <line
+                              x1="58.33"
+                              y1="26.33"
+                              x2="192"
+                              y2="160"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="16"
+                            />
+                            <line
+                              x1="58.33"
+                              y1="229.67"
+                              x2="191.98"
+                              y2="96.02"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="16"
+                            />
+                          </svg>
+                          {s.googlePlay}
+                        </aegov-link>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
               <nav class={`aegov-footer__nav footer--${navVariant}`} aria-label={s.navLabel}>
                 <slot></slot>
@@ -373,11 +464,13 @@ export class AegovFooter {
             </div>
           </div>
 
-          <div class="aegov-footer__bottom aegov-container">
-            <div class="aegov-footer__copyright">
-              <slot name="copyright"></slot>
+          <div class="aegov-footer__bottom">
+            <div class="aegov-footer__bottom-inner aegov-container">
+              <div class="aegov-footer__copyright">
+                <slot name="copyright"></slot>
+              </div>
+              <slot name="legal"></slot>
             </div>
-            <slot name="legal"></slot>
           </div>
         </footer>
       </Host>
