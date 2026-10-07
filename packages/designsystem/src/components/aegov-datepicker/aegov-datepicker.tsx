@@ -1053,7 +1053,13 @@ export class AegovDatepicker {
         if (isDisabled) {
           btn.classList.add('datepicker__day--disabled');
           btn.setAttribute('aria-disabled', 'true');
-          btn.disabled = true;
+          // Deliberately not btn.disabled = true: a native-disabled button can never
+          // receive focus, which breaks keyboard navigation (focus gets stranded on
+          // <body> the moment it would land on a disabled date — see #36). Disabled
+          // dates stay focusable-but-inert instead, per the WAI-ARIA APG grid pattern;
+          // handleDayClick() already no-ops on a disabled date regardless of how
+          // activation was triggered, and the CSS below gives --disabled pointer-events:
+          // none, so neither mouse nor keyboard activation can select one.
         }
         if (isToday) btn.setAttribute('aria-current', 'date');
 
@@ -1659,11 +1665,24 @@ export class AegovDatepicker {
   private moveFocus(days: number) {
     const current = this.focusedDate || this.selectedDate || stripTime(new Date());
     let next = new Date(current);
+    let foundEnabled = false;
     // Skip over disabled dates in the direction of travel (up to 366 steps)
     for (let i = 0; i < 366; i++) {
       next = new Date(next);
       next.setDate(next.getDate() + days);
-      if (!this.isDateDisabled(next)) break;
+      if (!this.isDateDisabled(next)) {
+        foundEnabled = true;
+        break;
+      }
+    }
+    if (!foundEnabled) {
+      // Every date in this direction is disabled (e.g. is-disable-future/is-disable-past,
+      // min/max past their boundary) — there's no "nearby" enabled date to skip to, so
+      // don't jump 366+ days away. Move exactly one step instead, same as standard grid
+      // navigation; it lands on a disabled-but-focusable date (see #36), which is safe
+      // now that disabled dates are no longer natively unfocusable.
+      next = new Date(current);
+      next.setDate(next.getDate() + days);
     }
 
     const needsMonthChange = next.getMonth() !== this.viewMonth || next.getFullYear() !== this.viewYear;
@@ -1682,7 +1701,7 @@ export class AegovDatepicker {
     }
 
     this.focusDayButton(next);
-    this.announceLive(this.buildFullDateLabel(next, false));
+    this.announceLive(this.buildFullDateLabel(next, this.isDateDisabled(next)));
   }
 
   private moveFocusMonths(months: number) {
@@ -1768,7 +1787,7 @@ export class AegovDatepicker {
       }
       // Reset aria-label to base (removes stale range-role suffix)
       if (!isOutside) {
-        btn.setAttribute('aria-label', this.buildFullDateLabel(date, btn.disabled));
+        btn.setAttribute('aria-label', this.buildFullDateLabel(date, this.isDateDisabled(date)));
       }
 
       if (this.appearance === 'single') {
