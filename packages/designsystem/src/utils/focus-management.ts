@@ -83,6 +83,21 @@ export function getSlottedFocusableElements(shadowRoot: ShadowRoot, selector: st
 }
 
 /**
+ * Query focusable elements within a plain light-DOM container, piercing into any
+ * descendant's own shadow root. Unlike `getSlottedFocusableElements` (which reads
+ * a shadow-DOM host's own `<slot>` via `assignedElements()`), this walks a plain
+ * container's regular children directly — for a `scoped` (non-shadow) component's
+ * own wrapper element, whose slotted content already lives in ordinary light DOM
+ * but may itself be a `shadow: true` component (e.g. `aegov-button`) whose real
+ * interactive element a plain `querySelector`/`querySelectorAll` can never reach.
+ */
+export function getFocusableElementsDeep(container: Element, selector: string = FOCUSABLE_SELECTORS): HTMLElement[] {
+  const focusable: HTMLElement[] = [];
+  collectFocusableDeep(container, selector, focusable);
+  return focusable;
+}
+
+/**
  * Handle Tab key to wrap focus within a list of focusable elements.
  * Used by modal and drawer for focus trapping.
  *
@@ -98,7 +113,7 @@ export function getSlottedFocusableElements(shadowRoot: ShadowRoot, selector: st
  * so comparisons against `focusableElements` (which stores the deep, real
  * targets) can actually match.
  */
-function getDeepActiveElement(root: Document | ShadowRoot = document): Element | null {
+export function getDeepActiveElement(root: Document | ShadowRoot = document): Element | null {
   let active = root.activeElement;
   while (active && active.shadowRoot && active.shadowRoot.activeElement) {
     active = active.shadowRoot.activeElement;
