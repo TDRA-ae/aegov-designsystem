@@ -6,6 +6,7 @@ import type {
 } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { generateId } from '../../utils/id-generator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
@@ -69,7 +70,14 @@ export class AegovRadio {
   /** Inline error message. Use `error` slot for rich markup. */
   @Prop({ mutable: true }) errorMessage: string = '';
 
-  /** Additional CSS classes to apply. */
+  /**
+   * Additional CSS classes to apply.
+   *
+   * This component renders in a real shadow root, which normally blocks the page's CSS
+   * from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied
+   * in from the page's own stylesheets at runtime and work as expected; other utilities
+   * (colour, border, typography, etc.) still have no effect — see #35.
+   */
   @Prop() extraClass?: string;
 
   /** Emitted when the radio checked state changes. */
@@ -135,6 +143,7 @@ export class AegovRadio {
 
   componentDidLoad() {
     this.syncInternalsValidity();
+    adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
     // Self-detect parent group appearance — bypasses syncChildren() timing dependency.
     const group = this.el.closest('aegov-radio-group');
     if (group) {
@@ -177,6 +186,11 @@ export class AegovRadio {
       this._resolvedSize = v as RadioSize;
     });
     this._resolvedSize = this._sizeWatcher.current as RadioSize;
+  }
+
+  @Watch('extraClass')
+  onExtraClassChange() {
+    adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
   }
 
   /** Imperatively re-run validation. */
