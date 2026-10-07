@@ -7,12 +7,12 @@
   @apply w-full relative;
 }
 
-/*
-  Single-row bar: logo at the inline start, navigation after it, actions and the
-  menu toggle at the inline end. Every offset uses logical properties so the
-  order mirrors automatically under `dir="rtl"`.
+/* ── Brand row ──────────────────────────────────────────────────────────────
+  Logo at the inline start; search (ministry) or the emblem (authority) at the
+  inline end, both giving way to the menu toggle below the collapse breakpoint.
+  Logical properties throughout, so the order mirrors under `dir="rtl"`.
 */
-.header__bar {
+.header__brand-bar {
   @apply flex items-center justify-between gap-3 lg:gap-4 xl:gap-6;
 }
 
@@ -24,23 +24,61 @@
   }
 }
 
-/*
-  Navigation is hidden and the menu toggle shown by default; the
-  `header--collapse-*` modifier below flips them at the breakpoint chosen by the
-  `collapseAt` prop. The slotted content owns its own <nav> landmark — do not
-  add one here.
+.header__brand-end {
+  @apply flex items-center shrink-0 gap-2;
+}
 
-  Each breakpoint is written out as its own rule on purpose. The Stencil
-  Tailwind plugin only generates utilities it can see in this file, so a
-  variant assembled at runtime (`${bp}:flex`) would produce a class with no
-  rule behind it. Adding a breakpoint means adding a block here and a value to
-  HEADER_COLLAPSE_BREAKPOINTS.
+/* Ministry only. Hidden below the collapse breakpoint, where the toggle takes
+   the slot's place. */
+.header__search {
+  @apply hidden min-w-sm;
+}
 
-  `items-center flex-1 min-w-0` are unconditional — inert while the element is
-  display:none, so they need no variant.
+/* Authority only — the emblem replaces the search slot, and neither the slot
+   nor the colour is overridable.
+
+   Size lives here rather than on the shared SVG helper because the Tailwind
+   plugin does not scan shared modules. The fill comes from --aegov-emblem-fill,
+   set inline by the component (EMBLEM_COLOR in aegov-header.tsx): an inline
+   value on this element beats any inherited colour, so the emblem never picks
+   up the page's text colour and cannot be retinted from outside. */
+.header__emblem {
+  @apply hidden shrink-0;
+  /* Sized by height, not width: the emblem is a fixed-proportion mark (765x995)
+     and the brand row is a horizontal band, so height is the dimension that has
+     to line up. Width follows the aspect ratio.
+
+     64 / 72 / 80px, on the 4px spacing scale. The base value matches md because
+     the emblem is never painted below it — md is the floor for collapseAt, and
+     the emblem is hidden below whatever collapseAt is set to. */
+  /* `block` matters: an inline SVG sits on the text baseline, so its line box
+     adds ~7px of descender space underneath. That made the emblem's artwork
+     hug the top of its own box — reading as a padding bug — even though the
+     box itself was centred. */
+  svg {
+    @apply block w-auto h-16 md:h-16 lg:h-18 xl:h-20;
+  }
+  svg path {
+    fill: var(--aegov-emblem-fill);
+  }
+}
+
+/* ── Navigation row ─────────────────────────────────────────────────────────
+  Second row below the brand row: navigation at the inline start, secondary
+  actions at the inline end. Hidden as a whole below the collapse breakpoint,
+  and the only part that pins when `isSticky` is set.
 */
+.header__nav-row {
+  @apply hidden w-full;
+}
+
+.header__nav-bar {
+  @apply flex items-center justify-between gap-4;
+}
+
+/* The slotted content owns its own <nav> landmark — do not add one here. */
 .header__nav {
-  @apply hidden items-center flex-1 min-w-0;
+  @apply flex items-center min-w-0;
 }
 
 .header__actions {
@@ -49,31 +87,48 @@
 
 /*
   Layout only — aegov-button owns its colours, hover, focus ring and sizing.
-  Visibility is gated by the header--collapse-* modifier.
+  Visibility is gated by the header--collapse-* modifier below.
 */
 .header__menu-toggle {
   @apply shrink-0;
 }
 
-/* ── Collapse breakpoints ───────────────────────────────────────────────── */
+/* ── Collapse breakpoints ───────────────────────────────────────────────────
+  Each breakpoint is written out as its own rule on purpose. The Stencil
+  Tailwind plugin only generates utilities it can see in this file, so a variant
+  assembled at runtime (`${bp}:flex`) would produce a class with no rule behind
+  it. Adding a breakpoint means adding a block here and a value to
+  HEADER_COLLAPSE_BREAKPOINTS.
+
+  At and above the breakpoint: the navigation row and the search/emblem appear,
+  and the menu toggle disappears. Below it, the reverse.
+*/
 
 .header--collapse-md {
-  .header__nav { @apply md:flex; }
+  .header__nav-row { @apply md:block; }
+  .header__search { @apply md:inline-block; }
+  .header__emblem { @apply md:block; }
   .header__menu-toggle { @apply md:hidden; }
 }
 
 .header--collapse-lg {
-  .header__nav { @apply lg:flex; }
+  .header__nav-row { @apply lg:block; }
+  .header__search { @apply lg:inline-block; }
+  .header__emblem { @apply lg:block; }
   .header__menu-toggle { @apply lg:hidden; }
 }
 
 .header--collapse-xl {
-  .header__nav { @apply xl:flex; }
+  .header__nav-row { @apply xl:block; }
+  .header__search { @apply xl:inline-block; }
+  .header__emblem { @apply xl:block; }
   .header__menu-toggle { @apply xl:hidden; }
 }
 
 .header--collapse-2xl {
-  .header__nav { @apply 2xl:flex; }
+  .header__nav-row { @apply 2xl:block; }
+  .header__search { @apply 2xl:inline-block; }
+  .header__emblem { @apply 2xl:block; }
   .header__menu-toggle { @apply 2xl:hidden; }
 }
 
@@ -86,10 +141,13 @@
 }
 
 /* ── Sticky ─────────────────────────────────────────────────────────────────
-  The host is what sticks, offset upward by the banner's measured height, so the
-  banner scrolls away and the bar lands at exactly 0. `position: sticky` on
-  .header__head alone cannot work — a sticky element is confined to its parent's
-  box, so it would unstick the moment the header scrolled past.
+  The host is what sticks, offset upward by banner + brand-row height, so both
+  scroll away and the navigation row lands at exactly 0. `position: sticky` on
+  .header__nav-row alone cannot work — a sticky element is confined to its
+  parent's box, so it would unstick the moment the header scrolled past.
+
+  The host class is only applied at or above the collapse breakpoint (gated in
+  JS via matchMedia), so nothing pins while the menu toggle is showing.
 
   Driven by a class on the host, never a reflected boolean attribute: Stencil
   sets a reflected attribute when a boolean prop becomes true but does not
@@ -101,7 +159,7 @@
 */
 :host(.header--sticky) {
   position: sticky;
-  top: calc(-1 * var(--aegov-header-banner-height, 0px));
+  top: calc(-1 * var(--aegov-header-sticky-offset, 0px));
   z-index: 30;
 }
 
@@ -115,7 +173,7 @@
   across engines — so a dark theme sets the variable instead:
     aegov-header { --aegov-header-stuck-bg: oklch(22.66% .008 264 / 0.7); }
 */
-:host(.header--stuck) .header__head {
+:host(.header--stuck) .header__nav-row {
   background-color: var(--aegov-header-stuck-bg, color-mix(in oklab, var(--color-whitely-50, oklch(100% 0 0)) 70%, transparent));
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
@@ -125,7 +183,7 @@
 /* No backdrop-filter support: fall back to an opaque bar rather than a
    see-through one with unreadable text. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  :host(.header--stuck) .header__head {
+  :host(.header--stuck) .header__nav-row {
     background-color: var(--aegov-header-stuck-bg-fallback, var(--color-whitely-50, oklch(100% 0 0)));
   }
 }
