@@ -43,7 +43,10 @@
    value on this element beats any inherited colour, so the emblem never picks
    up the page's text colour and cannot be retinted from outside. */
 .header__emblem {
-  @apply hidden shrink-0;
+  /* Same vertical rhythm as .header__logo. Without it the emblem touches the
+     banner whenever it is the tallest thing in the row — which happens with any
+     logo shorter than the emblem, since the row is sized by its tallest child. */
+  @apply hidden shrink-0 pt-1 md:py-1.5 lg:pt-2 pb-1;
   /* Sized by height, not width: the emblem is a fixed-proportion mark (765x995)
      and the brand row is a horizontal band, so height is the dimension that has
      to line up. Width follows the aspect ratio.

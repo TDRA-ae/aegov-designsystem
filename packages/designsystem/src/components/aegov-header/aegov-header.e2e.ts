@@ -905,13 +905,13 @@ describe('aegov-header e2e', () => {
     expect(md.width).toBe(Math.round(64 * (765 / 995)));
   });
 
-  it('centres the emblem vertically in the brand row', async () => {
+  it('keeps the emblem clear of the row edges even when it is the tallest element', async () => {
     const page = await newE2EPage();
     await page.setViewport({ width: 1400, height: 900 });
     await page.setContent(`
       <style>body { margin: 0; }</style>
       <aegov-header variant="authority" entity-name="N" entity-domain="https://x.gov.ae" logo-label="Home">
-        <svg slot="logo" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="80" fill="#123"/></svg>
+        <svg slot="logo" viewBox="0 0 400 48" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="48" fill="#123"/></svg>
         <nav slot="navigation"><a href="#a">A</a></nav>
         <nav slot="mobile-content"><a href="#a">A</a></nav>
       </aegov-header>
@@ -925,11 +925,12 @@ describe('aegov-header e2e', () => {
       return { above: Math.round(svg.top - bar.top), below: Math.round(bar.bottom - svg.bottom) };
     });
 
-    // An inline SVG would sit on the text baseline and leave ~7px of descender
-    // space below it, pushing the artwork to the top of the row. `display:block`
-    // is what keeps these equal.
+    // Two separate hazards, both regressions people would not spot in a diff:
+    // an inline SVG sits on the text baseline and leaves ~7px of descender space
+    // below it (hence display:block), and a logo shorter than the emblem makes
+    // the emblem size the row, so without its own padding it touches the banner.
     expect(Math.abs(gaps.above - gaps.below)).toBeLessThanOrEqual(1);
-    expect(gaps.above).toBeGreaterThan(0);
+    expect(gaps.above).toBeGreaterThanOrEqual(8);
   });
 
   it('slides the drawer from the inline end, flipping under dir="rtl"', async () => {
