@@ -724,6 +724,12 @@ export class AegovDatepicker {
   private renderPortalContent() {
     if (!this.portalElement) return;
 
+    // The portal is appended directly to document.body, outside the host's own
+    // ancestor chain — so it never inherits dir="rtl" from a local wrapper the
+    // way the (non-portaled) host does. Set it explicitly, fresh on every render,
+    // so CSS direction-dependent layout (flex order, etc.) resolves correctly.
+    this.portalElement.setAttribute('dir', isRtl(this.el) ? 'rtl' : 'ltr');
+
     this.portalElement.innerHTML = '';
 
     // Inject styles
