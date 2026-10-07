@@ -5,9 +5,23 @@ import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { isRtl } from '../../utils/rtl';
 import { readBreakpointPx } from '../../utils/responsive-prop';
 import { generateId } from '../../utils/id-generator';
+import { getUaeEmblem } from '../../utils/icons';
 
 const TAG = 'aegov-header';
 const ctx = (prop: string) => ({ component: TAG, prop });
+
+/**
+ * Fill for the authority variant's UAE emblem.
+ *
+ * Deliberately fixed by the component: it is a brand mark on a known light
+ * ground, so it must not inherit the page's text colour and must not be
+ * retintable by consumers. Applied as an inline custom property on the emblem
+ * container, which beats any inherited value, and is unreachable from outside
+ * the shadow root.
+ *
+ * Tracks the palette token, so a global retheme of aeblack-800 still carries.
+ */
+const EMBLEM_COLOR = 'var(--color-aeblack-800, oklch(29.36% 0.0112 271.01))';
 
 const STRINGS = {
   en: { menu: 'Menu', close: 'Close menu' },
@@ -16,8 +30,9 @@ const STRINGS = {
 
 /**
  * @slot logo - The entity logo or wordmark. Always rendered at the inline start of the bar and wrapped in a link to `entityDomain`.
- * @slot navigation - Primary navigation. Visible from the `lg` breakpoint up; hidden below it, where the menu toggle takes over. Slotted content owns its own `<nav>` landmark (e.g. `aegov-navbar`) — the header does not add one.
- * @slot secondary-actions - Action buttons at the inline end of the bar. Visible at every breakpoint — keep to one or two icon-only buttons so small viewports do not overflow.
+ * @slot search - Search affordance shown at the inline end of the brand row. **Ministry variant only** — on `authority` the slot is not rendered at all and the UAE emblem takes its place. Hidden below `collapseAt`, where the menu toggle replaces it.
+ * @slot navigation - Primary navigation, at the inline start of the second row. Visible from the `collapseAt` breakpoint up; the whole second row is hidden below it. Slotted content owns its own `<nav>` landmark (e.g. `aegov-navbar`) — the header does not add one.
+ * @slot secondary-actions - Action buttons at the inline end of the second row. Hidden below `collapseAt` together with the navigation — repeat anything essential inside `mobile-content`.
  * @slot mobile-content - Content of the menu drawer, opened by the toggle below `lg`. Fully consumer-controlled. Navigation markup must be repeated here: a named slot's light DOM can only be projected once, so the `navigation` slot cannot also render inside the drawer.
  * @slot actions - Forwarded to the embedded `aegov-header-banner` top bar.
  */
@@ -84,6 +99,13 @@ export class AegovHeader {
   /** Whether the bar is currently pinned to the top of the viewport. */
   @State() isStuck: boolean = false;
 
+  /**
+   * Whether the viewport is at or above `collapseAt`. Sticky is gated on this:
+   * below the breakpoint the navigation row does not exist, so there is nothing
+   * to pin.
+   */
+  @State() isDesktop: boolean = true;
+
   /** Resolved text direction. Drives the drawer edge, which is a physical position. */
   @State() isRtlDir: boolean = false;
 
@@ -105,7 +127,8 @@ export class AegovHeader {
   private desktopMql?: MediaQueryList;
   private dirObservers: MutationObserver[] = [];
   private bannerEl?: HTMLElement;
-  private headEl?: HTMLElement;
+  private brandRowEl?: HTMLElement;
+  private navRowEl?: HTMLElement;
   private stuckObserver?: IntersectionObserver;
   private sizeObserver?: ResizeObserver;
 
@@ -136,6 +159,7 @@ export class AegovHeader {
 
   componentDidLoad() {
     this.warnIfLogoUnlabelled();
+    this.warnIfSearchIgnored();
     this.warnIfMenuEmpty();
     this.watchDesktopBreakpoint();
     this.watchDir();
@@ -151,7 +175,10 @@ export class AegovHeader {
   }
 
   @Watch('variant')
-  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, HEADER_VARIANTS, 'ministry', ctx('variant')); }
+  onVariantChange(v: unknown) {
+    warnIfInvalidEnumProp(v, HEADER_VARIANTS, 'ministry', ctx('variant'));
+    this.warnIfSearchIgnored();
+  }
 
   @Watch('drawerSize')
   onDrawerSizeChange(v: unknown) { warnIfInvalidEnumProp(v, DRAWER_SIZES, 'base', ctx('drawerSize')); }
@@ -186,6 +213,12 @@ export class AegovHeader {
     }
   }
 
+  private warnIfSearchIgnored() {
+    if (this.variant === 'authority' && this.el.querySelector('[slot="search"]')) {
+      console.warn('[aegov-header] The "search" slot is ignored on the authority variant, where the UAE emblem takes its place. Remove the slotted content or switch to variant="ministry".');
+    }
+  }
+
   private warnIfMenuEmpty() {
     if (!this.el.querySelector('[slot="mobile-content"]')) {
       console.warn('[aegov-header] No content in the "mobile-content" slot. The menu toggle shown below the lg breakpoint will open an empty drawer.');
@@ -193,9 +226,12 @@ export class AegovHeader {
   }
 
   /**
-   * The navigation slot is hidden below `lg` in CSS. If the viewport grows past
-   * that while the drawer is open, the same links would be reachable twice, so
-   * close it.
+   * Tracks the collapse breakpoint. Two jobs:
+   * - close the drawer when the viewport grows past it, so the same links are
+   *   not reachable twice;
+   * - drive `isDesktop`, which gates sticky. Gating in JS rather than CSS keeps
+   *   one sticky rule instead of one per breakpoint, since a runtime-built
+   *   Tailwind variant would never be generated.
    */
   private watchDesktopBreakpoint() {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return;
@@ -203,6 +239,7 @@ export class AegovHeader {
     const px = readBreakpointPx(this.resolvedCollapseAt()) ?? 1024;
     this.desktopMql = window.matchMedia(`(min-width: ${px}px)`);
     this.desktopMql.addEventListener('change', this.handleDesktopChange);
+    this.isDesktop = this.desktopMql.matches;
   }
 
   private resolvedCollapseAt(): HeaderCollapseBreakpoint {
@@ -210,7 +247,13 @@ export class AegovHeader {
   }
 
   private handleDesktopChange = (event: MediaQueryListEvent) => {
+    this.isDesktop = event.matches;
     if (event.matches && this.isMenuOpen) this.closeMenu();
+    // Below the breakpoint nothing pins, so drop any stuck state on the way down.
+    if (!event.matches && this.isStuck) {
+      this.isStuck = false;
+      this.aegovHeaderUnstuck.emit();
+    }
   };
 
   /**
@@ -233,11 +276,13 @@ export class AegovHeader {
   }
 
   /**
-   * Sticky needs two live measurements:
-   * - the banner's height, as the host's negative `top` offset, so the bar
-   *   lands at exactly 0 once the banner has scrolled off;
-   * - the bar's own height, published as `--aegov-header-height` for consumers
-   *   setting `scroll-margin-top` on anchor targets.
+   * Sticky pins the navigation row alone: the banner and the brand row scroll
+   * away above it.
+   *
+   * The host is what sticks, offset upward by banner + brand-row height — a
+   * `position: sticky` navigation row would be confined to its parent's box and
+   * unstick as soon as the header scrolled past. Keeping the host in flow means
+   * no spacer and no layout jump.
    */
   private watchSticky() {
     if (!this.isSticky) return;
@@ -246,31 +291,31 @@ export class AegovHeader {
     if (typeof ResizeObserver !== 'undefined' && !this.sizeObserver) {
       this.sizeObserver = new ResizeObserver(() => this.measure());
       if (this.bannerEl) this.sizeObserver.observe(this.bannerEl);
-      if (this.headEl) this.sizeObserver.observe(this.headEl);
+      if (this.brandRowEl) this.sizeObserver.observe(this.brandRowEl);
+      if (this.navRowEl) this.sizeObserver.observe(this.navRowEl);
     }
 
-    // Stuck state is derived from the banner, not from a sentinel: the bar
-    // reaches the top of the viewport at exactly the moment the banner has
-    // fully left it. `top < 0` distinguishes "scrolled past" from "not
-    // scrolled to yet", for a header that starts below the fold.
+    // Stuck state is derived from the brand row, which is the last thing to
+    // leave the viewport before the navigation row lands at 0.
     //
-    // The -1px top rootMargin is required, not cosmetic. Once stuck, the
-    // banner's bottom edge rests exactly on y=0, and that zero-area
-    // intersection produces no threshold crossing — Chrome fires no entry at
-    // all, so the state would never flip. Shrinking the root by 1px means the
-    // stuck banner clears it by a real margin and the callback runs.
-    if (typeof IntersectionObserver !== 'undefined' && !this.stuckObserver && this.bannerEl) {
+    // The -1px top rootMargin is required, not cosmetic. Once stuck, the brand
+    // row's bottom edge rests exactly on y=0, and that zero-area intersection
+    // produces no threshold crossing — Chrome fires no entry at all, so the
+    // state would never flip. Shrinking the root by 1px gives it a real margin
+    // to clear. `top < 0` separates "scrolled past" from "not scrolled to yet",
+    // for a header that starts below the fold.
+    if (typeof IntersectionObserver !== 'undefined' && !this.stuckObserver && this.brandRowEl) {
       this.stuckObserver = new IntersectionObserver(
         (entries) => {
           const entry = entries[entries.length - 1];
-          const stuck = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+          const stuck = this.isDesktop && !entry.isIntersecting && entry.boundingClientRect.top < 0;
           if (stuck === this.isStuck) return;
           this.isStuck = stuck;
           (stuck ? this.aegovHeaderStuck : this.aegovHeaderUnstuck).emit();
         },
         { threshold: 0, rootMargin: '-1px 0px 0px 0px' }
       );
-      this.stuckObserver.observe(this.bannerEl);
+      this.stuckObserver.observe(this.brandRowEl);
     }
   }
 
@@ -279,7 +324,7 @@ export class AegovHeader {
     this.stuckObserver = undefined;
     this.sizeObserver?.disconnect();
     this.sizeObserver = undefined;
-    this.el.style.removeProperty('--aegov-header-banner-height');
+    this.el.style.removeProperty('--aegov-header-sticky-offset');
     this.el.style.removeProperty('--aegov-header-height');
   }
 
@@ -287,9 +332,12 @@ export class AegovHeader {
     // Set on the host rather than through render, so a resize does not churn
     // the vdom.
     const bannerHeight = this.bannerEl?.offsetHeight ?? 0;
-    const headHeight = this.headEl?.offsetHeight ?? 0;
-    this.el.style.setProperty('--aegov-header-banner-height', `${bannerHeight}px`);
-    this.el.style.setProperty('--aegov-header-height', `${headHeight}px`);
+    const brandHeight = this.brandRowEl?.offsetHeight ?? 0;
+    const navHeight = this.navRowEl?.offsetHeight ?? 0;
+    // Everything above the navigation row has to clear the viewport first.
+    this.el.style.setProperty('--aegov-header-sticky-offset', `${bannerHeight + brandHeight}px`);
+    // The pinned row is what covers content, so that is the offset consumers need.
+    this.el.style.setProperty('--aegov-header-height', `${navHeight}px`);
   }
 
   private syncDir = () => {
@@ -335,7 +383,10 @@ export class AegovHeader {
     const drawerPosition = this.isRtlDir ? 'left' : 'right';
 
     return (
-      <Host class={{ 'header--sticky': this.isSticky, 'header--stuck': this.isSticky && this.isStuck }}>
+      <Host class={{
+        'header--sticky': this.isSticky && this.isDesktop,
+        'header--stuck': this.isSticky && this.isDesktop && this.isStuck,
+      }}>
       <header class={`aegov-header header--${variant} header--collapse-${collapseAt}`}>
         <aegov-header-banner
           ref={(el) => this.bannerEl = el as HTMLElement}
@@ -345,19 +396,28 @@ export class AegovHeader {
         >
           <slot name="actions" slot="actions" />
         </aegov-header-banner>
-        <div class="header__head" ref={(el) => this.headEl = el}>
-          <div class="aegov-container header__bar">
+
+        {/* Brand row: logo at the inline start; search (ministry) or the emblem
+            (authority) at the inline end, both replaced by the menu toggle
+            below the collapse breakpoint. */}
+        <div class="header__brand-row" ref={(el) => this.brandRowEl = el}>
+          <div class="aegov-container header__brand-bar">
             <a class="header__logo" href={this.entityDomain} aria-label={this.logoLabel || undefined}>
               <slot name="logo" />
             </a>
-            <div class="header__nav">
-              <slot name="navigation" />
-            </div>
-            <div class="header__actions">
-              <slot name="secondary-actions" />
+            <div class="header__brand-end">
+              {variant === 'authority' ? (
+                <div class="header__emblem" style={{ '--aegov-emblem-fill': EMBLEM_COLOR }}>
+                  {getUaeEmblem()}
+                </div>
+              ) : (
+                <div class="header__search">
+                  <slot name="search" />
+                </div>
+              )}
               <aegov-button
                 appearance="link"
-                is-icon="true" 
+                is-icon="true"
                 class="header__menu-toggle"
                 aria-expanded={this.isMenuOpen ? 'true' : 'false'}
                 aria-controls={this.drawerId}
@@ -374,6 +434,21 @@ export class AegovHeader {
             </div>
           </div>
         </div>
+
+        {/* Navigation row: nav at the inline start, actions at the inline end.
+            Hidden as a whole below the collapse breakpoint, and the only part
+            that pins when isSticky is set. */}
+        <div class="header__nav-row" ref={(el) => this.navRowEl = el}>
+          <div class="aegov-container header__nav-bar">
+            <div class="header__nav">
+              <slot name="navigation" />
+            </div>
+            <div class="header__actions">
+              <slot name="secondary-actions" />
+            </div>
+          </div>
+        </div>
+
         <aegov-drawer
           class="header__drawer"
           field-id={this.drawerId}
@@ -388,8 +463,8 @@ export class AegovHeader {
         >
           <div class="header__drawer-head">
             <aegov-button
-              is-icon="true" 
-              appearance="link" 
+              is-icon="true"
+              appearance="link"
               class="header__drawer-close"
               aria-label={closeLabel}
               onClick={this.handleCloseClick}
