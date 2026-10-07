@@ -61,6 +61,36 @@ describe('aegov-checkbox-group', () => {
     checkboxes.forEach(cb => expect(cb.size).toBe('lg'));
   });
 
+  it('cascades is-disabled to child checkboxes (group always wins)', async () => {
+    const page = await newSpecPage({
+      components: [AegovCheckboxGroup, AegovCheckbox],
+      html: `
+        <aegov-checkbox-group is-disabled="true">
+          <aegov-checkbox label="A" value="a"></aegov-checkbox>
+          <aegov-checkbox label="B" value="b" is-disabled="false"></aegov-checkbox>
+        </aegov-checkbox-group>
+      `,
+    });
+    const checkboxes = page.root.querySelectorAll('aegov-checkbox') as NodeListOf<HTMLAegovCheckboxElement>;
+    checkboxes.forEach(cb => expect(cb.isDisabled).toBe(true));
+  });
+
+  it('re-enables child checkboxes when the group is-disabled toggles back off', async () => {
+    const page = await newSpecPage({
+      components: [AegovCheckboxGroup, AegovCheckbox],
+      html: `
+        <aegov-checkbox-group is-disabled="true">
+          <aegov-checkbox label="A" value="a"></aegov-checkbox>
+        </aegov-checkbox-group>
+      `,
+    });
+    const group = page.root as HTMLAegovCheckboxGroupElement;
+    group.isDisabled = false;
+    await page.waitForChanges();
+    const cb = page.root.querySelector('aegov-checkbox') as HTMLAegovCheckboxElement;
+    expect(cb.isDisabled).toBe(false);
+  });
+
   it('check-all checkbox toggles all regular checkboxes', async () => {
     const page = await newSpecPage({
       components: [AegovCheckboxGroup, AegovCheckbox],
