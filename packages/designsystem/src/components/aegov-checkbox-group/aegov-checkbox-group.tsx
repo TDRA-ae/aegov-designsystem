@@ -6,6 +6,7 @@ import type {
 } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
@@ -125,6 +126,12 @@ export class AegovCheckboxGroup {
   componentDidLoad() {
     this.syncChildren();
     this.updateCheckAllState();
+    adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
+  }
+
+  @Watch('extraClass')
+  onExtraClassChange() {
+    adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
   }
 
   @Watch('appearance')
