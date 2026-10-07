@@ -98,6 +98,26 @@ export function getFocusableElementsDeep(container: Element, selector: string = 
 }
 
 /**
+ * Resolves a stored focus-restoration target (e.g. "the element that was
+ * focused before a menu/dialog opened") to whatever can actually receive
+ * focus. A `shadow: true` component's host — `aegov-button` is the common
+ * case — is often not itself focusable (no `delegatesFocus`, no reflected
+ * `tabindex`): calling `.focus()` directly on it silently does nothing,
+ * dropping focus to `<body>` instead of back where the user was. When the
+ * stored element has its own shadow root, resolve to the first focusable
+ * element inside it instead; otherwise the element itself is already the
+ * right target.
+ */
+export function resolveFocusTarget(element: HTMLElement, selector: string = FOCUSABLE_SELECTORS): HTMLElement {
+  if (element.shadowRoot) {
+    const focusable: HTMLElement[] = [];
+    collectFocusableDeep(element.shadowRoot, selector, focusable);
+    if (focusable[0]) return focusable[0];
+  }
+  return element;
+}
+
+/**
  * Handle Tab key to wrap focus within a list of focusable elements.
  * Used by modal and drawer for focus trapping.
  *

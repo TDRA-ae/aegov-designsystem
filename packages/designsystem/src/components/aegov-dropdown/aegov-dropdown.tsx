@@ -2,7 +2,7 @@ import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, 
 import { DROPDOWN_POSITIONS, DROPDOWN_ALIGNS, DROPDOWN_TRIGGERS } from '../../utils/types';
 import type { DropdownPosition, DropdownAlign, DropdownTrigger } from '../../utils/types';
 import { generateId } from '../../utils/id-generator';
-import { getFocusableElements, getFocusableElementsDeep, getDeepActiveElement, FOCUSABLE_SELECTORS, cycleFocus } from '../../utils/focus-management';
+import { getFocusableElements, getFocusableElementsDeep, getDeepActiveElement, resolveFocusTarget, FOCUSABLE_SELECTORS, cycleFocus } from '../../utils/focus-management';
 import { createPortal, removePortal } from '../../utils/portal-manager';
 import { createKeyboardHandler } from '../../utils/keyboard-handler';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -437,8 +437,11 @@ export class AegovDropdown {
       // Restore focus to trigger without scrolling the page.
       // When the dropdown closes because the trigger scrolled out of the
       // viewport, a plain .focus() would snap the page back to the trigger.
+      // resolveFocusTarget handles a shadow:true trigger like aegov-button —
+      // its host isn't itself focusable, so .focus() on it directly silently
+      // no-ops, dropping focus to <body> instead of back to the trigger.
       if (this.triggerElement) {
-        this.triggerElement.focus({ preventScroll: true });
+        resolveFocusTarget(this.triggerElement).focus({ preventScroll: true });
       }
     }
     // Keep ARIA state on the inner focusable element in sync
