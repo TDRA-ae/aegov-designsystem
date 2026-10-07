@@ -139,4 +139,52 @@ describe('aegov-dropdown (e2e)', () => {
     const stillInPortal = await page.find('.aegov-dropdown-portal #dd-content');
     expect(stillInPortal).toBeNull();
   });
+
+  // aegov-button is shadow:true — its real inner <button> lives in its own shadow
+  // root, unreachable by a plain querySelector from the dropdown's light-DOM
+  // trigger wrapper. Every other test in this file uses a plain <button>, which
+  // never exercises that path — regression coverage for #39.
+  it('syncs aria-expanded/aria-haspopup onto a shadow-DOM (aegov-button) trigger', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-dropdown>
+        <aegov-button>Open</aegov-button>
+        <div slot="dropdown-content"><a href="#">Item</a></div>
+      </aegov-dropdown>
+    `);
+    const readAria = () => page.evaluate(() => {
+      const btn = document.querySelector('aegov-dropdown aegov-button').shadowRoot.querySelector('button');
+      return { haspopup: btn.getAttribute('aria-haspopup'), expanded: btn.getAttribute('aria-expanded') };
+    });
+
+    expect(await readAria()).toEqual({ haspopup: 'menu', expanded: 'false' });
+
+    const el = await page.find('aegov-dropdown');
+    await el.callMethod('toggle');
+    await page.waitForChanges();
+
+    expect(await readAria()).toEqual({ haspopup: 'menu', expanded: 'true' });
+  });
+
+  it('ArrowDown after a mouse-opened menu focuses the first item for a shadow-DOM (aegov-button) trigger', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-dropdown>
+        <aegov-button>Open</aegov-button>
+        <div slot="dropdown-content">
+          <a href="#" id="item-1">Item 1</a>
+          <a href="#" id="item-2">Item 2</a>
+        </div>
+      </aegov-dropdown>
+    `);
+    const triggerBtn = await page.find('aegov-dropdown aegov-button >>> button');
+    await triggerBtn.click();
+    await page.waitForChanges();
+    await page.keyboard.press('ArrowDown');
+    await page.waitForChanges();
+    const activeId = await page.evaluate(() => document.activeElement?.id);
+    // Before the fix, isTriggerFocused was always false for a shadow-DOM trigger,
+    // so this fell through to cycleFocus and landed on item-2 instead of item-1.
+    expect(activeId).toBe('item-1');
+  });
 });

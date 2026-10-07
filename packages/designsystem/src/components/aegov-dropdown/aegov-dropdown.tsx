@@ -2,7 +2,7 @@ import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, 
 import { DROPDOWN_POSITIONS, DROPDOWN_ALIGNS, DROPDOWN_TRIGGERS } from '../../utils/types';
 import type { DropdownPosition, DropdownAlign, DropdownTrigger } from '../../utils/types';
 import { generateId } from '../../utils/id-generator';
-import { getFocusableElements, FOCUSABLE_SELECTORS, cycleFocus } from '../../utils/focus-management';
+import { getFocusableElements, getFocusableElementsDeep, getDeepActiveElement, FOCUSABLE_SELECTORS, cycleFocus } from '../../utils/focus-management';
 import { createPortal, removePortal } from '../../utils/portal-manager';
 import { createKeyboardHandler } from '../../utils/keyboard-handler';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -348,8 +348,10 @@ export class AegovDropdown {
 
   private syncTriggerAria() {
     if (!this.triggerRef) return;
-    // ARIA state must live on the focusable element AT reads, not its wrapper div.
-    // Query through light DOM (aegov-button is scoped:false, so its inner button is reachable).
+    // ARIA state must live on the focusable element itself, not its wrapper div.
+    // Pierce into any shadow root along the way — a trigger like aegov-button is
+    // shadow:true, so its real inner <button> is unreachable by a plain
+    // querySelector from this light-DOM wrapper.
     //
     // Priority: prefer <button> / [role="button"] over navigating <a> elements.
     // When both coexist inside the trigger (e.g. aegov-navbar-item injects a link
@@ -357,8 +359,8 @@ export class AegovDropdown {
     // as a plain navigation link without aria-haspopup to avoid screen readers
     // announcing "menupopup, link, Services".
     const inner =
-      this.triggerRef.querySelector<HTMLElement>('button:not([aria-hidden="true"]), [role="button"]') ??
-      this.triggerRef.querySelector<HTMLElement>('a, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      getFocusableElementsDeep(this.triggerRef, 'button:not([aria-hidden="true"]), [role="button"]')[0] ??
+      getFocusableElementsDeep(this.triggerRef, 'a, input, select, textarea, [tabindex]:not([tabindex="-1"])')[0];
     if (!inner) return;
     // Disclosure pattern uses aria-expanded only; aria-haspopup belongs to Menu Button.
     if (this.tabBehavior === 'menu-button') {
@@ -805,11 +807,9 @@ export class AegovDropdown {
       // APG Menu Button (optional): ArrowDown opens menu to first item, ArrowUp to last item
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
         const triggerFocusables = this.triggerRef
-          ? Array.from(this.triggerRef.querySelectorAll<HTMLElement>(
-              'button, a, [role="button"], [tabindex]:not([tabindex="-1"])'
-            ))
+          ? getFocusableElementsDeep(this.triggerRef, 'button, a, [role="button"], [tabindex]:not([tabindex="-1"])')
           : [];
-        const isTriggerFocused = triggerFocusables.some(el => el === document.activeElement);
+        const isTriggerFocused = triggerFocusables.some(el => el === getDeepActiveElement());
         if (isTriggerFocused && !this.isDisabled) {
           event.preventDefault();
           this.openedViaKeyboard = true;
@@ -947,11 +947,9 @@ export class AegovDropdown {
     // ArrowDown → first item, ArrowUp → last item (mirrors the closed-state open behavior).
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       const triggerFocusables = this.triggerRef
-        ? Array.from(this.triggerRef.querySelectorAll<HTMLElement>(
-            'button, a, [role="button"], [tabindex]:not([tabindex="-1"])'
-          ))
+        ? getFocusableElementsDeep(this.triggerRef, 'button, a, [role="button"], [tabindex]:not([tabindex="-1"])')
         : [];
-      const isTriggerFocused = triggerFocusables.some(el => el === document.activeElement);
+      const isTriggerFocused = triggerFocusables.some(el => el === getDeepActiveElement());
       if (isTriggerFocused) {
         event.preventDefault();
         if (this.focusableElements.length === 0 && this.dropdownRef) {
