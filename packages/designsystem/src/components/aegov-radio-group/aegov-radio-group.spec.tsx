@@ -65,6 +65,36 @@ describe('aegov-radio-group', () => {
     });
   });
 
+  it('cascades is-disabled to child radios (group always wins)', async () => {
+    const page = await newSpecPage({
+      components: [AegovRadioGroup, AegovRadio],
+      html: `
+        <aegov-radio-group name="grp1" is-disabled="true">
+          <aegov-radio label="A" value="a"></aegov-radio>
+          <aegov-radio label="B" value="b" is-disabled="false"></aegov-radio>
+        </aegov-radio-group>
+      `,
+    });
+    const radios = page.root.querySelectorAll('aegov-radio') as NodeListOf<HTMLAegovRadioElement>;
+    radios.forEach(r => expect(r.isDisabled).toBe(true));
+  });
+
+  it('re-enables child radios when the group is-disabled toggles back off', async () => {
+    const page = await newSpecPage({
+      components: [AegovRadioGroup, AegovRadio],
+      html: `
+        <aegov-radio-group name="grp1" is-disabled="true">
+          <aegov-radio label="A" value="a"></aegov-radio>
+        </aegov-radio-group>
+      `,
+    });
+    const group = page.root as HTMLAegovRadioGroupElement;
+    group.isDisabled = false;
+    await page.waitForChanges();
+    const radio = page.root.querySelector('aegov-radio') as HTMLAegovRadioElement;
+    expect(radio.isDisabled).toBe(false);
+  });
+
   it('selecting one radio unselects siblings (Stencil state)', async () => {
     const page = await newSpecPage({
       components: [AegovRadioGroup, AegovRadio],
