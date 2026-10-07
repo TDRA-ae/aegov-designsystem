@@ -142,6 +142,11 @@ export class AegovCheckboxGroup {
     if (this.el.isConnected) { this.syncChildren(); }
   }
 
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    if (this.el.isConnected) { this.syncChildren(); }
+  }
+
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
   }
@@ -168,6 +173,8 @@ export class AegovCheckboxGroup {
       if (!cb.variant || cb.variant === 'primary') {
         cb.variant = this.variant;
       }
+      // Group always wins — matches size/appearance's unconditional cascade (see issue #34).
+      cb.isDisabled = this.isDisabled;
     });
   }
 
