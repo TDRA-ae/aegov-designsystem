@@ -2,7 +2,7 @@ import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, 
 import { POPOVER_POSITIONS, POPOVER_ALIGNS, POPOVER_TRIGGERS } from '../../utils/types';
 import type { PopoverPosition, PopoverAlign, PopoverTrigger } from '../../utils/types';
 import { generateId } from '../../utils/id-generator';
-import { getFocusableElements, FOCUSABLE_SELECTORS, cycleFocus } from '../../utils/focus-management';
+import { getFocusableElements, FOCUSABLE_SELECTORS, cycleFocus, resolveFocusTarget } from '../../utils/focus-management';
 import { createPortal, removePortal } from '../../utils/portal-manager';
 import { createKeyboardHandler } from '../../utils/keyboard-handler';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -340,8 +340,10 @@ export class AegovPopover {
       // handleTriggerFocusin -> showPopover(), silently reopening the popover the
       // instant the user moved focus away from it. Escape/click-outside/scroll-away
       // closes still restore focus as normal.
+      // resolveFocusTarget handles a shadow-DOM trigger whose host isn't itself
+      // focusable — .focus() on it directly would otherwise silently no-op (#66).
       if (this.triggerElement && !this.suppressFocusRestore) {
-        this.triggerElement.focus({ preventScroll: true });
+        resolveFocusTarget(this.triggerElement).focus({ preventScroll: true });
       }
       this.suppressFocusRestore = false;
 
