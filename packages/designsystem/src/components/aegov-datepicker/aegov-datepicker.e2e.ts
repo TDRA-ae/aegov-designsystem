@@ -200,4 +200,114 @@ describe('aegov-datepicker (e2e)', () => {
     const host = await page.find('aegov-datepicker');
     expect(host.getAttribute('data-testid')).toBe('dp');
   });
+
+  it('a disabled day button stays focusable (aria-disabled, not native disabled) — #36', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker value="2024-06-15" max="2024-06-15" format="YYYY-MM-DD"></aegov-datepicker>');
+    const host = await page.find('aegov-datepicker');
+    await host.callMethod('open');
+    await page.waitForChanges();
+
+    const state = await page.evaluate(() => {
+      const btn = document.querySelector('.aegov-datepicker-portal .datepicker__day[data-date="2024-06-16"]') as HTMLButtonElement;
+      return {
+        ariaDisabled: btn?.getAttribute('aria-disabled'),
+        nativeDisabled: btn?.disabled,
+        hasDisabledClass: btn?.classList.contains('datepicker__day--disabled'),
+      };
+    });
+    expect(state.ariaDisabled).toBe('true');
+    expect(state.nativeDisabled).toBe(false);
+    expect(state.hasDisabledClass).toBe(true);
+  });
+
+  it('ArrowRight past the last enabled date lands on the next (disabled) date instead of losing focus — #36', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker value="2024-06-15" max="2024-06-15" format="YYYY-MM-DD"></aegov-datepicker>');
+    const host = await page.find('aegov-datepicker');
+    await host.callMethod('open');
+    await page.waitForChanges();
+
+    await page.keyboard.press('ArrowRight');
+    await page.waitForChanges();
+
+    const focused = await page.evaluate(() => {
+      const el = document.activeElement as HTMLButtonElement | null;
+      return {
+        tag: el?.tagName,
+        date: el?.getAttribute('data-date'),
+        ariaDisabled: el?.getAttribute('aria-disabled'),
+      };
+    });
+    // Before the fix, this landed 366 days away with focus lost to <body>.
+    expect(focused.tag).toBe('BUTTON');
+    expect(focused.date).toBe('2024-06-16');
+    expect(focused.ariaDisabled).toBe('true');
+  });
+
+  it('Enter on a focused disabled date does not select it or emit change — #36', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker value="2024-06-15" max="2024-06-15" format="YYYY-MM-DD"></aegov-datepicker>');
+    const host = await page.find('aegov-datepicker');
+    const changeSpy = await host.spyOnEvent('aegovDatepickerChange');
+    await host.callMethod('open');
+    await page.waitForChanges();
+
+    await page.keyboard.press('ArrowRight');
+    await page.waitForChanges();
+    await page.keyboard.press('Enter');
+    await page.waitForChanges();
+
+    expect(changeSpy.events.length).toBe(0);
+    // Calendar should still be open — Enter on a disabled date is a no-op, not a selection.
+    const portalDialog = await page.find('.aegov-datepicker-portal .aegov-datepicker');
+    expect(portalDialog).not.toBeNull();
+  });
+
+  it('portal element carries dir="rtl" from a local ancestor wrapper — #37', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<div dir="rtl"><aegov-datepicker></aegov-datepicker></div>');
+    const host = await page.find('aegov-datepicker');
+    await host.callMethod('open');
+    await page.waitForChanges();
+
+    const portalDir = await page.evaluate(() => document.querySelector('.aegov-datepicker-portal')?.getAttribute('dir'));
+    const dialogDirection = await page.evaluate(() => {
+      const dialog = document.querySelector('.aegov-datepicker-portal .aegov-datepicker');
+      return dialog ? getComputedStyle(dialog).direction : null;
+    });
+    expect(portalDir).toBe('rtl');
+    expect(dialogDirection).toBe('rtl');
+  });
+
+  it('portal element defaults to dir="ltr" with no rtl ancestor — #37', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker></aegov-datepicker>');
+    const host = await page.find('aegov-datepicker');
+    await host.callMethod('open');
+    await page.waitForChanges();
+
+    const portalDir = await page.evaluate(() => document.querySelector('.aegov-datepicker-portal')?.getAttribute('dir'));
+    expect(portalDir).toBe('ltr');
+  });
+
+  // aegov-button is shadow:true — a direct .focus() call on its host previously
+  // silently no-op'd (no delegatesFocus, no reflected tabindex), dropping focus
+  // to <body> instead of back to the trigger. Regression coverage for #66.
+  it('restores focus to a shadow-DOM (aegov-button) custom trigger after Escape closes it', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker><aegov-button slot="trigger">Pick</aegov-button></aegov-datepicker>');
+    const triggerBtn = await page.find('aegov-datepicker aegov-button >>> button');
+    await triggerBtn.click();
+    await page.waitForChanges();
+    await page.keyboard.press('Escape');
+    await page.waitForChanges();
+
+    const focusState = await page.evaluate(() => {
+      const host = document.activeElement as (Element & { shadowRoot?: ShadowRoot }) | null;
+      return { hostTag: host?.tagName, deepActiveTag: host?.shadowRoot?.activeElement?.tagName ?? null };
+    });
+    expect(focusState.hostTag).toBe('AEGOV-BUTTON');
+    expect(focusState.deepActiveTag).toBe('BUTTON');
+  });
 });
