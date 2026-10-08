@@ -78,17 +78,33 @@ export class AegovFormField {
     this.cascadeToChild();
   }
 
+  /**
+   * Like `this.el.querySelector(tag)`, but excludes a match that's really
+   * one option of a `groupTag` ancestor (e.g. an `aegov-checkbox` that's a
+   * child of `aegov-checkbox-group`), not a genuinely standalone control.
+   * A plain querySelector has no concept of that boundary and would wrongly
+   * match the group's first nested option, silently binding the field's
+   * `<label>` to one arbitrary option instead of correctly linking to
+   * nothing — `aegov-checkbox-group`/`aegov-radio-group` manage their own
+   * `<legend>` and need their own `aria-labelledby` instead (see
+   * form-field.md's "Composing a group" guidance) (#45).
+   */
+  private findStandaloneControl<T extends HTMLElement>(tag: string, groupTag: string): T | null {
+    const candidates = Array.from(this.el.querySelectorAll<T>(tag));
+    return candidates.find(el => !el.closest(groupTag)) ?? null;
+  }
+
   private linkChildren() {
     const input = this.el.querySelector('aegov-input') as HTMLAegovInputElement | null;
     const textarea = this.el.querySelector('aegov-textarea') as HTMLAegovTextareaElement | null;
     const label = this.el.querySelector('aegov-label') as HTMLAegovLabelElement | null;
     const select = this.el.querySelector('aegov-select') as HTMLAegovSelectElement | null;
-    const checkbox = this.el.querySelector('aegov-checkbox') as HTMLAegovCheckboxElement | null;
+    const checkbox = this.findStandaloneControl<HTMLAegovCheckboxElement>('aegov-checkbox', 'aegov-checkbox-group');
     const range = this.el.querySelector('aegov-range') as HTMLAegovRangeElement | null;
     const progress = this.el.querySelector('aegov-progress') as HTMLAegovProgressElement | null;
     const otp = this.el.querySelector('aegov-otp') as HTMLAegovOtpElement | null;
     const fileupload = this.el.querySelector('aegov-fileupload') as HTMLAegovFileuploadElement | null;
-    const radio = this.el.querySelector('aegov-radio') as HTMLAegovRadioElement | null;
+    const radio = this.findStandaloneControl<HTMLAegovRadioElement>('aegov-radio', 'aegov-radio-group');
     const toggle = this.el.querySelector('aegov-toggle') as HTMLAegovToggleElement | null;
 
     if (label) {
