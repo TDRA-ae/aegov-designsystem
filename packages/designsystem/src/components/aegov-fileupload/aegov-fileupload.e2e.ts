@@ -151,4 +151,97 @@ describe('aegov-fileupload (e2e)', () => {
     const input = await page.find('aegov-fileupload input[type="file"]');
     expect(await input.getProperty('disabled')).toBe(true);
   });
+
+  // Regression coverage for #43. The removed remove-button's own DOM node is
+  // destroyed as part of the re-render selectedFiles triggers — with no focus
+  // management, real keyboard/mouse focus silently fell back to <body> on
+  // every single removal.
+  async function selectFiles(page: Awaited<ReturnType<typeof newE2EPage>>, names: string[]) {
+    await page.evaluate((names: string[]) => {
+      const input = document.querySelector('aegov-fileupload')!.shadowRoot!.querySelector('input[type="file"]') as HTMLInputElement;
+      const dt = new DataTransfer();
+      names.forEach(n => dt.items.add(new File(['x'], n, { type: 'text/plain' })));
+      input.files = dt.files;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    }, names);
+    await page.waitForChanges();
+  }
+
+  function activeAriaLabel(page: Awaited<ReturnType<typeof newE2EPage>>) {
+    return page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      return (fu.shadowRoot!.activeElement as HTMLElement | null)?.getAttribute('aria-label') ?? null;
+    });
+  }
+
+  it('moves focus to the item that shifted into the removed slot (button appearance)', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-fileupload appearance="button" is-multiple></aegov-fileupload>');
+    await selectFiles(page, ['alpha.txt', 'beta.txt', 'gamma.txt']);
+
+    await page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      (fu.shadowRoot!.querySelectorAll('.fileupload__remove-btn')[0] as HTMLElement).click();
+    });
+    await page.waitForChanges();
+
+    // Before the fix, nothing ever received focus here — the removed button's
+    // node was simply gone, and real focus silently fell back to <body>.
+    expect(await activeAriaLabel(page)).toBe('Remove beta.txt');
+  });
+
+  it('moves focus to the new last item when the removed item was last (dropzone appearance)', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-fileupload appearance="dropzone" is-multiple></aegov-fileupload>');
+    await selectFiles(page, ['alpha.txt', 'beta.txt']);
+
+    await page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      const btns = fu.shadowRoot!.querySelectorAll('.fileupload__remove-btn');
+      (btns[btns.length - 1] as HTMLElement).click(); // remove "beta.txt" (last)
+    });
+    await page.waitForChanges();
+
+    expect(await activeAriaLabel(page)).toBe('Remove alpha.txt');
+  });
+
+  it('returns focus to the upload trigger once the last file is removed (button appearance)', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-fileupload appearance="button" is-multiple></aegov-fileupload>');
+    await selectFiles(page, ['alpha.txt']);
+
+    await page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      (fu.shadowRoot!.querySelector('.fileupload__remove-btn') as HTMLElement).click();
+    });
+    await page.waitForChanges();
+
+    const active = await page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      const el = fu.shadowRoot!.activeElement as HTMLElement | null;
+      return { tag: el?.tagName, className: el?.className };
+    });
+    expect(active.tag).toBe('AEGOV-BUTTON');
+    expect(active.className).toContain('fileupload__trigger-btn');
+  });
+
+  it('returns focus to the visible dropzone trigger button once the last file is removed (dropzone appearance)', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-fileupload appearance="dropzone" is-multiple></aegov-fileupload>');
+    await selectFiles(page, ['alpha.txt']);
+
+    await page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      (fu.shadowRoot!.querySelector('.fileupload__remove-btn') as HTMLElement).click();
+    });
+    await page.waitForChanges();
+
+    const active = await page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      const el = fu.shadowRoot!.activeElement as HTMLElement | null;
+      return { tag: el?.tagName, className: el?.className };
+    });
+    expect(active.tag).toBe('AEGOV-BUTTON');
+    expect(active.className).toContain('fileupload__dropzone-btn');
+  });
 });
