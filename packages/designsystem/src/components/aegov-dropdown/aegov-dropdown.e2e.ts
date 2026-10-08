@@ -346,4 +346,46 @@ describe('aegov-dropdown (e2e)', () => {
     // pinned to the trigger's physical left edge even under dir="rtl".
     expect(Math.abs(rects.panelRight - rects.triggerRight)).toBeLessThan(1);
   });
+
+  // Regression coverage for #41. The portal is appended directly to
+  // document.body, outside the example's local dir="rtl" wrapper — without
+  // renderPortalContent() setting dir explicitly, menu item text silently
+  // renders flush-left instead of flush-right inside an RTL page.
+  it('renders menu item text flush-right when opened inside a dir="rtl" ancestor', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <div dir="rtl">
+        <aegov-dropdown>
+          <button id="rtl-items-trigger">Open</button>
+          <div slot="dropdown-content">
+            <a href="#" id="short">Short</a>
+            <a href="#" id="longer">A much longer item label</a>
+          </div>
+        </aegov-dropdown>
+      </div>
+    `);
+    const triggerBtn = await page.find('#rtl-items-trigger');
+    await triggerBtn.click();
+    await page.waitForChanges();
+
+    const rects = await page.evaluate(() => {
+      function textRect(el) {
+        const range = document.createRange();
+        range.selectNodeContents(el.firstChild);
+        return range.getBoundingClientRect();
+      }
+      const portal = document.querySelector('.aegov-dropdown-portal');
+      return {
+        portalDir: portal.getAttribute('dir'),
+        short: textRect(document.getElementById('short')),
+        longer: textRect(document.getElementById('longer')),
+      };
+    });
+    expect(rects.portalDir).toBe('rtl');
+    // Before the fix, both items' text shared the same LEFT edge (flush-left).
+    // Flush-right means they share the same RIGHT edge instead, with varying
+    // left edges based on each label's length.
+    expect(Math.abs(rects.short.right - rects.longer.right)).toBeLessThan(1);
+    expect(Math.abs(rects.short.left - rects.longer.left)).toBeGreaterThan(1);
+  });
 });
