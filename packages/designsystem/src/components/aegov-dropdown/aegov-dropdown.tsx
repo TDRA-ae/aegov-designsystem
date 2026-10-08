@@ -7,6 +7,7 @@ import { createPortal, removePortal } from '../../utils/portal-manager';
 import { createKeyboardHandler } from '../../utils/keyboard-handler';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { isRtl } from '../../utils/rtl';
 
 const TAG = 'aegov-dropdown';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -710,6 +711,13 @@ export class AegovDropdown {
 
   private handleTriggerClick = (event: MouseEvent) => {
     if (this.isDisabled) return;
+    // Prevent the slotted trigger's own default action — the documented nested-
+    // dropdown pattern uses a plain <a href="#"> as the trigger, and without
+    // this, activating it (click or Enter) also navigates via its href,
+    // scrolling the page back to the top and destroying all menu/focus state.
+    // Harmless for a <button>/<aegov-button> trigger, which has no default
+    // action to prevent.
+    event.preventDefault();
     // Click events fired by keyboard activation (Enter/Space on a focused
     // button) have detail === 0; real mouse/touch clicks have detail >= 1.
     const isKeyboard = event.detail === 0;
@@ -806,9 +814,24 @@ export class AegovDropdown {
 
   @Listen('keydown', { target: 'document' })
   handleKeyDown(event: KeyboardEvent) {
+    // A dropdown whose own host currently sits inside an ancestor's open portal
+    // is acting as a submenu trigger (its content moved there along with the
+    // rest of the ancestor's slotted dropdown-content when the ancestor opened).
+    // Submenus use the APG pattern — ArrowRight/ArrowLeft (mirrored in RTL) to
+    // open/close — so ArrowDown/ArrowUp stay free for the ancestor's own
+    // sibling-item navigation instead of fighting over the same keys (#67).
+    const isSubmenuTrigger = !!this.el.closest('.aegov-dropdown-portal');
+    const rtl = isRtl(this.el);
+    const submenuOpenKey = rtl ? 'ArrowLeft' : 'ArrowRight';
+    const submenuCloseKey = rtl ? 'ArrowRight' : 'ArrowLeft';
+
     if (!this.isOpen) {
-      // APG Menu Button (optional): ArrowDown opens menu to first item, ArrowUp to last item
-      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      // APG Menu Button (optional): ArrowDown opens menu to first item, ArrowUp to last item.
+      // APG submenu: ArrowRight (ArrowLeft in RTL) opens to the first item.
+      const opensClosedMenu = isSubmenuTrigger
+        ? event.key === submenuOpenKey
+        : (event.key === 'ArrowDown' || event.key === 'ArrowUp');
+      if (opensClosedMenu) {
         const triggerFocusables = this.triggerRef
           ? getFocusableElementsDeep(this.triggerRef, 'button, a, [role="button"], [tabindex]:not([tabindex="-1"])')
           : [];
@@ -817,7 +840,8 @@ export class AegovDropdown {
           event.preventDefault();
           this.openedViaKeyboard = true;
           this.openedViaArrowKey = true;
-          // ArrowUp → focus last item; ArrowDown → focus first item.
+          // ArrowUp → focus last item; ArrowDown → focus first item. (Submenu's
+          // single open key always focuses the first item — never matches 'ArrowUp'.)
           // Set the flag BEFORE setting isOpen so setupFocusTrap picks it up.
           this.openFocusLast = event.key === 'ArrowUp';
           this.isOpen = true;
@@ -836,7 +860,7 @@ export class AegovDropdown {
 
         if (isFocusInMenu) {
           if (this.focusableElements.length === 0 && this.dropdownRef) {
-            this.focusableElements = getFocusableElements(this.dropdownRef, FOCUSABLE_SELECTORS);
+            this.focusableElements = this.getOwnFocusableElements();
           }
           const idx = this.focusableElements.indexOf(focusedEl);
 
@@ -871,7 +895,7 @@ export class AegovDropdown {
         if (isFocusOnTrigger && !isShift) {
           // Tab forward from trigger into open menu
           if (this.focusableElements.length === 0 && this.dropdownRef) {
-            this.focusableElements = getFocusableElements(this.dropdownRef, FOCUSABLE_SELECTORS);
+            this.focusableElements = this.getOwnFocusableElements();
           }
           if (this.focusableElements.length > 0) {
             event.preventDefault();
@@ -903,7 +927,7 @@ export class AegovDropdown {
       if (isTabFocusOnTrigger && !event.shiftKey) {
         event.preventDefault();
         if (this.focusableElements.length === 0 && this.dropdownRef) {
-          this.focusableElements = getFocusableElements(this.dropdownRef, FOCUSABLE_SELECTORS);
+          this.focusableElements = this.getOwnFocusableElements();
         }
         if (this.focusableElements.length > 0) {
           this.currentFocusIndex = 0;
@@ -948,7 +972,11 @@ export class AegovDropdown {
     // Arrow keys when dropdown is open and focus is on the trigger (not inside the menu).
     // This happens when the dropdown was opened by mouse and the user then uses keyboard.
     // ArrowDown → first item, ArrowUp → last item (mirrors the closed-state open behavior).
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+    // Submenu: ArrowRight (ArrowLeft in RTL) moves focus into the already-open menu.
+    const entersOpenMenu = isSubmenuTrigger
+      ? event.key === submenuOpenKey
+      : (event.key === 'ArrowDown' || event.key === 'ArrowUp');
+    if (entersOpenMenu) {
       const triggerFocusables = this.triggerRef
         ? getFocusableElementsDeep(this.triggerRef, 'button, a, [role="button"], [tabindex]:not([tabindex="-1"])')
         : [];
@@ -956,12 +984,24 @@ export class AegovDropdown {
       if (isTriggerFocused) {
         event.preventDefault();
         if (this.focusableElements.length === 0 && this.dropdownRef) {
-          this.focusableElements = getFocusableElements(this.dropdownRef, FOCUSABLE_SELECTORS);
+          this.focusableElements = this.getOwnFocusableElements();
         }
         if (this.focusableElements.length > 0) {
           this.currentFocusIndex = event.key === 'ArrowUp' ? this.focusableElements.length - 1 : 0;
           this.focusableElements[this.currentFocusIndex].focus();
         }
+        return;
+      }
+    }
+
+    // APG submenu: ArrowLeft (ArrowRight in RTL) closes an open submenu and
+    // returns focus to its own trigger — the same action Escape already
+    // performs, just reachable without leaving the keyboard's arrow cluster.
+    if (isSubmenuTrigger && event.key === submenuCloseKey) {
+      const focusedEl = document.activeElement as HTMLElement;
+      if (this.dropdownRef?.contains(focusedEl)) {
+        event.preventDefault();
+        this.isOpen = false;
         return;
       }
     }
@@ -976,6 +1016,20 @@ export class AegovDropdown {
         return;
       }
     }
+
+    // Escape/Tab/ArrowDown/ArrowUp funnel through keyHandler below, which has no
+    // per-instance awareness — a nested dropdown and its parent are both isOpen
+    // at the same time (opening a nested dropdown deliberately doesn't close its
+    // parent), and both independently listen for keydown at the document level.
+    // Without this check, every open dropdown on the page reacts to the same
+    // keypress: Escape would close all of them at once (confirmed: focus was
+    // thrown all the way back to the outermost trigger instead of just the
+    // innermost one), and arrow keys would silently mutate every ancestor's own
+    // currentFocusIndex even though only the innermost one's focus change is
+    // visible (whichever instance's .focus() call happens to run last wins).
+    const activeEl = getDeepActiveElement() as HTMLElement | null;
+    const isFocusWithinThisInstance = !!(this.dropdownRef?.contains(activeEl) || this.triggerRef?.contains(activeEl));
+    if (!isFocusWithinThisInstance) return;
 
     this.keyHandler(event);
   }
@@ -1000,10 +1054,44 @@ export class AegovDropdown {
     return allFocusable[idx + 1] ?? null;
   }
 
+  /**
+   * Elements that live inside a NESTED <aegov-dropdown>'s own menu content
+   * don't belong to this dropdown's own navigable item sequence — they're one
+   * level deeper and only relevant once that nested instance is open on its
+   * own terms. A plain querySelectorAll (what getFocusableElements does) has
+   * no concept of that boundary: it finds a nested dropdown's menu items too,
+   * even while that nested dropdown is closed, which corrupts this instance's
+   * own currentFocusIndex-based navigation (wrong count, wrong neighbours —
+   * Tab/ArrowDown/Up would silently "enter" a closed submenu instead of
+   * moving to the next item at this level).
+   *
+   * A nested dropdown's own TRIGGER (its default-slotted content, always
+   * rendered inside its own .aegov-dropdown-trigger wrapper div) is the
+   * opposite — it IS a normal item at this level, representing that nested
+   * dropdown's position in the list, and must stay included.
+   *
+   * Distinguishing the two via each candidate's closest <aegov-dropdown>
+   * ancestor and whether that ancestor's own trigger wrapper contains it is
+   * reliable regardless of open/closed state or render order (unlike relying
+   * on the dropdown-content slot's `slot` attribute, which gets stripped the
+   * moment a nested instance's own portal render runs). Recurses correctly to
+   * any nesting depth, since each level only ever checks its own nearest
+   * nested ancestor.
+   */
+  private getOwnFocusableElements(): HTMLElement[] {
+    if (!this.dropdownRef) return [];
+    return getFocusableElements(this.dropdownRef, FOCUSABLE_SELECTORS).filter(el => {
+      const nestedHost = el.closest('aegov-dropdown');
+      if (!nestedHost) return true;
+      const triggerWrapper = nestedHost.querySelector(':scope > .aegov-dropdown-trigger');
+      return !!(triggerWrapper && triggerWrapper.contains(el));
+    });
+  }
+
   private setupFocusTrap(moveFocus: boolean = true, focusLast: boolean = false) {
     if (!this.dropdownRef) return;
 
-    this.focusableElements = getFocusableElements(this.dropdownRef, FOCUSABLE_SELECTORS);
+    this.focusableElements = this.getOwnFocusableElements();
 
     if (this.focusableElements.length > 0) {
       if (focusLast) {
@@ -1026,7 +1114,7 @@ export class AegovDropdown {
     if (this.typeaheadTimer) clearTimeout(this.typeaheadTimer);
     this.typeaheadTimer = setTimeout(() => { this.typeaheadBuffer = ''; }, 500);
     if (this.focusableElements.length === 0 && this.dropdownRef) {
-      this.focusableElements = getFocusableElements(this.dropdownRef, FOCUSABLE_SELECTORS);
+      this.focusableElements = this.getOwnFocusableElements();
     }
     const items = this.focusableElements;
     for (let i = 1; i <= items.length; i++) {
@@ -1041,6 +1129,15 @@ export class AegovDropdown {
 
   private renderPortalContent() {
     if (!this.portalElement || !this.hasContentSlot) return;
+
+    // The portal is appended directly to document.body, outside the host's own
+    // ancestor chain — so it never inherits dir="rtl" from a local wrapper the
+    // way the (non-portaled) host does. Set it explicitly, fresh on every
+    // render, so a nested dropdown's own isRtl(this.el) check (which walks its
+    // CURRENT ancestor chain, i.e. this portal once its parent is open) resolves
+    // correctly, and so CSS direction-dependent layout resolves correctly too
+    // (same fix as aegov-datepicker's portal, #37).
+    this.portalElement.setAttribute('dir', isRtl(this.el) ? 'rtl' : 'ltr');
 
     // Get content slot element
     const contentSlot = this.el.querySelector('[slot="dropdown-content"]') as HTMLElement;
