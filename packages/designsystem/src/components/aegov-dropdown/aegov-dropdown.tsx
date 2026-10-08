@@ -626,8 +626,20 @@ export class AegovDropdown {
     this.dropdownRef.style.visibility = 'visible';
   }
 
+  /**
+   * Horizontal alignment only — used when `position` is 'top'/'bottom'. `start`/
+   * `end` are logical (reading-direction-relative), not physical: per the
+   * documented RTL contract, `start` anchors to the trigger's reading-direction-
+   * start edge (left in LTR, right in RTL) and `end` to its reading-direction-end
+   * edge. Mirror the two against the effective direction so the physical edge
+   * flips under `dir="rtl"` instead of staying pinned to physical left/right (#40).
+   */
   private calculateHorizontalPosition(triggerRect: DOMRect, dropdownRect: DOMRect): number {
-    switch (this.align) {
+    const rtl = isRtl(this.el);
+    const effectiveAlign = rtl
+      ? this.align === 'start' ? 'end' : this.align === 'end' ? 'start' : this.align
+      : this.align;
+    switch (effectiveAlign) {
       case 'start':
         return triggerRect.left;
       case 'end':
