@@ -2,9 +2,9 @@ import { newSpecPage, SpecPage } from '@stencil/core/testing';
 import { AegovButton } from './aegov-button';
 
 /**
- * aegov-button uses `shadow: true`, so the rendered <button> lives in the shadow root.
- * Queries must go through `page.root.shadowRoot` — `page.root.querySelector('button')`
- * returns null.
+ * aegov-button uses a real shadow root (`delegatesFocus: true`), so the rendered
+ * <button> lives in the shadow root. Queries must go through `page.root.shadowRoot`
+ * — `page.root.querySelector('button')` returns null.
  */
 const inner = (page: SpecPage): HTMLButtonElement =>
   page.root.shadowRoot.querySelector('button');

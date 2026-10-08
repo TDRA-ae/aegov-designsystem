@@ -287,7 +287,7 @@ export namespace Components {
          */
         "cite"?: string;
         /**
-          * Additional CSS classes merged onto the inner blockquote element.
+          * Additional CSS classes merged onto the inner blockquote element.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
     }
@@ -503,7 +503,7 @@ export namespace Components {
          */
         "errorMessage": string;
         /**
-          * Additional CSS classes to apply.
+          * Additional CSS classes to apply.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**
@@ -1283,7 +1283,7 @@ export namespace Components {
          */
         "errorMessage": string;
         /**
-          * Additional CSS classes to apply.
+          * Additional CSS classes to apply.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**
@@ -1736,7 +1736,7 @@ export namespace Components {
          */
         "errorMessage": string;
         /**
-          * Additional CSS classes.
+          * Additional CSS classes.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**
@@ -1974,7 +1974,7 @@ export namespace Components {
          */
         "errorMessage": string;
         /**
-          * Additional CSS classes to apply.
+          * Additional CSS classes to apply.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**
@@ -2048,7 +2048,7 @@ export namespace Components {
          */
         "errorMessage": string;
         /**
-          * Additional CSS classes to apply.
+          * Additional CSS classes to apply.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**
@@ -2115,7 +2115,7 @@ export namespace Components {
          */
         "errorMessage": string;
         /**
-          * Additional CSS classes.
+          * Additional CSS classes.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**
@@ -2226,7 +2226,7 @@ export namespace Components {
          */
         "errorMessage": string;
         /**
-          * Additional CSS classes to apply.
+          * Additional CSS classes to apply.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**
@@ -2496,7 +2496,7 @@ export namespace Components {
          */
         "errorMessage": string;
         /**
-          * Additional CSS classes to apply.
+          * Additional CSS classes to apply.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**
@@ -4207,7 +4207,7 @@ declare namespace LocalJSX {
          */
         "cite"?: string;
         /**
-          * Additional CSS classes merged onto the inner blockquote element.
+          * Additional CSS classes merged onto the inner blockquote element.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
     }
@@ -4443,7 +4443,7 @@ declare namespace LocalJSX {
          */
         "errorMessage"?: string;
         /**
-          * Additional CSS classes to apply.
+          * Additional CSS classes to apply.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**
@@ -5239,7 +5239,7 @@ declare namespace LocalJSX {
          */
         "errorMessage"?: string;
         /**
-          * Additional CSS classes to apply.
+          * Additional CSS classes to apply.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**
@@ -5723,7 +5723,7 @@ declare namespace LocalJSX {
          */
         "errorMessage"?: string;
         /**
-          * Additional CSS classes.
+          * Additional CSS classes.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**
@@ -5984,7 +5984,7 @@ declare namespace LocalJSX {
          */
         "errorMessage"?: string;
         /**
-          * Additional CSS classes to apply.
+          * Additional CSS classes to apply.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**
@@ -6062,7 +6062,7 @@ declare namespace LocalJSX {
          */
         "errorMessage"?: string;
         /**
-          * Additional CSS classes to apply.
+          * Additional CSS classes to apply.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**
@@ -6133,7 +6133,7 @@ declare namespace LocalJSX {
          */
         "errorMessage"?: string;
         /**
-          * Additional CSS classes.
+          * Additional CSS classes.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**
@@ -6256,7 +6256,7 @@ declare namespace LocalJSX {
          */
         "errorMessage"?: string;
         /**
-          * Additional CSS classes to apply.
+          * Additional CSS classes to apply.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**
@@ -6552,7 +6552,7 @@ declare namespace LocalJSX {
          */
         "errorMessage"?: string;
         /**
-          * Additional CSS classes to apply.
+          * Additional CSS classes to apply.  This component renders in a real shadow root, which normally blocks the page's CSS from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied in from the page's own stylesheets at runtime and work as expected; other utilities (colour, border, typography, etc.) still have no effect — see #35.
          */
         "extraClass"?: string;
         /**

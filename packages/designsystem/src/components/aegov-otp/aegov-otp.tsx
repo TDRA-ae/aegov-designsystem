@@ -8,6 +8,7 @@ import type {
   AegovValidityState,
 } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { isRtl } from '../../utils/rtl';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -76,7 +77,14 @@ export class AegovOtp {
   /** Helper hint shown below the control. Hidden when an error is shown. */
   @Prop() hint: string = '';
 
-  /** Additional CSS classes. */
+  /**
+   * Additional CSS classes.
+   *
+   * This component renders in a real shadow root, which normally blocks the page's CSS
+   * from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied
+   * in from the page's own stylesheets at runtime and work as expected; other utilities
+   * (colour, border, typography, etc.) still have no effect — see #35.
+   */
   @Prop() extraClass?: string;
 
   /** Fires on every character change with the current value. */
@@ -163,6 +171,7 @@ export class AegovOtp {
       this.distributeValue(this.value);
     }
     this.runValidationSync();
+    adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
     // Find the associated aegov-label so the group wrapper can reference it by ID
     const formField = this.el.closest('.aegov-form-field');
     if (formField) {
@@ -171,6 +180,11 @@ export class AegovOtp {
         this.groupLabelId = labelEl.fieldId;
       }
     }
+  }
+
+  @Watch('extraClass')
+  onExtraClassChange() {
+    adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
   }
 
   @Watch('value')
