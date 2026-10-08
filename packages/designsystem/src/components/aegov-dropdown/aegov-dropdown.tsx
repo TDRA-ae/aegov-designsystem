@@ -708,8 +708,9 @@ export class AegovDropdown {
         if (this.portalElement && this.portalElement.contains(relatedTarget)) {
           return;
         }
-        // Moving to any dropdown portal (e.g. our nested dropdown's portal) — don't hide
-        if (relatedTarget.closest && relatedTarget.closest('.aegov-dropdown-portal')) {
+        // Moving to a deeper-nested child's own already-open flyout (a genuine
+        // descendant, not merely any dropdown panel anywhere on the page) — don't hide
+        if (this.isInsideNestedDescendantPanel(relatedTarget)) {
           return;
         }
         // Moving to a nested dropdown trigger within the same tree — don't hide
@@ -754,13 +755,21 @@ export class AegovDropdown {
       const relatedTarget = event.relatedTarget as HTMLElement;
 
       if (relatedTarget) {
-        // Don't hide if moving to any dropdown portal (includes nested dropdown portals)
-        if (relatedTarget.closest && relatedTarget.closest('.aegov-dropdown-portal')) {
+        // Don't hide if moving into our own portal element or a child within it
+        if (this.portalElement && this.portalElement.contains(relatedTarget)) {
           return;
         }
 
-        // Don't hide if moving into our own portal element or a child within it
-        if (this.portalElement && this.portalElement.contains(relatedTarget)) {
+        // Don't hide if moving to a deeper-nested child's own already-open
+        // flyout (a genuine descendant, not merely any dropdown panel anywhere
+        // on the page — see isInsideNestedDescendantPanel's own doc comment).
+        // Same bug as #42's trigger-leave variant: this used to be a bare
+        // `relatedTarget.closest('.aegov-dropdown-portal')` check, which also
+        // matched an ANCESTOR's own portal — e.g. an unrelated sibling item in
+        // the parent menu, while the mouse was still inside this dropdown's
+        // own open panel (not just its trigger) — leaving a hover-opened
+        // submenu stuck open indefinitely.
+        if (this.isInsideNestedDescendantPanel(relatedTarget)) {
           return;
         }
 
@@ -800,6 +809,35 @@ export class AegovDropdown {
       }
     }
     return false;
+  }
+
+  /**
+   * True when `el` lives inside some OTHER dropdown's own open panel, where
+   * that dropdown is a genuine descendant of this one — i.e. a deeper-nested
+   * child's own already-open flyout (which renders into its own, separate
+   * portal, so `this.portalElement.contains(el)` can't see it).
+   *
+   * Naively checking `el.closest('.aegov-dropdown-portal')` (what this used to
+   * do) matches ANY dropdown's portal on the page, including an ANCESTOR's own
+   * panel — e.g. an unrelated sibling item in the parent menu that this
+   * dropdown is nested inside. That falsely treated "the mouse is still
+   * somewhere in the parent menu" as "the mouse is still in my own flyout",
+   * leaving a hover-opened submenu stuck open indefinitely once the pointer
+   * left its trigger for anywhere else in the parent menu (#42).
+   *
+   * A genuine descendant's own custom-element host remains physically inside
+   * `this.dropdownRef` even once that descendant opens its own panel
+   * elsewhere (only its menu CONTENT relocates further, to its own portal) —
+   * so resolving the matched panel back to its owning `<aegov-dropdown>` via
+   * its `field-id` and checking that against `this.dropdownRef` distinguishes
+   * a real descendant from an unrelated ancestor or sibling.
+   */
+  private isInsideNestedDescendantPanel(el: HTMLElement): boolean {
+    if (!this.dropdownRef) return false;
+    const panel = el.closest<HTMLElement>('.aegov-dropdown-portal .aegov-dropdown');
+    if (!panel || !panel.id) return false;
+    const owner = document.querySelector(`aegov-dropdown[field-id="${CSS.escape(panel.id)}"]`);
+    return !!(owner && this.dropdownRef.contains(owner));
   }
 
   @Listen('click', { target: 'document' })

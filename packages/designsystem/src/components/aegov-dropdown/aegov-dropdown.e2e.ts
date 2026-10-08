@@ -388,4 +388,60 @@ describe('aegov-dropdown (e2e)', () => {
     expect(Math.abs(rects.short.right - rects.longer.right)).toBeLessThan(1);
     expect(Math.abs(rects.short.left - rects.longer.left)).toBeGreaterThan(1);
   });
+
+  // Regression coverage for #42. Both handleTriggerMouseLeave (leaving the
+  // nested trigger directly) and handleDropdownMouseLeave (leaving the nested
+  // submenu's own panel) used to check `relatedTarget.closest('.aegov-dropdown-portal')`,
+  // which matches ANY dropdown's portal — including an ANCESTOR's own portal
+  // (e.g. an unrelated sibling item in the parent menu) — so a hover-opened
+  // submenu stayed open indefinitely once the pointer left for anywhere else
+  // in the parent menu.
+  it('closes a hover-opened nested submenu when the pointer leaves its trigger for an unrelated sibling item, keeping the parent open', async () => {
+    const page = await newE2EPage();
+    await page.setContent(nestedHtml);
+    const triggerBtn = await page.find('aegov-dropdown button');
+    await triggerBtn.click();
+    await page.waitForChanges();
+
+    await page.hover('#visa-services');
+    await page.waitForChanges();
+    await new Promise(r => setTimeout(r, 250));
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.querySelectorAll('.aegov-dropdown-portal [role="menu"]').length)).toBe(2);
+
+    await page.hover('#check-status');
+    await new Promise(r => setTimeout(r, 200));
+    await page.waitForChanges();
+
+    const state = await page.evaluate(() => ({
+      openMenus: document.querySelectorAll('.aegov-dropdown-portal [role="menu"]').length,
+      visaAriaExpanded: document.getElementById('visa-services')?.getAttribute('aria-expanded'),
+    }));
+    expect(state.openMenus).toBe(1);
+    expect(state.visaAriaExpanded).toBe('false');
+  });
+
+  it('closes a hover-opened nested submenu when the pointer leaves its own panel for an unrelated sibling item', async () => {
+    const page = await newE2EPage();
+    await page.setContent(nestedHtml);
+    const triggerBtn = await page.find('aegov-dropdown button');
+    await triggerBtn.click();
+    await page.waitForChanges();
+
+    await page.hover('#visa-services');
+    await new Promise(r => setTimeout(r, 250));
+    await page.waitForChanges();
+
+    // Move INTO the submenu's own panel first (not just hovering the trigger)
+    await page.hover('#visit-visa');
+    await new Promise(r => setTimeout(r, 250));
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.querySelectorAll('.aegov-dropdown-portal [role="menu"]').length)).toBe(2);
+
+    await page.hover('#check-status');
+    await new Promise(r => setTimeout(r, 200));
+    await page.waitForChanges();
+
+    expect(await page.evaluate(() => document.querySelectorAll('.aegov-dropdown-portal [role="menu"]').length)).toBe(1);
+  });
 });
