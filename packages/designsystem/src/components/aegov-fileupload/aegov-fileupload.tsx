@@ -414,6 +414,12 @@ export class AegovFileupload {
     if (Object.keys(pendingFlag).length > 0) {
       this.isInvalid = true;
       if (pendingMessage) this.errorMessage = pendingMessage;
+    } else {
+      // A fully valid selection must clear any error left over from a
+      // previous one (#44) — otherwise a stale message/aria-invalid about a
+      // file that's no longer even selected sticks around indefinitely.
+      this.isInvalid = false;
+      this.errorMessage = '';
     }
   }
 
@@ -432,6 +438,14 @@ export class AegovFileupload {
     this.aegovFileuploadChange.emit({ files: [...remaining] });
     this.runValidationSync();
     this.emitValidateChange();
+    // A "Maximum N files allowed" error (#44) is tied directly to the file
+    // count removeFile() just changed — clear it once the new count no
+    // longer exceeds the cap, the same symmetry processFiles() now applies
+    // on a fully valid selection.
+    if (!this.maxFiles || remaining.length <= this.maxFiles) {
+      this.isInvalid = false;
+      this.errorMessage = '';
+    }
     // The removed remove-button's own DOM node is destroyed as part of the
     // re-render this triggers — with no focus management, real keyboard/mouse
     // focus silently falls back to <body> on every single removal. Defer the
