@@ -22,6 +22,7 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { isRtl } from '../../utils/rtl';
+import { resolveFocusTarget } from '../../utils/focus-management';
 
 const STRINGS = {
   en: {
@@ -458,8 +459,11 @@ export class AegovDatepicker {
       this.positionUpdateScheduled = false;
       this.positionRetryCount = 0;
       this.aegovDatepickerClose.emit();
+      // resolveFocusTarget handles a shadow-DOM trigger whose host isn't itself
+      // focusable — .focus() on it directly would otherwise silently no-op,
+      // dropping focus to <body> (see #66).
       if (this.triggerElement) {
-        this.triggerElement.focus();
+        resolveFocusTarget(this.triggerElement).focus();
       }
     }
   }

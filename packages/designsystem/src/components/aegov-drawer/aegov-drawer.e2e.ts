@@ -106,4 +106,31 @@ describe('aegov-drawer (e2e)', () => {
     const container = await page.find('aegov-drawer >>> .drawer-container--left');
     expect(container).not.toBeNull();
   });
+
+  // aegov-button is shadow:true — a direct .focus() call on its host previously
+  // silently no-op'd (no delegatesFocus, no reflected tabindex), dropping focus
+  // to <body> instead of back to the trigger. Regression coverage for #66.
+  it('restores focus to a shadow-DOM (aegov-button) trigger after close', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-button id="trigger">Open</aegov-button>
+      <aegov-drawer><p>Content</p></aegov-drawer>
+    `);
+    const triggerBtn = await page.find('aegov-button#trigger >>> button');
+    await triggerBtn.click();
+    await page.waitForChanges();
+
+    const drawer = await page.find('aegov-drawer');
+    await drawer.callMethod('show');
+    await page.waitForChanges();
+    await drawer.callMethod('close');
+    await page.waitForChanges();
+
+    const focusState = await page.evaluate(() => {
+      const host = document.activeElement as (Element & { shadowRoot?: ShadowRoot }) | null;
+      return { hostTag: host?.tagName, deepActiveTag: host?.shadowRoot?.activeElement?.tagName ?? null };
+    });
+    expect(focusState.hostTag).toBe('AEGOV-BUTTON');
+    expect(focusState.deepActiveTag).toBe('BUTTON');
+  });
 });
