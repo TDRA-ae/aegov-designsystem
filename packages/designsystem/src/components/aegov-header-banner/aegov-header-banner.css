@@ -27,8 +27,20 @@
   @apply flex items-center gap-4 pe-16 pb-5 border-b border-aeblack-700;
 }
 
+/* Size and fill moved here from the inline SVG when the emblem became a shared
+   helper — see getUaeEmblem() in src/utils/icons.tsx.
+
+   Fixed gold, not inherited and not overridable: the emblem sits on the panel's
+   own dark background, so the surrounding text colour would be wrong for it. */
 .header__seal {
   @apply flex-none;
+  /* block, for the same baseline-gap reason as aegov-header's emblem. */
+  svg {
+    @apply block w-10 md:w-12 lg:w-14 xl:w-16 h-auto;
+  }
+  svg path {
+    @apply fill-aegold-100;
+  }
 }
 
 .header__entity {
