@@ -6,6 +6,7 @@ import type {
 } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
@@ -125,6 +126,12 @@ export class AegovCheckboxGroup {
   componentDidLoad() {
     this.syncChildren();
     this.updateCheckAllState();
+    adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
+  }
+
+  @Watch('extraClass')
+  onExtraClassChange() {
+    adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
   }
 
   @Watch('appearance')
@@ -139,6 +146,11 @@ export class AegovCheckboxGroup {
   @Watch('variant')
   onColourVariantChange(v: unknown) {
     warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant'));
+    if (this.el.isConnected) { this.syncChildren(); }
+  }
+
+  @Watch('isDisabled')
+  onIsDisabledChange() {
     if (this.el.isConnected) { this.syncChildren(); }
   }
 
@@ -168,6 +180,8 @@ export class AegovCheckboxGroup {
       if (!cb.variant || cb.variant === 'primary') {
         cb.variant = this.variant;
       }
+      // Group always wins — matches size/appearance's unconditional cascade (see issue #34).
+      cb.isDisabled = this.isDisabled;
     });
   }
 

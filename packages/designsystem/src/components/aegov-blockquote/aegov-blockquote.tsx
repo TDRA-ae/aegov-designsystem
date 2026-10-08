@@ -3,6 +3,7 @@ import { BLOCKQUOTE_APPEARANCES } from '../../utils/types';
 import type { BlockquoteAppearance } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 
 const TAG = 'aegov-blockquote';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -43,6 +44,11 @@ export class AegovBlockquote {
 
     /**
      * Additional CSS classes merged onto the inner blockquote element.
+     *
+     * This component renders in a real shadow root, which normally blocks the page's CSS
+     * from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied
+     * in from the page's own stylesheets at runtime and work as expected; other utilities
+     * (colour, border, typography, etc.) still have no effect — see #35.
      */
     @Prop() extraClass?: string;
 
@@ -50,8 +56,17 @@ export class AegovBlockquote {
         warnIfInvalidEnumProp(this.appearance, BLOCKQUOTE_APPEARANCES, 'primary', ctx('appearance'));
     }
 
+    componentDidLoad() {
+        adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
+    }
+
     @Watch('appearance')
     onAppearanceChange(v: unknown) { warnIfInvalidEnumProp(v, BLOCKQUOTE_APPEARANCES, 'primary', ctx('appearance')); }
+
+    @Watch('extraClass')
+    onExtraClassChange() {
+        adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
+    }
 
     /**
      * Get the CSS classes based on component props

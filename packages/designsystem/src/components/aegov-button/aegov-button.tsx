@@ -32,7 +32,7 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 @Component({
   tag: 'aegov-button',
   styleUrl: 'aegov-button.css',
-  shadow:true
+  shadow: { delegatesFocus: true }
 })
 export class AegovButton {
   @Element() el!: HTMLElement;
