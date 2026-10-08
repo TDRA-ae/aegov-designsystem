@@ -166,6 +166,30 @@ describe('aegov-dropdown (e2e)', () => {
     expect(await readAria()).toEqual({ haspopup: 'menu', expanded: 'true' });
   });
 
+  it('Escape closes a mouse-opened menu for a shadow-DOM (aegov-button) trigger', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-dropdown>
+        <aegov-button>Open</aegov-button>
+        <div slot="dropdown-content"><a href="#">Item</a></div>
+      </aegov-dropdown>
+    `);
+    const el = await page.find('aegov-dropdown');
+    const closeSpy = await el.spyOnEvent('aegovDropdownClose');
+    const triggerBtn = await page.find('aegov-dropdown aegov-button >>> button');
+    await triggerBtn.click();
+    await page.waitForChanges();
+    // Mouse-opened: focus deliberately stays on the trigger, not the menu.
+    await page.keyboard.press('Escape');
+    await page.waitForChanges();
+    // Before the fix, the final containment guard compared getDeepActiveElement()
+    // (which drills into aegov-button's shadow root to find the real inner
+    // <button>) against triggerRef.contains() (plain, shadow-blind) — the deep
+    // element was never seen as "contained", so the guard concluded focus wasn't
+    // within this instance and silently swallowed Escape.
+    expect(closeSpy).toHaveReceivedEventTimes(1);
+  });
+
   it('ArrowDown after a mouse-opened menu focuses the first item for a shadow-DOM (aegov-button) trigger', async () => {
     const page = await newE2EPage();
     await page.setContent(`
