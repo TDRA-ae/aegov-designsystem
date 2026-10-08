@@ -58,6 +58,56 @@ describe('aegov-form-field (e2e)', () => {
     expect(wrapper.getAttribute('data-foo')).toBe('bar');
   });
 
+  it('links aegov-label htmlFor to a standalone child aegov-checkbox fieldId', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-form-field>
+        <aegov-label>Agree</aegov-label>
+        <aegov-checkbox field-id="standalone-cb"></aegov-checkbox>
+      </aegov-form-field>
+    `);
+    await page.waitForChanges();
+    const label = await page.find('aegov-form-field aegov-label');
+    expect(await label.getProperty('htmlFor')).toBe('standalone-cb');
+  });
+
+  // Regression coverage for #45. `this.el.querySelector('aegov-checkbox')`
+  // has no concept of a checkbox-group boundary — it matched the group's
+  // first nested checkbox, silently binding the label to one arbitrary
+  // option instead of correctly linking to nothing (checkbox-group manages
+  // its own <legend> and needs its own aria-labelledby instead).
+  it('does not link aegov-label to a nested aegov-checkbox inside aegov-checkbox-group', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-form-field>
+        <aegov-label>Services</aegov-label>
+        <aegov-checkbox-group>
+          <aegov-checkbox field-id="cb-a" value="a"></aegov-checkbox>
+          <aegov-checkbox field-id="cb-b" value="b"></aegov-checkbox>
+        </aegov-checkbox-group>
+      </aegov-form-field>
+    `);
+    await page.waitForChanges();
+    const label = await page.find('aegov-form-field aegov-label');
+    expect(await label.getProperty('htmlFor')).toBeFalsy();
+  });
+
+  it('does not link aegov-label to a nested aegov-radio inside aegov-radio-group', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-form-field>
+        <aegov-label>Choice</aegov-label>
+        <aegov-radio-group>
+          <aegov-radio field-id="r-a" value="a"></aegov-radio>
+          <aegov-radio field-id="r-b" value="b"></aegov-radio>
+        </aegov-radio-group>
+      </aegov-form-field>
+    `);
+    await page.waitForChanges();
+    const label = await page.find('aegov-form-field aegov-label');
+    expect(await label.getProperty('htmlFor')).toBeFalsy();
+  });
+
   /**
    * The dimmed-label rules in aegov-form-field.css are `:has(input:disabled)` selectors.
    * They previously targeted `aegov-input[disabled]` on the host, which never matched —

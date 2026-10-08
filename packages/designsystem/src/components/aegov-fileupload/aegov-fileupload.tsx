@@ -15,6 +15,7 @@ import {
 } from '../../utils/validation';
 import type { InternalsHost } from '../../utils/validation';
 import { isRtl } from '../../utils/rtl';
+import { resolveFocusTarget } from '../../utils/focus-management';
 
 const STRINGS = {
   en: {
@@ -75,6 +76,12 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 export class AegovFileupload {
   @Element() el!: HTMLElement;
   private inputEl?: HTMLInputElement;
+  /** The visible upload trigger for the 'button'/'dropzone' appearances (the native
+   * input is hidden/aria-hidden there) — focus fallback target once the file list
+   * empties out, alongside `inputEl` for the 'default' appearance. */
+  private triggerBtnRef?: HTMLElement;
+  /** Remove-button refs for the current render, indexed to match `selectedFiles`. */
+  private removeButtonRefs: HTMLButtonElement[] = [];
 
   /** Native file-input attributes to pass through to the inner `<input type="file">`. */
   private static readonly PASS_THROUGH_ATTRS = new Set([
@@ -407,8 +414,21 @@ export class AegovFileupload {
     if (Object.keys(pendingFlag).length > 0) {
       this.isInvalid = true;
       if (pendingMessage) this.errorMessage = pendingMessage;
+    } else {
+      // A fully valid selection must clear any error left over from a
+      // previous one (#44) — otherwise a stale message/aria-invalid about a
+      // file that's no longer even selected sticks around indefinitely.
+      this.isInvalid = false;
+      this.errorMessage = '';
     }
   }
+
+  /**
+   * Set by `removeFile()`, consumed and cleared by `componentDidRender()` —
+   * see that method's doc comment for why a `setTimeout`/rAF can't be used
+   * here instead.
+   */
+  private pendingFocusAfterRemoval: { removedIndex: number; remainingCount: number } | null = null;
 
   private removeFile(index: number) {
     const removed = this.selectedFiles[index];
@@ -418,6 +438,50 @@ export class AegovFileupload {
     this.aegovFileuploadChange.emit({ files: [...remaining] });
     this.runValidationSync();
     this.emitValidateChange();
+    // A "Maximum N files allowed" error (#44) is tied directly to the file
+    // count removeFile() just changed — clear it once the new count no
+    // longer exceeds the cap, the same symmetry processFiles() now applies
+    // on a fully valid selection.
+    if (!this.maxFiles || remaining.length <= this.maxFiles) {
+      this.isInvalid = false;
+      this.errorMessage = '';
+    }
+    // The removed remove-button's own DOM node is destroyed as part of the
+    // re-render this triggers — with no focus management, real keyboard/mouse
+    // focus silently falls back to <body> on every single removal. Defer the
+    // actual .focus() call to componentDidRender(), once the new DOM (with a
+    // possibly-shorter removeButtonRefs array) actually exists.
+    this.pendingFocusAfterRemoval = { removedIndex: index, remainingCount: remaining.length };
+  }
+
+  /**
+   * Stencil schedules the re-render a `@State` mutation triggers via its own
+   * internal `requestAnimationFrame`-based queue — there's no guarantee a
+   * `setTimeout(fn, 0)` macrotask queued right after the mutation runs AFTER
+   * that re-render actually lands in the DOM (confirmed live: it doesn't,
+   * reliably landing one frame too early, before `removeButtonRefs` reflects
+   * the new, shorter list — silently focusing nothing). `componentDidRender()`
+   * is Stencil's own guaranteed-after-DOM-update hook, so performing the
+   * actual focus move here (once, via a pending-state flag set by
+   * `removeFile()`) lands correctly every time.
+   */
+  componentDidRender() {
+    if (!this.pendingFocusAfterRemoval) return;
+    const { removedIndex, remainingCount } = this.pendingFocusAfterRemoval;
+    this.pendingFocusAfterRemoval = null;
+
+    if (remainingCount === 0) {
+      if (this.triggerBtnRef) {
+        resolveFocusTarget(this.triggerBtnRef).focus();
+      } else {
+        this.inputEl?.focus();
+      }
+      return;
+    }
+    // Prefer the item that shifted into the removed slot; otherwise (the
+    // removed item was last) the new last item.
+    const nextIndex = Math.min(removedIndex, remainingCount - 1);
+    this.removeButtonRefs[nextIndex]?.focus();
   }
 
   private isValidFileType(file: File): boolean {
@@ -542,6 +606,7 @@ export class AegovFileupload {
       <button
         type="button"
         class="fileupload__remove-btn"
+        ref={(el) => (this.removeButtonRefs[index] = el as HTMLButtonElement)}
         onClick={() => this.removeFile(index)}
         aria-label={this.t.remove(fileName)}
       >
@@ -554,6 +619,9 @@ export class AegovFileupload {
 
   private renderFileList() {
     if (this.selectedFiles.length === 0) return null;
+    // Rebuilt fresh every render so a shorter list (after a removal) doesn't
+    // retain stale refs to now-destroyed button nodes at the tail end.
+    this.removeButtonRefs = [];
     return (
       <ul class="fileupload__file-list" role="list">
         {this.selectedFiles.map((file, index) => (
@@ -651,6 +719,7 @@ export class AegovFileupload {
         />
         <aegov-button
           class="fileupload__trigger-btn"
+          ref={(el) => (this.triggerBtnRef = el as HTMLElement)}
           variant={this.variant}
           size={this._resolvedSize}
           appearance="solid"
@@ -707,6 +776,7 @@ export class AegovFileupload {
           </p>
           <aegov-button
             class="fileupload__dropzone-btn"
+            ref={(el) => (this.triggerBtnRef = el as HTMLElement)}
             variant={this.variant}
             size={this._resolvedSize}
             appearance="outline"
