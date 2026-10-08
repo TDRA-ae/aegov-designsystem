@@ -5,6 +5,7 @@ import type {
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { generateId } from '../../utils/id-generator';
 import { isRtl } from '../../utils/rtl';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -100,7 +101,14 @@ export class AegovRange {
   /** Inline error message. Use `error` slot for rich markup. */
   @Prop({ mutable: true }) errorMessage: string = '';
 
-  /** Additional CSS classes. */
+  /**
+   * Additional CSS classes.
+   *
+   * This component renders in a real shadow root, which normally blocks the page's CSS
+   * from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied
+   * in from the page's own stylesheets at runtime and work as expected; other utilities
+   * (colour, border, typography, etc.) still have no effect — see #35.
+   */
   @Prop() extraClass?: string;
 
   @State() activeThumb: 'single' | 'low' | 'high' | null = null;
@@ -155,6 +163,10 @@ export class AegovRange {
         this.internals = null;
       }
     }
+  }
+
+  componentDidLoad() {
+    adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
   }
 
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
@@ -268,6 +280,11 @@ export class AegovRange {
 
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant')); }
+
+  @Watch('extraClass')
+  onExtraClassChange() {
+    adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
+  }
 
   private static readonly PASS_THROUGH_ATTRS = new Set([
     'tabindex', 'autofocus', 'title', 'form',

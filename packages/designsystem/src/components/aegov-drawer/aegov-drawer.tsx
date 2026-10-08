@@ -2,7 +2,7 @@ import { Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, 
 import { DRAWER_POSITIONS, DRAWER_ANIMATIONS, DRAWER_OVERLAY_OPACITIES, DRAWER_SIZES } from '../../utils/types';
 import type { DrawerPosition, DrawerAnimation, DrawerOverlayOpacity, DrawerSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
-import { getSlottedFocusableElements, handleTabKeyWrap } from '../../utils/focus-management';
+import { getSlottedFocusableElements, handleTabKeyWrap, resolveFocusTarget } from '../../utils/focus-management';
 import { lockBodyScroll, unlockBodyScroll } from '../../utils/scroll-lock';
 import { pushZIndex, popZIndex } from '../../utils/z-index-manager';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -342,9 +342,11 @@ export class AegovDrawer {
     // Remove keyboard listener
     document.removeEventListener('keydown', this.handleKeyDown);
 
-    // Return focus to trigger element
+    // Return focus to trigger element. resolveFocusTarget handles a shadow-DOM
+    // trigger whose host isn't itself focusable — .focus() on it directly would
+    // otherwise silently no-op, dropping focus to <body> (see #66).
     if (this.triggerElement && typeof this.triggerElement.focus === 'function') {
-      this.triggerElement.focus();
+      resolveFocusTarget(this.triggerElement).focus();
     }
 
     // Set animation state
