@@ -244,4 +244,66 @@ describe('aegov-fileupload (e2e)', () => {
     expect(active.tag).toBe('AEGOV-BUTTON');
     expect(active.className).toContain('fileupload__dropzone-btn');
   });
+
+  // Regression coverage for #44. processFiles() only ever set isInvalid/
+  // errorMessage on a bad selection — nothing cleared them back on a later,
+  // fully valid one, so a stale error about a file no longer even selected
+  // stuck around indefinitely.
+  it('clears a stale validation error once a subsequent file selection is fully valid', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-fileupload appearance="dropzone" is-multiple max-file-size="10"></aegov-fileupload>');
+    const host = await page.find('aegov-fileupload');
+
+    await page.evaluate(() => {
+      const input = document.querySelector('aegov-fileupload')!.shadowRoot!.querySelector('input[type="file"]') as HTMLInputElement;
+      const dt = new DataTransfer();
+      dt.items.add(new File(['way more than 10 bytes of content'], 'too-big.txt', { type: 'text/plain' }));
+      input.files = dt.files;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await page.waitForChanges();
+    expect(host.getAttribute('is-invalid')).not.toBeNull();
+
+    await page.evaluate(() => {
+      const input = document.querySelector('aegov-fileupload')!.shadowRoot!.querySelector('input[type="file"]') as HTMLInputElement;
+      const dt = new DataTransfer();
+      dt.items.add(new File(['ok'], 'valid.txt', { type: 'text/plain' }));
+      input.files = dt.files;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await page.waitForChanges();
+
+    expect(host.getAttribute('is-invalid')).toBeNull();
+    const errorRegion = await page.find('aegov-fileupload >>> .aegov-fileupload__error');
+    expect(errorRegion).toBeNull();
+  });
+
+  it('clears a stale "max files" error once removing a file drops the count back under the cap', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-fileupload appearance="button" is-multiple max-files="2"></aegov-fileupload>');
+    const host = await page.find('aegov-fileupload');
+
+    await page.evaluate(() => {
+      const input = document.querySelector('aegov-fileupload')!.shadowRoot!.querySelector('input[type="file"]') as HTMLInputElement;
+      const dt = new DataTransfer();
+      dt.items.add(new File(['a'], 'a.txt', { type: 'text/plain' }));
+      dt.items.add(new File(['b'], 'b.txt', { type: 'text/plain' }));
+      dt.items.add(new File(['c'], 'c.txt', { type: 'text/plain' }));
+      input.files = dt.files;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await page.waitForChanges();
+    expect(host.getAttribute('is-invalid')).not.toBeNull();
+
+    await page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      (fu.shadowRoot!.querySelector('.fileupload__remove-btn') as HTMLElement).click();
+    });
+    await page.waitForChanges();
+
+    // Before the fix, removeFile() never reset isInvalid/errorMessage, so
+    // "Maximum 2 files allowed." stuck around even once the count (2) was
+    // valid again.
+    expect(host.getAttribute('is-invalid')).toBeNull();
+  });
 });
