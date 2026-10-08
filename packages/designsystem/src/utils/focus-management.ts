@@ -118,6 +118,26 @@ export function resolveFocusTarget(element: HTMLElement, selector: string = FOCU
 }
 
 /**
+ * Like `Element.contains()`, but correct when `el` is a DEEP element returned
+ * by `getDeepActiveElement()` (i.e. it may live inside some shadow root).
+ * Plain `.contains()` only traverses light DOM — it cannot see that a shadow
+ * root's inner element is logically "inside" a light-DOM ancestor of its own
+ * HOST. Walking up via each shadow root's `.host` once `container.contains()`
+ * fails bridges that gap, re-checking containment one shadow level up each
+ * time, until a plain light-DOM ancestor check succeeds or there's nowhere
+ * left to climb.
+ */
+export function containsAcrossShadow(container: Element, el: Element | null): boolean {
+  let current: Element | null = el;
+  while (current) {
+    if (container.contains(current)) return true;
+    const root = current.getRootNode();
+    current = root instanceof ShadowRoot ? root.host : null;
+  }
+  return false;
+}
+
+/**
  * Handle Tab key to wrap focus within a list of focusable elements.
  * Used by modal and drawer for focus trapping.
  *

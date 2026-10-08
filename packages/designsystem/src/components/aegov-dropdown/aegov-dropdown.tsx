@@ -2,7 +2,7 @@ import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, 
 import { DROPDOWN_POSITIONS, DROPDOWN_ALIGNS, DROPDOWN_TRIGGERS } from '../../utils/types';
 import type { DropdownPosition, DropdownAlign, DropdownTrigger } from '../../utils/types';
 import { generateId } from '../../utils/id-generator';
-import { getFocusableElements, getFocusableElementsDeep, getDeepActiveElement, resolveFocusTarget, FOCUSABLE_SELECTORS, cycleFocus } from '../../utils/focus-management';
+import { getFocusableElements, getFocusableElementsDeep, getDeepActiveElement, resolveFocusTarget, containsAcrossShadow, FOCUSABLE_SELECTORS, cycleFocus } from '../../utils/focus-management';
 import { createPortal, removePortal } from '../../utils/portal-manager';
 import { createKeyboardHandler } from '../../utils/keyboard-handler';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -1027,8 +1027,20 @@ export class AegovDropdown {
     // innermost one), and arrow keys would silently mutate every ancestor's own
     // currentFocusIndex even though only the innermost one's focus change is
     // visible (whichever instance's .focus() call happens to run last wins).
+    //
+    // containsAcrossShadow (not plain .contains()) is required here: a mouse
+    // click opens the dropdown but deliberately leaves focus on the trigger
+    // (per the documented "pointer opens leave focus on the trigger" pattern),
+    // and getDeepActiveElement() correctly drills into a shadow-DOM trigger
+    // like aegov-button to find its real inner <button> — but a plain
+    // triggerRef.contains() can't see that deep element at all (it never
+    // crosses a shadow boundary), so it reported "focus is NOT within this
+    // instance" and Escape silently did nothing.
     const activeEl = getDeepActiveElement() as HTMLElement | null;
-    const isFocusWithinThisInstance = !!(this.dropdownRef?.contains(activeEl) || this.triggerRef?.contains(activeEl));
+    const isFocusWithinThisInstance = !!(
+      (this.dropdownRef && containsAcrossShadow(this.dropdownRef, activeEl)) ||
+      (this.triggerRef && containsAcrossShadow(this.triggerRef, activeEl))
+    );
     if (!isFocusWithinThisInstance) return;
 
     this.keyHandler(event);
