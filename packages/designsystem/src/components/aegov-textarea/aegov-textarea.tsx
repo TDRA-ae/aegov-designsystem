@@ -5,6 +5,7 @@ import type {
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { isRtl } from '../../utils/rtl';
@@ -79,7 +80,14 @@ export class AegovTextarea {
   /** Helper hint rendered below the control. Hidden when an error is shown. Use `hint` slot for richer markup. */
   @Prop() hint: string = '';
 
-  /** Additional CSS classes to apply. */
+  /**
+   * Additional CSS classes to apply.
+   *
+   * This component renders in a real shadow root, which normally blocks the page's CSS
+   * from reaching inside it. Margin/padding utilities (e.g. `mt-4`, `md:px-6`) are copied
+   * in from the page's own stylesheets at runtime and work as expected; other utilities
+   * (colour, border, typography, etc.) still have no effect — see #35.
+   */
   @Prop() extraClass?: string;
 
   /** Tracks whether the value was just copied (for visual feedback). */
@@ -153,6 +161,12 @@ export class AegovTextarea {
 
   componentDidLoad() {
     this.syncInternalsValidity();
+    adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
+  }
+
+  @Watch('extraClass')
+  onExtraClassChange() {
+    adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
   }
 
   /** Imperatively re-run validation. */
