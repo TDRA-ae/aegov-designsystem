@@ -318,4 +318,32 @@ describe('aegov-dropdown (e2e)', () => {
     expect(state.activeId).toBe('visa-services');
     expect(state.openMenus).toBe(1);
   });
+
+  // Regression coverage for #40. `align` is logical (reading-direction-relative),
+  // not physical: `start` must anchor to the trigger's reading-direction-start
+  // edge (left in LTR, right in RTL) and `end` to its reading-direction-end edge.
+  it("mirrors align='start'/'end' against the effective direction under dir=\"rtl\"", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <div dir="rtl" style="position:fixed; top:50px; left:100px;">
+        <aegov-dropdown align="start">
+          <button id="rtl-trigger">Open</button>
+          <div slot="dropdown-content"><a href="#">Item</a></div>
+        </aegov-dropdown>
+      </div>
+    `);
+    const triggerBtn = await page.find('#rtl-trigger');
+    await triggerBtn.click();
+    await page.waitForChanges();
+
+    const rects = await page.evaluate(() => {
+      const trigger = document.getElementById('rtl-trigger').getBoundingClientRect();
+      const panel = document.querySelector('.aegov-dropdown-portal .aegov-dropdown[data-state="open"]').getBoundingClientRect();
+      return { triggerRight: trigger.right, panelRight: panel.right };
+    });
+    // Before the fix, calculateHorizontalPosition() switched purely on the
+    // literal align value with no direction check, so align="start" stayed
+    // pinned to the trigger's physical left edge even under dir="rtl".
+    expect(Math.abs(rects.panelRight - rects.triggerRight)).toBeLessThan(1);
+  });
 });
