@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Element, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Element, Watch } from '@stencil/core';
 import { FORM_VARIANTS } from '../../utils/types';
 import type { FormVariant } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -16,6 +16,7 @@ type AegovFormControl = HTMLElement & {
   errorMessage?: string;
   hint?: string;
   variant?: FormVariant;
+  isDisabled?: boolean;
 };
 
 @Component({
@@ -48,6 +49,21 @@ export class AegovFormField {
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
 
+  /**
+   * Whether the linked control is currently disabled — drives the dimmed-label
+   * styling (#46). Every aegov form control is `shadow: true`, so its real
+   * native `<input>`/`<button>` lives inside its own shadow root, unreachable
+   * by any CSS selector from here regardless of how it's written — there is
+   * no `:has()` trick that can see across that boundary. Reading the
+   * control's own `isDisabled` *property* directly (always correct, unlike
+   * its reflected host attribute — Stencil adds that attribute when the prop
+   * becomes true but never removes it again when it becomes false) is the
+   * only reliable source of truth.
+   */
+  @State() private isControlDisabled: boolean = false;
+  private disabledObserver?: MutationObserver;
+  private observedControl?: AegovFormControl;
+
   @Watch('variant')
   onVariantChange(v: unknown) {
     warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', { component: 'aegov-form-field', prop: 'variant' });
@@ -69,6 +85,10 @@ export class AegovFormField {
   componentDidUpdate() {
     this.linkChildren();
     this.cascadeToChild();
+  }
+
+  disconnectedCallback() {
+    this.disabledObserver?.disconnect();
   }
 
   @Watch('isInvalid')
@@ -94,6 +114,28 @@ export class AegovFormField {
     return candidates.find(el => !el.closest(groupTag)) ?? null;
   }
 
+  /**
+   * The same priority list `linkChildren()` uses to decide which control a
+   * `<aegov-label>` links to — reused for the disabled-label sync (#46) so it
+   * covers exactly the controls that can actually have a label to dim,
+   * including standalone `aegov-radio`/`aegov-progress`, which `findControl()`
+   * (validation-cascade only) deliberately does not match.
+   */
+  private findLabelableControl(): AegovFormControl | null {
+    return (
+      (this.el.querySelector('aegov-input') as AegovFormControl | null) ||
+      (this.el.querySelector('aegov-textarea') as AegovFormControl | null) ||
+      (this.el.querySelector('aegov-select') as AegovFormControl | null) ||
+      this.findStandaloneControl<AegovFormControl>('aegov-checkbox', 'aegov-checkbox-group') ||
+      (this.el.querySelector('aegov-range') as AegovFormControl | null) ||
+      (this.el.querySelector('aegov-progress') as AegovFormControl | null) ||
+      (this.el.querySelector('aegov-otp') as AegovFormControl | null) ||
+      (this.el.querySelector('aegov-fileupload') as AegovFormControl | null) ||
+      this.findStandaloneControl<AegovFormControl>('aegov-radio', 'aegov-radio-group') ||
+      (this.el.querySelector('aegov-toggle') as AegovFormControl | null)
+    );
+  }
+
   private linkChildren() {
     const input = this.el.querySelector('aegov-input') as HTMLAegovInputElement | null;
     const textarea = this.el.querySelector('aegov-textarea') as HTMLAegovTextareaElement | null;
@@ -106,6 +148,11 @@ export class AegovFormField {
     const fileupload = this.el.querySelector('aegov-fileupload') as HTMLAegovFileuploadElement | null;
     const radio = this.findStandaloneControl<HTMLAegovRadioElement>('aegov-radio', 'aegov-radio-group');
     const toggle = this.el.querySelector('aegov-toggle') as HTMLAegovToggleElement | null;
+
+    const labelableControl = this.findLabelableControl();
+    if (labelableControl) {
+      this.syncDisabledState(labelableControl);
+    }
 
     if (label) {
       // For shadow:true components the browser cannot follow <label for="..."> into the
@@ -185,10 +232,44 @@ export class AegovFormField {
     }
   }
 
+  /**
+   * Mirrors the control's live `isDisabled` property onto `isControlDisabled`
+   * (driving the dimmed-label CSS class), and watches for further changes.
+   *
+   * No DOM mutation reliably fires when `isDisabled` is toggled as a plain JS
+   * property on a control that doesn't reflect it (`aegov-input`/`textarea`/
+   * `select` don't) — but every control's own render output always keeps its
+   * REAL inner native element's `disabled` attribute correctly in sync both
+   * ways (confirmed live: it clears correctly, unlike the host's reflected
+   * attribute). Observing each control's shadow root for that attribute is
+   * therefore a reliable proxy trigger to re-read the authoritative property.
+   */
+  private syncDisabledState(ctrl: AegovFormControl) {
+    this.isControlDisabled = !!ctrl.isDisabled;
+
+    if (this.observedControl === ctrl) return;
+    this.disabledObserver?.disconnect();
+    this.observedControl = ctrl;
+
+    if (ctrl.shadowRoot) {
+      this.disabledObserver = new MutationObserver(() => {
+        this.isControlDisabled = !!ctrl.isDisabled;
+      });
+      this.disabledObserver.observe(ctrl.shadowRoot, {
+        attributes: true,
+        attributeFilter: ['disabled'],
+        subtree: true,
+      });
+    }
+  }
+
   private getFieldClasses(): string {
     const classes: string[] = ['aegov-form-field'];
     if (this.isInvalid) {
       classes.push('is-invalid');
+    }
+    if (this.isControlDisabled) {
+      classes.push('is-control-disabled');
     }
     if (this.extraClass) {
       classes.push(this.extraClass);
