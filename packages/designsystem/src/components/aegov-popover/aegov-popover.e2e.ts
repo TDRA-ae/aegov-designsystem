@@ -31,6 +31,54 @@ describe('aegov-popover (e2e)', () => {
     expect(portal.getAttribute('role')).toBe('dialog');
   });
 
+  // Regression coverage for #58. The portal div's own createPortal() util
+  // never copies any dir attribute, so the panel (moved to document.body,
+  // several levels outside any local dir="rtl" ancestor wrapper) reverted
+  // to whatever <html>/<body> had instead of inheriting the local wrapper's
+  // direction — the same portal-vs-dir gap already found and fixed in
+  // aegov-datepicker (#37), aegov-dropdown (#41), and aegov-modal (#53).
+  it('carries dir="rtl" from a local ancestor wrapper onto the portalled panel', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <div dir="rtl">
+        <aegov-popover>
+          <button>Open</button>
+          <div slot="popover-content"><a href="#">Link</a></div>
+        </aegov-popover>
+      </div>
+    `);
+    const triggerBtn = await page.find('aegov-popover button');
+    await triggerBtn.click();
+    await page.waitForChanges();
+
+    const result = await page.evaluate(() => {
+      const panel = document.querySelector('.aegov-popover-portal .aegov-popover');
+      const portalDiv = panel?.closest('.aegov-popover-portal');
+      return {
+        portalDir: portalDiv?.getAttribute('dir'),
+        panelDirection: panel ? getComputedStyle(panel).direction : null,
+      };
+    });
+    expect(result.portalDir).toBe('rtl');
+    expect(result.panelDirection).toBe('rtl');
+  });
+
+  it('defaults to dir="ltr" with no rtl ancestor', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-popover>
+        <button>Open</button>
+        <div slot="popover-content"><a href="#">Link</a></div>
+      </aegov-popover>
+    `);
+    const triggerBtn = await page.find('aegov-popover button');
+    await triggerBtn.click();
+    await page.waitForChanges();
+
+    const portalDir = await page.evaluate(() => document.querySelector('.aegov-popover-portal')?.getAttribute('dir'));
+    expect(portalDir).toBe('ltr');
+  });
+
   it('renders arrow element in portal', async () => {
     const page = await newE2EPage();
     await page.setContent(`

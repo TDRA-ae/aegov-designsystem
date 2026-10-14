@@ -762,6 +762,15 @@ export class AegovPopover {
 
     this.contentSlotRef = contentSlot;
 
+    // The portal div is a child of document.body, several levels outside any
+    // local dir="rtl" ancestor wrapper around the popover itself — direction
+    // doesn't travel with the move the way position/alignment already do
+    // (#58, the same portal-vs-dir gap already found and fixed in
+    // aegov-datepicker/#37, aegov-dropdown/#41, and aegov-modal/#53). Set it
+    // fresh on every render so it reflects the host's current resolved
+    // direction, not just whatever it was when the portal div was created.
+    this.portalElement.setAttribute('dir', this.isRtl() ? 'rtl' : 'ltr');
+
     // Clear portal
     this.portalElement.innerHTML = '';
 
