@@ -40,7 +40,7 @@ export class AegovRadioGroup {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Colour family. Cascades to child radios (only if child has no own variant). Focus ring stays camel; error stays aered regardless. */
-  @Prop() variant: FormVariant = 'primary';
+  @Prop() variant?: FormVariant;
 
   /** The name shared by all radios in the group. Ensures native single-select behavior. */
   @Prop() name!: string;
@@ -189,8 +189,11 @@ export class AegovRadioGroup {
       // Also set host class directly — Stencil's async re-render may not fire in time
       (radio as HTMLElement).classList.toggle('radio-appearance-cards', this.appearance === 'cards');
       (radio as HTMLElement).classList.toggle('radio-appearance-pills', this.appearance === 'pills');
-      // Cascade variant only if child has no own value (still default 'primary')
-      if (!radio.variant || radio.variant === 'primary') {
+      // Cascade variant only if the child never set its own (same sentinel
+      // bug as #31). `variant` no longer has a default value — a child that
+      // never touched it reads back as genuinely `undefined`, distinguishable
+      // from one that explicitly chose `variant="primary"`.
+      if (radio.variant === undefined) {
         radio.variant = this.variant;
       }
       // Group always wins — matches size/appearance's unconditional cascade (see issue #34).

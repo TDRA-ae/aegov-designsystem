@@ -81,7 +81,7 @@ export class AegovRange {
   @Prop() mode: RangeMode = 'single';
 
   /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
-  @Prop() variant: FormVariant = 'primary';
+  @Prop() variant?: FormVariant;
 
   /** Whether the range is disabled. */
   @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
