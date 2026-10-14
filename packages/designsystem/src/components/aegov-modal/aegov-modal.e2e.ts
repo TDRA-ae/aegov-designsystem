@@ -162,6 +162,12 @@ describe('aegov-modal (e2e)', () => {
     await modal.callMethod('show');
     await page.waitForChanges();
     await modal.callMethod('close');
+    // close() schedules the actual isOpen=false (and the focus-restore it
+    // triggers) behind a real 200ms setTimeout — waitForChanges() alone only
+    // flushes Stencil's render queue, not real timers, so a missing wait here
+    // previously made this test fail even though the real fix works (focus
+    // was still correct, just not yet restored at the moment of the check).
+    await new Promise(resolve => setTimeout(resolve, 300));
     await page.waitForChanges();
 
     const focusState = await page.evaluate(() => {
