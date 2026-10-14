@@ -57,6 +57,13 @@
   opacity: 0.4;
 }
 
+/* Cancel own disabled opacity when the group's "default"/"list"-appearance
+   wrapper already handles it (avoids 0.4×0.4=0.16 compound, #68) — see the
+   identical comment on aegov-checkbox.css. */
+:host([is-grouped]:not([appearance="pills"]):not([appearance="cards"])) .radio__wrapper:has(input:disabled) {
+  opacity: 1;
+}
+
 .radio__text {
   @apply flex flex-col;
 }
