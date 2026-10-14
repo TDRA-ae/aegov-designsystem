@@ -45,7 +45,7 @@ export class AegovOtp {
   @Prop() size: string = 'base';
 
   /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
-  @Prop() variant: FormVariant = 'primary';
+  @Prop() variant?: FormVariant;
 
   @State() private _resolvedSize: OtpSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;

@@ -90,4 +90,28 @@ describe('aegov-checkbox-group (e2e)', () => {
     const cb = await page.find('aegov-checkbox-group aegov-checkbox div.aegov-checkbox');
     expect(cb).toHaveClass('checkbox--lg');
   });
+
+  // Regression coverage for #31. `variant` previously defaulted to 'primary',
+  // the same string used for "explicitly chose primary" — so a child that
+  // deliberately set variant="primary" was indistinguishable from one that
+  // never touched it, and got silently overridden to match the group.
+  it("does not override a child's explicit variant=\"primary\" (#31)", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-checkbox-group variant="secondary">
+        <aegov-checkbox id="explicit-primary" variant="primary" value="a"></aegov-checkbox>
+        <aegov-checkbox id="unset" value="b"></aegov-checkbox>
+        <aegov-checkbox id="explicit-other" variant="neutral-max" value="c"></aegov-checkbox>
+      </aegov-checkbox-group>
+    `);
+    await page.waitForChanges();
+
+    const explicitPrimary = await page.find('#explicit-primary');
+    const unset = await page.find('#unset');
+    const explicitOther = await page.find('#explicit-other');
+
+    expect(await explicitPrimary.getProperty('variant')).toBe('primary');
+    expect(await unset.getProperty('variant')).toBe('secondary');
+    expect(await explicitOther.getProperty('variant')).toBe('neutral-max');
+  });
 });
