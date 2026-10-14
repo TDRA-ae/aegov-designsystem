@@ -226,13 +226,30 @@ export class AegovLink {
     // text-primary-600 on dark backgrounds, measuring ~3.6:1 against
     // aeblack-950 (confirmed via canvas-readback), well under the 4.5:1 a
     // plain text link needs.
+    //
+    // No `no-underline` here (#52): the global `a{}` base style
+    // (`global.css`, `@layer base`) is the documented, intended hover
+    // feedback for a plain text link — `hover:text-primary-500
+    // hover:underline ... dark:hover:text-primary-300`. Since Tailwind's
+    // `@layer utilities` always wins over `@layer base` regardless of
+    // selector specificity (cascade LAYER order pre-empts that comparison
+    // entirely), an unconditional `no-underline` here permanently cancelled
+    // the base layer's hover underline, and the static `text-primary-600`
+    // below equally cancelled its hover colour change, for every plain
+    // link. `hover:text-primary-500`/`dark:hover:text-primary-300` are
+    // added explicitly below so the component states its own intended
+    // hover feedback instead of accidentally cancelling the global one —
+    // both declarations now live in the same `@layer utilities`, so normal
+    // cascade order correctly lets the hover variant win over the static
+    // colour once actually hovered.
     const classes = [
-      'no-underline',
       'ease-in-out',
       'transition-colors',
       'duration-200',
       'text-primary-600',
+      'hover:text-primary-500',
       'dark:text-primary-400',
+      'dark:hover:text-primary-300',
     ];
     if (this.extraClass) classes.push(this.extraClass);
     return classes.join(' ');
