@@ -571,9 +571,8 @@ export namespace Components {
         "value"?: string;
         /**
           * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
-          * @default 'primary'
          */
-        "variant": FormVariant;
+        "variant"?: FormVariant;
     }
     interface AegovCheckboxGroup {
         /**
@@ -634,9 +633,8 @@ export namespace Components {
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
-        "variant": FormVariant;
+        "variant"?: FormVariant;
     }
     interface AegovDatepicker {
         /**
@@ -793,9 +791,8 @@ export namespace Components {
         "value": string;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
-        "variant": FormVariant;
+        "variant"?: FormVariant;
         /**
           * End year for the year dropdown (default: current year + 100)
           * @default 0
@@ -1037,9 +1034,8 @@ export namespace Components {
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
-        "variant": FormVariant;
+        "variant"?: FormVariant;
     }
     /**
      * @component aegov-footer
@@ -1192,9 +1188,8 @@ export namespace Components {
         "isInvalid": boolean;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Cascades to first form-control descendant.
-          * @default 'primary'
          */
-        "variant": FormVariant;
+        "variant"?: FormVariant;
     }
     interface AegovHeader {
         /**
@@ -1359,9 +1354,8 @@ export namespace Components {
         "value": string;
         /**
           * Colour family. Drives idle ring, value text, and accent hover. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
-        "variant": FormVariant;
+        "variant"?: FormVariant;
     }
     interface AegovInputGroup {
         /**
@@ -1387,9 +1381,8 @@ export namespace Components {
         "size": string;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
-        "variant": FormVariant;
+        "variant"?: FormVariant;
     }
     interface AegovLabel {
         /**
@@ -1406,9 +1399,8 @@ export namespace Components {
         "htmlFor"?: string;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
-        "variant": FormVariant;
+        "variant"?: FormVariant;
     }
     interface AegovLink {
         /**
@@ -1801,9 +1793,8 @@ export namespace Components {
         "value": string;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
-        "variant": FormVariant;
+        "variant"?: FormVariant;
     }
     interface AegovPagination {
         /**
@@ -2032,9 +2023,8 @@ export namespace Components {
         "value"?: string;
         /**
           * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
-          * @default 'primary'
          */
-        "variant": FormVariant;
+        "variant"?: FormVariant;
     }
     interface AegovRadioGroup {
         /**
@@ -2099,9 +2089,8 @@ export namespace Components {
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * Colour family. Cascades to child radios (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
-        "variant": FormVariant;
+        "variant"?: FormVariant;
     }
     interface AegovRange {
         /**
@@ -2205,9 +2194,8 @@ export namespace Components {
         "valueLow": number;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
-        "variant": FormVariant;
+        "variant"?: FormVariant;
     }
     interface AegovSelect {
         /**
@@ -2296,9 +2284,8 @@ export namespace Components {
         "value": string;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
-        "variant": FormVariant;
+        "variant"?: FormVariant;
         /**
           * Max visible items in the dropdown before scrolling.
           * @default 6
@@ -2570,9 +2557,8 @@ export namespace Components {
         "value": string;
         /**
           * Colour family. Drives idle ring, value text, and accent hover.
-          * @default 'primary'
          */
-        "variant": FormVariant;
+        "variant"?: FormVariant;
     }
     interface AegovTimeline {
         /**
@@ -2763,9 +2749,8 @@ export namespace Components {
         "value"?: string;
         /**
           * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring stays camel; error stays aered.
-          * @default 'primary'
          */
-        "variant": FormVariant;
+        "variant"?: FormVariant;
     }
     /**
      * Tooltip component that displays additional information on hover or click
@@ -4515,7 +4500,6 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
-          * @default 'primary'
          */
         "variant"?: FormVariant;
     }
@@ -4578,7 +4562,6 @@ declare namespace LocalJSX {
         "size"?: string;
         /**
           * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
         "variant"?: FormVariant;
     }
@@ -4730,7 +4713,6 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
         "variant"?: FormVariant;
         /**
@@ -4985,7 +4967,6 @@ declare namespace LocalJSX {
         "size"?: string;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
         "variant"?: FormVariant;
     }
@@ -5140,7 +5121,6 @@ declare namespace LocalJSX {
         "isInvalid"?: boolean;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Cascades to first form-control descendant.
-          * @default 'primary'
          */
         "variant"?: FormVariant;
     }
@@ -5330,7 +5310,6 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * Colour family. Drives idle ring, value text, and accent hover. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
         "variant"?: FormVariant;
     }
@@ -5358,7 +5337,6 @@ declare namespace LocalJSX {
         "size"?: string;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
         "variant"?: FormVariant;
     }
@@ -5377,7 +5355,6 @@ declare namespace LocalJSX {
         "htmlFor"?: string;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
         "variant"?: FormVariant;
     }
@@ -5796,7 +5773,6 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
         "variant"?: FormVariant;
     }
@@ -6046,7 +6022,6 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
-          * @default 'primary'
          */
         "variant"?: FormVariant;
     }
@@ -6113,7 +6088,6 @@ declare namespace LocalJSX {
         "size"?: string;
         /**
           * Colour family. Cascades to child radios (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
         "variant"?: FormVariant;
     }
@@ -6231,7 +6205,6 @@ declare namespace LocalJSX {
         "valueLow"?: number;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
         "variant"?: FormVariant;
     }
@@ -6338,7 +6311,6 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
-          * @default 'primary'
          */
         "variant"?: FormVariant;
         /**
@@ -6642,7 +6614,6 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * Colour family. Drives idle ring, value text, and accent hover.
-          * @default 'primary'
          */
         "variant"?: FormVariant;
     }
@@ -6847,7 +6818,6 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring stays camel; error stays aered.
-          * @default 'primary'
          */
         "variant"?: FormVariant;
     }

@@ -226,4 +226,29 @@ describe('aegov-form-field (e2e)', () => {
       expect(wrapper).toHaveClass('is-control-disabled');
     });
   });
+
+  // Regression coverage for #47. `variant` previously defaulted to 'primary',
+  // the same string used for "explicitly chose primary" — so a child that
+  // deliberately set variant="primary" was indistinguishable from one that
+  // never touched it, and got silently overridden to match the wrapper.
+  it("does not override a child's explicit variant=\"primary\" (#47)", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-form-field variant="secondary">
+        <aegov-label>Explicit primary checkbox</aegov-label>
+        <aegov-checkbox id="explicit-primary" variant="primary"></aegov-checkbox>
+      </aegov-form-field>
+      <aegov-form-field variant="secondary">
+        <aegov-label>Unset checkbox</aegov-label>
+        <aegov-checkbox id="unset"></aegov-checkbox>
+      </aegov-form-field>
+    `);
+    await page.waitForChanges();
+
+    const explicitPrimary = await page.find('#explicit-primary');
+    const unset = await page.find('#unset');
+
+    expect(await explicitPrimary.getProperty('variant')).toBe('primary');
+    expect(await unset.getProperty('variant')).toBe('secondary');
+  });
 });
