@@ -252,13 +252,21 @@ export class AegovPopover {
   onAlignChange(v: unknown) { warnIfInvalidEnumProp(v, POPOVER_ALIGNS, 'center', ctx('align')); }
 
   async componentDidLoad() {
-    this.createPortalElement();
+    // Portal creation is lazy — see handleOpenChange() (#60). Eagerly
+    // creating it here regardless of whether the popover is ever opened
+    // left one permanent, empty <div> in document.body per mounted
+    // instance, for the lifetime of the page.
     const inner = await this.getTriggerFocusableAsync();
     this.syncTriggerAria(inner);
   }
 
   connectedCallback() {
-    if (!this.portalElement && this.el.isConnected) {
+    // Only recreate on reconnect if we're supposed to be open right now —
+    // isOpen is @State, so it survives a disconnect/reconnect pair (e.g.
+    // the same kind aegov-modal's own connectedCallback comment describes).
+    // A popover that was never opened, or was closed, stays portal-less
+    // until it's actually opened again (#60).
+    if (!this.portalElement && this.el.isConnected && this.isOpen) {
       this.createPortalElement();
     }
   }
@@ -295,6 +303,11 @@ export class AegovPopover {
 
       this.positionRetryCount = 0;
       this.outOfViewportStreak = 0;
+      // Lazily (re-)create the portal div — the close branch below removes it
+      // entirely rather than just clearing its content (#60), so a reopen
+      // needs a fresh one. createPortalElement() is itself a no-op if one
+      // already exists (e.g. a popover that's never been closed before).
+      this.createPortalElement();
       this.renderPortalContent();
       this.schedulePositionUpdate();
       this.aegovPopoverOpen.emit();
@@ -323,15 +336,17 @@ export class AegovPopover {
 
       this.focusTrapPending = false;
       this.cleanupPopoverListeners();
+      // returnPortalContent() first moves the real slotted content back to
+      // its original position (same order disconnectedCallback() already
+      // uses), so the portal div is safely empty by the time we remove it
+      // entirely here, rather than leaving an empty, permanent <div> behind
+      // in document.body for the lifetime of the component instance (#60).
       this.returnPortalContent();
       this.popoverRef = undefined;
       this.arrowRef = undefined;
       this.positionUpdateScheduled = false;
       this.positionRetryCount = 0;
-
-      if (this.portalElement) {
-        this.portalElement.innerHTML = '';
-      }
+      this.removePortalElement();
 
       this.aegovPopoverClose.emit();
 
