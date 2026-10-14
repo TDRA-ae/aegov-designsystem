@@ -91,4 +91,25 @@ describe('aegov-radio-group (e2e)', () => {
     const r = await page.find('aegov-radio-group aegov-radio div.aegov-radio');
     expect(r).toHaveClass('radio--sm');
   });
+
+  // Same sentinel-value bug as #31/#47/#49, fixed here too for consistency —
+  // `variant` previously defaulted to 'primary', the same string used for
+  // "explicitly chose primary", so a child that deliberately set
+  // variant="primary" was indistinguishable from one that never touched it.
+  it('does not override a child\'s explicit variant="primary"', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-radio-group name="g" variant="secondary">
+        <aegov-radio id="explicit-primary" variant="primary" value="a"></aegov-radio>
+        <aegov-radio id="unset" value="b"></aegov-radio>
+      </aegov-radio-group>
+    `);
+    await page.waitForChanges();
+
+    const explicitPrimary = await page.find('#explicit-primary');
+    const unset = await page.find('#unset');
+
+    expect(await explicitPrimary.getProperty('variant')).toBe('primary');
+    expect(await unset.getProperty('variant')).toBe('secondary');
+  });
 });

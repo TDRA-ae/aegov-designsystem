@@ -42,7 +42,7 @@ export class AegovTextarea {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Colour family. Drives idle ring, value text, and accent hover. */
-  @Prop() variant: FormVariant = 'primary';
+  @Prop() variant?: FormVariant;
 
   /** Whether the textarea is disabled. */
   @Prop({ mutable: true }) isDisabled: boolean = false;
