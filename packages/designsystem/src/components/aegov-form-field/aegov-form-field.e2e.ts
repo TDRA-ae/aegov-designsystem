@@ -251,4 +251,83 @@ describe('aegov-form-field (e2e)', () => {
     expect(await explicitPrimary.getProperty('variant')).toBe('primary');
     expect(await unset.getProperty('variant')).toBe('secondary');
   });
+
+  describe('accessible name for the linked control (#51)', () => {
+    // Native <label for> resolution can only reach the shadow-DOM host, never
+    // the real internal <input> one level deeper — so the browser's
+    // accessible-name computation stays stuck on the host's own placeholder
+    // (or no name at all), even though focus delegation still works.
+    it('sets aria-label on the real internal input, derived from the label text', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-form-field>
+          <aegov-label>Full name as on Emirates ID</aegov-label>
+          <aegov-input placeholder="Your full legal name"></aegov-input>
+        </aegov-form-field>
+      `);
+      await page.waitForChanges();
+
+      const name = await page.evaluate(() => {
+        const input = document.querySelector('aegov-input');
+        return input.shadowRoot.querySelector('input').getAttribute('aria-label');
+      });
+      expect(name).toBe('Full name as on Emirates ID');
+    });
+
+    it('sets aria-label on a standalone aegov-checkbox with no label prop of its own', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-form-field>
+          <aegov-label>I confirm that the information provided is true and accurate</aegov-label>
+          <aegov-checkbox></aegov-checkbox>
+        </aegov-form-field>
+      `);
+      await page.waitForChanges();
+
+      const name = await page.evaluate(() => {
+        const cb = document.querySelector('aegov-checkbox');
+        return cb.shadowRoot.querySelector('input').getAttribute('aria-label');
+      });
+      expect(name).toBe('I confirm that the information provided is true and accurate');
+    });
+
+    it("never overrides a control's own explicit aria-label", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-form-field>
+          <aegov-label>Visible Label Text</aegov-label>
+          <aegov-input aria-label="Custom explicit label" placeholder="hint"></aegov-input>
+        </aegov-form-field>
+      `);
+      await page.waitForChanges();
+
+      const name = await page.evaluate(() => {
+        const input = document.querySelector('aegov-input');
+        return input.shadowRoot.querySelector('input').getAttribute('aria-label');
+      });
+      expect(name).toBe('Custom explicit label');
+    });
+
+    it('updates the accessible name when the label text changes at runtime', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-form-field>
+          <aegov-label id="dyn-label">Original Label</aegov-label>
+          <aegov-input placeholder="hint"></aegov-input>
+        </aegov-form-field>
+      `);
+      await page.waitForChanges();
+
+      await page.evaluate(() => {
+        document.getElementById('dyn-label').textContent = 'Updated Label Text';
+      });
+      await page.waitForChanges();
+
+      const name = await page.evaluate(() => {
+        const input = document.querySelector('aegov-input');
+        return input.shadowRoot.querySelector('input').getAttribute('aria-label');
+      });
+      expect(name).toBe('Updated Label Text');
+    });
+  });
 });

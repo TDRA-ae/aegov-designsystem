@@ -64,6 +64,17 @@ export class AegovFormField {
   private disabledObserver?: MutationObserver;
   private observedControl?: AegovFormControl;
 
+  /**
+   * Tracks the `aria-label` value WE last assigned to each control, so a later
+   * sync can tell "we set this" apart from "the author set their own value" —
+   * otherwise checking only `hasAttribute('aria-label')` would see our own
+   * previous write and wrongly treat it as an explicit author override,
+   * permanently blocking further updates (e.g. when the label's text changes).
+   */
+  private appliedAriaLabels = new WeakMap<AegovFormControl, string>();
+  private accessibleNameObserver?: MutationObserver;
+  private observedLabelForName?: HTMLElement;
+
   @Watch('variant')
   onVariantChange(v: unknown) {
     warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', { component: 'aegov-form-field', prop: 'variant' });
@@ -89,6 +100,7 @@ export class AegovFormField {
 
   disconnectedCallback() {
     this.disabledObserver?.disconnect();
+    this.accessibleNameObserver?.disconnect();
   }
 
   @Watch('isInvalid')
@@ -195,6 +207,10 @@ export class AegovFormField {
       if (this.variant !== undefined && (label as any).variant === undefined) {
         (label as any).variant = this.variant;
       }
+
+      if (labelableControl) {
+        this.syncAccessibleName(label, labelableControl);
+      }
     }
   }
 
@@ -265,6 +281,69 @@ export class AegovFormField {
         subtree: true,
       });
     }
+  }
+
+  /**
+   * Sets `aria-label` on the linked control's host AND directly on its real
+   * internal `<input>`/`<select>`/`<textarea>`, derived from the paired
+   * `<aegov-label>`'s visible text, and watches that label for further
+   * changes (#51). Every aegov form control is `shadow: true`, so native
+   * `<label for>`/`id` resolution — same as `isControlDisabled` above — can
+   * only reach the host, never the real internal control one level deeper;
+   * the browser's accessible-name computation can't follow `delegatesFocus`
+   * the way focus itself can, so it stays stuck on the host's own placeholder
+   * or no name at all. Setting `aria-label` on the host alone isn't enough —
+   * each control's own `getPassThroughAttributes` forwarding only re-runs on
+   * that control's OWN next Stencil re-render, which a plain external
+   * `setAttribute` call never triggers — so the real interactive element (the
+   * one focus actually lands on, and the one AT/screen readers actually
+   * query) must be reached directly, the same shadow-root-crossing approach
+   * already used in `aegov-label.tsx` for #48. The host-level attribute is
+   * still set too, both as a fallback for any control with its own existing
+   * host-attribute convention (e.g. `aegov-progress`, see #59) and so a
+   * control's later, unrelated re-render keeps including it via its own
+   * pass-through. Per the ARIA spec, an explicit `aria-label` always wins
+   * over implicit `<label for>` association, so this is safe regardless of
+   * whether that broken native path happens to work for a given browser.
+   */
+  private syncAccessibleName(label: HTMLElement, ctrl: AegovFormControl) {
+    this.applyAccessibleName(label, ctrl);
+
+    if (this.observedLabelForName === label) return;
+    this.accessibleNameObserver?.disconnect();
+    this.observedLabelForName = label;
+
+    this.accessibleNameObserver = new MutationObserver(() => {
+      this.applyAccessibleName(label, ctrl);
+    });
+    this.accessibleNameObserver.observe(label, { characterData: true, childList: true, subtree: true });
+  }
+
+  private applyAccessibleName(label: HTMLElement, ctrl: AegovFormControl) {
+    if (ctrl.hasAttribute('aria-labelledby')) return; // author already provided their own association
+
+    const current = ctrl.getAttribute('aria-label');
+    const weSetLast = this.appliedAriaLabels.get(ctrl);
+    if (current !== null && current !== weSetLast) return; // author's own explicit aria-label — never override
+
+    const text = label.textContent?.trim() || null;
+    if (!text) {
+      if (weSetLast !== undefined) {
+        ctrl.removeAttribute('aria-label');
+        this.appliedAriaLabels.delete(ctrl);
+      }
+    } else if (current !== text) {
+      ctrl.setAttribute('aria-label', text);
+      this.appliedAriaLabels.set(ctrl, text);
+    }
+
+    ctrl.shadowRoot?.querySelectorAll('input, select, textarea').forEach(inner => {
+      if (text) {
+        inner.setAttribute('aria-label', text);
+      } else {
+        inner.removeAttribute('aria-label');
+      }
+    });
   }
 
   private getFieldClasses(): string {
