@@ -186,6 +186,16 @@ export class AegovCheckboxGroup {
       }
       // Group always wins — matches size/appearance's unconditional cascade (see issue #34).
       cb.isDisabled = this.isDisabled;
+      // Flag grouped membership as a plain host attribute (#68), same pattern
+      // already used by aegov-input-group/aegov-input (#50): when the group's
+      // "default" appearance is disabled, its own wrapper AND each now-also-
+      // disabled child's own wrapper both apply their own opacity-0.4,
+      // compounding to a near-invisible 0.16. `is-grouped` lets aegov-checkbox's
+      // CSS tell "my own opacity is the only dimming source" (pills/cards,
+      // where the group wrapper deliberately isn't dimmed) apart from "the
+      // group wrapper is already dimming me too" (default appearance), without
+      // reaching back across the shadow boundary to check.
+      (cb as HTMLElement).setAttribute('is-grouped', '');
     });
   }
 

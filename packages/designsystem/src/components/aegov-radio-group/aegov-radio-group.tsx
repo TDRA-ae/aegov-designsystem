@@ -198,6 +198,11 @@ export class AegovRadioGroup {
       }
       // Group always wins — matches size/appearance's unconditional cascade (see issue #34).
       radio.isDisabled = this.isDisabled;
+      // Flag grouped membership as a plain host attribute (#68) — see the
+      // identical comment on aegov-checkbox-group's syncChildren(). Lets
+      // aegov-radio's CSS cancel its own disabled-opacity compounding with
+      // the group's wrapper-level dimming, for "default" appearance only.
+      (radio as HTMLElement).setAttribute('is-grouped', '');
     });
   }
 
