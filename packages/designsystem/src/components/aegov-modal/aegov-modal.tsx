@@ -7,6 +7,7 @@ import { lockBodyScroll, unlockBodyScroll } from '../../utils/scroll-lock';
 import { pushZIndex, popZIndex } from '../../utils/z-index-manager';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
+import { isRtl } from '../../utils/rtl';
 
 const TAG = 'aegov-modal';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -188,6 +189,21 @@ export class AegovModal {
   onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, MODAL_SIZES, 'base', ctx('size')); }
 
   connectedCallback() {
+    // Capture the resolved RTL direction from the current ancestor chain and
+    // bake it onto the host's own `dir` attribute (#53, the same
+    // portal-vs-`dir` gap already found in aegov-datepicker/#37 and
+    // aegov-dropdown/#41) — unconditionally, not just when a move to body is
+    // about to happen, since a modal authored directly as a child of
+    // <body> never enters that branch below but still needs its own
+    // resolved direction set. The attribute survives any later reparent
+    // (it's the element's own attribute, not inherited context), and
+    // `direction` is an inherited CSS property, so the shadow-internal
+    // dialog correctly picks it up from the host once set here. `isRtl`
+    // checks the element itself before its ancestors, so a re-entrant call
+    // after this has already run just confirms the same value rather than
+    // losing it.
+    this.el.setAttribute('dir', isRtl(this.el) ? 'rtl' : 'ltr');
+
     // Move modal to body for proper stacking. Guarded by movedToBody to
     // avoid re-entrant hydration loops: appendChild triggers a synchronous
     // disconnect/reconnect pair and Stencil's lazy hydration can fire
