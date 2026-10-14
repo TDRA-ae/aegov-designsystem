@@ -21,7 +21,7 @@ export class AegovLabel {
   @Prop({ mutable: true, attribute: 'for' }) htmlFor?: string;
 
   /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
-  @Prop() variant: FormVariant = 'primary';
+  @Prop() variant?: FormVariant;
 
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
@@ -45,6 +45,29 @@ export class AegovLabel {
     return classes.join(' ');
   }
 
+  /**
+   * Native `<label for>` click activation only toggles a genuine
+   * `HTMLInputElement` of type checkbox/radio resolved via `for`/`id`. When
+   * `for` resolves to a shadow-DOM custom-element host instead (standalone
+   * aegov-checkbox/aegov-radio/aegov-toggle), the host isn't itself such an
+   * element, so the browser still delegates FOCUS into the shadow input
+   * (`delegatesFocus: true`) but never performs the "click toggles"
+   * activation step (#48). Forward the click to the real inner input
+   * ourselves — its own native click/change handling then runs exactly as
+   * if the user had clicked it directly. The host is never itself a real
+   * checkbox/radio, so native `for` activation never also fires — no risk
+   * of double-toggling.
+   */
+  private handleClick = () => {
+    if (!this.htmlFor) return;
+    const target = document.getElementById(this.htmlFor);
+    if (!target?.shadowRoot) return;
+    const innerControl = target.shadowRoot.querySelector<HTMLInputElement>(
+      'input[type="checkbox"], input[type="radio"]',
+    );
+    innerControl?.click();
+  };
+
   render() {
     const passThroughAttributes = getPassThroughAttributes(this.el);
 
@@ -54,6 +77,7 @@ export class AegovLabel {
           id={this.fieldId}
           {...{ for: this.htmlFor }}
           class={this.getLabelClasses()}
+          onClick={this.handleClick}
           {...passThroughAttributes}
         >
           <slot />

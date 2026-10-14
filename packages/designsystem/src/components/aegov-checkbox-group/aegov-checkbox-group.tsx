@@ -40,7 +40,7 @@ export class AegovCheckboxGroup {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless. */
-  @Prop() variant: FormVariant = 'primary';
+  @Prop() variant?: FormVariant;
 
   /** Disables all checkboxes within the group via native fieldset disabled. */
   @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
@@ -176,8 +176,12 @@ export class AegovCheckboxGroup {
       // Also set host class directly — Stencil's async re-render may not fire in time
       (cb as HTMLElement).classList.toggle('checkbox-appearance-cards', this.appearance === 'cards');
       (cb as HTMLElement).classList.toggle('checkbox-appearance-pills', this.appearance === 'pills');
-      // Cascade variant only if child has no own value (still default 'primary')
-      if (!cb.variant || cb.variant === 'primary') {
+      // Cascade variant only if the child never set its own (#31). `variant`
+      // no longer has a default value — a child that never touched it reads
+      // back as genuinely `undefined`, distinguishable from one that
+      // explicitly chose `variant="primary"` (same value as the old,
+      // sentinel-based default, previously indistinguishable from "unset").
+      if (cb.variant === undefined) {
         cb.variant = this.variant;
       }
       // Group always wins — matches size/appearance's unconditional cascade (see issue #34).

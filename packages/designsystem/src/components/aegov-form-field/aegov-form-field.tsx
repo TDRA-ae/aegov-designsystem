@@ -44,7 +44,7 @@ export class AegovFormField {
   @Prop() hint: string = '';
 
   /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Cascades to first form-control descendant. */
-  @Prop() variant: FormVariant = 'primary';
+  @Prop() variant?: FormVariant;
 
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
@@ -188,8 +188,11 @@ export class AegovFormField {
       } else if (toggle && toggle.fieldId) {
         label.htmlFor = ensureHostId(toggle);
       }
-      // Cascade variant to label only if it hasn't authored its own value
-      if (this.variant && this.variant !== 'primary' && (!(label as any).variant || (label as any).variant === 'primary')) {
+      // Cascade variant to label only if neither side has a sentinel problem
+      // (#47): `variant` no longer has a default value on either side, so
+      // "wrapper never set one" and "label never set one" are both genuinely
+      // `undefined`, distinguishable from an explicit `variant="primary"`.
+      if (this.variant !== undefined && (label as any).variant === undefined) {
         (label as any).variant = this.variant;
       }
     }
@@ -226,8 +229,9 @@ export class AegovFormField {
     if (this.isInvalid) {
       ctrl.isInvalid = true;
     }
-    // variant cascades only if child has no own value (still default 'primary')
-    if (this.variant && this.variant !== 'primary' && (!ctrl.variant || ctrl.variant === 'primary')) {
+    // variant cascades only if neither side has a sentinel problem (#47) —
+    // see the identical comment on the label-variant cascade above.
+    if (this.variant !== undefined && ctrl.variant === undefined) {
       ctrl.variant = this.variant;
     }
   }

@@ -34,7 +34,7 @@ export class AegovInputGroup {
   @Prop() groupLabel?: string;
 
   /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
-  @Prop() variant: FormVariant = 'primary';
+  @Prop() variant?: FormVariant;
 
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
@@ -80,8 +80,11 @@ export class AegovInputGroup {
     const inputs = this.el.querySelectorAll('aegov-input');
     inputs.forEach((input: any) => {
       input.size = this._resolvedSize;
-      // Cascade variant only when child has no own value (still default 'primary')
-      if (!input.variant || input.variant === 'primary') {
+      // Cascade variant only if the child never set its own (#49, same
+      // sentinel bug as #31). `variant` no longer has a default value — a
+      // child that never touched it reads back as genuinely `undefined`,
+      // distinguishable from one that explicitly chose `variant="primary"`.
+      if (input.variant === undefined) {
         input.variant = this.variant;
       }
       // Link prefix and suffix addon labels to input via aria-describedby chain
