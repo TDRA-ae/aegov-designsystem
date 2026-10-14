@@ -55,4 +55,27 @@ describe('aegov-input-group (e2e)', () => {
     expect(host.getAttribute('aria-label')).toBe('combo');
     expect(host.getAttribute('data-foo')).toBe('bar');
   });
+
+  // Regression coverage for #49. `variant` previously defaulted to 'primary',
+  // the same string used for "explicitly chose primary" — so a child that
+  // deliberately set variant="primary" was indistinguishable from one that
+  // never touched it, and got silently overridden to match the group.
+  it("does not override a child's explicit variant=\"primary\" (#49)", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-input-group variant="secondary">
+        <aegov-input id="explicit-primary" variant="primary"></aegov-input>
+      </aegov-input-group>
+      <aegov-input-group variant="secondary">
+        <aegov-input id="unset"></aegov-input>
+      </aegov-input-group>
+    `);
+    await page.waitForChanges();
+
+    const explicitPrimary = await page.find('#explicit-primary');
+    const unset = await page.find('#unset');
+
+    expect(await explicitPrimary.getProperty('variant')).toBe('primary');
+    expect(await unset.getProperty('variant')).toBe('secondary');
+  });
 });
