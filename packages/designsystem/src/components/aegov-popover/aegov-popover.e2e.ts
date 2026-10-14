@@ -183,6 +183,41 @@ describe('aegov-popover (e2e)', () => {
     expect(stillInPortal).toBeNull();
   });
 
+  // Regression coverage for #60. The portal div itself (not just its content)
+  // used to be created eagerly in componentDidLoad() and only ever have its
+  // innerHTML cleared on close, leaving one permanent empty div in
+  // document.body per popover instance for the component's whole lifetime.
+  // Portal creation is now lazy (first open) and the div itself is removed
+  // on close, mirroring disconnectedCallback()'s own teardown.
+  it('does not create a portal div until first open, and removes it (not just its content) on close', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-popover>
+        <button>Open</button>
+        <div slot="popover-content"><a href="#">x</a></div>
+      </aegov-popover>
+    `);
+    const beforeOpen = await page.evaluate(() => document.querySelectorAll('.aegov-popover-portal').length);
+    expect(beforeOpen).toBe(0);
+
+    const triggerBtn = await page.find('aegov-popover button');
+    await triggerBtn.click();
+    await page.waitForChanges();
+    const afterOpen = await page.evaluate(() => document.querySelectorAll('.aegov-popover-portal').length);
+    expect(afterOpen).toBe(1);
+
+    await page.keyboard.press('Escape');
+    await page.waitForChanges();
+    const afterClose = await page.evaluate(() => document.querySelectorAll('.aegov-popover-portal').length);
+    expect(afterClose).toBe(0);
+
+    // Re-opening the same instance must recreate the div, not leave it gone.
+    await triggerBtn.click();
+    await page.waitForChanges();
+    const afterReopen = await page.evaluate(() => document.querySelectorAll('.aegov-popover-portal').length);
+    expect(afterReopen).toBe(1);
+  });
+
   // aegov-button is shadow:true — a direct .focus() call on its host previously
   // silently no-op'd (no delegatesFocus, no reflected tabindex), dropping focus
   // to <body> instead of back to the trigger. Regression coverage for #66.
