@@ -30,6 +30,43 @@ describe('aegov-navbar-item e2e', () => {
     expect(span.getAttribute('aria-disabled')).toBe('true');
   });
 
+  // Regression coverage for #56. The chevron's own CSS previously never set
+  // any transform/rotate on open or close, despite the reference docs
+  // claiming the rotation was part of the component's behaviour.
+  it('rotates the dropdown chevron 180° while the sub-menu is open', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-navbar>
+        <aegov-navbar-item href="/products">
+          Products
+          <aegov-dropdown slot="dropdown">
+            <a slot="dropdown-content" href="/a">Item A</a>
+          </aegov-dropdown>
+        </aegov-navbar-item>
+      </aegov-navbar>
+    `);
+    await page.waitForChanges();
+
+    const chevron = await page.find('aegov-navbar-item button.aegov-navbar-item__chevron');
+    expect(await chevron.getProperty('ariaExpanded')).toBe('false');
+
+    const beforeRotate = await page.evaluate(() => {
+      const svg = document.querySelector('button.aegov-navbar-item__chevron svg');
+      return getComputedStyle(svg).rotate;
+    });
+    expect(beforeRotate).toBe('none');
+
+    await chevron.click();
+    await page.waitForChanges();
+
+    expect(await chevron.getProperty('ariaExpanded')).toBe('true');
+    const afterRotate = await page.evaluate(() => {
+      const svg = document.querySelector('button.aegov-navbar-item__chevron svg');
+      return getComputedStyle(svg).rotate;
+    });
+    expect(afterRotate).toBe('180deg');
+  });
+
   it('renders icon-start slot content', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-navbar><aegov-navbar-item href="/x"><svg slot="icon-start" data-icon></svg>Page</aegov-navbar-item></aegov-navbar>`);
