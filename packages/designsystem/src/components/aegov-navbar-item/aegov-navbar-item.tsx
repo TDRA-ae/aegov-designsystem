@@ -238,9 +238,13 @@ export class AegovNavbarItem {
     ) as HTMLAegovDropdownElement | null;
     if (dropdown && typeof dropdown.toggle === 'function') {
       // detail === 0 → click came from keyboard (Enter/Space, or our
-      // ArrowDown shim that calls chevron.click()). Pass through so the
-      // dropdown moves focus into the menu only for keyboard users.
-      await dropdown.toggle(event.detail === 0);
+      // ArrowDown shim that calls chevron.click()). Pass through as BOTH
+      // viaKeyboard and viaArrow (#57) — in disclosure mode (always set for
+      // navbar dropdowns), aegov-dropdown's focus-into-menu decision depends
+      // solely on viaArrow, so leaving it false here meant Enter/Space opened
+      // the menu but left focus stranded on the chevron, unlike ArrowDown. A
+      // real mouse click (detail !== 0) still correctly leaves focus alone.
+      await dropdown.toggle(event.detail === 0, event.detail === 0);
     }
   };
 
