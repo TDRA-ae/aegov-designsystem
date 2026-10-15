@@ -57,6 +57,13 @@
   opacity: 0.4;
 }
 
+/* Cancel own disabled opacity when the group's "default"/"list"-appearance
+   wrapper already handles it (avoids 0.4×0.4=0.16 compound, #68) — see the
+   identical comment on aegov-checkbox.css. */
+:host([is-grouped]:not([appearance="pills"]):not([appearance="cards"])) .radio__wrapper:has(input:disabled) {
+  opacity: 1;
+}
+
 .radio__text {
   @apply flex flex-col;
 }
@@ -226,7 +233,8 @@
 
 /* ============================
    List variant separator.
-   JS (componentDidLoad) adds radio-in-list / first / last / horizontal to the host.
+   JS (aegov-radio-group's syncChildren(), #62) adds radio-in-list / first / last /
+   horizontal to the host.
    Targets .aegov-radio (inner div) — Chromium doesn't re-evaluate :host(.class) rules
    that set properties directly on the host when the class is added post-render via
    classList.add(). Targeting an internal shadow element via :host(.class) .inner works

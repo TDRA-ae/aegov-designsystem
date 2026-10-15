@@ -108,6 +108,43 @@ describe('aegov-modal (e2e)', () => {
     expect(content).not.toBeNull();
   });
 
+  // connectedCallback() unconditionally moves the modal to document.body for
+  // proper stacking, detaching it from any dir="rtl" ancestor wrapper — the
+  // same portal-vs-dir gap already found and fixed in aegov-datepicker (#37)
+  // and aegov-dropdown (#41). Regression coverage for #53.
+  it('carries dir="rtl" from a local ancestor wrapper after the move to document.body', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<div dir="rtl"><aegov-modal><p>Body</p></aegov-modal></div>');
+    const host = await page.find('aegov-modal');
+    await host.callMethod('show');
+    await page.waitForChanges();
+
+    const result = await page.evaluate(() => {
+      const modal = document.querySelector('aegov-modal')!;
+      const dialog = modal.shadowRoot!.querySelector('[role="dialog"]');
+      return {
+        hostDir: modal.getAttribute('dir'),
+        parentIsBody: modal.parentElement === document.body,
+        dialogDirection: dialog ? getComputedStyle(dialog).direction : null,
+      };
+    });
+
+    expect(result.parentIsBody).toBe(true);
+    expect(result.hostDir).toBe('rtl');
+    expect(result.dialogDirection).toBe('rtl');
+  });
+
+  it('defaults to dir="ltr" with no rtl ancestor', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-modal><p>Body</p></aegov-modal>');
+    const host = await page.find('aegov-modal');
+    await host.callMethod('show');
+    await page.waitForChanges();
+
+    const hostDir = await page.evaluate(() => document.querySelector('aegov-modal')!.getAttribute('dir'));
+    expect(hostDir).toBe('ltr');
+  });
+
   // aegov-button is shadow:true — a direct .focus() call on its host previously
   // silently no-op'd (no delegatesFocus, no reflected tabindex), dropping focus
   // to <body> instead of back to the trigger. Regression coverage for #66.
@@ -125,6 +162,12 @@ describe('aegov-modal (e2e)', () => {
     await modal.callMethod('show');
     await page.waitForChanges();
     await modal.callMethod('close');
+    // close() schedules the actual isOpen=false (and the focus-restore it
+    // triggers) behind a real 200ms setTimeout — waitForChanges() alone only
+    // flushes Stencil's render queue, not real timers, so a missing wait here
+    // previously made this test fail even though the real fix works (focus
+    // was still correct, just not yet restored at the moment of the check).
+    await new Promise(resolve => setTimeout(resolve, 300));
     await page.waitForChanges();
 
     const focusState = await page.evaluate(() => {

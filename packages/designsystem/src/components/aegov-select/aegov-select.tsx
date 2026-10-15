@@ -396,31 +396,34 @@ export class AegovSelect {
     const items: OptionItem[] = [];
 
     // Find all option-group elements (may be direct children or inside slot container)
-    const groups = Array.from(this.el.querySelectorAll('aegov-select-option-group'));
+    const groups = Array.from(this.el.querySelectorAll('aegov-select-option-group')) as HTMLAegovSelectOptionGroupElement[];
     const groupedOptionEls = new Set<Element>();
 
     for (const group of groups) {
-      const groupLabel = group.getAttribute('label') || '';
-      const groupOptions = Array.from(group.querySelectorAll('aegov-select-option'));
+      // Resolved property, not a raw attribute read — same #63 fix, applied to
+      // the group's own `label` prop, which has the identical non-reflected
+      // @Prop() shape and breaks the same way when set via JS property only.
+      const groupLabel = group.label || '';
+      const groupOptions = Array.from(group.querySelectorAll('aegov-select-option')) as HTMLAegovSelectOptionElement[];
       for (const opt of groupOptions) {
         groupedOptionEls.add(opt);
         items.push({
-          value: opt.getAttribute('value') || '',
+          value: opt.value || '',
           label: opt.textContent?.trim() || '',
-          disabled: opt.hasAttribute('is-disabled'),
+          disabled: opt.isDisabled,
           group: groupLabel,
         });
       }
     }
 
     // Find ungrouped options
-    const allOptions = Array.from(this.el.querySelectorAll('aegov-select-option'));
+    const allOptions = Array.from(this.el.querySelectorAll('aegov-select-option')) as HTMLAegovSelectOptionElement[];
     for (const opt of allOptions) {
       if (!groupedOptionEls.has(opt)) {
         items.push({
-          value: opt.getAttribute('value') || '',
+          value: opt.value || '',
           label: opt.textContent?.trim() || '',
-          disabled: opt.hasAttribute('is-disabled'),
+          disabled: opt.isDisabled,
         });
       }
     }
