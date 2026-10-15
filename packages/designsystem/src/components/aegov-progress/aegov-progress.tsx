@@ -47,18 +47,35 @@ export class AegovProgress {
   ]);
 
   componentWillLoad() {
-    const hadFieldId = !!this.fieldId;
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-progress');
     }
     if (isNaN(parseFloat(this.height))) {
       console.warn(`[aegov-progress] Invalid height prop "${this.height}". Expected a numeric Tailwind spacing unit (e.g. "2", "2.5", "4"). Defaulting to "2".`);
     }
+  }
+
+  componentDidLoad() {
+    // Deferred via a real macrotask rather than checked synchronously here
+    // (#59). The canonical "composing with a form field" pattern relies on
+    // aegov-form-field wiring `label.htmlFor = progress.fieldId` in ITS OWN
+    // componentDidLoad() — which, per Stencil's child-before-parent DidLoad
+    // ordering, always runs AFTER this component's own componentDidLoad.
+    // Checking synchronously here (or in componentWillLoad, which runs even
+    // earlier) would see the label-less DOM mid-wiring and false-positive on
+    // the exact pattern the docs recommend. A setTimeout(0) escapes the
+    // current synchronous hydration batch entirely, so it reliably runs
+    // after any ancestor's own DidLoad-time wiring has completed.
+    setTimeout(() => this.checkAccessibleLabel(), 0);
+  }
+
+  private checkAccessibleLabel() {
     // A label can be satisfied by the `label` prop, a host aria-label/aria-labelledby
-    // pass-through, or a real <label for="fieldId"> — not merely by the caller having
-    // supplied a field-id (which used to be treated as "probably has a label somewhere").
+    // pass-through, or a real <label for="fieldId"> found anywhere in the document —
+    // including one wired up after the fact by a parent like aegov-form-field, not
+    // only one the caller manually pre-wired to a caller-supplied field-id.
     const hasAriaLabelPassThrough = this.el.hasAttribute('aria-label') || this.el.hasAttribute('aria-labelledby');
-    const hasExternalLabel = hadFieldId && !!document.querySelector(`label[for="${this.fieldId}"]`);
+    const hasExternalLabel = !!document.querySelector(`label[for="${this.fieldId}"]`);
     if (!this.label && !hasAriaLabelPassThrough && !hasExternalLabel) {
       console.warn('[aegov-progress] Progress bar has no accessible label. Provide a label prop, an aria-label/aria-labelledby attribute, or a <label> element linked via fieldId.');
     }

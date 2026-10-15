@@ -72,4 +72,44 @@ describe('aegov-checkbox (e2e)', () => {
     expect(input.getAttribute('aria-label')).toBe('agree');
     expect(input.getAttribute('data-id')).toBe('1');
   });
+
+  // Regression coverage for #68. A disabled checkbox inside a disabled
+  // "default"/"list" group would otherwise compound its own
+  // disabled:opacity-40 with the group wrapper's own opacity-40
+  // (0.4 × 0.4 = 0.16, barely visible) — pills/cards appearances deliberately
+  // dim per-item instead, so their own opacity must NOT be cancelled.
+  it('cancels its own disabled opacity when grouped (default/list), but not for pills/cards or standalone (#68)', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-checkbox-group is-disabled="true">
+        <aegov-checkbox id="grouped-default" label="Default" is-checked="true"></aegov-checkbox>
+      </aegov-checkbox-group>
+      <aegov-checkbox-group is-disabled="true" appearance="list">
+        <aegov-checkbox id="grouped-list" label="List" is-checked="true"></aegov-checkbox>
+      </aegov-checkbox-group>
+      <aegov-checkbox-group is-disabled="true" appearance="pills">
+        <aegov-checkbox id="grouped-pills" label="Pills" is-checked="true"></aegov-checkbox>
+      </aegov-checkbox-group>
+      <aegov-checkbox id="standalone" label="Standalone" is-checked="true" is-disabled="true"></aegov-checkbox>
+    `);
+    await page.waitForChanges();
+
+    const opacities = await page.evaluate(() => {
+      const opacityOf = (id: string) => {
+        const el = document.getElementById(id) as any;
+        return getComputedStyle(el.shadowRoot.querySelector('.checkbox__wrapper')).opacity;
+      };
+      return {
+        default: opacityOf('grouped-default'),
+        list: opacityOf('grouped-list'),
+        pills: opacityOf('grouped-pills'),
+        standalone: opacityOf('standalone'),
+      };
+    });
+
+    expect(opacities.default).toBe('1');
+    expect(opacities.list).toBe('1');
+    expect(opacities.pills).toBe('0.4');
+    expect(opacities.standalone).toBe('0.4');
+  });
 });
