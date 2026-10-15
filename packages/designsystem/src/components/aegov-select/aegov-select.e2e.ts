@@ -235,5 +235,96 @@ describe('aegov-select (e2e)', () => {
       await page.waitForChanges();
       expect(await trigger.getAttribute('aria-expanded')).toBe('false');
     });
+
+    // Regression coverage for #63. parseOptions() used to read
+    // getAttribute('value')/hasAttribute('is-disabled') — the raw DOM
+    // attribute — which is never set when a consumer (e.g. the React
+    // wrapper's generated createComponent() runtime) assigns the prop only
+    // as a JS property. This broke selection entirely, not just disabling.
+    it('selects correctly when an option\'s value/is-disabled are set via JS property only, not literal attributes', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-select appearance="listbox">
+          <aegov-select-option>Apple</aegov-select-option>
+          <aegov-select-option>Banana</aegov-select-option>
+        </aegov-select>
+      `);
+      // Simulate exactly what @lit/react's createComponent() does internally:
+      // node[name] = value, never setAttribute().
+      await page.evaluate(() => {
+        const options = document.querySelectorAll('aegov-select-option') as NodeListOf<HTMLAegovSelectOptionElement>;
+        (options[0] as any).value = 'a';
+        (options[1] as any).value = 'b';
+        (options[1] as any).isDisabled = true;
+      });
+      await page.waitForChanges();
+
+      const hasValueAttr = await page.evaluate(() =>
+        document.querySelectorAll('aegov-select-option')[0].hasAttribute('value'));
+      expect(hasValueAttr).toBe(false);
+
+      const trigger = await page.find('aegov-select button[role="combobox"]');
+      const el = await page.find('aegov-select');
+      const spy = await el.spyOnEvent('aegovSelectChange');
+      await trigger.click();
+      await page.waitForChanges();
+
+      // The disabled option (set via JS property only) must actually be inert.
+      const disabledOption = await page.find('aegov-select [data-value="b"]');
+      expect(disabledOption.getAttribute('aria-disabled')).toBe('true');
+      await disabledOption.click();
+      await page.waitForChanges();
+      expect(spy).toHaveReceivedEventTimes(0);
+
+      // Selecting the enabled option must commit the real value, not ''.
+      const enabledOption = await page.find('aegov-select [data-value="a"]');
+      await enabledOption.click();
+      await page.waitForChanges();
+      expect(spy).toHaveReceivedEventTimes(1);
+      expect(spy.lastEvent.detail).toEqual({ value: 'a', label: 'Apple' });
+      expect(await el.getProperty('value')).toBe('a');
+    });
+
+    it('resolves a pre-set value to its label when options are configured via JS property only', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-select appearance="listbox" value="ad">
+          <aegov-select-option>Abu Dhabi</aegov-select-option>
+          <aegov-select-option>Dubai</aegov-select-option>
+        </aegov-select>
+      `);
+      await page.evaluate(() => {
+        const options = document.querySelectorAll('aegov-select-option') as NodeListOf<HTMLAegovSelectOptionElement>;
+        (options[0] as any).value = 'ad';
+        (options[1] as any).value = 'dubai';
+      });
+      await page.waitForChanges();
+
+      const trigger = await page.find('aegov-select button[role="combobox"]');
+      expect(await trigger.getProperty('textContent')).toContain('Abu Dhabi');
+    });
+
+    it('propagates an option-group\'s label set via JS property only, not a literal attribute', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-select appearance="listbox">
+          <aegov-select-option-group>
+            <aegov-select-option value="a">Apple</aegov-select-option>
+          </aegov-select-option-group>
+        </aegov-select>
+      `);
+      await page.evaluate(() => {
+        const group = document.querySelector('aegov-select-option-group') as any;
+        group.label = 'Fruit';
+      });
+      await page.waitForChanges();
+
+      const trigger = await page.find('aegov-select button[role="combobox"]');
+      await trigger.click();
+      await page.waitForChanges();
+      const groupLabel = await page.find('aegov-select .select__group-label');
+      expect(groupLabel).not.toBeNull();
+      expect(await groupLabel.getProperty('textContent')).toBe('Fruit');
+    });
   });
 });
