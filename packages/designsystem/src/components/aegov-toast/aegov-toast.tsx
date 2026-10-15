@@ -451,11 +451,12 @@ export class AegovToast {
   @State() isPaused: boolean = false;
 
   /**
-   * Captured in componentWillLoad(), before the first render. The first render
-   * returns null (isVisible starts false), which makes Stencil hide the original
-   * slotted text behind an internal comment placeholder — by the time show() runs,
-   * this.el.textContent would read as empty otherwise, silently breaking the
-   * screen-reader announcement. Same pattern as aegov-timeline-step's slotContent.
+   * Captured in componentWillLoad(), before the first render, since Stencil's
+   * light-DOM slot emulation relocates the slotted text node into the
+   * rendered <slot> the first time render() runs (#65) — by the time show()
+   * runs, this.el.textContent would no longer reliably read the original
+   * message otherwise, silently breaking the screen-reader announcement.
+   * Same pattern as aegov-timeline-step's slotContent.
    */
   private capturedMessage: string = '';
 
@@ -644,6 +645,13 @@ export class AegovToast {
       classes.push('toast--exiting');
     } else if (this.isVisible) {
       classes.push('toast--visible');
+    } else {
+      // Not yet shown (or fully closed and about to be removed from the DOM
+      // by close()). The tree below is still rendered — not `null` — purely
+      // so its <slot> placeholders exist for Stencil's light-DOM slot
+      // emulation to relocate slotted elements into (#65); this class is
+      // what actually keeps it invisible until show() runs.
+      classes.push('toast--pending');
     }
 
     return classes.join(' ');
@@ -655,6 +663,10 @@ export class AegovToast {
     warnIfInvalidEnumProp(this.appearance, TOAST_APPEARANCES, 'soft', ctx('appearance'));
     warnIfInvalidEnumProp(this.position, TOAST_POSITIONS, 'top-right', ctx('position'));
     warnIfInvalidEnumProp(this.mode, TOAST_MODES, 'stack', ctx('mode'));
+    // Run before the very first render (#65) — render() now always renders the
+    // slot wrappers (never null), so hasIconSlot/hasTitleSlot/hasActionsSlot
+    // must already be correct on that first pass, not one render later.
+    this.checkSlots();
   }
 
   @Watch('variant')
@@ -669,10 +681,6 @@ export class AegovToast {
   @Watch('mode')
   onModeChange(v: unknown) { warnIfInvalidEnumProp(v, TOAST_MODES, 'stack', ctx('mode')); }
 
-  componentDidLoad() {
-    this.checkSlots();
-  }
-
   disconnectedCallback() {
     if (this.autoCloseTimer) {
       clearTimeout(this.autoCloseTimer);
@@ -682,10 +690,6 @@ export class AegovToast {
   }
 
   render() {
-    if (!this.isVisible) {
-      return null;
-    }
-
     return (
       <div class={this.getToastClasses()} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onFocusin={this.handleFocusIn} onFocusout={this.handleFocusOut}>
         {this.hasIconSlot && (
