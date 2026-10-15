@@ -267,8 +267,13 @@
 :host([is-grouped]) .aegov-input__error {
   @apply hidden;
 }
-/* Cancel own disabled opacity when the group wrapper already handles it (avoids 0.4×0.4=0.16 compound) */
-:host-context(.aegov-input-group:has([is-disabled])) .aegov-input:disabled {
+/* Cancel own disabled opacity when the group wrapper already handles it (avoids 0.4×0.4=0.16 compound).
+   `is-grouped` is already set unconditionally on every grouped child (see above) — whenever ONE of them
+   is genuinely disabled, aegov-input-group.css's own `:has(aegov-input[is-disabled])` rule always dims
+   the whole group wrapper too, so this only needs "am I grouped AND actually disabled", not a second
+   `:host-context()`/`:has()` lookup back up into the group (#50 — `:host-context()` is deprecated and
+   not implemented in Firefox or Safari, the same reason `is-grouped` itself replaced it above). */
+:host([is-grouped]) .aegov-input:disabled {
   opacity: 1;
 }
 .input__wrapper--xl .input__icon > svg { @apply w-[22px] h-[22px]; }
