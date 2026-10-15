@@ -233,7 +233,8 @@
 
 /* ============================
    List variant separator.
-   JS (componentDidLoad) adds radio-in-list / first / last / horizontal to the host.
+   JS (aegov-radio-group's syncChildren(), #62) adds radio-in-list / first / last /
+   horizontal to the host.
    Targets .aegov-radio (inner div) — Chromium doesn't re-evaluate :host(.class) rules
    that set properties directly on the host when the class is added post-render via
    classList.add(). Targeting an internal shadow element via :host(.class) .inner works

@@ -182,13 +182,24 @@ export class AegovRadioGroup {
 
   private syncChildren() {
     const radios = this.getRadios();
-    radios.forEach(radio => {
+    const isListAppearance = this.appearance === 'list';
+    const isHorizontal = this.orientation === 'horizontal';
+    radios.forEach((radio, index) => {
       radio.size = this._resolvedSize;
       radio.name = this.name;
       (radio as any).appearance = this.appearance;
+      const hostEl = radio as HTMLElement;
       // Also set host class directly — Stencil's async re-render may not fire in time
-      (radio as HTMLElement).classList.toggle('radio-appearance-cards', this.appearance === 'cards');
-      (radio as HTMLElement).classList.toggle('radio-appearance-pills', this.appearance === 'pills');
+      hostEl.classList.toggle('radio-appearance-cards', this.appearance === 'cards');
+      hostEl.classList.toggle('radio-appearance-pills', this.appearance === 'pills');
+      // List separator classes, applied directly here rather than left to
+      // aegov-radio's own componentDidLoad self-detection (which read the
+      // group's raw `appearance` DOM attribute — never set when a consumer
+      // like React assigns the prop only as a JS property, #62).
+      hostEl.classList.toggle('radio-in-list', isListAppearance);
+      hostEl.classList.toggle('radio-list-horizontal', isListAppearance && isHorizontal);
+      hostEl.classList.toggle('radio-list-first', isListAppearance && index === 0);
+      hostEl.classList.toggle('radio-list-last', isListAppearance && index === radios.length - 1);
       // Cascade variant only if the child never set its own (same sentinel
       // bug as #31). `variant` no longer has a default value — a child that
       // never touched it reads back as genuinely `undefined`, distinguishable
@@ -202,12 +213,34 @@ export class AegovRadioGroup {
       // identical comment on aegov-checkbox-group's syncChildren(). Lets
       // aegov-radio's CSS cancel its own disabled-opacity compounding with
       // the group's wrapper-level dimming, for "default" appearance only.
-      (radio as HTMLElement).setAttribute('is-grouped', '');
+      hostEl.setAttribute('is-grouped', '');
     });
+    this.syncRovingTabindex(radios);
   }
 
   private getRadios(): HTMLAegovRadioElement[] {
     return Array.from(this.el.querySelectorAll('aegov-radio'));
+  }
+
+  /**
+   * Implements the WAI-ARIA radiogroup roving-tabindex pattern (#61): only
+   * one radio in the group is ever a Tab stop (the checked one, or the first
+   * enabled one if none is checked) — the rest get `tabindex="-1"` on their
+   * real native `<input>` so Tab/Shift+Tab skip straight over them, while
+   * they stay individually focusable for the arrow-key handler below.
+   * Native `name`-sharing can't do this automatically here since each
+   * radio's real input lives in its own separate shadow root (#61).
+   */
+  private syncRovingTabindex(radios: HTMLAegovRadioElement[] = this.getRadios()) {
+    const enabled = radios.filter(radio => !radio.isDisabled);
+    if (enabled.length === 0) return;
+    const active = enabled.find(radio => radio.isChecked) ?? enabled[0];
+    enabled.forEach(radio => {
+      const input = radio.shadowRoot?.querySelector('input[type="radio"]') as HTMLInputElement | null;
+      if (input) {
+        input.tabIndex = radio === active ? 0 : -1;
+      }
+    });
   }
 
   @Listen('focusout')
@@ -230,6 +263,7 @@ export class AegovRadioGroup {
           radio.isChecked = false;
         }
       });
+      this.syncRovingTabindex(radios);
     }
 
     this.aegovRadioGroupChange.emit({ value: event.detail.checked ? event.detail.value : undefined });
@@ -239,6 +273,38 @@ export class AegovRadioGroup {
       this.el as unknown as HTMLElement & { name?: string },
       value, validity, message, this.errorMessage || null, 'change',
     ));
+  }
+
+  /**
+   * Arrow-key roving focus + selection, per the ARIA radiogroup pattern (#61).
+   * Browsers do this natively only when every radio's real `<input>` shares
+   * one literal `name` in the same tree scope — impossible here since each
+   * radio's input is isolated in its own shadow root — so it's reimplemented
+   * by simulating the same native "check + fire change" sequence a real
+   * same-name radio group would produce, reusing aegov-radio's own existing
+   * change handling rather than duplicating its event-emission logic.
+   */
+  @Listen('keydown')
+  handleKeyDown(event: KeyboardEvent) {
+    if (!['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp'].includes(event.key)) return;
+
+    const radios = this.getRadios().filter(radio => !radio.isDisabled);
+    if (radios.length < 2) return;
+
+    const currentIndex = radios.indexOf(document.activeElement as HTMLAegovRadioElement);
+    if (currentIndex === -1) return;
+
+    event.preventDefault();
+
+    const direction = (event.key === 'ArrowRight' || event.key === 'ArrowDown') ? 1 : -1;
+    const next = radios[(currentIndex + direction + radios.length) % radios.length];
+
+    const nextInput = next.shadowRoot?.querySelector('input[type="radio"]') as HTMLInputElement | null;
+    if (nextInput && !nextInput.checked) {
+      nextInput.checked = true;
+      nextInput.dispatchEvent(new globalThis.Event('change', { bubbles: true }));
+    }
+    (next as unknown as HTMLElement).focus();
   }
 
   private getGroupClasses(): string {
