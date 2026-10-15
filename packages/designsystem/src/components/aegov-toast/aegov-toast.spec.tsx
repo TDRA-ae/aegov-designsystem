@@ -2,12 +2,33 @@ import { newSpecPage } from '@stencil/core/testing';
 import { AegovToast } from './aegov-toast';
 
 describe('aegov-toast', () => {
-  it('renders nothing by default (not visible)', async () => {
+  // render() always renders the tree (never null) so that <slot> placeholders
+  // exist for slotted elements to be relocated into (#65) — but it must stay
+  // hidden via toast--pending until show() is called.
+  it('renders the toast tree hidden (not removed) by default', async () => {
     const page = await newSpecPage({
       components: [AegovToast],
       html: `<aegov-toast>Hi</aegov-toast>`,
     });
-    expect(page.root.querySelector('.aegov-toast')).toBeNull();
+    const el = page.root.querySelector('.aegov-toast');
+    expect(el).not.toBeNull();
+    expect(el.className).toContain('toast--pending');
+  });
+
+  // Regression coverage for #65's slot-detection timing. checkSlots() moved
+  // from componentDidLoad() to componentWillLoad() so hasIconSlot/etc. are
+  // already correct on the very first render — otherwise the icon/title/
+  // actions wrapper divs (and their <slot> placeholders) wouldn't exist yet
+  // on that first paint, reopening the same raw-unstyled-element gap for one
+  // render cycle.
+  it('detects slotted icon/title/actions before show() is ever called', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast><span slot="icon">★</span><span slot="title">T</span>Body<button slot="actions">Undo</button></aegov-toast>`,
+    });
+    expect(page.rootInstance.hasIconSlot).toBe(true);
+    expect(page.rootInstance.hasTitleSlot).toBe(true);
+    expect(page.rootInstance.hasActionsSlot).toBe(true);
   });
 
   it('show() makes the toast visible and emits aegovToastOpen', async () => {
