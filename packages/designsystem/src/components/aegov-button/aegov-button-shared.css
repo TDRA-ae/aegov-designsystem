@@ -121,20 +121,20 @@
   /* Focus ring matches the variant's identity colour */
   @apply outline-primary-600 dark:outline-primary-500;
   &.btn-solid {
-    @apply bg-primary-600 hover:bg-primary-700 border-primary-600 hover:border-primary-700 focus-visible:bg-primary-support-400 focus-visible:text-primary-support-950 focus-visible:border-primary-support-400 text-primary-50
-           dark:bg-primary-500 dark:hover:bg-primary-400 dark:border-primary-500 dark:hover:border-primary-400 dark:focus-visible:bg-primary-support-400 dark:focus-visible:text-primary-support-950 dark:focus-visible:border-primary-support-400 dark:text-primary-50;
+    @apply bg-primary-600 hover:bg-primary-700 border-primary-600 hover:border-primary-700 focus-visible:bg-primary-support-400 hover:focus-visible:bg-primary-support-400 focus-visible:text-primary-support-950 hover:focus-visible:text-primary-support-950 focus-visible:border-primary-support-400 hover:focus-visible:border-primary-support-400 text-primary-50
+           dark:bg-primary-500 dark:hover:bg-primary-400 dark:border-primary-500 dark:hover:border-primary-400 dark:focus-visible:bg-primary-support-400 dark:hover:focus-visible:bg-primary-support-400 dark:focus-visible:text-primary-support-950 dark:hover:focus-visible:text-primary-support-950 dark:focus-visible:border-primary-support-400 dark:hover:focus-visible:border-primary-support-400 dark:text-primary-50;
   }
   &.btn-outline {
-    @apply text-primary-600 hover:bg-primary-50 hover:text-primary-700 border-primary-600 hover:border-primary-700 focus-visible:border-primary-50 focus-visible:bg-primary-support-400 focus-visible:text-primary-support-950
-           dark:text-primary-400 dark:hover:bg-primary-900/30 dark:hover:text-primary-300 dark:border-primary-400 dark:hover:border-primary-300 dark:focus-visible:border-primary-support-400 dark:focus-visible:bg-primary-support-400 dark:focus-visible:text-primary-support-950;
+    @apply text-primary-600 hover:bg-primary-50 hover:text-primary-700 border-primary-600 hover:border-primary-700 focus-visible:border-primary-50 hover:focus-visible:border-primary-50 focus-visible:bg-primary-support-400 hover:focus-visible:bg-primary-support-400 focus-visible:text-primary-support-950 hover:focus-visible:text-primary-support-950
+           dark:text-primary-400 dark:hover:bg-primary-900/30 dark:hover:text-primary-300 dark:border-primary-400 dark:hover:border-primary-300 dark:focus-visible:border-primary-support-400 dark:hover:focus-visible:border-primary-support-400 dark:focus-visible:bg-primary-support-400 dark:hover:focus-visible:bg-primary-support-400 dark:focus-visible:text-primary-support-950 dark:hover:focus-visible:text-primary-support-950;
   }
   &.btn-soft {
-    @apply bg-primary-50 hover:bg-primary-100 text-primary-700 hover:text-primary-800 focus-visible:bg-primary-support-400 focus-visible:text-primary-support-950
-           dark:bg-primary-900/40 dark:hover:bg-primary-900/60 dark:text-primary-200 dark:hover:text-primary-100 dark:focus-visible:bg-primary-support-400 dark:focus-visible:text-primary-support-950;
+    @apply bg-primary-50 hover:bg-primary-100 text-primary-700 hover:text-primary-800 focus-visible:bg-primary-support-400 hover:focus-visible:bg-primary-support-400 focus-visible:text-primary-support-950 hover:focus-visible:text-primary-support-950
+           dark:bg-primary-900/40 dark:hover:bg-primary-900/60 dark:text-primary-200 dark:hover:text-primary-100 dark:focus-visible:bg-primary-support-400 dark:hover:focus-visible:bg-primary-support-400 dark:focus-visible:text-primary-support-950 dark:hover:focus-visible:text-primary-support-950;
   }
   &.btn-link {
-    @apply text-primary-600 hover:text-primary-700 focus-visible:bg-primary-support-400 focus-visible:text-primary-support-950
-           dark:text-primary-400 dark:hover:text-primary-300 dark:focus-visible:bg-primary-support-400 dark:focus-visible:text-primary-support-950;
+    @apply text-primary-600 hover:text-primary-700 focus-visible:bg-primary-support-400 hover:focus-visible:bg-primary-support-400 focus-visible:text-primary-support-950 hover:focus-visible:text-primary-support-950
+           dark:text-primary-400 dark:hover:text-primary-300 dark:focus-visible:bg-primary-support-400 dark:hover:focus-visible:bg-primary-support-400 dark:focus-visible:text-primary-support-950 dark:hover:focus-visible:text-primary-support-950;
   }
 }
 
@@ -150,40 +150,40 @@
      (700) to match the light-mode direction, since a lighter hover would
      have needed secondary-500 (still failing) or lighter. */
   &.btn-solid {
-    @apply bg-secondary-600 hover:bg-secondary-700 border-secondary-600 hover:border-secondary-700 focus-visible:bg-secondary-support-400 focus-visible:text-secondary-support-950 focus-visible:border-secondary-support-400 text-secondary-50
-           dark:bg-secondary-600 dark:hover:bg-secondary-700 dark:border-secondary-600 dark:hover:border-secondary-700 dark:focus-visible:bg-secondary-support-400 dark:focus-visible:text-secondary-support-950 dark:focus-visible:border-secondary-support-400 dark:text-secondary-50;
+    @apply bg-secondary-600 hover:bg-secondary-700 border-secondary-600 hover:border-secondary-700 focus-visible:bg-secondary-support-400 hover:focus-visible:bg-secondary-support-400 focus-visible:text-secondary-support-950 hover:focus-visible:text-secondary-support-950 focus-visible:border-secondary-support-400 hover:focus-visible:border-secondary-support-400 text-secondary-50
+           dark:bg-secondary-600 dark:hover:bg-secondary-700 dark:border-secondary-600 dark:hover:border-secondary-700 dark:focus-visible:bg-secondary-support-400 dark:hover:focus-visible:bg-secondary-support-400 dark:focus-visible:text-secondary-support-950 dark:hover:focus-visible:text-secondary-support-950 dark:focus-visible:border-secondary-support-400 dark:hover:focus-visible:border-secondary-support-400 dark:text-secondary-50;
   }
   &.btn-outline {
-    @apply text-secondary-600 hover:bg-secondary-50 hover:text-secondary-700 border-secondary-600 hover:border-secondary-700 focus-visible:border-secondary-50 focus-visible:bg-secondary-support-400 focus-visible:text-secondary-support-950
-           dark:text-secondary-400 dark:hover:bg-secondary-900/30 dark:hover:text-secondary-300 dark:border-secondary-400 dark:hover:border-secondary-300 dark:focus-visible:border-secondary-support-400 dark:focus-visible:bg-secondary-support-400 dark:focus-visible:text-secondary-support-950;
+    @apply text-secondary-600 hover:bg-secondary-50 hover:text-secondary-700 border-secondary-600 hover:border-secondary-700 focus-visible:border-secondary-50 hover:focus-visible:border-secondary-50 focus-visible:bg-secondary-support-400 hover:focus-visible:bg-secondary-support-400 focus-visible:text-secondary-support-950 hover:focus-visible:text-secondary-support-950
+           dark:text-secondary-400 dark:hover:bg-secondary-900/30 dark:hover:text-secondary-300 dark:border-secondary-400 dark:hover:border-secondary-300 dark:focus-visible:border-secondary-support-400 dark:hover:focus-visible:border-secondary-support-400 dark:focus-visible:bg-secondary-support-400 dark:hover:focus-visible:bg-secondary-support-400 dark:focus-visible:text-secondary-support-950 dark:hover:focus-visible:text-secondary-support-950;
   }
   &.btn-soft {
-    @apply bg-secondary-50 hover:bg-secondary-100 text-secondary-700 hover:text-secondary-800 focus-visible:bg-secondary-support-400 focus-visible:text-secondary-support-950
-           dark:bg-secondary-900/40 dark:hover:bg-secondary-900/60 dark:text-secondary-200 dark:hover:text-secondary-100 dark:focus-visible:bg-secondary-support-400 dark:focus-visible:text-secondary-support-950;
+    @apply bg-secondary-50 hover:bg-secondary-100 text-secondary-700 hover:text-secondary-800 focus-visible:bg-secondary-support-400 hover:focus-visible:bg-secondary-support-400 focus-visible:text-secondary-support-950 hover:focus-visible:text-secondary-support-950
+           dark:bg-secondary-900/40 dark:hover:bg-secondary-900/60 dark:text-secondary-200 dark:hover:text-secondary-100 dark:focus-visible:bg-secondary-support-400 dark:hover:focus-visible:bg-secondary-support-400 dark:focus-visible:text-secondary-support-950 dark:hover:focus-visible:text-secondary-support-950;
   }
   &.btn-link {
-    @apply text-secondary-600 hover:text-secondary-700 focus-visible:bg-secondary-support-400 focus-visible:text-secondary-support-950
-           dark:text-secondary-400 dark:hover:text-secondary-300 dark:focus-visible:bg-secondary-support-400 dark:focus-visible:text-secondary-support-950;
+    @apply text-secondary-600 hover:text-secondary-700 focus-visible:bg-secondary-support-400 hover:focus-visible:bg-secondary-support-400 focus-visible:text-secondary-support-950 hover:focus-visible:text-secondary-support-950
+           dark:text-secondary-400 dark:hover:text-secondary-300 dark:focus-visible:bg-secondary-support-400 dark:hover:focus-visible:bg-secondary-support-400 dark:focus-visible:text-secondary-support-950 dark:hover:focus-visible:text-secondary-support-950;
   }
 }
 
 .btn-neutral-max {
   @apply outline-aeblack-800 dark:outline-aeblack-200;
   &.btn-solid {
-    @apply bg-aeblack-800 hover:bg-aeblack-700 border-aeblack-800 hover:border-aeblack-700 focus-visible:bg-seablue-400! focus-visible:text-seablue-950! focus-visible:border-seablue-400! text-aeblack-50
-           dark:bg-aeblack-200 dark:hover:bg-aeblack-100 dark:border-aeblack-200 dark:hover:border-aeblack-100 dark:focus-visible:bg-seablue-400! dark:focus-visible:text-seablue-950! dark:focus-visible:border-seablue-400! dark:text-aeblack-900;
+    @apply bg-aeblack-800 hover:bg-aeblack-700 border-aeblack-800 hover:border-aeblack-700 focus-visible:bg-seablue-400! hover:focus-visible:bg-seablue-400! focus-visible:text-seablue-950! hover:focus-visible:text-seablue-950! focus-visible:border-seablue-400! hover:focus-visible:border-seablue-400! text-aeblack-50
+           dark:bg-aeblack-200 dark:hover:bg-aeblack-100 dark:border-aeblack-200 dark:hover:border-aeblack-100 dark:focus-visible:bg-seablue-400! dark:hover:focus-visible:bg-seablue-400! dark:focus-visible:text-seablue-950! dark:hover:focus-visible:text-seablue-950! dark:focus-visible:border-seablue-400! dark:hover:focus-visible:border-seablue-400! dark:text-aeblack-900;
   }
   &.btn-outline {
-    @apply text-aeblack-800 hover:bg-aeblack-50 hover:text-aeblack-900 border-aeblack-800 hover:border-aeblack-900 focus-visible:border-aeblack-50 focus-visible:bg-seablue-400 focus-visible:text-seablue-950
-           dark:text-whitely-100 dark:hover:bg-aeblack-800 dark:hover:text-whitely-50 dark:border-aeblack-300 dark:hover:border-aeblack-200 dark:focus-visible:border-aeblack-700 dark:focus-visible:bg-seablue-400 dark:focus-visible:text-seablue-950;
+    @apply text-aeblack-800 hover:bg-aeblack-50 hover:text-aeblack-900 border-aeblack-800 hover:border-aeblack-900 focus-visible:border-aeblack-50 hover:focus-visible:border-aeblack-50 focus-visible:bg-seablue-400 hover:focus-visible:bg-seablue-400 focus-visible:text-seablue-950 hover:focus-visible:text-seablue-950
+           dark:text-whitely-100 dark:hover:bg-aeblack-800 dark:hover:text-whitely-50 dark:border-aeblack-300 dark:hover:border-aeblack-200 dark:focus-visible:border-aeblack-700 dark:hover:focus-visible:border-aeblack-700 dark:focus-visible:bg-seablue-400 dark:hover:focus-visible:bg-seablue-400 dark:focus-visible:text-seablue-950 dark:hover:focus-visible:text-seablue-950;
   }
   &.btn-soft {
-    @apply bg-aeblack-50 hover:bg-aeblack-100 text-aeblack-800 hover:text-aeblack-900 focus-visible:bg-seablue-400 focus-visible:text-seablue-950
-           dark:bg-aeblack-800 dark:hover:bg-aeblack-700 dark:text-whitely-100 dark:hover:text-whitely-50 dark:focus-visible:bg-seablue-400 dark:focus-visible:text-seablue-950;
+    @apply bg-aeblack-50 hover:bg-aeblack-100 text-aeblack-800 hover:text-aeblack-900 focus-visible:bg-seablue-400 hover:focus-visible:bg-seablue-400 focus-visible:text-seablue-950 hover:focus-visible:text-seablue-950
+           dark:bg-aeblack-800 dark:hover:bg-aeblack-700 dark:text-whitely-100 dark:hover:text-whitely-50 dark:focus-visible:bg-seablue-400 dark:hover:focus-visible:bg-seablue-400 dark:focus-visible:text-seablue-950 dark:hover:focus-visible:text-seablue-950;
   }
   &.btn-link {
-    @apply text-aeblack-800 hover:text-aeblack-700 focus-visible:bg-seablue-400 focus-visible:text-seablue-950
-           dark:text-whitely-100 dark:hover:text-whitely-50 dark:focus-visible:bg-seablue-400 dark:focus-visible:text-seablue-950;
+    @apply text-aeblack-800 hover:text-aeblack-700 focus-visible:bg-seablue-400 hover:focus-visible:bg-seablue-400 focus-visible:text-seablue-950 hover:focus-visible:text-seablue-950
+           dark:text-whitely-100 dark:hover:text-whitely-50 dark:focus-visible:bg-seablue-400 dark:hover:focus-visible:bg-seablue-400 dark:focus-visible:text-seablue-950 dark:hover:focus-visible:text-seablue-950;
   }
 }
 
@@ -191,40 +191,40 @@
   /* near-white bg → use a dark ring so it stays visible */
   @apply outline-aeblack-800 dark:outline-aeblack-200;
   &.btn-solid {
-    @apply bg-whitely-50 hover:bg-whitely-200 focus-visible:bg-seablue-400! focus-visible:text-seablue-950! focus-visible:border-seablue-400! text-aeblack-600 border-aeblack-100 hover:border-aeblack-200
-           dark:bg-aeblack-800 dark:hover:bg-aeblack-700 dark:focus-visible:bg-seablue-400! dark:focus-visible:text-seablue-950! dark:focus-visible:border-seablue-400! dark:text-aeblack-200 dark:border-aeblack-700 dark:hover:border-aeblack-600;
+    @apply bg-whitely-50 hover:bg-whitely-200 focus-visible:bg-seablue-400! hover:focus-visible:bg-seablue-400! focus-visible:text-seablue-950! hover:focus-visible:text-seablue-950! focus-visible:border-seablue-400! hover:focus-visible:border-seablue-400! text-aeblack-600 border-aeblack-100 hover:border-aeblack-200
+           dark:bg-aeblack-800 dark:hover:bg-aeblack-700 dark:focus-visible:bg-seablue-400! dark:hover:focus-visible:bg-seablue-400! dark:focus-visible:text-seablue-950! dark:hover:focus-visible:text-seablue-950! dark:focus-visible:border-seablue-400! dark:hover:focus-visible:border-seablue-400! dark:text-aeblack-200 dark:border-aeblack-700 dark:hover:border-aeblack-600;
   }
   &.btn-outline {
-    @apply text-aeblack-500 hover:bg-whitely-200 hover:text-aeblack-600 border-aeblack-100 hover:border-aeblack-200 focus-visible:border-whitely-500 focus-visible:bg-seablue-400 focus-visible:text-seablue-950
-           dark:text-aeblack-300 dark:hover:bg-aeblack-700 dark:hover:text-aeblack-100 dark:border-aeblack-700 dark:hover:border-aeblack-500 dark:focus-visible:border-aeblack-500 dark:focus-visible:bg-seablue-400 dark:focus-visible:text-seablue-950;
+    @apply text-aeblack-500 hover:bg-whitely-200 hover:text-aeblack-600 border-aeblack-100 hover:border-aeblack-200 focus-visible:border-whitely-500 hover:focus-visible:border-whitely-500 focus-visible:bg-seablue-400 hover:focus-visible:bg-seablue-400 focus-visible:text-seablue-950 hover:focus-visible:text-seablue-950
+           dark:text-aeblack-300 dark:hover:bg-aeblack-700 dark:hover:text-aeblack-100 dark:border-aeblack-700 dark:hover:border-aeblack-500 dark:focus-visible:border-aeblack-500 dark:hover:focus-visible:border-aeblack-500 dark:focus-visible:bg-seablue-400 dark:hover:focus-visible:bg-seablue-400 dark:focus-visible:text-seablue-950 dark:hover:focus-visible:text-seablue-950;
   }
   &.btn-soft {
-    @apply bg-whitely-50 hover:bg-whitely-200! text-aeblack-500 hover:text-aeblack-600 focus-visible:bg-seablue-400 focus-visible:text-seablue-950
-           dark:bg-aeblack-800 dark:hover:bg-aeblack-700! dark:text-aeblack-300 dark:hover:text-aeblack-100 dark:focus-visible:bg-seablue-400 dark:focus-visible:text-seablue-950;
+    @apply bg-whitely-50 hover:bg-whitely-200! text-aeblack-500 hover:text-aeblack-600 focus-visible:bg-seablue-400 hover:focus-visible:bg-seablue-400 focus-visible:text-seablue-950 hover:focus-visible:text-seablue-950
+           dark:bg-aeblack-800 dark:hover:bg-aeblack-700! dark:text-aeblack-300 dark:hover:text-aeblack-100 dark:focus-visible:bg-seablue-400 dark:hover:focus-visible:bg-seablue-400 dark:focus-visible:text-seablue-950 dark:hover:focus-visible:text-seablue-950;
   }
   &.btn-link {
-    @apply text-aeblack-500 hover:text-aeblack-600 focus-visible:bg-seablue-400 focus-visible:text-seablue-950
-           dark:text-aeblack-300 dark:hover:text-aeblack-100 dark:focus-visible:bg-seablue-400 dark:focus-visible:text-seablue-950;
+    @apply text-aeblack-500 hover:text-aeblack-600 focus-visible:bg-seablue-400 hover:focus-visible:bg-seablue-400 focus-visible:text-seablue-950 hover:focus-visible:text-seablue-950
+           dark:text-aeblack-300 dark:hover:text-aeblack-100 dark:focus-visible:bg-seablue-400 dark:hover:focus-visible:bg-seablue-400 dark:focus-visible:text-seablue-950 dark:hover:focus-visible:text-seablue-950;
   }
 }
 
 .btn-danger {
   @apply outline-aered-600 dark:outline-aered-500;
   &.btn-solid {
-    @apply bg-aered-600 hover:bg-aered-700 border-aered-600 hover:border-aered-700 focus-visible:bg-camel-400 focus-visible:text-camel-950 focus-visible:border-camel-400 text-aered-50
-           dark:bg-aered-500 dark:hover:bg-aered-400 dark:border-aered-500 dark:hover:border-aered-400 dark:focus-visible:bg-camel-400 dark:focus-visible:text-camel-950 dark:focus-visible:border-camel-400 dark:text-aered-50;
+    @apply bg-aered-600 hover:bg-aered-700 border-aered-600 hover:border-aered-700 focus-visible:bg-camel-400 hover:focus-visible:bg-camel-400 focus-visible:text-camel-950 hover:focus-visible:text-camel-950 focus-visible:border-camel-400 hover:focus-visible:border-camel-400 text-aered-50
+           dark:bg-aered-500 dark:hover:bg-aered-400 dark:border-aered-500 dark:hover:border-aered-400 dark:focus-visible:bg-camel-400 dark:hover:focus-visible:bg-camel-400 dark:focus-visible:text-camel-950 dark:hover:focus-visible:text-camel-950 dark:focus-visible:border-camel-400 dark:hover:focus-visible:border-camel-400 dark:text-aered-50;
   }
   &.btn-outline {
-    @apply text-aered-700 hover:bg-aered-50 hover:text-aered-700 border-aered-700 hover:border-aered-700 focus-visible:border-camel-600 focus-visible:bg-camel-400 focus-visible:text-camel-950
-           dark:text-aered-300 dark:hover:bg-aered-900/30 dark:hover:text-aered-200 dark:border-aered-400 dark:hover:border-aered-300 dark:focus-visible:border-camel-400 dark:focus-visible:bg-camel-400 dark:focus-visible:text-camel-950;
+    @apply text-aered-700 hover:bg-aered-50 hover:text-aered-700 border-aered-700 hover:border-aered-700 focus-visible:border-camel-600 hover:focus-visible:border-camel-600 focus-visible:bg-camel-400 hover:focus-visible:bg-camel-400 focus-visible:text-camel-950 hover:focus-visible:text-camel-950
+           dark:text-aered-300 dark:hover:bg-aered-900/30 dark:hover:text-aered-200 dark:border-aered-400 dark:hover:border-aered-300 dark:focus-visible:border-camel-400 dark:hover:focus-visible:border-camel-400 dark:focus-visible:bg-camel-400 dark:hover:focus-visible:bg-camel-400 dark:focus-visible:text-camel-950 dark:hover:focus-visible:text-camel-950;
   }
   &.btn-soft {
-    @apply bg-aered-50 hover:bg-aered-100 text-aered-700 hover:text-aered-800 focus-visible:bg-camel-400 focus-visible:text-camel-950
-           dark:bg-aered-900/40 dark:hover:bg-aered-900/60 dark:text-aered-200 dark:hover:text-aered-100 dark:focus-visible:bg-camel-400 dark:focus-visible:text-camel-950;
+    @apply bg-aered-50 hover:bg-aered-100 text-aered-700 hover:text-aered-800 focus-visible:bg-camel-400 hover:focus-visible:bg-camel-400 focus-visible:text-camel-950 hover:focus-visible:text-camel-950
+           dark:bg-aered-900/40 dark:hover:bg-aered-900/60 dark:text-aered-200 dark:hover:text-aered-100 dark:focus-visible:bg-camel-400 dark:hover:focus-visible:bg-camel-400 dark:focus-visible:text-camel-950 dark:hover:focus-visible:text-camel-950;
   }
   &.btn-link {
-    @apply text-aered-700 hover:text-aered-600 focus-visible:bg-camel-400 focus-visible:text-camel-950
-           dark:text-aered-300 dark:hover:text-aered-200 dark:focus-visible:bg-camel-400 dark:focus-visible:text-camel-950;
+    @apply text-aered-700 hover:text-aered-600 focus-visible:bg-camel-400 hover:focus-visible:bg-camel-400 focus-visible:text-camel-950 hover:focus-visible:text-camel-950
+           dark:text-aered-300 dark:hover:text-aered-200 dark:focus-visible:bg-camel-400 dark:hover:focus-visible:bg-camel-400 dark:focus-visible:text-camel-950 dark:hover:focus-visible:text-camel-950;
   }
 }
 

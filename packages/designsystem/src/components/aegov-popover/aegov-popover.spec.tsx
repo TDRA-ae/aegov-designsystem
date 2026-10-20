@@ -76,6 +76,10 @@ describe('aegov-popover', () => {
     await page.waitForChanges();
     const inner = page.root.querySelector('.aegov-popover-trigger button');
     expect(inner.getAttribute('aria-expanded')).toBe('true');
+    // Close it so this instance doesn't linger as the module-level
+    // currentOpenPopover singleton across later, unrelated tests in this file.
+    page.rootInstance.isOpen = false;
+    await page.waitForChanges();
   });
 
   it('accepts position, align, gap and trigger props', async () => {

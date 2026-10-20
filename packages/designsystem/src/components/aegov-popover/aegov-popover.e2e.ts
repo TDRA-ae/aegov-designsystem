@@ -31,6 +31,54 @@ describe('aegov-popover (e2e)', () => {
     expect(portal.getAttribute('role')).toBe('dialog');
   });
 
+  // Regression coverage for #58. The portal div's own createPortal() util
+  // never copies any dir attribute, so the panel (moved to document.body,
+  // several levels outside any local dir="rtl" ancestor wrapper) reverted
+  // to whatever <html>/<body> had instead of inheriting the local wrapper's
+  // direction — the same portal-vs-dir gap already found and fixed in
+  // aegov-datepicker (#37), aegov-dropdown (#41), and aegov-modal (#53).
+  it('carries dir="rtl" from a local ancestor wrapper onto the portalled panel', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <div dir="rtl">
+        <aegov-popover>
+          <button>Open</button>
+          <div slot="popover-content"><a href="#">Link</a></div>
+        </aegov-popover>
+      </div>
+    `);
+    const triggerBtn = await page.find('aegov-popover button');
+    await triggerBtn.click();
+    await page.waitForChanges();
+
+    const result = await page.evaluate(() => {
+      const panel = document.querySelector('.aegov-popover-portal .aegov-popover');
+      const portalDiv = panel?.closest('.aegov-popover-portal');
+      return {
+        portalDir: portalDiv?.getAttribute('dir'),
+        panelDirection: panel ? getComputedStyle(panel).direction : null,
+      };
+    });
+    expect(result.portalDir).toBe('rtl');
+    expect(result.panelDirection).toBe('rtl');
+  });
+
+  it('defaults to dir="ltr" with no rtl ancestor', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-popover>
+        <button>Open</button>
+        <div slot="popover-content"><a href="#">Link</a></div>
+      </aegov-popover>
+    `);
+    const triggerBtn = await page.find('aegov-popover button');
+    await triggerBtn.click();
+    await page.waitForChanges();
+
+    const portalDir = await page.evaluate(() => document.querySelector('.aegov-popover-portal')?.getAttribute('dir'));
+    expect(portalDir).toBe('ltr');
+  });
+
   it('renders arrow element in portal', async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -133,6 +181,41 @@ describe('aegov-popover (e2e)', () => {
     await page.waitForChanges();
     const stillInPortal = await page.find('.aegov-popover-portal #pop-content');
     expect(stillInPortal).toBeNull();
+  });
+
+  // Regression coverage for #60. The portal div itself (not just its content)
+  // used to be created eagerly in componentDidLoad() and only ever have its
+  // innerHTML cleared on close, leaving one permanent empty div in
+  // document.body per popover instance for the component's whole lifetime.
+  // Portal creation is now lazy (first open) and the div itself is removed
+  // on close, mirroring disconnectedCallback()'s own teardown.
+  it('does not create a portal div until first open, and removes it (not just its content) on close', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-popover>
+        <button>Open</button>
+        <div slot="popover-content"><a href="#">x</a></div>
+      </aegov-popover>
+    `);
+    const beforeOpen = await page.evaluate(() => document.querySelectorAll('.aegov-popover-portal').length);
+    expect(beforeOpen).toBe(0);
+
+    const triggerBtn = await page.find('aegov-popover button');
+    await triggerBtn.click();
+    await page.waitForChanges();
+    const afterOpen = await page.evaluate(() => document.querySelectorAll('.aegov-popover-portal').length);
+    expect(afterOpen).toBe(1);
+
+    await page.keyboard.press('Escape');
+    await page.waitForChanges();
+    const afterClose = await page.evaluate(() => document.querySelectorAll('.aegov-popover-portal').length);
+    expect(afterClose).toBe(0);
+
+    // Re-opening the same instance must recreate the div, not leave it gone.
+    await triggerBtn.click();
+    await page.waitForChanges();
+    const afterReopen = await page.evaluate(() => document.querySelectorAll('.aegov-popover-portal').length);
+    expect(afterReopen).toBe(1);
   });
 
   // aegov-button is shadow:true — a direct .focus() call on its host previously

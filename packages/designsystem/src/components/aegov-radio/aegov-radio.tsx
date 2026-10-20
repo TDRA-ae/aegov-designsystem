@@ -40,7 +40,7 @@ export class AegovRadio {
   @Prop() size: string = 'base';
 
   /** Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered. */
-  @Prop() variant: FormVariant = 'primary';
+  @Prop() variant?: FormVariant;
 
   /** Visual appearance set by a parent aegov-radio-group. Not meant to be set directly. */
   @Prop({ reflect: true }) appearance: string = 'default';
@@ -153,18 +153,15 @@ export class AegovRadio {
         (this.el as HTMLElement).classList.toggle('radio-appearance-cards', groupAppearance === 'cards');
         (this.el as HTMLElement).classList.toggle('radio-appearance-pills', groupAppearance === 'pills');
       }
-      // List separator: classes drive :host(.class) .aegov-radio CSS rules.
-      if (groupAppearance === 'list') {
-        const siblings = Array.from(group.children).filter(
-          el => el.tagName === 'AEGOV-RADIO' && !el.hasAttribute('slot'),
-        );
-        const isHorizontal = (group.getAttribute('orientation') || 'vertical') === 'horizontal';
-        const host = this.el as HTMLElement;
-        host.classList.add('radio-in-list');
-        host.classList.toggle('radio-list-horizontal', isHorizontal);
-        host.classList.toggle('radio-list-first', siblings[0] === host);
-        host.classList.toggle('radio-list-last', siblings[siblings.length - 1] === host);
-      }
+      // Note: `list` appearance's separator classes are NOT self-detected here.
+      // This read-the-DOM-attribute approach is exactly what broke for `list`
+      // under React (#62), since the wrapper sets `appearance` as a JS property
+      // only. They're applied correctly and unconditionally by the parent
+      // group's own syncChildren() instead, which already runs right after
+      // this (componentDidLoad is child-before-parent) and reads its own
+      // resolved `appearance`/`orientation` props directly — no attribute
+      // involved, so it works the same regardless of how the group's props
+      // were set.
     }
   }
 

@@ -68,6 +68,25 @@
   opacity: 0.4;
 }
 
+/* Cancel own disabled opacity when the group's "default"/"list"-appearance
+   wrapper already handles it (avoids 0.4×0.4=0.16 compound, #68 — same
+   pattern as aegov-input's #50). `is-grouped` is set unconditionally on
+   every grouped child regardless of disabled state; aegov-checkbox-group.css
+   deliberately excludes "pills"/"cards" appearance from its own
+   wrapper-level dimming (each pill/card dims individually there instead,
+   the exact same `:not()` exclusion mirrored here), so this must not cancel
+   a pill/card's own — only correct — dimming source.
+   The `:not()`s are nested INSIDE `:host()`'s own argument, not chained
+   after it (`:host(...):not(...)`) — confirmed live that chaining additional
+   simple selectors after `:host()` on the same compound selector silently
+   loses this cascade battle against the plain, unconditional base rule
+   above, even though both the selector match and the specificity math say
+   it shouldn't. Folding every host-targeting condition into one `:host()`
+   argument is what actually wins. */
+:host([is-grouped]:not([appearance="pills"]):not([appearance="cards"])) .checkbox__wrapper:has(input:disabled) {
+  opacity: 1;
+}
+
 .checkbox__text {
   @apply flex flex-col;
 }

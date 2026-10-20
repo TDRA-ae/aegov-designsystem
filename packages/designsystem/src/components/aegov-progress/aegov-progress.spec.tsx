@@ -142,18 +142,25 @@ describe('aegov-progress', () => {
     beforeEach(() => { warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {}); });
     afterEach(() => { warnSpy.mockRestore(); });
 
+    // The check is deferred via a real setTimeout(0) in componentDidLoad (#59),
+    // so each test needs an actual macrotask tick before asserting.
+    const flushDeferredCheck = () => new Promise(resolve => setTimeout(resolve, 0));
+
     it('warns when no label, aria-label, or field-id is provided', async () => {
       await newSpecPage({ components: [AegovProgress], html: `<aegov-progress value="20"></aegov-progress>` });
+      await flushDeferredCheck();
       expect(warnSpy.mock.calls.some(c => String(c[0]).includes('no accessible label'))).toBe(true);
     });
 
     it('does NOT warn when the label prop is set', async () => {
       await newSpecPage({ components: [AegovProgress], html: `<aegov-progress value="20" label="Upload"></aegov-progress>` });
+      await flushDeferredCheck();
       expect(warnSpy.mock.calls.some(c => String(c[0]).includes('no accessible label'))).toBe(false);
     });
 
     it('does NOT warn when aria-label is set via pass-through, even without the label prop', async () => {
       await newSpecPage({ components: [AegovProgress], html: `<aegov-progress value="20" aria-label="Upload"></aegov-progress>` });
+      await flushDeferredCheck();
       expect(warnSpy.mock.calls.some(c => String(c[0]).includes('no accessible label'))).toBe(false);
     });
 
@@ -161,6 +168,7 @@ describe('aegov-progress', () => {
       // Previously this case was silently treated as "probably labeled" just because
       // field-id was supplied — even with no label anywhere in the document.
       await newSpecPage({ components: [AegovProgress], html: `<aegov-progress value="20" field-id="p1"></aegov-progress>` });
+      await flushDeferredCheck();
       expect(warnSpy.mock.calls.some(c => String(c[0]).includes('no accessible label'))).toBe(true);
     });
 
@@ -169,6 +177,21 @@ describe('aegov-progress', () => {
         components: [AegovProgress],
         html: `<label for="p2">Upload progress</label><aegov-progress value="20" field-id="p2"></aegov-progress>`,
       });
+      await flushDeferredCheck();
+      expect(warnSpy.mock.calls.some(c => String(c[0]).includes('no accessible label'))).toBe(false);
+    });
+
+    it('does NOT warn when no field-id is provided but a label is wired to the auto-generated one after the fact (#59)', async () => {
+      // Simulates aegov-form-field's own componentDidLoad()-time wiring, which
+      // (per Stencil's child-before-parent DidLoad ordering) always runs after
+      // aegov-progress's own componentDidLoad — this is the exact race #59 was
+      // filed against, reproduced directly without needing aegov-form-field itself.
+      const page = await newSpecPage({ components: [AegovProgress], html: `<aegov-progress value="20"></aegov-progress>` });
+      const fieldId = page.root.getAttribute('field-id');
+      const label = page.doc.createElement('label');
+      label.setAttribute('for', fieldId);
+      page.doc.body.appendChild(label);
+      await flushDeferredCheck();
       expect(warnSpy.mock.calls.some(c => String(c[0]).includes('no accessible label'))).toBe(false);
     });
   });

@@ -69,7 +69,16 @@ button.aegov-navbar-item__chevron {
 }
 
 button.aegov-navbar-item__chevron svg {
-  @apply w-full h-full;
+  @apply w-full h-full transition-transform duration-200;
+}
+
+/* Rotate the chevron 180° while the sub-menu is open (#56) — keyed off the
+   same `aria-expanded` the chevron button already reflects, so no new state
+   is needed. Rotating around the vertical axis isn't a directional/logical
+   property, so this applies identically in LTR and RTL; the existing RTL
+   rule below stays a genuine no-op for this symmetric chevron-down icon. */
+button.aegov-navbar-item__chevron[aria-expanded="true"] svg {
+  @apply rotate-180;
 }
 
 /* Disabled */

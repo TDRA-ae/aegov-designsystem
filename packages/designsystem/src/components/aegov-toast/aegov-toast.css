@@ -23,6 +23,18 @@
   border-top: 4px solid;
 }
 
+/*
+ * Before the first show() (or once fully closed), render() still renders this
+ * whole tree rather than null, purely so its <slot> placeholders exist for
+ * Stencil's light-DOM slot emulation to relocate slotted icon/title/actions
+ * elements into — otherwise they're left as raw, unstyled children sitting
+ * directly under <aegov-toast> in the page's normal flow (#65). This class is
+ * what actually keeps the whole thing invisible until show() runs.
+ */
+.toast--pending {
+  display: none;
+}
+
 /* ============================================
    ICON
    ============================================ */
