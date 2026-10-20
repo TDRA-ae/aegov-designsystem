@@ -1,11 +1,59 @@
 import { newE2EPage } from '@stencil/core/testing';
 
 describe('aegov-toast (e2e)', () => {
-  it('renders nothing until show() is called', async () => {
+  // render() now always renders the tree (never null) so that <slot>
+  // placeholders exist for slotted elements to be relocated into (#65) — but
+  // it must stay invisible until show() is called, same as the old
+  // render()-returns-null behavior from the outside.
+  it('renders the toast tree hidden (not removed) until show() is called', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-toast duration="0">Hi</aegov-toast>');
     const inner = await page.find('aegov-toast .aegov-toast');
-    expect(inner).toBeNull();
+    expect(inner).not.toBeNull();
+    expect(inner).toHaveClass('toast--pending');
+    const display = await page.evaluate(() => {
+      const el = document.querySelector('aegov-toast .aegov-toast');
+      return getComputedStyle(el as Element).display;
+    });
+    expect(display).toBe('none');
+  });
+
+  // Regression coverage for #65. A slotted *element* (unlike slotted plain
+  // text, which Stencil's polyfill safely comments out on its own) was left
+  // as a raw, unstyled, visible child directly under <aegov-toast> — in the
+  // page's normal flow — for as long as the toast sat unshown, because
+  // render() returning null meant there was no <slot> placeholder for
+  // Stencil's light-DOM slot emulation to relocate it into.
+  it('does not leave slotted elements visible in the page before show() is called', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-toast duration="0">
+        <svg slot="icon" width="20" height="20"><circle cx="10" cy="10" r="8" /></svg>
+        <span slot="title">Saved</span>
+        Your file was saved.
+        <button slot="actions">Undo</button>
+      </aegov-toast>
+    `);
+    await page.waitForChanges();
+    const rects = await page.evaluate(() => {
+      // getBoundingClientRect() returns a DOMRect whose width/height are
+      // prototype getters, not own enumerable properties — they don't
+      // survive Puppeteer's evaluate() serialization unless destructured
+      // into a plain object here, inside the page context.
+      const toPlainRect = (el: Element) => {
+        const r = el.getBoundingClientRect();
+        return { width: r.width, height: r.height };
+      };
+      const toast = document.querySelector('aegov-toast')!;
+      return {
+        icon: toPlainRect(toast.querySelector('[slot="icon"]')!),
+        title: toPlainRect(toast.querySelector('[slot="title"]')!),
+        actions: toPlainRect(toast.querySelector('[slot="actions"]')!),
+      };
+    });
+    expect(rects.icon.width === 0 || rects.icon.height === 0).toBe(true);
+    expect(rects.title.width === 0 || rects.title.height === 0).toBe(true);
+    expect(rects.actions.width === 0 || rects.actions.height === 0).toBe(true);
   });
 
   it('show() makes toast visible and emits aegovToastOpen', async () => {

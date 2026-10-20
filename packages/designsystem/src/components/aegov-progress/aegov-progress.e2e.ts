@@ -57,4 +57,49 @@ describe('aegov-progress (e2e)', () => {
     expect(host.getAttribute('aria-label')).toBe('upload');
     expect(host.getAttribute('data-foo')).toBe('bar');
   });
+
+  // Regression coverage for #59. aegov-form-field wires label.htmlFor in ITS
+  // OWN componentDidLoad(), which (per Stencil's child-before-parent DidLoad
+  // ordering) always runs after aegov-progress's own componentDidLoad — a
+  // synchronous check (previously in componentWillLoad, even earlier) would
+  // false-positive on the exact "composing with a form field" pattern the
+  // docs recommend, with no field-id prop set on the progress bar at all.
+  it('does not warn when paired with aegov-form-field, relying on its auto-wiring', async () => {
+    const page = await newE2EPage();
+    const consoleMessages: string[] = [];
+    page.on('console', msg => consoleMessages.push(msg.text()));
+
+    await page.setContent(`
+      <aegov-form-field>
+        <aegov-label>Profile completeness</aegov-label>
+        <aegov-progress value="80"></aegov-progress>
+      </aegov-form-field>
+    `);
+    await page.waitForChanges();
+    // The check is deferred via a real setTimeout(0) — wait past it.
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    const hasWarning = consoleMessages.some(m => m.includes('Progress bar has no accessible label'));
+    expect(hasWarning).toBe(false);
+
+    const linked = await page.evaluate(() => {
+      const label = document.querySelector('aegov-label label');
+      const progress = document.querySelector('aegov-progress');
+      return !!label && label.getAttribute('for') === progress?.getAttribute('field-id');
+    });
+    expect(linked).toBe(true);
+  });
+
+  it('still warns when genuinely unlabeled and standalone', async () => {
+    const page = await newE2EPage();
+    const consoleMessages: string[] = [];
+    page.on('console', msg => consoleMessages.push(msg.text()));
+
+    await page.setContent('<aegov-progress value="50"></aegov-progress>');
+    await page.waitForChanges();
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    const hasWarning = consoleMessages.some(m => m.includes('Progress bar has no accessible label'));
+    expect(hasWarning).toBe(true);
+  });
 });

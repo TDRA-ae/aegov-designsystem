@@ -39,7 +39,7 @@ export class AegovToggle {
   @Prop() size: string = 'base';
 
   /** Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring stays camel; error stays aered. */
-  @Prop() variant: FormVariant = 'primary';
+  @Prop() variant?: FormVariant;
 
   @State() private _resolvedSize: ToggleSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
@@ -199,6 +199,17 @@ export class AegovToggle {
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
     this.isChecked = input.checked;
+    // Explicit, defensive attribute sync (#64) — Stencil's own `reflect: true`
+    // can silently skip writing the `is-checked` attribute on the very first
+    // change away from a literally-attribute-declared `is-checked="true"`
+    // (its internal "last reflected value" bookkeeping appears to get
+    // desynced from the real DOM attribute when the initial value comes from
+    // attribute parsing rather than a property assignment — reproduces
+    // identically on aegov-radio's own isChecked, same prop shape, so this
+    // isn't toggle-specific application code). Every change thereafter
+    // reflects correctly on its own; this line makes the first one reliable
+    // too, and is a no-op when Stencil's own reflect already did the write.
+    this.el.toggleAttribute('is-checked', this.isChecked);
     this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
     this.syncInternalsValidity();
     this.aegovToggleChange.emit({ checked: this.isChecked, value: this.value });

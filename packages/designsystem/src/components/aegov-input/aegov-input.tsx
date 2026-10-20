@@ -53,7 +53,7 @@ export class AegovInput {
   @Prop() size: string = 'base';
 
   /** Colour family. Drives idle ring, value text, and accent hover. Focus ring stays camel; error stays aered regardless. */
-  @Prop() variant: FormVariant = 'primary';
+  @Prop() variant?: FormVariant;
   @State() private _resolvedSize: InputSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 

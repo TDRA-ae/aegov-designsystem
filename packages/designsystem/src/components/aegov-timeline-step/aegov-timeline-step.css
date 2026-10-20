@@ -1,10 +1,16 @@
-:host {
-  @apply block;
+/*
+  This component renders in light DOM (scoped: false, no shadow root), so
+  :host / :host(...) selectors never match anything — they're silently
+  ignored by the CSS parser, which is why the equal-width-per-step rule
+  below previously had zero effect. Target the custom element tag directly.
+*/
+aegov-timeline-step {
+  display: block;
   min-width: 0;
 }
 
 /* All horizontal steps take equal space — no special first/last sizing */
-:host(.host--horizontal) {
+aegov-timeline-step.host--horizontal {
   flex: 1 1 0%;
 }
 
@@ -202,7 +208,7 @@
    ============================================ */
 
 .step__text--horizontal {
-  @apply flex flex-col items-center text-center mt-2;
+  @apply flex w-full flex-col items-center text-center mt-2;
 }
 
 .step__text--vertical {
@@ -211,11 +217,25 @@
 
 .step__label {
   @apply text-sm leading-tight m-0 p-0;
+  width: 100%;
+  min-width: 0;
 }
 
 /* Default variant — horizontal */
 .step--horizontal .step__label {
   @apply px-5;
+}
+
+/* On narrow screens each step's own column is already tight (viewport width
+   divided by step count) — the desktop px-5 gutter alone can eat most of a
+   ~90px column, forcing single words to crowd their neighbour. Shrink it so
+   the label text gets the room instead of the padding. */
+@media (max-width: 639px) {
+  .step--horizontal .step__label {
+    @apply px-1;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
 }
 
 /* Default variant — vertical */
@@ -236,12 +256,20 @@
   @apply text-aeblack-800 font-semibold dark:text-whitely-100;
 }
 
+/*
+  aeblack-400/dark:aeblack-500 measured at 3.71:1 / 3.22:1 against the page
+  background — below the 4.5:1 WCAG AA minimum for normal-size text. Shifted
+  to the next shade that clears 4.5:1 in both modes (5.50:1 / 4.78:1) while
+  staying visibly lighter than the active/completed label colors.
+*/
 .step__label--pending {
-  @apply text-aeblack-400 dark:text-aeblack-500;
+  @apply text-aeblack-500 dark:text-aeblack-400;
 }
 
 .step__description {
   @apply text-xs mt-0.5 leading-tight;
+  width: 100%;
+  min-width: 0;
 }
 
 .step__description--completed {
@@ -252,16 +280,28 @@
   @apply text-aeblack-600 dark:text-aeblack-300;
 }
 
+/*
+  slate-400/dark:aeblack-500 measured at 2.56:1 / 3.22:1 — well below the
+  4.5:1 WCAG AA minimum. Shifted to the next shade that clears it in both
+  modes (4.76:1 / 4.78:1), kept one step lighter than the pending label so
+  the label-vs-description hierarchy is preserved.
+*/
 .step__description--pending {
-  @apply text-slate-400 dark:text-aeblack-500;
+  @apply text-slate-500 dark:text-aeblack-400;
 }
 
 /* ============================================
-   RESPONSIVE — hide labels on small screens (horizontal only)
+   RESPONSIVE — hide labels on small screens (horizontal + compact only)
+
+   Documented as compact-variant-only behavior ("In horizontal compact mode,
+   labels are hidden visually but remain available to assistive technology") —
+   this previously applied to every horizontal timeline regardless of variant,
+   silently stripping the default variant's numbered-circle labels/descriptions
+   on narrow viewports and leaving sighted mobile users with unlabeled circles.
    ============================================ */
 
 @media (max-width: 639px) {
-  .step__text--horizontal {
+  .aegov-timeline--compact .step__text--horizontal {
     position: absolute;
     width: 1px;
     height: 1px;
