@@ -40,7 +40,7 @@ export class AegovCheckboxGroup {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless. */
-  @Prop() variant: FormVariant = 'primary';
+  @Prop() variant?: FormVariant;
 
   /** Disables all checkboxes within the group via native fieldset disabled. */
   @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
@@ -176,12 +176,26 @@ export class AegovCheckboxGroup {
       // Also set host class directly — Stencil's async re-render may not fire in time
       (cb as HTMLElement).classList.toggle('checkbox-appearance-cards', this.appearance === 'cards');
       (cb as HTMLElement).classList.toggle('checkbox-appearance-pills', this.appearance === 'pills');
-      // Cascade variant only if child has no own value (still default 'primary')
-      if (!cb.variant || cb.variant === 'primary') {
+      // Cascade variant only if the child never set its own (#31). `variant`
+      // no longer has a default value — a child that never touched it reads
+      // back as genuinely `undefined`, distinguishable from one that
+      // explicitly chose `variant="primary"` (same value as the old,
+      // sentinel-based default, previously indistinguishable from "unset").
+      if (cb.variant === undefined) {
         cb.variant = this.variant;
       }
       // Group always wins — matches size/appearance's unconditional cascade (see issue #34).
       cb.isDisabled = this.isDisabled;
+      // Flag grouped membership as a plain host attribute (#68), same pattern
+      // already used by aegov-input-group/aegov-input (#50): when the group's
+      // "default" appearance is disabled, its own wrapper AND each now-also-
+      // disabled child's own wrapper both apply their own opacity-0.4,
+      // compounding to a near-invisible 0.16. `is-grouped` lets aegov-checkbox's
+      // CSS tell "my own opacity is the only dimming source" (pills/cards,
+      // where the group wrapper deliberately isn't dimmed) apart from "the
+      // group wrapper is already dimming me too" (default appearance), without
+      // reaching back across the shadow boundary to check.
+      (cb as HTMLElement).setAttribute('is-grouped', '');
     });
   }
 

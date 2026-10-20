@@ -62,6 +62,28 @@ describe('aegov-link e2e', () => {
     expect(a.className).toContain('text-primary-600');
   });
 
+  // Regression coverage for #52. The default (non-button-styled) path used
+  // to carry an unconditional `no-underline`, which permanently cancelled
+  // the global `a{}` base style's (`global.css`) intended hover
+  // underline/colour change — a cascade-LAYER ordering issue (Tailwind
+  // utilities always beat base, regardless of selector specificity), not a
+  // specificity fight. The actual cascade-layer-winning behaviour can't be
+  // exercised here: this isolated per-component e2e harness never loads
+  // `global.css` at all, so the browser's own unreset `<a>` default styling
+  // (underlined at rest) shows through regardless — confirmed live,
+  // exhaustively, on the real docs site instead (a real hover there changes
+  // both colour and adds the underline, exactly as expected). This test
+  // only asserts what's meaningful in isolation: the class list itself.
+  it('does not carry no-underline on the default (non-button) path, and includes the hover colour classes (#52)', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<aegov-link href="#a">Plain link</aegov-link>`);
+    const a = await page.find('aegov-link a');
+
+    expect(a.className).not.toContain('no-underline');
+    expect(a.className).toContain('hover:text-primary-500');
+    expect(a.className).toContain('dark:hover:text-primary-300');
+  });
+
   it('applies button-style classes when variant + appearance + size supplied', async () => {
     const page = await newE2EPage();
     await page.setContent(`

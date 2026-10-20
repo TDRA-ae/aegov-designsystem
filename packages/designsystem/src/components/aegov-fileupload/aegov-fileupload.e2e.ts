@@ -151,4 +151,159 @@ describe('aegov-fileupload (e2e)', () => {
     const input = await page.find('aegov-fileupload input[type="file"]');
     expect(await input.getProperty('disabled')).toBe(true);
   });
+
+  // Regression coverage for #43. The removed remove-button's own DOM node is
+  // destroyed as part of the re-render selectedFiles triggers — with no focus
+  // management, real keyboard/mouse focus silently fell back to <body> on
+  // every single removal.
+  async function selectFiles(page: Awaited<ReturnType<typeof newE2EPage>>, names: string[]) {
+    await page.evaluate((names: string[]) => {
+      const input = document.querySelector('aegov-fileupload')!.shadowRoot!.querySelector('input[type="file"]') as HTMLInputElement;
+      const dt = new DataTransfer();
+      names.forEach(n => dt.items.add(new File(['x'], n, { type: 'text/plain' })));
+      input.files = dt.files;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    }, names);
+    await page.waitForChanges();
+  }
+
+  function activeAriaLabel(page: Awaited<ReturnType<typeof newE2EPage>>) {
+    return page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      return (fu.shadowRoot!.activeElement as HTMLElement | null)?.getAttribute('aria-label') ?? null;
+    });
+  }
+
+  it('moves focus to the item that shifted into the removed slot (button appearance)', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-fileupload appearance="button" is-multiple></aegov-fileupload>');
+    await selectFiles(page, ['alpha.txt', 'beta.txt', 'gamma.txt']);
+
+    await page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      (fu.shadowRoot!.querySelectorAll('.fileupload__remove-btn')[0] as HTMLElement).click();
+    });
+    await page.waitForChanges();
+
+    // Before the fix, nothing ever received focus here — the removed button's
+    // node was simply gone, and real focus silently fell back to <body>.
+    expect(await activeAriaLabel(page)).toBe('Remove beta.txt');
+  });
+
+  it('moves focus to the new last item when the removed item was last (dropzone appearance)', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-fileupload appearance="dropzone" is-multiple></aegov-fileupload>');
+    await selectFiles(page, ['alpha.txt', 'beta.txt']);
+
+    await page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      const btns = fu.shadowRoot!.querySelectorAll('.fileupload__remove-btn');
+      (btns[btns.length - 1] as HTMLElement).click(); // remove "beta.txt" (last)
+    });
+    await page.waitForChanges();
+
+    expect(await activeAriaLabel(page)).toBe('Remove alpha.txt');
+  });
+
+  it('returns focus to the upload trigger once the last file is removed (button appearance)', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-fileupload appearance="button" is-multiple></aegov-fileupload>');
+    await selectFiles(page, ['alpha.txt']);
+
+    await page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      (fu.shadowRoot!.querySelector('.fileupload__remove-btn') as HTMLElement).click();
+    });
+    await page.waitForChanges();
+
+    const active = await page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      const el = fu.shadowRoot!.activeElement as HTMLElement | null;
+      return { tag: el?.tagName, className: el?.className };
+    });
+    expect(active.tag).toBe('AEGOV-BUTTON');
+    expect(active.className).toContain('fileupload__trigger-btn');
+  });
+
+  it('returns focus to the visible dropzone trigger button once the last file is removed (dropzone appearance)', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-fileupload appearance="dropzone" is-multiple></aegov-fileupload>');
+    await selectFiles(page, ['alpha.txt']);
+
+    await page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      (fu.shadowRoot!.querySelector('.fileupload__remove-btn') as HTMLElement).click();
+    });
+    await page.waitForChanges();
+
+    const active = await page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      const el = fu.shadowRoot!.activeElement as HTMLElement | null;
+      return { tag: el?.tagName, className: el?.className };
+    });
+    expect(active.tag).toBe('AEGOV-BUTTON');
+    expect(active.className).toContain('fileupload__dropzone-btn');
+  });
+
+  // Regression coverage for #44. processFiles() only ever set isInvalid/
+  // errorMessage on a bad selection — nothing cleared them back on a later,
+  // fully valid one, so a stale error about a file no longer even selected
+  // stuck around indefinitely.
+  it('clears a stale validation error once a subsequent file selection is fully valid', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-fileupload appearance="dropzone" is-multiple max-file-size="10"></aegov-fileupload>');
+    const host = await page.find('aegov-fileupload');
+
+    await page.evaluate(() => {
+      const input = document.querySelector('aegov-fileupload')!.shadowRoot!.querySelector('input[type="file"]') as HTMLInputElement;
+      const dt = new DataTransfer();
+      dt.items.add(new File(['way more than 10 bytes of content'], 'too-big.txt', { type: 'text/plain' }));
+      input.files = dt.files;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await page.waitForChanges();
+    expect(host.getAttribute('is-invalid')).not.toBeNull();
+
+    await page.evaluate(() => {
+      const input = document.querySelector('aegov-fileupload')!.shadowRoot!.querySelector('input[type="file"]') as HTMLInputElement;
+      const dt = new DataTransfer();
+      dt.items.add(new File(['ok'], 'valid.txt', { type: 'text/plain' }));
+      input.files = dt.files;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await page.waitForChanges();
+
+    expect(host.getAttribute('is-invalid')).toBeNull();
+    const errorRegion = await page.find('aegov-fileupload >>> .aegov-fileupload__error');
+    expect(errorRegion).toBeNull();
+  });
+
+  it('clears a stale "max files" error once removing a file drops the count back under the cap', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-fileupload appearance="button" is-multiple max-files="2"></aegov-fileupload>');
+    const host = await page.find('aegov-fileupload');
+
+    await page.evaluate(() => {
+      const input = document.querySelector('aegov-fileupload')!.shadowRoot!.querySelector('input[type="file"]') as HTMLInputElement;
+      const dt = new DataTransfer();
+      dt.items.add(new File(['a'], 'a.txt', { type: 'text/plain' }));
+      dt.items.add(new File(['b'], 'b.txt', { type: 'text/plain' }));
+      dt.items.add(new File(['c'], 'c.txt', { type: 'text/plain' }));
+      input.files = dt.files;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await page.waitForChanges();
+    expect(host.getAttribute('is-invalid')).not.toBeNull();
+
+    await page.evaluate(() => {
+      const fu = document.querySelector('aegov-fileupload')!;
+      (fu.shadowRoot!.querySelector('.fileupload__remove-btn') as HTMLElement).click();
+    });
+    await page.waitForChanges();
+
+    // Before the fix, removeFile() never reset isInvalid/errorMessage, so
+    // "Maximum 2 files allowed." stuck around even once the count (2) was
+    // valid again.
+    expect(host.getAttribute('is-invalid')).toBeNull();
+  });
 });

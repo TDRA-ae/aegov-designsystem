@@ -65,4 +65,40 @@ describe('aegov-radio (e2e)', () => {
     expect(input.getAttribute('aria-label')).toBe('opt');
     expect(input.getAttribute('data-id')).toBe('1');
   });
+
+  // Regression coverage for #68 — identical pattern to aegov-checkbox's.
+  it('cancels its own disabled opacity when grouped (default/list), but not for pills/cards or standalone (#68)', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-radio-group is-disabled="true" name="g1">
+        <aegov-radio id="grouped-default" label="Default" is-checked="true" value="a"></aegov-radio>
+      </aegov-radio-group>
+      <aegov-radio-group is-disabled="true" appearance="list" name="g2">
+        <aegov-radio id="grouped-list" label="List" is-checked="true" value="a"></aegov-radio>
+      </aegov-radio-group>
+      <aegov-radio-group is-disabled="true" appearance="pills" name="g3">
+        <aegov-radio id="grouped-pills" label="Pills" is-checked="true" value="a"></aegov-radio>
+      </aegov-radio-group>
+      <aegov-radio id="standalone" label="Standalone" is-checked="true" is-disabled="true" value="a" name="g4"></aegov-radio>
+    `);
+    await page.waitForChanges();
+
+    const opacities = await page.evaluate(() => {
+      const opacityOf = (id: string) => {
+        const el = document.getElementById(id) as any;
+        return getComputedStyle(el.shadowRoot.querySelector('.radio__wrapper')).opacity;
+      };
+      return {
+        default: opacityOf('grouped-default'),
+        list: opacityOf('grouped-list'),
+        pills: opacityOf('grouped-pills'),
+        standalone: opacityOf('standalone'),
+      };
+    });
+
+    expect(opacities.default).toBe('1');
+    expect(opacities.list).toBe('1');
+    expect(opacities.pills).toBe('0.4');
+    expect(opacities.standalone).toBe('0.4');
+  });
 });

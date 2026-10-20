@@ -40,6 +40,35 @@ describe('aegov-input (e2e)', () => {
     expect(await input.getProperty('disabled')).toBe(true);
   });
 
+  // Regression coverage for #50. A disabled input inside aegov-input-group would
+  // otherwise compound its own disabled:opacity-40 with the group wrapper's own
+  // opacity-40 (0.4 × 0.4 = 0.16). `is-grouped` is already set on every grouped
+  // child unconditionally, so ":host([is-grouped]) .aegov-input:disabled" cancels
+  // just the input's own multiplier whenever it's genuinely disabled, leaving the
+  // group's single 0.4 as the only dimming applied.
+  it('cancels its own disabled opacity inside a group, but not standalone (#50)', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-input-group>
+        <aegov-input is-disabled="true"></aegov-input>
+      </aegov-input-group>
+      <aegov-input id="standalone" is-disabled="true"></aegov-input>
+    `);
+    await page.waitForChanges();
+
+    const opacities = await page.evaluate(() => {
+      const grouped = document.querySelector('aegov-input-group aegov-input') as any;
+      const standalone = document.getElementById('standalone') as any;
+      return {
+        grouped: getComputedStyle(grouped.shadowRoot.querySelector('.aegov-input')).opacity,
+        standalone: getComputedStyle(standalone.shadowRoot.querySelector('.aegov-input')).opacity,
+      };
+    });
+
+    expect(opacities.grouped).toBe('1');
+    expect(opacities.standalone).toBe('0.4');
+  });
+
   it('shows reveal button for password and toggles type', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-input type="password" is-revealable="true"></aegov-input>');
