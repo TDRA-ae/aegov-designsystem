@@ -209,7 +209,7 @@ export namespace Components {
          */
         "display": BannerDisplay;
         /**
-          * Unique ID for the banner element. Auto-generated if not provided. The heading element receives a derived ID `${fieldId}-heading` for ARIA labelledby.
+          * Unique ID for the banner element. Auto-generated if not provided.
          */
         "fieldId"?: string;
         /**
@@ -4106,7 +4106,7 @@ declare namespace LocalJSX {
          */
         "display"?: BannerDisplay;
         /**
-          * Unique ID for the banner element. Auto-generated if not provided. The heading element receives a derived ID `${fieldId}-heading` for ARIA labelledby.
+          * Unique ID for the banner element. Auto-generated if not provided.
          */
         "fieldId"?: string;
         /**

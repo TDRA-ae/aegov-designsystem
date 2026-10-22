@@ -1,4 +1,5 @@
 import { newSpecPage } from '@stencil/core/testing';
+import { q } from '../../utils/test-helpers';
 import { AegovFileupload } from './aegov-fileupload';
 
 describe('aegov-fileupload', () => {
@@ -7,10 +8,10 @@ describe('aegov-fileupload', () => {
       components: [AegovFileupload],
       html: `<aegov-fileupload></aegov-fileupload>`,
     });
-    const wrapper = page.root.querySelector('.aegov-fileupload');
+    const wrapper = q(page.root, '.aegov-fileupload');
     expect(wrapper).not.toBeNull();
     expect(wrapper.className).toContain('fileupload--default');
-    const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = q(page.root, 'input[type="file"]') as HTMLInputElement;
     expect(input).not.toBeNull();
     expect(input.className).toContain('fileupload__native-input');
   });
@@ -20,9 +21,9 @@ describe('aegov-fileupload', () => {
       components: [AegovFileupload],
       html: `<aegov-fileupload appearance="button"></aegov-fileupload>`,
     });
-    expect(page.root.querySelector('.aegov-fileupload').className).toContain('fileupload--button');
-    expect(page.root.querySelector('aegov-button.fileupload__trigger-btn')).not.toBeNull();
-    const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
+    expect(q(page.root, '.aegov-fileupload').className).toContain('fileupload--button');
+    expect(q(page.root, 'aegov-button.fileupload__trigger-btn')).not.toBeNull();
+    const input = q(page.root, 'input[type="file"]') as HTMLInputElement;
     expect(input.className).toContain('fileupload__hidden-input');
   });
 
@@ -31,9 +32,9 @@ describe('aegov-fileupload', () => {
       components: [AegovFileupload],
       html: `<aegov-fileupload appearance="dropzone"></aegov-fileupload>`,
     });
-    expect(page.root.querySelector('.aegov-fileupload').className).toContain('fileupload--dropzone');
-    expect(page.root.querySelector('.fileupload__dropzone')).not.toBeNull();
-    expect(page.root.querySelector('aegov-button.fileupload__dropzone-btn')).not.toBeNull();
+    expect(q(page.root, '.aegov-fileupload').className).toContain('fileupload--dropzone');
+    expect(q(page.root, '.fileupload__dropzone')).not.toBeNull();
+    expect(q(page.root, 'aegov-button.fileupload__dropzone-btn')).not.toBeNull();
   });
 
   it('auto-generates fieldId when not provided', async () => {
@@ -42,7 +43,7 @@ describe('aegov-fileupload', () => {
       html: `<aegov-fileupload></aegov-fileupload>`,
     });
     expect(page.rootInstance.fieldId).toMatch(/^aegov-fileupload-\d+$/);
-    const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = q(page.root, 'input[type="file"]') as HTMLInputElement;
     expect(input.id).toBe(page.rootInstance.fieldId);
   });
 
@@ -52,7 +53,7 @@ describe('aegov-fileupload', () => {
       html: `<aegov-fileupload field-id="up-1"></aegov-fileupload>`,
     });
     expect(page.rootInstance.fieldId).toBe('up-1');
-    const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = q(page.root, 'input[type="file"]') as HTMLInputElement;
     expect(input.id).toBe('up-1');
   });
 
@@ -61,7 +62,7 @@ describe('aegov-fileupload', () => {
       components: [AegovFileupload],
       html: `<aegov-fileupload is-multiple accept=".pdf,image/*" name="files"></aegov-fileupload>`,
     });
-    const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = q(page.root, 'input[type="file"]') as HTMLInputElement;
     expect(input.multiple).toBe(true);
     expect(input.accept).toBe('.pdf,image/*');
     expect(input.name).toBe('files');
@@ -72,7 +73,7 @@ describe('aegov-fileupload', () => {
       components: [AegovFileupload],
       html: `<aegov-fileupload label="Upload" field-id="up-2"></aegov-fileupload>`,
     });
-    const label = page.root.querySelector('label.fileupload__label') as HTMLLabelElement;
+    const label = q(page.root, 'label.fileupload__label') as HTMLLabelElement;
     expect(label).not.toBeNull();
     expect(label.textContent).toContain('Upload');
     expect(label.getAttribute('for')).toBe('up-2');
@@ -83,8 +84,8 @@ describe('aegov-fileupload', () => {
       components: [AegovFileupload],
       html: `<aegov-fileupload label="X" is-required></aegov-fileupload>`,
     });
-    expect(page.root.querySelector('.fileupload__required')).not.toBeNull();
-    const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
+    expect(q(page.root, '.fileupload__required')).not.toBeNull();
+    const input = q(page.root, 'input[type="file"]') as HTMLInputElement;
     expect(input.required).toBe(true);
   });
 
@@ -93,9 +94,9 @@ describe('aegov-fileupload', () => {
       components: [AegovFileupload],
       html: `<aegov-fileupload label="L" hint="Pick file" label-help="PDF only"></aegov-fileupload>`,
     });
-    expect(page.root.querySelector('.fileupload__hint').textContent).toBe('Pick file');
-    expect(page.root.querySelector('.fileupload__helper').textContent).toBe('PDF only');
-    const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
+    expect(q(page.root, '.fileupload__hint').textContent).toBe('Pick file');
+    expect(q(page.root, '.fileupload__helper').textContent).toBe('PDF only');
+    const input = q(page.root, 'input[type="file"]') as HTMLInputElement;
     expect(input.getAttribute('aria-describedby')).toContain('-helper');
   });
 
@@ -104,7 +105,7 @@ describe('aegov-fileupload', () => {
       components: [AegovFileupload],
       html: `<aegov-fileupload accept=".pdf,image/*"></aegov-fileupload>`,
     });
-    const helper = page.root.querySelector('.fileupload__helper');
+    const helper = q(page.root, '.fileupload__helper');
     expect(helper).not.toBeNull();
     expect(helper.textContent).toContain('PDF');
     expect(helper.textContent).toContain('Images');
@@ -115,9 +116,9 @@ describe('aegov-fileupload', () => {
       components: [AegovFileupload],
       html: `<aegov-fileupload is-disabled></aegov-fileupload>`,
     });
-    const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = q(page.root, 'input[type="file"]') as HTMLInputElement;
     expect(input.disabled).toBe(true);
-    expect(page.root.querySelector('.aegov-fileupload').className).toContain('fileupload--disabled');
+    expect(q(page.root, '.aegov-fileupload').className).toContain('fileupload--disabled');
   });
 
   it('label-button overrides the trigger button text', async () => {
@@ -125,7 +126,7 @@ describe('aegov-fileupload', () => {
       components: [AegovFileupload],
       html: `<aegov-fileupload appearance="button" label-button="Upload doc"></aegov-fileupload>`,
     });
-    const btn = page.root.querySelector('aegov-button.fileupload__trigger-btn');
+    const btn = q(page.root, 'aegov-button.fileupload__trigger-btn');
     expect(btn.textContent).toContain('Upload doc');
   });
 
@@ -134,7 +135,7 @@ describe('aegov-fileupload', () => {
       components: [AegovFileupload],
       html: `<aegov-fileupload></aegov-fileupload>`,
     });
-    const filename = page.root.querySelector('.fileupload__filename');
+    const filename = q(page.root, '.fileupload__filename');
     expect(filename.textContent).toContain('No file chosen');
     expect(filename.className).toContain('fileupload__filename--empty');
   });
@@ -144,7 +145,7 @@ describe('aegov-fileupload', () => {
       components: [AegovFileupload],
       html: `<aegov-fileupload title="x" tabindex="2" capture="environment" form="f1"></aegov-fileupload>`,
     });
-    const input = page.root.querySelector('input[type="file"]');
+    const input = q(page.root, 'input[type="file"]');
     expect(input.getAttribute('title')).toBe('x');
     expect(input.getAttribute('tabindex')).toBe('2');
     expect(input.getAttribute('capture')).toBe('environment');
@@ -158,7 +159,7 @@ describe('aegov-fileupload', () => {
     });
     const spy = jest.fn();
     page.root.addEventListener('aegovFileuploadChange', spy);
-    const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = q(page.root, 'input[type="file"]') as HTMLInputElement;
     const file = new File(['hello'], 'a.txt', { type: 'text/plain' });
     Object.defineProperty(input, 'files', { value: [file] });
     input.dispatchEvent(new Event('change'));
@@ -175,7 +176,7 @@ describe('aegov-fileupload', () => {
     });
     const errSpy = jest.fn();
     page.root.addEventListener('aegovValidate', errSpy);
-    const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = q(page.root, 'input[type="file"]') as HTMLInputElement;
     const big = new File(['1234567890'], 'big.txt', { type: 'text/plain' });
     Object.defineProperty(input, 'files', { value: [big] });
     input.dispatchEvent(new Event('change'));
@@ -192,7 +193,7 @@ describe('aegov-fileupload', () => {
     });
     const errSpy = jest.fn();
     page.root.addEventListener('aegovValidate', errSpy);
-    const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = q(page.root, 'input[type="file"]') as HTMLInputElement;
     const notPdf = new File(['x'], 'a.txt', { type: 'text/plain' });
     Object.defineProperty(input, 'files', { value: [notPdf] });
     input.dispatchEvent(new Event('change'));
@@ -207,7 +208,7 @@ describe('aegov-fileupload', () => {
       components: [AegovFileupload],
       html: `<aegov-fileupload></aegov-fileupload>`,
     });
-    const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = q(page.root, 'input[type="file"]') as HTMLInputElement;
     const file = new File(['x'], 'b.txt', { type: 'text/plain' });
     Object.defineProperty(input, 'files', { value: [file] });
     input.dispatchEvent(new Event('change'));
@@ -222,7 +223,7 @@ describe('aegov-fileupload', () => {
       components: [AegovFileupload],
       html: `<aegov-fileupload></aegov-fileupload>`,
     });
-    const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
+    const input = q(page.root, 'input[type="file"]') as HTMLInputElement;
     const file = new File(['x'], 'b.txt', { type: 'text/plain' });
     Object.defineProperty(input, 'files', { value: [file] });
     input.dispatchEvent(new Event('change'));
@@ -249,7 +250,7 @@ describe('aegov-fileupload', () => {
         components: [AegovFileupload],
         html: `<aegov-fileupload is-invalid="true" error-message="Pick file"></aegov-fileupload>`,
       });
-      expect(page.root.querySelector('.aegov-fileupload__error').textContent).toBe('Pick file');
+      expect(q(page.root, '.aegov-fileupload__error').textContent).toBe('Pick file');
     });
 
     it('renders hint when not invalid', async () => {
@@ -257,7 +258,7 @@ describe('aegov-fileupload', () => {
         components: [AegovFileupload],
         html: `<aegov-fileupload hint="Up to 10MB"></aegov-fileupload>`,
       });
-      expect(page.root.querySelector('.fileupload__hint').textContent).toBe('Up to 10MB');
+      expect(q(page.root, '.fileupload__hint').textContent).toBe('Up to 10MB');
     });
 
     it('hides hint when error shown', async () => {
@@ -265,8 +266,8 @@ describe('aegov-fileupload', () => {
         components: [AegovFileupload],
         html: `<aegov-fileupload hint="h" is-invalid="true" error-message="err"></aegov-fileupload>`,
       });
-      expect(page.root.querySelector('.aegov-fileupload__error')).not.toBeNull();
-      expect(page.root.querySelector('.fileupload__hint')).toBeNull();
+      expect(q(page.root, '.aegov-fileupload__error')).not.toBeNull();
+      expect(q(page.root, '.fileupload__hint')).toBeNull();
     });
 
     it('validate() resolves valid for empty optional fileupload', async () => {
