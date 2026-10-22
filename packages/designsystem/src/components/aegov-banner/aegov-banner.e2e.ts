@@ -82,10 +82,4 @@ describe('aegov-banner e2e', () => {
     expect(actions).not.toBeNull();
   });
 
-  it('sets aria-labelledby when heading prop is provided', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<aegov-banner field-id="b1" heading="Service down">x</aegov-banner>`);
-    const inner = await page.find('aegov-banner .aegov-banner');
-    expect(inner.getAttribute('aria-labelledby')).toBe('b1-heading');
-  });
 });

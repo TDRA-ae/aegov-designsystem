@@ -4,7 +4,7 @@ describe('aegov-datepicker (e2e)', () => {
   it('renders the trigger input', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-datepicker placeholder="Pick a date"></aegov-datepicker>');
-    const input = await page.find('aegov-datepicker input.datepicker__input');
+    const input = await page.find('aegov-datepicker >>> input.datepicker__input');
     expect(input).not.toBeNull();
     expect(await input.getProperty('placeholder')).toBe('Pick a date');
     expect(await input.getProperty('readOnly')).toBe(true);
@@ -13,7 +13,7 @@ describe('aegov-datepicker (e2e)', () => {
   it('renders two inputs in range appearance', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-datepicker appearance="range"></aegov-datepicker>');
-    const inputs = await page.findAll('aegov-datepicker input.datepicker__input');
+    const inputs = await page.findAll('aegov-datepicker >>> input.datepicker__input');
     expect(inputs.length).toBe(2);
   });
 
@@ -23,7 +23,7 @@ describe('aegov-datepicker (e2e)', () => {
     const host = await page.find('aegov-datepicker');
     const openSpy = await host.spyOnEvent('aegovDatepickerOpen');
 
-    const trigger = await page.find('aegov-datepicker .datepicker__trigger');
+    const trigger = await page.find('aegov-datepicker >>> .datepicker__trigger');
     await trigger.click();
     await page.waitForChanges();
 
@@ -41,7 +41,7 @@ describe('aegov-datepicker (e2e)', () => {
     const host = await page.find('aegov-datepicker');
     await host.callMethod('open');
     await page.waitForChanges();
-    const input = await page.find('aegov-datepicker input.datepicker__input');
+    const input = await page.find('aegov-datepicker >>> input.datepicker__input');
     expect(input.getAttribute('aria-expanded')).toBe('true');
   });
 
@@ -122,7 +122,7 @@ describe('aegov-datepicker (e2e)', () => {
     const host = await page.find('aegov-datepicker');
     const clearSpy = await host.spyOnEvent('aegovDatepickerClear');
 
-    const clearBtn = await page.find('aegov-datepicker .datepicker__clear-btn');
+    const clearBtn = await page.find('aegov-datepicker >>> .datepicker__clear-btn');
     expect(clearBtn).not.toBeNull();
     await clearBtn.click();
     await page.waitForChanges();
@@ -153,7 +153,7 @@ describe('aegov-datepicker (e2e)', () => {
   it('disabled datepicker does not open on trigger click', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-datepicker is-disabled></aegov-datepicker>');
-    const trigger = await page.find('aegov-datepicker .datepicker__trigger');
+    const trigger = await page.find('aegov-datepicker >>> .datepicker__trigger');
     await trigger.click();
     await page.waitForChanges();
     const portalDialog = await page.find('.aegov-datepicker-portal .aegov-datepicker');
@@ -190,7 +190,7 @@ describe('aegov-datepicker (e2e)', () => {
     const slotted = await page.find('#my-trigger');
     expect(slotted).not.toBeNull();
     // Default styled input should not be present
-    const defaultInput = await page.find('aegov-datepicker input.datepicker__input');
+    const defaultInput = await page.find('aegov-datepicker >>> input.datepicker__input');
     expect(defaultInput).toBeNull();
   });
 
