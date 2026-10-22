@@ -2,8 +2,8 @@
 
 ## Overview
 
-**Package:** `@aegov/designsystem` v0.2.4
-**Stack:** StencilJS 4.43.5 + Tailwind CSS 4.3.2 + TypeScript 5.8.3
+**Package:** `@aegov/designsystem` v0.2.23 (wrappers versioned in lockstep)
+**Stack:** StencilJS 4.43.5 + Tailwind CSS 4.3.3 + TypeScript 5.9.3 (`stencil-tailwind-plugin` 2.0.6)
 **Namespace:** `aegov` — build outputs `aegov.js`, `aegov.esm.js`, `aegov.css`
 **Dev server:** port 3333
 
@@ -19,18 +19,22 @@ npm run build:prod     # NODE_ENV=production
 npm test               # unit + e2e
 npm run test:unit      # spec only
 npm run test:e2e       # e2e only
+npm run test:watch     # unit + e2e, watch mode
+npm run size           # size-limit budgets (.size-limit.json)
 npx stencil generate   # scaffold a component
 ```
 
-The documentation site now lives in its own repo (`aegov-designsystem-docs`),
-which installs this package and renders the live examples against it. There is
-no `www` dev-server / docs playground in this package anymore.
+There is **no `npm start`** and no `www` playground in this package. The
+documentation site lives in its own repo (`aegov-designsystem-docs`). To see
+components running, use the monorepo test apps from the repo root:
+`npm run test:html` / `test:react` / `test:vue` / `test:angular` (or
+`npm run test:apps` for all four).
 
 Build from the **repo root** (`npm run build`) when wrapper packages need regenerating.
 
 ---
 
-## Component inventory — 55 directories
+## Component inventory — 57 directories
 
 **Actions:** button, button-group, link
 **Forms:** form-field, label, input, input-group, textarea, select (+ select-option, select-option-group), checkbox (+ group), radio (+ group), toggle, range, otp, fileupload, datepicker, progress
@@ -38,7 +42,7 @@ Build from the **repo root** (`npm run build`) when wrapper packages need regene
 **Overlays:** modal, drawer, dropdown, popover, tooltip
 **Feedback:** badge, callout, banner, toast
 **Layout / content:** card, bento-grid, aspect-ratio, separator, avatar (+ group), blockquote, text, title
-**Site chrome:** header, header-banner
+**Site chrome:** header, header-banner, footer, footer-highlights
 
 `aegov-context-menu` was removed (March 2026). `aegov-progress` / `aegov-progress-step` were renamed to `aegov-timeline` / `aegov-timeline-step`; the current `aegov-progress` wraps the native `<progress>`.
 
@@ -88,8 +92,10 @@ Known deviations, kept for compatibility — do not copy the pattern:
 | --- | --- | --- |
 | none (`scoped: false`) | everything not listed below | `'component .inner'` |
 | `scoped: true` | dropdown, popover, toast | `'component .inner'` |
-| `shadow: true` | blockquote, button, modal, drawer, header, header-banner | `'component >>> .inner'` |
-| `shadow: { delegatesFocus: true }` | checkbox, checkbox-group, datepicker, fileupload, input, otp, radio, radio-group, range, select, textarea, toggle | `'component >>> .inner'` |
+| `shadow: true` | blockquote, modal, drawer, header, header-banner | `'component >>> .inner'` |
+| `shadow: { delegatesFocus: true }` | button, checkbox, checkbox-group, datepicker, fileupload, input, otp, radio, radio-group, range, select, textarea, toggle | `'component >>> .inner'` |
+
+`aegov-header` declares both `scoped: false` and `shadow: true` — shadow wins. Grep the whole `@Component({…})` block, not the first match.
 
 **Why `scoped: true` for portals?** Scoped mode re-targets events so custom events still bubble after the DOM portal move. Portal components must also inject `<style>` via JS, because scoped CSS cannot reach a `document.body` descendant.
 
@@ -153,12 +159,13 @@ Spec: [validation-engine-addon.md](validation-engine-addon.md). Shared helpers i
 - **Props:** `isInvalid`, `errorMessage`, `hint`. **Slots:** `error`, `hint`. **Event:** `aegovValidate` (`AegovValidationDetail<T>`). **Methods:** `validate(trigger)`, `setCustomValidity(msg)`.
 - Host class `.is-invalid`.
 - `aria-live` on the error region is gated behind `hasBlurredOnce` to avoid AT spam during typing.
-- **FormAssociated** via manual `attachInternals()` (not the decorator): otp, fileupload, select (listbox), datepicker. This is why Safari ≥16.4 is the floor.
+- `aegovValidate` is emitted by 12 of them — every control except `form-field`, which only cascades.
+- **FormAssociated** (`formAssociated: true` + manual `attachInternals()` guarded for test mocks): all 10 single controls — input, textarea, select, checkbox, radio, toggle, range, otp, fileupload, datepicker. Needed because their native inputs now live in shadow DOM. This is why Safari ≥16.4 is the floor.
 - **Pure aggregators** (children submit natively): checkbox-group, radio-group.
 - Removed events: `aegovOtpInvalid` → `validity.patternMismatch`; `aegovFileuploadError` → `tooLong` / `typeMismatch` / `customError`.
 - `aegov-form-field` cascades `isInvalid`/`errorMessage`/`hint`/`variant` to the first form-control descendant, only where the child has no own value; a truthy wrapper `isInvalid` always wins.
 
-Optional Layer 2: `@aegov/designsystem-validation` lives in a **separate repo** at `../../../aegov-designsystem-validation` (not in this monorepo). Docs must present it as optional.
+Optional Layer 2: `@aegov/designsystem-validation` (v0.1.0) lives in a **separate repo** at `../../../aegov-designsystem-validation` (not in this monorepo). Docs must present it as optional and must not assume it is published.
 
 ---
 
@@ -193,10 +200,9 @@ Do not reintroduce a `www` output target or docs sources here.
 7. **`aegov-title` renders `<p>` unless `headingType` is set**, and offers no `h1`. A title without `headingType` is not a heading.
 8. **Never key CSS off a reflected boolean prop.** Stencil sets the attribute when the prop becomes `true` but **does not remove it when it becomes `false`** — the stale previous value remains, so `[is-disabled]` keeps matching after a re-enable. `isDisabled` also only reflects on some controls. Style from the **inner native control** instead (`:has(input:disabled)`), which every form control renders in the light DOM with `disabled={this.isDisabled}` and which is therefore reactive. This is what the dimmed-label rules in `form-field.css` do; they previously targeted `aegov-input[disabled]` on the host and silently matched nothing.
 9. **before-close events are aligned** — `aegovModalBeforeClose` and `aegovDrawerBeforeClose` are both `@Event({ cancelable: true })`, cancelled with `e.preventDefault()`. The drawer previously passed a `preventDefault` closure in `e.detail`; do not reintroduce that split.
-10. **`invisiblePrehydration: false`** in `stencil.config.ts` prevents a FOUC flash; revert if hydration artefacts appear.
+10. **`invisiblePrehydration` is currently `true`** in `stencil.config.ts` (Stencil hides components until hydrated). The adjacent comment still describes the old `false` setting — trust the value, not the comment.
 11. **Plugin order in `stencil.config.ts` matters:** sass → tailwindGlobal → tailwindPlugin → tailwindHMR.
 12. **Callout self-validates its slots** — `link` + `actions` together, or a non-button/link child of `actions`, renders a visible configuration error instead of the callout.
-
 ---
 
 ## Testing
@@ -205,7 +211,12 @@ Do not reintroduce a `www` output target or docs sources here.
 - Shadow DOM E2E needs `>>>`: `page.find('aegov-modal >>> [role="dialog"]')`.
 - Portal E2E must wait on the body portal: `page.waitForSelector('.aegov-dropdown-portal .aegov-dropdown')`.
 - Cross-component a11y: `src/utils/accessibility.spec.ts` (spec, runs here). The browser-driven Playwright a11y suite moved to the `aegov-designsystem-docs` repo, where it runs against the docs pages.
-- Baseline: 847 unit + 365 e2e.
+- Spec tests on shadow components: use `q()` / `qa()` from `src/utils/test-helpers.ts`, which search the host's shadow root, its light DOM and every nested shadow root. `page.root.querySelector()` returns null for anything a shadow component renders. A compound selector can't span a boundary — `q(page.root, 'aegov-input input')` fails; write `q(q(page.root, 'aegov-input'), 'input')`.
+- mock-doc gaps that bite component code: no `MutationObserver` (guard with `typeof MutationObserver !== 'undefined'`), no `Element.toggleAttribute`, no event retargeting across shadow roots, `ElementInternals.setFormValue` unimplemented (already try/caught).
+- E2E on shadow components: `'aegov-toggle >>> input'` (works in `page.find`/`findAll` and Puppeteer `$`/`$eval`/`waitForSelector`). Put `>>>` after the **last** shadow host only. Slotted children (`[slot="…"]`) are light DOM — `'aegov-header img[slot="logo"]'`, no `>>>`. Inside `page.evaluate`, go through `host.shadowRoot.querySelector(…)`, and read focus as `document.activeElement.shadowRoot.activeElement`.
+- `page.evaluate` can't return a `DOMRect` — it serializes to `{}`. Return plain numbers (`rect.toJSON()` or destructure).
+- `E2EElement` has no `hasAttribute`; use `getAttribute(…)` + `toBeNull()`.
+- Size: 1032 unit tests and 545 e2e tests (Oct 2026), all green. Every component has spec + e2e except bento-grid, footer, footer-highlights, header-banner, navblock and navblock-item, which have one each.
 
 ---
 
@@ -214,4 +225,5 @@ Do not reintroduce a `www` output target or docs sources here.
 - `dist/docs.json` — generated public API for every tag. The source of truth for props/events/methods/slots.
 - `src/utils/types.ts` — all shared types and the `*_SIZES` / `*_VARIANTS` const arrays used by `warnIfInvalidEnumProp`.
 - `src/styles/tailwind.css` — the `@theme` token definitions.
-- [DEVELOPER.md](../../DEVELOPER.md) — monorepo commands and the publish flow.
+- [docs/STENCIL.md](docs/STENCIL.md) — Stencil notes.
+- [DEVELOPER.md](../../DEVELOPER.md) — monorepo commands and the publish flow. Its core-package section is partly stale (`npm start`, `build:docs-*`, Playwright a11y) — those moved to the docs repo.

@@ -53,3 +53,7 @@ www/
 loader/
 hydrate/
 src/docs/doc-style.css
+# Stray tsc output next to sources (Stencil compiles from .ts/.tsx; never commit these)
+src/**/*.js
+src/**/*.d.ts
+!src/components.d.ts
