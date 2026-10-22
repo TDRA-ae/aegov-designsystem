@@ -10,9 +10,9 @@ describe('aegov-select (e2e)', () => {
           <aegov-select-option value="b">Banana</aegov-select-option>
         </aegov-select>
       `);
-      const select = await page.find('aegov-select select');
+      const select = await page.find('aegov-select >>> select');
       expect(select).not.toBeNull();
-      const options = await page.findAll('aegov-select select option');
+      const options = await page.findAll('aegov-select >>> select option');
       expect(options.length).toBe(2);
     });
 
@@ -26,7 +26,7 @@ describe('aegov-select (e2e)', () => {
       `);
       const el = await page.find('aegov-select');
       const spy = await el.spyOnEvent('aegovSelectChange');
-      await page.$eval('aegov-select select', (s: HTMLSelectElement) => {
+      await page.$eval('aegov-select >>> select', (s: HTMLSelectElement) => {
         s.value = 'b';
         s.dispatchEvent(new Event('change', { bubbles: true }));
       });
@@ -42,7 +42,7 @@ describe('aegov-select (e2e)', () => {
           <aegov-select-option value="a">A</aegov-select-option>
         </aegov-select>
       `);
-      const select = await page.find('aegov-select select');
+      const select = await page.find('aegov-select >>> select');
       expect(select.getAttribute('form')).toBe('myForm');
       expect(select.getAttribute('autofocus')).not.toBeNull();
     });
@@ -57,12 +57,12 @@ describe('aegov-select (e2e)', () => {
           <aegov-select-option value="b">Banana</aegov-select-option>
         </aegov-select>
       `);
-      const trigger = await page.find('aegov-select button[role="combobox"]');
+      const trigger = await page.find('aegov-select >>> button[role="combobox"]');
       expect(await trigger.getAttribute('aria-expanded')).toBe('false');
       await trigger.click();
       await page.waitForChanges();
       expect(await trigger.getAttribute('aria-expanded')).toBe('true');
-      const listbox = await page.find('aegov-select [role="listbox"]');
+      const listbox = await page.find('aegov-select >>> [role="listbox"]');
       expect(listbox).not.toBeNull();
     });
 
@@ -76,10 +76,10 @@ describe('aegov-select (e2e)', () => {
       `);
       const el = await page.find('aegov-select');
       const spy = await el.spyOnEvent('aegovSelectChange');
-      const trigger = await page.find('aegov-select button[role="combobox"]');
+      const trigger = await page.find('aegov-select >>> button[role="combobox"]');
       await trigger.click();
       await page.waitForChanges();
-      const opts = await page.findAll('aegov-select [role="listbox"] [role="option"]');
+      const opts = await page.findAll('aegov-select >>> [role="listbox"] [role="option"]');
       await opts[1].click();
       await page.waitForChanges();
       expect(spy).toHaveReceivedEventTimes(1);
@@ -96,13 +96,13 @@ describe('aegov-select (e2e)', () => {
           <aegov-select-option value="c">Cherry</aegov-select-option>
         </aegov-select>
       `);
-      const trigger = await page.find('aegov-select button[role="combobox"]');
+      const trigger = await page.find('aegov-select >>> button[role="combobox"]');
       await trigger.click();
       await page.waitForChanges();
-      const search = await page.find('aegov-select .select__search-input');
+      const search = await page.find('aegov-select >>> .select__search-input');
       await search.type('an');
       await page.waitForChanges();
-      const opts = await page.findAll('aegov-select [role="listbox"] [role="option"]');
+      const opts = await page.findAll('aegov-select >>> [role="listbox"] [role="option"]');
       expect(opts.length).toBe(1);
       expect(await opts[0].getProperty('textContent')).toContain('Banana');
     });
@@ -115,10 +115,10 @@ describe('aegov-select (e2e)', () => {
           <aegov-select-option value="b">Banana</aegov-select-option>
         </aegov-select>
       `);
-      const trigger = await page.find('aegov-select button[role="combobox"]');
+      const trigger = await page.find('aegov-select >>> button[role="combobox"]');
       await trigger.click();
       await page.waitForChanges();
-      const opts = await page.findAll('aegov-select [role="listbox"] [role="option"]');
+      const opts = await page.findAll('aegov-select >>> [role="listbox"] [role="option"]');
       await opts[0].click();
       await page.waitForChanges();
       await opts[1].click();
@@ -126,7 +126,7 @@ describe('aegov-select (e2e)', () => {
       expect(await trigger.getAttribute('aria-expanded')).toBe('true');
       const el = await page.find('aegov-select');
       expect(await el.getProperty('value')).toBe('a,b');
-      const selected = await page.findAll('aegov-select [aria-selected="true"]');
+      const selected = await page.findAll('aegov-select >>> [aria-selected="true"]');
       expect(selected.length).toBe(2);
     });
 
@@ -140,7 +140,7 @@ describe('aegov-select (e2e)', () => {
       `);
       const el = await page.find('aegov-select');
       const spy = await el.spyOnEvent('aegovSelectChange');
-      const trigger = await page.find('aegov-select button[role="combobox"]');
+      const trigger = await page.find('aegov-select >>> button[role="combobox"]');
       await trigger.focus();
       await page.keyboard.press('ArrowDown');
       await page.waitForChanges();
@@ -162,7 +162,7 @@ describe('aegov-select (e2e)', () => {
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>
       `);
-      const trigger = await page.find('aegov-select button[role="combobox"]');
+      const trigger = await page.find('aegov-select >>> button[role="combobox"]');
       await trigger.click();
       await page.waitForChanges();
       expect(await trigger.getAttribute('aria-expanded')).toBe('true');
@@ -180,7 +180,7 @@ describe('aegov-select (e2e)', () => {
       `);
       const el = await page.find('aegov-select');
       const spy = await el.spyOnEvent('aegovSelectChange');
-      const clear = await page.find('aegov-select .select__clear');
+      const clear = await page.find('aegov-select >>> .select__clear');
       expect(clear).not.toBeNull();
       await clear.click();
       await page.waitForChanges();
@@ -197,10 +197,10 @@ describe('aegov-select (e2e)', () => {
           </aegov-select-option-group>
         </aegov-select>
       `);
-      const trigger = await page.find('aegov-select button[role="combobox"]');
+      const trigger = await page.find('aegov-select >>> button[role="combobox"]');
       await trigger.click();
       await page.waitForChanges();
-      const groupLabel = await page.find('aegov-select .select__group-label');
+      const groupLabel = await page.find('aegov-select >>> .select__group-label');
       expect(groupLabel).not.toBeNull();
       expect(await groupLabel.getProperty('textContent')).toBe('Fruit');
     });
@@ -213,7 +213,7 @@ describe('aegov-select (e2e)', () => {
         </aegov-select></div>
         <button id="outside">outside</button>
       `);
-      const trigger = await page.find('aegov-select button[role="combobox"]');
+      const trigger = await page.find('aegov-select >>> button[role="combobox"]');
       await trigger.click();
       await page.waitForChanges();
       expect(await trigger.getAttribute('aria-expanded')).toBe('true');
@@ -230,7 +230,7 @@ describe('aegov-select (e2e)', () => {
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>
       `);
-      const trigger = await page.find('aegov-select button[role="combobox"]');
+      const trigger = await page.find('aegov-select >>> button[role="combobox"]');
       await trigger.click();
       await page.waitForChanges();
       expect(await trigger.getAttribute('aria-expanded')).toBe('false');
@@ -263,21 +263,21 @@ describe('aegov-select (e2e)', () => {
         document.querySelectorAll('aegov-select-option')[0].hasAttribute('value'));
       expect(hasValueAttr).toBe(false);
 
-      const trigger = await page.find('aegov-select button[role="combobox"]');
+      const trigger = await page.find('aegov-select >>> button[role="combobox"]');
       const el = await page.find('aegov-select');
       const spy = await el.spyOnEvent('aegovSelectChange');
       await trigger.click();
       await page.waitForChanges();
 
       // The disabled option (set via JS property only) must actually be inert.
-      const disabledOption = await page.find('aegov-select [data-value="b"]');
+      const disabledOption = await page.find('aegov-select >>> [data-value="b"]');
       expect(disabledOption.getAttribute('aria-disabled')).toBe('true');
       await disabledOption.click();
       await page.waitForChanges();
       expect(spy).toHaveReceivedEventTimes(0);
 
       // Selecting the enabled option must commit the real value, not ''.
-      const enabledOption = await page.find('aegov-select [data-value="a"]');
+      const enabledOption = await page.find('aegov-select >>> [data-value="a"]');
       await enabledOption.click();
       await page.waitForChanges();
       expect(spy).toHaveReceivedEventTimes(1);
@@ -300,7 +300,7 @@ describe('aegov-select (e2e)', () => {
       });
       await page.waitForChanges();
 
-      const trigger = await page.find('aegov-select button[role="combobox"]');
+      const trigger = await page.find('aegov-select >>> button[role="combobox"]');
       expect(await trigger.getProperty('textContent')).toContain('Abu Dhabi');
     });
 
@@ -319,10 +319,10 @@ describe('aegov-select (e2e)', () => {
       });
       await page.waitForChanges();
 
-      const trigger = await page.find('aegov-select button[role="combobox"]');
+      const trigger = await page.find('aegov-select >>> button[role="combobox"]');
       await trigger.click();
       await page.waitForChanges();
-      const groupLabel = await page.find('aegov-select .select__group-label');
+      const groupLabel = await page.find('aegov-select >>> .select__group-label');
       expect(groupLabel).not.toBeNull();
       expect(await groupLabel.getProperty('textContent')).toBe('Fruit');
     });

@@ -610,6 +610,14 @@ export class AegovSelect {
     }
   }
 
+  /** An option's value/isDisabled changed after load — see aegov-select-option's notifyParent(). */
+  @Listen('aegovInternalSelectOptionUpdate')
+  handleOptionUpdate(event: Event) {
+    event.stopPropagation();
+    this.parseOptions();
+    this.updateDerivedState();
+  }
+
   @Listen('keydown')
   handleKeyDown(event: KeyboardEvent) {
     if (!this.useListbox) return;
