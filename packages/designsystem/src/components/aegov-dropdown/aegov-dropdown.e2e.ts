@@ -325,7 +325,8 @@ describe('aegov-dropdown (e2e)', () => {
   it("mirrors align='start'/'end' against the effective direction under dir=\"rtl\"", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <div dir="rtl" style="position:fixed; top:50px; left:100px;">
+      <!-- left:400px leaves room for the panel; nearer the edge viewport clamping would mask the alignment -->
+      <div dir="rtl" style="position:fixed; top:50px; left:400px;">
         <aegov-dropdown align="start">
           <button id="rtl-trigger">Open</button>
           <div slot="dropdown-content"><a href="#">Item</a></div>
@@ -372,7 +373,9 @@ describe('aegov-dropdown (e2e)', () => {
       function textRect(el) {
         const range = document.createRange();
         range.selectNodeContents(el.firstChild);
-        return range.getBoundingClientRect();
+        // Plain object: a DOMRect serializes to {} across page.evaluate.
+        const { left, right } = range.getBoundingClientRect();
+        return { left, right };
       }
       const portal = document.querySelector('.aegov-dropdown-portal');
       return {

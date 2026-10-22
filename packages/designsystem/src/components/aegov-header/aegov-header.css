@@ -46,7 +46,7 @@
   /* Same vertical rhythm as .header__logo. Without it the emblem touches the
      banner whenever it is the tallest thing in the row — which happens with any
      logo shorter than the emblem, since the row is sized by its tallest child. */
-  @apply hidden shrink-0 pt-1 md:py-1.5 lg:pt-2 pb-1;
+  @apply hidden shrink-0 py-1 md:py-1.5 lg:py-2;
   /* Sized by height, not width: the emblem is a fixed-proportion mark (765x995)
      and the brand row is a horizontal band, so height is the dimension that has
      to line up. Width follows the aspect ratio.
