@@ -168,6 +168,9 @@ export class AegovCheckboxGroup {
     this._resolvedSize = this._sizeWatcher.current as CheckboxSize;
   }
 
+  /** Each child's own isDisabled, saved while the group is forcing it disabled. */
+  private childOwnDisabled = new WeakMap<HTMLElement, boolean>();
+
   private syncChildren() {
     const checkboxes = Array.from(this.el.querySelectorAll('aegov-checkbox')) as HTMLAegovCheckboxElement[];
     checkboxes.forEach(cb => {
@@ -184,8 +187,15 @@ export class AegovCheckboxGroup {
       if (cb.variant === undefined) {
         cb.variant = this.variant;
       }
-      // Group always wins — matches size/appearance's unconditional cascade (see issue #34).
-      cb.isDisabled = this.isDisabled;
+      // A disabled group always wins (#34); an enabled group must not clear a
+      // child's own is-disabled, so restore whatever the child had before.
+      if (this.isDisabled) {
+        if (!this.childOwnDisabled.has(cb)) this.childOwnDisabled.set(cb, !!cb.isDisabled);
+        cb.isDisabled = true;
+      } else if (this.childOwnDisabled.has(cb)) {
+        cb.isDisabled = this.childOwnDisabled.get(cb);
+        this.childOwnDisabled.delete(cb);
+      }
       // Flag grouped membership as a plain host attribute (#68), same pattern
       // already used by aegov-input-group/aegov-input (#50): when the group's
       // "default" appearance is disabled, its own wrapper AND each now-also-

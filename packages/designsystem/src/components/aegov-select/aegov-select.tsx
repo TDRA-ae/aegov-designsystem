@@ -603,7 +603,8 @@ export class AegovSelect {
   handleDocumentClick(event: MouseEvent) {
     if (this.isOpen) {
       const target = event.target as Node;
-      if (!this.el.contains(target)) {
+      // shadowRoot check covers environments without event retargeting (spec mock-doc)
+      if (!this.el.contains(target) && !this.el.shadowRoot?.contains(target)) {
         this.closeDropdown();
       }
     }

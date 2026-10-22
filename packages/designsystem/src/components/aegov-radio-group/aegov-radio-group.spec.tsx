@@ -1,4 +1,5 @@
 import { newSpecPage } from '@stencil/core/testing';
+import { q, qa } from '../../utils/test-helpers';
 import { AegovRadioGroup } from './aegov-radio-group';
 import { AegovRadio } from '../aegov-radio/aegov-radio';
 
@@ -8,7 +9,7 @@ describe('aegov-radio-group', () => {
       components: [AegovRadioGroup],
       html: `<aegov-radio-group name="g"></aegov-radio-group>`,
     });
-    const fieldset = page.root.querySelector('fieldset.aegov-radio-group');
+    const fieldset = q(page.root, 'fieldset.aegov-radio-group');
     expect(fieldset).not.toBeNull();
     expect(fieldset.getAttribute('role')).toBe('radiogroup');
   });
@@ -18,7 +19,7 @@ describe('aegov-radio-group', () => {
       components: [AegovRadioGroup],
       html: `<aegov-radio-group name="g" label="Pick one"></aegov-radio-group>`,
     });
-    const legend = page.root.querySelector('legend.radio-group__legend');
+    const legend = q(page.root, 'legend.radio-group__legend');
     expect(legend).not.toBeNull();
     expect(legend.textContent).toContain('Pick one');
   });
@@ -28,7 +29,7 @@ describe('aegov-radio-group', () => {
       components: [AegovRadioGroup],
       html: `<aegov-radio-group name="g" orientation="horizontal"></aegov-radio-group>`,
     });
-    expect(page.root.querySelector('fieldset').className).toContain('radio-group--horizontal');
+    expect(q(page.root, 'fieldset').className).toContain('radio-group--horizontal');
   });
 
   it('applies appearance class (cards)', async () => {
@@ -36,7 +37,7 @@ describe('aegov-radio-group', () => {
       components: [AegovRadioGroup],
       html: `<aegov-radio-group name="g" appearance="cards"></aegov-radio-group>`,
     });
-    expect(page.root.querySelector('fieldset').className).toContain('radio-group--cards');
+    expect(q(page.root, 'fieldset').className).toContain('radio-group--cards');
   });
 
   it('disables fieldset when is-disabled', async () => {
@@ -44,7 +45,7 @@ describe('aegov-radio-group', () => {
       components: [AegovRadioGroup],
       html: `<aegov-radio-group name="g" is-disabled></aegov-radio-group>`,
     });
-    const fieldset = page.root.querySelector('fieldset') as HTMLFieldSetElement;
+    const fieldset = q(page.root, 'fieldset') as HTMLFieldSetElement;
     expect(fieldset.hasAttribute("disabled")).toBe(true);
   });
 
@@ -58,7 +59,7 @@ describe('aegov-radio-group', () => {
         </aegov-radio-group>
       `,
     });
-    const radios = page.root.querySelectorAll('aegov-radio') as NodeListOf<HTMLAegovRadioElement>;
+    const radios = qa(page.root, 'aegov-radio') as HTMLAegovRadioElement[];
     radios.forEach(r => {
       expect(r.name).toBe('grp1');
       expect(r.size).toBe('lg');
@@ -75,7 +76,7 @@ describe('aegov-radio-group', () => {
         </aegov-radio-group>
       `,
     });
-    const radios = page.root.querySelectorAll('aegov-radio') as NodeListOf<HTMLAegovRadioElement>;
+    const radios = qa(page.root, 'aegov-radio') as HTMLAegovRadioElement[];
     radios.forEach(r => expect(r.isDisabled).toBe(true));
   });
 
@@ -91,7 +92,7 @@ describe('aegov-radio-group', () => {
     const group = page.root as HTMLAegovRadioGroupElement;
     group.isDisabled = false;
     await page.waitForChanges();
-    const radio = page.root.querySelector('aegov-radio') as HTMLAegovRadioElement;
+    const radio = q(page.root, 'aegov-radio') as HTMLAegovRadioElement;
     expect(radio.isDisabled).toBe(false);
   });
 
@@ -105,13 +106,13 @@ describe('aegov-radio-group', () => {
         </aegov-radio-group>
       `,
     });
-    const second = page.root.querySelector('aegov-radio[value="b"]') as HTMLAegovRadioElement;
-    const secondInput = second.querySelector('input') as HTMLInputElement;
+    const second = q(page.root, 'aegov-radio[value="b"]') as HTMLAegovRadioElement;
+    const secondInput = q(second, 'input') as HTMLInputElement;
     secondInput.checked = true;
     secondInput.dispatchEvent(new Event('change', { bubbles: true }));
     await page.waitForChanges();
 
-    const first = page.root.querySelector('aegov-radio[value="a"]') as HTMLAegovRadioElement;
+    const first = q(page.root, 'aegov-radio[value="a"]') as HTMLAegovRadioElement;
     expect(first.isChecked).toBe(false);
     expect(second.isChecked).toBe(true);
   });
@@ -129,8 +130,8 @@ describe('aegov-radio-group', () => {
     const spy = jest.fn();
     page.root.addEventListener('aegovRadioGroupChange', spy);
 
-    const first = page.root.querySelector('aegov-radio[value="a"]') as HTMLAegovRadioElement;
-    const input = first.querySelector('input') as HTMLInputElement;
+    const first = q(page.root, 'aegov-radio[value="a"]') as HTMLAegovRadioElement;
+    const input = q(first, 'input') as HTMLInputElement;
     input.checked = true;
     input.dispatchEvent(new Event('change', { bubbles: true }));
     await page.waitForChanges();
@@ -149,7 +150,7 @@ describe('aegov-radio-group', () => {
         </aegov-radio-group>`,
       });
       expect(page.root.classList.contains('is-invalid')).toBe(true);
-      expect(page.root.querySelector('fieldset').getAttribute('aria-invalid')).toBe('true');
+      expect(q(page.root, 'fieldset').getAttribute('aria-invalid')).toBe('true');
     });
 
     it('renders errorMessage in error region', async () => {
@@ -159,7 +160,7 @@ describe('aegov-radio-group', () => {
           <aegov-radio value="a"></aegov-radio>
         </aegov-radio-group>`,
       });
-      expect(page.root.querySelector('.aegov-radio-group__error').textContent).toBe('Pick one');
+      expect(q(page.root, '.aegov-radio-group__error').textContent).toBe('Pick one');
     });
 
     it('renders hint when not invalid', async () => {
@@ -169,7 +170,7 @@ describe('aegov-radio-group', () => {
           <aegov-radio value="a"></aegov-radio>
         </aegov-radio-group>`,
       });
-      expect(page.root.querySelector('.aegov-radio-group__hint').textContent).toBe('Single choice');
+      expect(q(page.root, '.aegov-radio-group__hint').textContent).toBe('Single choice');
     });
 
     it('hides hint when error shown', async () => {
@@ -179,8 +180,8 @@ describe('aegov-radio-group', () => {
           <aegov-radio value="a"></aegov-radio>
         </aegov-radio-group>`,
       });
-      expect(page.root.querySelector('.aegov-radio-group__error')).not.toBeNull();
-      expect(page.root.querySelector('.aegov-radio-group__hint')).toBeNull();
+      expect(q(page.root, '.aegov-radio-group__error')).not.toBeNull();
+      expect(q(page.root, '.aegov-radio-group__hint')).toBeNull();
     });
 
     it('validate() resolves valid for optional empty group', async () => {
