@@ -1,4 +1,5 @@
 import { newSpecPage } from '@stencil/core/testing';
+import { q } from '../../utils/test-helpers';
 import { AegovToggle } from './aegov-toggle';
 
 describe('aegov-toggle', () => {
@@ -7,10 +8,10 @@ describe('aegov-toggle', () => {
       components: [AegovToggle],
       html: `<aegov-toggle></aegov-toggle>`,
     });
-    const wrapper = page.root.querySelector('div.aegov-toggle');
+    const wrapper = q(page.root, 'div.aegov-toggle');
     expect(wrapper).not.toBeNull();
     expect(wrapper.className).toContain('toggle--base');
-    const input = page.root.querySelector('input[type="checkbox"]') as HTMLInputElement;
+    const input = q(page.root, 'input[type="checkbox"]') as HTMLInputElement;
     expect(input).not.toBeNull();
     expect(input.getAttribute('role')).toBe('switch');
     expect(input.checked).toBe(false);
@@ -22,7 +23,7 @@ describe('aegov-toggle', () => {
       html: `<aegov-toggle></aegov-toggle>`,
     });
     expect(page.rootInstance.fieldId).toMatch(/^aegov-toggle-\d+$/);
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.id).toBe(page.rootInstance.fieldId);
   });
 
@@ -31,7 +32,7 @@ describe('aegov-toggle', () => {
       components: [AegovToggle],
       html: `<aegov-toggle field-id="t-1"></aegov-toggle>`,
     });
-    expect((page.root.querySelector('input') as HTMLInputElement).id).toBe('t-1');
+    expect((q(page.root, 'input') as HTMLInputElement).id).toBe('t-1');
   });
 
   it('renders label inside wrapping <label>', async () => {
@@ -39,7 +40,7 @@ describe('aegov-toggle', () => {
       components: [AegovToggle],
       html: `<aegov-toggle label="Notifications"></aegov-toggle>`,
     });
-    const label = page.root.querySelector('label.toggle__wrapper');
+    const label = q(page.root, 'label.toggle__wrapper');
     expect(label).not.toBeNull();
     expect(label.textContent).toContain('Notifications');
     expect(label.querySelector('input[type="checkbox"]')).not.toBeNull();
@@ -50,9 +51,9 @@ describe('aegov-toggle', () => {
       components: [AegovToggle],
       html: `<aegov-toggle label="A" hint="Helper"></aegov-toggle>`,
     });
-    const hint = page.root.querySelector('.toggle__hint');
+    const hint = q(page.root, '.toggle__hint');
     expect(hint).not.toBeNull();
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.getAttribute('aria-describedby')).toBe(hint.id);
   });
 
@@ -61,7 +62,7 @@ describe('aegov-toggle', () => {
       components: [AegovToggle],
       html: `<aegov-toggle is-checked></aegov-toggle>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.checked).toBe(true);
     expect(input.getAttribute('aria-checked')).toBe('true');
   });
@@ -71,7 +72,7 @@ describe('aegov-toggle', () => {
       components: [AegovToggle],
       html: `<aegov-toggle></aegov-toggle>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.getAttribute('aria-checked')).toBe('false');
   });
 
@@ -80,7 +81,7 @@ describe('aegov-toggle', () => {
       components: [AegovToggle],
       html: `<aegov-toggle is-disabled></aegov-toggle>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.disabled).toBe(true);
   });
 
@@ -89,7 +90,7 @@ describe('aegov-toggle', () => {
       components: [AegovToggle],
       html: `<aegov-toggle is-required></aegov-toggle>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.required).toBe(true);
     expect(input.getAttribute('aria-required')).toBe('true');
   });
@@ -99,7 +100,7 @@ describe('aegov-toggle', () => {
       components: [AegovToggle],
       html: `<aegov-toggle size="lg"></aegov-toggle>`,
     });
-    expect(page.root.querySelector('div.aegov-toggle').className).toContain('toggle--lg');
+    expect(q(page.root, 'div.aegov-toggle').className).toContain('toggle--lg');
   });
 
   it('applies name and value to native input', async () => {
@@ -107,8 +108,10 @@ describe('aegov-toggle', () => {
       components: [AegovToggle],
       html: `<aegov-toggle name="nm" value="vl"></aegov-toggle>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
-    expect(input.name).toBe('nm');
+    const input = q(page.root, 'input') as HTMLInputElement;
+    // FACE owns submission: name stays on the host, never on the shadow-internal control.
+    expect(page.root.getAttribute('name')).toBe('nm');
+    expect(input.hasAttribute('name')).toBe(false);
     expect(input.value).toBe('vl');
   });
 
@@ -119,7 +122,7 @@ describe('aegov-toggle', () => {
     });
     const spy = jest.fn();
     page.root.addEventListener('aegovToggleChange', spy);
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     input.checked = true;
     input.dispatchEvent(new Event('change'));
     await page.waitForChanges();
@@ -132,8 +135,8 @@ describe('aegov-toggle', () => {
       components: [AegovToggle],
       html: `<aegov-toggle></aegov-toggle>`,
     });
-    expect(page.root.querySelector('.toggle__track')).not.toBeNull();
-    expect(page.root.querySelector('.toggle__thumb')).not.toBeNull();
+    expect(q(page.root, '.toggle__track')).not.toBeNull();
+    expect(q(page.root, '.toggle__thumb')).not.toBeNull();
   });
 
   it('renders icon slot wrappers when icon-checked slot is provided', async () => {
@@ -141,8 +144,8 @@ describe('aegov-toggle', () => {
       components: [AegovToggle],
       html: `<aegov-toggle><span slot="icon-checked">on</span></aegov-toggle>`,
     });
-    expect(page.root.querySelector('.toggle__icon')).not.toBeNull();
-    expect(page.root.querySelector('.toggle__thumb--has-icon')).not.toBeNull();
+    expect(q(page.root, '.toggle__icon')).not.toBeNull();
+    expect(q(page.root, '.toggle__thumb--has-icon')).not.toBeNull();
   });
 
   it('forwards pass-through attributes', async () => {
@@ -150,7 +153,7 @@ describe('aegov-toggle', () => {
       components: [AegovToggle],
       html: `<aegov-toggle aria-label="notify" data-test="x"></aegov-toggle>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.getAttribute('aria-label')).toBe('notify');
     expect(input.getAttribute('data-test')).toBe('x');
   });
@@ -162,7 +165,7 @@ describe('aegov-toggle', () => {
         components: [AegovToggle],
         html: `<aegov-toggle is-invalid="true"></aegov-toggle>`,
       });
-      expect(page.root.querySelector('input').getAttribute('aria-invalid')).toBe('true');
+      expect(q(page.root, 'input').getAttribute('aria-invalid')).toBe('true');
       expect(page.root.classList.contains('is-invalid')).toBe(true);
     });
 
@@ -171,7 +174,7 @@ describe('aegov-toggle', () => {
         components: [AegovToggle],
         html: `<aegov-toggle is-invalid="true" error-message="Must agree"></aegov-toggle>`,
       });
-      expect(page.root.querySelector('.aegov-toggle__error').textContent).toBe('Must agree');
+      expect(q(page.root, '.aegov-toggle__error').textContent).toBe('Must agree');
     });
 
     it('renders hint on label', async () => {
@@ -179,7 +182,7 @@ describe('aegov-toggle', () => {
         components: [AegovToggle],
         html: `<aegov-toggle label="X" hint="helper"></aegov-toggle>`,
       });
-      expect(page.root.querySelector('.toggle__hint').textContent).toBe('helper');
+      expect(q(page.root, '.toggle__hint').textContent).toBe('helper');
     });
 
     it('hides hint when error shown', async () => {
@@ -187,8 +190,8 @@ describe('aegov-toggle', () => {
         components: [AegovToggle],
         html: `<aegov-toggle label="X" hint="h" is-invalid="true" error-message="err"></aegov-toggle>`,
       });
-      expect(page.root.querySelector('.aegov-toggle__error')).not.toBeNull();
-      expect(page.root.querySelector('.toggle__hint')).toBeNull();
+      expect(q(page.root, '.aegov-toggle__error')).not.toBeNull();
+      expect(q(page.root, '.toggle__hint')).toBeNull();
     });
 
     it('aria-describedby includes error id', async () => {
@@ -196,7 +199,7 @@ describe('aegov-toggle', () => {
         components: [AegovToggle],
         html: `<aegov-toggle field-id="t1" is-invalid="true" error-message="msg"></aegov-toggle>`,
       });
-      expect(page.root.querySelector('input').getAttribute('aria-describedby')).toContain('t1-error');
+      expect(q(page.root, 'input').getAttribute('aria-describedby')).toContain('t1-error');
     });
 
     it('validate() resolves valid for unchecked optional', async () => {
