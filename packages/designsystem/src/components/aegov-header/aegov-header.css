@@ -36,28 +36,13 @@
 
 /* Authority only — the emblem replaces the search slot, and neither the slot
    nor the colour is overridable.
-
-   Size lives here rather than on the shared SVG helper because the Tailwind
-   plugin does not scan shared modules. The fill comes from --aegov-emblem-fill,
-   set inline by the component (EMBLEM_COLOR in aegov-header.tsx): an inline
-   value on this element beats any inherited colour, so the emblem never picks
-   up the page's text colour and cannot be retinted from outside. */
+ */
 .header__emblem {
   /* Same vertical rhythm as .header__logo. Without it the emblem touches the
      banner whenever it is the tallest thing in the row — which happens with any
      logo shorter than the emblem, since the row is sized by its tallest child. */
   @apply hidden shrink-0 py-1 md:py-1.5 lg:py-2;
-  /* Sized by height, not width: the emblem is a fixed-proportion mark (765x995)
-     and the brand row is a horizontal band, so height is the dimension that has
-     to line up. Width follows the aspect ratio.
 
-     64 / 72 / 80px, on the 4px spacing scale. The base value matches md because
-     the emblem is never painted below it — md is the floor for collapseAt, and
-     the emblem is hidden below whatever collapseAt is set to. */
-  /* `block` matters: an inline SVG sits on the text baseline, so its line box
-     adds ~7px of descender space underneath. That made the emblem's artwork
-     hug the top of its own box — reading as a padding bug — even though the
-     box itself was centred. */
   svg {
     @apply block w-auto h-16 md:h-16 lg:h-18 xl:h-20;
   }
