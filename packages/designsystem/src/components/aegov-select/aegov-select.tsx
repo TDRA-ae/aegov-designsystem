@@ -13,7 +13,8 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity,
+  withCustomError, setInternalsValidity,
 } from '../../utils/validation';
 import type { InternalsHost } from '../../utils/validation';
 import { isRtl } from '../../utils/rtl';
@@ -197,9 +198,16 @@ export class AegovSelect {
     this.runValidationSync();
   }
 
+  /** The form found this field invalid during a submit or checkValidity() — start announcing errors. */
+  @Listen('invalid')
+  onInvalid() {
+    this.hasBlurredOnce = true;
+  }
+
   /** Imperatively re-run validation. */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasBlurredOnce = true;
     return this.runAndEmitValidation(trigger);
   }
 
@@ -208,6 +216,7 @@ export class AegovSelect {
   async setCustomValidity(message: string): Promise<void> {
     this.errorMessage = message;
     this.isInvalid = !!message;
+    this.customValidityMessage = message;
     if (this.useListbox && this.internals) {
       if (message) {
         setInternalsValidity(
@@ -228,12 +237,15 @@ export class AegovSelect {
     return this.isMultiple ? this.selectedValues : this.value;
   }
 
+  /** Message from setCustomValidity(), kept so recomputing validity does not drop it. */
+  private customValidityMessage = '';
+
   private computeListboxValidity(): { validity: AegovValidityState; message: string } {
     const filled = this.isMultiple ? this.selectedValues.length > 0 : !!this.value;
-    if (this.isRequired && !filled) {
-      return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required' };
-    }
-    return { validity: synthesizeValidity({}), message: '' };
+    const result = this.isRequired && !filled
+      ? { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required' }
+      : { validity: synthesizeValidity({}), message: '' };
+    return withCustomError(result, this.customValidityMessage);
   }
 
   private readValidity(): AegovValidityState {
@@ -372,6 +384,12 @@ export class AegovSelect {
   @Watch('value')
   onValueChange() {
     this.updateDerivedState();
+    // A value set from code fires no change event — keep the native select (in
+    // default appearance), the form value and validity in step with it.
+    if (!this.useListbox && this.nativeSelectEl && this.nativeSelectEl.value !== (this.value ?? '')) {
+      this.nativeSelectEl.value = this.value ?? '';
+    }
+    this.runValidationSync();
   }
 
   /** Recompute cached selectedValues and displayText from this.value. */

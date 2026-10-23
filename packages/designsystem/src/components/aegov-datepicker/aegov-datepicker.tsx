@@ -6,7 +6,8 @@ import type {
   AegovValidityState,
 } from '../../utils/types';
 import {
-  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity,
+  withCustomError, setInternalsValidity,
 } from '../../utils/validation';
 import type { InternalsHost } from '../../utils/validation';
 
@@ -32,6 +33,8 @@ const STRINGS = {
     required: 'Required',
     rangeMinDays: (n: number) => `Range must be at least ${n} days`,
     rangeMaxDays: (n: number) => `Range must be at most ${n} days`,
+    beforeMin: (d: string) => `Choose a date on or after ${d}`,
+    afterMax: (d: string) => `Choose a date on or before ${d}`,
     chooseDate: 'Choose date',
     prevMonth: 'Previous month',
     nextMonth: 'Next month',
@@ -54,6 +57,8 @@ const STRINGS = {
     required: 'مطلوب',
     rangeMinDays: (n: number) => `يجب أن يكون النطاق ${n} أيام على الأقل`,
     rangeMaxDays: (n: number) => `يجب ألا يتجاوز النطاق ${n} أيام`,
+    beforeMin: (d: string) => `اختر تاريخاً في ${d} أو بعده`,
+    afterMax: (d: string) => `اختر تاريخاً في ${d} أو قبله`,
     chooseDate: 'اختر تاريخاً',
     prevMonth: 'الشهر السابق',
     nextMonth: 'الشهر التالي',
@@ -305,9 +310,16 @@ export class AegovDatepicker {
 
   // ── Validation surface (Layer 1) ──
 
+  /** The form found this field invalid during a submit or checkValidity() — start announcing errors. */
+  @Listen('invalid')
+  onInvalid() {
+    this.hasBlurredOnce = true;
+  }
+
   /** Imperatively re-run validation. */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasBlurredOnce = true;
     return this.runAndEmitValidation(trigger);
   }
 
@@ -316,6 +328,7 @@ export class AegovDatepicker {
   async setCustomValidity(message: string): Promise<void> {
     this.errorMessage = message;
     this.isInvalid = !!message;
+    this.customValidityMessage = message;
     if (this.internals) {
       if (message) {
         setInternalsValidity(
@@ -339,13 +352,31 @@ export class AegovDatepicker {
     return this.selectedDate ? formatDate(this.selectedDate, 'YYYY-MM-DD') : '';
   }
 
+  /** Message from setCustomValidity(), kept so recomputing validity does not drop it. */
+  private customValidityMessage = '';
+
   private computeValidity(): { validity: AegovValidityState; message: string } {
+    return withCustomError(this.computeConstraintValidity(), this.customValidityMessage);
+  }
+
+  private computeConstraintValidity(): { validity: AegovValidityState; message: string } {
     const hasValue = this.appearance === 'range'
       ? !!(this.rangeStart && this.rangeEnd)
       : !!this.selectedDate;
     const t = this.t;
     if (this.isRequired && !hasValue) {
       return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || t.required };
+    }
+    // min/max: the calendar disables out-of-range days, but a value set from
+    // code (or typed) can still fall outside them.
+    const chosen = this.appearance === 'range' ? [this.rangeStart, this.rangeEnd] : [this.selectedDate];
+    const minDate = this.getMinDate();
+    const maxDate = this.getMaxDate();
+    if (minDate && chosen.some(d => d && isBefore(d, minDate))) {
+      return { validity: synthesizeValidity({ rangeUnderflow: true }), message: this.errorMessage || t.beforeMin(formatDate(minDate, this.format)) };
+    }
+    if (maxDate && chosen.some(d => d && isAfter(d, maxDate))) {
+      return { validity: synthesizeValidity({ rangeOverflow: true }), message: this.errorMessage || t.afterMax(formatDate(maxDate, this.format)) };
     }
     if (this.appearance === 'range' && this.rangeStart && this.rangeEnd) {
       const days = diffDays(this.rangeStart, this.rangeEnd) + 1;

@@ -53,9 +53,12 @@ export const config: Config = {
     },
 
     // Custom elements bundle (tree-shakeable)
+    // 'single-export-module' is required by the Angular/React wrappers: each wrapper
+    // calls its component's defineCustomElement() itself, so component modules must not
+    // self-register on import — otherwise every app bundles and registers all components.
     {
       type: 'dist-custom-elements',
-      customElementsExportBehavior: 'auto-define-custom-elements',
+      customElementsExportBehavior: 'single-export-module',
       externalRuntime: false,
     },
 
