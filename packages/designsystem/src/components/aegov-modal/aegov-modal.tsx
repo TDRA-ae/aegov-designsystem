@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, State } from '@stencil/core';
+import { Build, Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, State } from '@stencil/core';
 import { MODAL_POSITIONS, MODAL_OVERLAY_OPACITIES, MODAL_SIZES } from '../../utils/types';
 import type { ModalPosition, ModalOverlayOpacity, ModalSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
@@ -8,6 +8,7 @@ import { pushZIndex, popZIndex } from '../../utils/z-index-manager';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
 import { isRtl } from '../../utils/rtl';
+import { forgetRelocatedHost, relocateHostToBody, restoreHostFromBody } from '../../utils/portal-manager';
 
 const TAG = 'aegov-modal';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -26,14 +27,21 @@ export class AegovModal {
   private triggerElement: HTMLElement | null = null;
   private focusableElements: HTMLElement[] = [];
   private modalZIndex: number = 50;
-  private movedToBody: boolean = false;
+  // True only while this component itself is moving its host to/from
+  // document.body (see moveHost()). Those moves fire a synchronous
+  // disconnect/connect pair that must not be mistaken for the owner removing
+  // or re-inserting the element.
+  private relocating: boolean = false;
+  private didLoad: boolean = false;
+  // The `dir` value this component set on the host while open (null when it
+  // set none, e.g. because the author supplied their own `dir`).
+  private bakedDir: string | null = null;
   // Tracks whether THIS instance actually holds the shared scroll-lock/z-index
   // resources (i.e. handleOpen() ran and handleCloseComplete() hasn't undone it
-  // yet) — connectedCallback's body-move triggers a disconnect/reconnect pair
-  // before handleOpen ever runs for an initially-open modal, so disconnectedCallback
-  // can't just check `this.isOpen`: that would call unlockBodyScroll()/popZIndex()
-  // for resources this instance never acquired, corrupting the shared counters for
-  // whatever OTHER overlay is genuinely open at that moment.
+  // yet). disconnectedCallback / handleCloseComplete can't just check
+  // `this.isOpen`: that would call unlockBodyScroll()/popZIndex() for resources
+  // this instance never acquired (or already released), corrupting the shared
+  // counters for whatever OTHER overlay is genuinely open at that moment.
   private overlayResourcesHeld: boolean = false;
 
   /**
@@ -174,6 +182,7 @@ export class AegovModal {
     // scroll lock, no focus trap, and critically no Escape-key listener (only ever
     // attached inside handleOpen()), leaving it visible but completely inert to
     // the keyboard and unable to be dismissed with Escape.
+    this.didLoad = true;
     if (this.isOpen) {
       this.handleOpen();
     }
@@ -189,36 +198,28 @@ export class AegovModal {
   onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, MODAL_SIZES, 'base', ctx('size')); }
 
   connectedCallback() {
-    // Capture the resolved RTL direction from the current ancestor chain and
-    // bake it onto the host's own `dir` attribute (#53, the same
-    // portal-vs-`dir` gap already found in aegov-datepicker/#37 and
-    // aegov-dropdown/#41) — unconditionally, not just when a move to body is
-    // about to happen, since a modal authored directly as a child of
-    // <body> never enters that branch below but still needs its own
-    // resolved direction set. The attribute survives any later reparent
-    // (it's the element's own attribute, not inherited context), and
-    // `direction` is an inherited CSS property, so the shadow-internal
-    // dialog correctly picks it up from the host once set here. `isRtl`
-    // checks the element itself before its ancestors, so a re-entrant call
-    // after this has already run just confirms the same value rather than
-    // losing it.
-    this.el.setAttribute('dir', isRtl(this.el) ? 'rtl' : 'ltr');
-
-    // Move modal to body for proper stacking. Guarded by movedToBody to
-    // avoid re-entrant hydration loops: appendChild triggers a synchronous
-    // disconnect/reconnect pair and Stencil's lazy hydration can fire
-    // connectedCallback again before parent state stabilises.
-    if (!this.movedToBody && this.el.parentNode !== document.body) {
-      this.movedToBody = true;
-      document.body.appendChild(this.el);
+    if (this.relocating) return;
+    // Re-inserted by its owner while still open (e.g. Vue <KeepAlive>
+    // re-activation, or an app moving the element): the disconnect released the
+    // scroll lock / z-index / Escape listener, so open again. Deferred so no DOM
+    // move happens from inside this callback.
+    if (this.didLoad && this.isOpen && !this.overlayResourcesHeld) {
+      Promise.resolve().then(() => {
+        if (this.el.isConnected && this.isOpen && !this.overlayResourcesHeld) this.handleOpen();
+      });
     }
   }
 
   disconnectedCallback() {
-    // Cleanup. Note: we deliberately do NOT call body.removeChild(this.el)
-    // here — the disconnect IS the removal, and re-removing inside the
-    // callback caused a "Maximum call stack size exceeded" loop with
-    // connectedCallback under Stencil's shadow-DOM hydration.
+    // A move, not a removal: our own move to/from document.body (or any other
+    // move — when the callback runs the element is already connected again).
+    // Releasing the scroll lock / z-index / Escape listener here would leave an
+    // open overlay visible but inert.
+    if (this.relocating || this.el.isConnected) return;
+    // Note: never move or remove this.el from in here (nor from
+    // connectedCallback) — doing that inside the callbacks is what caused the
+    // old "Maximum call stack size exceeded" loop under Stencil's shadow-DOM
+    // hydration. The body move happens in handleOpen()/handleCloseComplete().
     //
     // Covers a framework removing the element entirely (e.g. React unmounting
     // it) while still open, without ever calling close()/handleCloseComplete() —
@@ -233,11 +234,60 @@ export class AegovModal {
       popZIndex();
     }
     document.removeEventListener('keydown', this.handleKeyDown);
+    // Removed by its owner while relocated to body (e.g. `host.remove()`):
+    // drop the placeholder left at the declared position.
+    forgetRelocatedHost(this.el);
+    this.unbakeDir();
+  }
+
+  /**
+   * Move the host to document.body while open, or back to where it was
+   * declared on close (see relocateHostToBody in utils/portal-manager).
+   *
+   * Moving only while open — instead of permanently on connect, as before —
+   * keeps a closed modal where its owner put it, so React / Angular / Vue /
+   * SSR hydration find their node where they expect it, and removing an
+   * ancestor removes the modal with it rather than orphaning it in body.
+   */
+  private moveHost(toBody: boolean) {
+    // Never during server-side rendering (hydrate); spec tests also report isServer.
+    if (Build.isServer && !Build.isTesting) return;
+    this.relocating = true;
+    try {
+      if (toBody) relocateHostToBody(this.el);
+      else restoreHostFromBody(this.el);
+    } finally {
+      this.relocating = false;
+    }
+  }
+
+  /**
+   * Pin the direction the modal had at its declared position onto the host
+   * while it is open (#53): once moved to body it no longer inherits `dir`
+   * from a local `<div dir="rtl">` wrapper. Resolved at open time, so a later
+   * change of `<html dir>` is picked up on the next open, and removed again on
+   * close. An author-supplied `dir` on the host is left alone.
+   */
+  private bakeDir() {
+    if (this.el.hasAttribute('dir')) return;
+    this.bakedDir = isRtl(this.el) ? 'rtl' : 'ltr';
+    this.el.setAttribute('dir', this.bakedDir);
+  }
+
+  private unbakeDir() {
+    if (this.bakedDir !== null && this.el.getAttribute('dir') === this.bakedDir) {
+      this.el.removeAttribute('dir');
+    }
+    this.bakedDir = null;
   }
 
   private handleOpen() {
     // Store the currently focused element
     this.triggerElement = document.activeElement as HTMLElement;
+
+    // Resolve direction at the declared position, then portal to body for stacking.
+    this.bakeDir();
+    this.moveHost(true);
 
     // Assign z-index for this modal
     this.modalZIndex = pushZIndex();
@@ -294,17 +344,23 @@ export class AegovModal {
   }
 
   private handleCloseComplete() {
-    // Decrement overlay stack
-    popZIndex();
-    this.overlayResourcesHeld = false;
-
-    // Unlock body scroll (ref-counted, only unlocks when last overlay closes)
-    if (this.isPreventScroll) {
-      unlockBodyScroll();
+    // Release the overlay stack slot and scroll lock — only if still held: a
+    // disconnect while open/closing has already released them.
+    if (this.overlayResourcesHeld) {
+      this.overlayResourcesHeld = false;
+      popZIndex();
+      // Unlock body scroll (ref-counted, only unlocks when last overlay closes)
+      if (this.isPreventScroll) {
+        unlockBodyScroll();
+      }
     }
 
     // Remove keyboard listener
     document.removeEventListener('keydown', this.handleKeyDown);
+
+    // Return the host to where it was declared, and drop the pinned direction.
+    this.moveHost(false);
+    this.unbakeDir();
 
     // Return focus to trigger element. resolveFocusTarget handles a shadow-DOM
     // trigger whose host isn't itself focusable — .focus() on it directly would
