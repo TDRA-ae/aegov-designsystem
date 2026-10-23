@@ -1,14 +1,14 @@
 {
   "name": "test-angular",
   "private": true,
-  "version": "0.2.24",
+  "version": "0.2.25",
   "scripts": {
     "dev": "ng serve --port 4300 --open",
     "build": "ng build",
     "start": "ng serve --port 4300 --open"
   },
   "dependencies": {
-    "@aegov/designsystem": "^0.2.24",
+    "@aegov/designsystem": "^0.2.25",
     "@aegov/designsystem-angular": "file:../../packages/designsystem-angular/dist/component-library",
     "@angular/common": "^22.0.0",
     "@angular/compiler": "^22.0.0",

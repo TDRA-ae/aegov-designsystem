@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-ROOT="/Users/moiz/Projects/TDRA/aegov-dls-3"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "Publishing @aegov/designsystem..."
 (cd "$ROOT/packages/designsystem" && npm publish --ignore-scripts)
