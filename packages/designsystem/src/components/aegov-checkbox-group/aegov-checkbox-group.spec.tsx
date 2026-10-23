@@ -1,4 +1,5 @@
 import { newSpecPage } from '@stencil/core/testing';
+import { q, qa } from '../../utils/test-helpers';
 import { AegovCheckboxGroup } from './aegov-checkbox-group';
 import { AegovCheckbox } from '../aegov-checkbox/aegov-checkbox';
 
@@ -8,7 +9,7 @@ describe('aegov-checkbox-group', () => {
       components: [AegovCheckboxGroup],
       html: `<aegov-checkbox-group></aegov-checkbox-group>`,
     });
-    const fieldset = page.root.querySelector('fieldset.aegov-checkbox-group');
+    const fieldset = q(page.root, 'fieldset.aegov-checkbox-group');
     expect(fieldset).not.toBeNull();
   });
 
@@ -17,7 +18,7 @@ describe('aegov-checkbox-group', () => {
       components: [AegovCheckboxGroup],
       html: `<aegov-checkbox-group label="Choose"></aegov-checkbox-group>`,
     });
-    const legend = page.root.querySelector('legend.checkbox-group__legend');
+    const legend = q(page.root, 'legend.checkbox-group__legend');
     expect(legend).not.toBeNull();
     expect(legend.textContent).toContain('Choose');
   });
@@ -27,7 +28,7 @@ describe('aegov-checkbox-group', () => {
       components: [AegovCheckboxGroup],
       html: `<aegov-checkbox-group orientation="horizontal"></aegov-checkbox-group>`,
     });
-    expect(page.root.querySelector('fieldset').className).toContain('checkbox-group--horizontal');
+    expect(q(page.root, 'fieldset').className).toContain('checkbox-group--horizontal');
   });
 
   it('applies appearance class (cards)', async () => {
@@ -35,7 +36,7 @@ describe('aegov-checkbox-group', () => {
       components: [AegovCheckboxGroup],
       html: `<aegov-checkbox-group appearance="cards"></aegov-checkbox-group>`,
     });
-    expect(page.root.querySelector('fieldset').className).toContain('checkbox-group--cards');
+    expect(q(page.root, 'fieldset').className).toContain('checkbox-group--cards');
   });
 
   it('disables fieldset when is-disabled', async () => {
@@ -43,7 +44,7 @@ describe('aegov-checkbox-group', () => {
       components: [AegovCheckboxGroup],
       html: `<aegov-checkbox-group is-disabled></aegov-checkbox-group>`,
     });
-    const fieldset = page.root.querySelector('fieldset') as HTMLFieldSetElement;
+    const fieldset = q(page.root, 'fieldset') as HTMLFieldSetElement;
     expect(fieldset.hasAttribute("disabled")).toBe(true);
   });
 
@@ -57,7 +58,7 @@ describe('aegov-checkbox-group', () => {
         </aegov-checkbox-group>
       `,
     });
-    const checkboxes = page.root.querySelectorAll('aegov-checkbox') as NodeListOf<HTMLAegovCheckboxElement>;
+    const checkboxes = qa(page.root, 'aegov-checkbox') as HTMLAegovCheckboxElement[];
     checkboxes.forEach(cb => expect(cb.size).toBe('lg'));
   });
 
@@ -71,7 +72,7 @@ describe('aegov-checkbox-group', () => {
         </aegov-checkbox-group>
       `,
     });
-    const checkboxes = page.root.querySelectorAll('aegov-checkbox') as NodeListOf<HTMLAegovCheckboxElement>;
+    const checkboxes = qa(page.root, 'aegov-checkbox') as HTMLAegovCheckboxElement[];
     checkboxes.forEach(cb => expect(cb.isDisabled).toBe(true));
   });
 
@@ -87,7 +88,7 @@ describe('aegov-checkbox-group', () => {
     const group = page.root as HTMLAegovCheckboxGroupElement;
     group.isDisabled = false;
     await page.waitForChanges();
-    const cb = page.root.querySelector('aegov-checkbox') as HTMLAegovCheckboxElement;
+    const cb = q(page.root, 'aegov-checkbox') as HTMLAegovCheckboxElement;
     expect(cb.isDisabled).toBe(false);
   });
 
@@ -102,13 +103,13 @@ describe('aegov-checkbox-group', () => {
         </aegov-checkbox-group>
       `,
     });
-    const all = page.root.querySelector('aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement;
-    const allInput = all.querySelector('input') as HTMLInputElement;
+    const all = q(page.root, 'aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement;
+    const allInput = q(all, 'input') as HTMLInputElement;
     allInput.checked = true;
     allInput.dispatchEvent(new Event('change', { bubbles: true }));
     await page.waitForChanges();
 
-    const regulars = Array.from(page.root.querySelectorAll('aegov-checkbox')).filter(
+    const regulars = Array.from(qa(page.root, 'aegov-checkbox')).filter(
       cb => !(cb as HTMLAegovCheckboxElement).isCheckAll,
     ) as HTMLAegovCheckboxElement[];
     regulars.forEach(cb => expect(cb.isChecked).toBe(true));
@@ -125,13 +126,13 @@ describe('aegov-checkbox-group', () => {
         </aegov-checkbox-group>
       `,
     });
-    const first = page.root.querySelectorAll('aegov-checkbox')[1] as HTMLAegovCheckboxElement;
-    const firstInput = first.querySelector('input') as HTMLInputElement;
+    const first = qa(page.root, 'aegov-checkbox')[1] as HTMLAegovCheckboxElement;
+    const firstInput = q(first, 'input') as HTMLInputElement;
     firstInput.checked = true;
     firstInput.dispatchEvent(new Event('change', { bubbles: true }));
     await page.waitForChanges();
 
-    const all = page.root.querySelector('aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement;
+    const all = q(page.root, 'aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement;
     expect(all.isIndeterminate).toBe(true);
     expect(all.isChecked).toBe(false);
   });
@@ -147,18 +148,18 @@ describe('aegov-checkbox-group', () => {
         </aegov-checkbox-group>
       `,
     });
-    const regulars = Array.from(page.root.querySelectorAll('aegov-checkbox')).filter(
+    const regulars = Array.from(qa(page.root, 'aegov-checkbox')).filter(
       cb => !(cb as HTMLAegovCheckboxElement).isCheckAll,
     ) as HTMLAegovCheckboxElement[];
 
     for (const cb of regulars) {
-      const input = cb.querySelector('input') as HTMLInputElement;
+      const input = q(cb, 'input') as HTMLInputElement;
       input.checked = true;
       input.dispatchEvent(new Event('change', { bubbles: true }));
       await page.waitForChanges();
     }
 
-    const all = page.root.querySelector('aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement;
+    const all = q(page.root, 'aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement;
     expect(all.isChecked).toBe(true);
     expect(all.isIndeterminate).toBe(false);
   });
@@ -176,8 +177,8 @@ describe('aegov-checkbox-group', () => {
     const spy = jest.fn();
     page.root.addEventListener('aegovCheckboxGroupChange', spy);
 
-    const first = page.root.querySelector('aegov-checkbox') as HTMLAegovCheckboxElement;
-    const input = first.querySelector('input') as HTMLInputElement;
+    const first = q(page.root, 'aegov-checkbox') as HTMLAegovCheckboxElement;
+    const input = q(first, 'input') as HTMLInputElement;
     input.checked = true;
     input.dispatchEvent(new Event('change', { bubbles: true }));
     await page.waitForChanges();
@@ -197,14 +198,14 @@ describe('aegov-checkbox-group', () => {
         </aegov-checkbox-group>
       `,
     });
-    const all = page.root.querySelector('aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement;
-    const allInput = all.querySelector('input') as HTMLInputElement;
+    const all = q(page.root, 'aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement;
+    const allInput = q(all, 'input') as HTMLInputElement;
     allInput.checked = true;
     allInput.dispatchEvent(new Event('change', { bubbles: true }));
     await page.waitForChanges();
 
-    const a = page.root.querySelector('aegov-checkbox[value="a"]') as HTMLAegovCheckboxElement;
-    const b = page.root.querySelector('aegov-checkbox[value="b"]') as HTMLAegovCheckboxElement;
+    const a = q(page.root, 'aegov-checkbox[value="a"]') as HTMLAegovCheckboxElement;
+    const b = q(page.root, 'aegov-checkbox[value="b"]') as HTMLAegovCheckboxElement;
     expect(a.isChecked).toBe(true);
     expect(b.isChecked).toBe(false);
   });
@@ -219,7 +220,7 @@ describe('aegov-checkbox-group', () => {
         </aegov-checkbox-group>`,
       });
       expect(page.root.classList.contains('is-invalid')).toBe(true);
-      expect(page.root.querySelector('fieldset').getAttribute('aria-invalid')).toBe('true');
+      expect(q(page.root, 'fieldset').getAttribute('aria-invalid')).toBe('true');
     });
 
     it('renders errorMessage in error region', async () => {
@@ -229,7 +230,7 @@ describe('aegov-checkbox-group', () => {
           <aegov-checkbox value="a"></aegov-checkbox>
         </aegov-checkbox-group>`,
       });
-      expect(page.root.querySelector('.aegov-checkbox-group__error').textContent).toBe('Pick at least 1');
+      expect(q(page.root, '.aegov-checkbox-group__error').textContent).toBe('Pick at least 1');
     });
 
     it('renders hint when not invalid', async () => {
@@ -239,7 +240,7 @@ describe('aegov-checkbox-group', () => {
           <aegov-checkbox value="a"></aegov-checkbox>
         </aegov-checkbox-group>`,
       });
-      expect(page.root.querySelector('.aegov-checkbox-group__hint').textContent).toBe('Multiple OK');
+      expect(q(page.root, '.aegov-checkbox-group__hint').textContent).toBe('Multiple OK');
     });
 
     it('hides hint when error shown', async () => {
@@ -249,8 +250,8 @@ describe('aegov-checkbox-group', () => {
           <aegov-checkbox value="a"></aegov-checkbox>
         </aegov-checkbox-group>`,
       });
-      expect(page.root.querySelector('.aegov-checkbox-group__error')).not.toBeNull();
-      expect(page.root.querySelector('.aegov-checkbox-group__hint')).toBeNull();
+      expect(q(page.root, '.aegov-checkbox-group__error')).not.toBeNull();
+      expect(q(page.root, '.aegov-checkbox-group__hint')).toBeNull();
     });
 
     it('validate() resolves valid for optional empty group', async () => {

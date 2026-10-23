@@ -1,4 +1,5 @@
 import { newSpecPage } from '@stencil/core/testing';
+import { q } from '../../utils/test-helpers';
 import { AegovRadio } from './aegov-radio';
 
 describe('aegov-radio', () => {
@@ -7,10 +8,10 @@ describe('aegov-radio', () => {
       components: [AegovRadio],
       html: `<aegov-radio></aegov-radio>`,
     });
-    const wrapper = page.root.querySelector('div.aegov-radio');
+    const wrapper = q(page.root, 'div.aegov-radio');
     expect(wrapper).not.toBeNull();
     expect(wrapper.className).toContain('radio--base');
-    const input = page.root.querySelector('input[type="radio"]') as HTMLInputElement;
+    const input = q(page.root, 'input[type="radio"]') as HTMLInputElement;
     expect(input).not.toBeNull();
     expect(input.checked).toBe(false);
   });
@@ -21,7 +22,7 @@ describe('aegov-radio', () => {
       html: `<aegov-radio></aegov-radio>`,
     });
     expect(page.rootInstance.fieldId).toMatch(/^aegov-radio-\d+$/);
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.id).toBe(page.rootInstance.fieldId);
   });
 
@@ -30,7 +31,7 @@ describe('aegov-radio', () => {
       components: [AegovRadio],
       html: `<aegov-radio field-id="r-1"></aegov-radio>`,
     });
-    expect((page.root.querySelector('input') as HTMLInputElement).id).toBe('r-1');
+    expect((q(page.root, 'input') as HTMLInputElement).id).toBe('r-1');
   });
 
   it('renders label inside wrapping <label>', async () => {
@@ -38,7 +39,7 @@ describe('aegov-radio', () => {
       components: [AegovRadio],
       html: `<aegov-radio label="Option A"></aegov-radio>`,
     });
-    const label = page.root.querySelector('label.radio__wrapper');
+    const label = q(page.root, 'label.radio__wrapper');
     expect(label).not.toBeNull();
     expect(label.textContent).toContain('Option A');
     expect(label.querySelector('input[type="radio"]')).not.toBeNull();
@@ -49,9 +50,9 @@ describe('aegov-radio', () => {
       components: [AegovRadio],
       html: `<aegov-radio label="A" hint="Helper"></aegov-radio>`,
     });
-    const hint = page.root.querySelector('.radio__hint');
+    const hint = q(page.root, '.radio__hint');
     expect(hint).not.toBeNull();
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.getAttribute('aria-describedby')).toBe(hint.id);
   });
 
@@ -60,7 +61,7 @@ describe('aegov-radio', () => {
       components: [AegovRadio],
       html: `<aegov-radio is-checked></aegov-radio>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.checked).toBe(true);
   });
 
@@ -69,7 +70,7 @@ describe('aegov-radio', () => {
       components: [AegovRadio],
       html: `<aegov-radio is-disabled></aegov-radio>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.disabled).toBe(true);
   });
 
@@ -78,7 +79,7 @@ describe('aegov-radio', () => {
       components: [AegovRadio],
       html: `<aegov-radio is-required></aegov-radio>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.required).toBe(true);
     expect(input.getAttribute('aria-required')).toBe('true');
   });
@@ -88,7 +89,7 @@ describe('aegov-radio', () => {
       components: [AegovRadio],
       html: `<aegov-radio size="sm"></aegov-radio>`,
     });
-    expect(page.root.querySelector('div.aegov-radio').className).toContain('radio--sm');
+    expect(q(page.root, 'div.aegov-radio').className).toContain('radio--sm');
   });
 
   it('applies extra-class', async () => {
@@ -96,7 +97,7 @@ describe('aegov-radio', () => {
       components: [AegovRadio],
       html: `<aegov-radio extra-class="custom-r"></aegov-radio>`,
     });
-    expect(page.root.querySelector('div.aegov-radio').className).toContain('custom-r');
+    expect(q(page.root, 'div.aegov-radio').className).toContain('custom-r');
   });
 
   it('applies name and value to native input', async () => {
@@ -104,8 +105,10 @@ describe('aegov-radio', () => {
       components: [AegovRadio],
       html: `<aegov-radio name="g" value="v"></aegov-radio>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
-    expect(input.name).toBe('g');
+    const input = q(page.root, 'input') as HTMLInputElement;
+    // FACE owns submission: name stays on the host, never on the shadow-internal control.
+    expect(page.root.getAttribute('name')).toBe('g');
+    expect(input.hasAttribute('name')).toBe(false);
     expect(input.value).toBe('v');
   });
 
@@ -116,7 +119,7 @@ describe('aegov-radio', () => {
     });
     const spy = jest.fn();
     page.root.addEventListener('aegovRadioChange', spy);
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     input.checked = true;
     input.dispatchEvent(new Event('change'));
     await page.waitForChanges();
@@ -129,7 +132,7 @@ describe('aegov-radio', () => {
       components: [AegovRadio],
       html: `<aegov-radio aria-label="opt" data-test="x"></aegov-radio>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.getAttribute('aria-label')).toBe('opt');
     expect(input.getAttribute('data-test')).toBe('x');
   });
@@ -141,7 +144,7 @@ describe('aegov-radio', () => {
         components: [AegovRadio],
         html: `<aegov-radio is-invalid="true"></aegov-radio>`,
       });
-      expect(page.root.querySelector('input').getAttribute('aria-invalid')).toBe('true');
+      expect(q(page.root, 'input').getAttribute('aria-invalid')).toBe('true');
       expect(page.root.classList.contains('is-invalid')).toBe(true);
     });
 
@@ -150,7 +153,7 @@ describe('aegov-radio', () => {
         components: [AegovRadio],
         html: `<aegov-radio is-invalid="true" error-message="Pick one"></aegov-radio>`,
       });
-      expect(page.root.querySelector('.aegov-radio__error').textContent).toBe('Pick one');
+      expect(q(page.root, '.aegov-radio__error').textContent).toBe('Pick one');
     });
 
     it('renders hint on label', async () => {
@@ -158,7 +161,7 @@ describe('aegov-radio', () => {
         components: [AegovRadio],
         html: `<aegov-radio label="X" hint="helper"></aegov-radio>`,
       });
-      expect(page.root.querySelector('.radio__hint').textContent).toBe('helper');
+      expect(q(page.root, '.radio__hint').textContent).toBe('helper');
     });
 
     it('hides hint when error shown', async () => {
@@ -166,8 +169,8 @@ describe('aegov-radio', () => {
         components: [AegovRadio],
         html: `<aegov-radio label="X" hint="h" is-invalid="true" error-message="err"></aegov-radio>`,
       });
-      expect(page.root.querySelector('.aegov-radio__error')).not.toBeNull();
-      expect(page.root.querySelector('.radio__hint')).toBeNull();
+      expect(q(page.root, '.aegov-radio__error')).not.toBeNull();
+      expect(q(page.root, '.radio__hint')).toBeNull();
     });
 
     it('aria-describedby includes error id', async () => {
@@ -175,7 +178,7 @@ describe('aegov-radio', () => {
         components: [AegovRadio],
         html: `<aegov-radio field-id="r1" is-invalid="true" error-message="msg"></aegov-radio>`,
       });
-      expect(page.root.querySelector('input').getAttribute('aria-describedby')).toContain('r1-error');
+      expect(q(page.root, 'input').getAttribute('aria-describedby')).toContain('r1-error');
     });
 
     it('validate() resolves valid for unchecked optional', async () => {

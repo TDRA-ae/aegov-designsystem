@@ -39,6 +39,7 @@ import { AegovTextarea } from '../components/aegov-textarea/aegov-textarea';
 import { AegovToggle } from '../components/aegov-toggle/aegov-toggle';
 import { AegovSelect } from '../components/aegov-select/aegov-select';
 import { AegovSelectOption } from '../components/aegov-select-option/aegov-select-option';
+import { q } from './test-helpers';
 
 describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
   // ── 1.3.1 Info and Relationships ─────────────────────────────────────────
@@ -51,7 +52,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovInput],
         html: `<aegov-input field-id="email"></aegov-input>`,
       });
-      const input = page.root.querySelector('input');
+      const input = q(page.root, 'input');
       expect(input.getAttribute('id')).toBe('email');
       // Consumers pair this with <aegov-label for="email"> for the
       // programmatic name (1.3.1 Info and Relationships).
@@ -62,7 +63,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovTextarea],
         html: `<aegov-textarea aria-label="Notes"></aegov-textarea>`,
       });
-      const textarea = page.root.querySelector('textarea');
+      const textarea = q(page.root, 'textarea');
       expect(textarea.getAttribute('aria-label')).toBe('Notes');
     });
 
@@ -71,8 +72,8 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovCheckbox],
         html: `<aegov-checkbox label="Accept terms"></aegov-checkbox>`,
       });
-      expect(page.root.querySelector('label')).toBeTruthy();
-      expect(page.root.textContent).toContain('Accept terms');
+      expect(q(page.root, 'label')).toBeTruthy();
+      expect(q(page.root, 'label').textContent).toContain('Accept terms');
     });
 
     it('aegov-radio with label renders a <label> wrapper', async () => {
@@ -80,8 +81,8 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovRadio],
         html: `<aegov-radio label="Option A"></aegov-radio>`,
       });
-      expect(page.root.querySelector('label')).toBeTruthy();
-      expect(page.root.textContent).toContain('Option A');
+      expect(q(page.root, 'label')).toBeTruthy();
+      expect(q(page.root, 'label').textContent).toContain('Option A');
     });
 
     it('aegov-toggle with label renders a <label> wrapper', async () => {
@@ -89,7 +90,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovToggle],
         html: `<aegov-toggle label="Notifications"></aegov-toggle>`,
       });
-      expect(page.root.querySelector('label')).toBeTruthy();
+      expect(q(page.root, 'label')).toBeTruthy();
     });
 
     it('aegov-otp first cell has an aria-label', async () => {
@@ -97,7 +98,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovOtp],
         html: `<aegov-otp length="4"></aegov-otp>`,
       });
-      const firstCell = page.root.querySelector('input.otp__cell');
+      const firstCell = q(page.root, 'input.otp__cell');
       expect(firstCell.getAttribute('aria-label')).toBeTruthy();
     });
 
@@ -106,7 +107,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovLabel],
         html: `<aegov-label for="my-input">Name</aegov-label>`,
       });
-      const label = page.root.querySelector('label');
+      const label = q(page.root, 'label');
       expect(label.getAttribute('for')).toBe('my-input');
     });
   });
@@ -124,10 +125,10 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
           </aegov-tabs>
         `,
       });
-      expect(page.root.querySelector('[role="tablist"]')).toBeTruthy();
-      const tabBtn = page.root.querySelector('aegov-tab button');
+      expect(q(page.root, '[role="tablist"]')).toBeTruthy();
+      const tabBtn = q(page.root, 'aegov-tab button');
       expect(tabBtn.getAttribute('role')).toBe('tab');
-      expect(page.root.querySelector('[role="tabpanel"]')).toBeTruthy();
+      expect(q(page.root, '[role="tabpanel"]')).toBeTruthy();
     });
 
     it('aegov-checkbox-group uses fieldset + legend for grouping', async () => {
@@ -135,8 +136,8 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovCheckboxGroup, AegovCheckbox],
         html: `<aegov-checkbox-group label="Choices"></aegov-checkbox-group>`,
       });
-      expect(page.root.querySelector('fieldset')).toBeTruthy();
-      expect(page.root.querySelector('legend')).toBeTruthy();
+      expect(q(page.root, 'fieldset')).toBeTruthy();
+      expect(q(page.root, 'legend')).toBeTruthy();
     });
 
     it('aegov-radio-group uses fieldset with role=radiogroup', async () => {
@@ -144,7 +145,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovRadioGroup, AegovRadio],
         html: `<aegov-radio-group name="opts"></aegov-radio-group>`,
       });
-      const fieldset = page.root.querySelector('fieldset');
+      const fieldset = q(page.root, 'fieldset');
       expect(fieldset).toBeTruthy();
       expect(fieldset.getAttribute('role')).toBe('radiogroup');
     });
@@ -158,7 +159,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
           </aegov-breadcrumbs>
         `,
       });
-      const nav = page.root.querySelector('nav');
+      const nav = q(page.root, 'nav');
       expect(nav).toBeTruthy();
       expect(nav.getAttribute('aria-label')).toBeTruthy();
     });
@@ -168,7 +169,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovPagination],
         html: `<aegov-pagination pages="5" page-current="1"></aegov-pagination>`,
       });
-      const nav = page.root.querySelector('nav');
+      const nav = q(page.root, 'nav');
       expect(nav).toBeTruthy();
       expect(nav.getAttribute('aria-label')).toBe('Pagination');
     });
@@ -178,7 +179,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovSeparator],
         html: `<aegov-separator orientation="vertical"></aegov-separator>`,
       });
-      const sep = page.root.querySelector('[role="separator"], hr');
+      const sep = q(page.root, '[role="separator"], hr');
       expect(sep).toBeTruthy();
     });
   });
@@ -191,7 +192,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovToggle],
         html: `<aegov-toggle is-checked label="Wifi"></aegov-toggle>`,
       });
-      const input = page.root.querySelector('input');
+      const input = q(page.root, 'input');
       expect(input.getAttribute('role')).toBe('switch');
       expect(input.getAttribute('aria-checked')).toBe('true');
     });
@@ -201,7 +202,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovToggle],
         html: `<aegov-toggle label="Wifi"></aegov-toggle>`,
       });
-      expect(page.root.querySelector('input').getAttribute('aria-checked')).toBe('false');
+      expect(q(page.root, 'input').getAttribute('aria-checked')).toBe('false');
     });
   });
 
@@ -213,7 +214,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovInput],
         html: `<aegov-input is-disabled="true"></aegov-input>`,
       });
-      expect(page.root.querySelector('input').hasAttribute('disabled')).toBe(true);
+      expect(q(page.root, 'input').hasAttribute('disabled')).toBe(true);
     });
 
     it('aegov-input is-required exposes a required input', async () => {
@@ -221,7 +222,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovInput],
         html: `<aegov-input is-required="true"></aegov-input>`,
       });
-      const input = page.root.querySelector('input');
+      const input = q(page.root, 'input');
       // Stencil's mock-DOM reflects required as a property in this path; the
       // companion aria-required pass-through is verified in the input's own
       // spec file.
@@ -233,7 +234,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovCheckbox],
         html: `<aegov-checkbox is-required="true"></aegov-checkbox>`,
       });
-      expect(page.root.querySelector('input').getAttribute('aria-required')).toBe('true');
+      expect(q(page.root, 'input').getAttribute('aria-required')).toBe('true');
     });
 
     it('aegov-radio is-disabled disables the native input', async () => {
@@ -241,7 +242,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovRadio],
         html: `<aegov-radio is-disabled="true"></aegov-radio>`,
       });
-      expect(page.root.querySelector('input').hasAttribute('disabled')).toBe(true);
+      expect(q(page.root, 'input').hasAttribute('disabled')).toBe(true);
     });
 
     it('aegov-button is-disabled disables the underlying element', async () => {
@@ -259,7 +260,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovRange],
         html: `<aegov-range is-required min="0" max="10"></aegov-range>`,
       });
-      const input = page.root.querySelector('input[type="range"]');
+      const input = q(page.root, 'input[type="range"]');
       expect(input?.hasAttribute('required')).toBe(true);
     });
   });
@@ -295,7 +296,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovProgress],
         html: `<aegov-progress value="50" max="100"></aegov-progress>`,
       });
-      expect(page.root.querySelector('progress')).toBeTruthy();
+      expect(q(page.root, 'progress')).toBeTruthy();
     });
 
     it('aegov-banner with role attribute reflects it', async () => {
@@ -303,7 +304,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovBanner],
         html: `<aegov-banner role="alert">Outage</aegov-banner>`,
       });
-      const banner = page.root.querySelector('[role="alert"], [role="status"], [role="region"]');
+      const banner = q(page.root, '[role="alert"], [role="status"], [role="region"]');
       expect(banner).toBeTruthy();
     });
   });
@@ -320,7 +321,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
           </aegov-accordion>
         `,
       });
-      const trigger = page.root.querySelector('button[aria-expanded]');
+      const trigger = q(page.root, 'button[aria-expanded]');
       expect(trigger).toBeTruthy();
       expect(['true', 'false']).toContain(trigger.getAttribute('aria-expanded'));
     });
@@ -335,8 +336,8 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         html: `<aegov-avatar src="x.jpg" alt="Maryam"></aegov-avatar>`,
       });
       // Either the inner img has alt, or the host has aria-label
-      const img = page.root.querySelector('img');
-      const wrapper = page.root.querySelector('[part="avatar"]');
+      const img = q(page.root, 'img');
+      const wrapper = q(page.root, '[part="avatar"]');
       const accessibleName = img?.getAttribute('alt') || wrapper?.getAttribute('aria-label');
       expect(accessibleName).toBeTruthy();
     });
@@ -346,7 +347,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovAvatar],
         html: `<aegov-avatar></aegov-avatar>`,
       });
-      const wrapper = page.root.querySelector('[part="avatar"]');
+      const wrapper = q(page.root, '[part="avatar"]');
       expect(wrapper?.getAttribute('aria-label')).toBeTruthy();
     });
   });
@@ -359,7 +360,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovCallout],
         html: `<aegov-callout is-dismissible="true"><span slot="content">x</span></aegov-callout>`,
       });
-      const dismiss = page.root.querySelector('button[aria-label]');
+      const dismiss = q(page.root, 'button[aria-label]');
       expect(dismiss).toBeTruthy();
     });
 
@@ -368,7 +369,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovBadge],
         html: `<aegov-badge is-dismissible="true">tag</aegov-badge>`,
       });
-      const dismiss = page.root.querySelector('button[aria-label]');
+      const dismiss = q(page.root, 'button[aria-label]');
       expect(dismiss).toBeTruthy();
     });
   });
@@ -393,7 +394,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
           components: [ctor],
           html: `<${tag} is-invalid="true"></${tag}>`,
         });
-        const control = page.root.querySelector(controlSelector);
+        const control = q(page.root, controlSelector);
         expect(control?.getAttribute('aria-invalid')).toBe('true');
       });
     });
@@ -405,7 +406,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
           <aegov-checkbox value="a"></aegov-checkbox>
         </aegov-checkbox-group>`,
       });
-      expect(page.root.querySelector('fieldset')?.getAttribute('aria-invalid')).toBe('true');
+      expect(q(page.root, 'fieldset')?.getAttribute('aria-invalid')).toBe('true');
     });
 
     it('aegov-radio-group sets aria-invalid on fieldset when isInvalid', async () => {
@@ -415,7 +416,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
           <aegov-radio value="a"></aegov-radio>
         </aegov-radio-group>`,
       });
-      expect(page.root.querySelector('fieldset')?.getAttribute('aria-invalid')).toBe('true');
+      expect(q(page.root, 'fieldset')?.getAttribute('aria-invalid')).toBe('true');
     });
   });
 
@@ -425,10 +426,10 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovInput],
         html: `<aegov-input field-id="x" is-invalid="true" error-message="Bad value"></aegov-input>`,
       });
-      const input = page.root.querySelector('input');
+      const input = q(page.root, 'input');
       const describedById = input?.getAttribute('aria-describedby');
       expect(describedById).toContain('x-error');
-      const errorEl = page.root.querySelector(`#${describedById?.split(' ')[0]}`);
+      const errorEl = q(page.root, `#${describedById?.split(' ')[0]}`);
       expect(errorEl?.textContent).toBe('Bad value');
     });
 
@@ -437,7 +438,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovTextarea],
         html: `<aegov-textarea field-id="t" maxlength="10" is-invalid="true" error-message="msg"></aegov-textarea>`,
       });
-      const desc = page.root.querySelector('textarea')?.getAttribute('aria-describedby');
+      const desc = q(page.root, 'textarea')?.getAttribute('aria-describedby');
       expect(desc).toContain('t-counter');
       expect(desc).toContain('t-error');
     });
@@ -449,7 +450,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
           <aegov-select-option value="a">A</aegov-select-option>
         </aegov-select>`,
       });
-      expect(page.root.querySelector('button')?.getAttribute('aria-describedby')).toContain('s-error');
+      expect(q(page.root, 'button')?.getAttribute('aria-describedby')).toContain('s-error');
     });
   });
 
@@ -459,7 +460,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovInput],
         html: `<aegov-input is-invalid="true" error-message="err"></aegov-input>`,
       });
-      const region = page.root.querySelector('.aegov-input__error');
+      const region = q(page.root, '.aegov-input__error');
       expect(region?.getAttribute('role')).toBeNull();
       expect(region?.getAttribute('aria-live')).toBeNull();
     });
@@ -471,7 +472,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
       });
       page.rootInstance.hasBlurredOnce = true;
       await page.waitForChanges();
-      const region = page.root.querySelector('.aegov-input__error');
+      const region = q(page.root, '.aegov-input__error');
       expect(region?.getAttribute('role')).toBe('alert');
       // No explicit aria-live: role="alert" already implies an assertive live region, and
       // forcing aria-live="polite" on top of it behaves inconsistently across screen readers.
@@ -485,7 +486,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
         components: [AegovInput],
         html: `<aegov-input field-id="x" aria-describedby="external-help" is-invalid="true" error-message="err"></aegov-input>`,
       });
-      const desc = page.root.querySelector('input')?.getAttribute('aria-describedby');
+      const desc = q(page.root, 'input')?.getAttribute('aria-describedby');
       expect(desc).toContain('external-help');
       expect(desc).toContain('x-error');
     });

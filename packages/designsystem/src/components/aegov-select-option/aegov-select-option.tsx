@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Element, State } from '@stencil/core';
+import { Component, Host, h, Prop, Element, State, Watch } from '@stencil/core';
 
 @Component({
   tag: 'aegov-select-option',
@@ -29,6 +29,17 @@ export class AegovSelectOption {
       );
     }
     this.slotContent = this.el.textContent?.trim() || '';
+  }
+
+  /**
+   * Tell the parent aegov-select to re-read options when data changes after
+   * load (e.g. `value` set as a JS property only). Plain DOM event rather than
+   * an @Event, so it stays out of the public API.
+   */
+  @Watch('value')
+  @Watch('isDisabled')
+  notifyParent() {
+    this.el.dispatchEvent(new CustomEvent('aegovInternalSelectOptionUpdate', { bubbles: true }));
   }
 
   render() {

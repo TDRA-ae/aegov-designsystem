@@ -23,7 +23,7 @@ The UAE Government Design System as framework-agnostic Web Components, built wit
 
 ## What you get
 
-- **55 components** — actions, forms, navigation, overlays, feedback, layout and typography.
+- **57 components** — actions, forms, navigation, overlays, feedback, layout, typography and site chrome (header, footer).
 - **Framework-agnostic** — native custom elements, plus generated wrappers for React, Vue and Angular.
 - **Tailwind CSS v4 theme** — the full UAE palette, type scale, breakpoints and spacing as `@theme` tokens you can use in your own markup.
 - **Right-to-left throughout** — logical properties everywhere, automatic Arabic font stacks, and built-in Arabic strings for every component-supplied label.
@@ -57,7 +57,7 @@ import { defineCustomElements } from '@aegov/designsystem/loader';
 defineCustomElements();
 ```
 
-Full setup for Vite, Webpack, Parcel, Rollup and the PostCSS CLI is in the [Installation guide](src/docs/markdown/installation.md).
+Full setup for Vite, Webpack, Parcel, Rollup and the PostCSS CLI is in the Installation guide on the documentation site (see [Documentation](#documentation)).
 
 ### Package entry points
 
@@ -75,8 +75,10 @@ Full setup for Vite, Webpack, Parcel, Rollup and the PostCSS CLI is in the [Inst
 
 ### Plain HTML
 
+With a bundler such as Vite. `styles.css` is your CSS entry containing the three imports above.
+
 ```html
-<link rel="stylesheet" href="/dist/styles.css" />
+<link rel="stylesheet" href="/src/styles.css" />
 
 <aegov-form-field>
   <aegov-label>Email address</aegov-label>
@@ -167,9 +169,7 @@ export class AppComponent {}
 
 Per-framework guides, including SSR notes and the known caveats — `v-model` is not supported in Vue, and `ngModel` / `formControlName` are not yet supported in Angular:
 
-- [Using with React](src/docs/markdown/using-with-react.md)
-- [Using with Vue](src/docs/markdown/using-with-vue.md)
-- [Using with Angular](src/docs/markdown/using-with-angular.md)
+are on the documentation site: *Using with React*, *Using with Vue* and *Using with Angular*. Working setups for each framework live in the monorepo's `test-apps/` directory.
 
 ---
 
@@ -256,12 +256,11 @@ input.addEventListener('aegovValidate', (e) => {
 });
 ```
 
-All 13 form components participate in native `<form>` submission — four of them (`aegov-otp`, `aegov-fileupload`, `aegov-select` in listbox mode, `aegov-datepicker`) as form-associated custom elements using `ElementInternals`.
+All 13 form components participate in native `<form>` submission. The 10 single controls (`aegov-input`, `aegov-textarea`, `aegov-select`, `aegov-checkbox`, `aegov-radio`, `aegov-toggle`, `aegov-range`, `aegov-otp`, `aegov-fileupload`, `aegov-datepicker`) are form-associated custom elements using `ElementInternals`; `aegov-checkbox-group` and `aegov-radio-group` aggregate their children, and `aegov-form-field` cascades state to the control inside it.
 
-- [Validation Surface](src/docs/markdown/validation-overview.md) — the full contract, value types and form integration.
-- [Bring Your Own Validator](src/docs/markdown/validation-byo.md) — recipes with no extra package.
+The documentation site covers the full contract (*Validation Surface*) and recipes with no extra package (*Bring Your Own Validator*).
 
-For schema-driven validation there is an **optional** companion package, `@aegov/designsystem-validation`, with adapters for Valibot, Zod, Vest and the native Constraint Validation API. Nothing in the design system depends on it.
+For schema-driven validation an **optional** companion package, `@aegov/designsystem-validation`, is being developed in a separate repository, with adapters for Valibot, Zod, Vest and the native Constraint Validation API. Nothing in the design system depends on it.
 
 ---
 
@@ -281,27 +280,30 @@ Built for WCAG 2.2 AA. Every component page documents what the component handles
 
 ## Documentation
 
-Run the docs site locally:
+The documentation site lives in its own repository, `aegov-designsystem-docs`. It installs this package and renders live examples against it; every component has a page covering examples, RTL behaviour, a full API reference, and accessibility obligations.
 
-```bash
-npm start
-```
-
-Then open `http://localhost:3333`. Sources are in `src/docs/markdown/`; every component has a page covering examples, RTL behaviour, a full API reference, and accessibility obligations.
+The generated API for every tag — props, events, methods, slots — ships in this package as `dist/docs.json`, and each component directory has a generated `readme.md`.
 
 ---
 
 ## Development
 
 ```bash
-npm start              # dev server with hot reload, on port 3333
-npm run build          # docs markdown → Stencil build → docs CSS → copy CSS to dist
+npm run build          # Stencil build (+ docs.json, wrapper proxies) → copy CSS to dist
 npm run build:prod     # production build (minified)
 npm test               # unit + e2e
 npm run test:unit      # unit only
 npm run test:e2e       # e2e only
+npm run test:watch     # unit + e2e in watch mode
 npm run test:coverage  # coverage report
+npm run size           # check bundle-size budgets
 npx stencil generate   # scaffold a new component
+```
+
+There is no dev server in this package. To try components in a running app, use the test apps from the repository root:
+
+```bash
+npm run test:html      # also test:react, test:vue, test:angular, or test:apps for all four
 ```
 
 This package lives in a Lerna + Nx monorepo. Building it also regenerates the React, Vue and Angular wrapper sources, so run builds from the repository root to get everything in the right order:
@@ -310,20 +312,15 @@ This package lives in a Lerna + Nx monorepo. Building it also regenerates the Re
 npm run build          # from the repo root: core + all three wrappers
 ```
 
-Accessibility tests use Playwright against the built site:
+Cross-component accessibility checks run as unit tests (`src/utils/accessibility.spec.ts`). The browser-driven Playwright accessibility suite lives in the documentation repository, where it runs against the docs pages.
 
-```bash
-npx http-server www -p 3333 --cors
-npx playwright test tests/a11y/
-```
-
-See [DEVELOPER.md](../../DEVELOPER.md) at the repository root for the full command reference and the publish flow.
+See [DEVELOPER.md](../../DEVELOPER.md) at the repository root for the monorepo command reference and the publish flow.
 
 ### Project structure
 
 ```
 src/
-├── components/     # 55 component directories
+├── components/     # 57 component directories
 ├── utils/          # types, validation, portals, focus, responsive props, a11y helpers
 ├── styles/
 │   └── tailwind.css  # the @theme token definitions
@@ -331,7 +328,6 @@ src/
 │   ├── global.css    # global stylesheet shipped as ./base
 │   ├── app.ts        # Stencil globalScript
 │   └── toast-helper.ts
-├── docs/           # documentation site (markdown/ + pages/)
 └── index.ts        # library entry — exports all public types
 ```
 
@@ -345,7 +341,7 @@ src/
 | Firefox | 98 |
 | Safari | **16.4** |
 
-Safari 16.4 is a hard floor: `aegov-otp`, `aegov-fileupload`, `aegov-select` in listbox mode and `aegov-datepicker` are form-associated custom elements and require `ElementInternals`.
+Safari 16.4 is a hard floor: all 10 single form controls are form-associated custom elements and require `ElementInternals`.
 
 Components are client-side only — they rely on the Custom Elements API, which has no server implementation. Under SSR, render them on the client; the CSS import is SSR-safe.
 

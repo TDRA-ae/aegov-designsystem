@@ -1,4 +1,5 @@
 import { newSpecPage } from '@stencil/core/testing';
+import { q } from '../../utils/test-helpers';
 import { AegovInput } from './aegov-input';
 
 describe('aegov-input', () => {
@@ -7,7 +8,7 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input></aegov-input>`,
     });
-    const input = page.root.querySelector('input');
+    const input = q(page.root, 'input');
     expect(input).not.toBeNull();
     expect(input.type).toBe('text');
     expect(input.className).toContain('aegov-input');
@@ -20,7 +21,7 @@ describe('aegov-input', () => {
       html: `<aegov-input></aegov-input>`,
     });
     expect(page.rootInstance.fieldId).toMatch(/^aegov-input-\d+$/);
-    expect(page.root.querySelector('input').id).toBe(page.rootInstance.fieldId);
+    expect(q(page.root, 'input').id).toBe(page.rootInstance.fieldId);
   });
 
   it('respects user-provided fieldId', async () => {
@@ -29,7 +30,7 @@ describe('aegov-input', () => {
       html: `<aegov-input field-id="my-input"></aegov-input>`,
     });
     expect(page.rootInstance.fieldId).toBe('my-input');
-    expect(page.root.querySelector('input').id).toBe('my-input');
+    expect(q(page.root, 'input').id).toBe('my-input');
   });
 
   it('applies type prop to native input', async () => {
@@ -37,7 +38,7 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input type="email"></aegov-input>`,
     });
-    expect(page.root.querySelector('input').type).toBe('email');
+    expect(q(page.root, 'input').type).toBe('email');
   });
 
   it('applies size class', async () => {
@@ -45,7 +46,7 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input size="lg"></aegov-input>`,
     });
-    expect(page.root.querySelector('input').className).toContain('input--lg');
+    expect(q(page.root, 'input').className).toContain('input--lg');
   });
 
   it('disables the native input when is-disabled', async () => {
@@ -53,7 +54,7 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input is-disabled="true"></aegov-input>`,
     });
-    expect(page.root.querySelector('input').disabled).toBe(true);
+    expect(q(page.root, 'input').disabled).toBe(true);
   });
 
   it('makes the input readonly when is-readonly', async () => {
@@ -61,7 +62,7 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input is-readonly="true"></aegov-input>`,
     });
-    expect(page.root.querySelector('input').readOnly).toBe(true);
+    expect(q(page.root, 'input').readOnly).toBe(true);
   });
 
   it('applies required when is-required', async () => {
@@ -69,7 +70,7 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input is-required="true"></aegov-input>`,
     });
-    expect(page.root.querySelector('input').required).toBe(true);
+    expect(q(page.root, 'input').required).toBe(true);
   });
 
   it('applies placeholder, value, and name', async () => {
@@ -77,10 +78,12 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input placeholder="enter" value="hi" name="field"></aegov-input>`,
     });
-    const input = page.root.querySelector('input');
+    const input = q(page.root, 'input');
     expect(input.placeholder).toBe('enter');
     expect(input.value).toBe('hi');
-    expect(input.name).toBe('field');
+    // FACE owns submission: name stays on the host, never on the shadow-internal control.
+    expect(page.root.getAttribute('name')).toBe('field');
+    expect(input.hasAttribute('name')).toBe(false);
   });
 
   it('emits aegovInputValue on input event', async () => {
@@ -90,7 +93,7 @@ describe('aegov-input', () => {
     });
     const spy = jest.fn();
     page.root.addEventListener('aegovInputValue', spy);
-    const input = page.root.querySelector('input');
+    const input = q(page.root, 'input');
     input.value = 'abc';
     input.dispatchEvent(new Event('input'));
     await page.waitForChanges();
@@ -105,7 +108,7 @@ describe('aegov-input', () => {
     });
     const spy = jest.fn();
     page.root.addEventListener('aegovInputChange', spy);
-    const input = page.root.querySelector('input');
+    const input = q(page.root, 'input');
     input.value = 'done';
     input.dispatchEvent(new Event('change'));
     await page.waitForChanges();
@@ -122,7 +125,7 @@ describe('aegov-input', () => {
     const blurSpy = jest.fn();
     page.root.addEventListener('aegovInputFocus', focusSpy);
     page.root.addEventListener('aegovInputBlur', blurSpy);
-    const input = page.root.querySelector('input');
+    const input = q(page.root, 'input');
     input.dispatchEvent(new FocusEvent('focus'));
     input.dispatchEvent(new FocusEvent('blur'));
     await page.waitForChanges();
@@ -135,7 +138,7 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input is-revealable="true"></aegov-input>`,
     });
-    expect(page.root.querySelector('.input__revealable')).toBeNull();
+    expect(q(page.root, '.input__revealable')).toBeNull();
   });
 
   it('renders reveal button when type=password and is-revealable', async () => {
@@ -143,7 +146,7 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input type="password" is-revealable="true"></aegov-input>`,
     });
-    const btn = page.root.querySelector('.input__revealable');
+    const btn = q(page.root, '.input__revealable');
     expect(btn).not.toBeNull();
     expect(btn.getAttribute('aria-label')).toBe('Show password');
   });
@@ -153,11 +156,11 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input type="password" is-revealable="true"></aegov-input>`,
     });
-    const btn = page.root.querySelector('.input__revealable') as HTMLButtonElement;
+    const btn = q(page.root, '.input__revealable') as HTMLButtonElement;
     btn.click();
     await page.waitForChanges();
-    expect(page.root.querySelector('input').type).toBe('text');
-    expect(page.root.querySelector('.input__revealable').getAttribute('aria-label')).toBe('Hide password');
+    expect(q(page.root, 'input').type).toBe('text');
+    expect(q(page.root, '.input__revealable').getAttribute('aria-label')).toBe('Hide password');
   });
 
   it('does not render copy button without is-readonly', async () => {
@@ -165,7 +168,7 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input is-copyable="true"></aegov-input>`,
     });
-    expect(page.root.querySelector('.input__copy-btn')).toBeNull();
+    expect(q(page.root, '.input__copy-btn')).toBeNull();
   });
 
   it('renders copy button when is-readonly and is-copyable', async () => {
@@ -173,7 +176,7 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input is-readonly="true" is-copyable="true" value="text"></aegov-input>`,
     });
-    expect(page.root.querySelector('.input__copy-btn')).not.toBeNull();
+    expect(q(page.root, '.input__copy-btn')).not.toBeNull();
   });
 
   it('forwards aria-* and data-* attributes', async () => {
@@ -181,7 +184,7 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input aria-describedby="hint" data-test="x"></aegov-input>`,
     });
-    const input = page.root.querySelector('input');
+    const input = q(page.root, 'input');
     expect(input.getAttribute('aria-describedby')).toBe('hint');
     expect(input.getAttribute('data-test')).toBe('x');
   });
@@ -191,7 +194,7 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input maxlength="5" autocomplete="email"></aegov-input>`,
     });
-    const input = page.root.querySelector('input');
+    const input = q(page.root, 'input');
     expect(input.getAttribute('maxlength')).toBe('5');
     expect(input.getAttribute('autocomplete')).toBe('email');
   });
@@ -201,8 +204,8 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input><svg slot="icon-start"></svg></aegov-input>`,
     });
-    expect(page.root.querySelector('.input__icon--start')).not.toBeNull();
-    expect(page.root.querySelector('input').className).toContain('input--has-icon-start');
+    expect(q(page.root, '.input__icon--start')).not.toBeNull();
+    expect(q(page.root, 'input').className).toContain('input--has-icon-start');
   });
 
   it('applies extra-class', async () => {
@@ -210,7 +213,7 @@ describe('aegov-input', () => {
       components: [AegovInput],
       html: `<aegov-input extra-class="custom"></aegov-input>`,
     });
-    expect(page.root.querySelector('input').className).toContain('custom');
+    expect(q(page.root, 'input').className).toContain('custom');
   });
 
   // ───────────────────────────────────────────────────────────────────
@@ -224,7 +227,7 @@ describe('aegov-input', () => {
         components: [AegovInput],
         html: `<aegov-input is-invalid="true"></aegov-input>`,
       });
-      expect(page.root.querySelector('input').getAttribute('aria-invalid')).toBe('true');
+      expect(q(page.root, 'input').getAttribute('aria-invalid')).toBe('true');
       expect(page.root.classList.contains('is-invalid')).toBe(true);
     });
 
@@ -233,7 +236,7 @@ describe('aegov-input', () => {
         components: [AegovInput],
         html: `<aegov-input></aegov-input>`,
       });
-      expect(page.root.querySelector('input').getAttribute('aria-invalid')).toBeNull();
+      expect(q(page.root, 'input').getAttribute('aria-invalid')).toBeNull();
       expect(page.root.classList.contains('is-invalid')).toBe(false);
     });
 
@@ -242,7 +245,7 @@ describe('aegov-input', () => {
         components: [AegovInput],
         html: `<aegov-input is-invalid="true" error-message="Bad value"></aegov-input>`,
       });
-      const error = page.root.querySelector('.aegov-input__error');
+      const error = q(page.root, '.aegov-input__error');
       expect(error).not.toBeNull();
       expect(error.textContent).toBe('Bad value');
     });
@@ -252,7 +255,7 @@ describe('aegov-input', () => {
         components: [AegovInput],
         html: `<aegov-input error-message="Hidden"></aegov-input>`,
       });
-      expect(page.root.querySelector('.aegov-input__error')).toBeNull();
+      expect(q(page.root, '.aegov-input__error')).toBeNull();
     });
 
     it('renders hint region when hint prop set and not invalid', async () => {
@@ -260,7 +263,7 @@ describe('aegov-input', () => {
         components: [AegovInput],
         html: `<aegov-input hint="Helper text"></aegov-input>`,
       });
-      const hint = page.root.querySelector('.aegov-input__hint');
+      const hint = q(page.root, '.aegov-input__hint');
       expect(hint).not.toBeNull();
       expect(hint.textContent).toBe('Helper text');
     });
@@ -270,8 +273,8 @@ describe('aegov-input', () => {
         components: [AegovInput],
         html: `<aegov-input is-invalid="true" error-message="Err" hint="Hint"></aegov-input>`,
       });
-      expect(page.root.querySelector('.aegov-input__error')).not.toBeNull();
-      expect(page.root.querySelector('.aegov-input__hint')).toBeNull();
+      expect(q(page.root, '.aegov-input__error')).not.toBeNull();
+      expect(q(page.root, '.aegov-input__hint')).toBeNull();
     });
 
     it('aria-describedby points at error region id when error shown', async () => {
@@ -279,7 +282,7 @@ describe('aegov-input', () => {
         components: [AegovInput],
         html: `<aegov-input field-id="x" is-invalid="true" error-message="msg"></aegov-input>`,
       });
-      expect(page.root.querySelector('input').getAttribute('aria-describedby')).toBe('x-error');
+      expect(q(page.root, 'input').getAttribute('aria-describedby')).toBe('x-error');
     });
 
     it('aria-describedby points at hint region id when hint shown', async () => {
@@ -287,7 +290,7 @@ describe('aegov-input', () => {
         components: [AegovInput],
         html: `<aegov-input field-id="x" hint="help"></aegov-input>`,
       });
-      expect(page.root.querySelector('input').getAttribute('aria-describedby')).toBe('x-hint');
+      expect(q(page.root, 'input').getAttribute('aria-describedby')).toBe('x-hint');
     });
 
     it('preserves author-supplied aria-describedby and appends our IDs (gap §7.8)', async () => {
@@ -296,7 +299,7 @@ describe('aegov-input', () => {
         html: `<aegov-input field-id="x" aria-describedby="extra-help" is-invalid="true" error-message="err" hint="h"></aegov-input>`,
       });
       // hint hides because error wins; chain is "extra-help x-error"
-      expect(page.root.querySelector('input').getAttribute('aria-describedby')).toBe('extra-help x-error');
+      expect(q(page.root, 'input').getAttribute('aria-describedby')).toBe('extra-help x-error');
     });
 
     it('error slot present overrides errorMessage prop (slot wins)', async () => {
@@ -304,13 +307,13 @@ describe('aegov-input', () => {
         components: [AegovInput],
         html: `<aegov-input is-invalid="true" error-message="prop"><span slot="error">slotted</span></aegov-input>`,
       });
-      const errorRegion = page.root.querySelector('.aegov-input__error');
+      const errorRegion = q(page.root, '.aegov-input__error');
       expect(errorRegion).not.toBeNull();
       // Error region should NOT contain the prop string when slot is present
       // (it renders <slot name="error" /> instead)
       expect(errorRegion.textContent).not.toContain('prop');
       // Slotted child remains in the host's light DOM
-      expect(page.root.querySelector('span[slot="error"]')?.textContent).toBe('slotted');
+      expect(q(page.root, 'span[slot="error"]')?.textContent).toBe('slotted');
     });
 
     it('validate() resolves with valid:true for empty optional input', async () => {
@@ -333,7 +336,7 @@ describe('aegov-input', () => {
       await page.waitForChanges();
       expect(page.rootInstance.isInvalid).toBe(true);
       expect(page.rootInstance.errorMessage).toBe('Custom error');
-      expect(page.root.querySelector('input').getAttribute('aria-invalid')).toBe('true');
+      expect(q(page.root, 'input').getAttribute('aria-invalid')).toBe('true');
     });
 
     it('setCustomValidity("") clears isInvalid + errorMessage', async () => {
@@ -352,7 +355,7 @@ describe('aegov-input', () => {
         components: [AegovInput],
         html: `<aegov-input is-invalid="true" error-message="err"></aegov-input>`,
       });
-      const region = page.root.querySelector('.aegov-input__error');
+      const region = q(page.root, '.aegov-input__error');
       expect(region.getAttribute('role')).toBeNull();
       expect(region.getAttribute('aria-live')).toBeNull();
     });
@@ -364,7 +367,7 @@ describe('aegov-input', () => {
       });
       page.rootInstance.hasBlurredOnce = true;
       await page.waitForChanges();
-      const region = page.root.querySelector('.aegov-input__error');
+      const region = q(page.root, '.aegov-input__error');
       expect(region.getAttribute('role')).toBe('alert');
       // No explicit aria-live: role="alert" already implies an assertive live region, and
       // forcing aria-live="polite" on top of it behaves inconsistently across screen readers.
