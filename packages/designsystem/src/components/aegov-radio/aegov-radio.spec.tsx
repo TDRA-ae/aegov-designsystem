@@ -106,9 +106,11 @@ describe('aegov-radio', () => {
       html: `<aegov-radio name="g" value="v"></aegov-radio>`,
     });
     const input = q(page.root, 'input') as HTMLInputElement;
-    // FACE owns submission: name stays on the host, never on the shadow-internal control.
+    // FACE owns submission via ElementInternals. The shadow-internal control also
+    // carries the name so a required radio can report valueMissing; it lives in
+    // the shadow root, so it never joins the outer form or other radios.
     expect(page.root.getAttribute('name')).toBe('g');
-    expect(input.hasAttribute('name')).toBe(false);
+    expect(input.getAttribute('name')).toBe('g');
     expect(input.value).toBe('v');
   });
 
