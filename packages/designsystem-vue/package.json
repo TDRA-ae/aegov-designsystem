@@ -29,5 +29,8 @@
   "devDependencies": {
     "vue": "^3.5.39"
   },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
   "gitHead": "cb9cbea55adbeb993074c9b61ca6b19c49a7abc1"
 }

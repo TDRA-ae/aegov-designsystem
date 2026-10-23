@@ -15,6 +15,7 @@
   "files": [
     "dist"
   ],
+  "sideEffects": false,
   "scripts": {
     "test": "node ./__tests__/react-library.test.js",
     "clean": "node -e \"const fs=require('fs');fs.rmSync('./dist',{recursive:true,force:true})\"",
@@ -27,6 +28,10 @@
   "dependencies": {
     "@aegov/designsystem": "^0.2.24",
     "@stencil/react-output-target": "^1.6.0"
+  },
+  "peerDependencies": {
+    "react": "^18 || ^19",
+    "react-dom": "^18 || ^19"
   },
   "gitHead": "cb9cbea55adbeb993074c9b61ca6b19c49a7abc1"
 }
