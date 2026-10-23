@@ -190,6 +190,9 @@ export class AegovRadioGroup {
     this.syncChildren();
   }
 
+  /** Each child's own isDisabled, saved while the group is forcing it disabled. */
+  private childOwnDisabled = new WeakMap<HTMLElement, boolean>();
+
   private syncChildren() {
     const radios = this.getRadios();
     const isListAppearance = this.appearance === 'list';
@@ -217,8 +220,15 @@ export class AegovRadioGroup {
       if (radio.variant === undefined) {
         radio.variant = this.variant;
       }
-      // Group always wins — matches size/appearance's unconditional cascade (see issue #34).
-      radio.isDisabled = this.isDisabled;
+      // A disabled group always wins (#34); an enabled group must not clear a
+      // child's own is-disabled, so restore whatever the child had before.
+      if (this.isDisabled) {
+        if (!this.childOwnDisabled.has(radio)) this.childOwnDisabled.set(radio, !!radio.isDisabled);
+        radio.isDisabled = true;
+      } else if (this.childOwnDisabled.has(radio)) {
+        radio.isDisabled = this.childOwnDisabled.get(radio);
+        this.childOwnDisabled.delete(radio);
+      }
       // Flag grouped membership as a plain host attribute (#68) — see the
       // identical comment on aegov-checkbox-group's syncChildren(). Lets
       // aegov-radio's CSS cancel its own disabled-opacity compounding with
