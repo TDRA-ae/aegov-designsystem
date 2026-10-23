@@ -4,9 +4,9 @@ describe('aegov-radio-group (e2e)', () => {
   it('renders fieldset with role="radiogroup" and legend', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-radio-group name="g" label="Pick"></aegov-radio-group>');
-    const fieldset = await page.find('aegov-radio-group fieldset');
+    const fieldset = await page.find('aegov-radio-group >>> fieldset');
     expect(fieldset.getAttribute('role')).toBe('radiogroup');
-    const legend = await page.find('aegov-radio-group legend');
+    const legend = await page.find('aegov-radio-group >>> legend');
     expect(legend.textContent).toContain('Pick');
   });
 
@@ -21,11 +21,12 @@ describe('aegov-radio-group (e2e)', () => {
     // The disabled state propagates via the native <fieldset disabled>;
     // descendant inputs match :disabled but do not reflect a JS-level
     // disabled property unless they have their own disabled attribute.
-    const fieldset = await page.find('aegov-radio-group fieldset');
+    const fieldset = await page.find('aegov-radio-group >>> fieldset');
     expect(fieldset.getAttribute('disabled')).not.toBeNull();
     const allDisabled = await page.evaluate(() => {
-      const inputs = document.querySelectorAll('aegov-radio-group aegov-radio input');
-      return Array.from(inputs).every((i) => (i as HTMLInputElement).matches(':disabled'));
+      const inputs = Array.from(document.querySelectorAll('aegov-radio-group aegov-radio'))
+        .map((r) => r.shadowRoot!.querySelector('input') as HTMLInputElement);
+      return inputs.length > 0 && inputs.every((i) => i.matches(':disabled'));
     });
     expect(allDisabled).toBe(true);
   });
@@ -38,12 +39,12 @@ describe('aegov-radio-group (e2e)', () => {
         <aegov-radio label="B" value="b"></aegov-radio>
       </aegov-radio-group>
     `);
-    const first = await page.find('aegov-radio[value="a"] input');
+    const first = await page.find('aegov-radio[value="a"] >>> input');
     await first.click();
     await page.waitForChanges();
     expect(await first.getProperty('checked')).toBe(true);
 
-    const second = await page.find('aegov-radio[value="b"] input');
+    const second = await page.find('aegov-radio[value="b"] >>> input');
     await second.click();
     await page.waitForChanges();
     expect(await second.getProperty('checked')).toBe(true);
@@ -60,7 +61,7 @@ describe('aegov-radio-group (e2e)', () => {
     `);
     const group = await page.find('aegov-radio-group');
     const spy = await group.spyOnEvent('aegovRadioGroupChange');
-    const input = await page.find('aegov-radio[value="b"] input');
+    const input = await page.find('aegov-radio[value="b"] >>> input');
     await input.click();
     await page.waitForChanges();
     expect(spy).toHaveReceivedEventTimes(1);
@@ -75,9 +76,15 @@ describe('aegov-radio-group (e2e)', () => {
         <aegov-radio label="B" value="b"></aegov-radio>
       </aegov-radio-group>
     `);
-    const inputs = await page.findAll('aegov-radio-group aegov-radio input');
+    // FACE owns submission: name lands on each child host, never the shadow-internal input.
+    const radios = await page.findAll('aegov-radio-group aegov-radio');
+    expect(radios.length).toBe(2);
+    for (const r of radios) {
+      expect(r.getAttribute('name')).toBe('grp1');
+    }
+    const inputs = await page.findAll('aegov-radio-group aegov-radio >>> input');
     for (const i of inputs) {
-      expect(await i.getProperty('name')).toBe('grp1');
+      expect(i.getAttribute('name')).toBeNull();
     }
   });
 
@@ -88,7 +95,7 @@ describe('aegov-radio-group (e2e)', () => {
         <aegov-radio label="A"></aegov-radio>
       </aegov-radio-group>
     `);
-    const r = await page.find('aegov-radio-group aegov-radio div.aegov-radio');
+    const r = await page.find('aegov-radio-group aegov-radio >>> div.aegov-radio');
     expect(r).toHaveClass('radio--sm');
   });
 
@@ -164,7 +171,7 @@ describe('aegov-radio-group (e2e)', () => {
     ));
     expect(tabIndexesBefore).toEqual([0, -1, -1]);
 
-    const second = await page.find('aegov-radio[value="b"] input');
+    const second = await page.find('aegov-radio[value="b"] >>> input');
     await second.click();
     await page.waitForChanges();
 
@@ -184,23 +191,23 @@ describe('aegov-radio-group (e2e)', () => {
         <aegov-radio label="C" value="c"></aegov-radio>
       </aegov-radio-group>
     `);
-    const first = await page.find('aegov-radio[value="a"] input');
+    const first = await page.find('aegov-radio[value="a"] >>> input');
     await first.focus();
     await page.waitForChanges();
 
     await page.keyboard.press('ArrowDown');
     await page.waitForChanges();
-    expect(await (await page.find('aegov-radio[value="b"] input')).getProperty('checked')).toBe(true);
+    expect(await (await page.find('aegov-radio[value="b"] >>> input')).getProperty('checked')).toBe(true);
 
     await page.keyboard.press('ArrowRight');
     await page.waitForChanges();
-    expect(await (await page.find('aegov-radio[value="c"] input')).getProperty('checked')).toBe(true);
+    expect(await (await page.find('aegov-radio[value="c"] >>> input')).getProperty('checked')).toBe(true);
 
     // Wraps back around to the first radio.
     await page.keyboard.press('ArrowDown');
     await page.waitForChanges();
-    expect(await (await page.find('aegov-radio[value="a"] input')).getProperty('checked')).toBe(true);
-    expect(await (await page.find('aegov-radio[value="c"] input')).getProperty('checked')).toBe(false);
+    expect(await (await page.find('aegov-radio[value="a"] >>> input')).getProperty('checked')).toBe(true);
+    expect(await (await page.find('aegov-radio[value="c"] >>> input')).getProperty('checked')).toBe(false);
   });
 
   it('ArrowUp/ArrowLeft move focus and selection to the previous radio, wrapping at the start', async () => {
@@ -211,18 +218,18 @@ describe('aegov-radio-group (e2e)', () => {
         <aegov-radio label="B" value="b"></aegov-radio>
       </aegov-radio-group>
     `);
-    const first = await page.find('aegov-radio[value="a"] input');
+    const first = await page.find('aegov-radio[value="a"] >>> input');
     await first.focus();
     await page.waitForChanges();
 
     // Wraps from the first radio to the last.
     await page.keyboard.press('ArrowUp');
     await page.waitForChanges();
-    expect(await (await page.find('aegov-radio[value="b"] input')).getProperty('checked')).toBe(true);
+    expect(await (await page.find('aegov-radio[value="b"] >>> input')).getProperty('checked')).toBe(true);
 
     await page.keyboard.press('ArrowLeft');
     await page.waitForChanges();
-    expect(await (await page.find('aegov-radio[value="a"] input')).getProperty('checked')).toBe(true);
+    expect(await (await page.find('aegov-radio[value="a"] >>> input')).getProperty('checked')).toBe(true);
   });
 
   it('arrow keys skip disabled radios', async () => {
@@ -234,12 +241,12 @@ describe('aegov-radio-group (e2e)', () => {
         <aegov-radio label="C" value="c"></aegov-radio>
       </aegov-radio-group>
     `);
-    const first = await page.find('aegov-radio[value="a"] input');
+    const first = await page.find('aegov-radio[value="a"] >>> input');
     await first.focus();
     await page.waitForChanges();
     await page.keyboard.press('ArrowDown');
     await page.waitForChanges();
-    expect(await (await page.find('aegov-radio[value="c"] input')).getProperty('checked')).toBe(true);
+    expect(await (await page.find('aegov-radio[value="c"] >>> input')).getProperty('checked')).toBe(true);
   });
 
   it('arrow-key selection emits aegovRadioGroupChange, same as a click', async () => {
@@ -252,7 +259,7 @@ describe('aegov-radio-group (e2e)', () => {
     `);
     const group = await page.find('aegov-radio-group');
     const spy = await group.spyOnEvent('aegovRadioGroupChange');
-    const first = await page.find('aegov-radio[value="a"] input');
+    const first = await page.find('aegov-radio[value="a"] >>> input');
     await first.focus();
     await page.waitForChanges();
     await page.keyboard.press('ArrowDown');

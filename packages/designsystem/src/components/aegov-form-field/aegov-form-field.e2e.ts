@@ -43,11 +43,14 @@ describe('aegov-form-field (e2e)', () => {
     expect(await label.getProperty('htmlFor')).toBe('notes-ta');
   });
 
-  it('reflects fieldId to wrapper id', async () => {
+  it('reflects fieldId to the host, not the wrapper', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-form-field field-id="ff42"></aegov-form-field>');
+    // The wrapper div lost its id in ab1e390; fieldId now reflects to the host.
+    const host = await page.find('aegov-form-field');
+    expect(host.getAttribute('field-id')).toBe('ff42');
     const wrapper = await page.find('aegov-form-field div.aegov-form-field');
-    expect(wrapper.id).toBe('ff42');
+    expect(wrapper.getAttribute('id')).toBeNull();
   });
 
   it('forwards aria and data attributes to wrapper', async () => {

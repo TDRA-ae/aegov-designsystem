@@ -1,4 +1,5 @@
 import { newSpecPage } from '@stencil/core/testing';
+import { q, qa } from '../../utils/test-helpers';
 import { AegovSelect } from './aegov-select';
 import { AegovSelectOption } from '../aegov-select-option/aegov-select-option';
 import { AegovSelectOptionGroup } from '../aegov-select-option-group/aegov-select-option-group';
@@ -13,7 +14,7 @@ describe('aegov-select', () => {
           <aegov-select-option value="b">Banana</aegov-select-option>
         </aegov-select>`,
       });
-      const select = page.root.querySelector('select');
+      const select = q(page.root, 'select');
       expect(select).not.toBeNull();
       expect(select.className).toContain('aegov-select');
       expect(select.className).toContain('select--base');
@@ -27,7 +28,7 @@ describe('aegov-select', () => {
           <aegov-select-option value="b" is-disabled="true">Banana</aegov-select-option>
         </aegov-select>`,
       });
-      const options = page.root.querySelectorAll('select option');
+      const options = qa(page.root, 'select option');
       // No placeholder, so 2 options
       expect(options.length).toBe(2);
       expect(options[0].getAttribute('value')).toBe('a');
@@ -43,7 +44,7 @@ describe('aegov-select', () => {
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
-      const options = page.root.querySelectorAll('select option');
+      const options = qa(page.root, 'select option');
       expect(options.length).toBe(2);
       expect(options[0].getAttribute('value')).toBe('');
       expect(options[0].textContent.trim()).toBe('Choose…');
@@ -59,7 +60,7 @@ describe('aegov-select', () => {
           </aegov-select-option-group>
         </aegov-select>`,
       });
-      const optgroup = page.root.querySelector('select optgroup');
+      const optgroup = q(page.root, 'select optgroup');
       expect(optgroup).not.toBeNull();
       expect(optgroup.getAttribute('label')).toBe('Fruit');
       expect(optgroup.querySelector('option').getAttribute('value')).toBe('a');
@@ -72,7 +73,7 @@ describe('aegov-select', () => {
           <aegov-select-option value="a">A</aegov-select-option>
         </aegov-select>`,
       });
-      const select = page.root.querySelector('select') as HTMLSelectElement;
+      const select = q(page.root, 'select') as HTMLSelectElement;
       expect(select.hasAttribute("disabled")).toBe(true);
       expect(select.hasAttribute("required")).toBe(true);
       expect(select.getAttribute("name")).toBe('fruit');
@@ -88,7 +89,7 @@ describe('aegov-select', () => {
       });
       const spy = jest.fn();
       page.root.addEventListener('aegovSelectChange', spy);
-      const select = page.root.querySelector('select') as HTMLSelectElement;
+      const select = q(page.root, 'select') as HTMLSelectElement;
       select.value = 'b';
       select.dispatchEvent(new Event('change'));
       await page.waitForChanges();
@@ -103,7 +104,7 @@ describe('aegov-select', () => {
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
-      const select = page.root.querySelector('select');
+      const select = q(page.root, 'select');
       expect(select.getAttribute('aria-label')).toBe('Fruit');
       expect(select.getAttribute('data-test')).toBe('x');
       expect(select.hasAttribute('autofocus')).toBe(true);
@@ -119,8 +120,8 @@ describe('aegov-select', () => {
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
-      expect(page.root.querySelector('select')).toBeNull();
-      const trigger = page.root.querySelector('button[role="combobox"]');
+      expect(q(page.root, 'select')).toBeNull();
+      const trigger = q(page.root, 'button[role="combobox"]');
       expect(trigger).not.toBeNull();
       expect(trigger.getAttribute('aria-haspopup')).toBe('listbox');
       expect(trigger.getAttribute('aria-expanded')).toBe('false');
@@ -134,13 +135,13 @@ describe('aegov-select', () => {
           <aegov-select-option value="b">Banana</aegov-select-option>
         </aegov-select>`,
       });
-      const trigger = page.root.querySelector('button[role="combobox"]') as HTMLButtonElement;
+      const trigger = q(page.root, 'button[role="combobox"]') as HTMLButtonElement;
       trigger.click();
       await page.waitForChanges();
-      const listbox = page.root.querySelector('[role="listbox"]');
+      const listbox = q(page.root, '[role="listbox"]');
       expect(listbox).not.toBeNull();
       expect(trigger.getAttribute('aria-expanded')).toBe('true');
-      const options = page.root.querySelectorAll(`[role="listbox"] [role="option"]`);
+      const options = qa(page.root, `[role="listbox"] [role="option"]`);
       expect(options.length).toBe(2);
     });
 
@@ -154,9 +155,9 @@ describe('aegov-select', () => {
       });
       const spy = jest.fn();
       page.root.addEventListener('aegovSelectChange', spy);
-      (page.root.querySelector('button[role="combobox"]') as HTMLButtonElement).click();
+      (q(page.root, 'button[role="combobox"]') as HTMLButtonElement).click();
       await page.waitForChanges();
-      const opt = page.root.querySelectorAll(`[role="listbox"] [role="option"]`)[1] as HTMLElement;
+      const opt = qa(page.root, `[role="listbox"] [role="option"]`)[1] as HTMLElement;
       opt.click();
       await page.waitForChanges();
       expect(spy).toHaveBeenCalledTimes(1);
@@ -173,9 +174,9 @@ describe('aegov-select', () => {
       });
       const spy = jest.fn();
       page.root.addEventListener('aegovSelectChange', spy);
-      (page.root.querySelector('button[role="combobox"]') as HTMLButtonElement).click();
+      (q(page.root, 'button[role="combobox"]') as HTMLButtonElement).click();
       await page.waitForChanges();
-      const opt = page.root.querySelector(`[role="listbox"] [role="option"]`) as HTMLElement;
+      const opt = q(page.root, `[role="listbox"] [role="option"]`) as HTMLElement;
       opt.click();
       await page.waitForChanges();
       expect(spy).not.toHaveBeenCalled();
@@ -190,14 +191,14 @@ describe('aegov-select', () => {
           <aegov-select-option value="c">Cherry</aegov-select-option>
         </aegov-select>`,
       });
-      (page.root.querySelector('button[role="combobox"]') as HTMLButtonElement).click();
+      (q(page.root, 'button[role="combobox"]') as HTMLButtonElement).click();
       await page.waitForChanges();
-      const search = page.root.querySelector('.select__search-input') as HTMLInputElement;
+      const search = q(page.root, '.select__search-input') as HTMLInputElement;
       expect(search).not.toBeNull();
       search.value = 'an';
       search.dispatchEvent(new Event('input'));
       await page.waitForChanges();
-      const visible = page.root.querySelectorAll(`[role="listbox"] [role="option"]`);
+      const visible = qa(page.root, `[role="listbox"] [role="option"]`);
       expect(visible.length).toBe(1);
       expect(visible[0].textContent).toContain('Banana');
     });
@@ -209,13 +210,13 @@ describe('aegov-select', () => {
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
-      (page.root.querySelector('button[role="combobox"]') as HTMLButtonElement).click();
+      (q(page.root, 'button[role="combobox"]') as HTMLButtonElement).click();
       await page.waitForChanges();
-      const search = page.root.querySelector('.select__search-input') as HTMLInputElement;
+      const search = q(page.root, '.select__search-input') as HTMLInputElement;
       search.value = 'zzz';
       search.dispatchEvent(new Event('input'));
       await page.waitForChanges();
-      const empty = page.root.querySelector('.select__empty');
+      const empty = q(page.root, '.select__empty');
       expect(empty).not.toBeNull();
       expect(empty.textContent).toBe('Nothing here');
     });
@@ -230,11 +231,11 @@ describe('aegov-select', () => {
       });
       const spy = jest.fn();
       page.root.addEventListener('aegovSelectChange', spy);
-      (page.root.querySelector('button[role="combobox"]') as HTMLButtonElement).click();
+      (q(page.root, 'button[role="combobox"]') as HTMLButtonElement).click();
       await page.waitForChanges();
-      const listbox = page.root.querySelector('[role="listbox"]');
+      const listbox = q(page.root, '[role="listbox"]');
       expect(listbox.getAttribute('aria-multiselectable')).toBe('true');
-      const opts = page.root.querySelectorAll(`[role="listbox"] [role="option"]`);
+      const opts = qa(page.root, `[role="listbox"] [role="option"]`);
       (opts[0] as HTMLElement).click();
       await page.waitForChanges();
       (opts[1] as HTMLElement).click();
@@ -252,7 +253,7 @@ describe('aegov-select', () => {
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
-      const clear = page.root.querySelector('.select__clear') as HTMLElement;
+      const clear = q(page.root, '.select__clear') as HTMLElement;
       expect(clear).not.toBeNull();
       const spy = jest.fn();
       page.root.addEventListener('aegovSelectChange', spy);
@@ -270,7 +271,7 @@ describe('aegov-select', () => {
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
-      expect(page.root.querySelector('.select__clear')).toBeNull();
+      expect(q(page.root, '.select__clear')).toBeNull();
     });
 
     it('shows placeholder text when nothing selected', async () => {
@@ -280,9 +281,9 @@ describe('aegov-select', () => {
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
-      const value = page.root.querySelector('.select__value');
+      const value = q(page.root, '.select__value');
       expect(value.textContent.trim()).toBe('Pick one');
-      expect(page.root.querySelector('button[role="combobox"]').className).toContain('select--placeholder');
+      expect(q(page.root, 'button[role="combobox"]').className).toContain('select--placeholder');
     });
 
     it('shows resolved label when value matches a parsed option', async () => {
@@ -293,7 +294,7 @@ describe('aegov-select', () => {
           <aegov-select-option value="b">Banana</aegov-select-option>
         </aegov-select>`,
       });
-      expect(page.root.querySelector('.select__value').textContent.trim()).toBe('Banana');
+      expect(q(page.root, '.select__value').textContent.trim()).toBe('Banana');
     });
 
     it('disables trigger when isDisabled', async () => {
@@ -303,7 +304,7 @@ describe('aegov-select', () => {
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
-      const trigger = page.root.querySelector('button[role="combobox"]') as HTMLButtonElement;
+      const trigger = q(page.root, 'button[role="combobox"]') as HTMLButtonElement;
       expect(trigger.hasAttribute('disabled')).toBe(true);
       trigger.click();
       await page.waitForChanges();
@@ -320,7 +321,7 @@ describe('aegov-select', () => {
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
-      expect(page.root.querySelector('input[type="hidden"]')).toBeNull();
+      expect(q(page.root, 'input[type="hidden"]')).toBeNull();
       expect(page.rootInstance.name).toBe('fruit');
       expect(page.rootInstance.value).toBe('a');
     });
@@ -348,7 +349,7 @@ describe('aegov-select', () => {
         components: [AegovSelect, AegovSelectOption],
         html: `<aegov-select size="lg"><aegov-select-option value="a">A</aegov-select-option></aegov-select>`,
       });
-      expect(page.root.querySelector('select').className).toContain('select--lg');
+      expect(q(page.root, 'select').className).toContain('select--lg');
     });
 
     it('parses options into parsedOptions state', async () => {
@@ -378,7 +379,7 @@ describe('aegov-select', () => {
           <aegov-select-option value="a">A</aegov-select-option>
         </aegov-select>`,
       });
-      expect(page.root.querySelector('select').getAttribute('aria-invalid')).toBe('true');
+      expect(q(page.root, 'select').getAttribute('aria-invalid')).toBe('true');
       expect(page.root.classList.contains('is-invalid')).toBe(true);
     });
 
@@ -389,7 +390,7 @@ describe('aegov-select', () => {
           <aegov-select-option value="a">A</aegov-select-option>
         </aegov-select>`,
       });
-      expect(page.root.querySelector('button').getAttribute('aria-invalid')).toBe('true');
+      expect(q(page.root, 'button').getAttribute('aria-invalid')).toBe('true');
       expect(page.root.classList.contains('is-invalid')).toBe(true);
     });
 
@@ -400,7 +401,7 @@ describe('aegov-select', () => {
           <aegov-select-option value="a">A</aegov-select-option>
         </aegov-select>`,
       });
-      expect(page.root.querySelector('.aegov-select__error').textContent).toBe('Required');
+      expect(q(page.root, '.aegov-select__error').textContent).toBe('Required');
     });
 
     it('renders hint when not invalid', async () => {
@@ -410,7 +411,7 @@ describe('aegov-select', () => {
           <aegov-select-option value="a">A</aegov-select-option>
         </aegov-select>`,
       });
-      expect(page.root.querySelector('.aegov-select__hint').textContent).toBe('Pick one');
+      expect(q(page.root, '.aegov-select__hint').textContent).toBe('Pick one');
     });
 
     it('hides hint when error shown', async () => {
@@ -420,8 +421,8 @@ describe('aegov-select', () => {
           <aegov-select-option value="a">A</aegov-select-option>
         </aegov-select>`,
       });
-      expect(page.root.querySelector('.aegov-select__error')).not.toBeNull();
-      expect(page.root.querySelector('.aegov-select__hint')).toBeNull();
+      expect(q(page.root, '.aegov-select__error')).not.toBeNull();
+      expect(q(page.root, '.aegov-select__hint')).toBeNull();
     });
 
     it('validate() resolves valid for empty optional select', async () => {
