@@ -844,7 +844,7 @@ export namespace Components {
          */
         "isPinned": boolean;
         /**
-          * Whether the drawer relocates itself to `document.body` on connect, so it stacks above the rest of the page.  Set to `false` when the drawer is rendered inside another component's shadow DOM and forwards a `<slot>` into its content: relocating would take that slot out of its shadow tree, where it projects nothing. The panel and backdrop are `position: fixed`, so they still cover the viewport in place — unless an ancestor creates a containing block (`transform`, `filter`, `contain`, `will-change`), in which case leave this on.
+          * Whether the drawer relocates itself to `document.body` while open, so it stacks above the rest of the page. (It returns to where it was declared when it closes, and leaves with its declared parent if that is removed.)  Set to `false` when the drawer is rendered inside another component's shadow DOM and forwards a `<slot>` into its content: relocating would take that slot out of its shadow tree, where it projects nothing. The panel and backdrop are `position: fixed`, so they still cover the viewport in place — unless an ancestor creates a containing block (`transform`, `filter`, `contain`, `will-change`), in which case leave this on.
           * @default true
          */
         "isPortal": boolean;
@@ -4267,9 +4267,17 @@ declare namespace LocalJSX {
          */
         "appearance"?: ButtonAppearance;
         /**
+          * If `true`, the user cannot interact with the element.
+         */
+        "disabled"?: boolean;
+        /**
           * Unique ID for the button element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
         /**
           * Internal: The orientation of the button group this button belongs to
          */
@@ -4303,6 +4311,10 @@ declare namespace LocalJSX {
           * @default false
          */
         "isLoading"?: boolean;
+        /**
+          * The name of the element, used when submitting an HTML form.
+         */
+        "name"?: string;
         /**
           * Emitted when the button loses focus
          */
@@ -4762,7 +4774,7 @@ declare namespace LocalJSX {
          */
         "isPinned"?: boolean;
         /**
-          * Whether the drawer relocates itself to `document.body` on connect, so it stacks above the rest of the page.  Set to `false` when the drawer is rendered inside another component's shadow DOM and forwards a `<slot>` into its content: relocating would take that slot out of its shadow tree, where it projects nothing. The panel and backdrop are `position: fixed`, so they still cover the viewport in place — unless an ancestor creates a containing block (`transform`, `filter`, `contain`, `will-change`), in which case leave this on.
+          * Whether the drawer relocates itself to `document.body` while open, so it stacks above the rest of the page. (It returns to where it was declared when it closes, and leaves with its declared parent if that is removed.)  Set to `false` when the drawer is rendered inside another component's shadow DOM and forwards a `<slot>` into its content: relocating would take that slot out of its shadow tree, where it projects nothing. The panel and backdrop are `position: fixed`, so they still cover the viewport in place — unless an ancestor creates a containing block (`transform`, `filter`, `contain`, `will-change`), in which case leave this on.
           * @default true
          */
         "isPortal"?: boolean;

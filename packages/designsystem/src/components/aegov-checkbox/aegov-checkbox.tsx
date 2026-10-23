@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method, Listen } from '@stencil/core';
 import { CHECKBOX_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
   CheckboxSize, FormVariant,
@@ -175,9 +175,16 @@ export class AegovCheckbox {
     }
   }
 
+  /** The form found this field invalid during a submit or checkValidity() — start announcing errors. */
+  @Listen('invalid')
+  onInvalid() {
+    this.hasBlurredOnce = true;
+  }
+
   /** Imperatively re-run validation. */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasBlurredOnce = true;
     const validity = this.readValidity();
     const message = !validity.valid
       ? (this.errorMessage || this.inputEl?.validationMessage || '')
@@ -255,6 +262,20 @@ export class AegovCheckbox {
     if (this.inputEl) {
       this.inputEl.indeterminate = this.isIndeterminate;
     }
+  }
+
+  /**
+   * Checked state or value set from code fires no change event — keep the inner
+   * input, the form value and validity in step with it (no events, like native).
+   */
+  @Watch('isChecked')
+  @Watch('value')
+  onCheckedOrValueChange() {
+    if (this.inputEl && this.inputEl.checked !== !!this.isChecked) {
+      this.inputEl.checked = !!this.isChecked;
+    }
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
+    this.syncInternalsValidity();
   }
 
   @Watch('isIndeterminate')

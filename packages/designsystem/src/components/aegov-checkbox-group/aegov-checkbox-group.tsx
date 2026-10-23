@@ -11,6 +11,7 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   composeDescribedBy, buildValidationDetail, synthesizeValidity,
+  withCustomError,
 } from '../../utils/validation';
 import { generateId } from '../../utils/id-generator';
 
@@ -88,6 +89,7 @@ export class AegovCheckboxGroup {
   /** Imperatively re-run validation. */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasInteractedOnce = true;
     return this.runAndEmitValidation(trigger);
   }
 
@@ -96,7 +98,11 @@ export class AegovCheckboxGroup {
   async setCustomValidity(message: string): Promise<void> {
     this.errorMessage = message;
     this.isInvalid = !!message;
+    this.customValidityMessage = message;
   }
+
+  /** Message from setCustomValidity(), kept so recomputing validity does not drop it. */
+  private customValidityMessage = '';
 
   private collectValues(): string[] {
     const checkboxes = this.getRegularCheckboxes();
@@ -107,6 +113,10 @@ export class AegovCheckboxGroup {
   }
 
   private computeValidity() {
+    return withCustomError(this.computeConstraintValidity(), this.customValidityMessage);
+  }
+
+  private computeConstraintValidity() {
     const values = this.collectValues();
     if (this.isRequired && values.length === 0) {
       return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required', values };

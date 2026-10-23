@@ -9,6 +9,7 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   composeDescribedBy, buildValidationDetail, synthesizeValidity,
+  withCustomError,
 } from '../../utils/validation';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
@@ -98,6 +99,7 @@ export class AegovRadioGroup {
   /** Imperatively re-run validation. */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasInteractedOnce = true;
     return this.runAndEmitValidation(trigger);
   }
 
@@ -106,7 +108,11 @@ export class AegovRadioGroup {
   async setCustomValidity(message: string): Promise<void> {
     this.errorMessage = message;
     this.isInvalid = !!message;
+    this.customValidityMessage = message;
   }
+
+  /** Message from setCustomValidity(), kept so recomputing validity does not drop it. */
+  private customValidityMessage = '';
 
   private collectSelectedValue(): string | undefined {
     const radios = this.getRadios();
@@ -115,6 +121,10 @@ export class AegovRadioGroup {
   }
 
   private computeValidity() {
+    return withCustomError(this.computeConstraintValidity(), this.customValidityMessage);
+  }
+
+  private computeConstraintValidity() {
     const value = this.collectSelectedValue();
     if (this.isRequired && !value) {
       return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required', value };

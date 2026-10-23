@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method, Listen } from '@stencil/core';
 import { INPUT_TYPES, INPUT_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
   InputType, InputSize, FormVariant,
@@ -15,6 +15,7 @@ import {
   composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
 } from '../../utils/validation';
 import { isRtl } from '../../utils/rtl';
+import { afterDispatchUnlessPrevented, getOwningForm, implicitlySubmit } from '../../utils/form-submit';
 
 const STRINGS = {
   en: {
@@ -205,6 +206,26 @@ export class AegovInput {
     }
   }
 
+  /**
+   * A value set from code (a framework binding, loading saved data, clearing the
+   * form) fires no input event, so the form value and validity would otherwise
+   * keep the previous value. Like a native input, no events are emitted for it.
+   */
+  @Watch('value')
+  onValueChange() {
+    if (this.nativeRef && this.nativeRef.value !== (this.value ?? '')) {
+      this.nativeRef.value = this.value ?? '';
+    }
+    this.internals?.setFormValue(this.value || null);
+    this.syncInternalsValidity();
+  }
+
+  /** The form found this field invalid during a submit or checkValidity() — start announcing errors. */
+  @Listen('invalid')
+  onInvalid() {
+    this.hasBlurredOnce = true;
+  }
+
   componentDidLoad() {
     this.syncInternalsValidity();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
@@ -221,6 +242,7 @@ export class AegovInput {
    */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasBlurredOnce = true;
     const validity = this.readValidity();
     const message = !validity.valid
       ? (this.errorMessage || this.nativeRef?.validationMessage || '')
@@ -375,6 +397,21 @@ export class AegovInput {
 
   private handleFocus = (event: FocusEvent) => {
     this.aegovInputFocus.emit(event);
+  };
+
+  /**
+   * Enter-key implicit submission. A native <input> in a <form> submits it on
+   * Enter, but this one lives in the shadow root and has no form owner, so the
+   * browser never does; run the HTML algorithm against the host's form instead.
+   * Deferred until the keydown has finished dispatching so a consumer's
+   * keydown listener (e.g. an autocomplete taking Enter) can still cancel it
+   * with preventDefault(), as with a native input.
+   */
+  private handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key !== 'Enter' || event.isComposing || event.defaultPrevented) return;
+    const form = getOwningForm(this.el, this.internals);
+    if (!form) return;
+    afterDispatchUnlessPrevented(event, () => implicitlySubmit(form));
   };
 
   private handleBlur = (event: FocusEvent) => {
@@ -547,6 +584,7 @@ export class AegovInput {
         onInput={this.handleInput}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
+        onKeyDown={this.handleKeyDown}
         {...passThroughAttributes}
       />
     );

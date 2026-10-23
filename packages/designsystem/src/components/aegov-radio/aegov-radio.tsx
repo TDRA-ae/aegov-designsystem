@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Watch, Event, EventEmitter, Element, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Watch, Event, EventEmitter, Element, Method, Listen } from '@stencil/core';
 import { RADIO_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
   RadioSize, FormVariant,
@@ -190,9 +190,16 @@ export class AegovRadio {
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
   }
 
+  /** The form found this field invalid during a submit or checkValidity() — start announcing errors. */
+  @Listen('invalid')
+  onInvalid() {
+    this.hasBlurredOnce = true;
+  }
+
   /** Imperatively re-run validation. */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasBlurredOnce = true;
     const validity = this.readValidity();
     const message = !validity.valid
       ? (this.errorMessage || this.inputEl?.validationMessage || '')
@@ -292,6 +299,11 @@ export class AegovRadio {
       <input
         ref={(el) => this.inputEl = el}
         type="radio"
+        // A radio with no name belongs to no radio group, and the HTML spec never
+        // reports valueMissing for it — so a required radio could never be missing.
+        // The input lives in this component's own shadow root, so the name does not
+        // join it to other radios or change what the form submits (ElementInternals does).
+        name={this.name || this.fieldId}
         id={this.fieldId}
         value={this.value}
         checked={this.isChecked}

@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method, Listen } from '@stencil/core';
 import { RANGE_SIZES, RANGE_DISPLAYS, RANGE_ORIENTATIONS, RANGE_MODES, FORM_VARIANTS } from '../../utils/types';
 import type {
   RangeSize, RangeDisplay, RangeOrientation, RangeMode, FormVariant,
@@ -178,6 +178,26 @@ export class AegovRange {
     this.internals?.setFormValue(null);
   }
 
+  /**
+   * A value set from code fires no input event — move the native thumb(s) and
+   * update the form value (no events, like a native range input).
+   */
+  @Watch('value')
+  @Watch('valueLow')
+  @Watch('valueHigh')
+  onValueChange() {
+    const syncNative = (el: HTMLInputElement | undefined, v: number) => {
+      if (el && el.value !== String(v)) el.value = String(v);
+    };
+    if (this.mode === 'range') {
+      syncNative(this.nativeRef, this.valueLow);
+      syncNative(this.highRef, this.valueHigh);
+    } else {
+      syncNative(this.nativeRef, this.value);
+    }
+    this.syncFormValue();
+  }
+
   private syncFormValue() {
     if (!this.internals) return;
     try {
@@ -192,9 +212,16 @@ export class AegovRange {
     } catch { /* jsdom mock */ }
   }
 
+  /** The form found this field invalid during a submit or checkValidity() — start announcing errors. */
+  @Listen('invalid')
+  onInvalid() {
+    this.hasBlurredOnce = true;
+  }
+
   /** Imperatively re-run validation. */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasBlurredOnce = true;
     const validity = this.readValidity();
     const message = !validity.valid
       ? (this.errorMessage || this.nativeRef?.validationMessage || '')
