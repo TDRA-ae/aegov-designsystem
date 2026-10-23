@@ -271,7 +271,7 @@ export class AegovFormField {
     this.disabledObserver?.disconnect();
     this.observedControl = ctrl;
 
-    if (ctrl.shadowRoot) {
+    if (ctrl.shadowRoot && typeof MutationObserver !== 'undefined') {
       this.disabledObserver = new MutationObserver(() => {
         this.isControlDisabled = !!ctrl.isDisabled;
       });
@@ -312,6 +312,7 @@ export class AegovFormField {
     if (this.observedLabelForName === label) return;
     this.accessibleNameObserver?.disconnect();
     this.observedLabelForName = label;
+    if (typeof MutationObserver === 'undefined') return;
 
     this.accessibleNameObserver = new MutationObserver(() => {
       this.applyAccessibleName(label, ctrl);

@@ -4,7 +4,7 @@ describe('aegov-textarea (e2e)', () => {
   it('renders a native textarea', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-textarea></aegov-textarea>');
-    const ta = await page.find('aegov-textarea textarea');
+    const ta = await page.find('aegov-textarea >>> textarea');
     expect(ta).not.toBeNull();
     expect(ta).toHaveClass('aegov-textarea');
   });
@@ -14,7 +14,7 @@ describe('aegov-textarea (e2e)', () => {
     await page.setContent('<aegov-textarea></aegov-textarea>');
     const host = await page.find('aegov-textarea');
     const spy = await host.spyOnEvent('aegovTextareaValue');
-    const ta = await page.find('aegov-textarea textarea');
+    const ta = await page.find('aegov-textarea >>> textarea');
     await ta.press('a');
     await page.waitForChanges();
     expect(spy).toHaveReceivedEvent();
@@ -23,14 +23,14 @@ describe('aegov-textarea (e2e)', () => {
   it('disables native textarea when is-disabled', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-textarea is-disabled="true"></aegov-textarea>');
-    const ta = await page.find('aegov-textarea textarea');
+    const ta = await page.find('aegov-textarea >>> textarea');
     expect(await ta.getProperty('disabled')).toBe(true);
   });
 
   it('renders character counter when maxlength is set', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-textarea maxlength="10" value="hi"></aegov-textarea>');
-    const counter = await page.find('aegov-textarea .textarea__counter');
+    const counter = await page.find('aegov-textarea >>> .textarea__counter');
     expect(counter).not.toBeNull();
     expect(counter.textContent).toContain('2 / 10');
   });
@@ -44,18 +44,18 @@ describe('aegov-textarea (e2e)', () => {
         configurable: true,
       });
     });
-    const btn = await page.find('aegov-textarea button.textarea__copy-btn');
+    const btn = await page.find('aegov-textarea >>> button.textarea__copy-btn');
     expect(btn).not.toBeNull();
     await btn.click();
     await page.waitForChanges();
-    const updated = await page.find('aegov-textarea button.textarea__copy-btn');
+    const updated = await page.find('aegov-textarea >>> button.textarea__copy-btn');
     expect(updated).toHaveClass('textarea__copy-btn--copied');
   });
 
   it('forwards aria and data attributes to native textarea', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-textarea aria-label="message" data-foo="bar"></aegov-textarea>');
-    const ta = await page.find('aegov-textarea textarea');
+    const ta = await page.find('aegov-textarea >>> textarea');
     expect(ta.getAttribute('aria-label')).toBe('message');
     expect(ta.getAttribute('data-foo')).toBe('bar');
   });
@@ -63,7 +63,7 @@ describe('aegov-textarea (e2e)', () => {
   it('reflects fieldId to native textarea id', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-textarea field-id="ta1"></aegov-textarea>');
-    const ta = await page.find('aegov-textarea textarea');
+    const ta = await page.find('aegov-textarea >>> textarea');
     expect(ta.id).toBe('ta1');
   });
 });

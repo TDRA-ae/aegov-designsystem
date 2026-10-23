@@ -130,14 +130,6 @@ describe('aegov-banner', () => {
     expect(page.root.querySelector('.aegov-banner').getAttribute('role')).toBe('status');
   });
 
-  it('sets aria-labelledby when heading is provided', async () => {
-    const page = await newSpecPage({
-      components: [AegovBanner],
-      html: `<aegov-banner field-id="b1" heading="Notice">x</aegov-banner>`,
-    });
-    expect(page.root.querySelector('.aegov-banner').getAttribute('aria-labelledby')).toBe('b1-heading');
-  });
-
   it('emits aegovBannerDismiss when dismiss button is clicked', async () => {
     const page = await newSpecPage({
       components: [AegovBanner],

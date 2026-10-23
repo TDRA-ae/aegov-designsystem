@@ -1,4 +1,5 @@
 import { newSpecPage } from '@stencil/core/testing';
+import { q, qa } from '../../utils/test-helpers';
 import { AegovDatepicker } from './aegov-datepicker';
 
 describe('aegov-datepicker', () => {
@@ -7,12 +8,12 @@ describe('aegov-datepicker', () => {
       components: [AegovDatepicker],
       html: `<aegov-datepicker></aegov-datepicker>`,
     });
-    const trigger = page.root.querySelector('.datepicker__trigger');
+    const trigger = q(page.root, '.datepicker__trigger');
     expect(trigger).not.toBeNull();
-    const wrapper = page.root.querySelector('.datepicker__input-wrapper');
+    const wrapper = q(page.root, '.datepicker__input-wrapper');
     expect(wrapper).not.toBeNull();
     expect(wrapper.className).not.toContain('datepicker__input-wrapper--range');
-    const inputs = page.root.querySelectorAll('input.datepicker__input');
+    const inputs = qa(page.root, 'input.datepicker__input');
     expect(inputs.length).toBe(1);
   });
 
@@ -21,10 +22,10 @@ describe('aegov-datepicker', () => {
       components: [AegovDatepicker],
       html: `<aegov-datepicker appearance="range"></aegov-datepicker>`,
     });
-    const wrapper = page.root.querySelector('.datepicker__input-wrapper');
+    const wrapper = q(page.root, '.datepicker__input-wrapper');
     expect(wrapper.className).toContain('datepicker__input-wrapper--range');
-    expect(page.root.querySelector('.datepicker__input--range-start')).not.toBeNull();
-    expect(page.root.querySelector('.datepicker__input--range-end')).not.toBeNull();
+    expect(q(page.root, '.datepicker__input--range-start')).not.toBeNull();
+    expect(q(page.root, '.datepicker__input--range-end')).not.toBeNull();
   });
 
   it('uses placeholder for the single input', async () => {
@@ -32,7 +33,7 @@ describe('aegov-datepicker', () => {
       components: [AegovDatepicker],
       html: `<aegov-datepicker placeholder="Pick a date"></aegov-datepicker>`,
     });
-    const input = page.root.querySelector('input.datepicker__input') as HTMLInputElement;
+    const input = q(page.root, 'input.datepicker__input') as HTMLInputElement;
     expect(input.placeholder).toBe('Pick a date');
     expect(input.getAttribute('aria-label')).toBe('Pick a date');
   });
@@ -42,8 +43,8 @@ describe('aegov-datepicker', () => {
       components: [AegovDatepicker],
       html: `<aegov-datepicker appearance="range" label-range-start="From" label-range-end="To"></aegov-datepicker>`,
     });
-    const start = page.root.querySelector('.datepicker__input--range-start') as HTMLInputElement;
-    const end = page.root.querySelector('.datepicker__input--range-end') as HTMLInputElement;
+    const start = q(page.root, '.datepicker__input--range-start') as HTMLInputElement;
+    const end = q(page.root, '.datepicker__input--range-end') as HTMLInputElement;
     expect(start.placeholder).toBe('From');
     expect(end.placeholder).toBe('To');
   });
@@ -53,7 +54,7 @@ describe('aegov-datepicker', () => {
       components: [AegovDatepicker],
       html: `<aegov-datepicker></aegov-datepicker>`,
     });
-    const input = page.root.querySelector('input.datepicker__input') as HTMLInputElement;
+    const input = q(page.root, 'input.datepicker__input') as HTMLInputElement;
     expect(input.getAttribute('aria-haspopup')).toBe('dialog');
     expect(input.getAttribute('aria-expanded')).toBe('false');
   });
@@ -63,7 +64,7 @@ describe('aegov-datepicker', () => {
       components: [AegovDatepicker],
       html: `<aegov-datepicker></aegov-datepicker>`,
     });
-    const input = page.root.querySelector('input.datepicker__input') as HTMLInputElement;
+    const input = q(page.root, 'input.datepicker__input') as HTMLInputElement;
     expect(input.readOnly).toBe(true);
   });
 
@@ -72,7 +73,7 @@ describe('aegov-datepicker', () => {
       components: [AegovDatepicker],
       html: `<aegov-datepicker value="2024-06-15" format="YYYY-MM-DD"></aegov-datepicker>`,
     });
-    const input = page.root.querySelector('input.datepicker__input') as HTMLInputElement;
+    const input = q(page.root, 'input.datepicker__input') as HTMLInputElement;
     expect(input.value).toBe('2024-06-15');
   });
 
@@ -81,8 +82,8 @@ describe('aegov-datepicker', () => {
       components: [AegovDatepicker],
       html: `<aegov-datepicker appearance="range" value="2024-01-01 / 2024-01-10" format="YYYY-MM-DD"></aegov-datepicker>`,
     });
-    const start = page.root.querySelector('.datepicker__input--range-start') as HTMLInputElement;
-    const end = page.root.querySelector('.datepicker__input--range-end') as HTMLInputElement;
+    const start = q(page.root, '.datepicker__input--range-start') as HTMLInputElement;
+    const end = q(page.root, '.datepicker__input--range-end') as HTMLInputElement;
     expect(start.value).toBe('2024-01-01');
     expect(end.value).toBe('2024-01-10');
   });
@@ -92,7 +93,7 @@ describe('aegov-datepicker', () => {
       components: [AegovDatepicker],
       html: `<aegov-datepicker value="2024-06-15"></aegov-datepicker>`,
     });
-    expect(page.root.querySelector('.datepicker__clear-btn')).not.toBeNull();
+    expect(q(page.root, '.datepicker__clear-btn')).not.toBeNull();
   });
 
   it('does not show clear button when no value is set', async () => {
@@ -100,7 +101,7 @@ describe('aegov-datepicker', () => {
       components: [AegovDatepicker],
       html: `<aegov-datepicker></aegov-datepicker>`,
     });
-    expect(page.root.querySelector('.datepicker__clear-btn')).toBeNull();
+    expect(q(page.root, '.datepicker__clear-btn')).toBeNull();
   });
 
   it('hides the clear button when is-clearable=false', async () => {
@@ -108,7 +109,7 @@ describe('aegov-datepicker', () => {
       components: [AegovDatepicker],
       html: `<aegov-datepicker value="2024-06-15" is-clearable="false"></aegov-datepicker>`,
     });
-    expect(page.root.querySelector('.datepicker__clear-btn')).toBeNull();
+    expect(q(page.root, '.datepicker__clear-btn')).toBeNull();
   });
 
   it('disables the input when is-disabled', async () => {
@@ -116,7 +117,7 @@ describe('aegov-datepicker', () => {
       components: [AegovDatepicker],
       html: `<aegov-datepicker is-disabled></aegov-datepicker>`,
     });
-    const input = page.root.querySelector('input.datepicker__input') as HTMLInputElement;
+    const input = q(page.root, 'input.datepicker__input') as HTMLInputElement;
     expect(input.disabled).toBe(true);
   });
 
@@ -125,7 +126,7 @@ describe('aegov-datepicker', () => {
       components: [AegovDatepicker],
       html: `<aegov-datepicker is-required></aegov-datepicker>`,
     });
-    const input = page.root.querySelector('input.datepicker__input') as HTMLInputElement;
+    const input = q(page.root, 'input.datepicker__input') as HTMLInputElement;
     expect(input.required).toBe(true);
     expect(input.getAttribute('aria-required')).toBe('true');
   });
@@ -135,7 +136,7 @@ describe('aegov-datepicker', () => {
       components: [AegovDatepicker],
       html: `<aegov-datepicker title="When?" tabindex="3" autocomplete="off" form="f1"></aegov-datepicker>`,
     });
-    const input = page.root.querySelector('input.datepicker__input');
+    const input = q(page.root, 'input.datepicker__input');
     expect(input.getAttribute('title')).toBe('When?');
     expect(input.getAttribute('tabindex')).toBe('3');
     expect(input.getAttribute('autocomplete')).toBe('off');
@@ -147,7 +148,7 @@ describe('aegov-datepicker', () => {
       components: [AegovDatepicker],
       html: `<aegov-datepicker aria-label="event date" data-test="dp"></aegov-datepicker>`,
     });
-    const input = page.root.querySelector('input.datepicker__input');
+    const input = q(page.root, 'input.datepicker__input');
     // aria-label is also explicitly assigned but data-* should be forwarded
     expect(input.getAttribute('data-test')).toBe('dp');
   });
@@ -159,7 +160,7 @@ describe('aegov-datepicker', () => {
     });
     expect(page.rootInstance.hasTriggerSlot).toBe(true);
     // Default datepicker__input markup should NOT be rendered when slot is present
-    expect(page.root.querySelector('input.datepicker__input')).toBeNull();
+    expect(q(page.root, 'input.datepicker__input')).toBeNull();
   });
 
   it('open() / close() methods toggle isOpen', async () => {
@@ -251,7 +252,7 @@ describe('aegov-datepicker', () => {
         components: [AegovDatepicker],
         html: `<aegov-datepicker is-invalid="true" error-message="Pick date"></aegov-datepicker>`,
       });
-      expect(page.root.querySelector('.aegov-datepicker__error').textContent).toBe('Pick date');
+      expect(q(page.root, '.aegov-datepicker__error').textContent).toBe('Pick date');
     });
 
     it('renders hint when not invalid', async () => {
@@ -259,7 +260,7 @@ describe('aegov-datepicker', () => {
         components: [AegovDatepicker],
         html: `<aegov-datepicker hint="Future dates only"></aegov-datepicker>`,
       });
-      expect(page.root.querySelector('.aegov-datepicker__hint').textContent).toBe('Future dates only');
+      expect(q(page.root, '.aegov-datepicker__hint').textContent).toBe('Future dates only');
     });
 
     it('hides hint when error shown', async () => {
@@ -267,8 +268,8 @@ describe('aegov-datepicker', () => {
         components: [AegovDatepicker],
         html: `<aegov-datepicker hint="h" is-invalid="true" error-message="err"></aegov-datepicker>`,
       });
-      expect(page.root.querySelector('.aegov-datepicker__error')).not.toBeNull();
-      expect(page.root.querySelector('.aegov-datepicker__hint')).toBeNull();
+      expect(q(page.root, '.aegov-datepicker__error')).not.toBeNull();
+      expect(q(page.root, '.aegov-datepicker__hint')).toBeNull();
     });
 
     it('aria-describedby on trigger includes error id', async () => {
@@ -276,7 +277,7 @@ describe('aegov-datepicker', () => {
         components: [AegovDatepicker],
         html: `<aegov-datepicker field-id="dp1" is-invalid="true" error-message="msg"></aegov-datepicker>`,
       });
-      expect(page.root.querySelector('.datepicker__trigger').getAttribute('aria-describedby')).toContain('dp1-error');
+      expect(q(page.root, '.datepicker__trigger').getAttribute('aria-describedby')).toContain('dp1-error');
     });
 
     it('validate() resolves valid for empty optional datepicker', async () => {
