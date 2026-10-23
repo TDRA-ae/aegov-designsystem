@@ -21,6 +21,7 @@ import { getPassThroughAttributes } from '../../utils/attributes';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
 import { getActionClasses } from '../../utils/action-classes';
+import { afterDispatchUnlessPrevented, getOwningForm, submitForm } from '../../utils/form-submit';
 
 const TAG = 'aegov-button';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -32,6 +33,13 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 @Component({
   tag: 'aegov-button',
   styleUrl: 'aegov-button.css',
+  // Form-associated for the same reason as the form controls (aegov-input etc.):
+  // the inner native <button> lives in the shadow root, so its `.form` is always
+  // null and `type="submit"` / `type="reset"` can never reach the light-DOM
+  // <form> on their own. ElementInternals gives the host a real form owner
+  // (including the `form="id"` attribute) and `<fieldset disabled>` support;
+  // handleClick() then runs the submit/reset itself.
+  formAssociated: true,
   shadow: { delegatesFocus: true }
 })
 export class AegovButton {
@@ -142,6 +150,11 @@ export class AegovButton {
 
   private _hostAttrObserver?: MutationObserver;
 
+  private internals: ElementInternals | null = null;
+
+  /** True while an ancestor `<fieldset disabled>` (or a host `disabled` attribute) disables the button. */
+  @State() private formDisabled: boolean = false;
+
   /**
    * Move focus to the inner native button.
    *
@@ -174,6 +187,14 @@ export class AegovButton {
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-button');
     }
+    const host = this.el as unknown as HTMLElement & { attachInternals?: () => ElementInternals };
+    if (!this.internals && typeof host.attachInternals === 'function') {
+      try {
+        this.internals = host.attachInternals();
+      } catch {
+        this.internals = null;
+      }
+    }
     warnIfInvalidEnumProp(this.variant, BUTTON_VARIANTS, 'primary', ctx('variant'));
     warnIfInvalidEnumProp(this.type, BUTTON_TYPES, 'button', ctx('type'));
     warnIfInvalidEnumProp(this.appearance, BUTTON_APPEARANCES, 'solid', ctx('appearance'));
@@ -192,6 +213,9 @@ export class AegovButton {
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
   }
+
+  formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op: the owner is read lazily in handleClick */ }
+  formDisabledCallback(disabled: boolean) { this.formDisabled = disabled; }
 
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, BUTTON_VARIANTS, 'primary', ctx('variant')); }
@@ -224,10 +248,29 @@ export class AegovButton {
   }
 
   private handleClick = (event: MouseEvent) => {
-    if (!this.isDisabled && !this.isLoading) {
-      this.aegovButtonClick.emit(event);
-    }
+    if (this.isDisabled || this.isLoading || this.formDisabled) return;
+    this.aegovButtonClick.emit(event);
+
+    // Native submit/reset activation, which the shadow-internal <button> can't
+    // perform itself (see the formAssociated note on @Component). Deferred
+    // until the click has finished dispatching so that preventDefault() from
+    // any listener, including one on an ancestor, still cancels it, as it would
+    // on a native button. The disabled/loading check above is taken at click
+    // time, again like a native button, so a click handler that flips
+    // isLoading on doesn't cancel its own submission.
+    const type = this.getResolvedType();
+    if (type === 'button') return;
+    const form = getOwningForm(this.el, this.internals);
+    if (!form) return;
+    afterDispatchUnlessPrevented(event, () => {
+      if (type === 'submit') submitForm(form);
+      else form.reset();
+    });
   };
+
+  private getResolvedType(): ButtonType {
+    return (BUTTON_TYPES as readonly string[]).includes(this.type) ? this.type : 'button';
+  }
 
   private handleFocus = (event: FocusEvent) => {
     this.aegovButtonFocus.emit(event);
@@ -249,7 +292,7 @@ export class AegovButton {
       isIcon: this.isIcon,
       isFull: this.isFull,
       isBold: this.isBold,
-      isDisabled: this.isDisabled,
+      isDisabled: this.isDisabled || this.formDisabled,
       isLoading: this.isLoading,
       groupPosition: this.groupPosition,
       groupOrientation: this.groupOrientation,
@@ -258,7 +301,8 @@ export class AegovButton {
 
   render() {
     const passThroughAttributes = getPassThroughAttributes(this.el);
-    const type: ButtonType = (BUTTON_TYPES as readonly string[]).includes(this.type) ? this.type : 'button';
+    const type = this.getResolvedType();
+    const disabled = this.isDisabled || this.formDisabled;
 
     return (
       <Host>
@@ -267,7 +311,7 @@ export class AegovButton {
           id={this.fieldId}
           type={type}
           class={this.getButtonClasses()}
-          disabled={this.isDisabled || this.isLoading}
+          disabled={disabled || this.isLoading}
           onClick={this.handleClick}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}

@@ -1,6 +1,6 @@
 {
     "name": "@aegov/designsystem",
-    "version": "0.2.23",
+    "version": "0.2.24",
     "description": "AEGOV Design System - Framework-agnostic web components with Tailwind CSS",
     "main": "dist/index.cjs.js",
     "module": "dist/index.js",
@@ -11,6 +11,17 @@
     "files": [
         "dist/",
         "loader/"
+    ],
+    "sideEffects": [
+        "./src/global/*",
+        "*.css",
+        "./loader/*",
+        "./dist/index.js",
+        "./dist/index.cjs.js",
+        "./dist/esm/*",
+        "./dist/cjs/*",
+        "./dist/aegov/*",
+        "./dist/collection/*"
     ],
     "exports": {
         ".": {

@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Element, Event, EventEmitter, Watch, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Element, Event, EventEmitter, Watch, Method, Listen } from '@stencil/core';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { OTP_VARIANTS, OTP_SIZES, FORM_VARIANTS } from '../../utils/types';
@@ -13,7 +13,8 @@ import { isRtl } from '../../utils/rtl';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import {
-  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity,
+  withCustomError, setInternalsValidity,
 } from '../../utils/validation';
 import type { InternalsHost } from '../../utils/validation';
 
@@ -194,6 +195,8 @@ export class AegovOtp {
       return;
     }
     this.distributeValue(newVal);
+    // A value set from code fires no input event — keep the form value and validity in step.
+    this.runValidationSync();
   }
 
   /** Clears all cells and focuses the first cell. */
@@ -209,9 +212,16 @@ export class AegovOtp {
     this.cellRefs[0]?.focus();
   }
 
+  /** The form found this field invalid during a submit or checkValidity() — start announcing errors. */
+  @Listen('invalid')
+  onInvalid() {
+    this.hasBlurredOnce = true;
+  }
+
   /** Imperatively re-run validation. */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasBlurredOnce = true;
     return this.runAndEmitValidation(trigger);
   }
 
@@ -220,6 +230,7 @@ export class AegovOtp {
   async setCustomValidity(message: string): Promise<void> {
     this.errorMessage = message;
     this.isInvalid = !!message;
+    this.customValidityMessage = message;
     if (this.internals) {
       if (message) {
         setInternalsValidity(
@@ -234,7 +245,14 @@ export class AegovOtp {
     }
   }
 
+  /** Message from setCustomValidity(), kept so recomputing validity does not drop it. */
+  private customValidityMessage = '';
+
   private computeValidity(): { validity: AegovValidityState; message: string } {
+    return withCustomError(this.computeConstraintValidity(), this.customValidityMessage);
+  }
+
+  private computeConstraintValidity(): { validity: AegovValidityState; message: string } {
     const val = this.value || '';
     const filled = val.length;
     if (this.isRequired && filled === 0) {

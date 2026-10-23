@@ -414,7 +414,7 @@ outputTargets: [
   {
     type: 'dist-custom-elements',
     generateTypeDeclarations: true,
-    customElementsExportBehavior: 'auto-define-custom-elements',
+    customElementsExportBehavior: 'single-export-module',
     externalRuntime: true,
   }
 ]
@@ -423,7 +423,7 @@ outputTargets: [
 **Features:**
 - Each component as standalone class
 - For bundlers (Vite, Webpack, Rollup)
-- Can use `defineCustomElements()` or auto-define
+- Components are not registered on import; call each component's `defineCustomElement()` (the Angular/React wrappers do this for you). Do not switch back to `auto-define-custom-elements`: it makes every import register — and bundle — all components.
 
 ### www (Development)
 
