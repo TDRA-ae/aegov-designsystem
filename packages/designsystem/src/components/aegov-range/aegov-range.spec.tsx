@@ -1,4 +1,5 @@
 import { newSpecPage } from '@stencil/core/testing';
+import { q } from '../../utils/test-helpers';
 import { AegovRange } from './aegov-range';
 
 describe('aegov-range', () => {
@@ -7,14 +8,14 @@ describe('aegov-range', () => {
       components: [AegovRange],
       html: `<aegov-range></aegov-range>`,
     });
-    const wrapper = page.root.querySelector('.aegov-range');
+    const wrapper = q(page.root, '.aegov-range');
     expect(wrapper).not.toBeNull();
-    const input = page.root.querySelector('input.range__input');
+    const input = q(page.root, 'input.range__input');
     expect(input).not.toBeNull();
     expect(input.getAttribute('type')).toBe('range');
     // No low/high inputs in single mode
-    expect(page.root.querySelector('.range__input--low')).toBeNull();
-    expect(page.root.querySelector('.range__input--high')).toBeNull();
+    expect(q(page.root, '.range__input--low')).toBeNull();
+    expect(q(page.root, '.range__input--high')).toBeNull();
   });
 
   it('reflects min/max/step/value to the native input', async () => {
@@ -22,7 +23,7 @@ describe('aegov-range', () => {
       components: [AegovRange],
       html: `<aegov-range min="10" max="200" step="5" value="40"></aegov-range>`,
     });
-    const input = page.root.querySelector('input.range__input') as HTMLInputElement;
+    const input = q(page.root, 'input.range__input') as HTMLInputElement;
     expect(input.getAttribute('min')).toBe('10');
     expect(input.getAttribute('max')).toBe('200');
     expect(input.getAttribute('step')).toBe('5');
@@ -34,14 +35,14 @@ describe('aegov-range', () => {
       components: [AegovRange],
       html: `<aegov-range mode="range" value-low="20" value-high="80"></aegov-range>`,
     });
-    const low = page.root.querySelector('.range__input--low');
-    const high = page.root.querySelector('.range__input--high');
+    const low = q(page.root, '.range__input--low');
+    const high = q(page.root, '.range__input--high');
     expect(low).not.toBeNull();
     expect(high).not.toBeNull();
     expect(low.getAttribute('value')).toBe('20');
     expect(high.getAttribute('value')).toBe('80');
     // There should be no single-mode-only input
-    expect(page.root.querySelector('input.range__input:not(.range__input--low):not(.range__input--high)')).toBeNull();
+    expect(q(page.root, 'input.range__input:not(.range__input--low):not(.range__input--high)')).toBeNull();
   });
 
   it('orientation horizontal/vertical reflects on wrapper class and input', async () => {
@@ -49,8 +50,8 @@ describe('aegov-range', () => {
       components: [AegovRange],
       html: `<aegov-range orientation="vertical"></aegov-range>`,
     });
-    expect(page.root.querySelector('.aegov-range').className).toContain('range--vertical');
-    const input = page.root.querySelector('input.range__input');
+    expect(q(page.root, '.aegov-range').className).toContain('range--vertical');
+    const input = q(page.root, 'input.range__input');
     expect(input.getAttribute('aria-orientation')).toBe('vertical');
   });
 
@@ -59,15 +60,15 @@ describe('aegov-range', () => {
       components: [AegovRange],
       html: `<aegov-range display="tooltip"></aegov-range>`,
     });
-    expect(tooltip.root.querySelector('.range__tooltip')).not.toBeNull();
+    expect(q(tooltip.root, '.range__tooltip')).not.toBeNull();
 
     const full = await newSpecPage({
       components: [AegovRange],
       html: `<aegov-range display="full" min="0" max="50"></aegov-range>`,
     });
-    expect(full.root.querySelector('.range__label-min').textContent).toBe('0');
-    expect(full.root.querySelector('.range__label-max').textContent).toBe('50');
-    expect(full.root.querySelector('.aegov-range').className).toContain('range--display-full');
+    expect(q(full.root, '.range__label-min').textContent).toBe('0');
+    expect(q(full.root, '.range__label-max').textContent).toBe('50');
+    expect(q(full.root, '.aegov-range').className).toContain('range--display-full');
   });
 
   it('auto-generates fieldId when not provided', async () => {
@@ -76,7 +77,7 @@ describe('aegov-range', () => {
       html: `<aegov-range></aegov-range>`,
     });
     expect(page.rootInstance.fieldId).toMatch(/^aegov-range-\d+$/);
-    const input = page.root.querySelector('input.range__input') as HTMLInputElement;
+    const input = q(page.root, 'input.range__input') as HTMLInputElement;
     expect(input.id).toBe(page.rootInstance.fieldId);
   });
 
@@ -85,7 +86,7 @@ describe('aegov-range', () => {
       components: [AegovRange],
       html: `<aegov-range field-id="rng-1"></aegov-range>`,
     });
-    const input = page.root.querySelector('input.range__input') as HTMLInputElement;
+    const input = q(page.root, 'input.range__input') as HTMLInputElement;
     expect(input.id).toBe('rng-1');
   });
 
@@ -94,8 +95,8 @@ describe('aegov-range', () => {
       components: [AegovRange],
       html: `<aegov-range mode="range" field-id="rng-2"></aegov-range>`,
     });
-    expect((page.root.querySelector('.range__input--low') as HTMLInputElement).id).toBe('rng-2-low');
-    expect((page.root.querySelector('.range__input--high') as HTMLInputElement).id).toBe('rng-2-high');
+    expect((q(page.root, '.range__input--low') as HTMLInputElement).id).toBe('rng-2-low');
+    expect((q(page.root, '.range__input--high') as HTMLInputElement).id).toBe('rng-2-high');
   });
 
   it('renders the optional label text', async () => {
@@ -103,7 +104,7 @@ describe('aegov-range', () => {
       components: [AegovRange],
       html: `<aegov-range label="Volume"></aegov-range>`,
     });
-    const label = page.root.querySelector('.range__label-text');
+    const label = q(page.root, '.range__label-text');
     expect(label).not.toBeNull();
     expect(label.textContent).toBe('Volume');
   });
@@ -113,9 +114,9 @@ describe('aegov-range', () => {
       components: [AegovRange],
       html: `<aegov-range is-disabled></aegov-range>`,
     });
-    const input = page.root.querySelector('input.range__input') as HTMLInputElement;
+    const input = q(page.root, 'input.range__input') as HTMLInputElement;
     expect(input.disabled).toBe(true);
-    expect(page.root.querySelector('.aegov-range').className).toContain('aegov-range--disabled');
+    expect(q(page.root, '.aegov-range').className).toContain('aegov-range--disabled');
   });
 
   it('is-required is reflected on the single native input', async () => {
@@ -123,7 +124,7 @@ describe('aegov-range', () => {
       components: [AegovRange],
       html: `<aegov-range is-required></aegov-range>`,
     });
-    const input = page.root.querySelector('input.range__input') as HTMLInputElement;
+    const input = q(page.root, 'input.range__input') as HTMLInputElement;
     expect(input.required).toBe(true);
   });
 
@@ -132,7 +133,7 @@ describe('aegov-range', () => {
       components: [AegovRange],
       html: `<aegov-range title="Volume" tabindex="2" form="f1"></aegov-range>`,
     });
-    const input = page.root.querySelector('input.range__input');
+    const input = q(page.root, 'input.range__input');
     expect(input.getAttribute('title')).toBe('Volume');
     expect(input.getAttribute('tabindex')).toBe('2');
     expect(input.getAttribute('form')).toBe('f1');
@@ -145,7 +146,7 @@ describe('aegov-range', () => {
     });
     const spy = jest.fn();
     page.root.addEventListener('aegovRangeInput', spy);
-    const input = page.root.querySelector('input.range__input') as HTMLInputElement;
+    const input = q(page.root, 'input.range__input') as HTMLInputElement;
     input.value = '60';
     input.dispatchEvent(new Event('input'));
     await page.waitForChanges();
@@ -160,7 +161,7 @@ describe('aegov-range', () => {
     });
     const spy = jest.fn();
     page.root.addEventListener('aegovRangeChange', spy);
-    const lowInput = page.root.querySelector('.range__input--low') as HTMLInputElement;
+    const lowInput = q(page.root, '.range__input--low') as HTMLInputElement;
     lowInput.value = '30';
     lowInput.dispatchEvent(new Event('change'));
     await page.waitForChanges();
@@ -174,7 +175,7 @@ describe('aegov-range', () => {
       components: [AegovRange],
       html: `<aegov-range extra-class="my-range"></aegov-range>`,
     });
-    expect(page.root.querySelector('.aegov-range').className).toContain('my-range');
+    expect(q(page.root, '.aegov-range').className).toContain('my-range');
   });
 
   // Validation surface (Layer 1) — see validation-engine-addon.md §2.8
@@ -184,7 +185,7 @@ describe('aegov-range', () => {
         components: [AegovRange],
         html: `<aegov-range is-invalid="true"></aegov-range>`,
       });
-      expect(page.root.querySelector('input[type="range"]').getAttribute('aria-invalid')).toBe('true');
+      expect(q(page.root, 'input[type="range"]').getAttribute('aria-invalid')).toBe('true');
       expect(page.root.classList.contains('is-invalid')).toBe(true);
     });
 
@@ -193,7 +194,7 @@ describe('aegov-range', () => {
         components: [AegovRange],
         html: `<aegov-range is-invalid="true" error-message="Out of bounds"></aegov-range>`,
       });
-      expect(page.root.querySelector('.aegov-range__error').textContent).toBe('Out of bounds');
+      expect(q(page.root, '.aegov-range__error').textContent).toBe('Out of bounds');
     });
 
     it('renders hint when not invalid', async () => {
@@ -201,7 +202,7 @@ describe('aegov-range', () => {
         components: [AegovRange],
         html: `<aegov-range hint="0–100"></aegov-range>`,
       });
-      expect(page.root.querySelector('.aegov-range__hint').textContent).toBe('0–100');
+      expect(q(page.root, '.aegov-range__hint').textContent).toBe('0–100');
     });
 
     it('hides hint when error shown', async () => {
@@ -209,8 +210,8 @@ describe('aegov-range', () => {
         components: [AegovRange],
         html: `<aegov-range hint="h" is-invalid="true" error-message="err"></aegov-range>`,
       });
-      expect(page.root.querySelector('.aegov-range__error')).not.toBeNull();
-      expect(page.root.querySelector('.aegov-range__hint')).toBeNull();
+      expect(q(page.root, '.aegov-range__error')).not.toBeNull();
+      expect(q(page.root, '.aegov-range__hint')).toBeNull();
     });
 
     it('aria-describedby includes error id', async () => {
@@ -218,7 +219,7 @@ describe('aegov-range', () => {
         components: [AegovRange],
         html: `<aegov-range field-id="rg1" is-invalid="true" error-message="msg"></aegov-range>`,
       });
-      expect(page.root.querySelector('input[type="range"]').getAttribute('aria-describedby')).toContain('rg1-error');
+      expect(q(page.root, 'input[type="range"]').getAttribute('aria-describedby')).toContain('rg1-error');
     });
 
     it('validate() resolves valid for default value', async () => {

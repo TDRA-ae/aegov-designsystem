@@ -1,4 +1,5 @@
 import { newSpecPage } from '@stencil/core/testing';
+import { q } from '../../utils/test-helpers';
 import { AegovCheckbox } from './aegov-checkbox';
 
 describe('aegov-checkbox', () => {
@@ -7,10 +8,10 @@ describe('aegov-checkbox', () => {
       components: [AegovCheckbox],
       html: `<aegov-checkbox></aegov-checkbox>`,
     });
-    const wrapper = page.root.querySelector('div.aegov-checkbox');
+    const wrapper = q(page.root, 'div.aegov-checkbox');
     expect(wrapper).not.toBeNull();
     expect(wrapper.className).toContain('checkbox--base');
-    const input = page.root.querySelector('input[type="checkbox"]') as HTMLInputElement;
+    const input = q(page.root, 'input[type="checkbox"]') as HTMLInputElement;
     expect(input).not.toBeNull();
     expect(input.checked).toBe(false);
     expect(input.disabled).toBe(false);
@@ -22,7 +23,7 @@ describe('aegov-checkbox', () => {
       html: `<aegov-checkbox></aegov-checkbox>`,
     });
     expect(page.rootInstance.fieldId).toMatch(/^aegov-checkbox-\d+$/);
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.id).toBe(page.rootInstance.fieldId);
   });
 
@@ -32,7 +33,7 @@ describe('aegov-checkbox', () => {
       html: `<aegov-checkbox field-id="cb-1"></aegov-checkbox>`,
     });
     expect(page.rootInstance.fieldId).toBe('cb-1');
-    expect((page.root.querySelector('input') as HTMLInputElement).id).toBe('cb-1');
+    expect((q(page.root, 'input') as HTMLInputElement).id).toBe('cb-1');
   });
 
   it('renders label and links it to input via wrapping <label>', async () => {
@@ -40,7 +41,7 @@ describe('aegov-checkbox', () => {
       components: [AegovCheckbox],
       html: `<aegov-checkbox label="Accept terms"></aegov-checkbox>`,
     });
-    const label = page.root.querySelector('label.checkbox__wrapper');
+    const label = q(page.root, 'label.checkbox__wrapper');
     expect(label).not.toBeNull();
     expect(label.textContent).toContain('Accept terms');
     expect(label.querySelector('input[type="checkbox"]')).not.toBeNull();
@@ -51,10 +52,10 @@ describe('aegov-checkbox', () => {
       components: [AegovCheckbox],
       html: `<aegov-checkbox label="Marketing" hint="Receive emails"></aegov-checkbox>`,
     });
-    const hint = page.root.querySelector('.checkbox__hint');
+    const hint = q(page.root, '.checkbox__hint');
     expect(hint).not.toBeNull();
     expect(hint.textContent).toContain('Receive emails');
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.getAttribute('aria-describedby')).toBe(hint.id);
   });
 
@@ -63,7 +64,7 @@ describe('aegov-checkbox', () => {
       components: [AegovCheckbox],
       html: `<aegov-checkbox is-checked></aegov-checkbox>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.checked).toBe(true);
   });
 
@@ -72,7 +73,7 @@ describe('aegov-checkbox', () => {
       components: [AegovCheckbox],
       html: `<aegov-checkbox is-disabled></aegov-checkbox>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.disabled).toBe(true);
   });
 
@@ -81,7 +82,7 @@ describe('aegov-checkbox', () => {
       components: [AegovCheckbox],
       html: `<aegov-checkbox is-required></aegov-checkbox>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.required).toBe(true);
     expect(input.getAttribute('aria-required')).toBe('true');
   });
@@ -91,7 +92,7 @@ describe('aegov-checkbox', () => {
       components: [AegovCheckbox],
       html: `<aegov-checkbox size="lg"></aegov-checkbox>`,
     });
-    expect(page.root.querySelector('div.aegov-checkbox').className).toContain('checkbox--lg');
+    expect(q(page.root, 'div.aegov-checkbox').className).toContain('checkbox--lg');
   });
 
   it('applies extra-class', async () => {
@@ -99,7 +100,7 @@ describe('aegov-checkbox', () => {
       components: [AegovCheckbox],
       html: `<aegov-checkbox extra-class="custom-cb"></aegov-checkbox>`,
     });
-    expect(page.root.querySelector('div.aegov-checkbox').className).toContain('custom-cb');
+    expect(q(page.root, 'div.aegov-checkbox').className).toContain('custom-cb');
   });
 
   it('reflects is-check-all attribute on host', async () => {
@@ -116,7 +117,7 @@ describe('aegov-checkbox', () => {
       html: `<aegov-checkbox is-indeterminate="true"></aegov-checkbox>`,
     });
     await page.waitForChanges();
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.indeterminate).toBe(true);
   });
 
@@ -127,7 +128,7 @@ describe('aegov-checkbox', () => {
     });
     const spy = jest.fn();
     page.root.addEventListener('aegovCheckboxChange', spy);
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     input.checked = true;
     input.dispatchEvent(new Event('change'));
     await page.waitForChanges();
@@ -140,7 +141,7 @@ describe('aegov-checkbox', () => {
       components: [AegovCheckbox],
       html: `<aegov-checkbox aria-label="agree" data-test="x" tabindex="2"></aegov-checkbox>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const input = q(page.root, 'input') as HTMLInputElement;
     expect(input.getAttribute('aria-label')).toBe('agree');
     expect(input.getAttribute('data-test')).toBe('x');
     expect(input.getAttribute('tabindex')).toBe('2');
@@ -151,8 +152,10 @@ describe('aegov-checkbox', () => {
       components: [AegovCheckbox],
       html: `<aegov-checkbox name="agree" value="yes"></aegov-checkbox>`,
     });
-    const input = page.root.querySelector('input') as HTMLInputElement;
-    expect(input.name).toBe('agree');
+    const input = q(page.root, 'input') as HTMLInputElement;
+    // FACE owns submission: name stays on the host, never on the shadow-internal control.
+    expect(page.root.getAttribute('name')).toBe('agree');
+    expect(input.hasAttribute('name')).toBe(false);
     expect(input.value).toBe('yes');
   });
 
@@ -163,7 +166,7 @@ describe('aegov-checkbox', () => {
         components: [AegovCheckbox],
         html: `<aegov-checkbox is-invalid="true"></aegov-checkbox>`,
       });
-      expect(page.root.querySelector('input').getAttribute('aria-invalid')).toBe('true');
+      expect(q(page.root, 'input').getAttribute('aria-invalid')).toBe('true');
       expect(page.root.classList.contains('is-invalid')).toBe(true);
     });
 
@@ -172,7 +175,7 @@ describe('aegov-checkbox', () => {
         components: [AegovCheckbox],
         html: `<aegov-checkbox is-invalid="true" error-message="Required"></aegov-checkbox>`,
       });
-      expect(page.root.querySelector('.aegov-checkbox__error').textContent).toBe('Required');
+      expect(q(page.root, '.aegov-checkbox__error').textContent).toBe('Required');
     });
 
     it('renders hint via prop on label', async () => {
@@ -180,7 +183,7 @@ describe('aegov-checkbox', () => {
         components: [AegovCheckbox],
         html: `<aegov-checkbox label="X" hint="helper"></aegov-checkbox>`,
       });
-      expect(page.root.querySelector('.checkbox__hint').textContent).toBe('helper');
+      expect(q(page.root, '.checkbox__hint').textContent).toBe('helper');
     });
 
     it('hides hint when error shown', async () => {
@@ -188,8 +191,8 @@ describe('aegov-checkbox', () => {
         components: [AegovCheckbox],
         html: `<aegov-checkbox label="X" hint="h" is-invalid="true" error-message="err"></aegov-checkbox>`,
       });
-      expect(page.root.querySelector('.aegov-checkbox__error')).not.toBeNull();
-      expect(page.root.querySelector('.checkbox__hint')).toBeNull();
+      expect(q(page.root, '.aegov-checkbox__error')).not.toBeNull();
+      expect(q(page.root, '.checkbox__hint')).toBeNull();
     });
 
     it('aria-describedby points at error id', async () => {
@@ -197,7 +200,7 @@ describe('aegov-checkbox', () => {
         components: [AegovCheckbox],
         html: `<aegov-checkbox field-id="cb1" is-invalid="true" error-message="msg"></aegov-checkbox>`,
       });
-      expect(page.root.querySelector('input').getAttribute('aria-describedby')).toContain('cb1-error');
+      expect(q(page.root, 'input').getAttribute('aria-describedby')).toContain('cb1-error');
     });
 
     it('validate() resolves valid for unchecked optional', async () => {

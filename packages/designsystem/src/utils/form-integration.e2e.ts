@@ -53,7 +53,7 @@ describe('form integration (Layer 1)', () => {
     await page.setContent(`<aegov-input></aegov-input>`);
     const host = await page.find('aegov-input');
     const spy = await host.spyOnEvent('aegovValidate');
-    const input = await page.find('aegov-input input');
+    const input = await page.find('aegov-input >>> input');
     await input.focus();
     await page.keyboard.type('a');
     await page.waitForChanges();
@@ -66,7 +66,7 @@ describe('form integration (Layer 1)', () => {
     await page.setContent(`<aegov-input></aegov-input>`);
     const host = await page.find('aegov-input');
     const spy = await host.spyOnEvent('aegovValidate');
-    const input = await page.find('aegov-input input');
+    const input = await page.find('aegov-input >>> input');
     await input.focus();
     await input.press('Tab');
     await page.waitForChanges();
@@ -114,7 +114,7 @@ describe('form integration (Layer 1)', () => {
     await page.setContent(`<aegov-otp length="4" pattern="^9999$"></aegov-otp>`);
     const host = await page.find('aegov-otp');
     const spy = await host.spyOnEvent('aegovValidate');
-    const first = await page.find('aegov-otp .otp__cell:nth-of-type(1)');
+    const first = await page.find('aegov-otp >>> .otp__cell:nth-of-type(1)');
     await first.focus();
     await page.keyboard.type('1234');
     await page.waitForChanges();
@@ -130,7 +130,7 @@ describe('form integration (Layer 1)', () => {
       </aegov-select>
     `);
     await page.waitForChanges();
-    const hidden = await page.find('aegov-select input[type="hidden"]');
+    const hidden = await page.find('aegov-select >>> input[type="hidden"]');
     expect(hidden).toBeNull();
   });
 

@@ -4,24 +4,24 @@ describe('aegov-fileupload (e2e)', () => {
   it('renders default appearance', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-fileupload></aegov-fileupload>');
-    const wrapper = await page.find('aegov-fileupload .aegov-fileupload');
+    const wrapper = await page.find('aegov-fileupload >>> .aegov-fileupload');
     expect(wrapper).not.toBeNull();
     expect(wrapper.className).toContain('fileupload--default');
-    const input = await page.find('aegov-fileupload input[type="file"]');
+    const input = await page.find('aegov-fileupload >>> input[type="file"]');
     expect(input).not.toBeNull();
   });
 
   it('renders button appearance with a trigger button', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-fileupload appearance="button"></aegov-fileupload>');
-    const btn = await page.find('aegov-fileupload aegov-button.fileupload__trigger-btn');
+    const btn = await page.find('aegov-fileupload >>> aegov-button.fileupload__trigger-btn');
     expect(btn).not.toBeNull();
   });
 
   it('renders dropzone appearance with drop area', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-fileupload appearance="dropzone"></aegov-fileupload>');
-    const dz = await page.find('aegov-fileupload .fileupload__dropzone');
+    const dz = await page.find('aegov-fileupload >>> .fileupload__dropzone');
     expect(dz).not.toBeNull();
   });
 
@@ -32,7 +32,7 @@ describe('aegov-fileupload (e2e)', () => {
     const spy = await host.spyOnEvent('aegovFileuploadChange');
 
     await page.evaluate(() => {
-      const input = document.querySelector('aegov-fileupload input[type="file"]') as HTMLInputElement;
+      const input = document.querySelector('aegov-fileupload')!.shadowRoot!.querySelector('input[type="file"]') as HTMLInputElement;
       const dt = new DataTransfer();
       dt.items.add(new File(['hello'], 'a.txt', { type: 'text/plain' }));
       input.files = dt.files;
@@ -51,7 +51,7 @@ describe('aegov-fileupload (e2e)', () => {
     const validateSpy = await host.spyOnEvent('aegovValidate');
 
     await page.evaluate(() => {
-      const input = document.querySelector('aegov-fileupload input[type="file"]') as HTMLInputElement;
+      const input = document.querySelector('aegov-fileupload')!.shadowRoot!.querySelector('input[type="file"]') as HTMLInputElement;
       const dt = new DataTransfer();
       dt.items.add(new File(['1234567890'], 'big.txt', { type: 'text/plain' }));
       input.files = dt.files;
@@ -70,7 +70,7 @@ describe('aegov-fileupload (e2e)', () => {
     const validateSpy = await host.spyOnEvent('aegovValidate');
 
     await page.evaluate(() => {
-      const input = document.querySelector('aegov-fileupload input[type="file"]') as HTMLInputElement;
+      const input = document.querySelector('aegov-fileupload')!.shadowRoot!.querySelector('input[type="file"]') as HTMLInputElement;
       const dt = new DataTransfer();
       dt.items.add(new File(['x'], 'a.txt', { type: 'text/plain' }));
       input.files = dt.files;
@@ -89,7 +89,7 @@ describe('aegov-fileupload (e2e)', () => {
     const removeSpy = await host.spyOnEvent('aegovFileuploadRemove');
 
     await page.evaluate(() => {
-      const input = document.querySelector('aegov-fileupload input[type="file"]') as HTMLInputElement;
+      const input = document.querySelector('aegov-fileupload')!.shadowRoot!.querySelector('input[type="file"]') as HTMLInputElement;
       const dt = new DataTransfer();
       dt.items.add(new File(['x'], 'a.txt', { type: 'text/plain' }));
       input.files = dt.files;
@@ -97,14 +97,14 @@ describe('aegov-fileupload (e2e)', () => {
     });
     await page.waitForChanges();
 
-    const item = await page.find('aegov-fileupload .fileupload__file-item');
+    const item = await page.find('aegov-fileupload >>> .fileupload__file-item');
     expect(item).not.toBeNull();
-    const removeBtn = await page.find('aegov-fileupload .fileupload__remove-btn');
+    const removeBtn = await page.find('aegov-fileupload >>> .fileupload__remove-btn');
     await removeBtn.click();
     await page.waitForChanges();
 
     expect(removeSpy).toHaveReceivedEventTimes(1);
-    const items = await page.findAll('aegov-fileupload .fileupload__file-item');
+    const items = await page.findAll('aegov-fileupload >>> .fileupload__file-item');
     expect(items.length).toBe(0);
   });
 
@@ -114,7 +114,7 @@ describe('aegov-fileupload (e2e)', () => {
     const host = await page.find('aegov-fileupload');
 
     await page.evaluate(() => {
-      const input = document.querySelector('aegov-fileupload input[type="file"]') as HTMLInputElement;
+      const input = document.querySelector('aegov-fileupload')!.shadowRoot!.querySelector('input[type="file"]') as HTMLInputElement;
       const dt = new DataTransfer();
       dt.items.add(new File(['x'], 'a.txt', { type: 'text/plain' }));
       input.files = dt.files;
@@ -125,15 +125,15 @@ describe('aegov-fileupload (e2e)', () => {
     await host.callMethod('clear');
     await page.waitForChanges();
 
-    const items = await page.findAll('aegov-fileupload .fileupload__file-item');
+    const items = await page.findAll('aegov-fileupload >>> .fileupload__file-item');
     expect(items.length).toBe(0);
   });
 
   it('renders label and hint', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-fileupload label="Upload" hint="Pick a file"></aegov-fileupload>');
-    const label = await page.find('aegov-fileupload .fileupload__label');
-    const hint = await page.find('aegov-fileupload .fileupload__hint');
+    const label = await page.find('aegov-fileupload >>> .fileupload__label');
+    const hint = await page.find('aegov-fileupload >>> .fileupload__hint');
     expect(await label.getProperty('textContent')).toContain('Upload');
     expect(await hint.getProperty('textContent')).toBe('Pick a file');
   });
@@ -148,7 +148,7 @@ describe('aegov-fileupload (e2e)', () => {
   it('is-disabled disables the inner input', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-fileupload is-disabled></aegov-fileupload>');
-    const input = await page.find('aegov-fileupload input[type="file"]');
+    const input = await page.find('aegov-fileupload >>> input[type="file"]');
     expect(await input.getProperty('disabled')).toBe(true);
   });
 
