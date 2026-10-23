@@ -1,4 +1,5 @@
 import { newSpecPage } from '@stencil/core/testing';
+import { q } from '../../utils/test-helpers';
 import { AegovFormField } from './aegov-form-field';
 import { AegovInput } from '../aegov-input/aegov-input';
 import { AegovTextarea } from '../aegov-textarea/aegov-textarea';
@@ -10,7 +11,7 @@ describe('aegov-form-field', () => {
       components: [AegovFormField],
       html: `<aegov-form-field></aegov-form-field>`,
     });
-    const wrapper = page.root.querySelector('div.aegov-form-field');
+    const wrapper = q(page.root, 'div.aegov-form-field');
     expect(wrapper).not.toBeNull();
   });
 
@@ -20,7 +21,9 @@ describe('aegov-form-field', () => {
       html: `<aegov-form-field></aegov-form-field>`,
     });
     expect(page.rootInstance.fieldId).toMatch(/^aegov-form-field-\d+$/);
-    expect(page.root.querySelector('div.aegov-form-field').id).toBe(page.rootInstance.fieldId);
+    // fieldId reflects to the host; the wrapper div carries no id (removed in ab1e390).
+    expect(page.root.getAttribute('field-id')).toBe(page.rootInstance.fieldId);
+    expect(q(page.root, 'div.aegov-form-field').hasAttribute('id')).toBe(false);
   });
 
   it('respects user-provided fieldId', async () => {
@@ -28,7 +31,7 @@ describe('aegov-form-field', () => {
       components: [AegovFormField],
       html: `<aegov-form-field field-id="ff1"></aegov-form-field>`,
     });
-    expect(page.root.querySelector('div.aegov-form-field').id).toBe('ff1');
+    expect(page.root.getAttribute('field-id')).toBe('ff1');
   });
 
   it('applies extra-class', async () => {
@@ -36,7 +39,7 @@ describe('aegov-form-field', () => {
       components: [AegovFormField],
       html: `<aegov-form-field extra-class="custom"></aegov-form-field>`,
     });
-    expect(page.root.querySelector('div.aegov-form-field').className).toContain('custom');
+    expect(q(page.root, 'div.aegov-form-field').className).toContain('custom');
   });
 
   it('renders slot content (children)', async () => {
@@ -58,7 +61,7 @@ describe('aegov-form-field', () => {
       `,
     });
     await page.waitForChanges();
-    const label = page.root.querySelector('aegov-label') as any;
+    const label = q(page.root, 'aegov-label') as any;
     expect(label.htmlFor).toBe('email-input');
   });
 
@@ -73,7 +76,7 @@ describe('aegov-form-field', () => {
       `,
     });
     await page.waitForChanges();
-    const label = page.root.querySelector('aegov-label') as any;
+    const label = q(page.root, 'aegov-label') as any;
     expect(label.htmlFor).toBe('bio-ta');
   });
 
@@ -82,7 +85,7 @@ describe('aegov-form-field', () => {
       components: [AegovFormField],
       html: `<aegov-form-field aria-label="field" data-test="x"></aegov-form-field>`,
     });
-    const wrapper = page.root.querySelector('div.aegov-form-field');
+    const wrapper = q(page.root, 'div.aegov-form-field');
     expect(wrapper.getAttribute('aria-label')).toBe('field');
     expect(wrapper.getAttribute('data-test')).toBe('x');
   });
@@ -97,7 +100,7 @@ describe('aegov-form-field', () => {
         </aegov-form-field>`,
       });
       await page.waitForChanges();
-      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      const input = q(page.root, 'aegov-input') as HTMLAegovInputElement;
       expect(input.errorMessage).toBe('From wrapper');
       expect(input.isInvalid).toBe(true);
     });
@@ -110,7 +113,7 @@ describe('aegov-form-field', () => {
         </aegov-form-field>`,
       });
       await page.waitForChanges();
-      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      const input = q(page.root, 'aegov-input') as HTMLAegovInputElement;
       expect(input.errorMessage).toBe('Child wins');
     });
 
@@ -122,7 +125,7 @@ describe('aegov-form-field', () => {
         </aegov-form-field>`,
       });
       await page.waitForChanges();
-      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      const input = q(page.root, 'aegov-input') as HTMLAegovInputElement;
       expect(input.hint).toBe('From wrapper');
     });
 
@@ -134,7 +137,7 @@ describe('aegov-form-field', () => {
         </aegov-form-field>`,
       });
       await page.waitForChanges();
-      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      const input = q(page.root, 'aegov-input') as HTMLAegovInputElement;
       expect(input.hint).toBe('Child wins');
     });
 
@@ -145,7 +148,7 @@ describe('aegov-form-field', () => {
           <aegov-input></aegov-input>
         </aegov-form-field>`,
       });
-      const wrapper = page.root.querySelector('.aegov-form-field');
+      const wrapper = q(page.root, '.aegov-form-field');
       expect(wrapper.className).toContain('is-invalid');
     });
 
@@ -157,7 +160,7 @@ describe('aegov-form-field', () => {
         </aegov-form-field>`,
       });
       await page.waitForChanges();
-      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      const input = q(page.root, 'aegov-input') as HTMLAegovInputElement;
       // Empty string is treated as "no value" → cascade fills it
       expect(input.errorMessage).toBe('From wrapper');
     });
@@ -172,10 +175,10 @@ describe('aegov-form-field', () => {
    * the host. CSS cannot be asserted in a spec, but the selector's precondition can.
    */
   describe('dimmed label when the control is disabled', () => {
-    // Note: mock-doc supports the `[disabled]` attribute selector but not the
-    // `:disabled` pseudo-class on every element type, so these assert the attribute.
-    // The real `:disabled` selector is covered in aegov-form-field.e2e.ts.
-    it('disables the inner input, so the dimmed-label rule can match', async () => {
+    // The controls render their native input in shadow DOM, so a CSS `:has()`
+    // on the wrapper can never see it. form-field instead mirrors the control's
+    // isDisabled onto `.is-control-disabled`, which form-field.css keys off (#46).
+    it('marks the wrapper when the inner input is disabled', async () => {
       const page = await newSpecPage({
         components: [AegovFormField, AegovLabel, AegovInput],
         html: `<aegov-form-field>
@@ -185,13 +188,11 @@ describe('aegov-form-field', () => {
       });
       await page.waitForChanges();
 
-      expect(page.root.querySelector('aegov-input input[disabled]')).not.toBeNull();
-      expect(
-        page.root.querySelector('.aegov-form-field:has(input[disabled]) .aegov-label'),
-      ).not.toBeNull();
+      expect(q(q(page.root, 'aegov-input'), 'input[disabled]')).not.toBeNull();
+      expect(q(page.root, '.aegov-form-field.is-control-disabled .aegov-label')).not.toBeNull();
     });
 
-    it('disables the inner textarea', async () => {
+    it('marks the wrapper when the inner textarea is disabled', async () => {
       const page = await newSpecPage({
         components: [AegovFormField, AegovLabel, AegovTextarea],
         html: `<aegov-form-field>
@@ -201,12 +202,11 @@ describe('aegov-form-field', () => {
       });
       await page.waitForChanges();
 
-      expect(
-        page.root.querySelector('.aegov-form-field:has(textarea[disabled]) .aegov-label'),
-      ).not.toBeNull();
+      expect(q(q(page.root, 'aegov-textarea'), 'textarea[disabled]')).not.toBeNull();
+      expect(q(page.root, '.aegov-form-field.is-control-disabled .aegov-label')).not.toBeNull();
     });
 
-    it('stops matching when the control is re-enabled at runtime', async () => {
+    it('re-enabling the control drops disabled from the native input', async () => {
       const page = await newSpecPage({
         components: [AegovFormField, AegovLabel, AegovInput],
         html: `<aegov-form-field>
@@ -215,18 +215,17 @@ describe('aegov-form-field', () => {
         </aegov-form-field>`,
       });
       await page.waitForChanges();
-      expect(page.root.querySelector('.aegov-form-field:has(input[disabled])')).not.toBeNull();
 
-      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      const input = q(page.root, 'aegov-input') as HTMLAegovInputElement;
       input.isDisabled = false;
       await page.waitForChanges();
 
-      // The native control drops `disabled`, so the label un-dims. A host-attribute
-      // selector could not do this — Stencil leaves a reflected boolean stale on false.
-      expect(page.root.querySelector('.aegov-form-field:has(input[disabled])')).toBeNull();
+      // The wrapper class itself is updated by a MutationObserver, which mock-doc
+      // lacks; that half is covered in aegov-form-field.e2e.ts.
+      expect(q(q(page.root, 'aegov-input'), 'input[disabled]')).toBeNull();
     });
 
-    it('does not match an enabled control', async () => {
+    it('does not mark the wrapper for an enabled control', async () => {
       const page = await newSpecPage({
         components: [AegovFormField, AegovLabel, AegovInput],
         html: `<aegov-form-field>
@@ -235,7 +234,7 @@ describe('aegov-form-field', () => {
         </aegov-form-field>`,
       });
       await page.waitForChanges();
-      expect(page.root.querySelector('.aegov-form-field:has(input[disabled])')).toBeNull();
+      expect(q(page.root, '.aegov-form-field.is-control-disabled')).toBeNull();
     });
 
     it('never relies on a `disabled` attribute on the host — that was the original bug', async () => {
@@ -245,7 +244,7 @@ describe('aegov-form-field', () => {
       });
       await page.waitForChanges();
       // Guards against re-introducing `:has(aegov-input[disabled])`.
-      expect(page.root.querySelector('aegov-input[disabled]')).toBeNull();
+      expect(q(page.root, 'aegov-input[disabled]')).toBeNull();
     });
   });
 });

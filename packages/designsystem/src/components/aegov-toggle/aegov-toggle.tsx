@@ -209,7 +209,9 @@ export class AegovToggle {
     // isn't toggle-specific application code). Every change thereafter
     // reflects correctly on its own; this line makes the first one reliable
     // too, and is a no-op when Stencil's own reflect already did the write.
-    this.el.toggleAttribute('is-checked', this.isChecked);
+    // set/remove rather than toggleAttribute(): mock-doc (spec tests) doesn't implement it.
+    if (this.isChecked) this.el.setAttribute('is-checked', '');
+    else this.el.removeAttribute('is-checked');
     this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
     this.syncInternalsValidity();
     this.aegovToggleChange.emit({ checked: this.isChecked, value: this.value });

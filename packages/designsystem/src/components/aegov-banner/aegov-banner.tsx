@@ -46,7 +46,6 @@ export class AegovBanner {
 
   /**
    * Unique ID for the banner element. Auto-generated if not provided.
-   * The heading element receives a derived ID `${fieldId}-heading` for ARIA labelledby.
    */
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
