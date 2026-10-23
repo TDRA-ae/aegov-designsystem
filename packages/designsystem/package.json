@@ -12,6 +12,17 @@
         "dist/",
         "loader/"
     ],
+    "sideEffects": [
+        "./src/global/*",
+        "*.css",
+        "./loader/*",
+        "./dist/index.js",
+        "./dist/index.cjs.js",
+        "./dist/esm/*",
+        "./dist/cjs/*",
+        "./dist/aegov/*",
+        "./dist/collection/*"
+    ],
     "exports": {
         ".": {
             "types": "./dist/types/components.d.ts",

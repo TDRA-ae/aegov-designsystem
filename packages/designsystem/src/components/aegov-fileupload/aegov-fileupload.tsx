@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Method, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Method, Watch, Listen } from '@stencil/core';
 import { FILEUPLOAD_VARIANTS, FILEUPLOAD_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
   FileuploadVariant, FileuploadSize, FormVariant,
@@ -11,7 +11,8 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import {
-  buildValidationDetail, synthesizeValidity, setInternalsValidity, composeDescribedBy,
+  buildValidationDetail, synthesizeValidity,
+  withCustomError, setInternalsValidity, composeDescribedBy,
 } from '../../utils/validation';
 import type { InternalsHost } from '../../utils/validation';
 import { isRtl } from '../../utils/rtl';
@@ -225,11 +226,18 @@ export class AegovFileupload {
     }
   }
 
+  componentDidLoad() {
+    // Report the initial state (e.g. required and empty) to the form, as otp and
+    // datepicker do — otherwise form.checkValidity() passes until the first interaction.
+    this.runValidationSync();
+  }
+
   // ── FormAssociated lifecycle ──
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
   formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
   formResetCallback() {
     this.selectedFiles = [];
+    this.clearRejection();
     if (this.inputEl) this.inputEl.value = '';
     this.runValidationSync();
   }
@@ -267,15 +275,23 @@ export class AegovFileupload {
   @Method()
   async clear(): Promise<void> {
     this.selectedFiles = [];
+    this.clearRejection();
     if (this.inputEl) {
       this.inputEl.value = '';
     }
     this.runValidationSync();
   }
 
+  /** The form found this field invalid during a submit or checkValidity() — start announcing errors. */
+  @Listen('invalid')
+  onInvalid() {
+    this.hasInteractedOnce = true;
+  }
+
   /** Imperatively re-run validation. */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasInteractedOnce = true;
     return this.runAndEmitValidation(trigger);
   }
 
@@ -284,6 +300,7 @@ export class AegovFileupload {
   async setCustomValidity(message: string): Promise<void> {
     this.errorMessage = message;
     this.isInvalid = !!message;
+    this.customValidityMessage = message;
     if (this.internals) {
       if (message) {
         setInternalsValidity(
@@ -298,12 +315,37 @@ export class AegovFileupload {
     }
   }
 
-  private computeValidity(transientFlags: Partial<AegovValidityState> = {}): { validity: AegovValidityState; message: string } {
-    if (this.isRequired && this.selectedFiles.length === 0) {
-      return { validity: synthesizeValidity({ valueMissing: true, ...transientFlags }), message: this.errorMessage || this.t.required };
+  /** Message from setCustomValidity(), kept so recomputing validity does not drop it. */
+  private customValidityMessage = '';
+
+  /**
+   * Why the last selection was (partly) rejected — wrong type, too large, too
+   * many files. Kept for as long as its message is shown (until the next
+   * selection, a removal, clear() or reset), so validate() and the form agree
+   * with what the user sees instead of reporting valid on the next blur.
+   */
+  private rejection: { flags: Partial<AegovValidityState>; message: string } | null = null;
+
+  /** Drop the rejection and, if its message is what's showing, the message too. */
+  private clearRejection() {
+    if (this.rejection && this.errorMessage === this.rejection.message) {
+      this.isInvalid = false;
+      this.errorMessage = '';
     }
-    if (Object.keys(transientFlags).length > 0) {
-      return { validity: synthesizeValidity(transientFlags), message: this.errorMessage || this.t.invalidFile };
+    this.rejection = null;
+  }
+
+  private computeValidity(transientFlags: Partial<AegovValidityState> = {}): { validity: AegovValidityState; message: string } {
+    return withCustomError(this.computeConstraintValidity(transientFlags), this.customValidityMessage);
+  }
+
+  private computeConstraintValidity(transientFlags: Partial<AegovValidityState>): { validity: AegovValidityState; message: string } {
+    const flags = { ...(this.rejection?.flags ?? {}), ...transientFlags };
+    if (this.isRequired && this.selectedFiles.length === 0) {
+      return { validity: synthesizeValidity({ valueMissing: true, ...flags }), message: this.errorMessage || this.t.required };
+    }
+    if (Object.keys(flags).length > 0) {
+      return { validity: synthesizeValidity(flags), message: this.errorMessage || this.rejection?.message || this.t.invalidFile };
     }
     return { validity: synthesizeValidity({}), message: '' };
   }
@@ -407,6 +449,7 @@ export class AegovFileupload {
       }
     }
 
+    this.rejection = Object.keys(pendingFlag).length > 0 ? { flags: pendingFlag, message: pendingMessage } : null;
     this.aegovFileuploadChange.emit({ files: [...this.selectedFiles] });
     // Map all transient validation issues into the unified aegovValidate event (replaces aegovFileuploadError)
     this.runValidationSync(pendingFlag, pendingMessage);
@@ -436,6 +479,8 @@ export class AegovFileupload {
     this.selectedFiles = remaining;
     this.aegovFileuploadRemove.emit({ file: removed, remaining: [...remaining] });
     this.aegovFileuploadChange.emit({ files: [...remaining] });
+    // Same condition as the error-clearing below: once the message goes, so does the flag.
+    if (!this.maxFiles || remaining.length <= this.maxFiles) this.rejection = null;
     this.runValidationSync();
     this.emitValidateChange();
     // A "Maximum N files allowed" error (#44) is tied directly to the file

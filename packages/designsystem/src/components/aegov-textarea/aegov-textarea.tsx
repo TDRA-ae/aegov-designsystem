@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method, Listen } from '@stencil/core';
 import { TEXTAREA_SIZES, TEXTAREA_RESIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
   TextareaSize, TextareaResize, FormVariant,
@@ -169,9 +169,16 @@ export class AegovTextarea {
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
   }
 
+  /** The form found this field invalid during a submit or checkValidity() — start announcing errors. */
+  @Listen('invalid')
+  onInvalid() {
+    this.hasBlurredOnce = true;
+  }
+
   /** Imperatively re-run validation. */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasBlurredOnce = true;
     const validity = this.readValidity();
     const message = !validity.valid
       ? (this.errorMessage || this.textareaEl?.validationMessage || '')
@@ -249,6 +256,13 @@ export class AegovTextarea {
   @Watch('value')
   watchValue(newVal: string) {
     this.charCount = (newVal || '').length;
+    // A value set from code fires no input event — keep the inner textarea,
+    // the form value and validity in step with it (no events, like native).
+    if (this.textareaEl && this.textareaEl.value !== (newVal ?? '')) {
+      this.textareaEl.value = newVal ?? '';
+    }
+    this.internals?.setFormValue(newVal || null);
+    this.syncInternalsValidity();
     if (this.resize === 'auto' && this.textareaEl) {
       this.autoResize();
     }

@@ -73,6 +73,21 @@ export function synthesizeValidity(flags: Partial<AegovValidityState>): AegovVal
 }
 
 /**
+ * Fold a pending `setCustomValidity()` message into a computed result, the way
+ * a native control does: `customError` joins whatever other flags are set and
+ * the custom message wins. Custom controls recompute validity on every blur and
+ * `validate()` call, so without this the custom error would be silently dropped
+ * from ElementInternals while it is still shown on screen.
+ */
+export function withCustomError<R extends { validity: AegovValidityState; message: string }>(
+  result: R,
+  customMessage: string,
+): R {
+  if (!customMessage) return result;
+  return { ...result, validity: synthesizeValidity({ ...result.validity, customError: true }), message: customMessage };
+}
+
+/**
  * Compose a space-separated `aria-describedby` value from any number of IDs,
  * filtering out null/undefined/empty entries. Returns `undefined` if all empty
  * (caller can spread to remove the attribute).

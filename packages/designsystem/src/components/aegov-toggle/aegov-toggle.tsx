@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Watch, State, Event, EventEmitter, Element, Method } from '@stencil/core';
+import { Component, Host, h, Prop, Watch, State, Event, EventEmitter, Element, Method, Listen } from '@stencil/core';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { TOGGLE_SIZES, FORM_VARIANTS } from '../../utils/types';
@@ -129,6 +129,20 @@ export class AegovToggle {
     this._sizeWatcher?.destroy();
   }
 
+  /**
+   * Checked state or value set from code fires no change event — keep the inner
+   * input, the form value and validity in step with it (no events, like native).
+   */
+  @Watch('isChecked')
+  @Watch('value')
+  onCheckedOrValueChange() {
+    if (this.inputEl && this.inputEl.checked !== !!this.isChecked) {
+      this.inputEl.checked = !!this.isChecked;
+    }
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
+    this.syncInternalsValidity();
+  }
+
   @Watch('size')
   onSizeChange() {
     this._sizeWatcher?.destroy();
@@ -138,9 +152,16 @@ export class AegovToggle {
     this._resolvedSize = this._sizeWatcher.current as ToggleSize;
   }
 
+  /** The form found this field invalid during a submit or checkValidity() — start announcing errors. */
+  @Listen('invalid')
+  onInvalid() {
+    this.hasBlurredOnce = true;
+  }
+
   /** Imperatively re-run validation. */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasBlurredOnce = true;
     const validity = this.readValidity();
     const message = !validity.valid
       ? (this.errorMessage || this.inputEl?.validationMessage || '')
