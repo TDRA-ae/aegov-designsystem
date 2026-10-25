@@ -809,14 +809,37 @@ describe('aegov-header e2e', () => {
     ${wrapper ? '</div>' : ''}
   `;
 
-  it('paints the emblem with its own fixed colour', async () => {
+  it('paints the emblem aeblack by default', async () => {
     const page = await newE2EPage();
     await page.setViewport({ width: 1280, height: 900 });
     await page.setContent(EMBLEM_PAGE());
     await page.waitForChanges();
 
-    // aeblack-800, straight from EMBLEM_COLOR in the component.
+    // aeblack-800, straight from EMBLEM_COLORS in the component.
     expect(await emblemFill(page)).toBe('oklch(0.2936 0.0112 271.01)');
+  });
+
+  it.each([
+    ['aegold', 'oklch(0.5632 0.0956 83.8)'],
+    ['whitely', 'oklch(1 0 0)'],
+  ])('paints the emblem %s when emblem-color is set', async (value, expected) => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 1280, height: 900 });
+    await page.setContent(EMBLEM_PAGE().replace('variant="authority"', `variant="authority" emblem-color="${value}"`));
+    await page.waitForChanges();
+
+    expect(await emblemFill(page)).toBe(expected);
+  });
+
+  it('repaints the emblem when emblem-color changes at runtime', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 1280, height: 900 });
+    await page.setContent(EMBLEM_PAGE());
+    await page.waitForChanges();
+
+    await page.evaluate(() => document.querySelector('aegov-header').setAttribute('emblem-color', 'aegold'));
+    await page.waitForChanges();
+    expect(await emblemFill(page)).toBe('oklch(0.5632 0.0956 83.8)');
   });
 
   it('ignores the surrounding text colour', async () => {

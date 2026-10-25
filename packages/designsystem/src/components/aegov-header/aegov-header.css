@@ -34,8 +34,9 @@
   @apply hidden min-w-sm;
 }
 
-/* Authority only — the emblem replaces the search slot, and neither the slot
-   nor the colour is overridable.
+/* Authority only — the emblem replaces the search slot. The slot is not
+   overridable, and the colour comes only from the `emblem-color` prop's closed
+   set of tokens (aeblack | aegold | whitely) — never inherited or retinted.
  */
 .header__emblem {
   /* Same vertical rhythm as .header__logo. Without it the emblem touches the

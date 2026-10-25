@@ -656,6 +656,13 @@ export type HeaderCollapseBreakpoint = typeof HEADER_COLLAPSE_BREAKPOINTS[number
 export type HeaderVariant = typeof HEADER_VARIANTS[number];
 
 /**
+ * aegov-header emblem colour tokens (authority variant). A closed set of brand
+ * colours — the emblem is never tinted with arbitrary or inherited colours.
+ */
+export const HEADER_EMBLEM_COLORS = ['aeblack', 'aegold', 'whitely'] as const;
+export type HeaderEmblemColor = typeof HEADER_EMBLEM_COLORS[number];
+
+/**
  * Navbar component size types
  */
 export const NAVBAR_SIZES = ['sm', 'base', 'lg'] as const;
