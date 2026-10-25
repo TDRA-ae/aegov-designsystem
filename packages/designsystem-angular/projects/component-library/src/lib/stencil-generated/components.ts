@@ -824,7 +824,7 @@ export declare interface AegovFormField extends Components.AegovFormField {}
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovHeader,
-  inputs: ['collapseAt', 'drawerSize', 'entityDomain', 'entityName', 'isSticky', 'labelMenu', 'labelMenuClose', 'logoLabel', 'skipContentContainer', 'variant'],
+  inputs: ['collapseAt', 'drawerSize', 'emblemColor', 'entityDomain', 'entityName', 'isSticky', 'labelMenu', 'labelMenuClose', 'logoLabel', 'skipContentContainer', 'variant'],
   methods: ['openMenu', 'closeMenu', 'toggleMenu']
 })
 @Component({
@@ -832,7 +832,7 @@ export declare interface AegovFormField extends Components.AegovFormField {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['collapseAt', 'drawerSize', 'entityDomain', 'entityName', 'isSticky', 'labelMenu', 'labelMenuClose', 'logoLabel', 'skipContentContainer', 'variant'],
+  inputs: ['collapseAt', 'drawerSize', 'emblemColor', 'entityDomain', 'entityName', 'isSticky', 'labelMenu', 'labelMenuClose', 'logoLabel', 'skipContentContainer', 'variant'],
   outputs: ['aegovHeaderMenuOpen', 'aegovHeaderMenuClose', 'aegovHeaderStuck', 'aegovHeaderUnstuck'],
 })
 export class AegovHeader {

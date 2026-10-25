@@ -348,6 +348,7 @@ export const AegovHeader = /*@__PURE__*/ defineContainer<JSX.AegovHeader>('aegov
   'labelMenuClose',
   'collapseAt',
   'drawerSize',
+  'emblemColor',
   'isSticky',
   'aegovHeaderMenuOpen',
   'aegovHeaderMenuClose',
