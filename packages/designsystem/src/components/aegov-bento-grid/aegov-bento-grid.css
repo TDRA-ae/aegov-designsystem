@@ -1,5 +1,8 @@
-:host {
-  @apply block;
+/* `:host` has no effect here — this component is shadow:false/scoped:false, so
+   there is no shadow root for `:host` to match and no Stencil rewrite to a
+   scoped selector either. Target the actual rendered tag name instead. */
+aegov-bento-grid {
+  display: block;
 }
 
 .aegov-bento-grid {
