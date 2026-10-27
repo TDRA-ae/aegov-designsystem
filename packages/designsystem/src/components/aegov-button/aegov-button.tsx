@@ -21,7 +21,7 @@ import { getPassThroughAttributes } from '../../utils/attributes';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
 import { getActionClasses } from '../../utils/action-classes';
-import { afterDispatchUnlessPrevented, getOwningForm, submitForm } from '../../utils/form-submit';
+import { afterDispatchUnlessPrevented, getOwningForm, submitForm, resetForm } from '../../utils/form-submit';
 
 const TAG = 'aegov-button';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -264,7 +264,7 @@ export class AegovButton {
     if (!form) return;
     afterDispatchUnlessPrevented(event, () => {
       if (type === 'submit') submitForm(form);
-      else form.reset();
+      else resetForm(form);
     });
   };
 
