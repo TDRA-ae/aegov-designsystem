@@ -108,8 +108,12 @@ export class AegovOtp {
   private errorId: string = '';
   private hintId: string = '';
 
+  /** The value the field started with — what a form reset restores, like a native control's default value. */
+  private _defaultValue: string = '';
+
   componentWillLoad() {
     if (this.isDisabled) syncHostDisabled(this.el, true);
+    this._defaultValue = this.value ?? '';
     warnIfInvalidEnumProp(this.appearance, OTP_VARIANTS, 'continuous', ctx('appearance'));
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     if (!this.fieldId) {
@@ -161,8 +165,11 @@ export class AegovOtp {
   }
 
   formResetCallback() {
-    this.value = '';
-    this.distributeValue('');
+    this.value = this._defaultValue;
+    this.distributeValue(this._defaultValue);
+    this.errorMessage = '';
+    this.isInvalid = false;
+    this.customValidityMessage = '';
     this.runValidationSync();
   }
   formStateRestoreCallback(state: string | File | FormData | null) {

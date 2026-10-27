@@ -365,3 +365,46 @@ describe('form integration: validate() on disabled controls', () => {
     expect(await page.evaluate(() => document.querySelector('form')!.checkValidity())).toBe(true);
   });
 });
+
+/** FormData entries and form reset follow native controls. */
+describe('form integration: form value and reset', () => {
+  const entries = () => {
+    const out: string[] = [];
+    new FormData(document.querySelector('form')!).forEach((v, k) => out.push(`${k}=${v}`));
+    return out;
+  };
+
+  it('empty text fields submit an empty entry; a checked radio without a value submits "on"', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<form><aegov-input name="i"></aegov-input><aegov-textarea name="t"></aegov-textarea><aegov-radio name="r" label="r" is-checked></aegov-radio></form>');
+    await page.waitForChanges();
+    expect(await page.evaluate(entries)).toEqual(['i=', 't=', 'r=on']);
+  });
+
+  const resets: Array<[string, string, string | number, string | number]> = [
+    ['aegov-input', '<aegov-input name="a" value="init"></aegov-input>', 'changed', 'init'],
+    ['aegov-textarea', '<aegov-textarea name="a" value="init"></aegov-textarea>', 'changed', 'init'],
+    ['aegov-select', '<aegov-select name="a" value="x"><aegov-select-option value="x">X</aegov-select-option><aegov-select-option value="y">Y</aegov-select-option></aegov-select>', 'y', 'x'],
+    ['aegov-otp', '<aegov-otp name="a" length="4" value="1234"></aegov-otp>', '9999', '1234'],
+    ['aegov-datepicker', '<aegov-datepicker name="a" value="2026-01-10"></aegov-datepicker>', '2026-03-03', '2026-01-10'],
+    ['aegov-range', '<aegov-range name="a" value="30"></aegov-range>', 80, 30],
+  ];
+  for (const [name, markup, changed, initial] of resets) {
+    it(`${name}: reset restores the initial value and clears a custom error`, async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<form>${markup}</form>`);
+      await page.waitForChanges();
+      await page.$eval('form > *', async (el: any, v: unknown) => {
+        el.value = v;
+        await el.setCustomValidity('Server says no');
+      }, changed);
+      await page.waitForChanges();
+      await page.$eval('form', (f: HTMLFormElement) => f.reset());
+      await page.waitForChanges();
+      expect(await page.$eval('form > *', (el: any) => el.value)).toBe(initial);
+      expect(await page.evaluate(entries)).toEqual([`a=${initial}`]);
+      expect(await page.evaluate(() => document.querySelector('form')!.checkValidity())).toBe(true);
+      expect(await page.$eval('form > *', (el: any) => el.isInvalid)).toBe(false);
+    });
+  }
+});

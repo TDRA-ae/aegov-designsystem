@@ -258,6 +258,9 @@ export class AegovFileupload {
   formResetCallback() {
     this.selectedFiles = [];
     this.clearRejection();
+    this.errorMessage = '';
+    this.isInvalid = false;
+    this.customValidityMessage = '';
     if (this.inputEl) this.inputEl.value = '';
     this.runValidationSync();
   }

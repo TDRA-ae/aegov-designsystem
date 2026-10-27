@@ -120,7 +120,7 @@ export class AegovRadio {
     if (typeof host.attachInternals === 'function') {
       try {
         this.internals = host.attachInternals();
-        this.internals.setFormValue(this.isChecked ? (this.value ?? null) : null);
+        this.internals.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
       } catch {
         this.internals = null;
       }
@@ -153,7 +153,7 @@ export class AegovRadio {
     this.errorMessage = '';
     this.isInvalid = false;
     if (this.inputEl) this.inputEl.setCustomValidity('');
-    this.internals?.setFormValue(this.isChecked ? (this.value ?? null) : null);
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
     if (this.isRequired && !this.isChecked) {
       setInternalsValidity(this.internals, synthesizeValidity({ valueMissing: true }), 'Please select an option');
     } else {
@@ -200,7 +200,7 @@ export class AegovRadio {
   @Watch('isChecked')
   onIsCheckedChange() {
     // Fires when radio-group programmatically deselects this radio (no DOM event fires).
-    this.internals?.setFormValue(this.isChecked ? (this.value ?? null) : null);
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
     this.syncInternalsValidity();
   }
 
@@ -289,7 +289,7 @@ export class AegovRadio {
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
     this.isChecked = input.checked;
-    this.internals?.setFormValue(this.isChecked ? (this.value ?? null) : null);
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
     this.syncInternalsValidity();
     this.aegovRadioChange.emit({ checked: this.isChecked, value: this.value });
     this.emitValidate('change');
