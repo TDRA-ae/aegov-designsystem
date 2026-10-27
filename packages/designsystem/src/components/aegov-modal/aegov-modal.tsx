@@ -4,7 +4,7 @@ import type { ModalPosition, ModalOverlayOpacity, ModalSize } from '../../utils/
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { getSlottedFocusableElements, handleTabKeyWrap, resolveFocusTarget } from '../../utils/focus-management';
 import { lockBodyScroll, unlockBodyScroll } from '../../utils/scroll-lock';
-import { pushZIndex, popZIndex } from '../../utils/z-index-manager';
+import { pushZIndex, popZIndex, isTopOverlay } from '../../utils/z-index-manager';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
 import { isRtl } from '../../utils/rtl';
@@ -231,7 +231,7 @@ export class AegovModal {
       if (this.isPreventScroll) {
         unlockBodyScroll();
       }
-      popZIndex();
+      popZIndex(this.el);
     }
     document.removeEventListener('keydown', this.handleKeyDown);
     // Removed by its owner while relocated to body (e.g. `host.remove()`):
@@ -290,7 +290,7 @@ export class AegovModal {
     this.moveHost(true);
 
     // Assign z-index for this modal
-    this.modalZIndex = pushZIndex();
+    this.modalZIndex = pushZIndex(this.el);
     this.overlayResourcesHeld = true;
 
     // Set animation state
@@ -348,7 +348,7 @@ export class AegovModal {
     // disconnect while open/closing has already released them.
     if (this.overlayResourcesHeld) {
       this.overlayResourcesHeld = false;
-      popZIndex();
+      popZIndex(this.el);
       // Unlock body scroll (ref-counted, only unlocks when last overlay closes)
       if (this.isPreventScroll) {
         unlockBodyScroll();
@@ -387,6 +387,8 @@ export class AegovModal {
   };
 
   private handleKeyDown = (event: KeyboardEvent) => {
+    // Under a nested overlay, the key belongs to that one.
+    if (!isTopOverlay(this.el)) return;
     if (event.key === 'Escape') {
       this.aegovModalEscapePress.emit(event);
       // Escape must always close per SC 2.1.2 — bypass the cancellable beforeClose event
