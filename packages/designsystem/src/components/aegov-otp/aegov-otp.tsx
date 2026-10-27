@@ -459,8 +459,10 @@ export class AegovOtp {
 
   /** Blur on the entire OTP group — gates aria-live. Only fires when focus leaves the group entirely. */
   private handleBlurGroup = (e: FocusEvent) => {
-    // If focus is moving to another cell within this component, skip
-    if (this.el.contains(e.relatedTarget as Node)) return;
+    // If focus is moving to another cell within this component, skip. The cells
+    // live in the shadow root, which the host's contains() does not search.
+    const next = e.relatedTarget as Node | null;
+    if (next && (this.el.contains(next) || this.el.shadowRoot?.contains(next))) return;
     this.hasBlurredOnce = true;
     this.runAndEmitValidation('blur');
   };
