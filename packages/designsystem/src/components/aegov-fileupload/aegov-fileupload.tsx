@@ -511,6 +511,8 @@ export class AegovFileupload {
    * `removeFile()`) lands correctly every time.
    */
   componentDidRender() {
+    // Constraint props (isRequired, …) changed after load must reach the form too.
+    this.runValidationSync();
     if (!this.pendingFocusAfterRemoval) return;
     const { removedIndex, remainingCount } = this.pendingFocusAfterRemoval;
     this.pendingFocusAfterRemoval = null;

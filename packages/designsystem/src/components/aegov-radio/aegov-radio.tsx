@@ -142,7 +142,6 @@ export class AegovRadio {
   }
 
   componentDidLoad() {
-    this.syncInternalsValidity();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
     // Self-detect parent group appearance — bypasses syncChildren() timing dependency.
     const group = this.el.closest('aegov-radio-group');
@@ -167,6 +166,15 @@ export class AegovRadio {
 
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
+  }
+
+  /**
+   * The inner control's constraints only change once it re-renders, so
+   * validity is synced after every render rather than in a watcher, which
+   * would read the old ones.
+   */
+  componentDidRender() {
+    this.syncInternalsValidity();
   }
 
   @Watch('isChecked')

@@ -1,10 +1,10 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method, Listen } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method, Listen, forceUpdate } from '@stencil/core';
 import { TEXTAREA_SIZES, TEXTAREA_RESIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
   TextareaSize, TextareaResize, FormVariant,
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
-import { getPassThroughAttributes } from '../../utils/attributes';
+import { getPassThroughAttributes, observePassThroughAttributes } from '../../utils/attributes';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -160,8 +160,16 @@ export class AegovTextarea {
   }
 
   componentDidLoad() {
-    this.syncInternalsValidity();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
+  }
+
+  /**
+   * The inner control's constraints only change once it re-renders, so
+   * validity is synced after every render rather than in a watcher, which
+   * would read the old ones.
+   */
+  componentDidRender() {
+    this.syncInternalsValidity();
   }
 
   @Watch('extraClass')
@@ -234,8 +242,15 @@ export class AegovTextarea {
     ));
   }
 
+  private attrObserver: MutationObserver | null = null;
+
+  connectedCallback() {
+    this.attrObserver = observePassThroughAttributes(this.el, AegovTextarea.PASS_THROUGH_ATTRS, () => forceUpdate(this));
+  }
+
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
+    this.attrObserver?.disconnect();
   }
 
   @Watch('size')

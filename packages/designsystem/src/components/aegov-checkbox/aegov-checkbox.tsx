@@ -148,7 +148,6 @@ export class AegovCheckbox {
   }
 
   componentDidLoad() {
-    this.syncInternalsValidity();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
     // Self-detect parent group appearance — bypasses syncChildren() timing dependency.
     // Stencil: children mount before parents, so we read the HTML attribute directly.
@@ -258,10 +257,16 @@ export class AegovCheckbox {
     this._resolvedSize = this._sizeWatcher.current as CheckboxSize;
   }
 
+  /**
+   * The inner input's constraints (required, …) only change once it re-renders,
+   * so validity is synced after every render rather than in a watcher, which
+   * would read the old ones.
+   */
   componentDidRender() {
     if (this.inputEl) {
       this.inputEl.indeterminate = this.isIndeterminate;
     }
+    this.syncInternalsValidity();
   }
 
   /**

@@ -183,6 +183,11 @@ export class AegovOtp {
     }
   }
 
+  /** Constraint props (isRequired, length, pattern, …) changed after load must reach the form too. */
+  componentDidRender() {
+    this.runValidationSync();
+  }
+
   @Watch('extraClass')
   onExtraClassChange() {
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
