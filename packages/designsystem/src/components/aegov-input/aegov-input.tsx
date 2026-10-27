@@ -168,8 +168,12 @@ export class AegovInput {
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant')); }
 
+  /** The value the field started with — what a form reset restores, like a native control's default value. */
+  private _defaultValue: string = '';
+
   componentWillLoad() {
     if (this.isDisabled) syncHostDisabled(this.el, true);
+    this._defaultValue = this.value ?? '';
     warnIfInvalidEnumProp(this.type, INPUT_TYPES, 'text', ctx('type'));
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
@@ -185,7 +189,7 @@ export class AegovInput {
     if (typeof host.attachInternals === 'function') {
       try {
         this.internals = host.attachInternals();
-        this.internals.setFormValue(this.value || null);
+        this.internals.setFormValue(this.value ?? '');
       } catch {
         this.internals = null;
       }
@@ -214,16 +218,15 @@ export class AegovInput {
   }
 
   formResetCallback() {
-    this.value = '';
+    this.value = this._defaultValue;
     this.errorMessage = '';
     this.isInvalid = false;
-    if (this.nativeRef) this.nativeRef.setCustomValidity('');
-    this.internals?.setFormValue(null);
-    if (this.isRequired) {
-      setInternalsValidity(this.internals, synthesizeValidity({ valueMissing: true }), 'Please fill in this field');
-    } else {
-      setInternalsValidity(this.internals, { valid: true }, '');
+    if (this.nativeRef) {
+      this.nativeRef.value = this._defaultValue;
+      this.nativeRef.setCustomValidity('');
     }
+    this.internals?.setFormValue(this.value ?? '');
+    this.syncInternalsValidity();
   }
 
   /**
@@ -236,7 +239,7 @@ export class AegovInput {
     if (this.nativeRef && this.nativeRef.value !== (this.value ?? '')) {
       this.nativeRef.value = this.value ?? '';
     }
-    this.internals?.setFormValue(this.value || null);
+    this.internals?.setFormValue(this.value ?? '');
     this.syncInternalsValidity();
   }
 
@@ -418,7 +421,7 @@ export class AegovInput {
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
-    this.internals?.setFormValue(this.value || null);
+    this.internals?.setFormValue(this.value ?? '');
     this.syncInternalsValidity();
     this.aegovInputChange.emit({ value: this.value, event });
     this.emitValidate('change');
@@ -427,7 +430,7 @@ export class AegovInput {
   private handleInput = (event: Event) => {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
-    this.internals?.setFormValue(this.value || null);
+    this.internals?.setFormValue(this.value ?? '');
     this.syncInternalsValidity();
     this.aegovInputValue.emit({ value: this.value, event });
     this.emitValidate('input');

@@ -244,8 +244,12 @@ export class AegovDatepicker {
 
   // ── Lifecycle ─────────────────────────────────────────
 
+  /** The value the field started with — what a form reset restores, like a native control's default value. */
+  private _defaultValue: string = '';
+
   componentWillLoad() {
     if (this.isDisabled) syncHostDisabled(this.el, true);
+    this._defaultValue = this.value ?? '';
     warnIfInvalidEnumProp(this.appearance, DATEPICKER_MODES, 'single', ctx('appearance'));
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
@@ -328,8 +332,11 @@ export class AegovDatepicker {
   }
 
   formResetCallback() {
-    this.value = '';
+    this.value = this._defaultValue;
     this.parseValue();
+    this.errorMessage = '';
+    this.isInvalid = false;
+    this.customValidityMessage = '';
     this.runValidationSync();
   }
 

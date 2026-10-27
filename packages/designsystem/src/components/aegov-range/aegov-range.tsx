@@ -195,7 +195,13 @@ export class AegovRange {
     this.value = this._defaultValue;
     this.valueLow = this._defaultValueLow;
     this.valueHigh = this._defaultValueHigh;
-    this.internals?.setFormValue(null);
+    this.errorMessage = '';
+    this.isInvalid = false;
+    this.nativeRef?.setCustomValidity('');
+    this.highRef?.setCustomValidity('');
+    setInternalsValidity(this.internals, this.readValidity(), '');
+    // The value watchers only run on an actual change; a reset may not change it.
+    this.syncFormValue();
   }
 
   /**

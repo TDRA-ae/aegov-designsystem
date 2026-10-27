@@ -156,8 +156,12 @@ export class AegovSelect {
   private errorId: string = '';
   private hintId: string = '';
 
+  /** The value the field started with — what a form reset restores, like a native control's default value. */
+  private _defaultValue: string = '';
+
   componentWillLoad() {
     if (this.isDisabled) syncHostDisabled(this.el, true);
+    this._defaultValue = this.value ?? '';
     warnIfInvalidEnumProp(this.appearance, SELECT_VARIANTS, 'default', ctx('appearance'));
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, SELECT_SIZES, 'base', v => {
@@ -212,9 +216,14 @@ export class AegovSelect {
   }
 
   formResetCallback() {
-    this.value = '';
+    this.value = this._defaultValue;
     this.errorMessage = '';
     this.isInvalid = false;
+    this.customValidityMessage = '';
+    if (this.nativeSelectEl) {
+      this.nativeSelectEl.value = this._defaultValue;
+      this.nativeSelectEl.setCustomValidity('');
+    }
     this.runValidationSync();
   }
 
@@ -292,7 +301,7 @@ export class AegovSelect {
             for (const v of this.selectedValues) if (this.name) fd.append(this.name, v);
             this.internals.setFormValue(fd);
           } else {
-            this.internals.setFormValue(this.value || null);
+            this.internals.setFormValue(this.value ?? '');
           }
         }
         // Sync native <select> validity to ElementInternals so form.checkValidity() sees required etc.
