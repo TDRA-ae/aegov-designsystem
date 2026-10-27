@@ -4,7 +4,7 @@ import type { DrawerPosition, DrawerAnimation, DrawerOverlayOpacity, DrawerSize 
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { getSlottedFocusableElements, handleTabKeyWrap, resolveFocusTarget } from '../../utils/focus-management';
 import { lockBodyScroll, unlockBodyScroll } from '../../utils/scroll-lock';
-import { pushZIndex, popZIndex } from '../../utils/z-index-manager';
+import { pushZIndex, popZIndex, isTopOverlay } from '../../utils/z-index-manager';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
 import { forgetRelocatedHost, relocateHostToBody, restoreHostFromBody } from '../../utils/portal-manager';
@@ -269,7 +269,7 @@ export class AegovDrawer {
       if (this.isPreventScroll) {
         unlockBodyScroll();
       }
-      popZIndex();
+      popZIndex(this.el);
     }
     document.removeEventListener('keydown', this.handleKeyDown);
     // Removed by its owner while relocated to body (e.g. `host.remove()`):
@@ -310,7 +310,7 @@ export class AegovDrawer {
     this.moveHost(true);
 
     // Assign z-index for this drawer
-    this.drawerZIndex = pushZIndex();
+    this.drawerZIndex = pushZIndex(this.el);
     this.overlayResourcesHeld = true;
 
     // Phase 1: Render at off-screen / invisible position.
@@ -372,7 +372,7 @@ export class AegovDrawer {
     // disconnect while open/closing has already released them.
     if (this.overlayResourcesHeld) {
       this.overlayResourcesHeld = false;
-      popZIndex();
+      popZIndex(this.el);
       // Unlock body scroll (ref-counted, only unlocks when last overlay closes)
       if (this.isPreventScroll) {
         unlockBodyScroll();
@@ -409,6 +409,8 @@ export class AegovDrawer {
   };
 
   private handleKeyDown = (event: KeyboardEvent) => {
+    // Under a nested overlay, the key belongs to that one.
+    if (!isTopOverlay(this.el)) return;
     if (event.key === 'Escape') {
       this.aegovDrawerEscapePress.emit(event);
       // Escape must always close per SC 2.1.2 — bypass the cancellable beforeClose event
