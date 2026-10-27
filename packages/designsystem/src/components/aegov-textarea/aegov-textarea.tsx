@@ -120,8 +120,12 @@ export class AegovTextarea {
   private errorId: string = '';
   private hintId: string = '';
 
+  /** The value the field started with — what a form reset restores, like a native control's default value. */
+  private _defaultValue: string = '';
+
   componentWillLoad() {
     if (this.isDisabled) syncHostDisabled(this.el, true);
+    this._defaultValue = this.value ?? '';
     this._sizeWatcher = watchResponsiveProp(this.size, TEXTAREA_SIZES, 'base', v => {
       this._resolvedSize = v as TextareaSize;
     });
@@ -138,7 +142,7 @@ export class AegovTextarea {
     if (typeof host.attachInternals === 'function') {
       try {
         this.internals = host.attachInternals();
-        this.internals.setFormValue(this.value || null);
+        this.internals.setFormValue(this.value ?? '');
       } catch {
         this.internals = null;
       }
@@ -167,16 +171,15 @@ export class AegovTextarea {
   }
 
   formResetCallback() {
-    this.value = '';
+    this.value = this._defaultValue;
     this.errorMessage = '';
     this.isInvalid = false;
-    if (this.textareaEl) this.textareaEl.setCustomValidity('');
-    this.internals?.setFormValue(null);
-    if (this.isRequired) {
-      setInternalsValidity(this.internals, synthesizeValidity({ valueMissing: true }), 'Please fill in this field');
-    } else {
-      setInternalsValidity(this.internals, { valid: true }, '');
+    if (this.textareaEl) {
+      this.textareaEl.value = this._defaultValue;
+      this.textareaEl.setCustomValidity('');
     }
+    this.internals?.setFormValue(this.value ?? '');
+    this.syncInternalsValidity();
   }
 
   componentDidLoad() {
@@ -299,7 +302,7 @@ export class AegovTextarea {
     if (this.textareaEl && this.textareaEl.value !== (newVal ?? '')) {
       this.textareaEl.value = newVal ?? '';
     }
-    this.internals?.setFormValue(newVal || null);
+    this.internals?.setFormValue(newVal ?? '');
     this.syncInternalsValidity();
     if (this.resize === 'auto' && this.textareaEl) {
       this.autoResize();
@@ -359,7 +362,7 @@ export class AegovTextarea {
   private handleChange = (event: Event) => {
     const textarea = event.target as HTMLTextAreaElement;
     this.value = textarea.value;
-    this.internals?.setFormValue(this.value || null);
+    this.internals?.setFormValue(this.value ?? '');
     this.syncInternalsValidity();
     this.aegovTextareaChange.emit({ value: this.value, event });
     this.emitValidate('change');
@@ -368,7 +371,7 @@ export class AegovTextarea {
   private handleInput = (event: Event) => {
     const textarea = event.target as HTMLTextAreaElement;
     this.value = textarea.value;
-    this.internals?.setFormValue(this.value || null);
+    this.internals?.setFormValue(this.value ?? '');
     this.syncInternalsValidity();
     this.aegovTextareaValue.emit({ value: this.value, event });
     if (this.resize === 'auto') {
