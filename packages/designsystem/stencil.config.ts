@@ -81,9 +81,25 @@ export const config: Config = {
       stencilPackageName: '@aegov/designsystem',
       outDir: '../designsystem-react/lib/components/stencil-generated/',
     }),
+    // Each Vue proxy registers its own component from the custom elements bundle
+    // (like the Angular/React wrappers), so props set on first render are not lost.
+    // componentModels wire v-model to the prop each component updates before emitting
+    // the event; v-model reads it back from event.target.
     vueOutputTarget({
       componentCorePackage: '@aegov/designsystem',
       proxiesFile: '../designsystem-vue/lib/components.ts',
+      includeImportCustomElements: true,
+      componentModels: [
+        { elements: ['aegov-input'], event: 'aegovInputValue', targetAttr: 'value' },
+        { elements: ['aegov-textarea'], event: 'aegovTextareaValue', targetAttr: 'value' },
+        { elements: ['aegov-select'], event: 'aegovSelectChange', targetAttr: 'value' },
+        { elements: ['aegov-otp'], event: 'aegovOtpChange', targetAttr: 'value' },
+        { elements: ['aegov-range'], event: 'aegovRangeInput', targetAttr: 'value' },
+        { elements: ['aegov-datepicker'], event: 'aegovDatepickerChange', targetAttr: 'value' },
+        { elements: ['aegov-checkbox'], event: 'aegovCheckboxChange', targetAttr: 'isChecked' },
+        { elements: ['aegov-toggle'], event: 'aegovToggleChange', targetAttr: 'isChecked' },
+        { elements: ['aegov-radio'], event: 'aegovRadioChange', targetAttr: 'isChecked' },
+      ],
     }),
   ],
 
