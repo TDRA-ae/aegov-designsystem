@@ -1,4 +1,6 @@
 import { newSpecPage } from '@stencil/core/testing';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
 import { q } from '../../utils/test-helpers';
 import { AegovFormField } from './aegov-form-field';
 import { AegovInput } from '../aegov-input/aegov-input';
@@ -237,14 +239,19 @@ describe('aegov-form-field', () => {
       expect(q(page.root, '.aegov-form-field.is-control-disabled')).toBeNull();
     });
 
-    it('never relies on a `disabled` attribute on the host — that was the original bug', async () => {
+    it('never styles from a `disabled` attribute on the host — that was the original bug', async () => {
+      // The control now mirrors isDisabled onto its host's `disabled` attribute
+      // (so the browser bars it from FormData and validation), but the dimmed
+      // label must still come from the JS-set class: guards against
+      // re-introducing `:has(aegov-input[disabled])`-style rules.
+      const css = readFileSync(resolve(__dirname, 'aegov-form-field.css'), 'utf8');
+      expect(css).not.toMatch(/\[disabled\]/);
       const page = await newSpecPage({
-        components: [AegovFormField, AegovInput],
-        html: `<aegov-form-field><aegov-input is-disabled="true"></aegov-input></aegov-form-field>`,
+        components: [AegovFormField, AegovLabel, AegovInput],
+        html: `<aegov-form-field><aegov-label>Email</aegov-label><aegov-input is-disabled="true"></aegov-input></aegov-form-field>`,
       });
       await page.waitForChanges();
-      // Guards against re-introducing `:has(aegov-input[disabled])`.
-      expect(q(page.root, 'aegov-input[disabled]')).toBeNull();
+      expect(q(page.root, '.aegov-form-field.is-control-disabled')).not.toBeNull();
     });
   });
 });

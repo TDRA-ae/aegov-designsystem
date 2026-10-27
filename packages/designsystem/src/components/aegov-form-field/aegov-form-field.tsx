@@ -19,6 +19,16 @@ type AegovFormControl = HTMLElement & {
   isDisabled?: boolean;
 };
 
+/** Own `isDisabled`, or disabled by the form (`<fieldset disabled>`, host `disabled`). */
+function isControlDisabled(ctrl: AegovFormControl): boolean {
+  if (ctrl.isDisabled) return true;
+  try {
+    return ctrl.matches(':disabled');
+  } catch {
+    return false; // test DOM without :disabled support
+  }
+}
+
 @Component({
   tag: 'aegov-form-field',
   styleUrl: 'aegov-form-field.css',
@@ -263,9 +273,12 @@ export class AegovFormField {
    * ways (confirmed live: it clears correctly, unlike the host's reflected
    * attribute). Observing each control's shadow root for that attribute is
    * therefore a reliable proxy trigger to re-read the authoritative property.
+   *
+   * A control disabled by an ancestor `<fieldset disabled>` keeps its own
+   * `isDisabled` false, so the host's `:disabled` state is read as well.
    */
   private syncDisabledState(ctrl: AegovFormControl) {
-    this.isControlDisabled = !!ctrl.isDisabled;
+    this.isControlDisabled = isControlDisabled(ctrl);
 
     if (this.observedControl === ctrl) return;
     this.disabledObserver?.disconnect();
@@ -273,7 +286,7 @@ export class AegovFormField {
 
     if (ctrl.shadowRoot && typeof MutationObserver !== 'undefined') {
       this.disabledObserver = new MutationObserver(() => {
-        this.isControlDisabled = !!ctrl.isDisabled;
+        this.isControlDisabled = isControlDisabled(ctrl);
       });
       this.disabledObserver.observe(ctrl.shadowRoot, {
         attributes: true,

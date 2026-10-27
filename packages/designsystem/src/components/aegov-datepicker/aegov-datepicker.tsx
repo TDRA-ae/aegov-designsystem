@@ -7,7 +7,7 @@ import type {
 } from '../../utils/types';
 import {
   composeDescribedBy, buildValidationDetail, synthesizeValidity,
-  withCustomError, setInternalsValidity,
+  withCustomError, setInternalsValidity, syncHostDisabled,
 } from '../../utils/validation';
 import type { InternalsHost } from '../../utils/validation';
 
@@ -245,6 +245,7 @@ export class AegovDatepicker {
   // ── Lifecycle ─────────────────────────────────────────
 
   componentWillLoad() {
+    if (this.isDisabled) syncHostDisabled(this.el, true);
     warnIfInvalidEnumProp(this.appearance, DATEPICKER_MODES, 'single', ctx('appearance'));
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
@@ -306,7 +307,26 @@ export class AegovDatepicker {
 
   // ── FormAssociated lifecycle (§2.5 + §7.5 spike) ──
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
-  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formDisabledCallback(disabled: boolean) { this.formDisabled = disabled; }
+
+  /**
+   * True while an ancestor `<fieldset disabled>` or the host's `disabled`
+   * attribute disables the field. Kept apart from `isDisabled` so that
+   * re-enabling the fieldset doesn't clear the field's own setting.
+   */
+  @State() private formDisabled: boolean = false;
+
+  /** Disabled by its own `isDisabled` or by the form. */
+  private get disabled(): boolean {
+    return this.isDisabled || this.formDisabled;
+  }
+
+  /** Leave FormData and constraint validation while disabled, like a native control. */
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    syncHostDisabled(this.el, this.isDisabled);
+  }
+
   formResetCallback() {
     this.value = '';
     this.parseValue();
@@ -508,7 +528,7 @@ export class AegovDatepicker {
 
   @Method()
   async open() {
-    if (this.isDisabled) return;
+    if (this.disabled) return;
     // Ensure portal is ready (may not exist if called before componentDidLoad)
     this.createPortalElement();
     this.isOpen = true;
@@ -1169,7 +1189,7 @@ export class AegovDatepicker {
   // ── Event Handlers ────────────────────────────────────
 
   private handleTriggerClick = () => {
-    if (!this.isDisabled) {
+    if (!this.disabled) {
       this.isOpen = !this.isOpen;
     }
   };
@@ -1947,7 +1967,7 @@ export class AegovDatepicker {
           value={displayValue}
           placeholder={placeholder}
           readOnly
-          disabled={this.isDisabled}
+          disabled={this.disabled}
           required={this.isRequired}
           aria-required={this.isRequired ? 'true' : undefined}
           aria-invalid={this.isInvalid ? 'true' : undefined}
@@ -1964,7 +1984,7 @@ export class AegovDatepicker {
           )}
         />
         <span id={formatHintId} class="datepicker__sr-only">{this.format}</span>
-        {hasValue && this.isClearable && !this.isDisabled && (
+        {hasValue && this.isClearable && !this.disabled && (
           <button
             type="button"
             class="datepicker__clear-btn"
@@ -2002,7 +2022,7 @@ export class AegovDatepicker {
           value={startValue}
           placeholder={labelStart}
           readOnly
-          disabled={this.isDisabled}
+          disabled={this.disabled}
           required={this.isRequired}
           aria-required={this.isRequired ? 'true' : undefined}
           aria-invalid={this.isInvalid ? 'true' : undefined}
@@ -2021,7 +2041,7 @@ export class AegovDatepicker {
           value={endValue}
           placeholder={labelEnd}
           readOnly
-          disabled={this.isDisabled}
+          disabled={this.disabled}
           required={this.isRequired}
           aria-required={this.isRequired ? 'true' : undefined}
           aria-invalid={this.isInvalid ? 'true' : undefined}
@@ -2032,7 +2052,7 @@ export class AegovDatepicker {
           aria-describedby={inputDescribedBy}
         />
         <span id={formatHintId} class="datepicker__sr-only">{this.format}</span>
-        {hasValue && this.isClearable && !this.isDisabled && (
+        {hasValue && this.isClearable && !this.disabled && (
           <button
             type="button"
             class="datepicker__clear-btn"
