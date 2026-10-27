@@ -14,7 +14,7 @@ import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
   composeDescribedBy, buildValidationDetail, synthesizeValidity,
-  withCustomError, setInternalsValidity,
+  withCustomError, setInternalsValidity, syncHostDisabled,
 } from '../../utils/validation';
 import type { InternalsHost } from '../../utils/validation';
 import { isRtl } from '../../utils/rtl';
@@ -157,6 +157,7 @@ export class AegovSelect {
   private hintId: string = '';
 
   componentWillLoad() {
+    if (this.isDisabled) syncHostDisabled(this.el, true);
     warnIfInvalidEnumProp(this.appearance, SELECT_VARIANTS, 'default', ctx('appearance'));
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, SELECT_SIZES, 'base', v => {
@@ -190,7 +191,26 @@ export class AegovSelect {
 
   // ── FormAssociated lifecycle (listbox appearance uses ElementInternals) ──
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
-  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formDisabledCallback(disabled: boolean) { this.formDisabled = disabled; }
+
+  /**
+   * True while an ancestor `<fieldset disabled>` or the host's `disabled`
+   * attribute disables the field. Kept apart from `isDisabled` so that
+   * re-enabling the fieldset doesn't clear the field's own setting.
+   */
+  @State() private formDisabled: boolean = false;
+
+  /** Disabled by its own `isDisabled` or by the form. */
+  private get disabled(): boolean {
+    return this.isDisabled || this.formDisabled;
+  }
+
+  /** Leave FormData and constraint validation while disabled, like a native control. */
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    syncHostDisabled(this.el, this.isDisabled);
+  }
+
   formResetCallback() {
     this.value = '';
     this.errorMessage = '';
@@ -500,7 +520,7 @@ export class AegovSelect {
   // --- Listbox handlers ---
 
   private toggleDropdown = () => {
-    if (this.isDisabled) return;
+    if (this.disabled) return;
     if (this.isOpen) {
       this.closeDropdown();
     } else {
@@ -781,7 +801,7 @@ export class AegovSelect {
     classes.push(sizeClasses[this._resolvedSize]);
     const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
     classes.push(`select-variant-${variant}`);
-    if (this.isDisabled) classes.push('select--disabled');
+    if (this.disabled) classes.push('select--disabled');
     if (this.isOpen) classes.push('select--open');
     if (!this.displayText) classes.push('select--placeholder');
     if (this.extraClass) classes.push(this.extraClass);
@@ -812,7 +832,7 @@ export class AegovSelect {
             ref={(el) => this.nativeSelectEl = el}
             id={this.fieldId}
             class={`aegov-select select-variant-${variant} ${sizeClasses[this._resolvedSize]}${this.extraClass ? ` ${this.extraClass}` : ''}`}
-            disabled={this.isDisabled}
+            disabled={this.disabled}
             name={this.name}
             required={this.isRequired}
             aria-invalid={this.isInvalid ? 'true' : null}
@@ -922,7 +942,7 @@ export class AegovSelect {
                 this.emitValidate('blur');
               }
             }}
-            disabled={this.isDisabled}
+            disabled={this.disabled}
             role="combobox"
             aria-expanded={this.isOpen ? 'true' : 'false'}
             aria-haspopup="listbox"
@@ -936,7 +956,7 @@ export class AegovSelect {
               {this.displayText || this.placeholder || ''}
             </span>
             <span class="select__actions">
-              {this.isClearable && this.selectedValues.length > 0 && !this.isDisabled && (
+              {this.isClearable && this.selectedValues.length > 0 && !this.disabled && (
                 <button
                   type="button"
                   class="select__clear"

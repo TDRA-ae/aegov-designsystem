@@ -13,7 +13,7 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity, syncHostDisabled,
 } from '../../utils/validation';
 
 /** Range value type — number for single mode, { low, high } for range mode. See §2.4.1. */
@@ -137,6 +137,7 @@ export class AegovRange {
   private _defaultValueHigh: number = 75;
 
   componentWillLoad() {
+    if (this.isDisabled) syncHostDisabled(this.el, true);
     this._defaultValue = this.value;
     this._defaultValueLow = this.valueLow;
     this._defaultValueHigh = this.valueHigh;
@@ -170,7 +171,26 @@ export class AegovRange {
   }
 
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
-  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formDisabledCallback(disabled: boolean) { this.formDisabled = disabled; }
+
+  /**
+   * True while an ancestor `<fieldset disabled>` or the host's `disabled`
+   * attribute disables the field. Kept apart from `isDisabled` so that
+   * re-enabling the fieldset doesn't clear the field's own setting.
+   */
+  @State() private formDisabled: boolean = false;
+
+  /** Disabled by its own `isDisabled` or by the form. */
+  private get disabled(): boolean {
+    return this.isDisabled || this.formDisabled;
+  }
+
+  /** Leave FormData and constraint validation while disabled, like a native control. */
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    syncHostDisabled(this.el, this.isDisabled);
+  }
+
   formResetCallback() {
     this.value = this._defaultValue;
     this.valueLow = this._defaultValueLow;
@@ -454,7 +474,7 @@ export class AegovRange {
   }
 
   private handleThumbMouseDown = (e: MouseEvent, which: 'single' | 'low' | 'high') => {
-    if (this.isDisabled) return;
+    if (this.disabled) return;
     e.preventDefault();
     this.activeThumb = which;
     this.focusNativeInput(which);
@@ -478,7 +498,7 @@ export class AegovRange {
   };
 
   private handleThumbTouchStart = (e: TouchEvent, which: 'single' | 'low' | 'high') => {
-    if (this.isDisabled) return;
+    if (this.disabled) return;
     e.preventDefault();
     this.activeThumb = which;
     this.focusNativeInput(which);
@@ -502,7 +522,7 @@ export class AegovRange {
   };
 
   private handleTrackClick = (e: MouseEvent) => {
-    if (this.isDisabled) return;
+    if (this.disabled) return;
     // Determine which thumb to move in range mode (closest to click)
     if (this.mode === 'range') {
       const wrapper = this.trackWrapperEl;
@@ -622,7 +642,7 @@ export class AegovRange {
       `range--${orientation}`,
       `range-variant-${variant}`,
       displayClass,
-      this.isDisabled ? 'aegov-range--disabled' : '',
+      this.disabled ? 'aegov-range--disabled' : '',
       this.extraClass || '',
     ].filter(Boolean).join(' ');
 
@@ -654,7 +674,7 @@ export class AegovRange {
                 max={this.max}
                 step={this.step}
                 value={this.value}
-                disabled={this.isDisabled}
+                disabled={this.disabled}
                 required={this.isRequired}
                 onInput={this.handleSingleInput}
                 onChange={this.handleSingleChange}
@@ -680,7 +700,7 @@ export class AegovRange {
                 max={this.max}
                 step={this.step}
                 value={this.valueLow}
-                disabled={this.isDisabled}
+                disabled={this.disabled}
                 onInput={this.handleLowInput}
                 onChange={this.handleLowChange}
                 onBlur={this.handleInputBlur}
@@ -702,7 +722,7 @@ export class AegovRange {
                 max={this.max}
                 step={this.step}
                 value={this.valueHigh}
-                disabled={this.isDisabled}
+                disabled={this.disabled}
                 onInput={this.handleHighInput}
                 onChange={this.handleHighChange}
                 onBlur={this.handleInputBlur}
