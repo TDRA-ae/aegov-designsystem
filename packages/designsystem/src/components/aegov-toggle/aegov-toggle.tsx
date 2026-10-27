@@ -121,7 +121,12 @@ export class AegovToggle {
     }
   }
 
-  componentDidLoad() {
+  /**
+   * The inner control's constraints only change once it re-renders, so
+   * validity is synced after every render rather than in a watcher, which
+   * would read the old ones.
+   */
+  componentDidRender() {
     this.syncInternalsValidity();
   }
 

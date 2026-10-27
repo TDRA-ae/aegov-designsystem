@@ -152,3 +152,48 @@ describe('form integration (Layer 1)', () => {
     expect(formIsValid).toBe(false);
   });
 });
+
+/**
+ * Constraints changed after load must reach ElementInternals, so the form's own
+ * validity follows them — e.g. a framework binding `isRequired` to some other
+ * field. Each case starts valid, changes one constraint, and expects the form to
+ * become invalid (or the reverse).
+ */
+describe('form integration: constraints changed after load', () => {
+  const cases: Array<{ name: string; markup: string; change: string; validAfter: boolean }> = [
+    { name: 'aegov-input isRequired → true', markup: '<aegov-input name="a"></aegov-input>', change: 'el.isRequired = true', validAfter: false },
+    { name: 'aegov-input isRequired → false', markup: '<aegov-input name="a" is-required></aegov-input>', change: 'el.isRequired = false', validAfter: true },
+    { name: 'aegov-input type → email', markup: '<aegov-input name="a" value="x"></aegov-input>', change: 'el.type = "email"', validAfter: false },
+    { name: 'aegov-input pattern attribute added', markup: '<aegov-input name="a" value="abc"></aegov-input>', change: 'el.setAttribute("pattern", "[0-9]+")', validAfter: false },
+    { name: 'aegov-input pattern attribute removed', markup: '<aegov-input name="a" value="abc" pattern="[0-9]+"></aegov-input>', change: 'el.removeAttribute("pattern")', validAfter: true },
+    { name: 'aegov-input max attribute added', markup: '<aegov-input name="a" type="number" value="5"></aegov-input>', change: 'el.setAttribute("max", "3")', validAfter: false },
+    { name: 'aegov-input isDisabled → true bars validation', markup: '<aegov-input name="a" is-required></aegov-input>', change: 'el.isDisabled = true', validAfter: true },
+    { name: 'aegov-textarea isRequired → true', markup: '<aegov-textarea name="a"></aegov-textarea>', change: 'el.isRequired = true', validAfter: false },
+    { name: 'aegov-select (native) isRequired → true', markup: '<aegov-select name="a"><aegov-select-option value="">Pick</aegov-select-option><aegov-select-option value="x">X</aegov-select-option></aegov-select>', change: 'el.isRequired = true', validAfter: false },
+    { name: 'aegov-select (listbox) isRequired → true', markup: '<aegov-select name="a" appearance="listbox"><aegov-select-option value="x">X</aegov-select-option></aegov-select>', change: 'el.isRequired = true', validAfter: false },
+    { name: 'aegov-checkbox isRequired → true', markup: '<aegov-checkbox name="a" value="1" label="c"></aegov-checkbox>', change: 'el.isRequired = true', validAfter: false },
+    { name: 'aegov-radio isRequired → true', markup: '<aegov-radio name="a" value="1" label="r"></aegov-radio>', change: 'el.isRequired = true', validAfter: false },
+    { name: 'aegov-toggle isRequired → true', markup: '<aegov-toggle name="a" value="1" label="t"></aegov-toggle>', change: 'el.isRequired = true', validAfter: false },
+    { name: 'aegov-otp isRequired → true', markup: '<aegov-otp name="a" length="4"></aegov-otp>', change: 'el.isRequired = true', validAfter: false },
+    { name: 'aegov-otp pattern set', markup: '<aegov-otp name="a" length="4" value="abcd" is-alphanumeric></aegov-otp>', change: 'el.pattern = "[0-9]+"', validAfter: false },
+    { name: 'aegov-otp length raised', markup: '<aegov-otp name="a" length="4" value="1234"></aegov-otp>', change: 'el.length = 6', validAfter: false },
+    { name: 'aegov-datepicker isRequired → true', markup: '<aegov-datepicker name="a"></aegov-datepicker>', change: 'el.isRequired = true', validAfter: false },
+    { name: 'aegov-datepicker min after the value', markup: '<aegov-datepicker name="a" value="2026-01-10"></aegov-datepicker>', change: 'el.min = "2026-02-01"', validAfter: false },
+    { name: 'aegov-fileupload isRequired → true', markup: '<aegov-fileupload name="a"></aegov-fileupload>', change: 'el.isRequired = true', validAfter: false },
+  ];
+
+  for (const { name, markup, change, validAfter } of cases) {
+    it(name, async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<form>${markup}</form>`);
+      await page.waitForChanges();
+      expect(await page.evaluate(() => document.querySelector('form')!.checkValidity())).toBe(!validAfter);
+      await page.evaluate((code: string) => {
+        const el = document.querySelector('form')!.firstElementChild as any;
+        new Function('el', code)(el);
+      }, change);
+      await page.waitForChanges();
+      expect(await page.evaluate(() => document.querySelector('form')!.checkValidity())).toBe(validAfter);
+    });
+  }
+});
