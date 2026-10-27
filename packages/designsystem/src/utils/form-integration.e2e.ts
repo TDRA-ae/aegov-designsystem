@@ -273,3 +273,55 @@ describe('form integration: disabled controls', () => {
     expect(await page.evaluate(entries)).toEqual(['a']);
   });
 });
+
+/**
+ * A control named or id'd like a form method shadows it (`form.reset` becomes
+ * the control). Native buttons are unaffected, so aegov-button and aegov-input's
+ * Enter-key submission must be too.
+ */
+describe('form integration: controls shadowing form members', () => {
+  const run = async (markup: string, act: string) => {
+    const page = await newE2EPage();
+    await page.setContent(markup);
+    await page.waitForChanges();
+    await page.evaluate(() => {
+      (window as any).log = [];
+      document.addEventListener('submit', e => { e.preventDefault(); (window as any).log.push('submit'); });
+      document.addEventListener('reset', () => (window as any).log.push('reset'));
+      window.addEventListener('error', e => (window as any).log.push('error: ' + e.message));
+    });
+    if (act === 'enter') {
+      await (await page.find('aegov-input >>> input')).press('Enter');
+    } else {
+      await page.$eval(`aegov-button[type="${act}"]`, (b: HTMLElement) => b.shadowRoot!.querySelector('button')!.click());
+    }
+    await new Promise(r => setTimeout(r, 50));
+    return { page, log: await page.evaluate(() => (window as any).log) };
+  };
+
+  it('type="reset" resets a form with a control named "reset"', async () => {
+    const { page, log } = await run('<form><input name="reset" value="orig"><aegov-button type="reset">R</aegov-button></form>', 'reset');
+    expect(log).toEqual(['reset']);
+    expect(await page.$eval('input', (i: HTMLInputElement) => i.value)).toBe('orig');
+  });
+
+  it('type="reset" resets a form with a control id\'d "reset"', async () => {
+    const { log } = await run('<form><input id="reset"><aegov-button type="reset">R</aegov-button></form>', 'reset');
+    expect(log).toEqual(['reset']);
+  });
+
+  it('type="submit" submits a form with a control named "requestSubmit"', async () => {
+    const { log } = await run('<form><input type="hidden" name="requestSubmit"><aegov-button type="submit">S</aegov-button></form>', 'submit');
+    expect(log).toEqual(['submit']);
+  });
+
+  it('Enter submits a form with a control named "submit"', async () => {
+    const { log } = await run('<form><input type="hidden" name="submit"><aegov-input name="q"></aegov-input></form>', 'enter');
+    expect(log).toEqual(['submit']);
+  });
+
+  it('Enter finds the default button in a form with a control named "elements"', async () => {
+    const { log } = await run('<form><input type="hidden" name="elements"><aegov-input name="q"></aegov-input><aegov-input name="r"></aegov-input><aegov-button type="submit">S</aegov-button></form>', 'enter');
+    expect(log).toEqual(['submit']);
+  });
+});
