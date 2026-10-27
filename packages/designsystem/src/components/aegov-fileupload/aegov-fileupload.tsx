@@ -356,6 +356,8 @@ export class AegovFileupload {
   }
 
   private computeValidity(transientFlags: Partial<AegovValidityState> = {}): { validity: AegovValidityState; message: string } {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return { validity: synthesizeValidity({}), message: '' };
     return withCustomError(this.computeConstraintValidity(transientFlags), this.customValidityMessage);
   }
 
