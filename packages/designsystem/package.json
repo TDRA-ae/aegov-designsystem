@@ -59,8 +59,8 @@
         "test:watch": "stencil test --spec --e2e --watchAll",
         "test:coverage": "stencil test --spec --coverage",
         "test:ci": "stencil test --spec --e2e --ci",
-        "verify:build": "node -e \"const fs=require('fs');if(!fs.existsSync('./dist'))throw new Error('dist missing')\"",
-        "test:build": "npm run build && npm run verify:build",
+        "verify:build": "node -e \"const fs=require('fs');if(!fs.existsSync('./dist'))throw new Error('dist missing');const maps=['dist','loader'].flatMap(d=>fs.readdirSync(d,{recursive:true}).filter(f=>String(f).endsWith('.map')));if(maps.length)throw new Error(maps.length+' .map files in dist/loader: this is a development build. Publish a production build (npm run build:prod).')\"",
+        "test:build": "npm run build:prod && npm run verify:build",
         "size": "size-limit",
         "generate": "stencil generate",
         "prepublishOnly": "npm run test:build"
