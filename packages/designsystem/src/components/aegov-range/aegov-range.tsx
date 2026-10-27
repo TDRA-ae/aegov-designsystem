@@ -272,6 +272,8 @@ export class AegovRange {
   }
 
   private readValidity() {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return VALID_STATE;
     const low = this.nativeRef?.validity;
     const high = this.mode === 'range' ? this.highRef?.validity : undefined;
     if (!low) return VALID_STATE;

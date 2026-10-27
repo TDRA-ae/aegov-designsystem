@@ -325,3 +325,43 @@ describe('form integration: controls shadowing form members', () => {
     expect(log).toEqual(['submit']);
   });
 });
+
+/** validate() agrees with the form: a disabled control is barred from validation. */
+describe('form integration: validate() on disabled controls', () => {
+  const required: Array<[string, string]> = [
+    ['aegov-input', '<aegov-input name="a" is-required></aegov-input>'],
+    ['aegov-select (listbox)', '<aegov-select name="a" appearance="listbox" is-required><aegov-select-option value="x">X</aegov-select-option></aegov-select>'],
+    ['aegov-checkbox', '<aegov-checkbox name="a" value="1" label="c" is-required></aegov-checkbox>'],
+    ['aegov-otp', '<aegov-otp name="a" length="4" is-required></aegov-otp>'],
+    ['aegov-datepicker', '<aegov-datepicker name="a" is-required></aegov-datepicker>'],
+    ['aegov-fileupload', '<aegov-fileupload name="a" is-required></aegov-fileupload>'],
+    ['aegov-radio-group', '<aegov-radio-group name="a" label="g" is-required><aegov-radio value="1" label="1"></aegov-radio></aegov-radio-group>'],
+  ];
+  for (const [name, markup] of required) {
+    for (const via of ['isDisabled', 'fieldset']) {
+      if (via === 'fieldset' && name === 'aegov-radio-group') continue;
+      it(`${name}: required and empty but disabled (${via}) → validate() is valid`, async () => {
+        const page = await newE2EPage();
+        await page.setContent(via === 'fieldset' ? `<form><fieldset disabled>${markup}</fieldset></form>` : `<form>${markup}</form>`);
+        await page.waitForChanges();
+        if (via === 'isDisabled') {
+          await page.$eval('form > *', (el: any) => { el.isDisabled = true; });
+          await page.waitForChanges();
+        }
+        const valid = await page.$eval('form aegov-' + name.split(' ')[0].slice(6), async (el: any) => (await el.validate()).valid);
+        expect(valid).toBe(true);
+        expect(await page.evaluate(() => document.querySelector('form')!.checkValidity())).toBe(true);
+      });
+    }
+  }
+
+  it('aegov-select (native) setCustomValidity() reaches the form at once', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<form><aegov-select name="s"><aegov-select-option value="x">X</aegov-select-option></aegov-select></form>');
+    await page.waitForChanges();
+    await page.$eval('aegov-select', (el: any) => el.setCustomValidity('Nope'));
+    expect(await page.evaluate(() => document.querySelector('form')!.checkValidity())).toBe(false);
+    await page.$eval('aegov-select', (el: any) => el.setCustomValidity(''));
+    expect(await page.evaluate(() => document.querySelector('form')!.checkValidity())).toBe(true);
+  });
+});

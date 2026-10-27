@@ -207,6 +207,7 @@ export class AegovTextarea {
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
     if (trigger === 'submit') this.hasBlurredOnce = true;
+    this.syncInternalsValidity();
     const validity = this.readValidity();
     const message = !validity.valid
       ? (this.errorMessage || this.textareaEl?.validationMessage || '')
@@ -236,6 +237,8 @@ export class AegovTextarea {
   }
 
   private readValidity() {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return VALID_STATE;
     const v = this.textareaEl?.validity;
     return v ? fromNativeValidity(v) : VALID_STATE;
   }
@@ -243,7 +246,7 @@ export class AegovTextarea {
   private syncInternalsValidity(): void {
     if (!this.internals || !this.textareaEl) return;
     const v = this.textareaEl.validity;
-    if (v.valid) {
+    if (this.disabled || v.valid) {
       setInternalsValidity(this.internals, { valid: true }, '');
     } else {
       const message = this.errorMessage || this.textareaEl.validationMessage || '';

@@ -381,6 +381,8 @@ export class AegovDatepicker {
   private customValidityMessage = '';
 
   private computeValidity(): { validity: AegovValidityState; message: string } {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return { validity: synthesizeValidity({}), message: '' };
     return withCustomError(this.computeConstraintValidity(), this.customValidityMessage);
   }
 

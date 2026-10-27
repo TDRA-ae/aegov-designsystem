@@ -187,6 +187,7 @@ export class AegovToggle {
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
     if (trigger === 'submit') this.hasBlurredOnce = true;
+    this.syncInternalsValidity();
     const validity = this.readValidity();
     const message = !validity.valid
       ? (this.errorMessage || this.inputEl?.validationMessage || '')
@@ -216,6 +217,8 @@ export class AegovToggle {
   }
 
   private readValidity() {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return VALID_STATE;
     const v = this.inputEl?.validity;
     return v ? fromNativeValidity(v) : VALID_STATE;
   }
@@ -223,7 +226,7 @@ export class AegovToggle {
   private syncInternalsValidity(): void {
     if (!this.internals || !this.inputEl) return;
     const v = this.inputEl.validity;
-    if (v.valid) {
+    if (this.disabled || v.valid) {
       setInternalsValidity(this.internals, { valid: true }, '');
     } else {
       const message = this.errorMessage || this.inputEl.validationMessage || '';

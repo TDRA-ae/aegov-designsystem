@@ -250,6 +250,7 @@ export class AegovSelect {
       }
     } else if (this.nativeSelectEl && typeof this.nativeSelectEl.setCustomValidity === 'function') {
       this.nativeSelectEl.setCustomValidity(message);
+      this.runValidationSync();
     }
   }
 
@@ -261,6 +262,8 @@ export class AegovSelect {
   private customValidityMessage = '';
 
   private computeListboxValidity(): { validity: AegovValidityState; message: string } {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return { validity: synthesizeValidity({}), message: '' };
     const filled = this.isMultiple ? this.selectedValues.length > 0 : !!this.value;
     const result = this.isRequired && !filled
       ? { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required' }
@@ -269,6 +272,8 @@ export class AegovSelect {
   }
 
   private readValidity(): AegovValidityState {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return VALID_STATE;
     if (this.useListbox) {
       return this.computeListboxValidity().validity;
     }
@@ -293,7 +298,7 @@ export class AegovSelect {
         // Sync native <select> validity to ElementInternals so form.checkValidity() sees required etc.
         if (this.internals && this.nativeSelectEl) {
           const v = this.nativeSelectEl.validity;
-          if (v.valid) {
+          if (this.disabled || v.valid) {
             setInternalsValidity(this.internals, { valid: true }, '');
           } else {
             const message = this.errorMessage || this.nativeSelectEl.validationMessage || '';
