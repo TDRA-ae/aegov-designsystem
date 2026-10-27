@@ -153,6 +153,21 @@ export function setInternalsValidity(
 }
 
 /**
+ * Mirror a control's `isDisabled` onto the host's `disabled` attribute.
+ *
+ * The browser treats a form-associated custom element as disabled — left out of
+ * FormData and of constraint validation, matched by `:disabled` — only when it
+ * has a `disabled` attribute or sits in a disabled `<fieldset>`; disabling the
+ * inner native control is not enough. Called from an `isDisabled` watcher, and
+ * from `componentWillLoad` only when `isDisabled` is set, so an author's own
+ * `disabled` attribute is never removed at load.
+ */
+export function syncHostDisabled(host: HTMLElement, isDisabled: boolean): void {
+  if (isDisabled) host.setAttribute('disabled', '');
+  else host.removeAttribute('disabled');
+}
+
+/**
  * Build a typed `AegovValidationDetail` payload for the unified `aegovValidate`
  * event. Reads `name` from either the host's HTML attribute or its `name`
  * property (whichever is set).

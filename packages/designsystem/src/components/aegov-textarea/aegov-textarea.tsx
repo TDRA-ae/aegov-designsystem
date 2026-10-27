@@ -13,7 +13,7 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity, syncHostDisabled,
 } from '../../utils/validation';
 
 const TAG = 'aegov-textarea';
@@ -121,6 +121,7 @@ export class AegovTextarea {
   private hintId: string = '';
 
   componentWillLoad() {
+    if (this.isDisabled) syncHostDisabled(this.el, true);
     this._sizeWatcher = watchResponsiveProp(this.size, TEXTAREA_SIZES, 'base', v => {
       this._resolvedSize = v as TextareaSize;
     });
@@ -145,7 +146,26 @@ export class AegovTextarea {
   }
 
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
-  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formDisabledCallback(disabled: boolean) { this.formDisabled = disabled; }
+
+  /**
+   * True while an ancestor `<fieldset disabled>` or the host's `disabled`
+   * attribute disables the field. Kept apart from `isDisabled` so that
+   * re-enabling the fieldset doesn't clear the field's own setting.
+   */
+  @State() private formDisabled: boolean = false;
+
+  /** Disabled by its own `isDisabled` or by the form. */
+  private get disabled(): boolean {
+    return this.isDisabled || this.formDisabled;
+  }
+
+  /** Leave FormData and constraint validation while disabled, like a native control. */
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    syncHostDisabled(this.el, this.isDisabled);
+  }
+
   formResetCallback() {
     this.value = '';
     this.errorMessage = '';
@@ -461,7 +481,7 @@ export class AegovTextarea {
       <textarea
         id={this.fieldId}
         class={this.getTextareaClasses()}
-        disabled={this.isDisabled}
+        disabled={this.disabled}
         readOnly={this.isReadonly}
         placeholder={this.placeholder}
         value={this.value}

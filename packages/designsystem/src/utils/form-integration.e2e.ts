@@ -197,3 +197,79 @@ describe('form integration: constraints changed after load', () => {
     });
   }
 });
+
+/**
+ * A disabled control is left out of FormData and of constraint validation, as a
+ * native one is. For a form-associated custom element the browser only does
+ * that through the host's `disabled` attribute (or a disabled fieldset), which
+ * each control mirrors from `isDisabled`.
+ */
+describe('form integration: disabled controls', () => {
+  const controls: Array<{ name: string; markup: string }> = [
+    { name: 'aegov-input', markup: '<aegov-input name="a" value="v"></aegov-input>' },
+    { name: 'aegov-textarea', markup: '<aegov-textarea name="a" value="v"></aegov-textarea>' },
+    { name: 'aegov-select (native)', markup: '<aegov-select name="a" value="x"><aegov-select-option value="x">X</aegov-select-option></aegov-select>' },
+    { name: 'aegov-select (listbox)', markup: '<aegov-select name="a" appearance="listbox" value="x"><aegov-select-option value="x">X</aegov-select-option></aegov-select>' },
+    { name: 'aegov-checkbox', markup: '<aegov-checkbox name="a" value="1" label="c" is-checked></aegov-checkbox>' },
+    { name: 'aegov-radio', markup: '<aegov-radio name="a" value="1" label="r" is-checked></aegov-radio>' },
+    { name: 'aegov-toggle', markup: '<aegov-toggle name="a" value="1" label="t" is-checked></aegov-toggle>' },
+    { name: 'aegov-range', markup: '<aegov-range name="a" value="40"></aegov-range>' },
+    { name: 'aegov-otp', markup: '<aegov-otp name="a" length="4" value="1234"></aegov-otp>' },
+    { name: 'aegov-datepicker', markup: '<aegov-datepicker name="a" value="2026-01-10"></aegov-datepicker>' },
+  ];
+  const entries = () => {
+    const names: string[] = [];
+    new FormData(document.querySelector('form')!).forEach((_v, k) => names.push(k));
+    return names;
+  };
+
+  for (const { name, markup } of controls) {
+    it(`${name} leaves FormData while isDisabled, and returns when re-enabled`, async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<form>${markup}</form>`);
+      await page.waitForChanges();
+      expect(await page.evaluate(entries)).toEqual(['a']);
+      await page.$eval('form > *', (el: any) => { el.isDisabled = true; });
+      await page.waitForChanges();
+      expect(await page.evaluate(entries)).toEqual([]);
+      await page.$eval('form > *', (el: any) => { el.isDisabled = false; });
+      await page.waitForChanges();
+      expect(await page.evaluate(entries)).toEqual(['a']);
+    });
+  }
+
+  it('is-disabled in the markup leaves FormData and bars a required field from validation', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<form><aegov-input name="a" value="v" is-disabled></aegov-input><aegov-textarea name="b" is-required is-disabled></aegov-textarea></form>');
+    await page.waitForChanges();
+    expect(await page.evaluate(entries)).toEqual([]);
+    expect(await page.evaluate(() => document.querySelector('form')!.checkValidity())).toBe(true);
+  });
+
+  it('a field\'s own isDisabled survives its fieldset being disabled and re-enabled', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<form><fieldset><aegov-input name="a" value="v" is-disabled></aegov-input></fieldset></form>');
+    await page.waitForChanges();
+    await page.$eval('fieldset', (fs: HTMLFieldSetElement) => { fs.disabled = true; });
+    await page.waitForChanges();
+    await page.$eval('fieldset', (fs: HTMLFieldSetElement) => { fs.disabled = false; });
+    await page.waitForChanges();
+    expect(await page.$eval('aegov-input', (el: any) => el.isDisabled)).toBe(true);
+    expect(await page.$eval('aegov-input', (el: any) => el.shadowRoot.querySelector('input').disabled)).toBe(true);
+    expect(await page.evaluate(entries)).toEqual([]);
+  });
+
+  it('a field disabled only by its fieldset is enabled again with it', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<form><fieldset><aegov-input name="a" value="v"></aegov-input></fieldset></form>');
+    await page.waitForChanges();
+    await page.$eval('fieldset', (fs: HTMLFieldSetElement) => { fs.disabled = true; });
+    await page.waitForChanges();
+    expect(await page.$eval('aegov-input', (el: any) => el.shadowRoot.querySelector('input').disabled)).toBe(true);
+    expect(await page.evaluate(entries)).toEqual([]);
+    await page.$eval('fieldset', (fs: HTMLFieldSetElement) => { fs.disabled = false; });
+    await page.waitForChanges();
+    expect(await page.$eval('aegov-input', (el: any) => el.shadowRoot.querySelector('input').disabled)).toBe(false);
+    expect(await page.evaluate(entries)).toEqual(['a']);
+  });
+});

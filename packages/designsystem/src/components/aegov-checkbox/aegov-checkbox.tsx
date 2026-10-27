@@ -12,7 +12,7 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity, syncHostDisabled,
 } from '../../utils/validation';
 
 @Component({
@@ -110,6 +110,7 @@ export class AegovCheckbox {
   }
 
   componentWillLoad() {
+    if (this.isDisabled) syncHostDisabled(this.el, true);
     this._defaultChecked = this.isChecked;
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', { component: 'aegov-checkbox', prop: 'variant' });
     if (!this.fieldId) {
@@ -133,7 +134,26 @@ export class AegovCheckbox {
   }
 
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
-  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formDisabledCallback(disabled: boolean) { this.formDisabled = disabled; }
+
+  /**
+   * True while an ancestor `<fieldset disabled>` or the host's `disabled`
+   * attribute disables the field. Kept apart from `isDisabled` so that
+   * re-enabling the fieldset doesn't clear the field's own setting.
+   */
+  @State() private formDisabled: boolean = false;
+
+  /** Disabled by its own `isDisabled` or by the form. */
+  private get disabled(): boolean {
+    return this.isDisabled || this.formDisabled;
+  }
+
+  /** Leave FormData and constraint validation while disabled, like a native control. */
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    syncHostDisabled(this.el, this.isDisabled);
+  }
+
   formResetCallback() {
     this.isChecked = this._defaultChecked;
     this.errorMessage = '';
@@ -339,7 +359,7 @@ export class AegovCheckbox {
         id={this.fieldId}
         value={this.value}
         checked={this.isChecked}
-        disabled={this.isDisabled}
+        disabled={this.disabled}
         required={this.isRequired}
         aria-checked={this.isIndeterminate ? 'mixed' : this.isChecked ? 'true' : 'false'}
         aria-required={this.isRequired ? 'true' : undefined}

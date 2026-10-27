@@ -14,7 +14,7 @@ import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import {
   composeDescribedBy, buildValidationDetail, synthesizeValidity,
-  withCustomError, setInternalsValidity,
+  withCustomError, setInternalsValidity, syncHostDisabled,
 } from '../../utils/validation';
 import type { InternalsHost } from '../../utils/validation';
 
@@ -109,6 +109,7 @@ export class AegovOtp {
   private hintId: string = '';
 
   componentWillLoad() {
+    if (this.isDisabled) syncHostDisabled(this.el, true);
     warnIfInvalidEnumProp(this.appearance, OTP_VARIANTS, 'continuous', ctx('appearance'));
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     if (!this.fieldId) {
@@ -139,7 +140,26 @@ export class AegovOtp {
 
   // ── FormAssociated lifecycle ──
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
-  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formDisabledCallback(disabled: boolean) { this.formDisabled = disabled; }
+
+  /**
+   * True while an ancestor `<fieldset disabled>` or the host's `disabled`
+   * attribute disables the field. Kept apart from `isDisabled` so that
+   * re-enabling the fieldset doesn't clear the field's own setting.
+   */
+  @State() private formDisabled: boolean = false;
+
+  /** Disabled by its own `isDisabled` or by the form. */
+  private get disabled(): boolean {
+    return this.isDisabled || this.formDisabled;
+  }
+
+  /** Leave FormData and constraint validation while disabled, like a native control. */
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    syncHostDisabled(this.el, this.isDisabled);
+  }
+
   formResetCallback() {
     this.value = '';
     this.distributeValue('');
@@ -493,7 +513,7 @@ export class AegovOtp {
                 class={`otp__cell otp__cell--${size}`}
                 type="text"
                 inputMode={this.isAlphanumeric ? 'text' : 'numeric'}
-                disabled={this.isDisabled}
+                disabled={this.disabled}
                 autocomplete={index === 0 ? 'one-time-code' : 'off'}
                 aria-label={rtl
                   ? `حرف ${index + 1} من ${this.length}`

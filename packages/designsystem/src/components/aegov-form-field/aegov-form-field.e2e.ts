@@ -186,6 +186,20 @@ describe('aegov-form-field (e2e)', () => {
       expect(wrapperAfter).toHaveClass('is-control-disabled');
     });
 
+    it('dims the label while an ancestor fieldset disables the control, and un-dims it after', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<form><fieldset>${MARKUP('aegov-input', '')}</fieldset></form>`);
+      await page.waitForChanges();
+
+      await page.$eval('fieldset', (fs: HTMLFieldSetElement) => { fs.disabled = true; });
+      await page.waitForChanges();
+      expect(await page.find('aegov-form-field div.aegov-form-field')).toHaveClass('is-control-disabled');
+
+      await page.$eval('fieldset', (fs: HTMLFieldSetElement) => { fs.disabled = false; });
+      await page.waitForChanges();
+      expect(await page.find('aegov-form-field div.aegov-form-field')).not.toHaveClass('is-control-disabled');
+    });
+
     it('un-dims the label when the control is re-enabled at runtime', async () => {
       const page = await newE2EPage();
       await page.setContent(MARKUP('aegov-input', 'is-disabled="true"'));
