@@ -360,6 +360,14 @@ export class AegovSelect {
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
   }
 
+  /**
+   * Constraint props (isRequired, isMultiple, appearance) changed after load
+   * must reach the form too; the native select only has them once it re-renders.
+   */
+  componentDidRender() {
+    this.runValidationSync();
+  }
+
   componentDidUpdate() {
     if (this.isOpen && this.listboxRef) {
       this.positionDropdown();

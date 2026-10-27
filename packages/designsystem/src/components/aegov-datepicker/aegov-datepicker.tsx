@@ -294,6 +294,11 @@ export class AegovDatepicker {
     this.runValidationSync();
   }
 
+  /** Constraint props (isRequired, min, max, minRange, …) changed after load must reach the form too. */
+  componentDidRender() {
+    this.runValidationSync();
+  }
+
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
     this.removePortalElement();
