@@ -267,11 +267,32 @@ export class AegovDatepicker {
   private parsedUnavailableDates: Set<string> = new Set();
   private parsedPresets: DatepickerPreset[] = [];
   private mouseDownInsideComponent: boolean = false;
+  /** `performance.now()` when the calendar last opened; see handleDocumentClick. */
+  private openedAt: number = 0;
   private _lastHoverRangeInvalid: boolean = false;
   private positionUpdateScheduled: boolean = false;
   private positionRetryCount: number = 0;
   private readonly MAX_POSITION_RETRIES = 10;
-  private triggerElement?: HTMLElement;
+  /** The element that had focus when the calendar opened; focus returns there on close. */
+  private returnFocusTo?: HTMLElement;
+
+  /**
+   * The control a validation message points at: the slotted custom trigger or the
+   * (first) inner input. `setValidity()` throws for an anchor outside the host, so
+   * this never returns an element from elsewhere in the page.
+   */
+  private get validityAnchor(): HTMLElement | undefined {
+    const slotted = Array.from(this.el.children).find(child => child.getAttribute('slot') === 'trigger') as HTMLElement | undefined;
+    if (this.hasTriggerSlot && slotted) return slotted;
+    return this.el.shadowRoot?.querySelector<HTMLElement>('input.datepicker__input') ?? undefined;
+  }
+
+  /** Where focus goes on close: the element focused before opening, else the trigger. */
+  private get focusReturnTarget(): HTMLElement | undefined {
+    const previous = this.returnFocusTo;
+    if (previous && previous.isConnected && previous !== document.body) return previous;
+    return this.validityAnchor;
+  }
 
   // ── Lifecycle ─────────────────────────────────────────
 
@@ -398,7 +419,7 @@ export class AegovDatepicker {
           this.internals,
           synthesizeValidity({ customError: true }),
           message,
-          this.triggerElement,
+          this.validityAnchor,
         );
       } else {
         setInternalsValidity(this.internals, { valid: true }, '');
@@ -464,7 +485,7 @@ export class AegovDatepicker {
 
   private runValidationSync() {
     const { validity, message } = this.computeValidity();
-    setInternalsValidity(this.internals, validity, message, this.triggerElement);
+    setInternalsValidity(this.internals, validity, message, this.validityAnchor);
     try {
       if (this.internals && typeof this.internals.setFormValue === 'function' && this.name) {
         if (this.appearance === 'range') {
@@ -546,6 +567,7 @@ export class AegovDatepicker {
   @Watch('isOpen')
   onOpenChange(newValue: boolean) {
     if (newValue) {
+      this.openedAt = performance.now();
       this.positionRetryCount = 0;
 
       // Set view month/year based on selection or today
@@ -571,7 +593,7 @@ export class AegovDatepicker {
       this.renderPortalContent();
       this.schedulePositionUpdate();
       this.aegovDatepickerOpen.emit();
-      this.triggerElement = document.activeElement as HTMLElement;
+      this.returnFocusTo = (document.activeElement as HTMLElement | null) ?? undefined;
 
       // Move focus into the calendar: focus today, selected day, or first day
       const focusTarget = this.selectedDate || (this.appearance === 'range' && this.rangeStart ? this.rangeStart : null) || stripTime(new Date());
@@ -590,8 +612,10 @@ export class AegovDatepicker {
       // resolveFocusTarget handles a shadow-DOM trigger whose host isn't itself
       // focusable — .focus() on it directly would otherwise silently no-op,
       // dropping focus to <body> (see #66).
-      if (this.triggerElement) {
-        resolveFocusTarget(this.triggerElement).focus();
+      const target = this.focusReturnTarget;
+      this.returnFocusTo = undefined;
+      if (target) {
+        resolveFocusTarget(target).focus();
       }
     }
   }
@@ -1669,6 +1693,10 @@ export class AegovDatepicker {
   @Listen('click', { target: 'document' })
   handleDocumentClick(event: MouseEvent) {
     if (!this.isOpen) return;
+
+    // The click that opened the calendar — e.g. a page button calling open() —
+    // reaches the document after it opened. It is not an outside click.
+    if (event.timeStamp <= this.openedAt) return;
 
     // If mousedown originated inside our component or portal, this is not
     // an outside click — even if the DOM was rebuilt and the target is now detached.
