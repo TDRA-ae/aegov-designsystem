@@ -1164,7 +1164,7 @@ export namespace Components {
     }
     interface AegovFormField {
         /**
-          * Wrapper-level error message — cascaded to first form-control descendant.
+          * Wrapper-level error message — cascaded to first form-control descendant unless it has its own; changing or clearing it updates the cascaded value.
           * @default ''
          */
         "errorMessage": string;
@@ -1177,12 +1177,12 @@ export namespace Components {
          */
         "fieldId"?: string;
         /**
-          * Wrapper-level hint — cascaded to first form-control descendant.
+          * Wrapper-level hint — cascaded to first form-control descendant unless it has its own; changing or clearing it updates the cascaded value.
           * @default ''
          */
         "hint": string;
         /**
-          * Wrapper-level invalid state. Cascades to the first form-control descendant if the child has not set its own value. See validation-engine-addon.md §2.7.
+          * Wrapper-level invalid state. Cascades to the first form-control descendant if the child has not set its own value; setting it back to `false` clears what it cascaded. See validation-engine-addon.md §2.7.
           * @default false
          */
         "isInvalid": boolean;
@@ -5109,7 +5109,7 @@ declare namespace LocalJSX {
     }
     interface AegovFormField {
         /**
-          * Wrapper-level error message — cascaded to first form-control descendant.
+          * Wrapper-level error message — cascaded to first form-control descendant unless it has its own; changing or clearing it updates the cascaded value.
           * @default ''
          */
         "errorMessage"?: string;
@@ -5122,12 +5122,12 @@ declare namespace LocalJSX {
          */
         "fieldId"?: string;
         /**
-          * Wrapper-level hint — cascaded to first form-control descendant.
+          * Wrapper-level hint — cascaded to first form-control descendant unless it has its own; changing or clearing it updates the cascaded value.
           * @default ''
          */
         "hint"?: string;
         /**
-          * Wrapper-level invalid state. Cascades to the first form-control descendant if the child has not set its own value. See validation-engine-addon.md §2.7.
+          * Wrapper-level invalid state. Cascades to the first form-control descendant if the child has not set its own value; setting it back to `false` clears what it cascaded. See validation-engine-addon.md §2.7.
           * @default false
          */
         "isInvalid"?: boolean;
