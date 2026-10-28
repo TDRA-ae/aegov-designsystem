@@ -303,4 +303,16 @@ describe('aegov-checkbox-group', () => {
       expect(page.rootInstance.errorMessage).toBe('');
     });
   });
+
+  it("keeps the author's aria-describedby alongside the hint and error ids", async () => {
+    const page = await newSpecPage({
+      components: [AegovCheckboxGroup, AegovCheckbox],
+      html: `<aegov-checkbox-group label="G" aria-describedby="ext" hint="Hint"><aegov-checkbox value="1" label="a"></aegov-checkbox></aegov-checkbox-group>`,
+    });
+    expect(q(page.root, 'fieldset').getAttribute('aria-describedby')).toMatch(/^ext aegov-checkbox-group-\d+-hint$/);
+    page.root.isInvalid = true;
+    page.root.errorMessage = 'Err';
+    await page.waitForChanges();
+    expect(q(page.root, 'fieldset').getAttribute('aria-describedby')).toMatch(/^ext aegov-checkbox-group-\d+-error$/);
+  });
 });

@@ -316,7 +316,9 @@ export class AegovCheckboxGroup {
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
     const showHint = !showError && (hasHintSlot || !!this.hint);
     const announceError = showError && this.hasInteractedOnce;
+    const authorDescribedBy = this.el.getAttribute('aria-describedby');
     const describedBy = composeDescribedBy(
+      authorDescribedBy,
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );

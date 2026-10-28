@@ -100,6 +100,27 @@ describe('aegov-fileupload', () => {
     expect(input.getAttribute('aria-describedby')).toContain('-helper');
   });
 
+  describe("keeps the author's aria-describedby", () => {
+    const cases: Array<[string, string]> = [
+      ['default', 'input[type="file"]'],
+      ['button', '.fileupload__btn-group'],
+      ['dropzone', '.fileupload__dropzone'],
+    ];
+    for (const [appearance, selector] of cases) {
+      it(`appearance="${appearance}": author id first, then hint/error ids`, async () => {
+        const page = await newSpecPage({
+          components: [AegovFileupload],
+          html: `<aegov-fileupload field-id="fu" appearance="${appearance}" aria-describedby="ext" hint="Hint"></aegov-fileupload>`,
+        });
+        expect(q(page.root, selector).getAttribute('aria-describedby')).toMatch(/^ext .*fu-hint$/);
+        page.root.isInvalid = true;
+        page.root.errorMessage = 'Err';
+        await page.waitForChanges();
+        expect(q(page.root, selector).getAttribute('aria-describedby')).toMatch(/^ext .*fu-error$/);
+      });
+    }
+  });
+
   it('auto-derives helper text from accept attribute', async () => {
     const page = await newSpecPage({
       components: [AegovFileupload],

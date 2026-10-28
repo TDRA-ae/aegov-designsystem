@@ -730,6 +730,7 @@ export class AegovFileupload {
   private renderDefault(passThroughAttrs: Record<string, string | boolean>, showError: boolean, showHint: boolean) {
     const helperText = this.getHelperText();
     const describedBy = composeDescribedBy(
+      this.el.getAttribute('aria-describedby'),
       helperText ? `${this.fieldId}-helper` : null,
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
@@ -764,6 +765,7 @@ export class AegovFileupload {
 
   private renderButton(passThroughAttrs: Record<string, string | boolean>, showError: boolean, showHint: boolean) {
     const describedBy = composeDescribedBy(
+      this.el.getAttribute('aria-describedby'),
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );
@@ -812,6 +814,7 @@ export class AegovFileupload {
       this.isDragOver ? 'fileupload__dropzone--dragover' : '',
     ].filter(Boolean).join(' ');
     const describedBy = composeDescribedBy(
+      this.el.getAttribute('aria-describedby'),
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );
