@@ -1,35 +1,23 @@
-import { APP_INITIALIZER, EnvironmentProviders, makeEnvironmentProviders, NgModule } from '@angular/core';
+import { EnvironmentProviders, NgModule } from '@angular/core';
+import { provideDesignSystem as provideDesignSystemFromProvider } from '@aegov/designsystem-angular/provider';
 import { DIRECTIVES } from './stencil-generated';
 
 /**
- * Registers every `aegov-*` element through the lazy loader and runs the design
- * system's global script (toast live region, `window.aegovToast`).
- *
- * Add it to the application's providers (`bootstrapApplication`, or the root
- * NgModule's `providers`). It must be an application-level provider: Angular only
- * runs `APP_INITIALIZER` from the root environment injector.
- *
- * The loader is imported dynamically so apps that never call this function don't
- * bundle it or its lazy component chunks (the loader is a side-effect module).
- *
- * This is what `provideAppInitializer()` expands to; the token form is used so the
- * package keeps working on Angular 18, which has no `provideAppInitializer()`.
+ * @deprecated Import `provideDesignSystem` from `@aegov/designsystem-angular/provider`.
+ * This export will be removed in the next major version: while the main entry point
+ * references the provider, every app that imports a wrapper also emits the lazy
+ * loader's ~70 chunk files, whether or not it calls `provideDesignSystem()`.
  */
 export function provideDesignSystem(): EnvironmentProviders {
-  return makeEnvironmentProviders([
-    {
-      provide: APP_INITIALIZER,
-      multi: true,
-      useValue: () => import('@aegov/designsystem/loader').then((loader) => loader.defineCustomElements()),
-    },
-  ]);
+  return provideDesignSystemFromProvider();
 }
 
 /**
  * Re-exports every wrapper. Has no providers, so importing it into a standalone
  * component adds no code beyond the wrappers. Each wrapper registers its own element.
  *
- * Apps that want the global setup add `provideDesignSystem()` to their providers.
+ * Apps that want the global setup add `provideDesignSystem()` (from
+ * `@aegov/designsystem-angular/provider`) to their providers.
  * (No `forRoot()`: a static method referencing it would keep the lazy loader in
  * every bundle that imports this module.)
  */
