@@ -48,13 +48,17 @@ export class AegovRange {
   /** The name attribute for the range. Reflected so ElementInternals reads it for form submission. */
   @Prop({ reflect: true }) name?: string;
 
-  /** Current value (single mode). */
+  /**
+   * Current value (single mode). Sanitized like a native `<input type="range">`:
+   * clamped to `min`/`max` and rounded to the nearest `step`, on load and
+   * whenever it, `min`, `max` or `step` changes.
+   */
   @Prop({ mutable: true }) value: number = 50;
 
-  /** Low thumb value (range mode). */
+  /** Low thumb value (range mode). Sanitized like `value`. */
   @Prop({ mutable: true }) valueLow: number = 25;
 
-  /** High thumb value (range mode). */
+  /** High thumb value (range mode). Sanitized like `value`. */
   @Prop({ mutable: true }) valueHigh: number = 75;
 
   /** Minimum value. */
@@ -138,9 +142,12 @@ export class AegovRange {
 
   componentWillLoad() {
     if (this.isDisabled) syncHostDisabled(this.el, true);
+    // The raw values are what a reset restores (and sanitizes again), like a
+    // native input's `value` attribute.
     this._defaultValue = this.value;
     this._defaultValueLow = this.valueLow;
     this._defaultValueHigh = this.valueHigh;
+    this.sanitizeValues();
     this._sizeWatcher = watchResponsiveProp(this.size, RANGE_SIZES, 'base', v => {
       this._resolvedSize = v as RangeSize;
     });
@@ -212,6 +219,9 @@ export class AegovRange {
   @Watch('valueLow')
   @Watch('valueHigh')
   onValueChange() {
+    // An out-of-range or off-step value is replaced by its sanitized form; that
+    // assignment re-enters this watcher, which then does the sync below.
+    if (this.sanitizeValues()) return;
     const syncNative = (el: HTMLInputElement | undefined, v: number) => {
       if (el && el.value !== String(v)) el.value = String(v);
     };
@@ -222,6 +232,53 @@ export class AegovRange {
       syncNative(this.nativeRef, this.value);
     }
     this.syncFormValue();
+  }
+
+  /** New bounds or step re-sanitize the current value(s), as they do on a native range input. */
+  @Watch('min')
+  @Watch('max')
+  @Watch('step')
+  onBoundsChange() {
+    if (!this.sanitizeValues()) this.onValueChange();
+  }
+
+  /**
+   * The HTML value sanitization algorithm for `<input type="range">`: a value
+   * that is not a number becomes the default value (half-way between min and
+   * max); the value is clamped to [min, max] and rounded to the nearest step
+   * from min (ties towards max), staying within max. A max below min counts as
+   * min; a step that is not a positive number counts as 1.
+   */
+  private sanitize(raw: number): number {
+    const min = Number.isFinite(this.min) ? this.min : 0;
+    const maxAttr = Number.isFinite(this.max) ? this.max : 100;
+    const max = maxAttr < min ? min : maxAttr;
+    const step = Number.isFinite(this.step) && this.step > 0 ? this.step : 1;
+    const value = typeof raw === 'number' && Number.isFinite(raw) ? raw : min + (max - min) / 2;
+    const clamped = Math.min(max, Math.max(min, value));
+    let stepped = Math.round((clamped - min) / step) * step + min;
+    if (stepped > max) stepped -= step;
+    return parseFloat(stepped.toFixed(10));
+  }
+
+  /**
+   * Replace `value`, `valueLow` and `valueHigh` with their sanitized forms.
+   * Emits no events, as sanitizing a native input fires none. Returns true if
+   * anything changed.
+   */
+  private sanitizeValues(): boolean {
+    let changed = false;
+    const apply = (key: 'value' | 'valueLow' | 'valueHigh') => {
+      const clean = this.sanitize(this[key]);
+      if (!Object.is(clean, this[key])) {
+        this[key] = clean;
+        changed = true;
+      }
+    };
+    apply('value');
+    apply('valueLow');
+    apply('valueHigh');
+    return changed;
   }
 
   private syncFormValue() {
@@ -354,8 +411,7 @@ export class AegovRange {
   }
 
   private snapToStep(val: number): number {
-    const stepped = Math.round((val - this.min) / this.step) * this.step + this.min;
-    return Math.min(this.max, Math.max(this.min, parseFloat(stepped.toFixed(10))));
+    return this.sanitize(val);
   }
 
   private emitInput() {
