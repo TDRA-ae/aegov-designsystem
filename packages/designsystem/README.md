@@ -136,15 +136,14 @@ createApp(App).use(ComponentLibrary).mount('#app');
 
 ### Angular 18+
 
-```ts
-// app.config.ts
-import { provideDesignSystem } from '@aegov/designsystem-angular';
-
-export const appConfig = { providers: [provideDesignSystem()] };
-```
+Each wrapper registers its own element:
 
 ```ts
+import { Component } from '@angular/core';
+import { AegovButton, AegovInput } from '@aegov/designsystem-angular';
+
 @Component({
+  selector: 'app-root',
   imports: [AegovButton, AegovInput],
   template: `
     <aegov-input fieldId="email" type="email" name="email" [isRequired]="true" />
@@ -156,6 +155,15 @@ export const appConfig = { providers: [provideDesignSystem()] };
 export class AppComponent {}
 ```
 
+For the global script (toast live region, `window.aegovToast`) and registration of every element, add `provideDesignSystem()` from the `/provider` entry point. NgModule apps import `DesignSystemModule`, which re-exports every wrapper and has no providers.
+
+```ts
+// app.config.ts
+import { provideDesignSystem } from '@aegov/designsystem-angular/provider';
+
+export const appConfig = { providers: [provideDesignSystem()] };
+```
+
 ---
 
 ## Framework packages
@@ -165,7 +173,7 @@ export class AppComponent {}
 | `@aegov/designsystem` | `defineCustomElements()` | kebab-case attributes | `addEventListener('aegovX')` |
 | `@aegov/designsystem-react` | automatic, per wrapper | **camelCase** | `onAegovX` |
 | `@aegov/designsystem-vue` | `app.use(ComponentLibrary)` | kebab-case | `@aegov-x` |
-| `@aegov/designsystem-angular` | `provideDesignSystem()` or `DesignSystemModule` | **camelCase** | `(aegovX)` |
+| `@aegov/designsystem-angular` | automatic, per wrapper (`DesignSystemModule` for NgModule apps); `provideDesignSystem()` from `@aegov/designsystem-angular/provider` for the global script | **camelCase** | `(aegovX)` |
 
 Per-framework guides, including SSR notes and the known caveats — `v-model` is not supported in Vue, and `ngModel` / `formControlName` are not yet supported in Angular:
 
