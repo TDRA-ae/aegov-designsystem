@@ -92,7 +92,7 @@ function submit() {}
 </script>
 ```
 
-`v-model` binds `value` on `AegovInput`, `AegovTextarea`, `AegovSelect`, `AegovOtp`, `AegovRange` and `AegovDatepicker`, and `isChecked` on `AegovCheckbox`, `AegovToggle` and `AegovRadio`. An app that uses only typed components and doesn't install the plugin has no toast live region.
+`v-model` binds `value` on `AegovInput`, `AegovTextarea`, `AegovSelect`, `AegovOtp`, `AegovRange` and `AegovDatepicker`, and `isChecked` on `AegovCheckbox` and `AegovToggle`. For radios, wrap `AegovRadio` in `AegovRadioGroup` and listen for `@aegovRadioGroupChange` (its `detail.value` is the selected radio's value) instead of `v-model` — a radio that is unchecked because another one was selected doesn't update its own `v-model`. An app that uses only typed components and doesn't install the plugin has no toast live region.
 
 ## Documentation
 
