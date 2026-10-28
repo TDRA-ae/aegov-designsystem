@@ -351,6 +351,12 @@ export namespace Components {
          */
         "target": LinkTarget;
     }
+    /**
+     * A `type="submit"` button submits its form like a native submit button:
+     * `event.submitter` is set, `name`/`value` are added to the form data, and the
+     * `formaction`, `formenctype`, `formmethod`, `formnovalidate` and `formtarget`
+     * attributes override the form's own settings.
+     */
     interface AegovButton {
         /**
           * The button appearance (visual style)
@@ -395,6 +401,10 @@ export namespace Components {
          */
         "isLoading": boolean;
         /**
+          * Name submitted with the form, paired with `value`, when this button submits it — as on a native `<button>`.
+         */
+        "name"?: string;
+        /**
           * Move focus to the inner native button.  The host element is not focusable, so `buttonEl.focus()` from outside does nothing. Callers that need to place or restore focus on a button — a disclosure trigger reclaiming focus after its panel closes, for example — must use this instead.
          */
         "setFocus": () => Promise<void>;
@@ -408,6 +418,10 @@ export namespace Components {
           * @default 'button'
          */
         "type": ButtonType;
+        /**
+          * Value submitted with `name` when this button submits the form.
+         */
+        "value"?: string;
         /**
           * The button variant (color scheme)
           * @default 'primary'
@@ -3074,6 +3088,12 @@ declare global {
         "aegovButtonFocus": FocusEvent;
         "aegovButtonBlur": FocusEvent;
     }
+    /**
+     * A `type="submit"` button submits its form like a native submit button:
+     * `event.submitter` is set, `name`/`value` are added to the form data, and the
+     * `formaction`, `formenctype`, `formmethod`, `formnovalidate` and `formtarget`
+     * attributes override the form's own settings.
+     */
     interface HTMLAegovButtonElement extends Components.AegovButton, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovButtonElementEventMap>(type: K, listener: (this: HTMLAegovButtonElement, ev: AegovButtonCustomEvent<HTMLAegovButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -4260,6 +4280,12 @@ declare namespace LocalJSX {
          */
         "target"?: LinkTarget;
     }
+    /**
+     * A `type="submit"` button submits its form like a native submit button:
+     * `event.submitter` is set, `name`/`value` are added to the form data, and the
+     * `formaction`, `formenctype`, `formmethod`, `formnovalidate` and `formtarget`
+     * attributes override the form's own settings.
+     */
     interface AegovButton {
         /**
           * The button appearance (visual style)
@@ -4312,7 +4338,7 @@ declare namespace LocalJSX {
          */
         "isLoading"?: boolean;
         /**
-          * The name of the element, used when submitting an HTML form.
+          * Name submitted with the form, paired with `value`, when this button submits it — as on a native `<button>`.
          */
         "name"?: string;
         /**
@@ -4337,6 +4363,10 @@ declare namespace LocalJSX {
           * @default 'button'
          */
         "type"?: ButtonType;
+        /**
+          * Value submitted with `name` when this button submits the form.
+         */
+        "value"?: string;
         /**
           * The button variant (color scheme)
           * @default 'primary'
@@ -6972,6 +7002,8 @@ declare namespace LocalJSX {
         "variant": ButtonVariant;
         "size": string;
         "type": ButtonType;
+        "name": string;
+        "value": string;
         "appearance": ButtonAppearance;
         "isDisabled": boolean;
         "isIcon": boolean;
@@ -7591,6 +7623,12 @@ declare module "@stencil/core" {
              * Do not use this component standalone.
              */
             "aegov-breadcrumbs-item": LocalJSX.IntrinsicElements["aegov-breadcrumbs-item"] & JSXBase.HTMLAttributes<HTMLAegovBreadcrumbsItemElement>;
+            /**
+             * A `type="submit"` button submits its form like a native submit button:
+             * `event.submitter` is set, `name`/`value` are added to the form data, and the
+             * `formaction`, `formenctype`, `formmethod`, `formnovalidate` and `formtarget`
+             * attributes override the form's own settings.
+             */
             "aegov-button": LocalJSX.IntrinsicElements["aegov-button"] & JSXBase.HTMLAttributes<HTMLAegovButtonElement>;
             "aegov-button-group": LocalJSX.IntrinsicElements["aegov-button-group"] & JSXBase.HTMLAttributes<HTMLAegovButtonGroupElement>;
             "aegov-callout": LocalJSX.IntrinsicElements["aegov-callout"] & JSXBase.HTMLAttributes<HTMLAegovCalloutElement>;

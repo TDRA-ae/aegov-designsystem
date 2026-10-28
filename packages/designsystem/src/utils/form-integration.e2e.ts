@@ -479,3 +479,70 @@ describe('form integration: range value sanitization', () => {
     expect(await page.evaluate(entries)).toEqual(['r=10']);
   });
 });
+
+/**
+ * aegov-button submits as the form's submit button: `event.submitter` is set
+ * and carries the button's name/value, through a hidden native stand-in button
+ * that is removed again afterwards.
+ */
+describe('form integration: aegov-button as the submitter', () => {
+  const run = async (markup: string, act: 'click' | 'enter' = 'click') => {
+    const page = await newE2EPage();
+    await page.setContent(markup);
+    await page.waitForChanges();
+    await page.evaluate(() => {
+      const w = window as any;
+      w.log = [];
+      document.addEventListener('submit', e => {
+        e.preventDefault();
+        const s = e.submitter as HTMLButtonElement | null;
+        const data: string[] = [];
+        new FormData(e.target as HTMLFormElement, s).forEach((v, k) => data.push(`${k}=${v}`));
+        w.log.push({ submitter: s ? `${s.tagName.toLowerCase()} ${s.name}=${s.value}` : null, data });
+      });
+      document.addEventListener('invalid', () => w.log.push('invalid'), true);
+    });
+    if (act === 'enter') {
+      await (await page.find('aegov-input >>> input')).press('Enter');
+    } else {
+      await page.$eval('aegov-button[type="submit"]', (b: HTMLElement) => b.shadowRoot!.querySelector('button')!.click());
+    }
+    await new Promise(r => setTimeout(r, 50));
+    return {
+      log: await page.evaluate(() => (window as any).log),
+      leftover: await page.evaluate(() => document.querySelectorAll('form button').length),
+    };
+  };
+
+  it('sets event.submitter, submits its name=value, and removes the stand-in', async () => {
+    const { log, leftover } = await run('<form><input name="a" value="x"><aegov-button type="submit" name="action" value="save">S</aegov-button></form>');
+    expect(log).toEqual([{ submitter: 'button action=save', data: ['a=x', 'action=save'] }]);
+    expect(leftover).toBe(0);
+  });
+
+  it('works for a form="id" button outside its form', async () => {
+    const { log } = await run('<form id="f"><input name="a" value="x"></form><aegov-button type="submit" form="f" name="go" value="1">S</aegov-button>');
+    expect(log).toEqual([{ submitter: 'button go=1', data: ['a=x', 'go=1'] }]);
+  });
+
+  it('removes the stand-in when validation blocks the submit', async () => {
+    const { log, leftover } = await run('<form><aegov-input name="a" is-required></aegov-input><aegov-button type="submit" name="n" value="v">S</aegov-button></form>');
+    expect(log).toEqual(['invalid']);
+    expect(leftover).toBe(0);
+  });
+
+  it('formnovalidate on the button skips validation, as on a native button', async () => {
+    const { log } = await run('<form><aegov-input name="a" is-required></aegov-input><aegov-button type="submit" formnovalidate name="n" value="v">S</aegov-button></form>');
+    expect(log).toEqual([{ submitter: 'button n=v', data: ['a=', 'n=v'] }]);
+  });
+
+  it('Enter in aegov-input submits with the default aegov-button as submitter', async () => {
+    const { log } = await run('<form><aegov-input name="a" value="x"></aegov-input><aegov-input name="b"></aegov-input><aegov-button type="submit" name="n" value="v">S</aegov-button></form>', 'enter');
+    expect(log).toEqual([{ submitter: 'button n=v', data: ['a=x', 'b=', 'n=v'] }]);
+  });
+
+  it('Enter with no submit button submits without a submitter, as natively', async () => {
+    const { log } = await run('<form><aegov-input name="a" value="x"></aegov-input></form>', 'enter');
+    expect(log).toEqual([{ submitter: null, data: ['a=x'] }]);
+  });
+});
