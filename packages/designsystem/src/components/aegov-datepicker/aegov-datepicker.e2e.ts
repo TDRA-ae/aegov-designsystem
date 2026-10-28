@@ -340,4 +340,96 @@ describe('aegov-datepicker (e2e)', () => {
     expect(focusState.hostTag).toBe('AEGOV-BUTTON');
     expect(focusState.deepActiveTag).toBe('BUTTON');
   });
+
+  describe('UI language follows locale', () => {
+    const PICKER = '<aegov-datepicker appearance="range" presets="today,last7Days" is-with-confirmation is-required></aegov-datepicker>';
+
+    /** Open the calendar and read the datepicker's own text from the trigger and the portal. */
+    async function readTexts(page: import('@stencil/core/testing').E2EPage) {
+      const host = await page.find('aegov-datepicker');
+      const { message } = await host.callMethod('validate', 'manual');
+      await host.callMethod('open');
+      await page.waitForChanges();
+      const texts = await page.evaluate(() => {
+        const host = document.querySelector('aegov-datepicker') as any;
+        const portal = document.querySelector('.aegov-datepicker-portal')!;
+        const start = host.shadowRoot.querySelector('.datepicker__input--range-start') as HTMLInputElement;
+        return {
+          placeholder: start.placeholder,
+          triggerLang: host.shadowRoot.querySelector('.datepicker__trigger').getAttribute('lang'),
+          portalDir: portal.getAttribute('dir'),
+          portalLang: portal.getAttribute('lang'),
+          presets: Array.from(portal.querySelectorAll('.datepicker__preset-btn')).map(b => b.textContent),
+          presetGroup: portal.querySelector('.datepicker__presets')!.getAttribute('aria-label'),
+          apply: portal.querySelector('.datepicker__footer-btn--apply')!.textContent,
+          cancel: portal.querySelector('.datepicker__footer-btn--cancel')!.textContent,
+          prev: portal.querySelector('.datepicker__nav-btn')!.getAttribute('aria-label'),
+        };
+      });
+      return { ...texts, message };
+    }
+
+    it('locale="ar" on an LTR page: Arabic text and messages, LTR layout', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<div dir="ltr">${PICKER.replace('<aegov-datepicker', '<aegov-datepicker locale="ar"')}</div>`);
+      const t = await readTexts(page);
+      expect(t.placeholder).toBe('تاريخ البدء');
+      expect(t.presets).toEqual(['اليوم', 'آخر 7 أيام']);
+      expect(t.presetGroup).toBe('نطاقات تاريخية مسبقة');
+      expect(t.apply).toBe('تطبيق');
+      expect(t.cancel).toBe('إلغاء');
+      expect(t.prev.startsWith('الشهر السابق, ')).toBe(true);
+      expect(t.message).toBe('مطلوب');
+      expect(t.portalDir).toBe('ltr');
+      expect(t.portalLang).toBe('ar');
+      expect(t.triggerLang).toBe('ar');
+    });
+
+    it('locale="en" inside dir="rtl": English text and messages, RTL layout', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<div dir="rtl">${PICKER.replace('<aegov-datepicker', '<aegov-datepicker locale="en-GB"')}</div>`);
+      const t = await readTexts(page);
+      expect(t.placeholder).toBe('Start date');
+      expect(t.presets).toEqual(['Today', 'Last 7 Days']);
+      expect(t.apply).toBe('Apply');
+      expect(t.prev.startsWith('Previous month, ')).toBe(true);
+      expect(t.message).toBe('Required');
+      expect(t.portalDir).toBe('rtl');
+      expect(t.portalLang).toBe('en');
+    });
+
+    it('without locale the text follows the direction, as before', async () => {
+      const rtl = await newE2EPage();
+      await rtl.setContent(`<div dir="rtl">${PICKER}</div>`);
+      const r = await readTexts(rtl);
+      expect(r.presets).toEqual(['اليوم', 'آخر 7 أيام']);
+      expect(r.apply).toBe('تطبيق');
+      expect(r.message).toBe('مطلوب');
+      expect(r.prev).toMatch(/^الشهر السابق, [A-Z][a-z]+ \d{4}$/);
+      expect(r.portalLang).toBeNull();
+      expect(r.triggerLang).toBeNull();
+
+      const ltr = await newE2EPage();
+      await ltr.setContent(PICKER);
+      const l = await readTexts(ltr);
+      expect(l.presets).toEqual(['Today', 'Last 7 Days']);
+      expect(l.apply).toBe('Apply');
+      expect(l.message).toBe('Required');
+      expect(l.portalLang).toBeNull();
+    });
+
+    it('changing locale while open updates the trigger and the open calendar', async () => {
+      const page = await newE2EPage();
+      await page.setContent(PICKER);
+      expect((await readTexts(page)).apply).toBe('Apply');
+      await page.$eval('aegov-datepicker', (el: any) => { el.locale = 'ar-AE'; });
+      await page.waitForChanges();
+      const t = await page.evaluate(() => ({
+        apply: document.querySelector('.aegov-datepicker-portal .datepicker__footer-btn--apply')?.textContent,
+        presets: Array.from(document.querySelectorAll('.aegov-datepicker-portal .datepicker__preset-btn')).map(b => b.textContent),
+        placeholder: (document.querySelector('aegov-datepicker') as any).shadowRoot.querySelector('.datepicker__input--range-start').placeholder,
+      }));
+      expect(t).toEqual({ apply: 'تطبيق', presets: ['اليوم', 'آخر 7 أيام'], placeholder: 'تاريخ البدء' });
+    });
+  });
 });

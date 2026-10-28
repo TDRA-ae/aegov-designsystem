@@ -1,4 +1,4 @@
-import { getPresetDefinitions, calculatePreset, getAllPresetIds } from './presets';
+import { getPresetDefinitions, calculatePreset, getAllPresetIds, getPresetLabel } from './presets';
 import { isSameDay, stripTime } from './calendar';
 
 describe('presets utils', () => {
@@ -252,5 +252,17 @@ describe('presets utils', () => {
         expect(range.end.getFullYear()).toBe(t.getFullYear() + 1);
       });
     });
+  });
+});
+
+describe('getPresetLabel', () => {
+  it('returns the English label for en and an Arabic label for ar, for every preset', () => {
+    const definitions = getPresetDefinitions(getAllPresetIds());
+    expect(definitions.length).toBe(27);
+    for (const preset of definitions) {
+      expect(getPresetLabel(preset, 'en')).toBe(preset.label);
+      expect(getPresetLabel(preset, 'ar')).toMatch(/[؀-ۿ]/);
+    }
+    expect(getPresetLabel(definitions.find(p => p.id === 'last7Days')!, 'ar')).toBe('آخر 7 أيام');
   });
 });

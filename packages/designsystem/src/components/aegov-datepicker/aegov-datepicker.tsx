@@ -15,7 +15,8 @@ import type { InternalsHost } from '../../utils/validation';
 export type AegovDatepickerValue = string | { start: string; end: string };
 import { generateCalendarGrid, getWeekdayNames, getMonthNames, getYearRange, isSameDay, isDateBetween, stripTime, isBefore, isAfter, diffDays } from './utils/calendar';
 import { formatDate, parseDate, parseRangeValue, formatRangeValue } from './utils/format';
-import { getPresetDefinitions, calculatePreset } from './utils/presets';
+import { getPresetDefinitions, calculatePreset, getPresetLabel } from './utils/presets';
+import type { UiLang } from './utils/presets';
 import { DATEPICKER_PORTAL_STYLES } from './utils/portal-styles';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -115,13 +116,13 @@ export class AegovDatepicker {
   /** Output format using tokens: YYYY, YY, MM, M, DD, D, MMM, MMMM, dd, ddd */
   @Prop() format: string = 'YYYY-MM-DD';
 
-  /** Placeholder text for single mode input. Empty defaults to localized text via isRtl. */
+  /** Placeholder text for single mode input. Empty defaults to text in the UI language (see `locale`). */
   @Prop() placeholder: string = '';
 
-  /** Placeholder for range start input. Empty defaults to localized text via isRtl. */
+  /** Placeholder for range start input. Empty defaults to text in the UI language (see `locale`). */
   @Prop() labelRangeStart: string = '';
 
-  /** Placeholder for range end input. Empty defaults to localized text via isRtl. */
+  /** Placeholder for range end input. Empty defaults to text in the UI language (see `locale`). */
   @Prop() labelRangeEnd: string = '';
 
   /** Minimum selectable date (ISO string or "today") */
@@ -136,8 +137,17 @@ export class AegovDatepicker {
   /** Week start day: 0=Sunday, 1=Monday, ...6=Saturday */
   @Prop({ attribute: 'start-day' }) startDay: number = 0;
 
-  /** Locale for day/month names (BCP 47, e.g., 'en', 'ar', 'fr') */
-  @Prop() locale: string = 'en';
+  /**
+   * Locale (BCP 47, e.g. `en`, `ar-AE`, `fr`) for day and month names and formatted dates.
+   * Dates use `en` when it is not set.
+   *
+   * An Arabic or English locale (`ar`, `ar-*`, `en`, `en-*`) also sets the language of the
+   * datepicker's own text: labels, placeholders, buttons, presets, validation messages and
+   * screen-reader text. With no locale, or any other locale, that text follows the text
+   * direction like the rest of the library: Arabic when `dir` is `rtl`, English otherwise.
+   * Layout direction always follows `dir`.
+   */
+  @Prop() locale?: string;
 
   /** Minimum number of days for range selection */
   @Prop({ attribute: 'min-range' }) minRange: number = 0;
@@ -227,8 +237,27 @@ export class AegovDatepicker {
   private errorId: string = '';
   private hintId: string = '';
 
+  /**
+   * Language of the datepicker's own text: `locale` when it is Arabic or English,
+   * otherwise the text direction, as in the rest of the library.
+   */
+  private get uiLang(): UiLang {
+    return this.localeLang ?? (isRtl(this.el) ? 'ar' : 'en');
+  }
+
+  /** `ar` or `en` when `locale` names one of them, else null. */
+  private get localeLang(): UiLang | null {
+    const language = (this.locale || '').trim().toLowerCase().split(/[-_]/)[0];
+    return language === 'ar' || language === 'en' ? language : null;
+  }
+
   private get t() {
-    return isRtl(this.el) ? STRINGS.ar : STRINGS.en;
+    return STRINGS[this.uiLang];
+  }
+
+  /** Locale for day/month names and formatted dates. */
+  private get dateLocale(): string {
+    return this.locale || 'en';
   }
 
   // ── Private ───────────────────────────────────────────
@@ -409,17 +438,17 @@ export class AegovDatepicker {
     const minDate = this.getMinDate();
     const maxDate = this.getMaxDate();
     if (minDate && chosen.some(d => d && isBefore(d, minDate))) {
-      return { validity: synthesizeValidity({ rangeUnderflow: true }), message: this.errorMessage || t.beforeMin(formatDate(minDate, this.format)) };
+      return { validity: synthesizeValidity({ rangeUnderflow: true }), message: this.errorMessage || t.beforeMin(formatDate(minDate, this.format, this.dateLocale)) };
     }
     if (maxDate && chosen.some(d => d && isAfter(d, maxDate))) {
-      return { validity: synthesizeValidity({ rangeOverflow: true }), message: this.errorMessage || t.afterMax(formatDate(maxDate, this.format)) };
+      return { validity: synthesizeValidity({ rangeOverflow: true }), message: this.errorMessage || t.afterMax(formatDate(maxDate, this.format, this.dateLocale)) };
     }
     // Blackout dates can't be picked in the calendar, but a value set from code
     // (or a blackout list changed later) can still land on one. No native flag
     // fits, so it is a customError, as validation-engine-addon.md specifies.
     const blackedOut = chosen.find(d => d && this.parsedUnavailableDates.has(formatDate(d, 'YYYY-MM-DD')));
     if (blackedOut) {
-      return { validity: synthesizeValidity({ customError: true }), message: this.errorMessage || t.blackedOut(formatDate(blackedOut, this.format)) };
+      return { validity: synthesizeValidity({ customError: true }), message: this.errorMessage || t.blackedOut(formatDate(blackedOut, this.format, this.dateLocale)) };
     }
     if (this.appearance === 'range' && this.rangeStart && this.rangeEnd) {
       const days = diffDays(this.rangeStart, this.rangeEnd) + 1;
@@ -498,6 +527,20 @@ export class AegovDatepicker {
   @Watch('presets')
   onPresetsChange() {
     this.parsePresets();
+  }
+
+  /**
+   * The trigger re-renders on its own; the open calendar is built outside the
+   * render cycle, so rebuild it in the new language, keeping keyboard focus on
+   * the focused day.
+   */
+  @Watch('locale')
+  onLocaleChange() {
+    if (!this.isOpen) return;
+    const hadFocus = !!this.portalElement?.contains(document.activeElement);
+    this.renderPortalContent();
+    this.schedulePositionUpdate();
+    if (hadFocus && this.focusedDate) this.focusDayButton(this.focusedDate);
   }
 
   @Watch('isOpen')
@@ -582,14 +625,14 @@ export class AegovDatepicker {
   @Method()
   async getStartDate(): Promise<string | false> {
     if (this.appearance !== 'range') return false;
-    return this.rangeStart ? formatDate(this.rangeStart, this.format, this.locale) : false;
+    return this.rangeStart ? formatDate(this.rangeStart, this.format, this.dateLocale) : false;
   }
 
   /** Returns formatted end date string in range mode, or false if not in range mode or no end date */
   @Method()
   async getEndDate(): Promise<string | false> {
     if (this.appearance !== 'range') return false;
-    return this.rangeEnd ? formatDate(this.rangeEnd, this.format, this.locale) : false;
+    return this.rangeEnd ? formatDate(this.rangeEnd, this.format, this.dateLocale) : false;
   }
 
   /** Returns the preset ID that matches the current range selection, or false if none matches or not in range mode */
@@ -617,9 +660,9 @@ export class AegovDatepicker {
     }
 
     if (this.appearance === 'single') {
-      this.selectedDate = parseDate(this.value, this.format, this.locale);
+      this.selectedDate = parseDate(this.value, this.format, this.dateLocale);
     } else {
-      const { start, end } = parseRangeValue(this.value, this.format, this.locale);
+      const { start, end } = parseRangeValue(this.value, this.format, this.dateLocale);
       this.rangeStart = start;
       this.rangeEnd = end;
     }
@@ -680,27 +723,27 @@ export class AegovDatepicker {
 
   private getFormattedValue(): string {
     if (this.appearance === 'single') {
-      return this.selectedDate ? formatDate(this.selectedDate, this.format, this.locale) : '';
+      return this.selectedDate ? formatDate(this.selectedDate, this.format, this.dateLocale) : '';
     }
     if (this.rangeStart && this.rangeEnd) {
-      return formatRangeValue(this.rangeStart, this.rangeEnd, this.format, this.locale);
+      return formatRangeValue(this.rangeStart, this.rangeEnd, this.format, this.dateLocale);
     }
     return '';
   }
 
   private getDisplayValue(): string {
     if (this.appearance === 'single') {
-      return this.selectedDate ? formatDate(this.selectedDate, this.format, this.locale) : '';
+      return this.selectedDate ? formatDate(this.selectedDate, this.format, this.dateLocale) : '';
     }
     return '';
   }
 
   private getDisplayRangeStart(): string {
-    return this.rangeStart ? formatDate(this.rangeStart, this.format, this.locale) : '';
+    return this.rangeStart ? formatDate(this.rangeStart, this.format, this.dateLocale) : '';
   }
 
   private getDisplayRangeEnd(): string {
-    return this.rangeEnd ? formatDate(this.rangeEnd, this.format, this.locale) : '';
+    return this.rangeEnd ? formatDate(this.rangeEnd, this.format, this.dateLocale) : '';
   }
 
   // ── Portal Management ─────────────────────────────────
@@ -818,6 +861,10 @@ export class AegovDatepicker {
     // way the (non-portaled) host does. Set it explicitly, fresh on every render,
     // so CSS direction-dependent layout (flex order, etc.) resolves correctly.
     this.portalElement.setAttribute('dir', isRtl(this.el) ? 'rtl' : 'ltr');
+    // Text chosen by `locale` may differ from the page language: mark it so
+    // screen readers pronounce it in the right language.
+    if (this.localeLang) this.portalElement.setAttribute('lang', this.localeLang);
+    else this.portalElement.removeAttribute('lang');
 
     this.portalElement.innerHTML = '';
 
@@ -841,7 +888,7 @@ export class AegovDatepicker {
     const dialogTitle = document.createElement('div');
     dialogTitle.id = dialogTitleId;
     dialogTitle.className = 'datepicker__dialog-title';
-    const monthNamesForTitle = getMonthNames(this.locale);
+    const monthNamesForTitle = getMonthNames(this.dateLocale);
     let titleText = `${monthNamesForTitle[this.viewMonth]} ${this.viewYear}`;
     if (this.appearance === 'range') {
       let sm = this.viewMonth + 1;
@@ -908,7 +955,7 @@ export class AegovDatepicker {
       const btn = document.createElement('button');
       btn.className = 'datepicker__preset-btn';
       btn.type = 'button';
-      btn.textContent = preset.label;
+      btn.textContent = getPresetLabel(preset, this.uiLang);
 
       // Check if this preset matches current selection
       let isActivePreset = false;
@@ -946,7 +993,7 @@ export class AegovDatepicker {
       prevBtn.type = 'button';
       prevBtn.innerHTML = rtl ? CHEVRON_RIGHT : CHEVRON_LEFT;
       const prevDate = new Date(year, month - 1, 1);
-      const prevMonthNames = getMonthNames(this.locale);
+      const prevMonthNames = getMonthNames(this.dateLocale);
       prevBtn.setAttribute('aria-label', `${this.t.prevMonth}, ${prevMonthNames[prevDate.getMonth()]} ${prevDate.getFullYear()}`);
       prevBtn.addEventListener('click', () => this.navigateMonth(-1));
       header.appendChild(prevBtn);
@@ -959,7 +1006,7 @@ export class AegovDatepicker {
       const monthSelect = document.createElement('select');
       monthSelect.className = 'datepicker__select';
       monthSelect.setAttribute('aria-label', this.t.selectMonth);
-      const monthNamesLocal = getMonthNames(this.locale);
+      const monthNamesLocal = getMonthNames(this.dateLocale);
       monthNamesLocal.forEach((name, i) => {
         const opt = document.createElement('option');
         opt.value = String(i);
@@ -994,7 +1041,7 @@ export class AegovDatepicker {
     } else {
       const label = document.createElement('span');
       label.className = 'datepicker__month-label';
-      const monthNamesLocal = getMonthNames(this.locale);
+      const monthNamesLocal = getMonthNames(this.dateLocale);
       label.textContent = `${monthNamesLocal[month]} ${year}`;
       selects.appendChild(label);
     }
@@ -1008,7 +1055,7 @@ export class AegovDatepicker {
       nextBtn.type = 'button';
       nextBtn.innerHTML = rtl ? CHEVRON_LEFT : CHEVRON_RIGHT;
       const nextDate = new Date(year, month + 1, 1);
-      const nextMonthNames = getMonthNames(this.locale);
+      const nextMonthNames = getMonthNames(this.dateLocale);
       nextBtn.setAttribute('aria-label', `${this.t.nextMonth}, ${nextMonthNames[nextDate.getMonth()]} ${nextDate.getFullYear()}`);
       nextBtn.addEventListener('click', () => this.navigateMonth(1));
       header.appendChild(nextBtn);
@@ -1017,15 +1064,15 @@ export class AegovDatepicker {
     calendar.appendChild(header);
 
     // ── Grid (weekday headers + days) ──────────────────────────────────────
-    const monthNames = getMonthNames(this.locale);
+    const monthNames = getMonthNames(this.dateLocale);
     const grid = document.createElement('div');
     grid.className = 'datepicker__grid';
     grid.setAttribute('role', 'grid');
     grid.setAttribute('aria-label', `${monthNames[month]} ${year}`);
 
     // Weekday header row (role="row" with role="columnheader" cells)
-    const shortNames = getWeekdayNames(this.locale, this.startDay, 'short');
-    const longNames = getWeekdayNames(this.locale, this.startDay, 'long');
+    const shortNames = getWeekdayNames(this.dateLocale, this.startDay, 'short');
+    const longNames = getWeekdayNames(this.dateLocale, this.startDay, 'long');
 
     const weekdayRow = document.createElement('div');
     weekdayRow.setAttribute('role', 'row');
@@ -1232,7 +1279,7 @@ export class AegovDatepicker {
         this.updateDayClasses();
       } else {
         this.selectedDate = date;
-        this.setValueFromUser(formatDate(date, this.format, this.locale));
+        this.setValueFromUser(formatDate(date, this.format, this.dateLocale));
         this.aegovDatepickerChange.emit({
           value: this.value,
           date: this.selectedDate,
@@ -1284,7 +1331,7 @@ export class AegovDatepicker {
       } else {
         this.rangeStart = start;
         this.rangeEnd = end;
-        this.setValueFromUser(formatRangeValue(start, end, this.format, this.locale));
+        this.setValueFromUser(formatRangeValue(start, end, this.format, this.dateLocale));
         this.aegovDatepickerChange.emit({
           value: this.value,
           date: null,
@@ -1339,7 +1386,7 @@ export class AegovDatepicker {
     } else {
       this.rangeStart = range.start;
       this.rangeEnd = range.end;
-      this.setValueFromUser(formatRangeValue(range.start, range.end, this.format, this.locale));
+      this.setValueFromUser(formatRangeValue(range.start, range.end, this.format, this.dateLocale));
       this.aegovDatepickerChange.emit({
         value: this.value,
         date: null,
@@ -1353,7 +1400,7 @@ export class AegovDatepicker {
   private handleApply() {
     if (this.appearance === 'single' && this.pendingDate) {
       this.selectedDate = this.pendingDate;
-      this.setValueFromUser(formatDate(this.selectedDate, this.format, this.locale));
+      this.setValueFromUser(formatDate(this.selectedDate, this.format, this.dateLocale));
       this.aegovDatepickerChange.emit({
         value: this.value,
         date: this.selectedDate,
@@ -1362,7 +1409,7 @@ export class AegovDatepicker {
     } else if (this.appearance === 'range' && this.pendingRangeStart && this.pendingRangeEnd) {
       this.rangeStart = this.pendingRangeStart;
       this.rangeEnd = this.pendingRangeEnd;
-      this.setValueFromUser(formatRangeValue(this.rangeStart, this.rangeEnd, this.format, this.locale));
+      this.setValueFromUser(formatRangeValue(this.rangeStart, this.rangeEnd, this.format, this.dateLocale));
       this.aegovDatepickerChange.emit({
         value: this.value,
         date: null,
@@ -1460,7 +1507,7 @@ export class AegovDatepicker {
   }
 
   private announceMonthChange() {
-    const monthNames = getMonthNames(this.locale);
+    const monthNames = getMonthNames(this.dateLocale);
     this.announceLive(`${monthNames[this.viewMonth]} ${this.viewYear}`);
   }
 
@@ -1479,7 +1526,7 @@ export class AegovDatepicker {
     // Update dialog title in place
     const dialogTitle = container.querySelector('.datepicker__dialog-title');
     if (dialogTitle) {
-      const monthNames = getMonthNames(this.locale);
+      const monthNames = getMonthNames(this.dateLocale);
       let titleText = `${monthNames[this.viewMonth]} ${this.viewYear}`;
       if (this.appearance === 'range') {
         let sm = this.viewMonth + 1;
@@ -1543,7 +1590,7 @@ export class AegovDatepicker {
   }
 
   private buildFullDateLabel(date: Date, isDisabled: boolean): string {
-    const label = new Intl.DateTimeFormat(this.locale, {
+    const label = new Intl.DateTimeFormat(this.dateLocale, {
       weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
     }).format(date);
     return isDisabled ? `${label}, ${this.t.unavailable}` : label;
@@ -2004,7 +2051,7 @@ export class AegovDatepicker {
           aria-expanded={this.isOpen.toString()}
           aria-controls={this.isOpen ? this.datepickerId : undefined}
           aria-label={this.selectedDate
-            ? `${this.t.changeDate}, ${new Intl.DateTimeFormat(this.locale, { dateStyle: 'long' }).format(this.selectedDate)}`
+            ? `${this.t.changeDate}, ${new Intl.DateTimeFormat(this.dateLocale, { dateStyle: 'long' }).format(this.selectedDate)}`
             : placeholder}
           aria-describedby={composeDescribedBy(
             formatHintId,
@@ -2128,6 +2175,7 @@ export class AegovDatepicker {
       <Host class={{ 'is-invalid': this.isInvalid, [`datepicker-variant-${variant}`]: true }}>
         <div
           class="datepicker__trigger"
+          lang={this.localeLang ?? undefined}
           ref={(el) => (this.triggerRef = el)}
           onClick={this.handleTriggerClick}
           aria-invalid={this.isInvalid ? 'true' : null}
@@ -2151,6 +2199,7 @@ export class AegovDatepicker {
           aria-live="polite"
           aria-atomic="true"
           class="datepicker__sr-only"
+          lang={this.localeLang ?? undefined}
         >
           {this.liveAnnouncement}
         </div>

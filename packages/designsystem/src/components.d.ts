@@ -731,20 +731,19 @@ export namespace Components {
          */
         "isWithConfirmation": boolean;
         /**
-          * Placeholder for range end input. Empty defaults to localized text via isRtl.
+          * Placeholder for range end input. Empty defaults to text in the UI language (see `locale`).
           * @default ''
          */
         "labelRangeEnd": string;
         /**
-          * Placeholder for range start input. Empty defaults to localized text via isRtl.
+          * Placeholder for range start input. Empty defaults to text in the UI language (see `locale`).
           * @default ''
          */
         "labelRangeStart": string;
         /**
-          * Locale for day/month names (BCP 47, e.g., 'en', 'ar', 'fr')
-          * @default 'en'
+          * Locale (BCP 47, e.g. `en`, `ar-AE`, `fr`) for day and month names and formatted dates. Dates use `en` when it is not set.  An Arabic or English locale (`ar`, `ar-*`, `en`, `en-*`) also sets the language of the datepicker's own text: labels, placeholders, buttons, presets, validation messages and screen-reader text. With no locale, or any other locale, that text follows the text direction like the rest of the library: Arabic when `dir` is `rtl`, English otherwise. Layout direction always follows `dir`.
          */
-        "locale": string;
+        "locale"?: string;
         /**
           * Maximum selectable date (ISO string or "today")
           * @default ''
@@ -771,7 +770,7 @@ export namespace Components {
         "name"?: string;
         "open": () => Promise<void>;
         /**
-          * Placeholder text for single mode input. Empty defaults to localized text via isRtl.
+          * Placeholder text for single mode input. Empty defaults to text in the UI language (see `locale`).
           * @default ''
          */
         "placeholder": string;
@@ -4681,18 +4680,17 @@ declare namespace LocalJSX {
          */
         "isWithConfirmation"?: boolean;
         /**
-          * Placeholder for range end input. Empty defaults to localized text via isRtl.
+          * Placeholder for range end input. Empty defaults to text in the UI language (see `locale`).
           * @default ''
          */
         "labelRangeEnd"?: string;
         /**
-          * Placeholder for range start input. Empty defaults to localized text via isRtl.
+          * Placeholder for range start input. Empty defaults to text in the UI language (see `locale`).
           * @default ''
          */
         "labelRangeStart"?: string;
         /**
-          * Locale for day/month names (BCP 47, e.g., 'en', 'ar', 'fr')
-          * @default 'en'
+          * Locale (BCP 47, e.g. `en`, `ar-AE`, `fr`) for day and month names and formatted dates. Dates use `en` when it is not set.  An Arabic or English locale (`ar`, `ar-*`, `en`, `en-*`) also sets the language of the datepicker's own text: labels, placeholders, buttons, presets, validation messages and screen-reader text. With no locale, or any other locale, that text follows the text direction like the rest of the library: Arabic when `dir` is `rtl`, English otherwise. Layout direction always follows `dir`.
          */
         "locale"?: string;
         /**
@@ -4729,7 +4727,7 @@ declare namespace LocalJSX {
          */
         "onAegovValidate"?: (event: AegovDatepickerCustomEvent<AegovValidationDetail<AegovDatepickerValue>>) => void;
         /**
-          * Placeholder text for single mode input. Empty defaults to localized text via isRtl.
+          * Placeholder text for single mode input. Empty defaults to text in the UI language (see `locale`).
           * @default ''
          */
         "placeholder"?: string;
