@@ -45,11 +45,39 @@ describe('aegov-datepicker (e2e)', () => {
     expect(input.getAttribute('aria-expanded')).toBe('true');
   });
 
+  it('a value set from code emits no change or validate event, and reaches the form', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<form><aegov-datepicker name="d" value="2026-09-10"></aegov-datepicker></form>');
+    const host = await page.find('aegov-datepicker');
+    const changeSpy = await host.spyOnEvent('aegovDatepickerChange');
+    const validateSpy = await host.spyOnEvent('aegovValidate');
+    await page.$eval('aegov-datepicker', (el: any) => { el.value = '2026-09-12'; });
+    await page.waitForChanges();
+    expect(changeSpy.events.length).toBe(0);
+    expect(validateSpy.events.length).toBe(0);
+    expect(await page.evaluate(() => new FormData(document.querySelector('form')!).get('d'))).toBe('2026-09-12');
+  });
+
+  it('a value on a blackout date blocks the form, set in markup or from code', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<form><aegov-datepicker name="d" blackout="2026-09-03" value="2026-09-03"></aegov-datepicker></form>');
+    await page.waitForChanges();
+    const formValid = () => page.evaluate(() => document.querySelector('form')!.checkValidity());
+    expect(await formValid()).toBe(false);
+    await page.$eval('aegov-datepicker', (el: any) => { el.value = '2026-09-01'; });
+    await page.waitForChanges();
+    expect(await formValid()).toBe(true);
+    await page.$eval('aegov-datepicker', (el: any) => { el.blackout = '2026-09-01'; });
+    await page.waitForChanges();
+    expect(await formValid()).toBe(false);
+  });
+
   it('selecting a day in single mode commits a value, closes, and emits change', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-datepicker value="2024-06-15" format="YYYY-MM-DD"></aegov-datepicker>');
     const host = await page.find('aegov-datepicker');
     const changeSpy = await host.spyOnEvent('aegovDatepickerChange');
+    const validateSpy = await host.spyOnEvent('aegovValidate');
 
     await host.callMethod('open');
     await page.waitForChanges();
@@ -65,6 +93,8 @@ describe('aegov-datepicker (e2e)', () => {
 
     expect(changeSpy.events.length).toBeGreaterThanOrEqual(1);
     expect(changeSpy.lastEvent.detail.value).toBe('2024-06-20');
+    expect(validateSpy.lastEvent.detail.trigger).toBe('change');
+    expect(validateSpy.lastEvent.detail.value).toBe('2024-06-20');
     // The portal element is removed when the datepicker closes.
     const portalEmpty = await page.evaluate(() => {
       const portal = document.querySelector('.aegov-datepicker-portal');

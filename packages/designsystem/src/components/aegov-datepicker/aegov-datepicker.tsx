@@ -35,6 +35,7 @@ const STRINGS = {
     rangeMaxDays: (n: number) => `Range must be at most ${n} days`,
     beforeMin: (d: string) => `Choose a date on or after ${d}`,
     afterMax: (d: string) => `Choose a date on or before ${d}`,
+    blackedOut: (d: string) => `${d} is not available. Choose another date`,
     chooseDate: 'Choose date',
     prevMonth: 'Previous month',
     nextMonth: 'Next month',
@@ -59,6 +60,7 @@ const STRINGS = {
     rangeMaxDays: (n: number) => `يجب ألا يتجاوز النطاق ${n} أيام`,
     beforeMin: (d: string) => `اختر تاريخاً في ${d} أو بعده`,
     afterMax: (d: string) => `اختر تاريخاً في ${d} أو قبله`,
+    blackedOut: (d: string) => `${d} غير متاح. اختر تاريخاً آخر`,
     chooseDate: 'اختر تاريخاً',
     prevMonth: 'الشهر السابق',
     nextMonth: 'الشهر التالي',
@@ -412,6 +414,13 @@ export class AegovDatepicker {
     if (maxDate && chosen.some(d => d && isAfter(d, maxDate))) {
       return { validity: synthesizeValidity({ rangeOverflow: true }), message: this.errorMessage || t.afterMax(formatDate(maxDate, this.format)) };
     }
+    // Blackout dates can't be picked in the calendar, but a value set from code
+    // (or a blackout list changed later) can still land on one. No native flag
+    // fits, so it is a customError, as validation-engine-addon.md specifies.
+    const blackedOut = chosen.find(d => d && this.parsedUnavailableDates.has(formatDate(d, 'YYYY-MM-DD')));
+    if (blackedOut) {
+      return { validity: synthesizeValidity({ customError: true }), message: this.errorMessage || t.blackedOut(formatDate(blackedOut, this.format)) };
+    }
     if (this.appearance === 'range' && this.rangeStart && this.rangeEnd) {
       const days = diffDays(this.rangeStart, this.rangeEnd) + 1;
       if (this.minRange && days < this.minRange) {
@@ -461,18 +470,29 @@ export class AegovDatepicker {
 
   // ── Watchers ──────────────────────────────────────────
 
+  /**
+   * A value set from code (or restored by a form reset) updates the selection,
+   * form value and validity but fires no events, like a native input. User
+   * selections report the change through `setValueFromUser()`.
+   */
   @Watch('value')
   onValueChange() {
     this.parseValue();
     this.runValidationSync();
-    // Emit unified validate event whenever value changes (covers all selection paths
-    // — single day click, range complete, preset, apply, clear, programmatic set)
-    this.emitValidate('change');
   }
 
+  /** Commit a value the user picked: same as a code set, plus `aegovValidate` with trigger `change`. */
+  private setValueFromUser(next: string) {
+    const changed = next !== this.value;
+    this.value = next;
+    if (changed) this.emitValidate('change');
+  }
+
+  /** A changed blackout list can make the current value valid or invalid. */
   @Watch('blackout')
   onUnavailableDatesChange() {
     this.parseUnavailableDates();
+    this.runValidationSync();
   }
 
   @Watch('presets')
@@ -1212,7 +1232,7 @@ export class AegovDatepicker {
         this.updateDayClasses();
       } else {
         this.selectedDate = date;
-        this.value = formatDate(date, this.format, this.locale);
+        this.setValueFromUser(formatDate(date, this.format, this.locale));
         this.aegovDatepickerChange.emit({
           value: this.value,
           date: this.selectedDate,
@@ -1264,7 +1284,7 @@ export class AegovDatepicker {
       } else {
         this.rangeStart = start;
         this.rangeEnd = end;
-        this.value = formatRangeValue(start, end, this.format, this.locale);
+        this.setValueFromUser(formatRangeValue(start, end, this.format, this.locale));
         this.aegovDatepickerChange.emit({
           value: this.value,
           date: null,
@@ -1319,7 +1339,7 @@ export class AegovDatepicker {
     } else {
       this.rangeStart = range.start;
       this.rangeEnd = range.end;
-      this.value = formatRangeValue(range.start, range.end, this.format, this.locale);
+      this.setValueFromUser(formatRangeValue(range.start, range.end, this.format, this.locale));
       this.aegovDatepickerChange.emit({
         value: this.value,
         date: null,
@@ -1333,7 +1353,7 @@ export class AegovDatepicker {
   private handleApply() {
     if (this.appearance === 'single' && this.pendingDate) {
       this.selectedDate = this.pendingDate;
-      this.value = formatDate(this.selectedDate, this.format, this.locale);
+      this.setValueFromUser(formatDate(this.selectedDate, this.format, this.locale));
       this.aegovDatepickerChange.emit({
         value: this.value,
         date: this.selectedDate,
@@ -1342,7 +1362,7 @@ export class AegovDatepicker {
     } else if (this.appearance === 'range' && this.pendingRangeStart && this.pendingRangeEnd) {
       this.rangeStart = this.pendingRangeStart;
       this.rangeEnd = this.pendingRangeEnd;
-      this.value = formatRangeValue(this.rangeStart, this.rangeEnd, this.format, this.locale);
+      this.setValueFromUser(formatRangeValue(this.rangeStart, this.rangeEnd, this.format, this.locale));
       this.aegovDatepickerChange.emit({
         value: this.value,
         date: null,
@@ -1367,7 +1387,7 @@ export class AegovDatepicker {
     this.selectedDate = null;
     this.rangeStart = null;
     this.rangeEnd = null;
-    this.value = '';
+    this.setValueFromUser('');
     this.aegovDatepickerClear.emit();
     this.aegovDatepickerChange.emit({
       value: '',
