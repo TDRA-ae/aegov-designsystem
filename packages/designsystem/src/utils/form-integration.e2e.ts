@@ -408,3 +408,56 @@ describe('form integration: form value and reset', () => {
     });
   }
 });
+
+/**
+ * aegov-range sanitizes its value the way a native `<input type="range">` does
+ * (clamped to min/max, rounded to step), so what is submitted is what is shown.
+ */
+describe('form integration: range value sanitization', () => {
+  const entries = () => {
+    const out: string[] = [];
+    new FormData(document.querySelector('form')!).forEach((v, k) => out.push(`${k}=${v}`));
+    return out;
+  };
+  const inner = (el: any) => el.shadowRoot.querySelector('input').value;
+
+  it('submits the clamped value shown by the thumb, and validate() agrees', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<form><aegov-range name="r" min="10" value="5"></aegov-range><aegov-range name="s" max="50" step="10" value="77"></aegov-range></form>');
+    await page.waitForChanges();
+    expect(await page.evaluate(entries)).toEqual(['r=10', 's=50']);
+    expect(await page.$eval('aegov-range[name="r"]', inner)).toBe('10');
+    expect(await page.$eval('aegov-range[name="r"]', async (el: any) => (await el.validate()).valid)).toBe(true);
+  });
+
+  it('follows a value set from code and changed bounds', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<form><aegov-range name="r" value="30"></aegov-range></form>');
+    await page.waitForChanges();
+    await page.$eval('aegov-range', (el: any) => { el.value = 500; });
+    await page.waitForChanges();
+    expect(await page.evaluate(entries)).toEqual(['r=100']);
+    await page.$eval('aegov-range', (el: any) => { el.value = 42; el.min = 60; });
+    await page.waitForChanges();
+    expect(await page.evaluate(entries)).toEqual(['r=60']);
+    expect(await page.$eval('aegov-range', inner)).toBe('60');
+  });
+
+  it('dual mode submits sanitized low/high values', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<form><aegov-range name="r" mode="range" step="5" value-low="-5" value-high="203"></aegov-range></form>');
+    await page.waitForChanges();
+    expect(await page.evaluate(entries)).toEqual(['r-low=0', 'r-high=100']);
+  });
+
+  it('reset restores the sanitized initial value', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<form><aegov-range name="r" min="10" value="5"></aegov-range></form>');
+    await page.waitForChanges();
+    await page.$eval('aegov-range', (el: any) => { el.value = 70; });
+    await page.waitForChanges();
+    await page.$eval('form', (f: HTMLFormElement) => f.reset());
+    await page.waitForChanges();
+    expect(await page.evaluate(entries)).toEqual(['r=10']);
+  });
+});

@@ -2178,17 +2178,17 @@ export namespace Components {
          */
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
-          * Current value (single mode).
+          * Current value (single mode). Sanitized like a native `<input type="range">`: clamped to `min`/`max` and rounded to the nearest `step`, on load and whenever it, `min`, `max` or `step` changes.
           * @default 50
          */
         "value": number;
         /**
-          * High thumb value (range mode).
+          * High thumb value (range mode). Sanitized like `value`.
           * @default 75
          */
         "valueHigh": number;
         /**
-          * Low thumb value (range mode).
+          * Low thumb value (range mode). Sanitized like `value`.
           * @default 25
          */
         "valueLow": number;
@@ -6201,17 +6201,17 @@ declare namespace LocalJSX {
          */
         "step"?: number;
         /**
-          * Current value (single mode).
+          * Current value (single mode). Sanitized like a native `<input type="range">`: clamped to `min`/`max` and rounded to the nearest `step`, on load and whenever it, `min`, `max` or `step` changes.
           * @default 50
          */
         "value"?: number;
         /**
-          * High thumb value (range mode).
+          * High thumb value (range mode). Sanitized like `value`.
           * @default 75
          */
         "valueHigh"?: number;
         /**
-          * Low thumb value (range mode).
+          * Low thumb value (range mode). Sanitized like `value`.
           * @default 25
          */
         "valueLow"?: number;
