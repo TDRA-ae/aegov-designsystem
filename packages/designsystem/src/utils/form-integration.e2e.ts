@@ -109,6 +109,24 @@ describe('form integration (Layer 1)', () => {
     expect(await child.getProperty('isInvalid')).toBe(true);
   });
 
+  it('aegov-form-field clears and updates what it cascaded, leaving the child\'s own values', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-form-field id="a" is-invalid error-message="Wrapper err"><aegov-input></aegov-input></aegov-form-field>
+      <aegov-form-field id="b" is-invalid error-message="W"><aegov-input error-message="Own"></aegov-input></aegov-form-field>
+    `);
+    await page.waitForChanges();
+    await page.$eval('#a', (el: any) => { el.errorMessage = 'Changed'; });
+    await page.waitForChanges();
+    expect(await page.$eval('#a aegov-input', (el: any) => el.errorMessage)).toBe('Changed');
+    await page.$eval('#a', (el: any) => { el.isInvalid = false; el.errorMessage = ''; });
+    await page.$eval('#b', (el: any) => { el.isInvalid = false; el.errorMessage = ''; });
+    await page.waitForChanges();
+    expect(await page.$eval('#a aegov-input', (el: any) => [el.isInvalid, el.errorMessage])).toEqual([false, '']);
+    expect(await page.$eval('#a aegov-input', (el: any) => el.shadowRoot.querySelector('input').getAttribute('aria-invalid'))).toBeNull();
+    expect(await page.$eval('#b aegov-input', (el: any) => el.errorMessage)).toBe('Own');
+  });
+
   it('aegov-otp emits aegovValidate with patternMismatch on full-fill regex fail', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-otp length="4" pattern="^9999$"></aegov-otp>`);
