@@ -369,4 +369,73 @@ describe('aegov-datepicker', () => {
       expect(r.validity.valueMissing).toBe(true);
     });
   });
+
+  describe('UI language', () => {
+    const placeholderOf = (page: { root?: HTMLElement }) => (q(page.root, 'input.datepicker__input') as HTMLInputElement).placeholder;
+
+    it('follows an Arabic locale on an LTR page, including validation messages', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<div dir="ltr"><aegov-datepicker locale="ar-AE" is-required min="2026-01-10"></aegov-datepicker></div>`,
+      });
+      expect(placeholderOf(page)).toBe('اختر التاريخ');
+      expect(q(page.root, '.datepicker__trigger').getAttribute('lang')).toBe('ar');
+      expect((await page.rootInstance.validate('manual')).message).toBe('مطلوب');
+      page.root.value = '2026-01-05';
+      await page.waitForChanges();
+      expect((await page.rootInstance.validate('manual')).message).toBe('اختر تاريخاً في 2026-01-10 أو بعده');
+    });
+
+    it('follows an English locale inside dir="rtl"', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<div dir="rtl"><aegov-datepicker locale="en-GB" appearance="range" is-required></aegov-datepicker></div>`,
+      });
+      expect((q(page.root, '.datepicker__input--range-start') as HTMLInputElement).placeholder).toBe('Start date');
+      expect((await page.rootInstance.validate('manual')).message).toBe('Required');
+    });
+
+    it('follows the text direction when locale is not set', async () => {
+      const rtl = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<div dir="rtl"><aegov-datepicker is-required></aegov-datepicker></div>`,
+      });
+      expect(placeholderOf(rtl)).toBe('اختر التاريخ');
+      expect((await rtl.rootInstance.validate('manual')).message).toBe('مطلوب');
+      const ltr = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker is-required></aegov-datepicker>`,
+      });
+      expect(placeholderOf(ltr)).toBe('Select date');
+      expect((await ltr.rootInstance.validate('manual')).message).toBe('Required');
+      expect(q(ltr.root, '.datepicker__trigger').hasAttribute('lang')).toBe(false);
+    });
+
+    it('follows the text direction for a locale other than Arabic or English, and formats dates in English when unset', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<div dir="rtl"><aegov-datepicker locale="fr" value="2026-03-05" format="D MMMM YYYY"></aegov-datepicker></div>`,
+      });
+      expect((q(page.root, 'input.datepicker__input') as HTMLInputElement).value).toBe('5 mars 2026');
+      expect(q(page.root, 'input.datepicker__input').getAttribute('aria-label')).toMatch(/^تغيير التاريخ, /);
+      page.root.locale = undefined;
+      await page.waitForChanges();
+      expect((q(page.root, 'input.datepicker__input') as HTMLInputElement).value).toBe('5 March 2026');
+    });
+
+    it('updates its text when locale changes at runtime', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker is-required></aegov-datepicker>`,
+      });
+      expect(placeholderOf(page)).toBe('Select date');
+      page.root.locale = 'ar';
+      await page.waitForChanges();
+      expect(placeholderOf(page)).toBe('اختر التاريخ');
+      expect((await page.rootInstance.validate('manual')).message).toBe('مطلوب');
+      page.root.locale = 'en';
+      await page.waitForChanges();
+      expect(placeholderOf(page)).toBe('Select date');
+    });
+  });
 });
