@@ -58,23 +58,54 @@ function formControls(form: HTMLFormElement): Element[] {
 }
 
 /**
+ * Attributes of a submit button that override the form's own submission
+ * settings for that submission (HTML "form submission attributes").
+ */
+const SUBMITTER_OVERRIDE_ATTRS = ['formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget'];
+
+/** A host that submits a form in place of a native submit button (aegov-button). */
+export type FormSubmitter = HTMLElement & { name?: string; value?: string };
+
+/**
  * Submit a form the way a native submit button does: constraint validation
  * runs, a cancelable `submit` event fires, and only then is the form submitted.
+ *
+ * With a `submitter`, the submission is made as if it were the form's submit
+ * button: `event.submitter` is set, its `name`/`value` join the form data and
+ * its `formaction`/`formenctype`/`formmethod`/`formnovalidate`/`formtarget`
+ * attributes apply. `requestSubmit()` only accepts a native submit button, so
+ * — as Shoelace / Web Awesome do — a hidden native `<button type="submit">`
+ * carrying those values stands in for it: appended to the form, passed to
+ * `requestSubmit()`, and removed again whatever happens. `requestSubmit()` is
+ * synchronous (validation, the `submit` event and building the form data all
+ * happen inside it), so the stand-in is in place for all of it.
  */
-export function submitForm(form: HTMLFormElement): void {
+export function submitForm(form: HTMLFormElement, submitter?: FormSubmitter): void {
   const requestSubmit = formMethod(form, 'requestSubmit');
-  if (requestSubmit) {
+  if (requestSubmit && !submitter) {
     requestSubmit.call(form);
     return;
   }
-  // Older engines without requestSubmit(): a temporary native submit button
-  // gets the same validation + submit event semantics.
-  const temp = document.createElement('button');
-  temp.type = 'submit';
-  temp.hidden = true;
-  Node.prototype.appendChild.call(form, temp);
-  temp.click();
-  temp.remove();
+  // Also the path for older engines without requestSubmit(): clicking a
+  // native submit button gets the same validation + submit event semantics.
+  const proxy = document.createElement('button');
+  proxy.type = 'submit';
+  proxy.hidden = true;
+  if (submitter) {
+    if (submitter.name) proxy.name = submitter.name;
+    if (submitter.value !== undefined && submitter.value !== null) proxy.value = String(submitter.value);
+    for (const attr of SUBMITTER_OVERRIDE_ATTRS) {
+      const value = submitter.getAttribute(attr);
+      if (value !== null) proxy.setAttribute(attr, value);
+    }
+  }
+  Node.prototype.appendChild.call(form, proxy);
+  try {
+    if (requestSubmit) requestSubmit.call(form, proxy);
+    else proxy.click();
+  } finally {
+    proxy.remove();
+  }
 }
 
 /** Reset a form the way a native reset button does (fires a cancelable `reset` event). */
