@@ -368,7 +368,7 @@ export declare interface AegovBreadcrumbsItem extends Components.AegovBreadcrumb
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovButton,
-  inputs: ['appearance', 'fieldId', 'isBold', 'isDisabled', 'isFull', 'isIcon', 'isLoading', 'size', 'type', 'variant'],
+  inputs: ['appearance', 'fieldId', 'isBold', 'isDisabled', 'isFull', 'isIcon', 'isLoading', 'name', 'size', 'type', 'value', 'variant'],
   methods: ['setFocus']
 })
 @Component({
@@ -376,7 +376,7 @@ export declare interface AegovBreadcrumbsItem extends Components.AegovBreadcrumb
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['appearance', 'fieldId', 'isBold', 'isDisabled', 'isFull', 'isIcon', 'isLoading', 'size', 'type', 'variant'],
+  inputs: ['appearance', 'fieldId', 'isBold', 'isDisabled', 'isFull', 'isIcon', 'isLoading', 'name', 'size', 'type', 'value', 'variant'],
   outputs: ['aegovButtonClick', 'aegovButtonFocus', 'aegovButtonBlur'],
 })
 export class AegovButton {
