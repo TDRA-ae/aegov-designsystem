@@ -43,7 +43,7 @@ Inputs use the camelCase property names and are type-checked under `strictTempla
 
 ### Global setup
 
-Add `provideDesignSystem()` to the application's providers to run the design system's global script, which creates the toast live region and `window.aegovToast`. It also registers every `aegov-*` element, including ones you render without importing their wrapper. It loads the design system's lazy loader when the application starts.
+Add `provideDesignSystem()` to the application's providers to run the design system's global script, which creates the toast live region and `window.aegovToast`. It also registers every `aegov-*` element, including ones you render without importing their wrapper. It loads the design system's lazy loader when the application starts. It is exported only from the `@aegov/designsystem-angular/provider` entry point, so an application that doesn't use it ships none of the loader's files.
 
 ```ts
 // app.config.ts
