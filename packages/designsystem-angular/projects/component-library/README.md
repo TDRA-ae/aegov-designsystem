@@ -1,64 +1,83 @@
-# ComponentLibrary
+# AEGOV Design System for Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.0.
+Angular wrappers for the UAE Government Design System web components ([`@aegov/designsystem`](https://www.npmjs.com/package/@aegov/designsystem)): one standalone component per element, with typed inputs and outputs. Supports Angular 18 and later.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Installation
 
 ```bash
-ng generate component component-name
+npm install @aegov/designsystem @aegov/designsystem-angular
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+**Tailwind CSS v4 is required in your project.** Add three imports to `src/styles.css`, in this order:
 
-```bash
-ng generate --help
+```css
+@import "tailwindcss";
+@import "@aegov/designsystem/base";
+@import "@aegov/designsystem/theme";
 ```
 
-## Building
+## Usage
 
-To build the library, run:
+Import the wrappers a component uses. Each wrapper registers its own element, so there is nothing else to set up:
 
-```bash
-ng build component-library
+```ts
+import { Component } from '@angular/core';
+import { AegovButton, AegovInput } from '@aegov/designsystem-angular';
+
+@Component({
+  selector: 'app-signup',
+  imports: [AegovButton, AegovInput],
+  template: `
+    <aegov-input fieldId="email" type="email" name="email" isRequired />
+    <aegov-button variant="primary" size="lg" (aegovButtonClick)="submit()">
+      Submit application
+    </aegov-button>
+  `,
+})
+export class SignupComponent {
+  submit() {}
+}
 ```
 
-This command will compile your project, and the build artifacts will be placed in the `dist/` directory.
+Inputs use the camelCase property names and are type-checked under `strictTemplates`. Boolean and number inputs also accept static attributes: `isRequired`, `isDisabled="false"`, `pages="5"`. Events are outputs named after the DOM event, such as `(aegovButtonClick)`.
 
-### Publishing the Library
+### Global setup
 
-Once the project is built, you can publish your library by following these steps:
+Add `provideDesignSystem()` to the application's providers to run the design system's global script, which creates the toast live region and `window.aegovToast`. It also registers every `aegov-*` element, including ones you render without importing their wrapper. It loads the design system's lazy loader when the application starts.
 
-1. Navigate to the `dist` directory:
+```ts
+// app.config.ts
+import { ApplicationConfig } from '@angular/core';
+import { provideDesignSystem } from '@aegov/designsystem-angular/provider';
 
-   ```bash
-   cd dist/component-library
-   ```
-
-2. Run the `npm publish` command to publish your library to the npm registry:
-   ```bash
-   npm publish
-   ```
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+export const appConfig: ApplicationConfig = {
+  providers: [
+    // ...your existing providers
+    provideDesignSystem(),
+  ],
+};
 ```
 
-## Running end-to-end tests
+### NgModule applications
 
-For end-to-end (e2e) testing, run:
+`DesignSystemModule` re-exports every wrapper and has no providers. Add `provideDesignSystem()` to the root module for the global setup:
 
-```bash
-ng e2e
+```ts
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { DesignSystemModule } from '@aegov/designsystem-angular';
+import { provideDesignSystem } from '@aegov/designsystem-angular/provider';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, DesignSystemModule],
+  providers: [provideDesignSystem()],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Documentation
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The full guide, including server-side rendering and every component's API, is *Using with Angular* on the documentation site: [designsystem.gov.ae](https://designsystem.gov.ae).
