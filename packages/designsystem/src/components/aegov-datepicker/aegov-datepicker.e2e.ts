@@ -341,6 +341,67 @@ describe('aegov-datepicker (e2e)', () => {
     expect(focusState.deepActiveTag).toBe('BUTTON');
   });
 
+  describe('open() called from outside the picker', () => {
+    const SETUP = '<form><aegov-datepicker name="d" is-required></aegov-datepicker></form><button id="opener" type="button">Pick a date</button>';
+
+    /** Errors thrown during render reach the page as uncaught errors or console errors. */
+    function collectErrors(page: import('@stencil/core/testing').E2EPage) {
+      const errors: string[] = [];
+      page.on('pageerror', e => errors.push(String(e)));
+      page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+      return errors;
+    }
+
+    it('a page button opening an empty required picker throws nothing, keeps it invalid, and gets focus back', async () => {
+      const page = await newE2EPage();
+      const errors = collectErrors(page);
+      await page.setContent(SETUP);
+      await page.$eval('#opener', (b: HTMLButtonElement) => b.addEventListener('click', () => (document.querySelector('aegov-datepicker') as any).open()));
+      await page.click('#opener');
+      await page.waitForChanges();
+      expect(await page.evaluate(() => !!document.querySelector('.aegov-datepicker-portal .aegov-datepicker'))).toBe(true);
+      expect(await page.evaluate(() => document.querySelector('form')!.checkValidity())).toBe(false);
+      const host = await page.find('aegov-datepicker');
+      const result = await host.callMethod('validate', 'manual');
+      expect(result.validity.valueMissing).toBe(true);
+
+      await page.keyboard.press('Escape');
+      await page.waitForChanges();
+      expect(await page.evaluate(() => document.activeElement?.id)).toBe('opener');
+      expect(errors).toEqual([]);
+    });
+
+    it('a later click outside still closes a calendar opened by a page button', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`${SETUP}<p id="elsewhere" style="padding:20px">Elsewhere</p>`);
+      await page.$eval('#opener', (b: HTMLButtonElement) => b.addEventListener('click', () => (document.querySelector('aegov-datepicker') as any).open()));
+      await page.click('#opener');
+      await page.waitForChanges();
+      expect(await page.$eval('aegov-datepicker', (el: any) => el.shadowRoot.querySelector('input').getAttribute('aria-expanded'))).toBe('true');
+      await page.click('#elsewhere');
+      await page.waitForChanges();
+      expect(await page.$eval('aegov-datepicker', (el: any) => el.shadowRoot.querySelector('input').getAttribute('aria-expanded'))).toBe('false');
+    });
+
+    it('with nothing focused before open(), focus goes to the picker input on close', async () => {
+      const page = await newE2EPage();
+      const errors = collectErrors(page);
+      await page.setContent(SETUP);
+      await page.$eval('aegov-datepicker', (el: any) => el.open());
+      await page.waitForChanges();
+      await page.keyboard.press('Escape');
+      await page.waitForChanges();
+      const focus = await page.evaluate(() => ({
+        host: document.activeElement?.tagName,
+        inner: (document.activeElement as HTMLElement)?.shadowRoot?.activeElement?.className,
+      }));
+      expect(focus.host).toBe('AEGOV-DATEPICKER');
+      expect(focus.inner).toContain('datepicker__input');
+      expect(await page.evaluate(() => document.querySelector('form')!.checkValidity())).toBe(false);
+      expect(errors).toEqual([]);
+    });
+  });
+
   describe('UI language follows locale', () => {
     const PICKER = '<aegov-datepicker appearance="range" presets="today,last7Days" is-with-confirmation is-required></aegov-datepicker>';
 
