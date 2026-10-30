@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "patch-package",
     "build": "lerna run build --scope='{@aegov/designsystem,@aegov/designsystem-react,@aegov/designsystem-vue,@aegov/designsystem-angular}'",
     "build:all": "lerna run build",
     "build:libs": "lerna run build --scope='{@aegov/designsystem,@aegov/designsystem-react,@aegov/designsystem-vue}'",
@@ -37,7 +36,6 @@
     "@types/node": "^26.1.0",
     "lerna": "^9.0.7",
     "nx": "23.0.1",
-    "patch-package": "8.0.1",
     "typescript": "^6.0.3"
   }
 }

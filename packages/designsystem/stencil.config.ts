@@ -11,8 +11,12 @@ import { angularOutputTarget } from '@stencil/angular-output-target';
 import type { OutputTargetCustom } from '@stencil/core/internal';
 import { reactOutputTarget } from '@stencil/react-output-target';
 import { vueOutputTarget } from '@stencil/vue-output-target';
+import { patchStencilRuntime } from './stencil-runtime-patch';
 
-const isProd = process.env.NODE_ENV === 'production';
+patchStencilRuntime();
+
+// `--prod` works on every OS; NODE_ENV=production is kept for existing scripts.
+const isProd = process.env.NODE_ENV === 'production' || process.argv.includes('--prod');
 
 // Strip @source inline() lines for the per-component compile — they exist
 // only to keep theme tokens alive against the consumer's own build, which
