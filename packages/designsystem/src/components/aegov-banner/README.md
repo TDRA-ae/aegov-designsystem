@@ -32,8 +32,8 @@
 
 | Slot        | Description                                              |
 | ----------- | -------------------------------------------------------- |
+|             | The main content of the banner                           |
 | `"actions"` | Action buttons (optional)                                |
-| `"default"` | The main content of the banner                           |
 | `"icon"`    | Custom icon (optional, has fallback variant-based icons) |
 
 
