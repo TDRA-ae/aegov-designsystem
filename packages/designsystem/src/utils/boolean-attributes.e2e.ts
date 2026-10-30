@@ -7,8 +7,8 @@ import { join } from 'path';
  *
  * Stencil 4.45.2 reads any present boolean attribute as `true` on form-associated
  * components (stenciljs/core#6908), so `<aegov-button is-disabled="false">` would be
- * disabled. patches/@stencil+core+4.45.2.patch restores `"false"` → false; this test
- * fails if the patch is missing or a Stencil upgrade changes that code path.
+ * disabled. stencil-runtime-patch.ts restores `"false"` → false; this test fails if
+ * the patch is missing or a Stencil upgrade changes that code path.
  *
  * Every boolean @Prop of every form-associated component is read from source, so
  * new props are covered automatically.
