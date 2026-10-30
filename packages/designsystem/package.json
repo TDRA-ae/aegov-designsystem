@@ -59,14 +59,14 @@
         "test:watch": "stencil test --spec --e2e --watchAll",
         "test:coverage": "stencil test --spec --coverage",
         "test:ci": "stencil test --spec --e2e --ci",
-        "verify:build": "node -e \"const fs=require('fs');if(!fs.existsSync('./dist'))throw new Error('dist missing');const maps=['dist','loader'].flatMap(d=>fs.readdirSync(d,{recursive:true}).filter(f=>String(f).endsWith('.map')));if(maps.length)throw new Error(maps.length+' .map files in dist/loader: this is a development build. Publish a production build (npm run build:prod).')\"",
+        "verify:build": "node -e \"const fs=require('fs');if(!fs.existsSync('./dist'))throw new Error('dist missing');const maps=['dist','loader'].flatMap(d=>fs.readdirSync(d,{recursive:true}).filter(f=>String(f).endsWith('.map')));if(maps.length)throw new Error(maps.length+' .map files in dist/loader: this is a development build. Publish a production build (npm run build:prod).');const rt=fs.readFileSync(require.resolve('@stencil/core/internal/client'),'utf8');if(rt.includes('newValue === \\\"false\\\" && !isFormAssociated'))throw new Error('@stencil/core is not patched, so is-*=\\\"false\\\" would turn form flags on. Run npm install at the repo root (it applies patches/ via patch-package) and rebuild.')\"",
         "test:build": "npm run build:prod && npm run verify:build",
         "size": "size-limit",
         "generate": "stencil generate",
         "prepublishOnly": "npm run test:build"
     },
     "dependencies": {
-        "@stencil/core": "^4.38.3"
+        "@stencil/core": "4.45.2"
     },
     "devDependencies": {
         "@size-limit/preset-small-lib": "^12.1.0",
