@@ -17,7 +17,7 @@ const TAG = 'aegov-badge';
 const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
- * @slot default - The main content of the badge
+ * @slot - The main content of the badge
  */
 @Component({
   tag: 'aegov-badge',
