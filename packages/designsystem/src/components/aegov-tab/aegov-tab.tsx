@@ -13,7 +13,7 @@ const ctx = (prop: string) => ({ component: TAG, prop });
  * @description A single tab trigger. Must be placed inside an aegov-tabs component
  * with slot="tabs". Pairs with a corresponding aegov-tab-panel via matching tab-id.
  *
- * @slot default    - Tab label text
+ * @slot - Tab label text
  * @slot icon       - Optional icon shown before the label
  * @slot icon-end   - Optional icon shown after the label
  *
