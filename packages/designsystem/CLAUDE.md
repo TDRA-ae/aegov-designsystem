@@ -144,9 +144,9 @@ componentWillLoad() { this.slotContent = this.el.textContent?.trim() || ''; }
 
 ### i18n
 
-Components with their own UI strings keep a `STRINGS = { en, ar }` map and select with `isRtl(this.el)` from `src/utils/rtl.ts`. Fully translated: input (reveal/copy), select (search, empty, clear), fileupload (all strings incl. errors and size units), otp (cell labels), range (thumb labels), avatar (status, fallback), callout/banner/toast/badge (dismiss), breadcrumbs/pagination (nav labels), header-banner (trust copy).
+Components with their own UI strings keep a `STRINGS = { en, ar }` map and select with `isRtl(this.el)` from `src/utils/rtl.ts`. Fully translated: input (reveal/copy), select (search, empty, clear), fileupload (all strings incl. errors and size units), otp (cell labels), range (thumb labels), avatar (status, fallback), callout/banner/toast/badge (dismiss), breadcrumbs/pagination (nav labels), header-banner (trust copy), datepicker (all strings incl. the 27 preset labels; language follows `locale` when it is `ar`/`en`, otherwise `dir`).
 
-**Known untranslated:** `aegov-select` multiple-mode "N selected" trigger text; the 27 `aegov-datepicker` preset labels; `aegov-pagination` page numerals.
+**Known untranslated:** `aegov-select` multiple-mode "N selected" trigger text; `aegov-pagination` page numerals.
 
 ---
 

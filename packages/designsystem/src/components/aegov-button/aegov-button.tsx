@@ -21,12 +21,17 @@ import { getPassThroughAttributes } from '../../utils/attributes';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
 import { getActionClasses } from '../../utils/action-classes';
-import { afterDispatchUnlessPrevented, getOwningForm, submitForm } from '../../utils/form-submit';
+import { afterDispatchUnlessPrevented, getOwningForm, submitForm, resetForm } from '../../utils/form-submit';
 
 const TAG = 'aegov-button';
 const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
+ * A `type="submit"` button submits its form like a native submit button:
+ * `event.submitter` is set, `name`/`value` are added to the form data, and the
+ * `formaction`, `formenctype`, `formmethod`, `formnovalidate` and `formtarget`
+ * attributes override the form's own settings.
+ *
  * @slot - Button content
  * @part button - The native button element
  */
@@ -70,6 +75,17 @@ export class AegovButton {
    * @default 'button'
    */
   @Prop() type: ButtonType = 'button';
+
+  /**
+   * Name submitted with the form, paired with `value`, when this button submits
+   * it — as on a native `<button>`.
+   */
+  @Prop() name?: string;
+
+  /**
+   * Value submitted with `name` when this button submits the form.
+   */
+  @Prop() value?: string;
 
   /**
    * The button appearance (visual style)
@@ -263,8 +279,8 @@ export class AegovButton {
     const form = getOwningForm(this.el, this.internals);
     if (!form) return;
     afterDispatchUnlessPrevented(event, () => {
-      if (type === 'submit') submitForm(form);
-      else form.reset();
+      if (type === 'submit') submitForm(form, this.el);
+      else resetForm(form);
     });
   };
 

@@ -178,3 +178,26 @@ describe('aegov-modal (e2e)', () => {
     expect(focusState.deepActiveTag).toBe('BUTTON');
   });
 });
+
+describe('aegov-modal (e2e) nested', () => {
+  it('Escape closes only the top modal of a nested pair', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-modal id="a" label="A"><button id="a1">a1</button></aegov-modal>
+      <aegov-modal id="b" label="B"><button id="b1">b1</button></aegov-modal>`);
+    await page.$eval('#a', (m: any) => m.show());
+    await page.waitForChanges();
+    await page.$eval('#b', (m: any) => m.show());
+    await page.waitForChanges();
+    await new Promise(r => setTimeout(r, 100));
+    await page.keyboard.press('Escape');
+    await new Promise(r => setTimeout(r, 400));
+    await page.waitForChanges();
+    expect(await page.$eval('#b', (m: any) => m.isOpen)).toBe(false);
+    expect(await page.$eval('#a', (m: any) => m.isOpen)).toBe(true);
+    await page.keyboard.press('Escape');
+    await new Promise(r => setTimeout(r, 400));
+    await page.waitForChanges();
+    expect(await page.$eval('#a', (m: any) => m.isOpen)).toBe(false);
+  });
+});

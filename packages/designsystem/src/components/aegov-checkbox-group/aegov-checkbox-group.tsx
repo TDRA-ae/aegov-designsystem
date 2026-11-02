@@ -113,6 +113,8 @@ export class AegovCheckboxGroup {
   }
 
   private computeValidity() {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.isDisabled) return { ...this.computeConstraintValidity(), validity: synthesizeValidity({}), message: '' };
     return withCustomError(this.computeConstraintValidity(), this.customValidityMessage);
   }
 
@@ -314,7 +316,9 @@ export class AegovCheckboxGroup {
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
     const showHint = !showError && (hasHintSlot || !!this.hint);
     const announceError = showError && this.hasInteractedOnce;
+    const authorDescribedBy = this.el.getAttribute('aria-describedby');
     const describedBy = composeDescribedBy(
+      authorDescribedBy,
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );

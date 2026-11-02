@@ -18,7 +18,7 @@ const TAG = 'aegov-callout';
 const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
- * @slot default - The main content of the callout
+ * @slot - The main content of the callout
  * @slot icon - Custom icon replacing the default variant icon. Use an SVG or aegov-icon element.
  * @slot link - A single aegov-link (or anchor) on the trailing side, before the dismiss button. Mutually exclusive with the actions slot.
  * @slot actions - A group of buttons or links rendered below the content. Mutually exclusive with the link slot.

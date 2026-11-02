@@ -19,6 +19,24 @@ type AegovFormControl = HTMLElement & {
   isDisabled?: boolean;
 };
 
+/** Props the wrapper cascades onto its control (and `variant` onto its label). */
+type CascadedProp = 'isInvalid' | 'errorMessage' | 'hint' | 'variant';
+
+/** Nothing set: the prop's default on the control. */
+function isUnset(value: unknown): boolean {
+  return value === undefined || value === null || value === '' || value === false;
+}
+
+/** Own `isDisabled`, or disabled by the form (`<fieldset disabled>`, host `disabled`). */
+function isControlDisabled(ctrl: AegovFormControl): boolean {
+  if (ctrl.isDisabled) return true;
+  try {
+    return ctrl.matches(':disabled');
+  } catch {
+    return false; // test DOM without :disabled support
+  }
+}
+
 @Component({
   tag: 'aegov-form-field',
   styleUrl: 'aegov-form-field.css',
@@ -33,14 +51,15 @@ export class AegovFormField {
 
   /**
    * Wrapper-level invalid state. Cascades to the first form-control descendant if the
-   * child has not set its own value. See validation-engine-addon.md §2.7.
+   * child has not set its own value; setting it back to `false` clears what it
+   * cascaded. See validation-engine-addon.md §2.7.
    */
   @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
 
-  /** Wrapper-level error message — cascaded to first form-control descendant. */
+  /** Wrapper-level error message — cascaded to first form-control descendant unless it has its own; changing or clearing it updates the cascaded value. */
   @Prop({ mutable: true }) errorMessage: string = '';
 
-  /** Wrapper-level hint — cascaded to first form-control descendant. */
+  /** Wrapper-level hint — cascaded to first form-control descendant unless it has its own; changing or clearing it updates the cascaded value. */
   @Prop() hint: string = '';
 
   /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Cascades to first form-control descendant. */
@@ -72,6 +91,14 @@ export class AegovFormField {
    * permanently blocking further updates (e.g. when the label's text changes).
    */
   private appliedAriaLabels = new WeakMap<AegovFormControl, string>();
+
+  /**
+   * The values this wrapper last cascaded onto each element, per prop — the
+   * same idea as `appliedAriaLabels`. A value still equal to what we set is
+   * ours to update or clear when the wrapper changes; anything else is the
+   * element's own and is left alone.
+   */
+  private cascadedValues = new WeakMap<HTMLElement, Partial<Record<CascadedProp, unknown>>>();
   private accessibleNameObserver?: MutationObserver;
   private observedLabelForName?: HTMLElement;
 
@@ -204,9 +231,7 @@ export class AegovFormField {
       // (#47): `variant` no longer has a default value on either side, so
       // "wrapper never set one" and "label never set one" are both genuinely
       // `undefined`, distinguishable from an explicit `variant="primary"`.
-      if (this.variant !== undefined && (label as any).variant === undefined) {
-        (label as any).variant = this.variant;
-      }
+      this.cascadeProp(label, 'variant', this.variant, undefined);
 
       if (labelableControl) {
         this.syncAccessibleName(label, labelableControl);
@@ -226,30 +251,42 @@ export class AegovFormField {
   }
 
   /**
-   * Cascade wrapper-level isInvalid/errorMessage/hint to first form-control descendant.
-   * Only fills in values that the child has not already authored to its own props.
+   * Cascade wrapper-level isInvalid/errorMessage/hint/variant to first form-control descendant.
+   * Only fills in values that the child has not already authored to its own props,
+   * and updates or clears them again when the wrapper's value changes. A child's
+   * `isInvalid` that is false counts as unset, so a truthy wrapper `isInvalid` wins.
    */
   private cascadeToChild() {
     const ctrl = this.findControl();
     if (!ctrl) return;
+    this.cascadeProp(ctrl, 'errorMessage', this.errorMessage, '');
+    this.cascadeProp(ctrl, 'hint', this.hint, '');
+    this.cascadeProp(ctrl, 'isInvalid', this.isInvalid, false);
+    this.cascadeProp(ctrl, 'variant', this.variant, undefined);
+  }
 
-    // errorMessage cascades only if child has no own value
-    if (this.errorMessage && (!ctrl.errorMessage || ctrl.errorMessage === '')) {
-      ctrl.errorMessage = this.errorMessage;
+  /**
+   * Set `prop` on `target` to the wrapper's `wanted` value, unless the target
+   * has its own (a set value that this wrapper did not cascade). When `wanted`
+   * is unset, a value this wrapper cascaded earlier goes back to `unset`.
+   */
+  private cascadeProp(target: HTMLElement, prop: CascadedProp, wanted: unknown, unset: unknown) {
+    const el = target as unknown as Record<CascadedProp, unknown>;
+    const record = this.cascadedValues.get(target) ?? {};
+    const current = el[prop];
+    const ours = prop in record && Object.is(current, record[prop]);
+
+    if (!isUnset(current) && !ours) {
+      // The target's own value — never overridden, and no longer ours to clear.
+      delete record[prop];
+    } else if (!isUnset(wanted)) {
+      if (!Object.is(current, wanted)) el[prop] = wanted;
+      record[prop] = wanted;
+    } else {
+      if (ours) el[prop] = unset;
+      delete record[prop];
     }
-    // hint cascades only if child has no own value
-    if (this.hint && (!ctrl.hint || ctrl.hint === '')) {
-      ctrl.hint = this.hint;
-    }
-    // isInvalid: wrapper override wins when truthy (since errorMessage demands display)
-    if (this.isInvalid) {
-      ctrl.isInvalid = true;
-    }
-    // variant cascades only if neither side has a sentinel problem (#47) —
-    // see the identical comment on the label-variant cascade above.
-    if (this.variant !== undefined && ctrl.variant === undefined) {
-      ctrl.variant = this.variant;
-    }
+    this.cascadedValues.set(target, record);
   }
 
   /**
@@ -263,9 +300,12 @@ export class AegovFormField {
    * ways (confirmed live: it clears correctly, unlike the host's reflected
    * attribute). Observing each control's shadow root for that attribute is
    * therefore a reliable proxy trigger to re-read the authoritative property.
+   *
+   * A control disabled by an ancestor `<fieldset disabled>` keeps its own
+   * `isDisabled` false, so the host's `:disabled` state is read as well.
    */
   private syncDisabledState(ctrl: AegovFormControl) {
-    this.isControlDisabled = !!ctrl.isDisabled;
+    this.isControlDisabled = isControlDisabled(ctrl);
 
     if (this.observedControl === ctrl) return;
     this.disabledObserver?.disconnect();
@@ -273,7 +313,7 @@ export class AegovFormField {
 
     if (ctrl.shadowRoot && typeof MutationObserver !== 'undefined') {
       this.disabledObserver = new MutationObserver(() => {
-        this.isControlDisabled = !!ctrl.isDisabled;
+        this.isControlDisabled = isControlDisabled(ctrl);
       });
       this.disabledObserver.observe(ctrl.shadowRoot, {
         attributes: true,

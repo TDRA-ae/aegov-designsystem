@@ -1,6 +1,18 @@
 #!/bin/bash
 set -e
-ROOT="/Users/moiz/Projects/TDRA/aegov-dls-3"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Every publish below uses --ignore-scripts (so prepublishOnly never runs):
+# build the production bundles explicitly first. Core must be built before
+# the wrappers, whose sources its build regenerates. test:build fails if the
+# core dist is a development build (source maps, unminified Tailwind debug).
+echo "Building @aegov/designsystem (production)..."
+(cd "$ROOT/packages/designsystem" && rm -rf dist loader && npm run test:build)
+
+for pkg in designsystem-react designsystem-vue designsystem-angular; do
+  echo "Building @aegov/$pkg..."
+  (cd "$ROOT/packages/$pkg" && npm run build)
+done
 
 echo "Publishing @aegov/designsystem..."
 (cd "$ROOT/packages/designsystem" && npm publish --ignore-scripts)

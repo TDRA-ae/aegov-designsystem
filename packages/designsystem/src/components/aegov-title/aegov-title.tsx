@@ -7,7 +7,7 @@ import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 
 /**
- * @slot default - The title content
+ * @slot - The title content
  */
 @Component({
   tag: 'aegov-title',

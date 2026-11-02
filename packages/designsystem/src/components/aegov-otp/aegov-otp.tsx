@@ -14,7 +14,7 @@ import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import {
   composeDescribedBy, buildValidationDetail, synthesizeValidity,
-  withCustomError, setInternalsValidity,
+  withCustomError, setInternalsValidity, syncHostDisabled,
 } from '../../utils/validation';
 import type { InternalsHost } from '../../utils/validation';
 
@@ -108,7 +108,12 @@ export class AegovOtp {
   private errorId: string = '';
   private hintId: string = '';
 
+  /** The value the field started with — what a form reset restores, like a native control's default value. */
+  private _defaultValue: string = '';
+
   componentWillLoad() {
+    if (this.isDisabled) syncHostDisabled(this.el, true);
+    this._defaultValue = this.value ?? '';
     warnIfInvalidEnumProp(this.appearance, OTP_VARIANTS, 'continuous', ctx('appearance'));
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     if (!this.fieldId) {
@@ -139,10 +144,32 @@ export class AegovOtp {
 
   // ── FormAssociated lifecycle ──
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
-  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formDisabledCallback(disabled: boolean) { this.formDisabled = disabled; }
+
+  /**
+   * True while an ancestor `<fieldset disabled>` or the host's `disabled`
+   * attribute disables the field. Kept apart from `isDisabled` so that
+   * re-enabling the fieldset doesn't clear the field's own setting.
+   */
+  @State() private formDisabled: boolean = false;
+
+  /** Disabled by its own `isDisabled` or by the form. */
+  private get disabled(): boolean {
+    return this.isDisabled || this.formDisabled;
+  }
+
+  /** Leave FormData and constraint validation while disabled, like a native control. */
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    syncHostDisabled(this.el, this.isDisabled);
+  }
+
   formResetCallback() {
-    this.value = '';
-    this.distributeValue('');
+    this.value = this._defaultValue;
+    this.distributeValue(this._defaultValue);
+    this.errorMessage = '';
+    this.isInvalid = false;
+    this.customValidityMessage = '';
     this.runValidationSync();
   }
   formStateRestoreCallback(state: string | File | FormData | null) {
@@ -181,6 +208,11 @@ export class AegovOtp {
         this.groupLabelId = labelEl.fieldId;
       }
     }
+  }
+
+  /** Constraint props (isRequired, length, pattern, …) changed after load must reach the form too. */
+  componentDidRender() {
+    this.runValidationSync();
   }
 
   @Watch('extraClass')
@@ -249,6 +281,8 @@ export class AegovOtp {
   private customValidityMessage = '';
 
   private computeValidity(): { validity: AegovValidityState; message: string } {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return { validity: synthesizeValidity({}), message: '' };
     return withCustomError(this.computeConstraintValidity(), this.customValidityMessage);
   }
 
@@ -425,8 +459,10 @@ export class AegovOtp {
 
   /** Blur on the entire OTP group — gates aria-live. Only fires when focus leaves the group entirely. */
   private handleBlurGroup = (e: FocusEvent) => {
-    // If focus is moving to another cell within this component, skip
-    if (this.el.contains(e.relatedTarget as Node)) return;
+    // If focus is moving to another cell within this component, skip. The cells
+    // live in the shadow root, which the host's contains() does not search.
+    const next = e.relatedTarget as Node | null;
+    if (next && (this.el.contains(next) || this.el.shadowRoot?.contains(next))) return;
     this.hasBlurredOnce = true;
     this.runAndEmitValidation('blur');
   };
@@ -488,7 +524,7 @@ export class AegovOtp {
                 class={`otp__cell otp__cell--${size}`}
                 type="text"
                 inputMode={this.isAlphanumeric ? 'text' : 'numeric'}
-                disabled={this.isDisabled}
+                disabled={this.disabled}
                 autocomplete={index === 0 ? 'one-time-code' : 'off'}
                 aria-label={rtl
                   ? `حرف ${index + 1} من ${this.length}`
