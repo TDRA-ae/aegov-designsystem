@@ -10,6 +10,13 @@ describe('aegov-accordion-item (e2e)', () => {
           <aegov-accordion-item heading="Title">Body</aegov-accordion-item>
         </aegov-accordion>
       `);
+      // The accordion hands its size to the item after the first render, and the icon
+      // animates to its new size (transition-all), so measure only once the size class is
+      // on the item and the icon has finished animating.
+      await page.waitForFunction((size: string) => {
+        const icon = document.querySelector(`aegov-accordion-item .accordion-item--${size} .accordion-item__icon`);
+        return icon && icon.getAnimations().length === 0;
+      }, {}, size);
       widths[size] = await page.evaluate(() => {
         const icon = document.querySelector('aegov-accordion-item .accordion-item__icon');
         return icon.getBoundingClientRect().width;
