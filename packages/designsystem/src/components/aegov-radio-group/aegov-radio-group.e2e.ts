@@ -76,15 +76,19 @@ describe('aegov-radio-group (e2e)', () => {
         <aegov-radio label="B" value="b"></aegov-radio>
       </aegov-radio-group>
     `);
-    // FACE owns submission: name lands on each child host, never the shadow-internal input.
+    // FACE owns submission: name lands on each child host, which ElementInternals submits.
     const radios = await page.findAll('aegov-radio-group aegov-radio');
     expect(radios.length).toBe(2);
     for (const r of radios) {
       expect(r.getAttribute('name')).toBe('grp1');
     }
+    // The shadow-internal input also carries the name: without one the browser never
+    // reports valueMissing, so a required radio could never be missing. Each input sits
+    // in its own shadow root, so this joins no other radio and adds nothing to FormData.
     const inputs = await page.findAll('aegov-radio-group aegov-radio >>> input');
+    expect(inputs.length).toBe(2);
     for (const i of inputs) {
-      expect(i.getAttribute('name')).toBeNull();
+      expect(i.getAttribute('name')).toBe('grp1');
     }
   });
 

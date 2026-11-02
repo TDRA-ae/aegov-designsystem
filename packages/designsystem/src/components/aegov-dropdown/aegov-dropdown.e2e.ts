@@ -1,4 +1,15 @@
 import { newE2EPage } from '@stencil/core/testing';
+import type { E2EPage } from '@stencil/core/testing';
+
+/**
+ * The dropdown moves focus in a setTimeout after opening or a key press, which
+ * page.waitForChanges() does not wait for. Waits until `id` has focus (or 2s pass)
+ * and returns the focused id, so a failure still shows what was focused instead.
+ */
+async function focusedIdOnceSettled(page: E2EPage, id: string): Promise<string | undefined> {
+  await page.waitForFunction((id: string) => document.activeElement?.id === id, { timeout: 2000 }, id).catch(() => undefined);
+  return page.evaluate(() => document.activeElement?.id);
+}
 
 describe('aegov-dropdown (e2e)', () => {
   it('renders trigger wrapper with ARIA', async () => {
@@ -257,16 +268,16 @@ describe('aegov-dropdown (e2e)', () => {
     await triggerBtn.click();
     await page.waitForChanges();
 
+    const expected = ['new-application', 'visa-services', 'check-status', 'new-application'];
     const sequence: (string | undefined)[] = [];
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < expected.length; i++) {
       await page.keyboard.press(i === 0 ? 'Tab' : 'ArrowDown');
-      await page.waitForChanges();
-      sequence.push(await page.evaluate(() => document.activeElement?.id));
+      sequence.push(await focusedIdOnceSettled(page, expected[i]));
     }
     // Before the fix, the parent's own focusableElements list was polluted with
     // the nested dropdown's (closed, hidden) menu items via a plain
     // querySelectorAll, corrupting currentFocusIndex-based navigation.
-    expect(sequence).toEqual(['new-application', 'visa-services', 'check-status', 'new-application']);
+    expect(sequence).toEqual(expected);
   });
 
   it('ArrowRight opens a nested submenu to its first item; ArrowLeft closes it and returns focus to its trigger', async () => {
@@ -276,16 +287,15 @@ describe('aegov-dropdown (e2e)', () => {
     await triggerBtn.click();
     await page.waitForChanges();
     await page.keyboard.press('Tab');
+    expect(await focusedIdOnceSettled(page, 'new-application')).toBe('new-application');
     await page.keyboard.press('ArrowDown');
-    await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement?.id)).toBe('visa-services');
+    expect(await focusedIdOnceSettled(page, 'visa-services')).toBe('visa-services');
 
     await page.keyboard.press('ArrowRight');
-    await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement?.id)).toBe('visit-visa');
+    expect(await focusedIdOnceSettled(page, 'visit-visa')).toBe('visit-visa');
 
     await page.keyboard.press('ArrowLeft');
-    await page.waitForChanges();
+    await focusedIdOnceSettled(page, 'visa-services');
     const state = await page.evaluate(() => ({
       activeId: document.activeElement?.id,
       openMenus: document.querySelectorAll('.aegov-dropdown-portal .aegov-dropdown').length,
@@ -301,13 +311,14 @@ describe('aegov-dropdown (e2e)', () => {
     await triggerBtn.click();
     await page.waitForChanges();
     await page.keyboard.press('Tab');
+    expect(await focusedIdOnceSettled(page, 'new-application')).toBe('new-application');
     await page.keyboard.press('ArrowDown');
+    expect(await focusedIdOnceSettled(page, 'visa-services')).toBe('visa-services');
     await page.keyboard.press('ArrowRight');
-    await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement?.id)).toBe('visit-visa');
+    expect(await focusedIdOnceSettled(page, 'visit-visa')).toBe('visit-visa');
 
     await page.keyboard.press('Escape');
-    await page.waitForChanges();
+    await focusedIdOnceSettled(page, 'visa-services');
     const state = await page.evaluate(() => ({
       activeId: document.activeElement?.id,
       openMenus: document.querySelectorAll('.aegov-dropdown-portal .aegov-dropdown').length,

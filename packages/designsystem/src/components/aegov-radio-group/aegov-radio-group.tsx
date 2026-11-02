@@ -121,6 +121,8 @@ export class AegovRadioGroup {
   }
 
   private computeValidity() {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.isDisabled) return { ...this.computeConstraintValidity(), validity: synthesizeValidity({}), message: '' };
     return withCustomError(this.computeConstraintValidity(), this.customValidityMessage);
   }
 

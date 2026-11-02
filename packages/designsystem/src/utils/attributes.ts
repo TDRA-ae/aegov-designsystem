@@ -24,14 +24,40 @@ export function getPassThroughAttributes(
   if (!el) return result;
 
   Array.from(el.attributes).forEach(attr => {
-    if (
-      attr.name.startsWith('aria-') ||
-      attr.name.startsWith('data-') ||
-      (additionalAttrs && additionalAttrs.has(attr.name))
-    ) {
+    if (isPassThroughAttribute(attr.name, additionalAttrs)) {
       result[attr.name] = BOOLEAN_PASS_THROUGH_ATTRS.has(attr.name) ? true : attr.value;
     }
   });
 
   return result;
+}
+
+function isPassThroughAttribute(name: string, additionalAttrs?: Set<string>): boolean {
+  return name.startsWith('aria-') || name.startsWith('data-') || !!additionalAttrs?.has(name);
+}
+
+/**
+ * Call `onChange` whenever a pass-through attribute (see
+ * `getPassThroughAttributes`) is added, changed or removed on the host.
+ *
+ * Stencil only re-renders on prop/state changes, so without this an attribute
+ * set after load — `pattern`, `minlength`, `max`, `aria-label`, … — never
+ * reaches the inner native control, and its validity never changes. Pass
+ * `() => forceUpdate(this)` and disconnect the returned observer in
+ * `disconnectedCallback`. Returns null where MutationObserver is unavailable
+ * (spec mocks).
+ */
+export function observePassThroughAttributes(
+  el: HTMLElement,
+  additionalAttrs: Set<string> | undefined,
+  onChange: () => void,
+): MutationObserver | null {
+  if (typeof MutationObserver === 'undefined') return null;
+  const observer = new MutationObserver(mutations => {
+    if (mutations.some(({ attributeName }) => !!attributeName && isPassThroughAttribute(attributeName, additionalAttrs))) {
+      onChange();
+    }
+  });
+  observer.observe(el, { attributes: true });
+  return observer;
 }

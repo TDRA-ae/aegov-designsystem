@@ -108,6 +108,19 @@ describe('aegov-input (e2e)', () => {
     expect(input.getAttribute('data-foo')).toBe('bar');
   });
 
+  it('re-forwards pass-through attributes changed after load', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-input aria-label="email"></aegov-input>');
+    await page.$eval('aegov-input', (el: HTMLElement) => {
+      el.setAttribute('aria-label', 'work email');
+      el.setAttribute('minlength', '3');
+    });
+    await page.waitForChanges();
+    const input = await page.find('aegov-input >>> input');
+    expect(input.getAttribute('aria-label')).toBe('work email');
+    expect(input.getAttribute('minlength')).toBe('3');
+  });
+
   it('reflects fieldId to native input id', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-input field-id="x1"></aegov-input>');

@@ -5,7 +5,7 @@ import { Component, Element, Prop, h } from '@stencil/core';
  * @description Content panel for a single tab. Managed by a parent aegov-tabs component.
  * Shows its content when its tab-id matches the active tab, hides otherwise.
  *
- * @slot default - The panel content
+ * @slot - The panel content
  *
  * @example
  * <aegov-tab-panel tab-id="profile">

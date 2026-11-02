@@ -1,10 +1,10 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method, Listen } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method, Listen, forceUpdate } from '@stencil/core';
 import { INPUT_TYPES, INPUT_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
   InputType, InputSize, FormVariant,
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
-import { getPassThroughAttributes } from '../../utils/attributes';
+import { getPassThroughAttributes, observePassThroughAttributes } from '../../utils/attributes';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -12,7 +12,7 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity, syncHostDisabled,
 } from '../../utils/validation';
 import { isRtl } from '../../utils/rtl';
 import { afterDispatchUnlessPrevented, getOwningForm, implicitlySubmit } from '../../utils/form-submit';
@@ -168,7 +168,12 @@ export class AegovInput {
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant')); }
 
+  /** The value the field started with — what a form reset restores, like a native control's default value. */
+  private _defaultValue: string = '';
+
   componentWillLoad() {
+    if (this.isDisabled) syncHostDisabled(this.el, true);
+    this._defaultValue = this.value ?? '';
     warnIfInvalidEnumProp(this.type, INPUT_TYPES, 'text', ctx('type'));
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
@@ -184,7 +189,7 @@ export class AegovInput {
     if (typeof host.attachInternals === 'function') {
       try {
         this.internals = host.attachInternals();
-        this.internals.setFormValue(this.value || null);
+        this.internals.setFormValue(this.value ?? '');
       } catch {
         this.internals = null;
       }
@@ -192,18 +197,36 @@ export class AegovInput {
   }
 
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
-  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formDisabledCallback(disabled: boolean) { this.formDisabled = disabled; }
+
+  /**
+   * True while an ancestor `<fieldset disabled>` or the host's `disabled`
+   * attribute disables the field. Kept apart from `isDisabled` so that
+   * re-enabling the fieldset doesn't clear the field's own setting.
+   */
+  @State() private formDisabled: boolean = false;
+
+  /** Disabled by its own `isDisabled` or by the form. */
+  private get disabled(): boolean {
+    return this.isDisabled || this.formDisabled;
+  }
+
+  /** Leave FormData and constraint validation while disabled, like a native control. */
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    syncHostDisabled(this.el, this.isDisabled);
+  }
+
   formResetCallback() {
-    this.value = '';
+    this.value = this._defaultValue;
     this.errorMessage = '';
     this.isInvalid = false;
-    if (this.nativeRef) this.nativeRef.setCustomValidity('');
-    this.internals?.setFormValue(null);
-    if (this.isRequired) {
-      setInternalsValidity(this.internals, synthesizeValidity({ valueMissing: true }), 'Please fill in this field');
-    } else {
-      setInternalsValidity(this.internals, { valid: true }, '');
+    if (this.nativeRef) {
+      this.nativeRef.value = this._defaultValue;
+      this.nativeRef.setCustomValidity('');
     }
+    this.internals?.setFormValue(this.value ?? '');
+    this.syncInternalsValidity();
   }
 
   /**
@@ -216,7 +239,7 @@ export class AegovInput {
     if (this.nativeRef && this.nativeRef.value !== (this.value ?? '')) {
       this.nativeRef.value = this.value ?? '';
     }
-    this.internals?.setFormValue(this.value || null);
+    this.internals?.setFormValue(this.value ?? '');
     this.syncInternalsValidity();
   }
 
@@ -227,8 +250,16 @@ export class AegovInput {
   }
 
   componentDidLoad() {
-    this.syncInternalsValidity();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
+  }
+
+  /**
+   * The inner input's constraints (required, type, pattern, min/max, …) only
+   * change once it re-renders, so validity is synced after every render rather
+   * than in a watcher, which would read the old ones.
+   */
+  componentDidRender() {
+    this.syncInternalsValidity();
   }
 
   @Watch('extraClass')
@@ -243,6 +274,7 @@ export class AegovInput {
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
     if (trigger === 'submit') this.hasBlurredOnce = true;
+    this.syncInternalsValidity();
     const validity = this.readValidity();
     const message = !validity.valid
       ? (this.errorMessage || this.nativeRef?.validationMessage || '')
@@ -281,6 +313,8 @@ export class AegovInput {
 
   /** Read native validity defensively — returns VALID_STATE in environments without ValidityState (e.g. spec mocks). */
   private readValidity() {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return VALID_STATE;
     const v = this.nativeRef?.validity;
     return v ? fromNativeValidity(v) : VALID_STATE;
   }
@@ -289,7 +323,7 @@ export class AegovInput {
   private syncInternalsValidity(): void {
     if (!this.internals || !this.nativeRef) return;
     const v = this.nativeRef.validity;
-    if (v.valid) {
+    if (this.disabled || v.valid) {
       setInternalsValidity(this.internals, { valid: true }, '');
     } else {
       const message = this.errorMessage || this.nativeRef.validationMessage || '';
@@ -297,8 +331,15 @@ export class AegovInput {
     }
   }
 
+  private attrObserver: MutationObserver | null = null;
+
+  connectedCallback() {
+    this.attrObserver = observePassThroughAttributes(this.el, AegovInput.PASS_THROUGH_ATTRS, () => forceUpdate(this));
+  }
+
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
+    this.attrObserver?.disconnect();
   }
 
   @Watch('type')
@@ -380,7 +421,7 @@ export class AegovInput {
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
-    this.internals?.setFormValue(this.value || null);
+    this.internals?.setFormValue(this.value ?? '');
     this.syncInternalsValidity();
     this.aegovInputChange.emit({ value: this.value, event });
     this.emitValidate('change');
@@ -389,7 +430,7 @@ export class AegovInput {
   private handleInput = (event: Event) => {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
-    this.internals?.setFormValue(this.value || null);
+    this.internals?.setFormValue(this.value ?? '');
     this.syncInternalsValidity();
     this.aegovInputValue.emit({ value: this.value, event });
     this.emitValidate('input');
@@ -477,7 +518,7 @@ export class AegovInput {
         type="button"
         class={`input__revealable ${sizeClasses[this._resolvedSize]}`}
         onClick={this.handleRevealToggle}
-        disabled={this.isDisabled}
+        disabled={this.disabled}
         aria-label={(() => { const t = isRtl(this.el) ? STRINGS.ar : STRINGS.en; return this.passwordVisible ? t.hidePassword : t.showPassword; })()}
       >
         {this.passwordVisible ? (
@@ -573,7 +614,7 @@ export class AegovInput {
         id={this.fieldId}
         type={this.resolvedType}
         class={this.getInputClasses(hasIconStart, hasIconEnd, hasMultiIconEnd)}
-        disabled={this.isDisabled}
+        disabled={this.disabled}
         readOnly={this.isReadonly}
         placeholder={this.placeholder}
         value={this.value}

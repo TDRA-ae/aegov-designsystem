@@ -23,7 +23,7 @@ const STRINGS = {
  * with their corresponding panels via matching tab-id attributes.
  *
  * @slot tabs   - Place aegov-tab elements here (use slot="tabs" on each)
- * @slot default - Place aegov-tab-panel elements here (no slot attribute needed)
+ * @slot - Place aegov-tab-panel elements here (no slot attribute needed)
  *
  * @example
  * <aegov-tabs default-open="overview" variant="simple">

@@ -4,4 +4,4 @@
 
 export { DIRECTIVES } from './lib/stencil-generated';
 export * from './lib/stencil-generated/components';
-export { DesignSystemModule, provideDesignSystem } from './lib/designsystem.module';
+export { DesignSystemModule } from './lib/designsystem.module';
