@@ -1,24 +1,17 @@
-import { APP_INITIALIZER, EnvironmentProviders, makeEnvironmentProviders, NgModule } from '@angular/core';
-import { defineCustomElements } from '@aegov/designsystem/loader';
+import { NgModule } from '@angular/core';
 import { DIRECTIVES } from './stencil-generated';
 
-function initializeDesignSystem() {
-  return () => defineCustomElements();
-}
-
-const APP_INIT_PROVIDER = {
-  provide: APP_INITIALIZER,
-  useFactory: initializeDesignSystem,
-  multi: true,
-};
-
+/**
+ * Re-exports every wrapper. Has no providers, so importing it into a standalone
+ * component adds no code beyond the wrappers. Each wrapper registers its own element.
+ *
+ * Apps that want the global setup add `provideDesignSystem()` from
+ * `@aegov/designsystem-angular/provider` to their providers. This entry point never
+ * references it: a bundler emits the lazy loader's ~70 chunk files for any module it
+ * includes that imports the loader, even when the app never calls the function.
+ */
 @NgModule({
   imports: [...DIRECTIVES],
   exports: [...DIRECTIVES],
-  providers: [APP_INIT_PROVIDER],
 })
 export class DesignSystemModule {}
-
-export function provideDesignSystem(): EnvironmentProviders {
-  return makeEnvironmentProviders([APP_INIT_PROVIDER]);
-}

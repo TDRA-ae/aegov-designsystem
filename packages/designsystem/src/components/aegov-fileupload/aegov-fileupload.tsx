@@ -12,7 +12,7 @@ import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import {
   buildValidationDetail, synthesizeValidity,
-  withCustomError, setInternalsValidity, composeDescribedBy,
+  withCustomError, setInternalsValidity, syncHostDisabled, composeDescribedBy,
 } from '../../utils/validation';
 import type { InternalsHost } from '../../utils/validation';
 import { isRtl } from '../../utils/rtl';
@@ -203,6 +203,7 @@ export class AegovFileupload {
   }
 
   componentWillLoad() {
+    if (this.isDisabled) syncHostDisabled(this.el, true);
     warnIfInvalidEnumProp(this.appearance, FILEUPLOAD_VARIANTS, 'default', ctx('appearance'));
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, FILEUPLOAD_SIZES, 'base', v => {
@@ -234,10 +235,32 @@ export class AegovFileupload {
 
   // ── FormAssociated lifecycle ──
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
-  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formDisabledCallback(disabled: boolean) { this.formDisabled = disabled; }
+
+  /**
+   * True while an ancestor `<fieldset disabled>` or the host's `disabled`
+   * attribute disables the field. Kept apart from `isDisabled` so that
+   * re-enabling the fieldset doesn't clear the field's own setting.
+   */
+  @State() private formDisabled: boolean = false;
+
+  /** Disabled by its own `isDisabled` or by the form. */
+  private get disabled(): boolean {
+    return this.isDisabled || this.formDisabled;
+  }
+
+  /** Leave FormData and constraint validation while disabled, like a native control. */
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    syncHostDisabled(this.el, this.isDisabled);
+  }
+
   formResetCallback() {
     this.selectedFiles = [];
     this.clearRejection();
+    this.errorMessage = '';
+    this.isInvalid = false;
+    this.customValidityMessage = '';
     if (this.inputEl) this.inputEl.value = '';
     this.runValidationSync();
   }
@@ -336,6 +359,8 @@ export class AegovFileupload {
   }
 
   private computeValidity(transientFlags: Partial<AegovValidityState> = {}): { validity: AegovValidityState; message: string } {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return { validity: synthesizeValidity({}), message: '' };
     return withCustomError(this.computeConstraintValidity(transientFlags), this.customValidityMessage);
   }
 
@@ -388,7 +413,7 @@ export class AegovFileupload {
   }
 
   private triggerFileDialog() {
-    if (!this.isDisabled && this.inputEl) {
+    if (!this.disabled && this.inputEl) {
       this.inputEl.click();
     }
   }
@@ -511,6 +536,8 @@ export class AegovFileupload {
    * `removeFile()`) lands correctly every time.
    */
   componentDidRender() {
+    // Constraint props (isRequired, …) changed after load must reach the form too.
+    this.runValidationSync();
     if (!this.pendingFocusAfterRemoval) return;
     const { removedIndex, remainingCount } = this.pendingFocusAfterRemoval;
     this.pendingFocusAfterRemoval = null;
@@ -589,7 +616,7 @@ export class AegovFileupload {
   private handleDragOver = (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!this.isDisabled) {
+    if (!this.disabled) {
       this.isDragOver = true;
     }
   };
@@ -604,7 +631,7 @@ export class AegovFileupload {
     e.preventDefault();
     e.stopPropagation();
     this.isDragOver = false;
-    if (this.isDisabled || !e.dataTransfer?.files) return;
+    if (this.disabled || !e.dataTransfer?.files) return;
 
     const files = Array.from(e.dataTransfer.files);
     const filesToProcess = this.isMultiple ? files : [files[0]];
@@ -703,6 +730,7 @@ export class AegovFileupload {
   private renderDefault(passThroughAttrs: Record<string, string | boolean>, showError: boolean, showHint: boolean) {
     const helperText = this.getHelperText();
     const describedBy = composeDescribedBy(
+      this.el.getAttribute('aria-describedby'),
       helperText ? `${this.fieldId}-helper` : null,
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
@@ -717,7 +745,7 @@ export class AegovFileupload {
           name={this.name}
           accept={this.accept}
           multiple={this.isMultiple}
-          disabled={this.isDisabled}
+          disabled={this.disabled}
           required={this.isRequired}
           class="fileupload__native-input"
           onChange={this.handleFileChange}
@@ -737,6 +765,7 @@ export class AegovFileupload {
 
   private renderButton(passThroughAttrs: Record<string, string | boolean>, showError: boolean, showHint: boolean) {
     const describedBy = composeDescribedBy(
+      this.el.getAttribute('aria-describedby'),
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );
@@ -755,7 +784,7 @@ export class AegovFileupload {
           name={this.name}
           accept={this.accept}
           multiple={this.isMultiple}
-          disabled={this.isDisabled}
+          disabled={this.disabled}
           required={this.isRequired}
           class="fileupload__hidden-input"
           onChange={this.handleFileChange}
@@ -768,7 +797,7 @@ export class AegovFileupload {
           variant={this.variant}
           size={this._resolvedSize}
           appearance="solid"
-          is-disabled={this.isDisabled}
+          is-disabled={this.disabled}
           onClick={() => this.triggerFileDialog()}
         >
           {this.renderBtnUploadIcon()}
@@ -785,6 +814,7 @@ export class AegovFileupload {
       this.isDragOver ? 'fileupload__dropzone--dragover' : '',
     ].filter(Boolean).join(' ');
     const describedBy = composeDescribedBy(
+      this.el.getAttribute('aria-describedby'),
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );
@@ -798,7 +828,7 @@ export class AegovFileupload {
         name={this.name}
         accept={this.accept}
         multiple={this.isMultiple}
-        disabled={this.isDisabled}
+        disabled={this.disabled}
         required={this.isRequired}
         class="fileupload__hidden-input"
         onChange={this.handleFileChange}
@@ -825,7 +855,7 @@ export class AegovFileupload {
             variant={this.variant}
             size={this._resolvedSize}
             appearance="outline"
-            is-disabled={this.isDisabled}
+            is-disabled={this.disabled}
             onClick={() => this.triggerFileDialog()}
           >
             {this.getDefaultButtonText()}
@@ -844,7 +874,7 @@ export class AegovFileupload {
       `fileupload--${appearance}`,
       `fileupload--${this._resolvedSize}`,
       `fileupload-variant-${variant}`,
-      this.isDisabled ? 'fileupload--disabled' : '',
+      this.disabled ? 'fileupload--disabled' : '',
     ].filter(Boolean).join(' ');
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovFileupload.PASS_THROUGH_ATTRS);
     delete passThroughAttrs['aria-invalid'];

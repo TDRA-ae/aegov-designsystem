@@ -30,6 +30,61 @@ describe('aegov-range', () => {
     expect(input.getAttribute('value')).toBe('40');
   });
 
+  describe('value sanitization (like a native range input)', () => {
+    const cases: Array<[string, number]> = [
+      ['min="10" value="5"', 10],
+      ['max="50" value="80"', 50],
+      ['step="10" value="23"', 20],
+      ['step="10" value="25"', 30],
+      ['min="0" max="10" step="3" value="11"', 9],
+      ['min="50" max="20" value="30"', 50],
+      ['min="1" max="2" step="0.5" value="1.3"', 1.5],
+      ['min="0.1" max="1" step="0.3" value="0.95"', 1],
+      ['value="abc"', 50],
+    ];
+    for (const [attrs, expected] of cases) {
+      it(`<aegov-range ${attrs}> → ${expected}`, async () => {
+        const page = await newSpecPage({ components: [AegovRange], html: `<aegov-range ${attrs}></aegov-range>` });
+        expect(page.rootInstance.value).toBe(expected);
+        expect(q(page.root, 'input.range__input').getAttribute('aria-valuenow')).toBe(String(expected));
+      });
+    }
+
+    it('sanitizes dual-mode low/high values', async () => {
+      const page = await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range mode="range" step="5" value-low="-5" value-high="203"></aegov-range>`,
+      });
+      expect(page.rootInstance.valueLow).toBe(0);
+      expect(page.rootInstance.valueHigh).toBe(100);
+    });
+
+    it('re-sanitizes when value, min, max or step change, without emitting events', async () => {
+      const page = await newSpecPage({ components: [AegovRange], html: `<aegov-range value="42"></aegov-range>` });
+      const changeSpy = jest.fn();
+      const inputSpy = jest.fn();
+      page.root.addEventListener('aegovRangeChange', changeSpy);
+      page.root.addEventListener('aegovRangeInput', inputSpy);
+      page.root.value = 500;
+      await page.waitForChanges();
+      expect(page.rootInstance.value).toBe(100);
+      page.root.value = 42;
+      page.root.min = 60;
+      await page.waitForChanges();
+      expect(page.rootInstance.value).toBe(60);
+      page.root.min = 0;
+      page.root.max = 40;
+      await page.waitForChanges();
+      expect(page.rootInstance.value).toBe(40);
+      page.root.max = 100;
+      page.root.step = 25;
+      await page.waitForChanges();
+      expect(page.rootInstance.value).toBe(50);
+      expect(changeSpy).not.toHaveBeenCalled();
+      expect(inputSpy).not.toHaveBeenCalled();
+    });
+  });
+
   it('dual-thumb mode renders two native inputs (low + high)', async () => {
     const page = await newSpecPage({
       components: [AegovRange],

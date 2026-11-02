@@ -14,7 +14,7 @@ import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
   composeDescribedBy, buildValidationDetail, synthesizeValidity,
-  withCustomError, setInternalsValidity,
+  withCustomError, setInternalsValidity, syncHostDisabled,
 } from '../../utils/validation';
 import type { InternalsHost } from '../../utils/validation';
 import { isRtl } from '../../utils/rtl';
@@ -156,7 +156,12 @@ export class AegovSelect {
   private errorId: string = '';
   private hintId: string = '';
 
+  /** The value the field started with — what a form reset restores, like a native control's default value. */
+  private _defaultValue: string = '';
+
   componentWillLoad() {
+    if (this.isDisabled) syncHostDisabled(this.el, true);
+    this._defaultValue = this.value ?? '';
     warnIfInvalidEnumProp(this.appearance, SELECT_VARIANTS, 'default', ctx('appearance'));
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, SELECT_SIZES, 'base', v => {
@@ -190,11 +195,35 @@ export class AegovSelect {
 
   // ── FormAssociated lifecycle (listbox appearance uses ElementInternals) ──
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
-  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formDisabledCallback(disabled: boolean) { this.formDisabled = disabled; }
+
+  /**
+   * True while an ancestor `<fieldset disabled>` or the host's `disabled`
+   * attribute disables the field. Kept apart from `isDisabled` so that
+   * re-enabling the fieldset doesn't clear the field's own setting.
+   */
+  @State() private formDisabled: boolean = false;
+
+  /** Disabled by its own `isDisabled` or by the form. */
+  private get disabled(): boolean {
+    return this.isDisabled || this.formDisabled;
+  }
+
+  /** Leave FormData and constraint validation while disabled, like a native control. */
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    syncHostDisabled(this.el, this.isDisabled);
+  }
+
   formResetCallback() {
-    this.value = '';
+    this.value = this._defaultValue;
     this.errorMessage = '';
     this.isInvalid = false;
+    this.customValidityMessage = '';
+    if (this.nativeSelectEl) {
+      this.nativeSelectEl.value = this._defaultValue;
+      this.nativeSelectEl.setCustomValidity('');
+    }
     this.runValidationSync();
   }
 
@@ -230,6 +259,7 @@ export class AegovSelect {
       }
     } else if (this.nativeSelectEl && typeof this.nativeSelectEl.setCustomValidity === 'function') {
       this.nativeSelectEl.setCustomValidity(message);
+      this.runValidationSync();
     }
   }
 
@@ -241,6 +271,8 @@ export class AegovSelect {
   private customValidityMessage = '';
 
   private computeListboxValidity(): { validity: AegovValidityState; message: string } {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return { validity: synthesizeValidity({}), message: '' };
     const filled = this.isMultiple ? this.selectedValues.length > 0 : !!this.value;
     const result = this.isRequired && !filled
       ? { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required' }
@@ -249,6 +281,8 @@ export class AegovSelect {
   }
 
   private readValidity(): AegovValidityState {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return VALID_STATE;
     if (this.useListbox) {
       return this.computeListboxValidity().validity;
     }
@@ -267,13 +301,13 @@ export class AegovSelect {
             for (const v of this.selectedValues) if (this.name) fd.append(this.name, v);
             this.internals.setFormValue(fd);
           } else {
-            this.internals.setFormValue(this.value || null);
+            this.internals.setFormValue(this.value ?? '');
           }
         }
         // Sync native <select> validity to ElementInternals so form.checkValidity() sees required etc.
         if (this.internals && this.nativeSelectEl) {
           const v = this.nativeSelectEl.validity;
-          if (v.valid) {
+          if (this.disabled || v.valid) {
             setInternalsValidity(this.internals, { valid: true }, '');
           } else {
             const message = this.errorMessage || this.nativeSelectEl.validationMessage || '';
@@ -358,6 +392,14 @@ export class AegovSelect {
   @Watch('extraClass')
   onExtraClassChange() {
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
+  }
+
+  /**
+   * Constraint props (isRequired, isMultiple, appearance) changed after load
+   * must reach the form too; the native select only has them once it re-renders.
+   */
+  componentDidRender() {
+    this.runValidationSync();
   }
 
   componentDidUpdate() {
@@ -492,7 +534,7 @@ export class AegovSelect {
   // --- Listbox handlers ---
 
   private toggleDropdown = () => {
-    if (this.isDisabled) return;
+    if (this.disabled) return;
     if (this.isOpen) {
       this.closeDropdown();
     } else {
@@ -773,7 +815,7 @@ export class AegovSelect {
     classes.push(sizeClasses[this._resolvedSize]);
     const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
     classes.push(`select-variant-${variant}`);
-    if (this.isDisabled) classes.push('select--disabled');
+    if (this.disabled) classes.push('select--disabled');
     if (this.isOpen) classes.push('select--open');
     if (!this.displayText) classes.push('select--placeholder');
     if (this.extraClass) classes.push(this.extraClass);
@@ -804,7 +846,7 @@ export class AegovSelect {
             ref={(el) => this.nativeSelectEl = el}
             id={this.fieldId}
             class={`aegov-select select-variant-${variant} ${sizeClasses[this._resolvedSize]}${this.extraClass ? ` ${this.extraClass}` : ''}`}
-            disabled={this.isDisabled}
+            disabled={this.disabled}
             name={this.name}
             required={this.isRequired}
             aria-invalid={this.isInvalid ? 'true' : null}
@@ -914,7 +956,7 @@ export class AegovSelect {
                 this.emitValidate('blur');
               }
             }}
-            disabled={this.isDisabled}
+            disabled={this.disabled}
             role="combobox"
             aria-expanded={this.isOpen ? 'true' : 'false'}
             aria-haspopup="listbox"
@@ -928,7 +970,7 @@ export class AegovSelect {
               {this.displayText || this.placeholder || ''}
             </span>
             <span class="select__actions">
-              {this.isClearable && this.selectedValues.length > 0 && !this.isDisabled && (
+              {this.isClearable && this.selectedValues.length > 0 && !this.disabled && (
                 <button
                   type="button"
                   class="select__clear"

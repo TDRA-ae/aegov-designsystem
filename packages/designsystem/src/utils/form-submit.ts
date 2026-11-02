@@ -36,22 +36,81 @@ export function getOwningForm(host: HTMLElement, internals: ElementInternals | n
 }
 
 /**
+ * A form exposes its named controls as properties: a control with
+ * `name="reset"` or `id="reset"` makes `form.reset` that control, not the
+ * method (likewise `requestSubmit`, `elements`, `appendChild`, …). Native
+ * buttons are immune because the browser runs the algorithm internally, so
+ * look the method up on the prototype whenever the property has been shadowed.
+ */
+function formMethod<K extends 'reset' | 'requestSubmit'>(form: HTMLFormElement, name: K): HTMLFormElement[K] | undefined {
+  const own = (form as unknown as Record<string, unknown>)[name];
+  if (typeof own === 'function') return own as HTMLFormElement[K];
+  const proto = typeof HTMLFormElement !== 'undefined' ? HTMLFormElement.prototype[name] : undefined;
+  return typeof proto === 'function' ? proto : undefined;
+}
+
+/** The form's controls, even when a control is named "elements". */
+function formControls(form: HTMLFormElement): Element[] {
+  const getter = typeof HTMLFormElement !== 'undefined'
+    ? Object.getOwnPropertyDescriptor(HTMLFormElement.prototype, 'elements')?.get
+    : undefined;
+  return Array.from((getter ? getter.call(form) : form.elements) as ArrayLike<Element>);
+}
+
+/**
+ * Attributes of a submit button that override the form's own submission
+ * settings for that submission (HTML "form submission attributes").
+ */
+const SUBMITTER_OVERRIDE_ATTRS = ['formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget'];
+
+/** A host that submits a form in place of a native submit button (aegov-button). */
+export type FormSubmitter = HTMLElement & { name?: string; value?: string };
+
+/**
  * Submit a form the way a native submit button does: constraint validation
  * runs, a cancelable `submit` event fires, and only then is the form submitted.
+ *
+ * With a `submitter`, the submission is made as if it were the form's submit
+ * button: `event.submitter` is set, its `name`/`value` join the form data and
+ * its `formaction`/`formenctype`/`formmethod`/`formnovalidate`/`formtarget`
+ * attributes apply. `requestSubmit()` only accepts a native submit button, so
+ * — as Shoelace / Web Awesome do — a hidden native `<button type="submit">`
+ * carrying those values stands in for it: appended to the form, passed to
+ * `requestSubmit()`, and removed again whatever happens. `requestSubmit()` is
+ * synchronous (validation, the `submit` event and building the form data all
+ * happen inside it), so the stand-in is in place for all of it.
  */
-export function submitForm(form: HTMLFormElement): void {
-  if (typeof form.requestSubmit === 'function') {
-    form.requestSubmit();
+export function submitForm(form: HTMLFormElement, submitter?: FormSubmitter): void {
+  const requestSubmit = formMethod(form, 'requestSubmit');
+  if (requestSubmit && !submitter) {
+    requestSubmit.call(form);
     return;
   }
-  // Older engines without requestSubmit(): a temporary native submit button
-  // gets the same validation + submit event semantics.
-  const temp = document.createElement('button');
-  temp.type = 'submit';
-  temp.hidden = true;
-  form.appendChild(temp);
-  temp.click();
-  temp.remove();
+  // Also the path for older engines without requestSubmit(): clicking a
+  // native submit button gets the same validation + submit event semantics.
+  const proxy = document.createElement('button');
+  proxy.type = 'submit';
+  proxy.hidden = true;
+  if (submitter) {
+    if (submitter.name) proxy.name = submitter.name;
+    if (submitter.value !== undefined && submitter.value !== null) proxy.value = String(submitter.value);
+    for (const attr of SUBMITTER_OVERRIDE_ATTRS) {
+      const value = submitter.getAttribute(attr);
+      if (value !== null) proxy.setAttribute(attr, value);
+    }
+  }
+  Node.prototype.appendChild.call(form, proxy);
+  try {
+    if (requestSubmit) requestSubmit.call(form, proxy);
+    else proxy.click();
+  } finally {
+    proxy.remove();
+  }
+}
+
+/** Reset a form the way a native reset button does (fires a cancelable `reset` event). */
+export function resetForm(form: HTMLFormElement): void {
+  formMethod(form, 'reset')?.call(form);
 }
 
 function isAegovSubmitButton(el: Element): boolean {
@@ -80,7 +139,7 @@ function blocksImplicitSubmission(el: Element): boolean {
  * aegov-button[type=submit] counts as a submit button here.
  */
 export function implicitlySubmit(form: HTMLFormElement): void {
-  const controls = Array.from(form.elements) as Element[];
+  const controls = formControls(form);
   const defaultButton = controls.find(isSubmitButton);
   if (defaultButton) {
     if (isAegovSubmitButton(defaultButton)) {

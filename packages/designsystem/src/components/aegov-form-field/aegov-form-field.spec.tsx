@@ -1,4 +1,6 @@
 import { newSpecPage } from '@stencil/core/testing';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
 import { q } from '../../utils/test-helpers';
 import { AegovFormField } from './aegov-form-field';
 import { AegovInput } from '../aegov-input/aegov-input';
@@ -164,6 +166,56 @@ describe('aegov-form-field', () => {
       // Empty string is treated as "no value" → cascade fills it
       expect(input.errorMessage).toBe('From wrapper');
     });
+
+    const mount = async (html: string) => {
+      const page = await newSpecPage({ components: [AegovFormField, AegovInput], html });
+      await page.waitForChanges();
+      return { page, wrapper: page.root as HTMLAegovFormFieldElement, input: q(page.root, 'aegov-input') as HTMLAegovInputElement };
+    };
+
+    it('clears what it cascaded when the wrapper is cleared', async () => {
+      const { page, wrapper, input } = await mount(`<aegov-form-field is-invalid="true" error-message="E" hint="H" variant="secondary"><aegov-input></aegov-input></aegov-form-field>`);
+      expect([input.isInvalid, input.errorMessage, input.hint, input.variant]).toEqual([true, 'E', 'H', 'secondary']);
+      wrapper.isInvalid = false;
+      wrapper.errorMessage = '';
+      wrapper.hint = '';
+      wrapper.variant = undefined;
+      await page.waitForChanges();
+      expect([input.isInvalid, input.errorMessage, input.hint, input.variant]).toEqual([false, '', '', undefined]);
+    });
+
+    it('updates what it cascaded when the wrapper value changes', async () => {
+      const { page, wrapper, input } = await mount(`<aegov-form-field is-invalid="true" error-message="A" hint="H1" variant="secondary"><aegov-input></aegov-input></aegov-form-field>`);
+      wrapper.errorMessage = 'B';
+      wrapper.hint = 'H2';
+      wrapper.variant = 'neutral-max';
+      await page.waitForChanges();
+      expect([input.errorMessage, input.hint, input.variant]).toEqual(['B', 'H2', 'neutral-max']);
+    });
+
+    it("never changes or clears the child's own values", async () => {
+      const { page, wrapper, input } = await mount(`<aegov-form-field error-message="W" hint="WH" variant="secondary"><aegov-input is-invalid="true" error-message="Own" hint="Own hint" variant="primary"></aegov-input></aegov-form-field>`);
+      wrapper.isInvalid = true;
+      wrapper.errorMessage = 'W2';
+      wrapper.hint = 'WH2';
+      wrapper.variant = 'neutral-max';
+      await page.waitForChanges();
+      wrapper.isInvalid = false;
+      wrapper.errorMessage = '';
+      wrapper.hint = '';
+      wrapper.variant = undefined;
+      await page.waitForChanges();
+      expect([input.isInvalid, input.errorMessage, input.hint, input.variant]).toEqual([true, 'Own', 'Own hint', 'primary']);
+    });
+
+    it('a value the child sets itself after the cascade is its own', async () => {
+      const { page, wrapper, input } = await mount(`<aegov-form-field is-invalid="true" error-message="Wrapper"><aegov-input></aegov-input></aegov-form-field>`);
+      input.errorMessage = 'Child later';
+      await page.waitForChanges();
+      wrapper.errorMessage = '';
+      await page.waitForChanges();
+      expect(input.errorMessage).toBe('Child later');
+    });
   });
 
   /**
@@ -237,14 +289,19 @@ describe('aegov-form-field', () => {
       expect(q(page.root, '.aegov-form-field.is-control-disabled')).toBeNull();
     });
 
-    it('never relies on a `disabled` attribute on the host — that was the original bug', async () => {
+    it('never styles from a `disabled` attribute on the host — that was the original bug', async () => {
+      // The control now mirrors isDisabled onto its host's `disabled` attribute
+      // (so the browser bars it from FormData and validation), but the dimmed
+      // label must still come from the JS-set class: guards against
+      // re-introducing `:has(aegov-input[disabled])`-style rules.
+      const css = readFileSync(resolve(__dirname, 'aegov-form-field.css'), 'utf8');
+      expect(css).not.toMatch(/\[disabled\]/);
       const page = await newSpecPage({
-        components: [AegovFormField, AegovInput],
-        html: `<aegov-form-field><aegov-input is-disabled="true"></aegov-input></aegov-form-field>`,
+        components: [AegovFormField, AegovLabel, AegovInput],
+        html: `<aegov-form-field><aegov-label>Email</aegov-label><aegov-input is-disabled="true"></aegov-input></aegov-form-field>`,
       });
       await page.waitForChanges();
-      // Guards against re-introducing `:has(aegov-input[disabled])`.
-      expect(q(page.root, 'aegov-input[disabled]')).toBeNull();
+      expect(q(page.root, '.aegov-form-field.is-control-disabled')).not.toBeNull();
     });
   });
 });

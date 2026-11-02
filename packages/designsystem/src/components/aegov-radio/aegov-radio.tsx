@@ -12,7 +12,7 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity, syncHostDisabled,
 } from '../../utils/validation';
 
 @Component({
@@ -104,6 +104,7 @@ export class AegovRadio {
   }
 
   componentWillLoad() {
+    if (this.isDisabled) syncHostDisabled(this.el, true);
     this._defaultChecked = this.isChecked;
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', { component: 'aegov-radio', prop: 'variant' });
     if (!this.fieldId) {
@@ -119,7 +120,7 @@ export class AegovRadio {
     if (typeof host.attachInternals === 'function') {
       try {
         this.internals = host.attachInternals();
-        this.internals.setFormValue(this.isChecked ? (this.value ?? null) : null);
+        this.internals.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
       } catch {
         this.internals = null;
       }
@@ -127,13 +128,32 @@ export class AegovRadio {
   }
 
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
-  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formDisabledCallback(disabled: boolean) { this.formDisabled = disabled; }
+
+  /**
+   * True while an ancestor `<fieldset disabled>` or the host's `disabled`
+   * attribute disables the field. Kept apart from `isDisabled` so that
+   * re-enabling the fieldset doesn't clear the field's own setting.
+   */
+  @State() private formDisabled: boolean = false;
+
+  /** Disabled by its own `isDisabled` or by the form. */
+  private get disabled(): boolean {
+    return this.isDisabled || this.formDisabled;
+  }
+
+  /** Leave FormData and constraint validation while disabled, like a native control. */
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    syncHostDisabled(this.el, this.isDisabled);
+  }
+
   formResetCallback() {
     this.isChecked = this._defaultChecked;
     this.errorMessage = '';
     this.isInvalid = false;
     if (this.inputEl) this.inputEl.setCustomValidity('');
-    this.internals?.setFormValue(this.isChecked ? (this.value ?? null) : null);
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
     if (this.isRequired && !this.isChecked) {
       setInternalsValidity(this.internals, synthesizeValidity({ valueMissing: true }), 'Please select an option');
     } else {
@@ -142,7 +162,6 @@ export class AegovRadio {
   }
 
   componentDidLoad() {
-    this.syncInternalsValidity();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
     // Self-detect parent group appearance — bypasses syncChildren() timing dependency.
     const group = this.el.closest('aegov-radio-group');
@@ -169,10 +188,19 @@ export class AegovRadio {
     this._sizeWatcher?.destroy();
   }
 
+  /**
+   * The inner control's constraints only change once it re-renders, so
+   * validity is synced after every render rather than in a watcher, which
+   * would read the old ones.
+   */
+  componentDidRender() {
+    this.syncInternalsValidity();
+  }
+
   @Watch('isChecked')
   onIsCheckedChange() {
     // Fires when radio-group programmatically deselects this radio (no DOM event fires).
-    this.internals?.setFormValue(this.isChecked ? (this.value ?? null) : null);
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
     this.syncInternalsValidity();
   }
 
@@ -200,6 +228,7 @@ export class AegovRadio {
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
     if (trigger === 'submit') this.hasBlurredOnce = true;
+    this.syncInternalsValidity();
     const validity = this.readValidity();
     const message = !validity.valid
       ? (this.errorMessage || this.inputEl?.validationMessage || '')
@@ -229,6 +258,8 @@ export class AegovRadio {
   }
 
   private readValidity() {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return VALID_STATE;
     const v = this.inputEl?.validity;
     return v ? fromNativeValidity(v) : VALID_STATE;
   }
@@ -236,7 +267,7 @@ export class AegovRadio {
   private syncInternalsValidity(): void {
     if (!this.internals || !this.inputEl) return;
     const v = this.inputEl.validity;
-    if (v.valid) {
+    if (this.disabled || v.valid) {
       setInternalsValidity(this.internals, { valid: true }, '');
     } else {
       const message = this.errorMessage || this.inputEl.validationMessage || '';
@@ -258,7 +289,7 @@ export class AegovRadio {
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
     this.isChecked = input.checked;
-    this.internals?.setFormValue(this.isChecked ? (this.value ?? null) : null);
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
     this.syncInternalsValidity();
     this.aegovRadioChange.emit({ checked: this.isChecked, value: this.value });
     this.emitValidate('change');
@@ -307,7 +338,7 @@ export class AegovRadio {
         id={this.fieldId}
         value={this.value}
         checked={this.isChecked}
-        disabled={this.isDisabled}
+        disabled={this.disabled}
         required={this.isRequired}
         aria-required={this.isRequired ? 'true' : undefined}
         aria-invalid={this.isInvalid ? 'true' : null}
