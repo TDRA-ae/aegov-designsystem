@@ -24,10 +24,20 @@ export function removePortal(el: HTMLDivElement | undefined): undefined {
 }
 
 /*
- * Host relocation for overlays (aegov-modal, aegov-drawer) — "portal while open".
+ * Host relocation for overlays (aegov-modal, aegov-drawer) — "move while open,
+ * only when trapped".
  *
- * An open overlay must escape any ancestor stacking context / containing block,
- * so its host element is moved to document.body. But the host is owned by
+ * An open overlay's backdrop and panel are `position: fixed`. They cover the
+ * viewport from wherever the host is declared — unless an ancestor traps them:
+ * a containing block for fixed elements (transform, filter, contain, …), a
+ * stacking context that other content can cover (z-index, opacity, sticky, …),
+ * or a hidden / inert ancestor. Only then is the host moved, and only out of
+ * the outermost such ancestor (overlayContainer()); document.body is the last
+ * resort. Staying as deep as possible keeps the overlay inside the app's root
+ * element, where React listens for events: content moved outside it would get
+ * no onClick / onChange from React at all.
+ *
+ * When it is moved, the host is owned by
  * whatever rendered it (React, Angular, Vue, plain DOM code), and that owner
  * keeps addressing it at the position it declared it: React calls
  * `parent.removeChild(host)` / `parent.insertBefore(x, host)`, Angular and Vue
@@ -37,13 +47,13 @@ export function removePortal(el: HTMLDivElement | undefined): undefined {
  * when an ancestor is removed.
  *
  * So the move only lasts while the overlay is open:
- *  - relocateHostToBody(): leave a comment placeholder where the host was and
- *    append the host to body.
- *  - restoreHostFromBody(): on close, put the host back at the placeholder.
+ *  - relocateHost(): leave a comment placeholder where the host was and
+ *    append the host to the container overlayContainer() chose.
+ *  - restoreHost(): on close, put the host back at the placeholder.
  *  - While relocated, the placeholder stands in for the host: the original
  *    parent's removeChild / insertBefore / appendChild treat a call naming the
- *    host as a call on the placeholder (removing the host from body too, in the
- *    removeChild case). That is what lets React, Vue and Angular keep
+ *    host as a call on the placeholder (removing the host from its container
+ *    too, in the removeChild case). That is what lets React, Vue and Angular keep
  *    manipulating "their" node.
  *  - A MutationObserver notices when the placeholder leaves the document
  *    (an ancestor was removed) and puts the host back beside it, so it leaves
@@ -54,6 +64,61 @@ export function removePortal(el: HTMLDivElement | undefined): undefined {
  * host from inside its own disconnect). Callers must still ignore the
  * disconnect/connect pair their own relocate/restore call triggers.
  */
+
+/** Whether `el`'s parent lays it out as a flex or grid item (z-index then creates a stacking context). */
+function isFlexOrGridItem(el: Element): boolean {
+  const parent = el.parentElement;
+  return !!parent && /(^|-)(flex|grid)$/.test(getComputedStyle(parent).display);
+}
+
+/**
+ * Whether `el` traps a `position: fixed` overlay declared inside it: it is a
+ * containing block for fixed descendants (the overlay would size to it, not
+ * the viewport), a stacking context (content outside it can cover the overlay
+ * whatever its z-index), or it hides or disables its content.
+ */
+function trapsFixedOverlay(el: Element): boolean {
+  const style = getComputedStyle(el);
+  // Spec tests run on a DOM without computed styles: nothing traps there.
+  if (typeof style.getPropertyValue !== 'function') return false;
+  const value = (prop: string) => style.getPropertyValue(prop).trim();
+  const set = (prop: string, unset = 'none') => { const v = value(prop); return v !== '' && v !== unset; };
+
+  if (value('display') === 'none' || /^(hidden|collapse)$/.test(value('visibility'))) return true;
+  if (el.hasAttribute('inert') || el.getAttribute('aria-hidden') === 'true') return true;
+  if (el.localName === 'details' && !el.hasAttribute('open')) return true;
+  if (value('content-visibility') === 'hidden' || value('content-visibility') === 'auto') return true;
+
+  const position = value('position');
+  if (position === 'fixed' || position === 'sticky') return true;
+  if (value('z-index') !== 'auto' && value('z-index') !== '' && (position !== 'static' || isFlexOrGridItem(el))) return true;
+  if (value('opacity') !== '' && parseFloat(value('opacity')) < 1) return true;
+  if (['transform', 'translate', 'rotate', 'scale', 'filter', 'backdrop-filter', 'perspective', 'clip-path', 'mask-image'].some(p => set(p))) return true;
+  if (set('mix-blend-mode', 'normal') || value('isolation') === 'isolate') return true;
+  if (/\b(layout|paint|strict|content)\b/.test(value('contain'))) return true;
+  if (/\b(transform|translate|rotate|scale|filter|backdrop-filter|perspective|opacity|z-index|contain|clip-path|mask)\b/.test(value('will-change'))) return true;
+  if (set('container-type', 'normal')) return true;
+  return false;
+}
+
+/**
+ * Where an open overlay host has to move so no ancestor traps it: the parent
+ * of the outermost trapping ancestor (crossing shadow roots), or null when no
+ * ancestor traps it and it can open where it was declared.
+ */
+export function overlayContainer(host: HTMLElement): Node | null {
+  if (typeof document === 'undefined' || !document.body) return null;
+  let outermost: Element | null = null;
+  let node: Node = host;
+  for (;;) {
+    let parent: Node | null = node.parentNode;
+    if (parent && parent.nodeType === 11) parent = (parent as ShadowRoot).host ?? null;
+    if (!parent || parent.nodeType !== 1 || parent === document.body || parent === document.documentElement) break;
+    if (trapsFixedOverlay(parent as Element)) outermost = parent as Element;
+    node = parent;
+  }
+  return outermost ? (outermost.parentNode ?? document.body) : null;
+}
 
 const relocated = new Map<HTMLElement, Comment>();
 let relocationObserver: MutationObserver | null = null;
@@ -171,19 +236,21 @@ function releaseHost(host: HTMLElement): void {
 }
 
 /**
- * Move an overlay host to document.body while it is open. Returns true if the
- * host was moved (the caller sees a synchronous disconnect/connect pair for
- * it and must ignore both). No-op if already relocated, already a direct
- * child of body, or not in the document.
+ * Move an open overlay host out of any ancestor that traps it (see
+ * overlayContainer()). Returns true if the host was moved (the caller sees a
+ * synchronous disconnect/connect pair for it and must ignore both). No-op if
+ * nothing traps it, it is already relocated, or it is not in the document.
  */
-export function relocateHostToBody(host: HTMLElement): boolean {
+export function relocateHost(host: HTMLElement): boolean {
   if (typeof document === 'undefined' || !document.body) return false;
-  if (relocated.has(host) || !host.isConnected || host.parentNode === document.body) return false;
+  if (relocated.has(host) || !host.isConnected) return false;
   const parent = host.parentNode;
   if (!parent) return false;
-  const placeholder = document.createComment(` ${host.tagName.toLowerCase()} (open, moved to body) `);
+  const container = overlayContainer(host);
+  if (!container) return false;
+  const placeholder = document.createComment(` ${host.tagName.toLowerCase()} (open, moved out of a trapping ancestor) `);
   callOriginal(parent, 'insertBefore', placeholder, host);
-  document.body.appendChild(host);
+  container.appendChild(host);
   // Register and patch only once the host has left its parent, so the move
   // itself can never be mistaken for the owner removing it.
   relocated.set(host, placeholder);
@@ -200,7 +267,7 @@ export function relocateHostToBody(host: HTMLElement): boolean {
  * Put a relocated host back where it was declared (on close). Returns true if
  * the host was moved (again: the caller must ignore the disconnect/connect pair).
  */
-export function restoreHostFromBody(host: HTMLElement): boolean {
+export function restoreHost(host: HTMLElement): boolean {
   const placeholder = relocated.get(host);
   if (!placeholder) return false;
   const parent = placeholder.parentNode;
@@ -219,7 +286,7 @@ export function forgetRelocatedHost(host: HTMLElement): void {
   releaseHost(host);
 }
 
-/** Whether the host is currently relocated to body. */
+/** Whether the host is currently relocated out of its declared position. */
 export function isHostRelocated(host: HTMLElement): boolean {
   return relocated.has(host);
 }

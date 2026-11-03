@@ -108,13 +108,13 @@ describe('aegov-modal (e2e)', () => {
     expect(content).not.toBeNull();
   });
 
-  // connectedCallback() unconditionally moves the modal to document.body for
-  // proper stacking, detaching it from any dir="rtl" ancestor wrapper — the
+  // An open modal moves out of an ancestor that traps it (here the transformed
+  // dir="rtl" wrapper itself), detaching it from that wrapper's direction — the
   // same portal-vs-dir gap already found and fixed in aegov-datepicker (#37)
   // and aegov-dropdown (#41). Regression coverage for #53.
-  it('carries dir="rtl" from a local ancestor wrapper after the move to document.body', async () => {
+  it('carries dir="rtl" from a local ancestor wrapper after moving out of it', async () => {
     const page = await newE2EPage();
-    await page.setContent('<div dir="rtl"><aegov-modal><p>Body</p></aegov-modal></div>');
+    await page.setContent('<div dir="rtl" style="transform: translateX(0)"><aegov-modal><p>Body</p></aegov-modal></div>');
     const host = await page.find('aegov-modal');
     await host.callMethod('show');
     await page.waitForChanges();

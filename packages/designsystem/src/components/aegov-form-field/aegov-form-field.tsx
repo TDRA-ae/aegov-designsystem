@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Element, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Element, Watch, forceUpdate } from '@stencil/core';
 import { FORM_VARIANTS } from '../../utils/types';
 import type { FormVariant } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -171,7 +171,8 @@ export class AegovFormField {
       (this.el.querySelector('aegov-otp') as AegovFormControl | null) ||
       (this.el.querySelector('aegov-fileupload') as AegovFormControl | null) ||
       this.findStandaloneControl<AegovFormControl>('aegov-radio', 'aegov-radio-group') ||
-      (this.el.querySelector('aegov-toggle') as AegovFormControl | null)
+      (this.el.querySelector('aegov-toggle') as AegovFormControl | null) ||
+      (this.el.querySelector('aegov-datepicker') as AegovFormControl | null)
     );
   }
 
@@ -187,6 +188,7 @@ export class AegovFormField {
     const fileupload = this.el.querySelector('aegov-fileupload') as HTMLAegovFileuploadElement | null;
     const radio = this.findStandaloneControl<HTMLAegovRadioElement>('aegov-radio', 'aegov-radio-group');
     const toggle = this.el.querySelector('aegov-toggle') as HTMLAegovToggleElement | null;
+    const datepicker = this.el.querySelector('aegov-datepicker') as HTMLAegovDatepickerElement | null;
 
     const labelableControl = this.findLabelableControl();
     if (labelableControl) {
@@ -226,6 +228,10 @@ export class AegovFormField {
         label.htmlFor = ensureHostId(radio);
       } else if (toggle && toggle.fieldId) {
         label.htmlFor = ensureHostId(toggle);
+      } else if (datepicker && datepicker.fieldId) {
+        label.htmlFor = ensureHostId(datepicker);
+        // Its inner inputs carry their own aria-label; re-render so it starts with this label.
+        forceUpdate(datepicker);
       }
       // Cascade variant to label only if neither side has a sentinel problem
       // (#47): `variant` no longer has a default value on either side, so

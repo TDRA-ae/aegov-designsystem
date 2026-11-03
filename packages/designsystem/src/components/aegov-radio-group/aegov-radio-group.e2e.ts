@@ -271,4 +271,47 @@ describe('aegov-radio-group (e2e)', () => {
     expect(spy).toHaveReceivedEventTimes(1);
     expect(spy.lastEvent.detail).toEqual({ value: 'b' });
   });
+
+  // Groups are not form-associated, so they listen for their form's `reset`
+  // event to clear custom errors like every form-associated control does.
+  it('form.reset() clears setCustomValidity(), isInvalid and errorMessage', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <form id="f">
+        <aegov-radio-group id="g" name="g">
+          <aegov-radio label="A" value="a"></aegov-radio>
+        </aegov-radio-group>
+      </form>
+      <form id="other"><input name="x"></form>
+    `);
+    const result = await page.evaluate(async () => {
+      const g = document.getElementById('g') as any;
+      const settle = () => new Promise(r => setTimeout(r, 50));
+      await g.setCustomValidity('Pick one');
+      (document.getElementById('other') as HTMLFormElement).reset();
+      await settle();
+      const afterOtherFormReset = { isInvalid: g.isInvalid, errorMessage: g.errorMessage };
+
+      const f = document.getElementById('f') as HTMLFormElement;
+      f.addEventListener('reset', e => e.preventDefault(), { once: true });
+      f.reset();
+      await settle();
+      const afterCancelledReset = { isInvalid: g.isInvalid, errorMessage: g.errorMessage };
+
+      f.reset();
+      await settle();
+      const afterReset = { isInvalid: g.isInvalid, errorMessage: g.errorMessage, customError: (await g.validate()).validity.customError };
+
+      g.isInvalid = true;
+      g.errorMessage = 'Shown';
+      f.reset();
+      await settle();
+      const afterPropReset = { isInvalid: g.isInvalid, errorMessage: g.errorMessage };
+      return { afterOtherFormReset, afterCancelledReset, afterReset, afterPropReset };
+    });
+    expect(result.afterOtherFormReset).toEqual({ isInvalid: true, errorMessage: 'Pick one' });
+    expect(result.afterCancelledReset).toEqual({ isInvalid: true, errorMessage: 'Pick one' });
+    expect(result.afterReset).toEqual({ isInvalid: false, errorMessage: '', customError: false });
+    expect(result.afterPropReset).toEqual({ isInvalid: false, errorMessage: '' });
+  });
 });
