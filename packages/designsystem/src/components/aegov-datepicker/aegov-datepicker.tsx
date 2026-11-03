@@ -346,6 +346,30 @@ export class AegovDatepicker {
     this._resolvedSize = this._sizeWatcher.current as InputSize;
   }
 
+  /**
+   * Text of the labels pointing at this datepicker: native `<label for>` (via
+   * ElementInternals) and `aegov-label` (its `for` property, which
+   * aegov-form-field sets, is reflected onto an inner `<label>` only on the
+   * label's next render). The inner inputs carry their own `aria-label`, which
+   * would otherwise hide the label, so render() puts this text first in it.
+   */
+  private externalLabelText(): string {
+    const labels = new Set<Element>(
+      Array.from(this.internals?.labels ?? []).map(label => label.closest('aegov-label') ?? label),
+    );
+    const id = this.el.id;
+    const root = this.el.getRootNode() as Document | ShadowRoot;
+    if (id && typeof root.querySelectorAll === 'function') {
+      root.querySelectorAll('aegov-label').forEach(label => {
+        if ((label as HTMLAegovLabelElement).htmlFor === id || label.getAttribute('for') === id) labels.add(label);
+      });
+    }
+    return Array.from(labels)
+      .map(label => (label.textContent ?? '').replace(/\s+/g, ' ').trim())
+      .filter(Boolean)
+      .join(' ');
+  }
+
   componentDidLoad() {
     this.createPortalElement();
     this.runValidationSync();
@@ -2058,6 +2082,7 @@ export class AegovDatepicker {
     const displayValue = this.getDisplayValue();
     const hasValue = !!displayValue;
     const placeholder = this.placeholder || this.t.selectDate;
+    const externalLabel = this.externalLabelText();
     const { showError, showHint } = this.getValidationDisplay();
     const formatHintId = `${this.fieldId}-format-hint`;
 
@@ -2078,9 +2103,12 @@ export class AegovDatepicker {
           aria-haspopup="dialog"
           aria-expanded={this.isOpen.toString()}
           aria-controls={this.isOpen ? this.datepickerId : undefined}
-          aria-label={this.selectedDate
-            ? `${this.t.changeDate}, ${new Intl.DateTimeFormat(this.dateLocale, { dateStyle: 'long' }).format(this.selectedDate)}`
-            : placeholder}
+          aria-label={[
+            externalLabel,
+            this.selectedDate
+              ? `${this.t.changeDate}, ${new Intl.DateTimeFormat(this.dateLocale, { dateStyle: 'long' }).format(this.selectedDate)}`
+              : externalLabel ? '' : placeholder,
+          ].filter(Boolean).join(', ')}
           aria-describedby={composeDescribedBy(
             formatHintId,
             showError ? this.errorId : null,
@@ -2108,6 +2136,7 @@ export class AegovDatepicker {
     const hasValue = !!(startValue || endValue);
     const labelStart = this.labelRangeStart || this.t.startDate;
     const labelEnd = this.labelRangeEnd || this.t.endDate;
+    const externalLabel = this.externalLabelText();
     const formatHintId = `${this.fieldId}-format-hint`;
     const { showError, showHint } = this.getValidationDisplay();
     const inputDescribedBy = composeDescribedBy(
@@ -2130,7 +2159,7 @@ export class AegovDatepicker {
           required={this.isRequired}
           aria-required={this.isRequired ? 'true' : undefined}
           aria-invalid={this.isInvalid ? 'true' : undefined}
-          aria-label={labelStart}
+          aria-label={[externalLabel, labelStart].filter(Boolean).join(', ')}
           aria-haspopup="dialog"
           aria-expanded={this.isOpen.toString()}
           aria-controls={this.isOpen ? this.datepickerId : undefined}
@@ -2149,7 +2178,7 @@ export class AegovDatepicker {
           required={this.isRequired}
           aria-required={this.isRequired ? 'true' : undefined}
           aria-invalid={this.isInvalid ? 'true' : undefined}
-          aria-label={labelEnd}
+          aria-label={[externalLabel, labelEnd].filter(Boolean).join(', ')}
           aria-haspopup="dialog"
           aria-expanded={this.isOpen.toString()}
           aria-controls={this.isOpen ? this.datepickerId : undefined}
