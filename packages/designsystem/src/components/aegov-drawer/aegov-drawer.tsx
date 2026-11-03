@@ -8,6 +8,7 @@ import { pushZIndex, popZIndex, isTopOverlay } from '../../utils/z-index-manager
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
 import { forgetRelocatedHost, relocateHostToBody, restoreHostFromBody } from '../../utils/portal-manager';
+import { isRtl } from '../../utils/rtl';
 
 const TAG = 'aegov-drawer';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -31,6 +32,9 @@ export class AegovDrawer {
   // that move fires is not a removal by the owner.
   private relocating: boolean = false;
   private didLoad: boolean = false;
+  // The `dir` value this component set on the host while open (null when it
+  // set none, e.g. because the author supplied their own `dir`).
+  private bakedDir: string | null = null;
   private overlayResourcesHeld: boolean = false;
 
   /**
@@ -275,6 +279,7 @@ export class AegovDrawer {
     // Removed by its owner while relocated to body (e.g. `host.remove()`):
     // drop the placeholder left at the declared position.
     forgetRelocatedHost(this.el);
+    this.unbakeDir();
   }
 
   /**
@@ -297,6 +302,26 @@ export class AegovDrawer {
     }
   }
 
+  /**
+   * Pin the direction the drawer had at its declared position onto the host
+   * while it is open: once moved to body it no longer inherits `dir` from a
+   * local `<div dir="rtl">` wrapper. Resolved at open time, so a later change
+   * of `<html dir>` is picked up on the next open, and removed again on close.
+   * An author-supplied `dir` on the host is left alone. Same as aegov-modal.
+   */
+  private bakeDir() {
+    if (this.el.hasAttribute('dir')) return;
+    this.bakedDir = isRtl(this.el) ? 'rtl' : 'ltr';
+    this.el.setAttribute('dir', this.bakedDir);
+  }
+
+  private unbakeDir() {
+    if (this.bakedDir !== null && this.el.getAttribute('dir') === this.bakedDir) {
+      this.el.removeAttribute('dir');
+    }
+    this.bakedDir = null;
+  }
+
   private getAnimationDuration(): number {
     if (this.animation === 'none') return 0;
     return 300;
@@ -306,7 +331,9 @@ export class AegovDrawer {
     // Store the currently focused element
     this.triggerElement = document.activeElement as HTMLElement;
 
-    // Portal to body for stacking (unless isPortal is off).
+    // Resolve direction at the declared position, then portal to body for
+    // stacking (unless isPortal is off).
+    this.bakeDir();
     this.moveHost(true);
 
     // Assign z-index for this drawer
@@ -383,8 +410,12 @@ export class AegovDrawer {
     document.removeEventListener('keydown', this.handleKeyDown);
 
     // Return the host to where it was declared — unless it was reopened during
-    // the close animation, in which case it must stay in body.
-    if (!this.isOpen) this.moveHost(false);
+    // the close animation, in which case it must stay in body — and drop the
+    // pinned direction.
+    if (!this.isOpen) {
+      this.moveHost(false);
+      this.unbakeDir();
+    }
 
     // Return focus to trigger element. resolveFocusTarget handles a shadow-DOM
     // trigger whose host isn't itself focusable — .focus() on it directly would
