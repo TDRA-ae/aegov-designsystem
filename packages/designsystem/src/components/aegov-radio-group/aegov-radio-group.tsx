@@ -265,6 +265,22 @@ export class AegovRadioGroup {
     });
   }
 
+  /**
+   * A group is not form-associated, so the browser never calls formResetCallback()
+   * on it. `reset` bubbles, so listen at the document and clear the group's error
+   * state when its own form is reset (and the reset was not cancelled), matching
+   * what every form-associated control does in its formResetCallback().
+   */
+  @Listen('reset', { target: 'document' })
+  handleFormReset(event: Event) {
+    if (event.defaultPrevented) return;
+    const form = event.target as Node | null;
+    if (!form || !form.contains(this.el)) return;
+    this.errorMessage = '';
+    this.isInvalid = false;
+    this.customValidityMessage = '';
+  }
+
   @Listen('focusout')
   handleGroupBlur(event: FocusEvent) {
     if (!this.el.contains(event.relatedTarget as Node)) {
