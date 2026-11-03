@@ -8,7 +8,7 @@ import { pushZIndex, popZIndex, isTopOverlay } from '../../utils/z-index-manager
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
 import { isRtl } from '../../utils/rtl';
-import { forgetRelocatedHost, relocateHostToBody, restoreHostFromBody } from '../../utils/portal-manager';
+import { forgetRelocatedHost, relocateHost, restoreHost } from '../../utils/portal-manager';
 
 const TAG = 'aegov-modal';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -27,8 +27,8 @@ export class AegovModal {
   private triggerElement: HTMLElement | null = null;
   private focusableElements: HTMLElement[] = [];
   private modalZIndex: number = 50;
-  // True only while this component itself is moving its host to/from
-  // document.body (see moveHost()). Those moves fire a synchronous
+  // True only while this component itself is moving its host out of / back to
+  // where it was declared (see moveHost()). Those moves fire a synchronous
   // disconnect/connect pair that must not be mistaken for the owner removing
   // or re-inserting the element.
   private relocating: boolean = false;
@@ -211,7 +211,7 @@ export class AegovModal {
   }
 
   disconnectedCallback() {
-    // A move, not a removal: our own move to/from document.body (or any other
+    // A move, not a removal: our own move out of / back to its declared place (or any other
     // move — when the callback runs the element is already connected again).
     // Releasing the scroll lock / z-index / Escape listener here would leave an
     // open overlay visible but inert.
@@ -219,7 +219,7 @@ export class AegovModal {
     // Note: never move or remove this.el from in here (nor from
     // connectedCallback) — doing that inside the callbacks is what caused the
     // old "Maximum call stack size exceeded" loop under Stencil's shadow-DOM
-    // hydration. The body move happens in handleOpen()/handleCloseComplete().
+    // hydration. The move happens in handleOpen()/handleCloseComplete().
     //
     // Covers a framework removing the element entirely (e.g. React unmounting
     // it) while still open, without ever calling close()/handleCloseComplete() —
@@ -234,28 +234,30 @@ export class AegovModal {
       popZIndex(this.el);
     }
     document.removeEventListener('keydown', this.handleKeyDown);
-    // Removed by its owner while relocated to body (e.g. `host.remove()`):
+    // Removed by its owner while relocated (e.g. `host.remove()`):
     // drop the placeholder left at the declared position.
     forgetRelocatedHost(this.el);
     this.unbakeDir();
   }
 
   /**
-   * Move the host to document.body while open, or back to where it was
-   * declared on close (see relocateHostToBody in utils/portal-manager).
+   * While open, move the host out of any ancestor that would trap its fixed
+   * backdrop and panel (transform, z-index, hidden, …), or back to where it was
+   * declared on close (see relocateHost in utils/portal-manager). With no such
+   * ancestor it opens in place, inside the app's root element, so React event
+   * handlers inside it work.
    *
-   * Moving only while open — instead of permanently on connect, as before —
-   * keeps a closed modal where its owner put it, so React / Angular / Vue /
-   * SSR hydration find their node where they expect it, and removing an
-   * ancestor removes the modal with it rather than orphaning it in body.
+   * Moving only while open keeps a closed modal where its owner put it, so
+   * React / Angular / Vue / SSR hydration find their node where they expect
+   * it, and removing an ancestor removes the modal with it.
    */
-  private moveHost(toBody: boolean) {
+  private moveHost(open: boolean) {
     // Never during server-side rendering (hydrate); spec tests also report isServer.
     if (Build.isServer && !Build.isTesting) return;
     this.relocating = true;
     try {
-      if (toBody) relocateHostToBody(this.el);
-      else restoreHostFromBody(this.el);
+      if (open) relocateHost(this.el);
+      else restoreHost(this.el);
     } finally {
       this.relocating = false;
     }
@@ -263,7 +265,7 @@ export class AegovModal {
 
   /**
    * Pin the direction the modal had at its declared position onto the host
-   * while it is open (#53): once moved to body it no longer inherits `dir`
+   * while it is open (#53): once moved out of its ancestors it no longer inherits `dir`
    * from a local `<div dir="rtl">` wrapper. Resolved at open time, so a later
    * change of `<html dir>` is picked up on the next open, and removed again on
    * close. An author-supplied `dir` on the host is left alone.
@@ -285,7 +287,7 @@ export class AegovModal {
     // Store the currently focused element
     this.triggerElement = document.activeElement as HTMLElement;
 
-    // Resolve direction at the declared position, then portal to body for stacking.
+    // Resolve direction at the declared position, then move out of any trapping ancestor.
     this.bakeDir();
     this.moveHost(true);
 
