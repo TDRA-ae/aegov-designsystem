@@ -357,11 +357,15 @@ export class AegovOtp {
     this.aegovOtpChange.emit({ value: val });
     this.runValidationSync();
 
-    // Emit unified validate event
+    // Emit unified validate event. Entering or deleting single cells is still
+    // typing (`input`, like each keystroke in a text field); only a complete
+    // code is a committed value (`change`), so listeners that skip `input`
+    // don't flag "too short" while the user is still entering it.
     const { validity, message } = this.computeValidity();
     this.aegovValidate.emit(buildValidationDetail<string>(
       this.el as unknown as HTMLElement & { name?: string },
-      val, validity, message, this.errorMessage || null, 'change',
+      val, validity, message, this.errorMessage || null,
+      val.length === this.length ? 'change' : 'input',
     ));
 
     if (val.length === this.length && validity.valid) {
