@@ -7,7 +7,7 @@ import { lockBodyScroll, unlockBodyScroll } from '../../utils/scroll-lock';
 import { pushZIndex, popZIndex, isTopOverlay } from '../../utils/z-index-manager';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
-import { forgetRelocatedHost, relocateHostToBody, restoreHostFromBody } from '../../utils/portal-manager';
+import { forgetRelocatedHost, relocateHost, restoreHost } from '../../utils/portal-manager';
 import { isRtl } from '../../utils/rtl';
 
 const TAG = 'aegov-drawer';
@@ -28,7 +28,7 @@ export class AegovDrawer {
   private focusableElements: HTMLElement[] = [];
   private drawerZIndex: number = 50;
   // True only while this component itself is moving its host to/from
-  // document.body (see moveHost()); the synchronous disconnect/connect pair
+  // its declared place (see moveHost()); the synchronous disconnect/connect pair
   // that move fires is not a removal by the owner.
   private relocating: boolean = false;
   private didLoad: boolean = false;
@@ -90,9 +90,12 @@ export class AegovDrawer {
   @Prop() isPreventScroll: boolean = true;
 
   /**
-   * Whether the drawer relocates itself to `document.body` while open, so it
-   * stacks above the rest of the page. (It returns to where it was declared
-   * when it closes, and leaves with its declared parent if that is removed.)
+   * Whether the drawer may move itself while open when an ancestor would trap
+   * it (a `transform`, `filter`, `contain`, `z-index` stacking context, or a
+   * hidden ancestor), so it still covers and stacks above the page. It moves
+   * only out of that ancestor, and opens in place when there is none. (It
+   * returns to where it was declared when it closes, and leaves with its
+   * declared parent if that is removed.)
    *
    * Set to `false` when the drawer is rendered inside another component's
    * shadow DOM and forwards a `<slot>` into its content: relocating would take
@@ -245,7 +248,7 @@ export class AegovDrawer {
   }
 
   disconnectedCallback() {
-    // A move, not a removal: our own move to/from document.body (or any other
+    // A move, not a removal: our own move out of / back to its declared place (or any other
     // move — when the callback runs the element is already connected again).
     // Releasing the scroll lock / z-index / Escape listener here would leave an
     // open overlay visible but inert.
@@ -253,7 +256,7 @@ export class AegovDrawer {
     // Note: never move or remove this.el from in here (nor from
     // connectedCallback) — doing that inside the callbacks is what caused the
     // old "Maximum call stack size exceeded" loop under Stencil's shadow-DOM
-    // hydration. The body move happens in handleOpen()/handleCloseComplete().
+    // hydration. The move happens in handleOpen()/handleCloseComplete().
     //
     // Covers a framework removing the element entirely while still open,
     // without ever calling close()/handleCloseComplete() — otherwise the
@@ -276,27 +279,27 @@ export class AegovDrawer {
       popZIndex(this.el);
     }
     document.removeEventListener('keydown', this.handleKeyDown);
-    // Removed by its owner while relocated to body (e.g. `host.remove()`):
+    // Removed by its owner while relocated (e.g. `host.remove()`):
     // drop the placeholder left at the declared position.
     forgetRelocatedHost(this.el);
     this.unbakeDir();
   }
 
   /**
-   * Move the host to document.body while open (when isPortal), or back to
-   * where it was declared on close (see relocateHostToBody in
+   * While open (and isPortal), move the host out of any ancestor that would
+   * trap it, or back to where it was declared on close (see relocateHost in
    * utils/portal-manager). Moving only while open keeps a closed drawer where
    * its owner put it, so frameworks and SSR hydration find their node, and
    * removing an ancestor removes the drawer with it instead of orphaning it.
    */
-  private moveHost(toBody: boolean) {
+  private moveHost(open: boolean) {
     // Never during server-side rendering (hydrate); spec tests also report isServer.
     if (Build.isServer && !Build.isTesting) return;
-    if (toBody && !this.isPortal) return;
+    if (open && !this.isPortal) return;
     this.relocating = true;
     try {
-      if (toBody) relocateHostToBody(this.el);
-      else restoreHostFromBody(this.el);
+      if (open) relocateHost(this.el);
+      else restoreHost(this.el);
     } finally {
       this.relocating = false;
     }
@@ -304,7 +307,7 @@ export class AegovDrawer {
 
   /**
    * Pin the direction the drawer had at its declared position onto the host
-   * while it is open: once moved to body it no longer inherits `dir` from a
+   * while it is open: once moved out of its ancestors it no longer inherits `dir` from a
    * local `<div dir="rtl">` wrapper. Resolved at open time, so a later change
    * of `<html dir>` is picked up on the next open, and removed again on close.
    * An author-supplied `dir` on the host is left alone. Same as aegov-modal.
@@ -331,7 +334,7 @@ export class AegovDrawer {
     // Store the currently focused element
     this.triggerElement = document.activeElement as HTMLElement;
 
-    // Resolve direction at the declared position, then portal to body for
+    // Resolve direction at the declared position, then move out of any trapping ancestor for
     // stacking (unless isPortal is off).
     this.bakeDir();
     this.moveHost(true);
@@ -410,7 +413,7 @@ export class AegovDrawer {
     document.removeEventListener('keydown', this.handleKeyDown);
 
     // Return the host to where it was declared — unless it was reopened during
-    // the close animation, in which case it must stay in body — and drop the
+    // the close animation, in which case it must stay where it moved — and drop the
     // pinned direction.
     if (!this.isOpen) {
       this.moveHost(false);
