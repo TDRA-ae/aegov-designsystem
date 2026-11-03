@@ -25,13 +25,12 @@
    * ======================================== */
 
   /* AEGold Color — accessible ramp (uniform OKLCH lightness, bell chroma, gentle hue drift).
-     600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). aegold-600's
-     lightness was corrected from 0.5632 to 0.5478 — like camel-600, the
-     original value only measured 4.31:1 against aegold-50 in real sRGB
-     rendering (confirmed via canvas-readback), not the documented 4.5:1.
-     Now verified at ~4.62:1. This is `primary-600` by default (and the
-     plain, unstyled aegov-link text color) — used far more widely than
-     camel-600, so double-check anywhere relying on the old exact hex. */
+     600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). aegold-600 keeps
+     the brand lightness 0.5632 (briefly darkened to 0.5478, restored
+     2026-09-02): rendered in Chrome it is rgb(144 112 42), 4.51:1 against
+     aegold-50 and 4.63:1 against white — just above AA, so don't lighten
+     it. This is `primary-600` by default (and the plain, unstyled
+     aegov-link text color). */
   --color-aegold-50: oklch(0.9904 0.0107 95.16);
   --color-aegold-100: oklch(0.9402 0.0387 97.45);
   --color-aegold-200: oklch(0.8468 0.0593 91.1);
