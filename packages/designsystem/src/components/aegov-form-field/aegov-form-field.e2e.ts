@@ -347,4 +347,37 @@ describe('aegov-form-field (e2e)', () => {
       expect(name).toBe('Updated Label Text');
     });
   });
+
+  // The datepicker's inner inputs carry their own aria-label ("Select date"),
+  // which hid the label; it now links like every other control and its name
+  // starts with the label text.
+  it('labels an aegov-datepicker, single and range', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-form-field><aegov-label>Preferred appointment</aegov-label><aegov-datepicker id="one"></aegov-datepicker></aegov-form-field>
+      <aegov-form-field><aegov-label>Travel dates</aegov-label><aegov-datepicker appearance="range"></aegov-datepicker></aegov-form-field>
+    `);
+    await page.waitForChanges();
+    const result = await page.evaluate(() => {
+      const [single, range] = Array.from(document.querySelectorAll('aegov-datepicker'));
+      const label = (el: Element) => el.closest('aegov-form-field')!.querySelector('label')!.getAttribute('for');
+      return {
+        singleFor: label(single) === single.id,
+        rangeFor: label(range) === range.id,
+        single: single.shadowRoot!.querySelector('input')!.getAttribute('aria-label'),
+        range: Array.from(range.shadowRoot!.querySelectorAll('input')).map(i => i.getAttribute('aria-label')),
+      };
+    });
+    expect(result.singleFor).toBe(true);
+    expect(result.rangeFor).toBe(true);
+    expect(result.single).toBe('Preferred appointment');
+    expect(result.range).toEqual(['Travel dates, Start date', 'Travel dates, End date']);
+
+    const dp = await page.find('aegov-datepicker#one');
+    dp.setProperty('value', '2026-11-03');
+    await page.waitForChanges();
+    const withValue = await page.evaluate(() =>
+      document.querySelector('#one')!.shadowRoot!.querySelector('input')!.getAttribute('aria-label'));
+    expect(withValue).toBe('Preferred appointment, Change date, November 3, 2026');
+  });
 });
