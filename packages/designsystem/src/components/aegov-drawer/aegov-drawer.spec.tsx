@@ -207,13 +207,13 @@ describe('aegov-drawer', () => {
   });
 
   /**
-   * Portal while open (#14): the host only moves to document.body while open,
-   * leaving a comment placeholder at its declared position, and returns there
-   * on close. While moved, the declared parent's removeChild/insertBefore
-   * treat the host as if it were still in place, so a framework that owns the
-   * element (React) can keep addressing it there.
+   * Move while open, only when trapped (#14): with no ancestor that traps its
+   * fixed layers the host opens where it was declared (inside the app's root,
+   * so React handlers work). The move out of a trapping ancestor, and how the
+   * declared parent keeps addressing a moved host, need real computed styles:
+   * see src/utils/portal-manager.e2e.ts.
    */
-  describe('portal to body while open', () => {
+  describe('opens in place unless trapped', () => {
     const comments = (n: Node) => Array.from(n.childNodes).filter(c => c.nodeType === 8).length;
     const setup = async () => {
       const page = await newSpecPage({
@@ -225,7 +225,6 @@ describe('aegov-drawer', () => {
       return { page, wrap, host };
     };
     const open = async (page, host) => { host.isOpen = true; await page.waitForChanges(); };
-    const close = async (page, host) => { host.isOpen = false; await page.waitForChanges(); await new Promise(r => setTimeout(r, 350)); await page.waitForChanges(); };
 
     it('stays where it was declared while closed', async () => {
       const { wrap, host } = await setup();
@@ -233,34 +232,11 @@ describe('aegov-drawer', () => {
       expect(comments(wrap)).toBe(0);
     });
 
-    it('moves to body when opened and back to its declared position when closed', async () => {
+    it('opens where it was declared when no ancestor traps it', async () => {
       const { page, wrap, host } = await setup();
       await open(page, host);
-      expect(host.parentNode && (host.parentNode as any).nodeName).toBe('BODY');
-      expect(comments(wrap)).toBe(1);
-      await close(page, host);
       expect(host.parentNode === wrap).toBe(true);
-      expect(wrap.lastElementChild === host).toBe(true);
       expect(comments(wrap)).toBe(0);
-    });
-
-    it('lets the declared parent remove it while open (React unmount) without throwing', async () => {
-      const { page, wrap, host } = await setup();
-      await open(page, host);
-      expect(() => wrap.removeChild(host)).not.toThrow();
-      expect(host.parentNode == null).toBe(true);
-      expect(comments(wrap)).toBe(0);
-      expect(Object.prototype.hasOwnProperty.call(wrap, 'removeChild')).toBe(false);
-    });
-
-    it('lets the declared parent insert a sibling before it while open', async () => {
-      const { page, wrap, host } = await setup();
-      await open(page, host);
-      const p = page.doc.createElement('p');
-      p.id = 'sib';
-      expect(() => wrap.insertBefore(p, host)).not.toThrow();
-      await close(page, host);
-      expect(Array.from(wrap.children).map(c => c.id || c.tagName.toLowerCase())).toEqual(['before', 'sib', 'aegov-drawer']);
     });
   });
 });

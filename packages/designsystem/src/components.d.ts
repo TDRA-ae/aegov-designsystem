@@ -857,7 +857,7 @@ export namespace Components {
          */
         "isPinned": boolean;
         /**
-          * Whether the drawer relocates itself to `document.body` while open, so it stacks above the rest of the page. (It returns to where it was declared when it closes, and leaves with its declared parent if that is removed.)  Set to `false` when the drawer is rendered inside another component's shadow DOM and forwards a `<slot>` into its content: relocating would take that slot out of its shadow tree, where it projects nothing. The panel and backdrop are `position: fixed`, so they still cover the viewport in place — unless an ancestor creates a containing block (`transform`, `filter`, `contain`, `will-change`), in which case leave this on.
+          * Whether the drawer may move itself while open when an ancestor would trap it (a `transform`, `filter`, `contain`, `z-index` stacking context, or a hidden ancestor), so it still covers and stacks above the page. It moves only out of that ancestor, and opens in place when there is none. (It returns to where it was declared when it closes, and leaves with its declared parent if that is removed.)  Set to `false` when the drawer is rendered inside another component's shadow DOM and forwards a `<slot>` into its content: relocating would take that slot out of its shadow tree, where it projects nothing. The panel and backdrop are `position: fixed`, so they still cover the viewport in place — unless an ancestor creates a containing block (`transform`, `filter`, `contain`, `will-change`), in which case leave this on.
           * @default true
          */
         "isPortal": boolean;
@@ -4802,7 +4802,7 @@ declare namespace LocalJSX {
          */
         "isPinned"?: boolean;
         /**
-          * Whether the drawer relocates itself to `document.body` while open, so it stacks above the rest of the page. (It returns to where it was declared when it closes, and leaves with its declared parent if that is removed.)  Set to `false` when the drawer is rendered inside another component's shadow DOM and forwards a `<slot>` into its content: relocating would take that slot out of its shadow tree, where it projects nothing. The panel and backdrop are `position: fixed`, so they still cover the viewport in place — unless an ancestor creates a containing block (`transform`, `filter`, `contain`, `will-change`), in which case leave this on.
+          * Whether the drawer may move itself while open when an ancestor would trap it (a `transform`, `filter`, `contain`, `z-index` stacking context, or a hidden ancestor), so it still covers and stacks above the page. It moves only out of that ancestor, and opens in place when there is none. (It returns to where it was declared when it closes, and leaves with its declared parent if that is removed.)  Set to `false` when the drawer is rendered inside another component's shadow DOM and forwards a `<slot>` into its content: relocating would take that slot out of its shadow tree, where it projects nothing. The panel and backdrop are `position: fixed`, so they still cover the viewport in place — unless an ancestor creates a containing block (`transform`, `filter`, `contain`, `will-change`), in which case leave this on.
           * @default true
          */
         "isPortal"?: boolean;

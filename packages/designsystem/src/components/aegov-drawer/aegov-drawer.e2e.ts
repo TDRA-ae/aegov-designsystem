@@ -134,12 +134,13 @@ describe('aegov-drawer (e2e)', () => {
     expect(focusState.deepActiveTag).toBe('BUTTON');
   });
 
-  // Moving to document.body detaches the drawer from any dir="rtl" ancestor
-  // wrapper, so it pins the direction it had where it was declared while open
-  // (same as aegov-modal, #53) and removes it again on close.
-  it('carries dir="rtl" from a local ancestor wrapper after the move to document.body, and drops it on close', async () => {
+  // Moving out of a trapping ancestor (here the transformed dir="rtl" wrapper
+  // itself) detaches the drawer from that wrapper's direction, so it pins the
+  // direction it had where it was declared while open (same as aegov-modal,
+  // #53) and removes it again on close.
+  it('carries dir="rtl" from a local ancestor wrapper after moving out of it, and drops it on close', async () => {
     const page = await newE2EPage();
-    await page.setContent('<div dir="rtl"><aegov-drawer animation="none"><p>Body</p></aegov-drawer></div>');
+    await page.setContent('<div dir="rtl" style="transform: translateX(0)"><aegov-drawer animation="none"><p>Body</p></aegov-drawer></div>');
     const host = await page.find('aegov-drawer');
     await host.callMethod('show');
     await page.waitForChanges();
@@ -158,7 +159,7 @@ describe('aegov-drawer (e2e)', () => {
     expect(open.contentDirection).toBe('rtl');
 
     await host.callMethod('close');
-    await page.waitForFunction(() => document.querySelector('aegov-drawer')!.parentElement !== document.body);
+    await page.waitForFunction(() => document.querySelector('aegov-drawer')!.parentElement!.getAttribute('dir') === 'rtl');
     const closedDir = await page.evaluate(() => document.querySelector('aegov-drawer')!.getAttribute('dir'));
     expect(closedDir).toBeNull();
   });
