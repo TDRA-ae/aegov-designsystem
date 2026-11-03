@@ -355,7 +355,8 @@ export class AegovDatepicker {
    */
   private externalLabelText(): string {
     const labels = new Set<Element>(
-      Array.from(this.internals?.labels ?? []).map(label => label.closest('aegov-label') ?? label),
+      // ElementInternals.labels is typed as NodeList, but it only ever holds <label> elements.
+      Array.from((this.internals?.labels ?? []) as ArrayLike<HTMLLabelElement>).map(label => label.closest('aegov-label') ?? label),
     );
     const id = this.el.id;
     const root = this.el.getRootNode() as Document | ShadowRoot;
