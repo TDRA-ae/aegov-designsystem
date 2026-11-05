@@ -25,14 +25,23 @@ const STRINGS = {
     clearSelection: 'Clear selection',
     searchLabel: 'Search options',
     searchPlaceholder: 'Search...',
+    selectedCount: (n: number) => `${n} selected`,
+    required: 'Required',
+    listSeparator: ', ',
   },
   ar: {
     noResults: 'لم يتم العثور على نتائج',
     clearSelection: 'مسح التحديد',
     searchLabel: 'البحث في الخيارات',
     searchPlaceholder: 'بحث...',
+    selectedCount: (n: number) => `تم اختيار ${n}`,
+    required: 'مطلوب',
+    listSeparator: '، ',
   },
 };
+
+/** Options moved by PageUp / PageDown, as in the APG select-only combobox. */
+const PAGE_STEP = 10;
 
 /** Select value type per §2.4.1 — string for single, string[] for multiple. */
 export type AegovSelectValue = string | string[];
@@ -125,6 +134,14 @@ export class AegovSelect {
   @Prop() extraClass?: string;
 
   @State() isOpen: boolean = false;
+
+  /**
+   * True while the user is navigating with the keyboard (or a screen reader
+   * moves focus onto an option). The highlighted option only gets the focus
+   * fill in this mode — like :focus-visible on buttons and links, a mouse
+   * user never sees keyboard focus styling.
+   */
+  @State() private keyboardMode: boolean = false;
   @State() searchQuery: string = '';
   @State() focusedIndex: number = -1;
   @State() parsedOptions: OptionItem[] = [];
@@ -137,6 +154,15 @@ export class AegovSelect {
   private cachedDisplayText: string = '';
   private typeaheadBuffer: string = '';
   private typeaheadTimer: ReturnType<typeof setTimeout> | null = null;
+
+  /** Set when the active option changed; componentDidUpdate scrolls it into view (and focuses it, see below). */
+  private pendingActiveSync: { focusOption: boolean } | null = null;
+
+  /** Watches the host's own aria-label / aria-labelledby, which aegov-form-field or the author may set after load. */
+  private nameObserver?: MutationObserver;
+
+  /** Bumped to re-render when the host's labelling attributes change. */
+  @State() private nameRevision: number = 0;
 
   /** Emitted when the selected value changes. */
   @Event() aegovSelectChange: EventEmitter<SelectChangeDetail>;
@@ -191,6 +217,7 @@ export class AegovSelect {
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
     if (this.typeaheadTimer) clearTimeout(this.typeaheadTimer);
+    this.nameObserver?.disconnect();
   }
 
   // ── FormAssociated lifecycle (listbox appearance uses ElementInternals) ──
@@ -275,7 +302,7 @@ export class AegovSelect {
     if (this.disabled) return { validity: synthesizeValidity({}), message: '' };
     const filled = this.isMultiple ? this.selectedValues.length > 0 : !!this.value;
     const result = this.isRequired && !filled
-      ? { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required' }
+      ? { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || this.t.required }
       : { validity: synthesizeValidity({}), message: '' };
     return withCustomError(result, this.customValidityMessage);
   }
@@ -387,6 +414,61 @@ export class AegovSelect {
     }
     this.runValidationSync();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
+    if (typeof MutationObserver !== 'undefined') {
+      this.nameObserver = new MutationObserver(() => { this.nameRevision++; });
+      this.nameObserver.observe(this.el, { attributes: true, attributeFilter: ['aria-label', 'aria-labelledby'] });
+    }
+  }
+
+  /** UI strings in the page's language. */
+  private get t() {
+    return isRtl(this.el) ? STRINGS.ar : STRINGS.en;
+  }
+
+  /**
+   * Text of the labels pointing at this select: native `<label for>` (via
+   * ElementInternals) and `aegov-label` (its `for` property, which
+   * aegov-form-field sets). Same approach as aegov-datepicker.
+   */
+  private externalLabelText(): string {
+    const labels = new Set<Element>(
+      Array.from((this.internals?.labels ?? []) as ArrayLike<HTMLLabelElement>).map(label => label.closest('aegov-label') ?? label),
+    );
+    const id = this.el.id;
+    const root = this.el.getRootNode() as Document | ShadowRoot;
+    if (id && typeof root.querySelectorAll === 'function') {
+      root.querySelectorAll('aegov-label').forEach(label => {
+        if ((label as HTMLAegovLabelElement).htmlFor === id || label.getAttribute('for') === id) labels.add(label);
+      });
+    }
+    return Array.from(labels)
+      .map(label => (label.textContent ?? '').replace(/\s+/g, ' ').trim())
+      .filter(Boolean)
+      .join(' ');
+  }
+
+  /**
+   * Accessible name for the listbox trigger and its popup. The trigger lives in
+   * the shadow root, so label associations made on the host (aria-label from
+   * aegov-form-field, aria-labelledby IDs in the page, <label for>) cannot reach
+   * it; resolve them to text here instead. Precedence follows the ARIA name
+   * computation: aria-labelledby, then aria-label, then labels.
+   */
+  private accessibleName(): string | undefined {
+    const root = this.el.getRootNode() as Document | ShadowRoot;
+    const labelledBy = this.el.getAttribute('aria-labelledby');
+    if (labelledBy) {
+      const text = labelledBy.split(/\s+/)
+        .map(id => (typeof root.getElementById === 'function' ? root.getElementById(id) : null) ?? document.getElementById(id))
+        .filter((el): el is HTMLElement => !!el)
+        .map(el => (el.textContent ?? '').replace(/\s+/g, ' ').trim())
+        .filter(Boolean)
+        .join(' ');
+      if (text) return text;
+    }
+    const ariaLabel = this.el.getAttribute('aria-label')?.trim();
+    if (ariaLabel) return ariaLabel;
+    return this.externalLabelText() || undefined;
   }
 
   @Watch('extraClass')
@@ -406,6 +488,41 @@ export class AegovSelect {
     if (this.isOpen && this.listboxRef) {
       this.positionDropdown();
     }
+    this.flushActiveSync();
+  }
+
+  /**
+   * Keep the active option visible, and — when DOM focus is already on an
+   * option (VoiceOver's "keyboard focus follows VoiceOver cursor" puts it
+   * there) — move focus along with it so the screen reader announces it.
+   * Otherwise focus stays on the trigger and aria-activedescendant does the
+   * announcing (APG select-only combobox).
+   */
+  private flushActiveSync() {
+    const pending = this.pendingActiveSync;
+    if (!pending || !this.isOpen) return;
+    this.pendingActiveSync = null;
+    const id = this.activeDescendantId;
+    const option = id ? this.el.shadowRoot?.getElementById(id) : null;
+    if (!option) return;
+    if (pending.focusOption && typeof (option as HTMLElement).focus === 'function') {
+      (option as HTMLElement).focus({ preventScroll: true });
+    }
+    if (typeof option.scrollIntoView === 'function') option.scrollIntoView({ block: 'nearest' });
+  }
+
+  /** Whether DOM focus is currently on one of the options. */
+  private get optionHasFocus(): boolean {
+    const active = this.el.shadowRoot?.activeElement as HTMLElement | null;
+    return !!active && active.getAttribute('role') === 'option';
+  }
+
+  /** Make option `index` (among enabled, filtered options) the active one. */
+  private setActiveIndex(index: number) {
+    const count = this.filteredOptions.filter(o => !o.disabled).length;
+    if (count === 0) return;
+    this.focusedIndex = Math.max(0, Math.min(index, count - 1));
+    this.pendingActiveSync = { focusOption: this.optionHasFocus };
   }
 
   /** Whether to use the custom listbox rendering. */
@@ -444,7 +561,7 @@ export class AegovSelect {
     if (selected.length === 0) {
       this.cachedDisplayText = '';
     } else if (this.isMultiple) {
-      this.cachedDisplayText = `${selected.length} selected`;
+      this.cachedDisplayText = this.t.selectedCount(selected.length);
     } else {
       const option = this.parsedOptions.find(o => o.value === selected[0]);
       this.cachedDisplayText = option ? option.label : selected[0];
@@ -542,18 +659,21 @@ export class AegovSelect {
     }
   };
 
-  private openDropdown(direction?: 'down' | 'up') {
+  /**
+   * Open the popup. APG select-only combobox: visual focus goes to the
+   * selected option, else the first option; Home/End open on the first/last.
+   */
+  private openDropdown(position?: 'first' | 'last') {
     this.isOpen = true;
     this.searchQuery = '';
-    // APG Combobox: set visual focus to selected option (or first/last) on open
     if (!this.isSearchable) {
       const enabledOptions = this.parsedOptions.filter(o => !o.disabled);
-      const selectedIdx = this.value
-        ? enabledOptions.findIndex(o => o.value === this.value)
-        : -1;
-      this.focusedIndex = selectedIdx >= 0
-        ? selectedIdx
-        : (direction === 'up' ? enabledOptions.length - 1 : 0);
+      const firstSelected = this.selectedValues[0];
+      const selectedIdx = firstSelected ? enabledOptions.findIndex(o => o.value === firstSelected) : -1;
+      if (position === 'first') this.focusedIndex = 0;
+      else if (position === 'last') this.focusedIndex = enabledOptions.length - 1;
+      else this.focusedIndex = selectedIdx >= 0 ? selectedIdx : 0;
+      this.pendingActiveSync = { focusOption: false };
     } else {
       this.focusedIndex = -1;
     }
@@ -561,20 +681,30 @@ export class AegovSelect {
     requestAnimationFrame(() => {
       if (this.searchInputRef) {
         this.searchInputRef.focus();
+        const end = this.searchInputRef.value.length;
+        this.searchInputRef.setSelectionRange?.(end, end);
       }
       this.positionDropdown();
-      this.scrollFocusedIntoView();
     });
   }
 
-  private closeDropdown() {
+  /** The trigger button (the combobox). */
+  private get triggerButton(): HTMLButtonElement | null {
+    return (this.triggerRef?.querySelector('button[role="combobox"]') as HTMLButtonElement | null) ?? null;
+  }
+
+  /**
+   * Close the popup. `returnFocus` moves focus back to the trigger (Escape,
+   * a choice); an outside click or focus leaving the field closes without
+   * pulling focus back.
+   */
+  private closeDropdown(returnFocus = true) {
     this.isOpen = false;
     this.searchQuery = '';
     this.focusedIndex = -1;
+    this.pendingActiveSync = null;
     this.aegovSelectClose.emit();
-    // Return focus to trigger
-    const trigger = this.triggerRef?.querySelector('button');
-    if (trigger) trigger.focus();
+    if (returnFocus) this.triggerButton?.focus();
   }
 
   private positionDropdown() {
@@ -608,7 +738,7 @@ export class AegovSelect {
     }
   }
 
-  private selectOption(option: OptionItem) {
+  private selectOption(option: OptionItem, returnFocus = true) {
     if (option.disabled) return;
 
     if (this.isMultiple) {
@@ -638,12 +768,15 @@ export class AegovSelect {
       });
       this.runValidationSync();
       this.emitValidate('change');
-      this.closeDropdown();
+      this.closeDropdown(returnFocus);
     }
   }
 
   private handleClear = (event: MouseEvent) => {
     event.stopPropagation();
+    // The clear button disappears once the value is empty: move focus to the
+    // trigger first, so it never falls to <body>.
+    this.triggerButton?.focus();
     this.value = '';
     this.aegovSelectChange.emit({
       value: this.isMultiple ? [] : '',
@@ -659,15 +792,86 @@ export class AegovSelect {
     this.focusedIndex = -1;
   };
 
+  /** Whether `node` is this select or inside it (light DOM or shadow root). */
+  private containsNode(node: Node | null): boolean {
+    if (!node) return false;
+    return node === this.el || this.el.contains(node) || !!this.el.shadowRoot?.contains(node);
+  }
+
   @Listen('click', { target: 'document' })
   handleDocumentClick(event: MouseEvent) {
     if (this.isOpen) {
       const target = event.target as Node;
       // shadowRoot check covers environments without event retargeting (spec mock-doc)
-      if (!this.el.contains(target) && !this.el.shadowRoot?.contains(target)) {
-        this.closeDropdown();
+      if (!this.containsNode(target)) {
+        // Clicking elsewhere must not pull focus back to the select.
+        this.closeDropdown(false);
       }
     }
+  }
+
+  /**
+   * Focus left the field (Tab, a click elsewhere, a screen reader moving on):
+   * close without stealing focus back.
+   *
+   * Decided once focus has settled, not from this event: when VoiceOver moves
+   * real focus onto an option ("keyboard focus follows VoiceOver cursor"),
+   * Chrome first moves focus to the document (<html>) and only then to the
+   * option. Closing on that intermediate step removed the option VoiceOver
+   * was moving to, so the list closed and VoiceOver said "dimmed".
+   */
+  @Listen('focusout')
+  handleFocusOut() {
+    if (!this.isOpen) return;
+    setTimeout(() => {
+      if (!this.isOpen) return;
+      const active = document.activeElement;
+      // Still inside, or focus is on nothing / the page itself: keep the popup open.
+      if (!active || active === document.body || active === document.documentElement) return;
+      if (this.containsNode(active)) return;
+      this.closeDropdown(false);
+      this.hasBlurredOnce = true;
+      this.emitValidate('blur');
+    }, 0);
+  }
+
+  /**
+   * Focus arrived somewhere else on the page while the popup is open. Covers
+   * the case focusout can't: focus had already gone to nothing (a screen
+   * reader step, see handleFocusOut) and then lands on another control.
+   */
+  @Listen('focusin', { target: 'document' })
+  handleDocumentFocusIn(event: FocusEvent) {
+    if (!this.isOpen) return;
+    const target = (typeof event.composedPath === 'function' ? event.composedPath()[0] : event.target) as Node | null;
+    if (!target || target === document.body || target === document.documentElement) return;
+    if (this.containsNode(target)) return;
+    this.closeDropdown(false);
+    this.hasBlurredOnce = true;
+    this.emitValidate('blur');
+  }
+
+  /** Any pointer input inside the select switches the focus styling off. */
+  @Listen('pointerdown')
+  handlePointerDown() {
+    this.keyboardMode = false;
+  }
+
+  /** Mouse down inside the popup must not move focus off the trigger / search field. */
+  private preventFocusSteal = (event: MouseEvent) => {
+    if (event.target !== this.searchInputRef) event.preventDefault();
+  };
+
+  /**
+   * An option received DOM focus — VoiceOver's "keyboard focus follows
+   * VoiceOver cursor" does this when its cursor lands on an option. Make it
+   * the active option so the highlight and the keyboard follow it.
+   */
+  private handleOptionFocus(option: OptionItem) {
+    if (option.disabled) return;
+    this.keyboardMode = true;
+    const index = this.filteredOptions.filter(o => !o.disabled).indexOf(option);
+    if (index >= 0 && index !== this.focusedIndex) this.focusedIndex = index;
   }
 
   /** An option's value/isDisabled changed after load — see aegov-select-option's notifyParent(). */
@@ -678,82 +882,121 @@ export class AegovSelect {
     this.updateDerivedState();
   }
 
+  /**
+   * Keyboard model: W3C APG select-only combobox
+   * (https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/).
+   * Listening on the host catches keys from the trigger, the search field and
+   * any option that holds DOM focus, so the keys work wherever focus is.
+   */
   @Listen('keydown')
   handleKeyDown(event: KeyboardEvent) {
-    if (!this.useListbox) return;
+    if (!this.useListbox || this.disabled) return;
+
+    const origin = (typeof event.composedPath === 'function' ? event.composedPath()[0] : event.target) as HTMLElement | null;
+    // The clear button is an ordinary button: let Enter/Space activate it.
+    if (origin?.classList?.contains('select__clear')) return;
+    const inSearch = !!this.searchInputRef && origin === this.searchInputRef;
+    const key = event.key;
+    if (key !== 'Tab' && key !== 'Shift' && key !== 'Control' && key !== 'Alt' && key !== 'Meta') this.keyboardMode = true;
+    const printable = key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey;
 
     if (!this.isOpen) {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        this.openDropdown();
-      } else if (event.key === 'ArrowDown') {
-        event.preventDefault();
-        this.openDropdown('down');
-      } else if (event.key === 'ArrowUp') {
-        event.preventDefault();
-        this.openDropdown('up');
+      switch (key) {
+        case 'ArrowDown':
+        case 'ArrowUp':
+        case 'Enter':
+        case ' ':
+          event.preventDefault();
+          this.openDropdown();
+          break;
+        case 'Home':
+          event.preventDefault();
+          this.openDropdown('first');
+          break;
+        case 'End':
+          event.preventDefault();
+          this.openDropdown('last');
+          break;
+        default:
+          if (printable) {
+            event.preventDefault();
+            this.openDropdown();
+            if (this.isSearchable) this.searchQuery = key;
+            else this.handleTypeahead(key);
+          }
       }
       return;
     }
 
     const options = this.filteredOptions.filter(o => !o.disabled);
+    const active = this.focusedIndex >= 0 && this.focusedIndex < options.length ? options[this.focusedIndex] : null;
 
-    switch (event.key) {
+    switch (key) {
       case 'Escape':
         event.preventDefault();
+        // Only the popup closes — not a modal or drawer around the select.
+        event.stopPropagation();
         this.closeDropdown();
         break;
       case 'ArrowDown':
         event.preventDefault();
-        this.focusedIndex = Math.min(this.focusedIndex + 1, options.length - 1);
-        this.scrollFocusedIntoView();
+        if (!event.altKey) this.setActiveIndex(this.focusedIndex + 1);
         break;
       case 'ArrowUp':
         event.preventDefault();
         if (event.altKey) {
-          this.closeDropdown();
+          // APG: Alt+Up chooses the active option and closes.
+          if (active && !this.isMultiple) this.selectOption(active);
+          else this.closeDropdown();
         } else {
-          this.focusedIndex = Math.max(this.focusedIndex - 1, 0);
-          this.scrollFocusedIntoView();
-        }
-        break;
-      case 'Enter':
-      case ' ':
-        if (this.isSearchable && event.key === ' ') return; // Allow space in search
-        event.preventDefault();
-        if (this.focusedIndex >= 0 && this.focusedIndex < options.length) {
-          this.selectOption(options[this.focusedIndex]);
+          this.setActiveIndex(this.focusedIndex - 1);
         }
         break;
       case 'Home':
-        event.preventDefault();
-        this.focusedIndex = 0;
-        this.scrollFocusedIntoView();
-        break;
       case 'End':
+        if (inSearch) return; // move the caret in the search field
         event.preventDefault();
-        this.focusedIndex = options.length - 1;
-        this.scrollFocusedIntoView();
+        this.setActiveIndex(key === 'Home' ? 0 : options.length - 1);
         break;
-      case 'Tab':
-        this.closeDropdown();
+      case 'PageUp':
+      case 'PageDown':
+        event.preventDefault();
+        this.setActiveIndex(Math.max(this.focusedIndex, 0) + (key === 'PageUp' ? -PAGE_STEP : PAGE_STEP));
         break;
-      default:
-        if (!this.isSearchable && event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
-          event.preventDefault();
-          this.handleTypeahead(event.key);
-        }
+      case 'Enter':
+      case ' ':
+        if (inSearch && key === ' ') return; // a space typed into the search
+        event.preventDefault();
+        if (active) this.selectOption(active);
         break;
-    }
-  }
-
-  private scrollFocusedIntoView() {
-    requestAnimationFrame(() => {
-      const focused = this.el.querySelector('.select__option--focused');
-      if (focused) {
-        focused.scrollIntoView({ block: 'nearest' });
+      case 'Tab': {
+        // APG: Tab chooses the active option, closes, and lets focus move on.
+        // Put focus back on the trigger first, so the browser continues the
+        // Tab sequence from there instead of from an option that is about to
+        // disappear.
+        // The search field is still in the DOM until the re-render: take it out
+        // of the Tab order now, or Tab would land on it just before it is removed.
+        if (this.searchInputRef) this.searchInputRef.tabIndex = -1;
+        const leavingInside = inSearch || this.optionHasFocus;
+        if (active && !this.isMultiple) this.selectOption(active, false);
+        else this.closeDropdown(false);
+        if (leavingInside) this.triggerButton?.focus();
+        break;
       }
-    });
+      default:
+        if (!printable) break;
+        if (this.isSearchable) {
+          if (!inSearch) {
+            event.preventDefault();
+            this.searchQuery += key;
+            this.focusedIndex = -1;
+            this.searchInputRef?.focus();
+          }
+        } else {
+          event.preventDefault();
+          this.handleTypeahead(key);
+        }
+    }
   }
 
   private handleTypeahead(char: string) {
@@ -764,12 +1007,17 @@ export class AegovSelect {
     const options = this.filteredOptions.filter(o => !o.disabled);
     if (options.length === 0) return;
 
-    const start = this.focusedIndex < 0 ? 0 : this.focusedIndex;
-    for (let i = 1; i <= options.length; i++) {
-      const idx = (start + i) % options.length;
-      if (options[idx].label.toLowerCase().startsWith(this.typeaheadBuffer)) {
-        this.focusedIndex = idx;
-        this.scrollFocusedIntoView();
+    // A single repeated character cycles through matches (APG); a longer
+    // buffer starts matching at the current option, so typing "sha" stays on
+    // "Sharjah" once it matched at "s".
+    const isRepeat = this.typeaheadBuffer.length > 1 && this.typeaheadBuffer.split('').every(c => c === this.typeaheadBuffer[0]);
+    const search = isRepeat ? this.typeaheadBuffer[0] : this.typeaheadBuffer;
+    const start = this.focusedIndex < 0 ? -1 : this.focusedIndex;
+    const offset = search.length === 1 ? 1 : 0;
+    for (let i = 0; i < options.length; i++) {
+      const idx = (start + offset + i + options.length) % options.length;
+      if (options[idx].label.toLowerCase().startsWith(search)) {
+        this.setActiveIndex(idx);
         return;
       }
     }
@@ -786,11 +1034,6 @@ export class AegovSelect {
   /** Generate a stable option ID from value. */
   private getOptionId(value: string): string {
     return `${this.selectId}-opt-${value}`;
-  }
-
-  /** Generate a stable group label ID. */
-  private getGroupId(label: string): string {
-    return `${this.selectId}-group-${label.replace(/\s+/g, '-').toLowerCase()}`;
   }
 
   /** Get the ID of the currently focused option (for aria-activedescendant). */
@@ -818,6 +1061,7 @@ export class AegovSelect {
     if (this.disabled) classes.push('select--disabled');
     if (this.isOpen) classes.push('select--open');
     if (!this.displayText) classes.push('select--placeholder');
+    if (this.showClearButton) classes.push('select--has-clear');
     if (this.extraClass) classes.push(this.extraClass);
     return classes.join(' ');
   }
@@ -933,12 +1177,22 @@ export class AegovSelect {
     return { errorRegion, hintRegion, describedBy, hostClass };
   }
 
+  /** Whether the clear button is shown. */
+  private get showClearButton(): boolean {
+    return this.isClearable && this.selectedValues.length > 0 && !this.disabled;
+  }
+
   private renderListbox() {
     const groups = this.groupedFilteredOptions;
     const enabledOptions = this.filteredOptions.filter(o => !o.disabled);
     const validationDecor = this.computeValidationDecor();
     const { errorRegion, hintRegion, describedBy, hostClass } = validationDecor;
-    const t = isRtl(this.el) ? STRINGS.ar : STRINGS.en;
+    const t = this.t;
+    // Read so a change to the host's labelling attributes re-renders.
+    void this.nameRevision;
+    const name = this.accessibleName();
+    const noResults = groups.length === 0;
+    const noResultsText = this.emptyMessage || t.noResults;
     return (
       <Host class={hostClass}>
         <div
@@ -951,13 +1205,18 @@ export class AegovSelect {
             class={this.getTriggerClasses()}
             onClick={this.toggleDropdown}
             onBlur={(e: FocusEvent) => {
-              if (!this.el.contains(e.relatedTarget as Node)) {
+              // While the popup is open, focus may pass through the page on its
+              // way to an option (screen readers); handleFocusOut validates if
+              // focus really leaves.
+              if (this.isOpen) return;
+              if (!this.containsNode(e.relatedTarget as Node)) {
                 this.hasBlurredOnce = true;
                 this.emitValidate('blur');
               }
             }}
             disabled={this.disabled}
             role="combobox"
+            aria-label={name}
             aria-expanded={this.isOpen ? 'true' : 'false'}
             aria-haspopup="listbox"
             aria-controls={this.selectId}
@@ -969,20 +1228,7 @@ export class AegovSelect {
             <span class="select__value">
               {this.displayText || this.placeholder || ''}
             </span>
-            <span class="select__actions">
-              {this.isClearable && this.selectedValues.length > 0 && !this.disabled && (
-                <button
-                  type="button"
-                  class="select__clear"
-                  onClick={this.handleClear}
-                  aria-label={t.clearSelection}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
-                </button>
-              )}
+            <span class="select__actions" aria-hidden="true">
               <span class={`select__arrow${this.isOpen ? ' select__arrow--open' : ''}`}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <polyline points="6 9 12 15 18 9" />
@@ -991,14 +1237,30 @@ export class AegovSelect {
             </span>
           </button>
 
+          {/* A real button next to the combobox, not inside it: interactive
+              content can't be nested in a <button>, and inside one it was
+              unreachable by keyboard. */}
+          {this.showClearButton && (
+            <button
+              type="button"
+              class="select__clear"
+              onClick={this.handleClear}
+              aria-label={name ? `${t.clearSelection}${t.listSeparator}${name}` : t.clearSelection}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          )}
+
           {this.isOpen && (
             <div
-              class="select__listbox"
+              class={`select__listbox${this.keyboardMode ? ' select__listbox--keyboard' : ''}`}
               ref={el => this.listboxRef = el}
-              role="listbox"
-              id={this.selectId}
-              aria-multiselectable={this.isMultiple ? 'true' : undefined}
+              onMouseDown={this.preventFocusSteal}
             >
+              {/* The search field sits outside the listbox: a listbox may only contain options and groups. */}
               {this.isSearchable && (
                 <div class="select__search">
                   <input
@@ -1009,21 +1271,31 @@ export class AegovSelect {
                     onInput={this.handleSearchInput}
                     ref={el => this.searchInputRef = el}
                     role="combobox"
-                    aria-label={t.searchLabel}
+                    aria-label={name ? `${t.searchLabel}${t.listSeparator}${name}` : t.searchLabel}
                     aria-expanded="true"
                     aria-haspopup="listbox"
+                    aria-autocomplete="list"
                     aria-controls={this.selectId}
                     aria-activedescendant={this.activeDescendantId}
                     autocomplete="off"
                   />
                 </div>
               )}
-              <div class="select__options">
-                {groups.length === 0 && (
-                  <div class="select__empty" role="status">{this.emptyMessage || (isRtl(this.el) ? STRINGS.ar.noResults : STRINGS.en.noResults)}</div>
-                )}
+              {/* role="listbox" sits on the scroll container itself. Chrome makes
+                  a scroll container with no tabbable content a Tab stop, which
+                  is where Tab and VoiceOver used to strand focus: tabindex -1
+                  takes it out of the Tab order, and every option is focusable
+                  (tabindex -1) so a screen reader's focus lands on an option,
+                  never on the container. */}
+              <div
+                class="select__options"
+                role="listbox"
+                tabindex="-1"
+                id={this.selectId}
+                aria-label={name}
+                aria-multiselectable={this.isMultiple ? 'true' : undefined}
+              >
                 {groups.map(g => {
-                  const groupLabelId = g.group ? this.getGroupId(g.group) : undefined;
                   const optionElements = g.options.map(opt => {
                     const isSelected = this.selectedValues.includes(opt.value);
                     const enabledIndex = enabledOptions.indexOf(opt);
@@ -1038,13 +1310,20 @@ export class AegovSelect {
                           (isFocused ? ' select__option--focused' : '')
                         }
                         role="option"
-                        aria-selected={isSelected ? 'true' : 'false'}
+                        tabindex="-1"
+                        // Single select: aria-selected marks the highlighted option, as in the
+                        // APG select-only combobox — VoiceOver's own navigation (Quick Nav)
+                        // moves to the option marked selected, so it has to follow the
+                        // highlight. The check icon still shows the saved value. Multiple
+                        // select: aria-selected is each option's checked state.
+                        aria-selected={(this.isMultiple ? isSelected : isFocused) ? 'true' : 'false'}
                         aria-disabled={opt.disabled ? 'true' : undefined}
-                        onClick={() => this.selectOption(opt)}
+                        onClick={() => { if (enabledIndex >= 0) this.focusedIndex = enabledIndex; this.selectOption(opt); }}
+                        onFocus={() => this.handleOptionFocus(opt)}
                         data-value={opt.value}
                       >
                         {this.isMultiple && (
-                          <span class="select__checkbox">
+                          <span class="select__checkbox" aria-hidden="true">
                             {isSelected && (
                               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <polyline points="20 6 9 17 4 12" />
@@ -1063,9 +1342,12 @@ export class AegovSelect {
                   });
 
                   if (g.group) {
+                    // Named with aria-label (not the visible heading): the heading is
+                    // styled uppercase, which would otherwise end up in the name, and
+                    // the heading text would be read a second time inside the group.
                     return (
-                      <div role="group" aria-labelledby={groupLabelId}>
-                        <div id={groupLabelId} class="select__group-label">{g.group}</div>
+                      <div role="group" aria-label={g.group}>
+                        <div class="select__group-label" aria-hidden="true">{g.group}</div>
                         {optionElements}
                       </div>
                     );
@@ -1073,6 +1355,11 @@ export class AegovSelect {
                   return optionElements;
                 })}
               </div>
+              {noResults && (
+                <div class="select__empty" aria-hidden="true">{noResultsText}</div>
+              )}
+              {/* Present from the moment the popup opens, so filling it is announced. */}
+              <div class="select__status" role="status">{noResults ? noResultsText : ''}</div>
             </div>
           )}
         </div>
