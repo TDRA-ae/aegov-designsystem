@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, Watch, Method } from '@stencil/core';
+import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, Watch, Method, forceUpdate } from '@stencil/core';
 import { DATEPICKER_MODES, INPUT_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
   DatepickerMode, DatepickerPreset, DatepickerChangeDetail, DatepickerMonthChangeDetail, InputSize, FormVariant,
@@ -23,6 +23,7 @@ import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { HostAria } from '../../utils/host-aria';
 import { isRtl } from '../../utils/rtl';
 import { resolveFocusTarget } from '../../utils/focus-management';
 
@@ -354,24 +355,13 @@ export class AegovDatepicker {
    * would otherwise hide the label, so render() puts this text first in it.
    */
   private externalLabelText(): string {
-    const labels = new Set<Element>(
-      // ElementInternals.labels is typed as NodeList, but it only ever holds <label> elements.
-      Array.from((this.internals?.labels ?? []) as ArrayLike<HTMLLabelElement>).map(label => label.closest('aegov-label') ?? label),
-    );
-    const id = this.el.id;
-    const root = this.el.getRootNode() as Document | ShadowRoot;
-    if (id && typeof root.querySelectorAll === 'function') {
-      root.querySelectorAll('aegov-label').forEach(label => {
-        if ((label as HTMLAegovLabelElement).htmlFor === id || label.getAttribute('for') === id) labels.add(label);
-      });
-    }
-    return Array.from(labels)
-      .map(label => (label.textContent ?? '').replace(/\s+/g, ' ').trim())
-      .filter(Boolean)
-      .join(' ');
+    // Host aria-labelledby, then aria-label (aegov-form-field), then labels
+    // (<label for>, aegov-label for) — see utils/host-aria (DS-A11Y-input-01).
+    return this.hostAria?.name() ?? '';
   }
 
   componentDidLoad() {
+    this.hostAria?.refreshSoon();
     this.createPortalElement();
     this.runValidationSync();
   }
@@ -381,7 +371,16 @@ export class AegovDatepicker {
     this.runValidationSync();
   }
 
+  /** Host aria-label / aria-labelledby / aria-describedby / labels, resolved for the inner control (DS-A11Y-input-01). */
+  private hostAria?: HostAria;
+
+  connectedCallback() {
+    this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, internals: () => this.internals, onChange: () => forceUpdate(this) });
+    this.hostAria.connect();
+  }
+
   disconnectedCallback() {
+    this.hostAria?.disconnect();
     this._sizeWatcher?.destroy();
     this.removePortalElement();
   }
@@ -873,11 +872,17 @@ export class AegovDatepicker {
     let openAbove = false;
 
     // Prefer below, flip to above if not enough space
-    if (triggerRect.bottom + gap + dpRect.height > viewportHeight && triggerRect.top - gap - dpRect.height > 0) {
+    const fitsBelow = triggerRect.bottom + gap + dpRect.height <= viewportHeight - gap;
+    if (!fitsBelow && triggerRect.top - gap - dpRect.height > 0) {
       top = triggerRect.top - dpRect.height - gap;
       openAbove = true;
-    } else {
+    } else if (fitsBelow) {
       top = triggerRect.bottom + gap;
+    } else {
+      // Fits neither side (small viewport or zoomed text): keep the whole
+      // dialog on screen, even if it covers the field (WCAG 1.4.10 Reflow).
+      // Its CSS max-height is the viewport, so it scrolls inside if needed.
+      top = viewportHeight - dpRect.height - gap;
     }
 
     // Align start (left in LTR, right in RTL)
@@ -1479,6 +1484,16 @@ export class AegovDatepicker {
     this.isOpen = false;
   }
 
+  /**
+   * The clear button removes itself once the value is empty, so move focus to
+   * the field first; otherwise it would drop to <body>.
+   */
+  private handleClearClick = (event: MouseEvent) => {
+    event.stopPropagation();
+    this.handleClear();
+    this.validityAnchor?.focus();
+  };
+
   private handleClear() {
     this.selectedDate = null;
     this.rangeStart = null;
@@ -1601,7 +1616,18 @@ export class AegovDatepicker {
       newCalendars.appendChild(this.buildCalendarMonth(secondYear, secondMonth, false));
     }
 
+    // The swap destroys the header controls. If one of them had focus (the
+    // Previous/Next month button or the month/year select the user just used),
+    // focus the same control in the new header so focus doesn't drop to <body>.
+    const headerControls = '.datepicker__header button, .datepicker__header select';
+    const focusedIndex = Array.from(oldCalendars.querySelectorAll<HTMLElement>(headerControls))
+      .indexOf(document.activeElement as HTMLElement);
+
     oldCalendars.parentElement!.replaceChild(newCalendars, oldCalendars);
+
+    if (focusedIndex >= 0) {
+      newCalendars.querySelectorAll<HTMLElement>(headerControls)[focusedIndex]?.focus();
+    }
   }
 
   private announceLive(message: string) {
@@ -1753,6 +1779,11 @@ export class AegovDatepicker {
   @Listen('keydown', { target: 'document' })
   handleKeyDown(event: KeyboardEvent) {
     if (!this.isOpen) {
+      // event.target is retargeted to the host for anything inside the shadow
+      // root, so check the real origin: Enter/Space on the clear button must
+      // activate that button, not open the calendar.
+      const origin = event.composedPath()[0] as Element | undefined;
+      if (origin?.closest?.('.datepicker__clear-btn')) return;
       if ((event.key === 'Enter' || event.key === ' ') && this.el.contains(event.target as Node)) {
         event.preventDefault();
         this.isOpen = true;
@@ -2111,6 +2142,7 @@ export class AegovDatepicker {
               : externalLabel ? '' : placeholder,
           ].filter(Boolean).join(', ')}
           aria-describedby={composeDescribedBy(
+            this.hostAria?.descriptionId(),
             formatHintId,
             showError ? this.errorId : null,
             showHint ? this.hintId : null,
@@ -2121,7 +2153,7 @@ export class AegovDatepicker {
           <button
             type="button"
             class="datepicker__clear-btn"
-            onClick={(e: MouseEvent) => { e.stopPropagation(); this.handleClear(); }}
+            onClick={this.handleClearClick}
             aria-label={this.t.clearDate}
             innerHTML={CLEAR_ICON}
           />
@@ -2141,6 +2173,7 @@ export class AegovDatepicker {
     const formatHintId = `${this.fieldId}-format-hint`;
     const { showError, showHint } = this.getValidationDisplay();
     const inputDescribedBy = composeDescribedBy(
+      this.hostAria?.descriptionId(),
       formatHintId,
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
@@ -2190,7 +2223,7 @@ export class AegovDatepicker {
           <button
             type="button"
             class="datepicker__clear-btn"
-            onClick={(e: MouseEvent) => { e.stopPropagation(); this.handleClear(); }}
+            onClick={this.handleClearClick}
             aria-label={this.t.clearDates}
             innerHTML={CLEAR_ICON}
           />
@@ -2202,7 +2235,7 @@ export class AegovDatepicker {
 
   render() {
     const mode: DatepickerMode = (DATEPICKER_MODES as readonly string[]).includes(this.appearance) ? this.appearance : 'single';
-    const passThroughAttrs = getPassThroughAttributes(this.el, AegovDatepicker.PASS_THROUGH_ATTRS);
+    const passThroughAttrs = this.hostAria ? this.hostAria.bridge(getPassThroughAttributes(this.el, AegovDatepicker.PASS_THROUGH_ATTRS)) : getPassThroughAttributes(this.el, AegovDatepicker.PASS_THROUGH_ATTRS);
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
 
@@ -2238,7 +2271,7 @@ export class AegovDatepicker {
           onClick={this.handleTriggerClick}
           aria-invalid={this.isInvalid ? 'true' : null}
           aria-describedby={composeDescribedBy(
-            this.el.getAttribute('aria-describedby'),
+            this.hostAria?.descriptionId(),
             showError ? this.errorId : null,
             showHint ? this.hintId : null,
           )}
@@ -2261,6 +2294,7 @@ export class AegovDatepicker {
         >
           {this.liveAnnouncement}
         </div>
+        {this.hostAria?.renderDescription()}
       </Host>
     );
   }

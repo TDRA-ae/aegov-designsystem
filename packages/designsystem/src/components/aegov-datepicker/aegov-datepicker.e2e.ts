@@ -146,6 +146,37 @@ describe('aegov-datepicker (e2e)', () => {
     expect(monthSpy.lastEvent.detail).toEqual({ month: 6, year: 2024 });
   });
 
+  for (const [label, markup] of [
+    ['single', '<aegov-datepicker value="2024-06-15"></aegov-datepicker>'],
+    ['range', '<aegov-datepicker appearance="range" value="2024-06-01 / 2024-06-05"></aegov-datepicker>'],
+  ]) {
+    it(`focus stays on the Next/Previous month button after it is activated with the keyboard (${label})`, async () => {
+      const page = await newE2EPage();
+      await page.setContent(markup);
+      const host = await page.find('aegov-datepicker');
+      await host.callMethod('open');
+      await page.waitForChanges();
+      const focusedLabel = () => page.evaluate(() => (document.activeElement as HTMLElement)?.getAttribute('aria-label') || document.activeElement?.tagName);
+
+      await page.evaluate(() => (document.querySelector('.aegov-datepicker-portal button[aria-label^="Next month"]') as HTMLElement).focus());
+      await page.keyboard.press('Enter');
+      await page.waitForChanges();
+      expect(await focusedLabel()).toMatch(/^Next month, /);
+
+      // Pressing again keeps moving forward, from the same button.
+      const before = await focusedLabel();
+      await page.keyboard.press('Space');
+      await page.waitForChanges();
+      expect(await focusedLabel()).toMatch(/^Next month, /);
+      expect(await focusedLabel()).not.toBe(before);
+
+      await page.evaluate(() => (document.querySelector('.aegov-datepicker-portal button[aria-label^="Previous month"]') as HTMLElement).focus());
+      await page.keyboard.press('Enter');
+      await page.waitForChanges();
+      expect(await focusedLabel()).toMatch(/^Previous month, /);
+    });
+  }
+
   it('clear button clears the value and emits clear', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-datepicker value="2024-06-15"></aegov-datepicker>');
@@ -160,6 +191,60 @@ describe('aegov-datepicker (e2e)', () => {
     expect(clearSpy).toHaveReceivedEventTimes(1);
     expect(await host.getProperty('value')).toBe('');
   });
+
+  for (const [label, markup] of [
+    ['single', '<aegov-datepicker value="2024-06-15"></aegov-datepicker>'],
+    ['range', '<aegov-datepicker appearance="range" value="2024-06-01 / 2024-06-05"></aegov-datepicker>'],
+  ]) {
+    for (const key of ['Enter', 'Space'] as const) {
+      it(`${key} on the clear button clears the value, keeps the calendar closed and keeps focus in the field (${label})`, async () => {
+        const page = await newE2EPage();
+        await page.setContent(markup);
+        const host = await page.find('aegov-datepicker');
+        const clearSpy = await host.spyOnEvent('aegovDatepickerClear');
+        await page.$eval('aegov-datepicker', (el: HTMLElement) => (el.shadowRoot!.querySelector('.datepicker__clear-btn') as HTMLElement).focus());
+        await page.keyboard.press(key);
+        await page.waitForChanges();
+
+        expect(clearSpy).toHaveReceivedEventTimes(1);
+        expect(await host.getProperty('value')).toBe('');
+        // The calendar stays closed: no portal dialog, trigger not expanded.
+        expect(await page.find('.datepicker__dialog, [role="dialog"]')).toBeNull();
+        const expanded = await page.$eval('aegov-datepicker', (el: HTMLElement) => el.shadowRoot!.querySelector('input.datepicker__input')!.getAttribute('aria-expanded'));
+        expect(expanded).toBe('false');
+        const focused = await page.evaluate(() => {
+          const a = document.querySelector('aegov-datepicker')!.shadowRoot!.activeElement;
+          return a ? a.className : document.activeElement?.tagName;
+        });
+        expect(focused).toContain('datepicker__input');
+      });
+    }
+  }
+
+  // Reflow (WCAG 1.4.10): the calendar never runs off a small screen.
+  for (const [w, h] of [[320, 640], [320, 256]] as const) {
+    it(`range calendar with presets and confirmation fits a ${w}x${h} viewport`, async () => {
+      const page = await newE2EPage();
+      await page.setViewport({ width: w, height: h });
+      await page.setContent('<aegov-datepicker appearance="range" presets="today,yesterday,last7Days,thisMonth,lastMonth" is-with-confirmation="true"></aegov-datepicker>');
+      const host = await page.find('aegov-datepicker');
+      await host.callMethod('open');
+      await page.waitForSelector('.aegov-datepicker.datepicker--visible');
+      const r = await page.evaluate(() => {
+        const d = document.querySelector('.aegov-datepicker.datepicker--visible') as HTMLElement;
+        const b = d.getBoundingClientRect();
+        const [c1, c2] = Array.from(d.querySelectorAll('.datepicker__calendar')).map(c => c.getBoundingClientRect());
+        return {
+          inside: b.left >= 0 && b.top >= 0 && b.right <= innerWidth && b.bottom <= innerHeight,
+          monthsStacked: c2.top >= c1.bottom - 1,
+          scrollsInside: d.scrollHeight > d.clientHeight,
+        };
+      });
+      expect(r.inside).toBe(true);
+      expect(r.monthsStacked).toBe(true);
+      expect(r.scrollsInside).toBe(true);
+    });
+  }
 
   it('Escape closes the open calendar and emits close', async () => {
     const page = await newE2EPage();
