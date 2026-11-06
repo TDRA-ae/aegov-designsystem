@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Element, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Element, Watch, Listen } from '@stencil/core';
 import { generateId } from '../../utils/id-generator';
 import { INPUT_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type { InputSize, FormVariant } from '../../utils/types';
@@ -75,8 +75,6 @@ export class AegovInputGroup {
   }
 
   private propagateSize() {
-    const prefixId = this.addonPrefix ? `${this.groupId}-prefix` : undefined;
-    const suffixId = this.addonSuffix ? `${this.groupId}-suffix` : undefined;
     const inputs = this.el.querySelectorAll('aegov-input');
     inputs.forEach((input: any) => {
       input.size = this._resolvedSize;
@@ -87,13 +85,11 @@ export class AegovInputGroup {
       if (input.variant === undefined) {
         input.variant = this.variant;
       }
-      // Link prefix and suffix addon labels to input via aria-describedby chain
-      if (prefixId) {
-        input.describedByPrefix = prefixId;
-      }
-      if (suffixId) {
-        input.describedBySuffix = suffixId;
-      }
+      // Addon text ("AED", ".gov.ae") becomes part of the input's description.
+      // The text is passed, not the span ids: the real input is in the
+      // child's shadow root and can't reference ids in this light DOM.
+      input.addonPrefixText = this.addonPrefix || undefined;
+      input.addonSuffixText = this.addonSuffix || undefined;
       // Flag grouped membership as a plain host attribute so the child can
       // style itself with :host([is-grouped]) instead of the parent reaching
       // in with :host-context(.aegov-input-group) — :host-context() is
@@ -107,6 +103,42 @@ export class AegovInputGroup {
       btn.size = this._resolvedSize;
       btn.setAttribute('is-grouped', '');
     });
+  }
+
+  /** Bumped when a child input's invalid state, error or hint changes. */
+  @State() private messageRevision: number = 0;
+
+  /**
+   * A child aegov-input re-rendered (its validity, error or hint may have
+   * changed): re-read the messages shown below the group.
+   */
+  @Listen('aegovInputGroupSync')
+  onChildRender() {
+    const next = JSON.stringify(this.childMessages());
+    if (next !== this.lastMessages) {
+      this.lastMessages = next;
+      this.messageRevision++;
+    }
+  }
+
+  private lastMessages = '';
+
+  /**
+   * The hint or error of each child input. Inside the group the input can't
+   * show them (they would sit inside the bordered box), so the group shows
+   * them below itself, as a standalone input does (DS-A11Y-input-group-02).
+   * The input keeps its own hidden copy for its aria-describedby.
+   */
+  private childMessages(): Array<{ kind: 'error' | 'hint'; text: string }> {
+    const text = (el?: Element | null) => (el?.textContent ?? '').replace(/\s+/g, ' ').trim();
+    const out: Array<{ kind: 'error' | 'hint'; text: string }> = [];
+    this.el.querySelectorAll<HTMLAegovInputElement>('aegov-input').forEach(input => {
+      const error = text(input.querySelector('[slot="error"]')) || (input.errorMessage ?? '').trim();
+      const hint = text(input.querySelector('[slot="hint"]')) || (input.hint ?? '').trim();
+      if (input.isInvalid && error) out.push({ kind: 'error', text: error });
+      else if (hint) out.push({ kind: 'hint', text: hint });
+    });
+    return out;
   }
 
   private getGroupClasses(): string {
@@ -138,6 +170,8 @@ export class AegovInputGroup {
     const suffixId = this.addonSuffix ? `${this.groupId}-suffix` : undefined;
     const passThroughAttrs = getPassThroughAttributes(this.el);
     delete passThroughAttrs['aria-label'];
+    void this.messageRevision; // re-render when a child's messages change
+    const messages = this.childMessages();
     return (
       <Host>
         <div
@@ -158,6 +192,11 @@ export class AegovInputGroup {
             </span>
           )}
         </div>
+        {/* Always rendered, so an error that appears later is announced once. */}
+        <div class="input-group__error" role="alert">
+          {messages.filter(m => m.kind === 'error').map(m => <div>{m.text}</div>)}
+        </div>
+        {messages.filter(m => m.kind === 'hint').map(m => <div class="input-group__hint">{m.text}</div>)}
       </Host>
     );
   }
