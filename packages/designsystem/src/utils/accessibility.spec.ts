@@ -484,11 +484,13 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
     it('aegov-input preserves author aria-describedby and appends error ID', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input field-id="x" aria-describedby="external-help" is-invalid="true" error-message="err"></aegov-input>`,
+        html: `<p id="external-help">External help</p><aegov-input field-id="x" aria-describedby="external-help" is-invalid="true" error-message="err"></aegov-input>`,
       });
-      const desc = q(page.root, 'input')?.getAttribute('aria-describedby');
-      expect(desc).toContain('external-help');
-      expect(desc).toContain('x-error');
+      const host = page.body.querySelector('aegov-input');
+      const desc = q(host, 'input')?.getAttribute('aria-describedby');
+      // The external text is copied into the shadow root (an ID can't cross it).
+      expect(desc).toBe('x-host-desc x-error');
+      expect(q(host, '#x-host-desc')?.textContent).toBe('External help');
     });
   });
 });
