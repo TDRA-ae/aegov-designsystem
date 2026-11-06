@@ -20,13 +20,13 @@
   font-family: inherit;
   @apply relative w-full bg-transparent leading-6
          motion-reduce:transition-none
-         rounded-lg focus:outline-none cursor-pointer;
-  @apply placeholder:text-aeblack-300 bg-whitely-50
+         rounded-lg focus:outline-hidden cursor-pointer;
+  @apply placeholder:text-aeblack-500 bg-whitely-50
          border-2
          focus-visible:ring-2
          focus-visible:ring-offset-1
-         focus-visible:ring-primary-support-400
-         dark:placeholder:text-aeblack-500 dark:bg-aeblack-800
+         focus-visible:ring-primary-support-500
+         dark:placeholder:text-aeblack-300 dark:bg-aeblack-800
          dark:focus-visible:ring-primary-support-400;
   /* Custom arrow for native select */
   appearance: none;
@@ -43,13 +43,10 @@
   opacity: 0.4;
 }
 
-/* Dark mode arrow — lighter stroke for legibility on dark bg.
-   Uses @media for spec-compliant shadow DOM dark detection. */
-@media (prefers-color-scheme: dark) {
-  .aegov-select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23b9bbc1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  }
-}
+/* No OS-dark-mode (prefers-color-scheme) overrides here: the field and the
+   popup keep their light surface in both modes (the design system's dark
+   mode is the .dark class, which can't reach into this shadow root), so a
+   media-query colour change would put light text/arrows on a light surface. */
 
 /* Variant — idle border + value text per colour family (mirrors aegov-input pattern) */
 .aegov-select.select-variant-primary       { @apply border-primary-600 text-primary-900 dark:border-primary-400 dark:text-whitely-100; }
@@ -59,16 +56,16 @@
 
 /* Focus ring — overrides variant idle border. Per-variant selector beats variant specificity. */
 .aegov-select.select-variant-primary:focus-visible {
-  @apply ring-1 ring-offset-2 ring-primary-support-400 border-2 border-primary-support-400
+  @apply ring-1 ring-offset-2 ring-primary-support-500 border-2 border-primary-support-500
          dark:ring-primary-support-400 dark:border-primary-support-400;
 }
 .aegov-select.select-variant-secondary:focus-visible {
-  @apply ring-1 ring-offset-2 ring-secondary-support-400 border-2 border-secondary-support-400
+  @apply ring-1 ring-offset-2 ring-secondary-support-500 border-2 border-secondary-support-500
          dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
 .aegov-select.select-variant-neutral-max:focus-visible,
 .aegov-select.select-variant-neutral-min:focus-visible {
-  @apply ring-1 ring-offset-2 ring-seablue-400 border-2 border-seablue-400
+  @apply ring-1 ring-offset-2 ring-seablue-500 border-2 border-seablue-500
          dark:ring-seablue-400 dark:border-seablue-400;
 }
 
@@ -130,14 +127,15 @@ button.aegov-select {
 }
 
 .select--placeholder .select__value {
-  @apply text-aeblack-500 dark:text-aeblack-400;
+  /* ≥4.5:1: aeblack-500 on white 5.5:1, aeblack-300 on aeblack-800 5.4:1 (DS-A11Y-input-04). */
+  @apply text-aeblack-500 dark:text-aeblack-300;
 }
 
 /* Open state — variant-aware border swap to support colour (mirrors focus). */
-.aegov-select.select-variant-primary.select--open       { @apply border-primary-support-400 dark:border-primary-support-400; }
-.aegov-select.select-variant-secondary.select--open     { @apply border-secondary-support-400 dark:border-secondary-support-400; }
+.aegov-select.select-variant-primary.select--open       { @apply border-primary-support-500 dark:border-primary-support-400; }
+.aegov-select.select-variant-secondary.select--open     { @apply border-secondary-support-500 dark:border-secondary-support-400; }
 .aegov-select.select-variant-neutral-max.select--open,
-.aegov-select.select-variant-neutral-min.select--open   { @apply border-seablue-400 dark:border-seablue-400; }
+.aegov-select.select-variant-neutral-min.select--open   { @apply border-seablue-500 dark:border-seablue-400; }
 
 .select--disabled {
   opacity: 0.4;
@@ -154,10 +152,28 @@ button.aegov-select {
 }
 
 .select__clear {
-  @apply flex items-center justify-center w-5 h-5 rounded
-         text-aeblack-500 hover:text-primary-700 hover:bg-primary-50
+  /* A sibling of the combobox button (buttons can't be nested), placed over
+     its inline-end edge just before the arrow. 24x24 meets WCAG 2.5.8. */
+  @apply absolute top-1/2 -translate-y-1/2 z-10
+         flex items-center justify-center w-6 h-6 rounded
+         text-aeblack-600 hover:text-primary-700 hover:bg-primary-50
          cursor-pointer transition-colors duration-200
-         dark:text-aeblack-400 dark:hover:text-primary-300 dark:hover:bg-primary-900/30;
+         focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-600
+         dark:text-aeblack-300 dark:hover:text-primary-300 dark:hover:bg-primary-900/30
+         dark:focus-visible:outline-primary-300;
+  inset-inline-end: 2.5rem;
+  /* No browser button chrome: this sits inside the field. */
+  appearance: none;
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  font: inherit;
+}
+
+/* Leave room for the clear button so the value text never runs under it
+   (the arrow keeps its place at the inline end). */
+.select--has-clear .select__value {
+  margin-inline-end: 2rem;
 }
 
 .select__arrow {
@@ -211,10 +227,10 @@ button.aegov-select {
 
 .select__search-input {
   @apply w-full border-0 bg-whitely-50
-         text-primary-900 placeholder:text-aeblack-400
-         focus:outline-none focus:ring-0
-         focus:inset-ring-primary-support-400
-         dark:bg-aeblack-800 dark:text-whitely-100 dark:placeholder:text-aeblack-500
+         text-primary-900 placeholder:text-aeblack-600
+         focus:outline-hidden focus:-outline-offset-2 focus:ring-0
+         focus:inset-ring-primary-support-500
+         dark:bg-aeblack-800 dark:text-whitely-100 dark:placeholder:text-aeblack-300
          dark:focus:inset-ring-primary-support-400;
 }
 
@@ -275,25 +291,108 @@ button.aegov-select {
   min-height: 48px;
 }
 
-.select__option:hover:not(.select__option--disabled) {
-  @apply bg-aeblack-50 dark:bg-aeblack-800;
-}
 
-.select__option--focused:not(.select__option--disabled) {
-  @apply bg-aeblack-50 dark:bg-aeblack-800;
-}
 
-.select__option--selected {
-  @apply text-primary-700 font-medium dark:text-primary-300;
-}
-
-.select__option--selected:hover:not(.select__option--disabled) {
-  @apply bg-aeblack-50 dark:bg-aeblack-800;
-}
 
 .select__option--disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+/* ============================================
+   OPTION STATES
+   - hover        = light grey (aeblack-100), same in every variant
+   - pressed      = one step darker grey (aeblack-200)
+   - saved value  = light tint of the field's variant colour (primary /
+                    secondary / neutral) with darker text, weight and a ✓
+                    (multiple: the checkbox plus the same tint)
+   - keyboard     = the design system focus fill (*-support-400, *-support-950
+                    text, neutral: seablue) + 2px ring — as on a focused
+                    button; it outranks every other state (rule further down)
+   ============================================ */
+:host {
+  --select-opt-fg: var(--color-primary-900);
+  --select-opt-sel-bg: var(--color-primary-100);
+  --select-opt-sel-hover-bg: var(--color-primary-200);
+  --select-opt-sel-fg: var(--color-primary-800);
+  --select-opt-sel-icon: var(--color-primary-700);
+  --select-opt-focus-bg: var(--color-primary-support-400);
+  --select-opt-focus-fg: var(--color-primary-support-950);
+  --select-opt-ring: var(--color-primary-600);
+}
+:host(.select-variant-secondary) {
+  --select-opt-fg: var(--color-secondary-900);
+  --select-opt-sel-bg: var(--color-secondary-100);
+  --select-opt-sel-hover-bg: var(--color-secondary-200);
+  --select-opt-sel-fg: var(--color-secondary-800);
+  --select-opt-sel-icon: var(--color-secondary-700);
+  --select-opt-focus-bg: var(--color-secondary-support-400);
+  --select-opt-focus-fg: var(--color-secondary-support-950);
+  --select-opt-ring: var(--color-secondary-600);
+}
+:host(.select-variant-neutral-max),
+:host(.select-variant-neutral-min) {
+  --select-opt-fg: var(--color-aeblack-900);
+  /* One step darker than the grey hover, so hover and saved stay distinct. */
+  --select-opt-sel-bg: var(--color-aeblack-200);
+  --select-opt-sel-hover-bg: var(--color-aeblack-300);
+  --select-opt-sel-fg: var(--color-aeblack-950);
+  --select-opt-sel-icon: var(--color-aeblack-800);
+  --select-opt-focus-bg: var(--color-seablue-400);
+  --select-opt-focus-fg: var(--color-seablue-950);
+  --select-opt-ring: var(--color-aeblack-800);
+}
+
+/* Resting */
+.select__option {
+  color: var(--select-opt-fg);
+}
+.select__option:focus {
+  outline: none;
+}
+
+/* Hover: light grey in every variant */
+.select__option:hover:not(.select__option--disabled) {
+  background-color: var(--color-aeblack-100);
+  color: var(--select-opt-fg);
+}
+
+/* Pressed */
+.select__option:active:not(.select__option--disabled) {
+  background-color: var(--color-aeblack-200);
+  color: var(--select-opt-fg);
+}
+
+/* Saved value: light tint of the variant colour */
+.select__options .select__option--selected {
+  background-color: var(--select-opt-sel-bg);
+  color: var(--select-opt-sel-fg);
+  font-weight: 600;
+}
+.select__options .select__option--selected:hover:not(.select__option--disabled) {
+  background-color: var(--select-opt-sel-hover-bg);
+  color: var(--select-opt-sel-fg);
+}
+.select__options .select__option--selected .select__check-icon {
+  color: var(--select-opt-sel-icon);
+}
+
+/* Keyboard-active (aria-activedescendant target, or the option holding DOM
+   focus): the system focus fill, on top of every other state — a focused
+   solid button looks the same. */
+/* Keyboard mode only (.select__listbox--keyboard), like :focus-visible: a
+   mouse user sees hover and selected, never the focus fill. The extra class
+   also makes focus outrank the selected-value hover rule. */
+.select__listbox--keyboard .select__options .select__option--focused:not(.select__option--disabled),
+.select__listbox--keyboard .select__options .select__option--focused:not(.select__option--disabled):hover,
+.select__listbox--keyboard .select__options .select__option--focused:not(.select__option--disabled):active {
+  background-color: var(--select-opt-focus-bg);
+  color: var(--select-opt-focus-fg);
+  outline: 2px solid var(--select-opt-ring);
+  outline-offset: -2px;
+}
+.select__listbox--keyboard .select__options .select__option--focused .select__check-icon {
+  color: currentColor;
 }
 
 /* Checkbox for multiple select */
@@ -332,29 +431,30 @@ button.aegov-select {
   @apply text-primary-600 flex-shrink-0 ms-auto dark:text-primary-300;
 }
 
-:host(.select-variant-primary) .select__check-icon       { @apply text-primary-600 dark:text-primary-300; }
-:host(.select-variant-secondary) .select__check-icon     { @apply text-secondary-600 dark:text-secondary-300; }
-:host(.select-variant-neutral-max) .select__check-icon   { @apply text-aeblack-800 dark:text-whitely-100; }
-:host(.select-variant-neutral-min) .select__check-icon   { @apply text-aeblack-800 dark:text-whitely-100; }
 
-:host(.select-variant-primary) .select__option--selected       { @apply text-primary-700 dark:text-primary-300; }
-:host(.select-variant-secondary) .select__option--selected     { @apply text-secondary-700 dark:text-secondary-300; }
-:host(.select-variant-neutral-max) .select__option--selected   { @apply text-aeblack-900 dark:text-whitely-100; }
-:host(.select-variant-neutral-min) .select__option--selected   { @apply text-aeblack-900 dark:text-whitely-100; }
 
 .select__option-label {
-  @apply truncate flex-1;
+  /* Wrap long labels instead of cutting them off — at 320 px a truncated
+     label can't be read any other way (WCAG 1.4.10). */
+  @apply flex-1 min-w-0;
+  overflow-wrap: anywhere;
 }
 
 /* Group label */
+/* Group label: visibly lighter and smaller than the options so it reads as a
+   heading, not a choice. aeblack-500 is the lightest grey that keeps small
+   text at >= 4.5:1 on the white panel (5.5:1; aeblack-400 is only 3.71:1). */
 .select__group-label {
-  @apply text-xs font-semibold uppercase tracking-wider
-         text-aeblack-400 px-3 pt-6 pb-2 dark:text-aeblack-300;
+  @apply text-xs font-medium uppercase tracking-wider
+         text-aeblack-500 px-3 pt-3 pb-1 cursor-default select-none;
 }
 
-.select__group-label:first-child {
-  @apply pt-3;
+/* Separate groups with a hairline, so each group's options sit visibly
+   under their own label. */
+.select__options > [role="group"] + [role="group"] {
+  @apply mt-1 border-t border-aeblack-100;
 }
+
 
 /* Empty state */
 .select__empty {
@@ -381,4 +481,39 @@ button.aegov-select {
 
 .aegov-select__hint {
   @apply text-sm text-aeblack-600 mt-1.5 leading-snug dark:text-aeblack-300;
+}
+
+/* "No results" live region: read by screen readers, hidden visually (the
+   visible message is .select__empty, which is aria-hidden). */
+.select__status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reduced motion: no slide-in, no arrow rotation or colour transitions. */
+@media (prefers-reduced-motion: reduce) {
+  .select__listbox { animation: none; }
+  .select__arrow,
+  .select__clear,
+  .select__option { transition: none; }
+}
+
+/* Windows High Contrast / forced colours: backgrounds are dropped, so mark the
+   active option, the popup edge and the clear button with system colours. */
+@media (forced-colors: active) {
+  .select__listbox { border: 1px solid CanvasText; }
+  .select__listbox--keyboard .select__options .select__option--focused:not(.select__option--disabled),
+  .select__listbox--keyboard .select__options .select__option--focused:not(.select__option--disabled):hover {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .select__option--selected .select__option-label { text-decoration: underline; }
+  .select__clear:focus-visible { outline: 2px solid Highlight; }
 }

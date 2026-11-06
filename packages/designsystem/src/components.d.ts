@@ -1278,13 +1278,13 @@ export namespace Components {
     }
     interface AegovInput {
         /**
-          * ID of an element (e.g. an addonPrefix span in aegov-input-group) to include in the native input's aria-describedby chain. Set by aegov-input-group when addonPrefix is present.
+          * Text of the prefix addon of an enclosing aegov-input-group ("AED", "+971"). Rendered in a hidden span inside this shadow root and added to the inner input's description, as an id in the group's light DOM can't be referenced from here. Set by aegov-input-group.
          */
-        "describedByPrefix"?: string;
+        "addonPrefixText"?: string;
         /**
-          * ID of an element (e.g. an addonSuffix span in aegov-input-group) to include in the native input's aria-describedby chain. Set by aegov-input-group when addonSuffix is present.
+          * Text of the suffix addon of an enclosing aegov-input-group (".gov.ae"). See `addonPrefixText`. Set by aegov-input-group.
          */
-        "describedBySuffix"?: string;
+        "addonSuffixText"?: string;
         /**
           * Inline error message rendered below the control when `isInvalid` is true. Auto-wires `aria-describedby` on the inner input. Use the `error` slot for richer markup.
           * @default ''
@@ -5242,13 +5242,13 @@ declare namespace LocalJSX {
     }
     interface AegovInput {
         /**
-          * ID of an element (e.g. an addonPrefix span in aegov-input-group) to include in the native input's aria-describedby chain. Set by aegov-input-group when addonPrefix is present.
+          * Text of the prefix addon of an enclosing aegov-input-group ("AED", "+971"). Rendered in a hidden span inside this shadow root and added to the inner input's description, as an id in the group's light DOM can't be referenced from here. Set by aegov-input-group.
          */
-        "describedByPrefix"?: string;
+        "addonPrefixText"?: string;
         /**
-          * ID of an element (e.g. an addonSuffix span in aegov-input-group) to include in the native input's aria-describedby chain. Set by aegov-input-group when addonSuffix is present.
+          * Text of the suffix addon of an enclosing aegov-input-group (".gov.ae"). See `addonPrefixText`. Set by aegov-input-group.
          */
-        "describedBySuffix"?: string;
+        "addonSuffixText"?: string;
         /**
           * If `true`, the user cannot interact with the element.
          */
@@ -7199,8 +7199,8 @@ declare namespace LocalJSX {
         "errorMessage": string;
         "hint": string;
         "extraClass": string;
-        "describedByPrefix": string;
-        "describedBySuffix": string;
+        "addonPrefixText": string;
+        "addonSuffixText": string;
     }
     interface AegovInputGroupAttributes {
         "size": string;

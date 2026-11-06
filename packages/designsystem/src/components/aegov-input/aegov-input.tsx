@@ -5,6 +5,7 @@ import type {
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
 import { getPassThroughAttributes, observePassThroughAttributes } from '../../utils/attributes';
+import { HostAria } from '../../utils/host-aria';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -113,20 +114,20 @@ export class AegovInput {
   @Prop() extraClass?: string;
 
   /**
-   * ID of an element (e.g. an addonPrefix span in aegov-input-group) to include
-   * in the native input's aria-describedby chain. Set by aegov-input-group when
-   * addonPrefix is present.
+   * Text of the prefix addon of an enclosing aegov-input-group ("AED", "+971").
+   * Rendered in a hidden span inside this shadow root and added to the inner
+   * input's description, as an id in the group's light DOM can't be
+   * referenced from here. Set by aegov-input-group.
    * @internal
    */
-  @Prop({ mutable: true }) describedByPrefix?: string;
+  @Prop({ mutable: true }) addonPrefixText?: string;
 
   /**
-   * ID of an element (e.g. an addonSuffix span in aegov-input-group) to include
-   * in the native input's aria-describedby chain. Set by aegov-input-group when
-   * addonSuffix is present.
+   * Text of the suffix addon of an enclosing aegov-input-group (".gov.ae").
+   * See `addonPrefixText`. Set by aegov-input-group.
    * @internal
    */
-  @Prop({ mutable: true }) describedBySuffix?: string;
+  @Prop({ mutable: true }) addonSuffixText?: string;
 
   /** Tracks whether the password is currently visible. */
   @State() passwordVisible: boolean = false;
@@ -251,6 +252,8 @@ export class AegovInput {
 
   componentDidLoad() {
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
+    // A label written after this control (e.g. <label for> later in the page).
+    this.hostAria?.refreshSoon();
   }
 
   /**
@@ -260,6 +263,12 @@ export class AegovInput {
    */
   componentDidRender() {
     this.syncInternalsValidity();
+    // Inside aegov-input-group the hint/error can't show in this host (the
+    // group's bordered box would clip them); the group shows them below
+    // itself and re-reads them on this event (DS-A11Y-input-group-02).
+    if (this.el.hasAttribute('is-grouped')) {
+      this.el.dispatchEvent(new CustomEvent('aegovInputGroupSync', { bubbles: true, composed: true }));
+    }
   }
 
   @Watch('extraClass')
@@ -333,13 +342,19 @@ export class AegovInput {
 
   private attrObserver: MutationObserver | null = null;
 
+  /** Host aria-label / aria-labelledby / aria-describedby / labels, resolved for the inner input. */
+  private hostAria?: HostAria;
+
   connectedCallback() {
     this.attrObserver = observePassThroughAttributes(this.el, AegovInput.PASS_THROUGH_ATTRS, () => forceUpdate(this));
+    this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, internals: () => this.internals, onChange: () => forceUpdate(this) });
+    this.hostAria.connect();
   }
 
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
     this.attrObserver?.disconnect();
+    this.hostAria?.disconnect();
   }
 
   @Watch('type')
@@ -582,7 +597,11 @@ export class AegovInput {
   }
 
   render() {
-    const passThroughAttributes = getPassThroughAttributes(this.el, AegovInput.PASS_THROUGH_ATTRS);
+    // Host aria-labelledby / aria-label / labels become the inner input's
+    // aria-label; raw IDs can't resolve inside the shadow root (DS-A11Y-input-01).
+    const passThroughAttributes = this.hostAria
+      ? this.hostAria.bridge(getPassThroughAttributes(this.el, AegovInput.PASS_THROUGH_ATTRS))
+      : getPassThroughAttributes(this.el, AegovInput.PASS_THROUGH_ATTRS);
     // Layer 1 owns aria-invalid and aria-describedby — strip from pass-through to prevent
     // host-level attributes from clobbering our composed values (gap §7.8).
     delete passThroughAttributes['aria-invalid'];
@@ -599,12 +618,15 @@ export class AegovInput {
     const showHint = !showError && (hasHintSlot || !!this.hint);
     // Gap §7.10 — only announce errors via live region after first blur; silent during typing
     const announceError = showError && this.hasBlurredOnce;
-    // Gap §7.8 — preserve any aria-describedby the author put on the host (e.g. linking to external help text)
-    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    // Gap §7.8 — keep the author's host aria-describedby (external help text):
+    // its text sits in a hidden span here, as its ids can't be referenced from
+    // inside the shadow root. Then the group addons ("AED", ".gov.ae").
+    const prefixId = this.addonPrefixText ? `${this.fieldId}-addon-prefix` : null;
+    const suffixId = this.addonSuffixText ? `${this.fieldId}-addon-suffix` : null;
     const describedBy = composeDescribedBy(
-      authorDescribedBy,
-      this.describedByPrefix || null,
-      this.describedBySuffix || null,
+      this.hostAria?.descriptionId(),
+      prefixId,
+      suffixId,
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );
@@ -647,6 +669,11 @@ export class AegovInput {
     ) : null;
 
     const hostClass = { 'is-invalid': this.isInvalid };
+    const hiddenDescriptions = [
+      this.hostAria?.renderDescription(),
+      prefixId && <span id={prefixId} hidden>{this.addonPrefixText}</span>,
+      suffixId && <span id={suffixId} hidden>{this.addonSuffixText}</span>,
+    ];
 
     if (needsWrapper) {
       return (
@@ -668,6 +695,7 @@ export class AegovInput {
           </div>
           {errorRegion}
           {hintRegion}
+          {hiddenDescriptions}
         </Host>
       );
     }
@@ -677,6 +705,7 @@ export class AegovInput {
         {input}
         {errorRegion}
         {hintRegion}
+        {hiddenDescriptions}
       </Host>
     );
   }

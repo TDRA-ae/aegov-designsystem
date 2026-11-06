@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch, Method, forceUpdate } from '@stencil/core';
 import { RADIO_GROUP_VARIANTS, RADIO_GROUP_ORIENTATIONS, RADIO_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
   RadioGroupVariant, RadioGroupOrientation, RadioSize, FormVariant,
@@ -12,6 +12,7 @@ import {
   withCustomError,
 } from '../../utils/validation';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { HostAria } from '../../utils/host-aria';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { generateId } from '../../utils/id-generator';
 
@@ -144,6 +145,7 @@ export class AegovRadioGroup {
   }
 
   componentDidLoad() {
+    this.hostAria?.refreshSoon();
     this.syncChildren();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
   }
@@ -173,7 +175,16 @@ export class AegovRadioGroup {
     if (this.el.isConnected) { this.syncChildren(); }
   }
 
+  /** Host aria-label / aria-labelledby / aria-describedby / labels, resolved for the inner control (DS-A11Y-input-01). */
+  private hostAria?: HostAria;
+
+  connectedCallback() {
+    this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, onChange: () => forceUpdate(this) });
+    this.hostAria.connect();
+  }
+
   disconnectedCallback() {
+    this.hostAria?.disconnect();
     this._sizeWatcher?.destroy();
   }
 
@@ -368,12 +379,12 @@ export class AegovRadioGroup {
     const showHint = !showError && (hasHintSlot || !!this.hint);
     const announceError = showError && this.hasInteractedOnce;
 
-    const passThroughAttrs = getPassThroughAttributes(this.el);
+    const passThroughAttrs = this.hostAria ? this.hostAria.bridge(getPassThroughAttributes(this.el)) : getPassThroughAttributes(this.el);
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
     delete passThroughAttrs['aria-required'];
 
-    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const authorDescribedBy = this.hostAria?.descriptionId();
     const describedBy = composeDescribedBy(
       authorDescribedBy,
       showError ? this.errorId : null,
@@ -410,6 +421,7 @@ export class AegovRadioGroup {
             </div>
           )}
         </fieldset>
+        {this.hostAria?.renderDescription()}
       </Host>
     );
   }
