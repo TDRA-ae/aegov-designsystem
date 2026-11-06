@@ -5,6 +5,7 @@ import type {
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
 import { getPassThroughAttributes, observePassThroughAttributes } from '../../utils/attributes';
+import { HostAria } from '../../utils/host-aria';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -183,6 +184,7 @@ export class AegovTextarea {
   }
 
   componentDidLoad() {
+    this.hostAria?.refreshSoon();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
   }
 
@@ -270,11 +272,17 @@ export class AegovTextarea {
 
   private attrObserver: MutationObserver | null = null;
 
+  /** Host aria-label / aria-labelledby / aria-describedby / labels, resolved for the inner control (DS-A11Y-input-01). */
+  private hostAria?: HostAria;
+
   connectedCallback() {
+    this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, internals: () => this.internals, onChange: () => forceUpdate(this) });
+    this.hostAria.connect();
     this.attrObserver = observePassThroughAttributes(this.el, AegovTextarea.PASS_THROUGH_ATTRS, () => forceUpdate(this));
   }
 
   disconnectedCallback() {
+    this.hostAria?.disconnect();
     this._sizeWatcher?.destroy();
     this.attrObserver?.disconnect();
   }
@@ -463,7 +471,7 @@ export class AegovTextarea {
   }
 
   render() {
-    const passThroughAttributes = getPassThroughAttributes(this.el, AegovTextarea.PASS_THROUGH_ATTRS);
+    const passThroughAttributes = this.hostAria ? this.hostAria.bridge(getPassThroughAttributes(this.el, AegovTextarea.PASS_THROUGH_ATTRS)) : getPassThroughAttributes(this.el, AegovTextarea.PASS_THROUGH_ATTRS);
     // Layer 1 owns aria-invalid + aria-describedby (gap §7.8); strip from pass-through.
     delete passThroughAttributes['aria-invalid'];
     delete passThroughAttributes['aria-describedby'];
@@ -475,7 +483,7 @@ export class AegovTextarea {
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
     const showHint = !showError && (hasHintSlot || !!this.hint);
     const announceError = showError && this.hasBlurredOnce;
-    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const authorDescribedBy = this.hostAria?.descriptionId();
     const describedBy = composeDescribedBy(
       authorDescribedBy,
       hasCounter ? this.counterId : null,
@@ -532,6 +540,7 @@ export class AegovTextarea {
           {this.renderCharCounter()}
           {errorRegion}
           {hintRegion}
+          {this.hostAria?.renderDescription()}
         </Host>
       );
     }
@@ -541,6 +550,7 @@ export class AegovTextarea {
         {textarea}
         {errorRegion}
         {hintRegion}
+        {this.hostAria?.renderDescription()}
       </Host>
     );
   }
