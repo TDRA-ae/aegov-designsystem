@@ -179,13 +179,15 @@ describe('aegov-input', () => {
     expect(q(page.root, '.input__copy-btn')).not.toBeNull();
   });
 
-  it('forwards aria-* and data-* attributes', async () => {
+  it('forwards data-* attributes; host aria-describedby IDs are not copied into the shadow root', async () => {
+    // DS-A11Y-input-01: an ID from the page can't resolve inside the shadow
+    // root, so the raw ID is never forwarded (its text is, see the e2e tests).
     const page = await newSpecPage({
       components: [AegovInput],
       html: `<aegov-input aria-describedby="hint" data-test="x"></aegov-input>`,
     });
     const input = q(page.root, 'input');
-    expect(input.getAttribute('aria-describedby')).toBe('hint');
+    expect(input.getAttribute('aria-describedby')).toBeNull();
     expect(input.getAttribute('data-test')).toBe('x');
   });
 
@@ -296,10 +298,13 @@ describe('aegov-input', () => {
     it('preserves author-supplied aria-describedby and appends our IDs (gap §7.8)', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input field-id="x" aria-describedby="extra-help" is-invalid="true" error-message="err" hint="h"></aegov-input>`,
+        html: `<p id="extra-help">Extra help</p><aegov-input field-id="x" aria-describedby="extra-help" is-invalid="true" error-message="err" hint="h"></aegov-input>`,
       });
-      // hint hides because error wins; chain is "extra-help x-error"
-      expect(q(page.root, 'input').getAttribute('aria-describedby')).toBe('extra-help x-error');
+      const host = page.body.querySelector('aegov-input');
+      // DS-A11Y-input-01: the page ID can't resolve in the shadow root, so its
+      // text sits in a hidden span here, first in the chain; hint hides because error wins.
+      expect(q(host, 'input').getAttribute('aria-describedby')).toBe('x-host-desc x-error');
+      expect(q(host, '#x-host-desc').textContent).toBe('Extra help');
     });
 
     it('error slot present overrides errorMessage prop (slot wins)', async () => {
