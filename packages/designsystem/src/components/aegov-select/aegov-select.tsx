@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch, Method, forceUpdate } from '@stencil/core';
 import { SELECT_VARIANTS, SELECT_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
   SelectVariant, SelectSize, SelectChangeDetail, FormVariant,
@@ -6,6 +6,7 @@ import type {
   AegovValidityState,
 } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { HostAria } from '../../utils/host-aria';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -214,7 +215,16 @@ export class AegovSelect {
     }
   }
 
+  /** Host aria-label / aria-labelledby / aria-describedby / labels, resolved for the inner control (DS-A11Y-input-01). */
+  private hostAria?: HostAria;
+
+  connectedCallback() {
+    this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, internals: () => this.internals, onChange: () => forceUpdate(this) });
+    this.hostAria.connect();
+  }
+
   disconnectedCallback() {
+    this.hostAria?.disconnect();
     this._sizeWatcher?.destroy();
     if (this.typeaheadTimer) clearTimeout(this.typeaheadTimer);
     this.nameObserver?.disconnect();
@@ -407,6 +417,7 @@ export class AegovSelect {
   }
 
   componentDidLoad() {
+    this.hostAria?.refreshSoon();
     // Re-parse if children weren't available during componentWillLoad
     if (this.parsedOptions.length === 0) {
       this.parseOptions();
@@ -455,20 +466,9 @@ export class AegovSelect {
    * computation: aria-labelledby, then aria-label, then labels.
    */
   private accessibleName(): string | undefined {
-    const root = this.el.getRootNode() as Document | ShadowRoot;
-    const labelledBy = this.el.getAttribute('aria-labelledby');
-    if (labelledBy) {
-      const text = labelledBy.split(/\s+/)
-        .map(id => (typeof root.getElementById === 'function' ? root.getElementById(id) : null) ?? document.getElementById(id))
-        .filter((el): el is HTMLElement => !!el)
-        .map(el => (el.textContent ?? '').replace(/\s+/g, ' ').trim())
-        .filter(Boolean)
-        .join(' ');
-      if (text) return text;
-    }
-    const ariaLabel = this.el.getAttribute('aria-label')?.trim();
-    if (ariaLabel) return ariaLabel;
-    return this.externalLabelText() || undefined;
+    // Shared resolver (utils/host-aria): aria-labelledby, aria-label, then
+    // <label for> / aegov-label for (host id or field-id), kept live.
+    return this.hostAria?.name() || this.externalLabelText() || undefined;
   }
 
   @Watch('extraClass')
@@ -722,7 +722,23 @@ export class AegovSelect {
     const searchHeight = this.isSearchable ? searchHeightMap[this._resolvedSize] : 0;
     const padding = 8; // py-1 top + bottom
     const actualItemCount = Math.min(this.filteredOptions.length, this.visibleItems);
-    const desiredHeight = (actualItemCount * itemHeight) + searchHeight + padding;
+    // Size the panel to the bottom of the last option that should be visible,
+    // measured from the rendered rows. Group headings, group dividers and
+    // wrapped labels take room too; a row-count estimate leaves the option
+    // under a heading hidden (e.g. a search that matches one grouped option).
+    let desiredHeight = (actualItemCount * itemHeight) + searchHeight + padding;
+    const optionsEl = this.listboxRef.querySelector<HTMLElement>('.select__options');
+    const lastShown = optionsEl?.querySelectorAll<HTMLElement>('[role="option"]')[actualItemCount - 1];
+    if (optionsEl && lastShown) {
+      const searchEl = this.listboxRef.querySelector<HTMLElement>('.select__search');
+      const contentBottom = lastShown.getBoundingClientRect().bottom - optionsEl.getBoundingClientRect().top + optionsEl.scrollTop;
+      const paddingBottom = parseFloat(getComputedStyle(optionsEl).paddingBottom) || 0;
+      desiredHeight = (searchEl?.offsetHeight ?? 0) + Math.ceil(contentBottom + paddingBottom);
+    } else if (this.listboxRef.querySelector('.select__empty')) {
+      // No matches: make room for the "No results found" message, which sits
+      // after the (empty) options list inside the panel.
+      desiredHeight = Array.from(this.listboxRef.children).reduce((sum, el) => sum + (el as HTMLElement).offsetHeight, 0);
+    }
 
     // Decide direction
     const openAbove = spaceBelow < desiredHeight && spaceAbove > spaceBelow;
@@ -1067,7 +1083,7 @@ export class AegovSelect {
   }
 
   private renderNativeSelect() {
-    const passThroughAttrs = getPassThroughAttributes(this.el, AegovSelect.PASS_THROUGH_ATTRS);
+    const passThroughAttrs = this.hostAria ? this.hostAria.bridge(getPassThroughAttributes(this.el, AegovSelect.PASS_THROUGH_ATTRS)) : getPassThroughAttributes(this.el, AegovSelect.PASS_THROUGH_ATTRS);
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
 
@@ -1138,6 +1154,7 @@ export class AegovSelect {
         </div>
         {errorRegion}
         {hintRegion}
+        {this.hostAria?.renderDescription()}
       </Host>
     );
   }
@@ -1149,7 +1166,7 @@ export class AegovSelect {
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
     const showHint = !showError && (hasHintSlot || !!this.hint);
     const announceError = showError && this.hasBlurredOnce;
-    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const authorDescribedBy = this.hostAria?.descriptionId();
     const describedBy = composeDescribedBy(
       authorDescribedBy,
       showError ? this.errorId : null,
@@ -1370,6 +1387,7 @@ export class AegovSelect {
         {/* §2.5: hidden input replaced by ElementInternals.setFormValue() in runValidationSync(). */}
         {errorRegion}
         {hintRegion}
+        {this.hostAria?.renderDescription()}
       </Host>
     );
   }
