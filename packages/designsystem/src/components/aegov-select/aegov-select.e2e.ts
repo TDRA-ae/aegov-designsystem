@@ -654,5 +654,49 @@ describe('aegov-select (e2e)', () => {
       await page.waitForChanges();
       expect(await page.evaluate(() => document.getElementById('s').shadowRoot.querySelector('.select__value').textContent)).toBe('تم اختيار 2');
     });
+
+    // DS-A11Y-select-19: the panel height includes group headings, so a search
+    // that leaves one option under a heading still shows that option; with no
+    // matches, the "No results found" message stays inside the panel.
+    const GROUPED = `<aegov-select-option-group label="Federal capital"><aegov-select-option value="auh">Abu Dhabi</aegov-select-option></aegov-select-option-group><aegov-select-option-group label="Northern Emirates"><aegov-select-option value="dxb">Dubai</aegov-select-option><aegov-select-option value="shj">Sharjah</aegov-select-option><aegov-select-option value="ajm">Ajman</aegov-select-option><aegov-select-option value="rak">Ras Al Khaimah</aegov-select-option></aegov-select-option-group>`;
+    const searchGrouped = async (query: string) => {
+      const page = await newE2EPage();
+      await page.setViewport({ width: 800, height: 900 });
+      await page.setContent(`<aegov-select id="s" appearance="listbox" is-searchable aria-label="Emirate">${GROUPED}</aegov-select>`);
+      await focusTrigger(page);
+      await page.keyboard.press('ArrowDown');
+      await page.waitForChanges();
+      await page.waitForFunction(() => document.getElementById('s').shadowRoot.activeElement?.classList.contains('select__search-input'));
+      await page.keyboard.type(query);
+      await page.waitForChanges();
+      await new Promise(r => setTimeout(r, 100));
+      return page.evaluate(() => {
+        const root = document.getElementById('s').shadowRoot;
+        const panel = root.querySelector('.select__listbox').getBoundingClientRect();
+        const list = root.querySelector('.select__options').getBoundingClientRect();
+        const inside = (r: DOMRect, box: DOMRect) => r.height > 0 && r.top >= box.top - 0.5 && r.bottom <= box.bottom + 0.5;
+        const options = Array.from(root.querySelectorAll('[role="option"]'));
+        const empty = root.querySelector('.select__empty');
+        return {
+          matches: options.map(o => o.textContent.trim()),
+          allVisible: options.every(o => inside(o.getBoundingClientRect(), list)),
+          emptyInsidePanel: empty ? inside(empty.getBoundingClientRect(), panel) : null,
+        };
+      });
+    };
+
+    it('grouped + searchable: one match under a group heading is visible, not hidden below the heading', async () => {
+      expect(await searchGrouped('abu')).toEqual({ matches: ['Abu Dhabi'], allVisible: true, emptyInsidePanel: null });
+    });
+
+    it('grouped + searchable: all matches across groups are visible when they fit the visible-items limit', async () => {
+      const r = await searchGrouped('a');
+      expect(r.matches.length).toBe(5);
+      expect(r.allVisible).toBe(true);
+    });
+
+    it('searchable with no matches: "No results found" is inside the panel', async () => {
+      expect(await searchGrouped('zzz')).toEqual({ matches: [], allVisible: true, emptyInsidePanel: true });
+    });
   });
 });

@@ -20,13 +20,13 @@
   font-family: inherit;
   @apply relative w-full bg-transparent leading-6
          motion-reduce:transition-none
-         rounded-lg focus:outline-none cursor-pointer;
-  @apply placeholder:text-aeblack-300 bg-whitely-50
+         rounded-lg focus:outline-hidden cursor-pointer;
+  @apply placeholder:text-aeblack-500 bg-whitely-50
          border-2
          focus-visible:ring-2
          focus-visible:ring-offset-1
-         focus-visible:ring-primary-support-400
-         dark:placeholder:text-aeblack-500 dark:bg-aeblack-800
+         focus-visible:ring-primary-support-500
+         dark:placeholder:text-aeblack-300 dark:bg-aeblack-800
          dark:focus-visible:ring-primary-support-400;
   /* Custom arrow for native select */
   appearance: none;
@@ -56,16 +56,16 @@
 
 /* Focus ring — overrides variant idle border. Per-variant selector beats variant specificity. */
 .aegov-select.select-variant-primary:focus-visible {
-  @apply ring-1 ring-offset-2 ring-primary-support-400 border-2 border-primary-support-400
+  @apply ring-1 ring-offset-2 ring-primary-support-500 border-2 border-primary-support-500
          dark:ring-primary-support-400 dark:border-primary-support-400;
 }
 .aegov-select.select-variant-secondary:focus-visible {
-  @apply ring-1 ring-offset-2 ring-secondary-support-400 border-2 border-secondary-support-400
+  @apply ring-1 ring-offset-2 ring-secondary-support-500 border-2 border-secondary-support-500
          dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
 .aegov-select.select-variant-neutral-max:focus-visible,
 .aegov-select.select-variant-neutral-min:focus-visible {
-  @apply ring-1 ring-offset-2 ring-seablue-400 border-2 border-seablue-400
+  @apply ring-1 ring-offset-2 ring-seablue-500 border-2 border-seablue-500
          dark:ring-seablue-400 dark:border-seablue-400;
 }
 
@@ -127,14 +127,15 @@ button.aegov-select {
 }
 
 .select--placeholder .select__value {
-  @apply text-aeblack-500 dark:text-aeblack-400;
+  /* ≥4.5:1: aeblack-500 on white 5.5:1, aeblack-300 on aeblack-800 5.4:1 (DS-A11Y-input-04). */
+  @apply text-aeblack-500 dark:text-aeblack-300;
 }
 
 /* Open state — variant-aware border swap to support colour (mirrors focus). */
-.aegov-select.select-variant-primary.select--open       { @apply border-primary-support-400 dark:border-primary-support-400; }
-.aegov-select.select-variant-secondary.select--open     { @apply border-secondary-support-400 dark:border-secondary-support-400; }
+.aegov-select.select-variant-primary.select--open       { @apply border-primary-support-500 dark:border-primary-support-400; }
+.aegov-select.select-variant-secondary.select--open     { @apply border-secondary-support-500 dark:border-secondary-support-400; }
 .aegov-select.select-variant-neutral-max.select--open,
-.aegov-select.select-variant-neutral-min.select--open   { @apply border-seablue-400 dark:border-seablue-400; }
+.aegov-select.select-variant-neutral-min.select--open   { @apply border-seablue-500 dark:border-seablue-400; }
 
 .select--disabled {
   opacity: 0.4;
@@ -227,9 +228,9 @@ button.aegov-select {
 .select__search-input {
   @apply w-full border-0 bg-whitely-50
          text-primary-900 placeholder:text-aeblack-600
-         focus:outline-none focus:ring-0
-         focus:inset-ring-primary-support-400
-         dark:bg-aeblack-800 dark:text-whitely-100 dark:placeholder:text-aeblack-500
+         focus:outline-hidden focus:-outline-offset-2 focus:ring-0
+         focus:inset-ring-primary-support-500
+         dark:bg-aeblack-800 dark:text-whitely-100 dark:placeholder:text-aeblack-300
          dark:focus:inset-ring-primary-support-400;
 }
 
