@@ -1,10 +1,11 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method, Listen } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method, Listen, forceUpdate } from '@stencil/core';
 import { RANGE_SIZES, RANGE_DISPLAYS, RANGE_ORIENTATIONS, RANGE_MODES, FORM_VARIANTS } from '../../utils/types';
 import type {
   RangeSize, RangeDisplay, RangeOrientation, RangeMode, FormVariant,
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { HostAria } from '../../utils/host-aria';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { generateId } from '../../utils/id-generator';
 import { isRtl } from '../../utils/rtl';
@@ -174,6 +175,7 @@ export class AegovRange {
   }
 
   componentDidLoad() {
+    this.hostAria?.refreshSoon();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
   }
 
@@ -368,7 +370,16 @@ export class AegovRange {
     this.emitValidate('blur');
   };
 
+  /** Host aria-label / aria-labelledby / aria-describedby / labels, resolved for the inner control (DS-A11Y-input-01). */
+  private hostAria?: HostAria;
+
+  connectedCallback() {
+    this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, internals: () => this.internals, onChange: () => forceUpdate(this) });
+    this.hostAria.connect();
+  }
+
   disconnectedCallback() {
+    this.hostAria?.disconnect();
     this._sizeWatcher?.destroy();
   }
 
@@ -655,7 +666,7 @@ export class AegovRange {
   }
 
   render() {
-    const passThroughAttrs = getPassThroughAttributes(this.el, AegovRange.PASS_THROUGH_ATTRS);
+    const passThroughAttrs = this.hostAria ? this.hostAria.bridge(getPassThroughAttributes(this.el, AegovRange.PASS_THROUGH_ATTRS)) : getPassThroughAttributes(this.el, AegovRange.PASS_THROUGH_ATTRS);
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
     const rtl = isRtl(this.el);
@@ -666,7 +677,11 @@ export class AegovRange {
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
     const showHint = !showError && (hasHintSlot || !!this.hint);
     const announceError = showError && this.hasBlurredOnce;
-    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const authorDescribedBy = this.hostAria?.descriptionId();
+    // Each thumb of a two-thumb range: "<field name> — Range minimum / maximum".
+    // The field name comes from the label prop, else the host (aegov-form-field,
+    // aria-label, aria-labelledby, label for) (DS-A11Y-form-field-01).
+    const fieldName = this.label || this.hostAria?.name();
     const describedBy = composeDescribedBy(
       authorDescribedBy,
       showError ? this.errorId : null,
@@ -771,7 +786,7 @@ export class AegovRange {
                 aria-valuemin={this.min}
                 aria-valuemax={this.valueHigh}
                 aria-valuenow={this.valueLow}
-                aria-label={t.thumbMin(this.label)}
+                aria-label={t.thumbMin(fieldName)}
                 aria-orientation={orientation}
                 aria-invalid={ariaInvalidAttr}
                 aria-describedby={describedBy}
@@ -793,7 +808,7 @@ export class AegovRange {
                 aria-valuemin={this.valueLow}
                 aria-valuemax={this.max}
                 aria-valuenow={this.valueHigh}
-                aria-label={t.thumbMax(this.label)}
+                aria-label={t.thumbMax(fieldName)}
                 aria-orientation={orientation}
                 aria-invalid={ariaInvalidAttr}
                 aria-describedby={describedBy}
@@ -835,6 +850,7 @@ export class AegovRange {
           </div>
           {errorRegion}
           {hintRegion}
+          {this.hostAria?.renderDescription()}
         </Host>
       );
     }
@@ -844,6 +860,7 @@ export class AegovRange {
         {rangeContent}
         {errorRegion}
         {hintRegion}
+        {this.hostAria?.renderDescription()}
       </Host>
     );
   }
