@@ -46,26 +46,40 @@ export class AegovLabel {
   }
 
   /**
-   * Native `<label for>` click activation only toggles a genuine
-   * `HTMLInputElement` of type checkbox/radio resolved via `for`/`id`. When
-   * `for` resolves to a shadow-DOM custom-element host instead (standalone
-   * aegov-checkbox/aegov-radio/aegov-toggle), the host isn't itself such an
-   * element, so the browser still delegates FOCUS into the shadow input
-   * (`delegatesFocus: true`) but never performs the "click toggles"
-   * activation step (#48). Forward the click to the real inner input
-   * ourselves — its own native click/change handling then runs exactly as
-   * if the user had clicked it directly. The host is never itself a real
-   * checkbox/radio, so native `for` activation never also fires — no risk
-   * of double-toggling.
+   * The control this label is for: the element whose id is `for`, else an
+   * aegov form control whose `field-id` is `for` (the documented standalone
+   * pattern `<aegov-label for="x">` + `<aegov-input field-id="x">`, where
+   * field-id is the id of the input inside the shadow root, not of the host).
+   */
+  private resolveTarget(): HTMLElement | null {
+    const key = this.htmlFor;
+    if (!key) return null;
+    const root = this.el.getRootNode() as Document | ShadowRoot;
+    const byId = (typeof root.getElementById === 'function' ? root.getElementById(key) : null) ?? document.getElementById(key);
+    if (byId) return byId;
+    return Array.from(root.querySelectorAll<HTMLElement>('*'))
+      .find(el => el.tagName.startsWith('AEGOV-') && el !== this.el && (el as HTMLElement & { fieldId?: string }).fieldId === key) ?? null;
+  }
+
+  /**
+   * Do what a native `<label for>` click does. The `<label>` is inside this
+   * component's shadow root, so the browser resolves its `for` there and
+   * never reaches the control: a checkbox / radio is toggled by clicking its
+   * real input (#48; the host is never itself a checkbox, so nothing toggles
+   * twice), any other control is focused (`delegatesFocus` puts focus on its
+   * inner field, DS-A11Y-label-01).
    */
   private handleClick = () => {
-    if (!this.htmlFor) return;
-    const target = document.getElementById(this.htmlFor);
-    if (!target?.shadowRoot) return;
-    const innerControl = target.shadowRoot.querySelector<HTMLInputElement>(
-      'input[type="checkbox"], input[type="radio"]',
-    );
-    innerControl?.click();
+    const target = this.resolveTarget();
+    if (!target) return;
+    const toggle = target.matches('input[type="checkbox"], input[type="radio"]')
+      ? target as HTMLInputElement
+      : target.shadowRoot?.querySelector<HTMLInputElement>('input[type="checkbox"], input[type="radio"]');
+    if (toggle) {
+      toggle.click();
+      return;
+    }
+    if (typeof target.focus === 'function') target.focus();
   };
 
   render() {
