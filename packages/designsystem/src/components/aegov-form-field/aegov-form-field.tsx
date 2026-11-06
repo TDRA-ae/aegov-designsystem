@@ -330,27 +330,14 @@ export class AegovFormField {
   }
 
   /**
-   * Sets `aria-label` on the linked control's host AND directly on its real
-   * internal `<input>`/`<select>`/`<textarea>`, derived from the paired
+   * Sets `aria-label` on the linked control's host, derived from the paired
    * `<aegov-label>`'s visible text, and watches that label for further
-   * changes (#51). Every aegov form control is `shadow: true`, so native
-   * `<label for>`/`id` resolution — same as `isControlDisabled` above — can
-   * only reach the host, never the real internal control one level deeper;
-   * the browser's accessible-name computation can't follow `delegatesFocus`
-   * the way focus itself can, so it stays stuck on the host's own placeholder
-   * or no name at all. Setting `aria-label` on the host alone isn't enough —
-   * each control's own `getPassThroughAttributes` forwarding only re-runs on
-   * that control's OWN next Stencil re-render, which a plain external
-   * `setAttribute` call never triggers — so the real interactive element (the
-   * one focus actually lands on, and the one AT/screen readers actually
-   * query) must be reached directly, the same shadow-root-crossing approach
-   * already used in `aegov-label.tsx` for #48. The host-level attribute is
-   * still set too, both as a fallback for any control with its own existing
-   * host-attribute convention (e.g. `aegov-progress`, see #59) and so a
-   * control's later, unrelated re-render keeps including it via its own
-   * pass-through. Per the ARIA spec, an explicit `aria-label` always wins
-   * over implicit `<label for>` association, so this is safe regardless of
-   * whether that broken native path happens to work for a given browser.
+   * changes (#51). Every aegov form control is `shadow: true`, so `<label for>`
+   * can only reach the host, never the real inner control. Each control
+   * watches its own host aria-label and turns it into the name of its inner
+   * element(s) (utils/host-aria), composing per-part names where it has
+   * several (OTP cells, range thumbs, date range inputs). Per the ARIA spec,
+   * an explicit `aria-label` wins over an implicit `<label for>` association.
    */
   private syncAccessibleName(label: HTMLElement, ctrl: AegovFormControl) {
     this.applyAccessibleName(label, ctrl);
@@ -384,13 +371,11 @@ export class AegovFormField {
       this.appliedAriaLabels.set(ctrl, text);
     }
 
-    ctrl.shadowRoot?.querySelectorAll('input, select, textarea').forEach(inner => {
-      if (text) {
-        inner.setAttribute('aria-label', text);
-      } else {
-        inner.removeAttribute('aria-label');
-      }
-    });
+    // The control itself turns its host aria-label into the name of its real
+    // inner element(s) (utils/host-aria), so multi-part controls keep their
+    // per-part names: OTP cells "Character 1 of 4", range thumbs "minimum" /
+    // "maximum". Writing the same aria-label onto every inner input/select/
+    // textarea from here gave them all one identical name (DS-A11Y-form-field-01).
   }
 
   private getFieldClasses(): string {
