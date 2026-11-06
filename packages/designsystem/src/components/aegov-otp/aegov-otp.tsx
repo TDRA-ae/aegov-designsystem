@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Element, Event, EventEmitter, Watch, Method, Listen } from '@stencil/core';
+import { Component, Host, h, Prop, State, Element, Event, EventEmitter, Watch, Method, Listen, forceUpdate } from '@stencil/core';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { OTP_VARIANTS, OTP_SIZES, FORM_VARIANTS } from '../../utils/types';
@@ -8,6 +8,7 @@ import type {
   AegovValidityState,
 } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { HostAria } from '../../utils/host-aria';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { isRtl } from '../../utils/rtl';
 import { generateId } from '../../utils/id-generator';
@@ -100,7 +101,6 @@ export class AegovOtp {
   @Event() aegovValidate: EventEmitter<AegovValidationDetail<string>>;
 
   @State() private hasBlurredOnce: boolean = false;
-  @State() private groupLabelId: string = '';
 
   private cellRefs: HTMLInputElement[] = [];
   private internalUpdate = false;
@@ -138,7 +138,16 @@ export class AegovOtp {
     }
   }
 
+  /** Host aria-label / aria-labelledby / aria-describedby / labels, resolved for the inner control (DS-A11Y-input-01). */
+  private hostAria?: HostAria;
+
+  connectedCallback() {
+    this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, internals: () => this.internals, onChange: () => forceUpdate(this) });
+    this.hostAria.connect();
+  }
+
   disconnectedCallback() {
+    this.hostAria?.disconnect();
     this._sizeWatcher?.destroy();
   }
 
@@ -195,19 +204,12 @@ export class AegovOtp {
   }
 
   componentDidLoad() {
+    this.hostAria?.refreshSoon();
     if (this.value) {
       this.distributeValue(this.value);
     }
     this.runValidationSync();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
-    // Find the associated aegov-label so the group wrapper can reference it by ID
-    const formField = this.el.closest('.aegov-form-field');
-    if (formField) {
-      const labelEl = formField.querySelector('aegov-label') as any;
-      if (labelEl?.fieldId) {
-        this.groupLabelId = labelEl.fieldId;
-      }
-    }
   }
 
   /** Constraint props (isRequired, length, pattern, …) changed after load must reach the form too. */
@@ -472,7 +474,7 @@ export class AegovOtp {
   };
 
   render() {
-    const passThroughAttrs = getPassThroughAttributes(this.el, new Set([]));
+    const passThroughAttrs = this.hostAria ? this.hostAria.bridge(getPassThroughAttributes(this.el, new Set([]))) : getPassThroughAttributes(this.el, new Set([]));
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
 
@@ -488,7 +490,7 @@ export class AegovOtp {
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
     const showHint = !showError && (hasHintSlot || !!this.hint);
     const announceError = showError && this.hasBlurredOnce;
-    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const authorDescribedBy = this.hostAria?.descriptionId();
     const describedBy = composeDescribedBy(
       authorDescribedBy,
       showError ? this.errorId : null,
@@ -516,7 +518,6 @@ export class AegovOtp {
           <div
             class={`otp__wrapper otp__wrapper--${appearance}`}
             role="group"
-            aria-labelledby={this.groupLabelId || undefined}
             aria-invalid={this.isInvalid ? 'true' : null}
             onFocusout={this.handleBlurGroup}
             {...passThroughAttrs}
@@ -550,6 +551,7 @@ export class AegovOtp {
           {errorRegion}
           {hintRegion}
         </div>
+        {this.hostAria?.renderDescription()}
       </Host>
     );
   }
