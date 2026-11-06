@@ -98,7 +98,9 @@ describe('aegov-button', () => {
       html: `<aegov-button is-loading="true">X</aegov-button>`,
     });
     const btn = inner(page);
-    expect(btn.hasAttribute('disabled')).toBe(true);
+    // Loading keeps the button focusable: aria-disabled, not native disabled.
+    expect(btn.hasAttribute('disabled')).toBe(false);
+    expect(btn.getAttribute('aria-disabled')).toBe('true');
     expect(btn.getAttribute('aria-busy')).toBe('true');
     expect(btn.querySelector('svg')).not.toBeNull();
   });
