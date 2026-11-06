@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch, Method, forceUpdate } from '@stencil/core';
 import { CHECKBOX_GROUP_VARIANTS, CHECKBOX_GROUP_ORIENTATIONS, CHECKBOX_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
   CheckboxGroupVariant, CheckboxGroupOrientation, CheckboxSize, FormVariant,
@@ -6,6 +6,7 @@ import type {
 } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { HostAria } from '../../utils/host-aria';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
@@ -136,6 +137,7 @@ export class AegovCheckboxGroup {
   }
 
   componentDidLoad() {
+    this.hostAria?.refreshSoon();
     this.syncChildren();
     this.updateCheckAllState();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
@@ -166,7 +168,16 @@ export class AegovCheckboxGroup {
     if (this.el.isConnected) { this.syncChildren(); }
   }
 
+  /** Host aria-label / aria-labelledby / aria-describedby / labels, resolved for the inner control (DS-A11Y-input-01). */
+  private hostAria?: HostAria;
+
+  connectedCallback() {
+    this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, onChange: () => forceUpdate(this) });
+    this.hostAria.connect();
+  }
+
   disconnectedCallback() {
+    this.hostAria?.disconnect();
     this._sizeWatcher?.destroy();
   }
 
@@ -332,13 +343,13 @@ export class AegovCheckboxGroup {
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
     const showHint = !showError && (hasHintSlot || !!this.hint);
     const announceError = showError && this.hasInteractedOnce;
-    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const authorDescribedBy = this.hostAria?.descriptionId();
     const describedBy = composeDescribedBy(
       authorDescribedBy,
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );
-    const passThroughAttrs = getPassThroughAttributes(this.el);
+    const passThroughAttrs = this.hostAria ? this.hostAria.bridge(getPassThroughAttributes(this.el)) : getPassThroughAttributes(this.el);
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
     delete passThroughAttrs['aria-required'];
@@ -376,6 +387,7 @@ export class AegovCheckboxGroup {
             </div>
           )}
         </fieldset>
+        {this.hostAria?.renderDescription()}
       </Host>
     );
   }

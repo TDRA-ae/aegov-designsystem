@@ -327,7 +327,11 @@ export class AegovButton {
           id={this.fieldId}
           type={type}
           class={this.getButtonClasses()}
-          disabled={disabled || this.isLoading}
+          disabled={disabled}
+          // Loading is not native `disabled`: that would blur a focused button and
+          // send focus to <body> mid-submit. The button stays focusable, is marked
+          // aria-disabled, and handleClick ignores activation while loading.
+          aria-disabled={this.isLoading && !disabled ? 'true' : undefined}
           onClick={this.handleClick}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}

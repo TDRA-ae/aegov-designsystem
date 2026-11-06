@@ -29,11 +29,15 @@
    Track — shorter than the thumb
    ======================================== */
 .toggle__track {
+  /* Off: a 2px aeblack-500 edge makes the switch 5.5:1 against the page
+     (the aeblack-100 fill alone is 1.33:1) — WCAG 1.4.11, DS-A11Y-toggle-03.
+     On: the variant fill is the edge (4.6:1), so the ring goes. */
   @apply relative inline-flex items-center shrink-0 rounded-full
-         bg-aeblack-100
+         bg-aeblack-100 inset-ring-2 inset-ring-aeblack-500
          transition-colors duration-200 ease-in-out cursor-pointer
-         dark:bg-aeblack-700;
+         dark:bg-aeblack-700 dark:inset-ring-aeblack-400;
 }
+.toggle__input:checked + .toggle__track { @apply inset-ring-0; }
 
 /* Checked track — colour from variant */
 .aegov-toggle.toggle-variant-primary .toggle__input:checked + .toggle__track { @apply bg-primary-600 dark:bg-primary-500; }
@@ -45,10 +49,10 @@
 .toggle__input:focus-visible + .toggle__track {
   @apply outline-2 outline-offset-2;
 }
-.aegov-toggle.toggle-variant-primary .toggle__input:focus-visible + .toggle__track { @apply outline-primary-support-400 dark:outline-primary-support-400; }
-.aegov-toggle.toggle-variant-secondary .toggle__input:focus-visible + .toggle__track { @apply outline-secondary-support-400 dark:outline-secondary-support-400; }
-.aegov-toggle.toggle-variant-neutral-max .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-400 dark:outline-seablue-400; }
-.aegov-toggle.toggle-variant-neutral-min .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-400 dark:outline-seablue-400; }
+.aegov-toggle.toggle-variant-primary .toggle__input:focus-visible + .toggle__track { @apply outline-primary-support-500 dark:outline-primary-support-400; }
+.aegov-toggle.toggle-variant-secondary .toggle__input:focus-visible + .toggle__track { @apply outline-secondary-support-500 dark:outline-secondary-support-400; }
+.aegov-toggle.toggle-variant-neutral-max .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-500 dark:outline-seablue-400; }
+.aegov-toggle.toggle-variant-neutral-min .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-500 dark:outline-seablue-400; }
 
 /* Disabled */
 .toggle__input:disabled + .toggle__track {
@@ -59,8 +63,10 @@
    Thumb — larger than the track, with shadow
    ======================================== */
 .toggle__thumb {
+  /* 2px aeblack-500 border: the white thumb is 5.5:1 against the page and the
+     off track (it was 1.03:1 / 1.36:1) — DS-A11Y-toggle-03. */
   @apply absolute inline-flex items-center justify-center rounded-full
-         bg-white
+         bg-white box-border border-2 border-aeblack-500 dark:border-aeblack-300
          transition-transform duration-200 ease-in-out;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
@@ -392,4 +398,92 @@
 
 .aegov-toggle__error {
   @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
+}
+
+/* ========================================
+   Forced colours (Windows High Contrast / Contrast themes)
+   The track and thumb are drawn with backgrounds and a shadow, which forced
+   colours removes — the switch disappeared and on/off looked the same
+   (DS-A11Y-toggle-02). Redraw them with the user's system colours:
+   off = outlined track + solid thumb on the start side;
+   on  = Highlight-filled track + light thumb on the end side.
+   forced-color-adjust: none keeps these system colours as written.
+   ======================================== */
+@media (forced-colors: active) {
+  /* Rules are prefixed with ":host .aegov-toggle" so they outrank the
+     per-variant colour rules above (otherwise the brand colour would show
+     through, since forced-color-adjust: none keeps author colours). */
+  :host .aegov-toggle .toggle__track {
+    forced-color-adjust: none;
+    box-sizing: border-box;
+    background-color: Canvas;
+    border: 1px solid CanvasText;
+    box-shadow: none;
+  }
+
+  :host .aegov-toggle .toggle__thumb {
+    forced-color-adjust: none;
+    box-sizing: border-box;
+    background-color: CanvasText;
+    border: 2px solid CanvasText;
+    box-shadow: none;
+  }
+
+  :host .aegov-toggle .toggle__input:checked + .toggle__track {
+    background-color: Highlight;
+    border-color: Highlight;
+  }
+
+  :host .aegov-toggle .toggle__input:checked + .toggle__track .toggle__thumb {
+    background-color: HighlightText;
+    border-color: CanvasText;
+  }
+
+  /* Icons inside the thumb follow the thumb's contrast colour. */
+  /* The icons are slotted (light DOM), so set the colour on their container
+     and let currentColor inherit. System colour pairs: Canvas on CanvasText
+     (off thumb), Highlight on HighlightText (on thumb). */
+  :host .aegov-toggle .toggle__track .toggle__icon,
+  :host .aegov-toggle .toggle__track .toggle__icon-item,
+  :host .aegov-toggle .toggle__track .toggle__icon-item svg {
+    color: Canvas;
+  }
+  :host .aegov-toggle .toggle__input:checked + .toggle__track .toggle__icon,
+  :host .aegov-toggle .toggle__input:checked + .toggle__track .toggle__icon-item,
+  :host .aegov-toggle .toggle__input:checked + .toggle__track .toggle__icon-item svg {
+    color: Highlight;
+  }
+  :host .aegov-toggle .toggle__track ::slotted(svg) {
+    color: inherit;
+  }
+
+  /* Disabled: the system "unavailable" colour. */
+  :host .aegov-toggle .toggle__input:disabled + .toggle__track {
+    border-color: GrayText;
+  }
+  :host .aegov-toggle .toggle__input:disabled + .toggle__track .toggle__thumb {
+    background-color: GrayText;
+    border-color: GrayText;
+  }
+  :host .aegov-toggle .toggle__input:disabled:checked + .toggle__track {
+    background-color: GrayText;
+    border-color: GrayText;
+  }
+  :host .aegov-toggle .toggle__input:disabled:checked + .toggle__track .toggle__thumb {
+    background-color: Canvas;
+    border-color: GrayText;
+  }
+
+  /* Focus: a Highlight outline outside the track. */
+  :host .aegov-toggle .toggle__input:focus-visible + .toggle__track {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  /* Invalid: the red ring is a box-shadow (removed), so use a dashed border —
+     a cue that doesn't depend on colour, next to the error text. */
+  :host(.is-invalid) .aegov-toggle .toggle__track {
+    border: 2px dashed CanvasText;
+    box-shadow: none;
+  }
 }

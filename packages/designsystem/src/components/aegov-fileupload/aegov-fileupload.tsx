@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Method, Watch, Listen } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Method, Watch, Listen, forceUpdate } from '@stencil/core';
 import { FILEUPLOAD_VARIANTS, FILEUPLOAD_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
   FileuploadVariant, FileuploadSize, FormVariant,
@@ -10,6 +10,7 @@ import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { HostAria } from '../../utils/host-aria';
 import {
   buildValidationDetail, synthesizeValidity,
   withCustomError, setInternalsValidity, syncHostDisabled, composeDescribedBy,
@@ -27,6 +28,7 @@ const STRINGS = {
     maxFiles: (n: number) => `Maximum ${n} file${n > 1 ? 's' : ''} allowed.`,
     noFileChosen: 'No file chosen',
     filesSelected: (n: number) => `${n} files selected`,
+    selectedFile: (name: string) => `Selected: ${name}`,
     allowed: (list: string) => `Allowed: ${list}`,
     images: 'Images',
     videos: 'Videos',
@@ -36,6 +38,7 @@ const STRINGS = {
     chooseFile: 'Choose File',
     chooseFiles: 'Choose Files',
     browseFiles: 'Browse Files',
+    nameSeparator: ', ',
     remove: (name: string) => `Remove ${name}`,
     dragAndDrop: (multiple: boolean) => `Drag and drop ${multiple ? 'files' : 'a file'} here, or`,
     sizeUnits: ['B', 'KB', 'MB', 'GB'] as const,
@@ -49,6 +52,7 @@ const STRINGS = {
     maxFiles: (n: number) => `الحد الأقصى ${n} ${n > 1 ? 'ملفات' : 'ملف'} مسموح به.`,
     noFileChosen: 'لم يتم اختيار ملف',
     filesSelected: (n: number) => `تم اختيار ${n} ملفات`,
+    selectedFile: (name: string) => `الملف المختار: ${name}`,
     allowed: (list: string) => `المسموح به: ${list}`,
     images: 'صور',
     videos: 'فيديوهات',
@@ -58,6 +62,7 @@ const STRINGS = {
     chooseFile: 'اختر ملفاً',
     chooseFiles: 'اختر ملفات',
     browseFiles: 'تصفح الملفات',
+    nameSeparator: '، ',
     remove: (name: string) => `إزالة ${name}`,
     dragAndDrop: (multiple: boolean) => `اسحب وأفلت ${multiple ? 'الملفات' : 'الملف'} هنا، أو`,
     sizeUnits: ['بايت', 'ك.ب', 'م.ب', 'ج.ب'] as const,
@@ -67,6 +72,7 @@ const STRINGS = {
 
 const TAG = 'aegov-fileupload';
 const ctx = (prop: string) => ({ component: TAG, prop });
+const normalizeText = (text?: string | null) => (text ?? '').replace(/\s+/g, ' ').trim();
 
 @Component({
   tag: 'aegov-fileupload',
@@ -197,6 +203,16 @@ export class AegovFileupload {
   private internals: ElementInternals | null = null;
   private errorId: string = '';
   private hintId: string = '';
+  private requiredId: string = '';
+  private labelId: string = '';
+
+  /**
+   * Bumped when the host's aria-label / aria-labelledby changes (aegov-form-field
+   * sets aria-label with setAttribute, which does not re-render this component),
+   * so the group and the trigger button pick up the new name.
+   */
+  @State() private hostNameVersion: number = 0;
+  private hostNameObserver?: MutationObserver;
 
   private get t() {
     return isRtl(this.el) ? STRINGS.ar : STRINGS.en;
@@ -215,6 +231,8 @@ export class AegovFileupload {
     }
     this.errorId = `${this.fieldId}-error`;
     this.hintId = `${this.fieldId}-hint`;
+    this.requiredId = `${this.fieldId}-required`;
+    this.labelId = `${this.fieldId}-label`;
 
     // Manual attachInternals per §6.8 fallback
     const host = this.el as unknown as InternalsHost;
@@ -228,6 +246,7 @@ export class AegovFileupload {
   }
 
   componentDidLoad() {
+    this.hostAria?.refreshSoon();
     // Report the initial state (e.g. required and empty) to the form, as otp and
     // datepicker do — otherwise form.checkValidity() passes until the first interaction.
     this.runValidationSync();
@@ -265,8 +284,106 @@ export class AegovFileupload {
     this.runValidationSync();
   }
 
+  /** Host aria-label / aria-labelledby / aria-describedby / labels, resolved for the inner control (DS-A11Y-input-01). */
+  private hostAria?: HostAria;
+
+  connectedCallback() {
+    this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, internals: () => this.internals, onChange: () => forceUpdate(this) });
+    this.hostAria.connect();
+    if (typeof MutationObserver === 'undefined' || this.hostNameObserver) return;
+    this.hostNameObserver = new MutationObserver(() => { this.hostNameVersion++; });
+    this.hostNameObserver.observe(this.el, { attributes: true, attributeFilter: ['aria-label', 'aria-labelledby', 'aria-describedby'] });
+  }
+
   disconnectedCallback() {
+    this.hostAria?.disconnect();
     this._sizeWatcher?.destroy();
+    this.hostNameObserver?.disconnect();
+    this.hostNameObserver = undefined;
+  }
+
+  /**
+   * The field's label text: the `label` prop, else the host-level name
+   * (aria-labelledby, aria-label set by aegov-form-field, <label for>).
+   */
+  private getFieldLabelText(): string {
+    if (this.label?.trim()) return this.label.trim();
+    // aria-labelledby, aria-label (aegov-form-field), then <label for> /
+    // aegov-label for — the shared resolver in utils/host-aria.
+    return this.hostAria?.name() ?? '';
+  }
+
+  /**
+   * Whether to say "Required" in the control's description. A native file
+   * input maps to role button (and the trigger is a button), which don't
+   * support aria-required, so the description carries it instead. Skipped
+   * while the visible error already says just that.
+   */
+  private announceRequired(showError: boolean): boolean {
+    if (!this.isRequired) return false;
+    return !(showError && !this.el.querySelector('[slot="error"]') && normalizeText(this.errorMessage) === this.t.required);
+  }
+
+  /** Text of the elements a host idref attribute (aria-labelledby / aria-describedby) points to. */
+  private getHostIdrefText(attr: 'aria-labelledby' | 'aria-describedby'): string {
+    const ids = this.el.getAttribute(attr)?.trim();
+    if (!ids) return '';
+    const root = this.el.getRootNode() as Document | ShadowRoot;
+    return ids.split(/\s+/)
+      .map(id => normalizeText(root.getElementById?.(id)?.textContent))
+      .filter(Boolean)
+      .join(' ');
+  }
+
+  /**
+   * Description for the trigger button. It starts with the current selection
+   * ("Selected: a.pdf" / "2 files selected"): a native file input exposes that
+   * as its value, which a button can't have, so it is read here, both when
+   * focus returns from the picker and whenever the user comes back to the
+   * button. Then, in the order the default appearance's native input uses:
+   * the host's own aria-describedby, "Required", the allowed types, the
+   * error, the hint. Those texts sit in this component's shadow root (or the
+   * light DOM) and the button in aegov-button's, so aria-describedby can't
+   * reach them; the text goes in aria-description, which aegov-button
+   * forwards to its inner <button>.
+   */
+  private getTriggerDescription(showError: boolean, showHint: boolean): string | undefined {
+    const slotText = (name: string) => normalizeText(this.el.querySelector(`[slot="${name}"]`)?.textContent);
+    const count = this.selectedFiles.length;
+    const parts = [
+      count === 1 ? this.t.selectedFile(normalizeText(this.selectedFiles[0].name)) : count > 1 ? this.t.filesSelected(count) : '',
+      this.getHostIdrefText('aria-describedby'),
+      this.announceRequired(showError) ? this.t.required : '',
+      normalizeText(this.getHelperText()),
+      showError ? (slotText('error') || normalizeText(this.errorMessage)) : '',
+      showHint ? (slotText('hint') || normalizeText(this.hint)) : '',
+    ].filter(Boolean);
+    if (!parts.length) return undefined;
+    // Join as sentences so screen readers pause between them, without
+    // doubling a full stop the text already ends with.
+    return parts.reduce((out, part) => (/[.!?\u061F]$/.test(out) ? `${out} ${part}` : `${out}. ${part}`));
+  }
+
+  /**
+   * Name for the group around the button / drop zone: the visible label
+   * (same shadow root) when there is one, else the field label text.
+   */
+  private getGroupNameAttrs(): Record<string, string> {
+    if (this.label?.trim()) return { 'aria-labelledby': this.labelId };
+    const text = this.getFieldLabelText();
+    return text ? { 'aria-label': text } : {};
+  }
+
+  /**
+   * Name for the trigger button: its visible text first (so speech input
+   * users can say what they see), then the field label, e.g.
+   * "Choose File, Supporting documents". The button lives in aegov-button's
+   * own shadow root, so aria-labelledby can't reach it; aegov-button forwards
+   * aria-label to its inner <button>.
+   */
+  private getTriggerName(): string | undefined {
+    const text = this.getFieldLabelText();
+    return text ? `${this.getDefaultButtonText()}${this.t.nameSeparator}${text}` : undefined;
   }
 
   @Watch('appearance')
@@ -375,10 +492,25 @@ export class AegovFileupload {
     return { validity: synthesizeValidity({}), message: '' };
   }
 
+  /**
+   * Where the browser puts focus (and its message) when a form submit finds
+   * this field invalid: the visible trigger button in the button / dropzone
+   * appearances — never the hidden, aria-hidden input (DS-A11Y-fileupload-04)
+   * — and the native input itself in the default appearance, like a native
+   * file input.
+   */
+  private validationAnchor(): HTMLElement | undefined {
+    if (this.appearance !== 'default' && this.triggerBtnRef) {
+      const inner = this.triggerBtnRef.shadowRoot?.querySelector<HTMLElement>('button');
+      if (inner) return inner;
+    }
+    return this.inputEl;
+  }
+
   private runValidationSync(transientFlags: Partial<AegovValidityState> = {}, transientMessage = '') {
     const { validity, message } = this.computeValidity(transientFlags);
     const finalMessage = transientMessage || message;
-    setInternalsValidity(this.internals, validity, finalMessage, this.inputEl);
+    setInternalsValidity(this.internals, validity, finalMessage, this.validationAnchor());
     try {
       if (this.internals && typeof this.internals.setFormValue === 'function') {
         // Build FormData payload — one entry per file (gap §7.3 canonical form)
@@ -421,39 +553,95 @@ export class AegovFileupload {
   private handleFileChange = () => {
     if (!this.inputEl?.files) return;
     const newFiles = Array.from(this.inputEl.files);
+    // A picker can't return "no files" on purpose: an empty change is a
+    // cancelled picker (some Chrome builds clear the input and fire change
+    // instead of `cancel`). Keep the selection; files are removed only with
+    // the remove buttons, clear() or a form reset.
+    if (newFiles.length === 0) {
+      this.syncNativeFiles();
+      return;
+    }
     this.processFiles(newFiles);
-    // Reset so same file can be re-selected
-    this.inputEl.value = '';
+    // Hold the kept files, not the raw pick (rejected files are dropped).
+    this.syncNativeFiles();
   };
+
+  /**
+   * Keep the native input's FileList equal to `selectedFiles`.
+   *
+   * In the default appearance the native input is the focusable control, so
+   * screen readers read its value ("cert.png", "2 files", "No file chosen").
+   * It used to be emptied right after every pick, so it always said "No file
+   * chosen" next to a visible file name. While the file picker is open the
+   * input is empty (see `handleNativeClick`), so picking the same file again,
+   * e.g. after editing it, still fires `change`. Where DataTransfer can't be
+   * constructed (very old browsers, test DOMs) the input is only emptied when
+   * nothing is selected.
+   */
+  /**
+   * The picker is about to open: empty the input so any pick fires `change`,
+   * even the same path (browsers compare paths, so an edited file re-picked
+   * under the same name would otherwise be ignored and its old content kept).
+   * `cancel` (or focus returning without a pick) puts the selection back.
+   */
+  private handleNativeClick = () => {
+    if (this.inputEl && !this.disabled) this.inputEl.value = '';
+  };
+
+  private handleNativeCancel = () => this.syncNativeFiles();
+
+  /** Stencil's JSX types have no `onCancel` for inputs, so the picker's `cancel` event is wired here. */
+  private setInputRef = (el?: HTMLInputElement) => {
+    if (el && el !== this.inputEl) el.addEventListener('cancel', this.handleNativeCancel);
+    this.inputEl = el;
+  };
+
+  private syncNativeFiles() {
+    const input = this.inputEl;
+    if (!input) return;
+    const key = (f: File) => `${f.name}|${f.size}|${f.lastModified}`;
+    const current = input.files ? Array.from(input.files) : [];
+    if (current.length === this.selectedFiles.length && current.every((f, i) => key(f) === key(this.selectedFiles[i]))) return;
+    try {
+      const transfer = new DataTransfer();
+      this.selectedFiles.forEach(file => transfer.items.add(file));
+      input.files = transfer.files;
+    } catch {
+      if (this.selectedFiles.length === 0) input.value = '';
+    }
+  }
 
   private processFiles(newFiles: File[]) {
     this.hasInteractedOnce = true;
     const validFiles: File[] = [];
 
     let pendingFlag: Partial<AegovValidityState> = {};
-    let pendingMessage = '';
+    // Every rejected file gets its own reason, one per line; reporting only
+    // the last one silently dropped the others (DS-A11Y-fileupload-05).
+    const reasons: string[] = [];
 
     for (const file of newFiles) {
       if (this.accept && !this.isValidFileType(file)) {
-        pendingFlag = { typeMismatch: true };
-        pendingMessage = this.t.notAllowedType(file.name);
+        pendingFlag = { ...pendingFlag, typeMismatch: true };
+        reasons.push(this.t.notAllowedType(file.name));
         continue;
       }
 
       if (this.maxFileSize && file.size > this.maxFileSize) {
-        pendingFlag = { tooLong: true };
-        pendingMessage = this.t.exceedsMaxSize(file.name, this.formatFileSize(this.maxFileSize));
+        pendingFlag = { ...pendingFlag, tooLong: true };
+        reasons.push(this.t.exceedsMaxSize(file.name, this.formatFileSize(this.maxFileSize)));
         continue;
       }
 
       validFiles.push(file);
     }
+    let pendingMessage = reasons.join('\n');
 
     if (this.appearance === 'default') {
       // Default replaces selection each time
       if (this.maxFiles && validFiles.length > this.maxFiles) {
-        pendingFlag = { customError: true };
-        pendingMessage = this.t.maxFiles(this.maxFiles);
+        pendingFlag = { ...pendingFlag, customError: true };
+        pendingMessage = [pendingMessage, this.t.maxFiles(this.maxFiles)].filter(Boolean).join('\n');
         this.selectedFiles = validFiles.slice(0, this.maxFiles);
       } else {
         this.selectedFiles = validFiles;
@@ -463,8 +651,8 @@ export class AegovFileupload {
       const combined = [...this.selectedFiles, ...validFiles];
 
       if (this.maxFiles && combined.length > this.maxFiles) {
-        pendingFlag = { customError: true };
-        pendingMessage = this.t.maxFiles(this.maxFiles);
+        pendingFlag = { ...pendingFlag, customError: true };
+        pendingMessage = [pendingMessage, this.t.maxFiles(this.maxFiles)].filter(Boolean).join('\n');
         const slotsAvailable = this.maxFiles - this.selectedFiles.length;
         if (slotsAvailable > 0) {
           this.selectedFiles = [...this.selectedFiles, ...validFiles.slice(0, slotsAvailable)];
@@ -538,6 +726,9 @@ export class AegovFileupload {
   componentDidRender() {
     // Constraint props (isRequired, …) changed after load must reach the form too.
     this.runValidationSync();
+    // Covers every change to selectedFiles (pick, drop, remove, clear, reset)
+    // and a native input re-created by an appearance change.
+    this.syncNativeFiles();
     if (!this.pendingFocusAfterRemoval) return;
     const { removedIndex, remainingCount } = this.pendingFocusAfterRemoval;
     this.pendingFocusAfterRemoval = null;
@@ -643,7 +834,7 @@ export class AegovFileupload {
   private renderLabel() {
     if (!this.label) return null;
     return (
-      <label class="fileupload__label" {...{ for: this.fieldId }}>
+      <label id={this.labelId} class="fileupload__label" {...{ for: this.fieldId }}>
         {this.label}
         {this.isRequired && <span class="fileupload__required" aria-hidden="true"> *</span>}
       </label>
@@ -730,27 +921,28 @@ export class AegovFileupload {
   private renderDefault(passThroughAttrs: Record<string, string | boolean>, showError: boolean, showHint: boolean) {
     const helperText = this.getHelperText();
     const describedBy = composeDescribedBy(
-      this.el.getAttribute('aria-describedby'),
+      this.hostAria?.descriptionId(),
+      this.announceRequired(showError) ? this.requiredId : null,
       helperText ? `${this.fieldId}-helper` : null,
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );
     return (
-      <div class="fileupload__input-wrapper" onClick={() => this.triggerFileDialog()}>
+      <div class="fileupload__input-wrapper" onClick={(e) => { if (e.target !== this.inputEl) this.triggerFileDialog(); }}>
         <input
           type="file"
-          ref={(el) => this.inputEl = el as HTMLInputElement}
+          ref={this.setInputRef}
           {...passThroughAttrs}
           id={this.fieldId}
           name={this.name}
           accept={this.accept}
           multiple={this.isMultiple}
           disabled={this.disabled}
-          required={this.isRequired}
           class="fileupload__native-input"
           onChange={this.handleFileChange}
+          onClick={this.handleNativeClick}
+          onFocus={this.handleNativeCancel}
           aria-invalid={this.isInvalid ? 'true' : undefined}
-          aria-required={this.isRequired ? 'true' : undefined}
           aria-describedby={describedBy}
         />
         <span class={`fileupload__filename ${this.selectedFiles.length === 0 ? 'fileupload__filename--empty' : ''}`}>
@@ -764,33 +956,13 @@ export class AegovFileupload {
   }
 
   private renderButton(passThroughAttrs: Record<string, string | boolean>, showError: boolean, showHint: boolean) {
-    const describedBy = composeDescribedBy(
-      this.el.getAttribute('aria-describedby'),
-      showError ? this.errorId : null,
-      showHint ? this.hintId : null,
-    );
+    const description = this.getTriggerDescription(showError, showHint);
     return (
       <div
         role="group"
-        aria-invalid={this.isInvalid ? 'true' : undefined}
-        aria-describedby={describedBy || undefined}
+        {...this.getGroupNameAttrs()}
         class="fileupload__btn-group"
       >
-        <input
-          type="file"
-          ref={(el) => this.inputEl = el as HTMLInputElement}
-          {...passThroughAttrs}
-          id={this.fieldId}
-          name={this.name}
-          accept={this.accept}
-          multiple={this.isMultiple}
-          disabled={this.disabled}
-          required={this.isRequired}
-          class="fileupload__hidden-input"
-          onChange={this.handleFileChange}
-          tabIndex={-1}
-          aria-hidden="true"
-        />
         <aegov-button
           class="fileupload__trigger-btn"
           ref={(el) => (this.triggerBtnRef = el as HTMLElement)}
@@ -798,12 +970,32 @@ export class AegovFileupload {
           size={this._resolvedSize}
           appearance="solid"
           is-disabled={this.disabled}
+          aria-label={this.getTriggerName()}
+          aria-description={description}
+          aria-invalid={this.isInvalid ? 'true' : undefined}
           onClick={() => this.triggerFileDialog()}
         >
           {this.renderBtnUploadIcon()}
           {this.getDefaultButtonText()}
         </aegov-button>
         {this.renderFileList()}
+        {/* After the trigger, so focusing the field (label click, delegatesFocus) lands on the button. */}
+        <input
+          type="file"
+          ref={this.setInputRef}
+          {...passThroughAttrs}
+          id={this.fieldId}
+          name={this.name}
+          accept={this.accept}
+          multiple={this.isMultiple}
+          disabled={this.disabled}
+          class="fileupload__hidden-input"
+          onChange={this.handleFileChange}
+          onClick={this.handleNativeClick}
+          onFocus={this.handleNativeCancel}
+          tabIndex={-1}
+          aria-hidden="true"
+        />
       </div>
     );
   }
@@ -813,33 +1005,13 @@ export class AegovFileupload {
       'fileupload__dropzone',
       this.isDragOver ? 'fileupload__dropzone--dragover' : '',
     ].filter(Boolean).join(' ');
-    const describedBy = composeDescribedBy(
-      this.el.getAttribute('aria-describedby'),
-      showError ? this.errorId : null,
-      showHint ? this.hintId : null,
-    );
+    const description = this.getTriggerDescription(showError, showHint);
 
     return [
-      <input
-        type="file"
-        ref={(el) => this.inputEl = el as HTMLInputElement}
-        {...passThroughAttrs}
-        id={this.fieldId}
-        name={this.name}
-        accept={this.accept}
-        multiple={this.isMultiple}
-        disabled={this.disabled}
-        required={this.isRequired}
-        class="fileupload__hidden-input"
-        onChange={this.handleFileChange}
-        tabIndex={-1}
-        aria-hidden="true"
-      />,
       <div
         role="group"
+        {...this.getGroupNameAttrs()}
         class={dropzoneClasses}
-        aria-invalid={this.isInvalid ? 'true' : undefined}
-        aria-describedby={describedBy || undefined}
         onDragOver={this.handleDragOver}
         onDragLeave={this.handleDragLeave}
         onDrop={this.handleDrop}
@@ -856,6 +1028,9 @@ export class AegovFileupload {
             size={this._resolvedSize}
             appearance="outline"
             is-disabled={this.disabled}
+            aria-label={this.getTriggerName()}
+            aria-description={description}
+            aria-invalid={this.isInvalid ? 'true' : undefined}
             onClick={() => this.triggerFileDialog()}
           >
             {this.getDefaultButtonText()}
@@ -863,6 +1038,23 @@ export class AegovFileupload {
         </div>
         {this.renderFileList()}
       </div>,
+      // After the drop zone, so focusing the field lands on its button.
+      <input
+        type="file"
+        ref={this.setInputRef}
+        {...passThroughAttrs}
+        id={this.fieldId}
+        name={this.name}
+        accept={this.accept}
+        multiple={this.isMultiple}
+        disabled={this.disabled}
+        class="fileupload__hidden-input"
+        onChange={this.handleFileChange}
+        onClick={this.handleNativeClick}
+        onFocus={this.handleNativeCancel}
+        tabIndex={-1}
+        aria-hidden="true"
+      />,
     ];
   }
 
@@ -876,7 +1068,7 @@ export class AegovFileupload {
       `fileupload-variant-${variant}`,
       this.disabled ? 'fileupload--disabled' : '',
     ].filter(Boolean).join(' ');
-    const passThroughAttrs = getPassThroughAttributes(this.el, AegovFileupload.PASS_THROUGH_ATTRS);
+    const passThroughAttrs = this.hostAria ? this.hostAria.bridge(getPassThroughAttributes(this.el, AegovFileupload.PASS_THROUGH_ATTRS)) : getPassThroughAttributes(this.el, AegovFileupload.PASS_THROUGH_ATTRS);
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
 
@@ -900,6 +1092,8 @@ export class AegovFileupload {
       <Host class={{ 'is-invalid': this.isInvalid }}>
         <div class={classes}>
           {this.renderLabel()}
+          {/* Referenced by the native input's aria-describedby; the full stop makes screen readers pause before the next text. */}
+          {this.isRequired && <span id={this.requiredId} hidden>{`${this.t.required}.`}</span>}
           {appearance === 'default' && this.renderDefault(passThroughAttrs, showError, showHint)}
           {appearance === 'button' && this.renderButton(passThroughAttrs, showError, showHint)}
           {appearance === 'dropzone' && this.renderDropzone(passThroughAttrs, showError, showHint)}
@@ -907,6 +1101,7 @@ export class AegovFileupload {
           {this.renderHelperText()}
           {errorRegion}
         </div>
+        {this.hostAria?.renderDescription()}
       </Host>
     );
   }

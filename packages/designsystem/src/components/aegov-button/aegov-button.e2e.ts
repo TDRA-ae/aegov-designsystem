@@ -67,6 +67,32 @@ describe('aegov-button e2e', () => {
     expect(btn.getAttribute('aria-busy')).toBe('true');
   });
 
+  it('keeps focus on the button while it is loading and after loading ends', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<aegov-button id="b">Save</aegov-button><aegov-button id="after">Next</aegov-button>`);
+    const focusedId = () => page.evaluate(() => (document.activeElement as HTMLElement)?.id || document.activeElement?.tagName);
+    await page.evaluate(() => (document.getElementById('b') as HTMLElement).focus());
+    expect(await focusedId()).toBe('b');
+
+    await page.$eval('#b', (el: any) => { el.isLoading = true; });
+    await page.waitForChanges();
+    expect(await focusedId()).toBe('b');
+    const btn = await page.find('#b >>> button');
+    expect(btn.getAttribute('aria-disabled')).toBe('true');
+    expect(btn).not.toHaveAttribute('disabled');
+
+    // Activation is ignored while loading.
+    const spy = await page.spyOnEvent('aegovButtonClick');
+    await page.keyboard.press('Enter');
+    await page.waitForChanges();
+    expect(spy).toHaveReceivedEventTimes(0);
+
+    await page.$eval('#b', (el: any) => { el.isLoading = false; });
+    await page.waitForChanges();
+    expect(await focusedId()).toBe('b');
+    expect(await page.find('#b >>> button')).not.toHaveAttribute('aria-disabled');
+  });
+
   it('updates classes when variant prop changes at runtime', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-button variant="primary">X</aegov-button>`);
