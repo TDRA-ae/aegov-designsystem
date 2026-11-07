@@ -61,3 +61,33 @@ export function observePassThroughAttributes(
   observer.observe(el, { attributes: true });
   return observer;
 }
+
+/**
+ * The `data-*` attributes of a host, for components whose host element
+ * itself carries the semantics (role and `aria-*`), so copying `aria-*`
+ * onto an inner element would announce them twice.
+ */
+export function getDataAttributes(el: HTMLElement): Record<string, string> {
+  const result: Record<string, string> = {};
+  if (!el) return result;
+  Array.from(el.attributes).forEach(attr => {
+    if (attr.name.startsWith('data-')) result[attr.name] = attr.value;
+  });
+  return result;
+}
+
+/**
+ * Role for a component host that is an item of its parent component's list
+ * (navbar, breadcrumbs, navblock).
+ *
+ * The parent renders `<div role="list">` and each item host is a direct child
+ * of it, so the host — not an inner `<li>` — must be the list item: a `<ul>`
+ * may only contain `<li>`, and an `<li>` inside a custom element is not a
+ * child of the list (axe "list"/"listitem", ACT rule ff89c9). Screen readers
+ * announce "list, N items" and "X of N" as with a native list.
+ *
+ * A role the author set on the host is kept.
+ */
+export function listItemRole(el: HTMLElement): string {
+  return el.getAttribute('role') || 'listitem';
+}

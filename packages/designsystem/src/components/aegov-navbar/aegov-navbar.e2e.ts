@@ -53,10 +53,10 @@ describe('aegov-navbar e2e', () => {
     expect(focusedHref).toBe('/b');
   });
 
-  it('applies custom gap class to ul', async () => {
+  it('applies custom gap class to the list', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-navbar gap="gap-8"><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`);
-    const ul = await page.find('aegov-navbar ul');
-    expect(ul.className).toContain('gap-8');
+    const list = await page.find('aegov-navbar .aegov-navbar-list');
+    expect(list.className).toContain('gap-8');
   });
 });

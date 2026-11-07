@@ -3,7 +3,7 @@ import { AegovTimeline } from '../aegov-timeline/aegov-timeline';
 import { AegovTimelineStep } from './aegov-timeline-step';
 
 describe('aegov-timeline-step', () => {
-  it('renders an li with status modifier class', async () => {
+  it('renders a role="listitem" host with status modifier class', async () => {
     const page = await newSpecPage({
       components: [AegovTimeline, AegovTimelineStep],
       html: `
@@ -12,9 +12,10 @@ describe('aegov-timeline-step', () => {
         </aegov-timeline>
       `,
     });
-    const li = page.root.querySelector('li.aegov-step');
-    expect(li).not.toBeNull();
-    expect(li.className).toContain('step--active');
+    expect(page.root.querySelector('aegov-timeline-step').getAttribute('role')).toBe('listitem');
+    expect(page.root.querySelector('li')).toBeNull();
+    const step = page.root.querySelector('.aegov-step');
+    expect(step.className).toContain('step--active');
   });
 
   it('renders a visible configuration error when used outside aegov-timeline', async () => {
@@ -69,8 +70,8 @@ describe('aegov-timeline-step', () => {
       `,
     });
     await page.waitForChanges();
-    const li = page.root.querySelector('li.aegov-step');
-    expect(li.getAttribute('aria-current')).toBe('step');
+    const step = page.root.querySelector('aegov-timeline-step');
+    expect(step.getAttribute('aria-current')).toBe('step');
   });
 
   it('non-active step does not get aria-current', async () => {
@@ -83,8 +84,8 @@ describe('aegov-timeline-step', () => {
       `,
     });
     await page.waitForChanges();
-    const li = page.root.querySelector('li.aegov-step');
-    expect(li.getAttribute('aria-current')).toBeNull();
+    const step = page.root.querySelector('aegov-timeline-step');
+    expect(step.getAttribute('aria-current')).toBeNull();
   });
 
   it('renders description when provided', async () => {

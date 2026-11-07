@@ -88,8 +88,10 @@ describe('aegov-breadcrumbs-item', () => {
       html: `<aegov-breadcrumbs is-microdata="true"><aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item></aegov-breadcrumbs>`,
     });
     const item = page.root.querySelector('aegov-breadcrumbs-item');
-    const li = item.querySelector('li');
-    expect(li.getAttribute('itemtype')).toBe('https://schema.org/ListItem');
+    // The host is the list item, so it is also the schema.org ListItem.
+    expect(item.getAttribute('itemprop')).toBe('itemListElement');
+    expect(item.hasAttribute('itemscope')).toBe(true);
+    expect(item.getAttribute('itemtype')).toBe('https://schema.org/ListItem');
     expect(item.querySelector('meta[itemprop="position"]')).not.toBeNull();
   });
 

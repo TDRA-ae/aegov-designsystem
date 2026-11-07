@@ -172,4 +172,27 @@ describe('aegov-navblock', () => {
     const id = page.root.querySelector('nav').getAttribute('id');
     expect(id).toMatch(/^aegov-navblock-/);
   });
+
+  it('renders role="list" containers whose direct children are role="listitem" item hosts, nested too', async () => {
+    const page = await newSpecPage({
+      components: [AegovNavblock, AegovNavblockItem],
+      html: `<aegov-navblock>
+        <aegov-navblock-item href="/a">A</aegov-navblock-item>
+        <aegov-navblock-item>Group
+          <aegov-navblock-item href="/b">B</aegov-navblock-item>
+          <aegov-navblock-item href="/c">C</aegov-navblock-item>
+        </aegov-navblock-item>
+      </aegov-navblock>`,
+    });
+    // A <ul>/<li> pair would be split by the custom-element host (A-01).
+    expect(page.root.querySelector('ul, ol, li')).toBeNull();
+    const lists = Array.from(page.root.querySelectorAll('[role="list"]'));
+    expect(lists.length).toBe(2);
+    const counts = lists.map(list => {
+      const items = Array.from(list.children).filter(c => c.tagName === 'AEGOV-NAVBLOCK-ITEM');
+      items.forEach(item => expect(item.getAttribute('role')).toBe('listitem'));
+      return items.length;
+    });
+    expect(counts).toEqual([2, 2]);
+  });
 });
