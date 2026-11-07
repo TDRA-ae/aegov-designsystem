@@ -152,9 +152,11 @@ export class AegovTimeline {
         aria-label={navLabel}
         {...passThroughAttrs}
       >
-        <ol class={listClasses}>
+        {/* role="list" on a div, not <ol>: the items are aegov-timeline-step
+            hosts (role="listitem"), which an <ol> may not contain. */}
+        <div class={listClasses} role="list">
           <slot />
-        </ol>
+        </div>
       </section>
     );
   }

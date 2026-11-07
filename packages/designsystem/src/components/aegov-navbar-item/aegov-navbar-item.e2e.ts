@@ -124,11 +124,11 @@ describe('aegov-navbar-item e2e', () => {
     expect(iconWrap).not.toBeNull();
   });
 
-  it('reflects size class on host li', async () => {
+  it('reflects size class on the item wrapper', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-navbar size="lg"><aegov-navbar-item href="/">X</aegov-navbar-item></aegov-navbar>`);
     await page.waitForChanges();
-    const li = await page.find('aegov-navbar-item li');
-    expect(li.className).toContain('aegov-navbar-item--lg');
+    const item = await page.find('aegov-navbar-item .aegov-navbar-item');
+    expect(item.className).toContain('aegov-navbar-item--lg');
   });
 });
