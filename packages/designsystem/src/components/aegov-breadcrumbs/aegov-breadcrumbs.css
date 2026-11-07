@@ -4,8 +4,7 @@
 
 nav.aegov-breadcrumbs {
   @apply block;
-  &>ol.breadcrumb__list,
-  &>ul.breadcrumb__list {
+  &>div.breadcrumb__list {
     @apply flex flex-wrap items-center gap-0 list-none m-0 p-0;
   }
 }

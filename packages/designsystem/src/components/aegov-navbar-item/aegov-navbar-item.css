@@ -2,7 +2,7 @@
   display: contents;
 }
 
-li.aegov-navbar-item {
+div.aegov-navbar-item {
   @apply relative inline-flex items-center;
 }
 
@@ -24,11 +24,11 @@ a.aegov-navbar-item__link[aria-current="page"]:hover {
 /* When a dropdown wraps the item, make the dropdown's trigger div the
    inline-flex row that holds link + chevron so its bbox covers the whole
    item — that bbox is what aegov-dropdown uses to position itself. */
-li.aegov-navbar-item--has-dropdown > aegov-dropdown {
+div.aegov-navbar-item--has-dropdown > aegov-dropdown {
   @apply inline-flex items-center;
 }
 
-li.aegov-navbar-item--has-dropdown .aegov-dropdown-trigger {
+div.aegov-navbar-item--has-dropdown .aegov-dropdown-trigger {
   @apply inline-flex items-center;
 }
 
@@ -86,54 +86,54 @@ button.aegov-navbar-item__chevron[aria-expanded="true"] svg {
   cursor: not-allowed;
 }
 
-li.aegov-navbar-item--disabled {
+div.aegov-navbar-item--disabled {
   opacity: 0.4;
 }
 
-li.aegov-navbar-item--disabled .aegov-navbar-item__link {
+div.aegov-navbar-item--disabled .aegov-navbar-item__link {
   pointer-events: none;
 }
 
 /* ---- Sizes ---- */
 /* sm */
-li.aegov-navbar-item--sm .aegov-navbar-item__link {
+div.aegov-navbar-item--sm .aegov-navbar-item__link {
   @apply text-sm py-3 px-2;
 }
-li.aegov-navbar-item--sm .aegov-navbar-item__icon {
+div.aegov-navbar-item--sm .aegov-navbar-item__icon {
   @apply size-4.5;
 }
-li.aegov-navbar-item--sm button.aegov-navbar-item__chevron {
+div.aegov-navbar-item--sm button.aegov-navbar-item__chevron {
   @apply size-5;
 }
-li.aegov-navbar-item--sm button.aegov-navbar-item__chevron svg {
+div.aegov-navbar-item--sm button.aegov-navbar-item__chevron svg {
   @apply w-full h-full;
 }
 
 /* base */
-li.aegov-navbar-item--base .aegov-navbar-item__link {
+div.aegov-navbar-item--base .aegov-navbar-item__link {
   @apply text-base py-4 px-2.5;
 }
-li.aegov-navbar-item--base .aegov-navbar-item__icon {
+div.aegov-navbar-item--base .aegov-navbar-item__icon {
   @apply size-5;
 }
-li.aegov-navbar-item--base button.aegov-navbar-item__chevron {
+div.aegov-navbar-item--base button.aegov-navbar-item__chevron {
   @apply size-6;
 }
-li.aegov-navbar-item--base button.aegov-navbar-item__chevron svg {
+div.aegov-navbar-item--base button.aegov-navbar-item__chevron svg {
   @apply w-full h-full;
 }
 
 /* lg */
-li.aegov-navbar-item--lg .aegov-navbar-item__link {
+div.aegov-navbar-item--lg .aegov-navbar-item__link {
   @apply text-lg py-5 px-3;
 }
-li.aegov-navbar-item--lg .aegov-navbar-item__icon {
+div.aegov-navbar-item--lg .aegov-navbar-item__icon {
   @apply size-5.5;
 }
-li.aegov-navbar-item--lg button.aegov-navbar-item__chevron {
+div.aegov-navbar-item--lg button.aegov-navbar-item__chevron {
   @apply size-6.5;
 }
-li.aegov-navbar-item--lg button.aegov-navbar-item__chevron svg {
+div.aegov-navbar-item--lg button.aegov-navbar-item__chevron svg {
   @apply w-full h-full;
 }
 

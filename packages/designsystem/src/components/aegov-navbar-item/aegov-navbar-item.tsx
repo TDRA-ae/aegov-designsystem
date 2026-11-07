@@ -3,7 +3,7 @@ import { NAVBAR_SIZES } from '../../utils/types';
 import type { NavbarSize, LinkTarget } from '../../utils/types';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
-import { getPassThroughAttributes } from '../../utils/attributes';
+import { getDataAttributes, listItemRole } from '../../utils/attributes';
 import { isRtl } from '../../utils/rtl';
 
 const CHEVRON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20" d="m48 96 80 80 80-80"/></svg>`;
@@ -264,14 +264,17 @@ export class AegovNavbarItem {
 
   render() {
     const sizeClass = `aegov-navbar-item--${this._resolvedSize}`;
-    const liClasses = {
+    const itemClasses = {
       'aegov-navbar-item': true,
       [sizeClass]: true,
       'aegov-navbar-item--has-dropdown': this.hasDropdown,
       'aegov-navbar-item--active': this.isActive,
       'aegov-navbar-item--disabled': this.isDisabled,
     };
-    const passThroughAttributes = getPassThroughAttributes(this.el);
+    // The host is the list item (role and its own aria-* apply there); the
+    // inner wrapper only keeps data-* for styling hooks.
+    const dataAttributes = getDataAttributes(this.el);
+    const role = listItemRole(this.el);
     const linkAttrs: Record<string, string> = {};
     Array.from(this.el.attributes).forEach(attr => {
       if (AegovNavbarItem.PASS_THROUGH_ATTRS.has(attr.name)) {
@@ -283,10 +286,10 @@ export class AegovNavbarItem {
     // <aegov-dropdown>. Render only the dropdown slot.
     if (this.hasDropdown && !this.isDisabled) {
       return (
-        <Host>
-          <li {...passThroughAttributes} class={liClasses}>
+        <Host role={role}>
+          <div {...dataAttributes} class={itemClasses}>
             <slot name="dropdown" />
-          </li>
+          </div>
         </Host>
       );
     }
@@ -338,11 +341,11 @@ export class AegovNavbarItem {
     }
 
     return (
-      <Host class={{ 'is-disabled': this.isDisabled }}>
-        <li {...passThroughAttributes} class={liClasses}>
+      <Host role={role} class={{ 'is-disabled': this.isDisabled }}>
+        <div {...dataAttributes} class={itemClasses}>
           {inner}
           {this.hasDropdown && <slot name="dropdown" />}
-        </li>
+        </div>
       </Host>
     );
   }
