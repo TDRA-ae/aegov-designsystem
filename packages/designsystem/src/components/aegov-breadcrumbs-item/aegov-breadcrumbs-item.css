@@ -2,7 +2,7 @@
   display: contents;
 }
 
-li.breadcrumb__item {
+div.breadcrumb__item {
   @apply relative inline-flex items-center gap-1 align-middle text-sm last:font-semibold;
   & a {
     @apply relative decoration-1 hover:decoration-2 underline-offset-2 inline-flex items-center align-middle gap-1 px-1 py-0.5 m-0 text-primary-600 hover:text-primary-700 visited:text-primary-700

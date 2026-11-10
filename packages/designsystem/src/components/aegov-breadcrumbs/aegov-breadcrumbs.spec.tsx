@@ -12,7 +12,9 @@ describe('aegov-breadcrumbs', () => {
     expect(nav).not.toBeNull();
     expect(nav.getAttribute('aria-label')).toBe('Breadcrumb');
     expect(nav.className).toContain('aegov-breadcrumbs');
-    expect(nav.querySelector('ol')).not.toBeNull();
+    expect(nav.querySelector('.breadcrumb__list').getAttribute('role')).toBe('list');
+    expect(nav.querySelector('ul, ol, li')).toBeNull();
+    expect(page.root.querySelector('aegov-breadcrumbs-item').getAttribute('role')).toBe('listitem');
   });
 
   it('auto-generates fieldId when not provided', async () => {
@@ -91,8 +93,8 @@ describe('aegov-breadcrumbs', () => {
         <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
       </aegov-breadcrumbs>`,
     });
-    const ol = page.root.querySelector('ol');
-    expect(ol.getAttribute('itemtype')).toBe('https://schema.org/BreadcrumbList');
+    const list = page.root.querySelector('.breadcrumb__list');
+    expect(list.getAttribute('itemtype')).toBe('https://schema.org/BreadcrumbList');
   });
 
   it('assigns 1-indexed position to children', async () => {
