@@ -52,8 +52,8 @@ describe('aegov-navbar-item', () => {
       components: COMPONENTS,
       html: wrap(`<aegov-navbar-item href="/">A</aegov-navbar-item>`, 'size="lg"'),
     });
-    const li = page.root.querySelector('aegov-navbar-item li');
-    expect(li.className).toContain('aegov-navbar-item--lg');
+    const item = page.root.querySelector('aegov-navbar-item .aegov-navbar-item');
+    expect(item.className).toContain('aegov-navbar-item--lg');
   });
 
   it('applies active state class', async () => {
@@ -61,7 +61,7 @@ describe('aegov-navbar-item', () => {
       components: COMPONENTS,
       html: wrap(`<aegov-navbar-item href="/" is-active="true">A</aegov-navbar-item>`),
     });
-    expect(page.root.querySelector('aegov-navbar-item li').className).toContain('aegov-navbar-item--active');
+    expect(page.root.querySelector('aegov-navbar-item .aegov-navbar-item').className).toContain('aegov-navbar-item--active');
   });
 
   it('applies disabled state class', async () => {
@@ -69,7 +69,7 @@ describe('aegov-navbar-item', () => {
       components: COMPONENTS,
       html: wrap(`<aegov-navbar-item is-disabled="true">D</aegov-navbar-item>`),
     });
-    expect(page.root.querySelector('aegov-navbar-item li').className).toContain('aegov-navbar-item--disabled');
+    expect(page.root.querySelector('aegov-navbar-item .aegov-navbar-item').className).toContain('aegov-navbar-item--disabled');
   });
 
   it('renders icon-start slot when present', async () => {
@@ -107,5 +107,23 @@ describe('aegov-navbar-item', () => {
         html: `<aegov-navbar-item>X</aegov-navbar-item>`,
       }),
     ).rejects.toThrow('must be used inside <aegov-navbar>');
+  });
+
+  it('keeps a role the author set on the host', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: wrap(`<aegov-navbar-item href="/" role="none">A</aegov-navbar-item>`),
+    });
+    expect(page.root.querySelector('aegov-navbar-item').getAttribute('role')).toBe('none');
+  });
+
+  it('keeps aria-* on the host only and data-* on the inner wrapper', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: wrap(`<aegov-navbar-item href="/" aria-describedby="hint" data-track="nav">A</aegov-navbar-item>`),
+    });
+    const inner = page.root.querySelector('aegov-navbar-item .aegov-navbar-item');
+    expect(inner.getAttribute('data-track')).toBe('nav');
+    expect(inner.hasAttribute('aria-describedby')).toBe(false);
   });
 });

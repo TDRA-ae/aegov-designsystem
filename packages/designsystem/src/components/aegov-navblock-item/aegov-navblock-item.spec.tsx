@@ -65,8 +65,8 @@ describe('aegov-navblock-item', () => {
     });
     const a = page.root.querySelector('aegov-navblock-item a.aegov-navblock-item__row');
     expect(a.getAttribute('aria-current')).toBe('page');
-    const li = page.root.querySelector('aegov-navblock-item li');
-    expect(li.className).toContain('is-active');
+    const item = page.root.querySelector('aegov-navblock-item .aegov-navblock-item');
+    expect(item.className).toContain('is-active');
   });
 
   it('renders disabled span with aria-disabled when isDisabled and no children', async () => {
@@ -146,7 +146,7 @@ describe('aegov-navblock-item', () => {
         <aegov-navblock-item href="/">A</aegov-navblock-item>
       </aegov-navblock>`,
     });
-    const li = page.root.querySelector('aegov-navblock-item li');
-    expect(li.className).toContain('navblock-item--sm');
+    const item = page.root.querySelector('aegov-navblock-item .aegov-navblock-item');
+    expect(item.className).toContain('navblock-item--sm');
   });
 });

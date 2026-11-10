@@ -10,7 +10,7 @@ describe('aegov-breadcrumbs e2e', () => {
       </aegov-breadcrumbs>
     `);
     const display = await page.evaluate(() => {
-      const list = document.querySelector('aegov-breadcrumbs ol.breadcrumb__list, aegov-breadcrumbs ul.breadcrumb__list');
+      const list = document.querySelector('aegov-breadcrumbs .breadcrumb__list');
       return getComputedStyle(list).display;
     });
     expect(display).toBe('flex');
@@ -38,7 +38,7 @@ describe('aegov-breadcrumbs e2e', () => {
         <aegov-breadcrumbs-item>Last</aegov-breadcrumbs-item>
       </aegov-breadcrumbs>
     `);
-    const items = await page.findAll('aegov-breadcrumbs li');
+    const items = await page.findAll('aegov-breadcrumbs [role="listitem"]');
     expect(items.length).toBe(3);
   });
 
