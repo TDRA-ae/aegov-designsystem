@@ -55,8 +55,17 @@ Thumbs.db
 
 # Claude Code local settings (machine-specific, should not be shared)
 .claude/settings.local.json
+.claude/worktrees/
+
+# `npx skills` CLI installs (duplicates of .claude/skills, personal tooling)
+.agents/
+skills-lock.json
+
 # Live package verification (uses published npm packages, not workspace)
 test-published/
+
+# Local framework test apps (kept out of the repo and its history)
+test-apps/
 
 # Stencil auto-generated component docs (regenerated on every build)
 packages/designsystem/src/components/**/readme.md
@@ -64,9 +73,7 @@ packages/designsystem/src/components/**/readme.md
 # npm pack tarballs
 *.tgz
 
-# Shadow mode investigation artifacts (generated, not for sharing)
-test-apps/test-html/SHADOW-MATRIX-REPORT.md
-test-apps/test-html/run-matrix.mjs
-test-apps/test-html/shadow-matrix.html
-
 backup
+
+# Local developer notes (not shared)
+DEVELOPER.md

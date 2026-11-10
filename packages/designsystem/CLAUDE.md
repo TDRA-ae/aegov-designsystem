@@ -7,7 +7,7 @@
 **Namespace:** `aegov` — build outputs `aegov.js`, `aegov.esm.js`, `aegov.css`
 **Dev server:** port 3333
 
-Framework-agnostic Web Components implementing the UAE Government Design System. **This package is one of four in a Lerna + Nx monorepo** — see [DEVELOPER.md](../../DEVELOPER.md) at the repo root. Building this package regenerates the React, Vue and Angular wrapper sources in the sibling packages.
+Framework-agnostic Web Components implementing the UAE Government Design System. **This package is one of four in a Lerna + Nx monorepo** — see the [root README](../../README.md). Building this package regenerates the React, Vue and Angular wrapper sources in the sibling packages.
 
 ---
 
@@ -226,4 +226,3 @@ Do not reintroduce a `www` output target or docs sources here.
 - `src/utils/types.ts` — all shared types and the `*_SIZES` / `*_VARIANTS` const arrays used by `warnIfInvalidEnumProp`.
 - `src/styles/tailwind.css` — the `@theme` token definitions.
 - [docs/STENCIL.md](docs/STENCIL.md) — Stencil notes.
-- [DEVELOPER.md](../../DEVELOPER.md) — monorepo commands and the publish flow. Its core-package section is partly stale (`npm start`, `build:docs-*`, Playwright a11y) — those moved to the docs repo.
