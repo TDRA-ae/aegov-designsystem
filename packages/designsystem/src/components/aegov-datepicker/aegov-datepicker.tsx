@@ -188,7 +188,7 @@ export class AegovDatepicker {
   @State() private _resolvedSize: InputSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
-  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
+  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless. */
   @Prop() variant?: FormVariant;
 
   /** Optional unique field ID. Used by aegov-form-field for label linking + error/hint id derivation. */

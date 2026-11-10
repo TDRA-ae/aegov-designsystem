@@ -85,7 +85,7 @@ export class AegovRange {
   /** Single thumb or dual thumb (range selection). */
   @Prop() mode: RangeMode = 'single';
 
-  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
+  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless. */
   @Prop() variant?: FormVariant;
 
   /** Whether the range is disabled. */

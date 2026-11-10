@@ -584,7 +584,7 @@ export namespace Components {
          */
         "value"?: string;
         /**
-          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * Colour family. Drives rest border, checked bg/border. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered.
          */
         "variant"?: FormVariant;
     }
@@ -646,7 +646,7 @@ export namespace Components {
          */
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
-          * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -803,7 +803,7 @@ export namespace Components {
          */
         "value": string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
         /**
@@ -1046,7 +1046,7 @@ export namespace Components {
          */
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -1371,7 +1371,7 @@ export namespace Components {
          */
         "value": string;
         /**
-          * Colour family. Drives idle ring, value text, and accent hover. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring, value text, and accent hover. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -1398,7 +1398,7 @@ export namespace Components {
          */
         "size": string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -1416,7 +1416,7 @@ export namespace Components {
          */
         "htmlFor"?: string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -1810,7 +1810,7 @@ export namespace Components {
          */
         "value": string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -2040,7 +2040,7 @@ export namespace Components {
          */
         "value"?: string;
         /**
-          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * Colour family. Drives rest border, checked bg/border. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered.
          */
         "variant"?: FormVariant;
     }
@@ -2106,7 +2106,7 @@ export namespace Components {
          */
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
-          * Colour family. Cascades to child radios (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * Colour family. Cascades to child radios (only if child has no own variant). Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -2211,7 +2211,7 @@ export namespace Components {
          */
         "valueLow": number;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -2301,7 +2301,7 @@ export namespace Components {
          */
         "value": string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
         /**
@@ -2766,7 +2766,7 @@ export namespace Components {
          */
         "value"?: string;
         /**
-          * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring stays camel; error stays aered.
+          * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered.
          */
         "variant"?: FormVariant;
     }
@@ -4545,7 +4545,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * Colour family. Drives rest border, checked bg/border. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered.
          */
         "variant"?: FormVariant;
     }
@@ -4607,7 +4607,7 @@ declare namespace LocalJSX {
          */
         "size"?: string;
         /**
-          * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -4757,7 +4757,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
         /**
@@ -5011,7 +5011,7 @@ declare namespace LocalJSX {
          */
         "size"?: string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -5359,7 +5359,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Colour family. Drives idle ring, value text, and accent hover. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring, value text, and accent hover. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -5386,7 +5386,7 @@ declare namespace LocalJSX {
          */
         "size"?: string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -5404,7 +5404,7 @@ declare namespace LocalJSX {
          */
         "htmlFor"?: string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -5822,7 +5822,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -6071,7 +6071,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * Colour family. Drives rest border, checked bg/border. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered.
          */
         "variant"?: FormVariant;
     }
@@ -6137,7 +6137,7 @@ declare namespace LocalJSX {
          */
         "size"?: string;
         /**
-          * Colour family. Cascades to child radios (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * Colour family. Cascades to child radios (only if child has no own variant). Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -6254,7 +6254,7 @@ declare namespace LocalJSX {
          */
         "valueLow"?: number;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -6360,7 +6360,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
         /**
@@ -6867,7 +6867,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring stays camel; error stays aered.
+          * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered.
          */
         "variant"?: FormVariant;
     }

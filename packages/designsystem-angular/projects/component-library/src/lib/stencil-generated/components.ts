@@ -876,7 +876,7 @@ export class AegovCheckbox {
    */
   set size(_: Components.AegovCheckbox['size']) {};
     /**
-   * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+   * Colour family. Drives rest border, checked bg/border. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered.
    */
   set variant(_: Components.AegovCheckbox['variant']) {};
     /**
@@ -981,7 +981,7 @@ export class AegovCheckboxGroup {
    */
   set size(_: Components.AegovCheckboxGroup['size']) {};
     /**
-   * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+   * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
    */
   set variant(_: Components.AegovCheckboxGroup['variant']) {};
     /**
@@ -1147,7 +1147,7 @@ Layout direction always follows `dir`.
    */
   set size(_: Components.AegovDatepicker['size']) {};
     /**
-   * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+   * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
    */
   set variant(_: Components.AegovDatepicker['variant']) {};
     /**
@@ -1448,7 +1448,7 @@ or 'dropzone' (drag-and-drop area). @default 'default'
    */
   set size(_: Components.AegovFileupload['size']) {};
     /**
-   * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+   * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
    */
   set variant(_: Components.AegovFileupload['variant']) {};
     /**
@@ -1868,7 +1868,7 @@ export class AegovInput {
    */
   set size(_: Components.AegovInput['size']) {};
     /**
-   * Colour family. Drives idle ring, value text, and accent hover. Focus ring stays camel; error stays aered regardless.
+   * Colour family. Drives idle ring, value text, and accent hover. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
    */
   set variant(_: Components.AegovInput['variant']) {};
     /**
@@ -2001,7 +2001,7 @@ Use this to describe the purpose of a combined phone/URL/similar input group.
    */
   set groupLabel(_: Components.AegovInputGroup['groupLabel']) {};
     /**
-   * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+   * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
    */
   set variant(_: Components.AegovInputGroup['variant']) {};
     /**
@@ -2040,7 +2040,7 @@ export class AegovLabel {
    */
   set htmlFor(_: Components.AegovLabel['htmlFor']) {};
     /**
-   * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+   * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Error stays aered regardless.
    */
   set variant(_: Components.AegovLabel['variant']) {};
     /**
@@ -2470,7 +2470,7 @@ export class AegovOtp {
    */
   set size(_: Components.AegovOtp['size']) {};
     /**
-   * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+   * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
    */
   set variant(_: Components.AegovOtp['variant']) {};
     /**
@@ -2806,7 +2806,7 @@ export class AegovRadio {
    */
   set size(_: Components.AegovRadio['size']) {};
     /**
-   * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+   * Colour family. Drives rest border, checked bg/border. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered.
    */
   set variant(_: Components.AegovRadio['variant']) {};
     /**
@@ -2903,7 +2903,7 @@ export class AegovRadioGroup {
    */
   set size(_: Components.AegovRadioGroup['size']) {};
     /**
-   * Colour family. Cascades to child radios (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+   * Colour family. Cascades to child radios (only if child has no own variant). Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
    */
   set variant(_: Components.AegovRadioGroup['variant']) {};
     /**
@@ -3029,7 +3029,7 @@ whenever it, `min`, `max` or `step` changes. @default 50
    */
   set mode(_: Components.AegovRange['mode']) {};
     /**
-   * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+   * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
    */
   set variant(_: Components.AegovRange['variant']) {};
     /**
@@ -3123,7 +3123,7 @@ export class AegovSelect {
    */
   set size(_: Components.AegovSelect['size']) {};
     /**
-   * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+   * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
    */
   set variant(_: Components.AegovSelect['variant']) {};
     /**
@@ -3879,7 +3879,7 @@ export class AegovToggle {
    */
   set size(_: Components.AegovToggle['size']) {};
     /**
-   * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring stays camel; error stays aered.
+   * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered.
    */
   set variant(_: Components.AegovToggle['variant']) {};
     /**

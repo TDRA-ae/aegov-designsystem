@@ -66,11 +66,21 @@ describe('aegov-radio (e2e)', () => {
     expect(input.getAttribute('data-id')).toBe('1');
   });
 
-  // Regression coverage for #68 — identical pattern to aegov-checkbox's.
-  it('cancels its own disabled opacity when grouped (default/list), but not for pills/cards or standalone (#68)', async () => {
+  // Disabled dimming is per item (#68 + follow-up) — see aegov-checkbox.e2e.ts.
+  const effectiveOpacity = (page: any, id: string, selector: string) => page.evaluate((id: string, selector: string) => {
+    let node: any = (document.getElementById(id) as any).shadowRoot.querySelector(selector);
+    let o = 1;
+    while (node) {
+      if (node.nodeType === 1) o *= parseFloat(getComputedStyle(node).opacity);
+      node = node.assignedSlot || node.parentNode || node.host;
+    }
+    return Math.round(o * 100) / 100;
+  }, id, selector);
+
+  it('a disabled group dims each item once (0.4, not 0.16) in every appearance (#68)', async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <aegov-radio-group is-disabled="true" name="g1">
+      <aegov-radio-group id="g-default" label="Default" is-disabled="true" name="g1">
         <aegov-radio id="grouped-default" label="Default" is-checked="true" value="a"></aegov-radio>
       </aegov-radio-group>
       <aegov-radio-group is-disabled="true" appearance="list" name="g2">
@@ -79,26 +89,54 @@ describe('aegov-radio (e2e)', () => {
       <aegov-radio-group is-disabled="true" appearance="pills" name="g3">
         <aegov-radio id="grouped-pills" label="Pills" is-checked="true" value="a"></aegov-radio>
       </aegov-radio-group>
+      <aegov-radio-group is-disabled="true" appearance="cards" name="g5">
+        <aegov-radio id="grouped-cards" label="Cards" is-checked="true" value="a"></aegov-radio>
+      </aegov-radio-group>
       <aegov-radio id="standalone" label="Standalone" is-checked="true" is-disabled="true" value="a" name="g4"></aegov-radio>
     `);
     await page.waitForChanges();
 
-    const opacities = await page.evaluate(() => {
-      const opacityOf = (id: string) => {
-        const el = document.getElementById(id) as any;
-        return getComputedStyle(el.shadowRoot.querySelector('.radio__wrapper')).opacity;
-      };
-      return {
-        default: opacityOf('grouped-default'),
-        list: opacityOf('grouped-list'),
-        pills: opacityOf('grouped-pills'),
-        standalone: opacityOf('standalone'),
-      };
-    });
+    for (const id of ['grouped-default', 'grouped-list', 'grouped-pills', 'grouped-cards', 'standalone']) {
+      expect([id, await effectiveOpacity(page, id, '.radio__wrapper')]).toEqual([id, 0.4]);
+    }
+    expect(await effectiveOpacity(page, 'g-default', '.radio-group__legend')).toBe(0.4);
+    // In a list the separator (a border on .aegov-radio) dims with the item.
+    expect(await effectiveOpacity(page, 'grouped-list', '.aegov-radio')).toBe(0.4);
+  });
 
-    expect(opacities.default).toBe('1');
-    expect(opacities.list).toBe('1');
-    expect(opacities.pills).toBe('0.4');
-    expect(opacities.standalone).toBe('0.4');
+  it('a single disabled item in an enabled group is dimmed; its siblings are not', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-radio-group label="Default" name="g1">
+        <aegov-radio id="on" label="On" value="a"></aegov-radio>
+        <aegov-radio id="off" label="Off" value="b" is-disabled="true"></aegov-radio>
+      </aegov-radio-group>
+    `);
+    await page.waitForChanges();
+    expect(await effectiveOpacity(page, 'on', '.radio__wrapper')).toBe(1);
+    expect(await effectiveOpacity(page, 'off', '.radio__wrapper')).toBe(0.4);
+  });
+
+  it('a disabled radio without a label is dimmed', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-radio id="bare" aria-label="Bare" value="a" is-disabled="true"></aegov-radio>');
+    await page.waitForChanges();
+    expect(await effectiveOpacity(page, 'bare', 'input')).toBe(0.4);
+  });
+
+  it('a checked neutral-max card keeps its checked border on hover', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-radio-group appearance="cards" variant="neutral-max" name="g">
+        <aegov-radio id="r" label="Card" value="a" is-checked="true"></aegov-radio>
+      </aegov-radio-group>
+    `);
+    await page.waitForChanges();
+    const border = () => page.$eval('#r', (el: any) => getComputedStyle(el.shadowRoot.querySelector('.radio__wrapper')).borderTopColor);
+    const rest = await border();
+    const wrapper = await page.find('aegov-radio >>> .radio__wrapper');
+    await wrapper.hover();
+    await page.waitForChanges();
+    expect(await border()).toBe(rest);
   });
 });

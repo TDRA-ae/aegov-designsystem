@@ -225,13 +225,26 @@ button.aegov-select {
   @apply p-1 border-b border-aeblack-200 dark:border-aeblack-700;
 }
 
+/* box-border: w-full on a content-box input added its padding on top and
+   overflowed the panel. font-family: inherit: inputs don't inherit the font
+   (it rendered in the UA font). Focus: the inset ring colour was set but
+   never a width, so focus showed nothing — inset-ring-2 in the variant's
+   support colour (seablue for neutrals), like the trigger's focus ring. */
 .select__search-input {
-  @apply w-full border-0 bg-whitely-50
+  font-family: inherit;
+  @apply box-border w-full border-0 bg-whitely-50
          text-primary-900 placeholder:text-aeblack-600
-         focus:outline-hidden focus:-outline-offset-2 focus:ring-0
+         focus:outline-hidden focus:ring-0 focus:inset-ring-2
          focus:inset-ring-primary-support-500
          dark:bg-aeblack-800 dark:text-whitely-100 dark:placeholder:text-aeblack-300
          dark:focus:inset-ring-primary-support-400;
+}
+:host(.select-variant-secondary) .select__search-input {
+  @apply focus:inset-ring-secondary-support-500 dark:focus:inset-ring-secondary-support-400;
+}
+:host(.select-variant-neutral-max) .select__search-input,
+:host(.select-variant-neutral-min) .select__search-input {
+  @apply focus:inset-ring-seablue-500 dark:focus:inset-ring-seablue-400;
 }
 
 .select__search-input--xs {
