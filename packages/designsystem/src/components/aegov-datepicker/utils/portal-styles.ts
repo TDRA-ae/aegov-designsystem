@@ -474,7 +474,9 @@ export const DATEPICKER_PORTAL_STYLES = `
 
 /* ─────────────────────────────────────────────────────────────────────
    Variant overrides — colour family (primary/secondary/neutral-max/neutral-min)
-   Focus ring stays camel; error stays aered regardless of variant.
+   The calendar's own focus outline stays primary-500 and error stays aered
+   regardless of variant (the trigger's focus ring does follow the variant —
+   see aegov-datepicker.css).
    ───────────────────────────────────────────────────────────────────── */
 
 /* Secondary variant */

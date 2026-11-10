@@ -195,7 +195,10 @@
   @apply flex-1 truncate;
 }
 
-.fileupload__filename--empty {
+/* Placeholder ("No file chosen") — (0,3,0) so it beats the per-variant
+   filename colour above (also (0,3,0), earlier in source). At (0,1,0) it
+   never applied and the placeholder showed in the variant's value colour. */
+.aegov-fileupload .fileupload__filename.fileupload__filename--empty {
   @apply text-aeblack-500 dark:text-aeblack-400;
 }
 
@@ -289,6 +292,14 @@
   cursor: not-allowed;
 }
 
+/* The dropzone's aegov-button is disabled with it and dims its own inner
+   <button> (opacity-40), which compounded with the zone's 0.4 to 0.16.
+   The zone's dimming already covers the button, so undo the button's own.
+   An outer ::part() rule wins over the button's shadow-internal class. */
+.fileupload--disabled .fileupload__dropzone-btn::part(button) {
+  opacity: 1;
+}
+
 .fileupload__drop-prompt {
   @apply flex flex-col items-center;
 }
@@ -366,8 +377,10 @@
   @apply shrink-0 text-aeblack-500 dark:text-aeblack-400;
 }
 
+/* p-0: the UA's 1px 6px button padding left a 20–32px button too little
+   room and squashed the 12–20px icon. */
 .fileupload__remove-btn {
-  @apply shrink-0 flex items-center justify-center
+  @apply shrink-0 flex items-center justify-center p-0
          rounded cursor-pointer border-0 bg-transparent
          text-aeblack-400
          hover:text-aered-600 hover:bg-aered-50
@@ -375,6 +388,9 @@
          transition-colors duration-150
          dark:text-aeblack-400 dark:hover:text-aered-300 dark:hover:bg-aered-950
          dark:focus-visible:outline-primary-support-400;
+}
+.fileupload__remove-btn svg {
+  @apply shrink-0;
 }
 
 /* File list sizes */

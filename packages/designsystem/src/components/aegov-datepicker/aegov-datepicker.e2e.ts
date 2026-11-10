@@ -578,4 +578,41 @@ describe('aegov-datepicker (e2e)', () => {
       expect(t).toEqual({ apply: 'تطبيق', presets: ['اليوم', 'آخر 7 أيام'], placeholder: 'تاريخ البدء' });
     });
   });
+
+  it('the trigger is as tall as aegov-input at every size (border included)', async () => {
+    const page = await newE2EPage();
+    await page.setContent(['xs', 'sm', 'base', 'lg', 'xl']
+      .map(size => `<aegov-datepicker size="${size}"></aegov-datepicker>`).join('') +
+      `<aegov-datepicker size="base" appearance="range"></aegov-datepicker>`);
+    await page.waitForChanges();
+    const heights = await page.evaluate(() => Array.from(document.querySelectorAll('aegov-datepicker'))
+      .map((el: any) => Math.round(el.shadowRoot.querySelector('.datepicker__input-wrapper').getBoundingClientRect().height)));
+    expect(heights).toEqual([36, 40, 44, 48, 52, 44]);
+  });
+
+  it('the clear button has no UA padding squashing its icon', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker size="xs" value="2024-06-15" is-clearable="true"></aegov-datepicker>');
+    await page.waitForChanges();
+    const info = await page.$eval('aegov-datepicker', (el: any) => {
+      const btn = el.shadowRoot.querySelector('.datepicker__clear-btn');
+      const svg = btn.querySelector('svg').getBoundingClientRect();
+      return { padding: getComputedStyle(btn).paddingLeft, svgWidth: Math.round(svg.width) };
+    });
+    expect(info).toEqual({ padding: '0px', svgWidth: 16 });
+  });
+
+  it('disabled dims the trigger and re-enabling restores it', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker is-disabled="true"></aegov-datepicker>');
+    await page.waitForChanges();
+    const opacity = () => page.$eval('aegov-datepicker', (el: any) => getComputedStyle(el.shadowRoot.querySelector('.datepicker__input-wrapper')).opacity);
+    expect(await opacity()).toBe('0.4');
+    await page.$eval('aegov-datepicker', (el: any) => { el.isDisabled = false; });
+    await page.waitForChanges();
+    // The wrapper has a 200ms transition-all — wait for it to settle.
+    await page.waitForFunction(() => getComputedStyle((document.querySelector('aegov-datepicker') as any)
+      .shadowRoot.querySelector('.datepicker__input-wrapper')).opacity === '1', { timeout: 2000 });
+    expect(await opacity()).toBe('1');
+  });
 });

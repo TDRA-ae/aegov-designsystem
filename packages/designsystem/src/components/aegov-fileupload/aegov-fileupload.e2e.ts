@@ -533,4 +533,50 @@ describe('aegov-fileupload (e2e)', () => {
     await page.waitForChanges();
     expect(await nativeFiles(page, 'b')).toEqual([]);
   });
+
+  it('"No file chosen" uses the neutral placeholder colour in every variant', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-fileupload id="p" label="A" variant="primary"></aegov-fileupload>
+      <aegov-fileupload id="s" label="B" variant="secondary"></aegov-fileupload>
+      <aegov-fileupload id="n" label="C" variant="neutral-max"></aegov-fileupload>
+    `);
+    await page.waitForChanges();
+    const colour = (id: string) => page.$eval(`#${id}`, (el: any) => getComputedStyle(el.shadowRoot.querySelector('.fileupload__filename--empty')).color);
+    const p = await colour('p');
+    expect(await colour('s')).toBe(p);
+    expect(await colour('n')).toBe(p);
+  });
+
+  it('the remove button has no UA padding squashing its icon', async () => {
+    const page = await newE2EPage();
+    page.on('filechooser', () => undefined);
+    await page.setContent('<aegov-fileupload id="b" label="Docs" appearance="button" size="xs"></aegov-fileupload>');
+    await page.waitForChanges();
+    await pickInto(page, 'b', ['a.pdf']);
+    await page.waitForChanges();
+    const info = await page.$eval('#b', (el: any) => {
+      const btn = el.shadowRoot.querySelector('.fileupload__remove-btn');
+      const svg = btn.querySelector('svg').getBoundingClientRect();
+      return { padding: getComputedStyle(btn).paddingLeft, svgWidth: Math.round(svg.width) };
+    });
+    expect(info).toEqual({ padding: '0px', svgWidth: 12 });
+  });
+
+  it('a disabled dropzone dims its button once (0.4, not 0.16)', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-fileupload id="d" label="Docs" appearance="dropzone" is-disabled="true"></aegov-fileupload>');
+    await page.waitForChanges();
+    const opacity = await page.$eval('#d', (el: any) => {
+      const btnHost = el.shadowRoot.querySelector('.fileupload__dropzone-btn');
+      let node: any = btnHost.shadowRoot.querySelector('button');
+      let o = 1;
+      while (node) {
+        if (node.nodeType === 1) o *= parseFloat(getComputedStyle(node).opacity);
+        node = node.assignedSlot || node.parentNode || node.host;
+      }
+      return Math.round(o * 100) / 100;
+    });
+    expect(opacity).toBe(0.4);
+  });
 });

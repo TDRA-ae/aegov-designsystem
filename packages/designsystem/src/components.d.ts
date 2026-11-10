@@ -5,11 +5,11 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FooterNavVariant, FormVariant, HeaderCollapseBreakpoint, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, NavblockVariant, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FooterNavVariant, FormVariant, HeaderCollapseBreakpoint, HeaderEmblemColor, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, NavblockVariant, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 import { AegovRangeValue } from "./components/aegov-range/aegov-range";
 import { AegovSelectValue } from "./components/aegov-select/aegov-select";
-export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FooterNavVariant, FormVariant, HeaderCollapseBreakpoint, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, NavblockVariant, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FooterNavVariant, FormVariant, HeaderCollapseBreakpoint, HeaderEmblemColor, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, NavblockVariant, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 export { AegovRangeValue } from "./components/aegov-range/aegov-range";
 export { AegovSelectValue } from "./components/aegov-select/aegov-select";
@@ -584,7 +584,7 @@ export namespace Components {
          */
         "value"?: string;
         /**
-          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * Colour family. Drives rest border, checked bg/border. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered.
          */
         "variant"?: FormVariant;
     }
@@ -646,7 +646,7 @@ export namespace Components {
          */
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
-          * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -803,7 +803,7 @@ export namespace Components {
          */
         "value": string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
         /**
@@ -1046,7 +1046,7 @@ export namespace Components {
          */
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -1220,6 +1220,11 @@ export namespace Components {
          */
         "drawerSize": DrawerSize;
         /**
+          * Colour of the UAE emblem on the `authority` variant: `"aeblack"` (default), `"aegold"` or `"whitely"`. Use `"whitely"` on dark backgrounds (dark mode); `"aegold"` is available to entities that show the emblem in gold. Ignored on the `ministry` variant, which has no emblem.
+          * @default 'aeblack'
+         */
+        "emblemColor": HeaderEmblemColor;
+        /**
           * The domain/URL of the government entity. Required. Forwarded to the embedded aegov-header-banner.
          */
         "entityDomain": string;
@@ -1366,7 +1371,7 @@ export namespace Components {
          */
         "value": string;
         /**
-          * Colour family. Drives idle ring, value text, and accent hover. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring, value text, and accent hover. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -1393,7 +1398,7 @@ export namespace Components {
          */
         "size": string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -1411,7 +1416,7 @@ export namespace Components {
          */
         "htmlFor"?: string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -1805,7 +1810,7 @@ export namespace Components {
          */
         "value": string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -2035,7 +2040,7 @@ export namespace Components {
          */
         "value"?: string;
         /**
-          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * Colour family. Drives rest border, checked bg/border. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered.
          */
         "variant"?: FormVariant;
     }
@@ -2101,7 +2106,7 @@ export namespace Components {
          */
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
-          * Colour family. Cascades to child radios (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * Colour family. Cascades to child radios (only if child has no own variant). Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -2206,7 +2211,7 @@ export namespace Components {
          */
         "valueLow": number;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -2296,7 +2301,7 @@ export namespace Components {
          */
         "value": string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
         /**
@@ -2761,7 +2766,7 @@ export namespace Components {
          */
         "value"?: string;
         /**
-          * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring stays camel; error stays aered.
+          * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered.
          */
         "variant"?: FormVariant;
     }
@@ -4540,7 +4545,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * Colour family. Drives rest border, checked bg/border. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered.
          */
         "variant"?: FormVariant;
     }
@@ -4602,7 +4607,7 @@ declare namespace LocalJSX {
          */
         "size"?: string;
         /**
-          * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -4752,7 +4757,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
         /**
@@ -5006,7 +5011,7 @@ declare namespace LocalJSX {
          */
         "size"?: string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -5175,6 +5180,11 @@ declare namespace LocalJSX {
           * @default 'base'
          */
         "drawerSize"?: DrawerSize;
+        /**
+          * Colour of the UAE emblem on the `authority` variant: `"aeblack"` (default), `"aegold"` or `"whitely"`. Use `"whitely"` on dark backgrounds (dark mode); `"aegold"` is available to entities that show the emblem in gold. Ignored on the `ministry` variant, which has no emblem.
+          * @default 'aeblack'
+         */
+        "emblemColor"?: HeaderEmblemColor;
         /**
           * The domain/URL of the government entity. Required. Forwarded to the embedded aegov-header-banner.
          */
@@ -5349,7 +5359,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Colour family. Drives idle ring, value text, and accent hover. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring, value text, and accent hover. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -5376,7 +5386,7 @@ declare namespace LocalJSX {
          */
         "size"?: string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -5394,7 +5404,7 @@ declare namespace LocalJSX {
          */
         "htmlFor"?: string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -5812,7 +5822,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -6061,7 +6071,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * Colour family. Drives rest border, checked bg/border. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered.
          */
         "variant"?: FormVariant;
     }
@@ -6127,7 +6137,7 @@ declare namespace LocalJSX {
          */
         "size"?: string;
         /**
-          * Colour family. Cascades to child radios (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * Colour family. Cascades to child radios (only if child has no own variant). Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -6244,7 +6254,7 @@ declare namespace LocalJSX {
          */
         "valueLow"?: number;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
     }
@@ -6350,7 +6360,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless.
          */
         "variant"?: FormVariant;
         /**
@@ -6857,7 +6867,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring stays camel; error stays aered.
+          * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered.
          */
         "variant"?: FormVariant;
     }
@@ -7175,6 +7185,7 @@ declare namespace LocalJSX {
         "labelMenuClose": string;
         "collapseAt": HeaderCollapseBreakpoint;
         "drawerSize": DrawerSize;
+        "emblemColor": HeaderEmblemColor;
         "isSticky": boolean;
     }
     interface AegovHeaderBannerAttributes {
