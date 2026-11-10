@@ -1700,7 +1700,7 @@ export declare interface AegovFormField extends Components.AegovFormField {}
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovHeader,
-  inputs: ['collapseAt', 'drawerSize', 'entityDomain', 'entityName', 'isSticky', 'labelMenu', 'labelMenuClose', 'logoLabel', 'skipContentContainer', 'variant'],
+  inputs: ['collapseAt', 'drawerSize', 'emblemColor', 'entityDomain', 'entityName', 'isSticky', 'labelMenu', 'labelMenuClose', 'logoLabel', 'skipContentContainer', 'variant'],
   methods: ['openMenu', 'closeMenu', 'toggleMenu']
 })
 @Component({
@@ -1708,7 +1708,7 @@ export declare interface AegovFormField extends Components.AegovFormField {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['collapseAt', 'drawerSize', 'entityDomain', 'entityName', { name: 'isSticky', transform: nullableBooleanAttribute }, 'labelMenu', 'labelMenuClose', 'logoLabel', 'skipContentContainer', 'variant'],
+  inputs: ['collapseAt', 'drawerSize', 'emblemColor', 'entityDomain', 'entityName', { name: 'isSticky', transform: nullableBooleanAttribute }, 'labelMenu', 'labelMenuClose', 'logoLabel', 'skipContentContainer', 'variant'],
   outputs: ['aegovHeaderMenuOpen', 'aegovHeaderMenuClose', 'aegovHeaderStuck', 'aegovHeaderUnstuck'],
 })
 export class AegovHeader {
@@ -1753,6 +1753,13 @@ disappears. Below it, navigation is hidden and the toggle opens the drawer.
    * Panel width of the menu drawer. Below 640px all widths collapse to full width. @default 'base'
    */
   set drawerSize(_: Components.AegovHeader['drawerSize']) {};
+    /**
+   * Colour of the UAE emblem on the `authority` variant: `"aeblack"` (default),
+`"aegold"` or `"whitely"`. Use `"whitely"` on dark backgrounds (dark mode);
+`"aegold"` is available to entities that show the emblem in gold. Ignored on
+the `ministry` variant, which has no emblem. @default 'aeblack'
+   */
+  set emblemColor(_: Components.AegovHeader['emblemColor']) {};
     /**
    * Whether the main bar pins to the top of the viewport on scroll. The
 `aegov-header-banner` above it scrolls away; once it has, the bar gains a
