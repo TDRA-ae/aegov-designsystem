@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, State, Watch } from '@stencil/core';
 import type { LinkTarget, BreadcrumbSeparator } from '../../utils/types';
-import { getPassThroughAttributes } from '../../utils/attributes';
+import { getPassThroughAttributes, listItemRole } from '../../utils/attributes';
 
 /**
  * Breadcrumb item component
@@ -145,11 +145,11 @@ export class AegovBreadcrumbsItem {
     if (this.standaloneError) {
       return (
         <Host>
-          <li class="breadcrumb__item" role="alert">
+          <div class="breadcrumb__item" role="alert">
             <span class="breadcrumb-current">
               <strong>aegov-breadcrumbs-item configuration error:</strong> must be used inside &lt;aegov-breadcrumbs&gt;.
             </span>
-          </li>
+          </div>
         </Host>
       );
     }
@@ -157,6 +157,12 @@ export class AegovBreadcrumbsItem {
     // If there are element children (SVG, icons, etc.), render the slot directly
     // Otherwise, render the truncated text
     const content = this.hasElementChildren ? <slot /> : this.truncateText(this.slotContent);
+    // The host is the list item of the parent's role="list", so it also carries
+    // the schema.org ListItem microdata (itemListElement of the BreadcrumbList).
+    const role = listItemRole(this.el);
+    const listItemMicrodata = this.isMicrodata
+      ? { itemProp: 'itemListElement', itemScope: true, itemType: 'https://schema.org/ListItem' }
+      : {};
     // title/hreflang/rel/referrerpolicy are link-specific — only forward them to the <a>
     // branch. The non-linked <span> branch below must only get aria-*/data-*, per docs.
     const passThroughAttributes = this.href
@@ -165,13 +171,8 @@ export class AegovBreadcrumbsItem {
 
     if (this.href) {
       return (
-        <Host>
-          <li
-            class="breadcrumb__item"
-            itemProp={this.isMicrodata ? "itemListElement" : undefined}
-            itemScope={this.isMicrodata ? true : undefined}
-            itemType={this.isMicrodata ? "https://schema.org/ListItem" : undefined}
-          >
+        <Host role={role} {...listItemMicrodata}>
+          <div class="breadcrumb__item">
             <a
               href={this.href}
               target={this.target}
@@ -189,19 +190,14 @@ export class AegovBreadcrumbsItem {
               <meta itemProp="position" content={this.position.toString()} />
             )}
             {this.renderSeparator()}
-          </li>
+          </div>
         </Host>
       );
     }
 
     return (
-      <Host>
-        <li
-          class="breadcrumb__item"
-          itemProp={this.isMicrodata ? "itemListElement" : undefined}
-          itemScope={this.isMicrodata ? true : undefined}
-          itemType={this.isMicrodata ? "https://schema.org/ListItem" : undefined}
-        >
+      <Host role={role} {...listItemMicrodata}>
+        <div class="breadcrumb__item">
           <span
             class="breadcrumb-current"
             aria-current={this.isLast ? 'page' : undefined}
@@ -214,7 +210,7 @@ export class AegovBreadcrumbsItem {
             <meta itemProp="position" content={this.position.toString()} />
           )}
           {this.renderSeparator()}
-        </li>
+        </div>
       </Host>
     );
   }

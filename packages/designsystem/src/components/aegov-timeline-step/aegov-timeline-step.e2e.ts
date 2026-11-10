@@ -45,8 +45,10 @@ describe('aegov-timeline-step (e2e)', () => {
         <aegov-timeline-step status="active">Now</aegov-timeline-step>
       </aegov-timeline>
     `);
-    const li = await page.find('aegov-timeline-step li.aegov-step');
-    expect(li.getAttribute('aria-current')).toBe('step');
+    // The step host is the list item, so it carries aria-current.
+    const step = await page.find('aegov-timeline-step');
+    expect(step.getAttribute('role')).toBe('listitem');
+    expect(step.getAttribute('aria-current')).toBe('step');
   });
 
   it('renders description when provided', async () => {

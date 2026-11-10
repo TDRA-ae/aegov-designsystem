@@ -23,13 +23,13 @@ describe('aegov-navbar', () => {
     expect(page.root.querySelector('nav').getAttribute('aria-label')).toBe('Site nav');
   });
 
-  it('applies custom gap class to ul', async () => {
+  it('applies custom gap class to the list', async () => {
     const page = await newSpecPage({
       components: [AegovNavbar, AegovNavbarItem],
       html: `<aegov-navbar gap="gap-10"><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`,
     });
-    const ul = page.root.querySelector('ul');
-    expect(ul.className).toContain('gap-10');
+    const list = page.root.querySelector('.aegov-navbar-list');
+    expect(list.className).toContain('gap-10');
   });
 
   it('cascades resolved size to child navbar items', async () => {
@@ -53,7 +53,7 @@ describe('aegov-navbar', () => {
     expect(page.root.querySelector('nav').className).toContain('aegov-navbar-sm');
   });
 
-  it('renders ul with role list semantics', async () => {
+  it('renders a role="list" whose direct children are the role="listitem" item hosts', async () => {
     const page = await newSpecPage({
       components: [AegovNavbar, AegovNavbarItem],
       html: `<aegov-navbar>
@@ -61,8 +61,12 @@ describe('aegov-navbar', () => {
         <aegov-navbar-item href="/b">B</aegov-navbar-item>
       </aegov-navbar>`,
     });
-    const ul = page.root.querySelector('ul');
-    expect(ul).not.toBeNull();
-    expect(ul.querySelectorAll('aegov-navbar-item').length).toBe(2);
+    const list = page.root.querySelector('.aegov-navbar-list');
+    expect(list.getAttribute('role')).toBe('list');
+    // A <ul>/<li> pair would be split by the custom-element host (A-01).
+    expect(page.root.querySelector('ul, ol, li')).toBeNull();
+    const items = Array.from(list.children).filter(c => c.tagName === 'AEGOV-NAVBAR-ITEM');
+    expect(items.length).toBe(2);
+    items.forEach(item => expect(item.getAttribute('role')).toBe('listitem'));
   });
 });
