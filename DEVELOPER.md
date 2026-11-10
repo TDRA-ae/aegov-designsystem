@@ -77,8 +77,8 @@ Run these from inside `packages/designsystem/`, or prefix with `cd packages/desi
 | `npm run build:docs-css` | Compiles `src/doc-style/doc-style.css` → `src/docs/doc-style.css` via Tailwind |
 | `npm run build:docs-md` | Runs `scripts/build-docs.js` to generate component doc markdown files |
 | `npm run build:copy-css` | Copies `src/styles/` and `src/global/` CSS files into `dist/` |
-| `npm run test:build` | Builds then verifies `dist/` exists (used before publish) |
-| `npm run verify:build` | Checks that `dist/` folder exists — throws if missing |
+| `npm run test:build` | Production build (`build:prod`), then verifies `dist/` exists and contains no `.map` files (run by `prepublishOnly` and `publish.sh`) |
+| `npm run verify:build` | Throws if `dist/` is missing or holds source maps (a development build) |
 
 ### Development
 

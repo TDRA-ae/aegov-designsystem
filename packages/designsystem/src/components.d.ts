@@ -351,6 +351,12 @@ export namespace Components {
          */
         "target": LinkTarget;
     }
+    /**
+     * A `type="submit"` button submits its form like a native submit button:
+     * `event.submitter` is set, `name`/`value` are added to the form data, and the
+     * `formaction`, `formenctype`, `formmethod`, `formnovalidate` and `formtarget`
+     * attributes override the form's own settings.
+     */
     interface AegovButton {
         /**
           * The button appearance (visual style)
@@ -395,6 +401,10 @@ export namespace Components {
          */
         "isLoading": boolean;
         /**
+          * Name submitted with the form, paired with `value`, when this button submits it — as on a native `<button>`.
+         */
+        "name"?: string;
+        /**
           * Move focus to the inner native button.  The host element is not focusable, so `buttonEl.focus()` from outside does nothing. Callers that need to place or restore focus on a button — a disclosure trigger reclaiming focus after its panel closes, for example — must use this instead.
          */
         "setFocus": () => Promise<void>;
@@ -408,6 +418,10 @@ export namespace Components {
           * @default 'button'
          */
         "type": ButtonType;
+        /**
+          * Value submitted with `name` when this button submits the form.
+         */
+        "value"?: string;
         /**
           * The button variant (color scheme)
           * @default 'primary'
@@ -717,20 +731,19 @@ export namespace Components {
          */
         "isWithConfirmation": boolean;
         /**
-          * Placeholder for range end input. Empty defaults to localized text via isRtl.
+          * Placeholder for range end input. Empty defaults to text in the UI language (see `locale`).
           * @default ''
          */
         "labelRangeEnd": string;
         /**
-          * Placeholder for range start input. Empty defaults to localized text via isRtl.
+          * Placeholder for range start input. Empty defaults to text in the UI language (see `locale`).
           * @default ''
          */
         "labelRangeStart": string;
         /**
-          * Locale for day/month names (BCP 47, e.g., 'en', 'ar', 'fr')
-          * @default 'en'
+          * Locale (BCP 47, e.g. `en`, `ar-AE`, `fr`) for day and month names and formatted dates. Dates use `en` when it is not set.  An Arabic or English locale (`ar`, `ar-*`, `en`, `en-*`) also sets the language of the datepicker's own text: labels, placeholders, buttons, presets, validation messages and screen-reader text. With no locale, or any other locale, that text follows the text direction like the rest of the library: Arabic when `dir` is `rtl`, English otherwise. Layout direction always follows `dir`.
          */
-        "locale": string;
+        "locale"?: string;
         /**
           * Maximum selectable date (ISO string or "today")
           * @default ''
@@ -757,7 +770,7 @@ export namespace Components {
         "name"?: string;
         "open": () => Promise<void>;
         /**
-          * Placeholder text for single mode input. Empty defaults to localized text via isRtl.
+          * Placeholder text for single mode input. Empty defaults to text in the UI language (see `locale`).
           * @default ''
          */
         "placeholder": string;
@@ -844,7 +857,7 @@ export namespace Components {
          */
         "isPinned": boolean;
         /**
-          * Whether the drawer relocates itself to `document.body` on connect, so it stacks above the rest of the page.  Set to `false` when the drawer is rendered inside another component's shadow DOM and forwards a `<slot>` into its content: relocating would take that slot out of its shadow tree, where it projects nothing. The panel and backdrop are `position: fixed`, so they still cover the viewport in place — unless an ancestor creates a containing block (`transform`, `filter`, `contain`, `will-change`), in which case leave this on.
+          * Whether the drawer may move itself while open when an ancestor would trap it (a `transform`, `filter`, `contain`, `z-index` stacking context, or a hidden ancestor), so it still covers and stacks above the page. It moves only out of that ancestor, and opens in place when there is none. (It returns to where it was declared when it closes, and leaves with its declared parent if that is removed.)  Set to `false` when the drawer is rendered inside another component's shadow DOM and forwards a `<slot>` into its content: relocating would take that slot out of its shadow tree, where it projects nothing. The panel and backdrop are `position: fixed`, so they still cover the viewport in place — unless an ancestor creates a containing block (`transform`, `filter`, `contain`, `will-change`), in which case leave this on.
           * @default true
          */
         "isPortal": boolean;
@@ -1164,7 +1177,7 @@ export namespace Components {
     }
     interface AegovFormField {
         /**
-          * Wrapper-level error message — cascaded to first form-control descendant.
+          * Wrapper-level error message — cascaded to first form-control descendant unless it has its own; changing or clearing it updates the cascaded value.
           * @default ''
          */
         "errorMessage": string;
@@ -1177,12 +1190,12 @@ export namespace Components {
          */
         "fieldId"?: string;
         /**
-          * Wrapper-level hint — cascaded to first form-control descendant.
+          * Wrapper-level hint — cascaded to first form-control descendant unless it has its own; changing or clearing it updates the cascaded value.
           * @default ''
          */
         "hint": string;
         /**
-          * Wrapper-level invalid state. Cascades to the first form-control descendant if the child has not set its own value. See validation-engine-addon.md §2.7.
+          * Wrapper-level invalid state. Cascades to the first form-control descendant if the child has not set its own value; setting it back to `false` clears what it cascaded. See validation-engine-addon.md §2.7.
           * @default false
          */
         "isInvalid": boolean;
@@ -1270,13 +1283,13 @@ export namespace Components {
     }
     interface AegovInput {
         /**
-          * ID of an element (e.g. an addonPrefix span in aegov-input-group) to include in the native input's aria-describedby chain. Set by aegov-input-group when addonPrefix is present.
+          * Text of the prefix addon of an enclosing aegov-input-group ("AED", "+971"). Rendered in a hidden span inside this shadow root and added to the inner input's description, as an id in the group's light DOM can't be referenced from here. Set by aegov-input-group.
          */
-        "describedByPrefix"?: string;
+        "addonPrefixText"?: string;
         /**
-          * ID of an element (e.g. an addonSuffix span in aegov-input-group) to include in the native input's aria-describedby chain. Set by aegov-input-group when addonSuffix is present.
+          * Text of the suffix addon of an enclosing aegov-input-group (".gov.ae"). See `addonPrefixText`. Set by aegov-input-group.
          */
-        "describedBySuffix"?: string;
+        "addonSuffixText"?: string;
         /**
           * Inline error message rendered below the control when `isInvalid` is true. Auto-wires `aria-describedby` on the inner input. Use the `error` slot for richer markup.
           * @default ''
@@ -2183,17 +2196,17 @@ export namespace Components {
          */
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
-          * Current value (single mode).
+          * Current value (single mode). Sanitized like a native `<input type="range">`: clamped to `min`/`max` and rounded to the nearest `step`, on load and whenever it, `min`, `max` or `step` changes.
           * @default 50
          */
         "value": number;
         /**
-          * High thumb value (range mode).
+          * High thumb value (range mode). Sanitized like `value`.
           * @default 75
          */
         "valueHigh": number;
         /**
-          * Low thumb value (range mode).
+          * Low thumb value (range mode). Sanitized like `value`.
           * @default 25
          */
         "valueLow": number;
@@ -3079,6 +3092,12 @@ declare global {
         "aegovButtonFocus": FocusEvent;
         "aegovButtonBlur": FocusEvent;
     }
+    /**
+     * A `type="submit"` button submits its form like a native submit button:
+     * `event.submitter` is set, `name`/`value` are added to the form data, and the
+     * `formaction`, `formenctype`, `formmethod`, `formnovalidate` and `formtarget`
+     * attributes override the form's own settings.
+     */
     interface HTMLAegovButtonElement extends Components.AegovButton, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovButtonElementEventMap>(type: K, listener: (this: HTMLAegovButtonElement, ev: AegovButtonCustomEvent<HTMLAegovButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -3902,7 +3921,7 @@ declare global {
     }
 }
 declare namespace LocalJSX {
-    type OneOf<K extends string, PropT, AttrT = PropT> = { [P in K]: PropT } & { [P in `attr:${K}` | `prop:${K}`]?: never } | { [P in `attr:${K}`]: AttrT } & { [P in K | `prop:${K}`]?: never } | { [P in `prop:${K}`]: PropT } & { [P in K | `attr:${K}`]?: never };
+    type OneOf<K extends string, PropT, AttrT = PropT> = { [P in K]: PropT } & { [P in `attr:${K}`]?: never } | { [P in `attr:${K}`]: AttrT } & { [P in K]?: never };
 
     /**
      * Accordion component for collapsible content sections
@@ -4265,6 +4284,12 @@ declare namespace LocalJSX {
          */
         "target"?: LinkTarget;
     }
+    /**
+     * A `type="submit"` button submits its form like a native submit button:
+     * `event.submitter` is set, `name`/`value` are added to the form data, and the
+     * `formaction`, `formenctype`, `formmethod`, `formnovalidate` and `formtarget`
+     * attributes override the form's own settings.
+     */
     interface AegovButton {
         /**
           * The button appearance (visual style)
@@ -4272,9 +4297,17 @@ declare namespace LocalJSX {
          */
         "appearance"?: ButtonAppearance;
         /**
+          * If `true`, the user cannot interact with the element.
+         */
+        "disabled"?: boolean;
+        /**
           * Unique ID for the button element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
         /**
           * Internal: The orientation of the button group this button belongs to
          */
@@ -4309,6 +4342,10 @@ declare namespace LocalJSX {
          */
         "isLoading"?: boolean;
         /**
+          * Name submitted with the form, paired with `value`, when this button submits it — as on a native `<button>`.
+         */
+        "name"?: string;
+        /**
           * Emitted when the button loses focus
          */
         "onAegovButtonBlur"?: (event: AegovButtonCustomEvent<FocusEvent>) => void;
@@ -4330,6 +4367,10 @@ declare namespace LocalJSX {
           * @default 'button'
          */
         "type"?: ButtonType;
+        /**
+          * Value submitted with `name` when this button submits the form.
+         */
+        "value"?: string;
         /**
           * The button variant (color scheme)
           * @default 'primary'
@@ -4644,18 +4685,17 @@ declare namespace LocalJSX {
          */
         "isWithConfirmation"?: boolean;
         /**
-          * Placeholder for range end input. Empty defaults to localized text via isRtl.
+          * Placeholder for range end input. Empty defaults to text in the UI language (see `locale`).
           * @default ''
          */
         "labelRangeEnd"?: string;
         /**
-          * Placeholder for range start input. Empty defaults to localized text via isRtl.
+          * Placeholder for range start input. Empty defaults to text in the UI language (see `locale`).
           * @default ''
          */
         "labelRangeStart"?: string;
         /**
-          * Locale for day/month names (BCP 47, e.g., 'en', 'ar', 'fr')
-          * @default 'en'
+          * Locale (BCP 47, e.g. `en`, `ar-AE`, `fr`) for day and month names and formatted dates. Dates use `en` when it is not set.  An Arabic or English locale (`ar`, `ar-*`, `en`, `en-*`) also sets the language of the datepicker's own text: labels, placeholders, buttons, presets, validation messages and screen-reader text. With no locale, or any other locale, that text follows the text direction like the rest of the library: Arabic when `dir` is `rtl`, English otherwise. Layout direction always follows `dir`.
          */
         "locale"?: string;
         /**
@@ -4692,7 +4732,7 @@ declare namespace LocalJSX {
          */
         "onAegovValidate"?: (event: AegovDatepickerCustomEvent<AegovValidationDetail<AegovDatepickerValue>>) => void;
         /**
-          * Placeholder text for single mode input. Empty defaults to localized text via isRtl.
+          * Placeholder text for single mode input. Empty defaults to text in the UI language (see `locale`).
           * @default ''
          */
         "placeholder"?: string;
@@ -4767,7 +4807,7 @@ declare namespace LocalJSX {
          */
         "isPinned"?: boolean;
         /**
-          * Whether the drawer relocates itself to `document.body` on connect, so it stacks above the rest of the page.  Set to `false` when the drawer is rendered inside another component's shadow DOM and forwards a `<slot>` into its content: relocating would take that slot out of its shadow tree, where it projects nothing. The panel and backdrop are `position: fixed`, so they still cover the viewport in place — unless an ancestor creates a containing block (`transform`, `filter`, `contain`, `will-change`), in which case leave this on.
+          * Whether the drawer may move itself while open when an ancestor would trap it (a `transform`, `filter`, `contain`, `z-index` stacking context, or a hidden ancestor), so it still covers and stacks above the page. It moves only out of that ancestor, and opens in place when there is none. (It returns to where it was declared when it closes, and leaves with its declared parent if that is removed.)  Set to `false` when the drawer is rendered inside another component's shadow DOM and forwards a `<slot>` into its content: relocating would take that slot out of its shadow tree, where it projects nothing. The panel and backdrop are `position: fixed`, so they still cover the viewport in place — unless an ancestor creates a containing block (`transform`, `filter`, `contain`, `will-change`), in which case leave this on.
           * @default true
          */
         "isPortal"?: boolean;
@@ -5102,7 +5142,7 @@ declare namespace LocalJSX {
     }
     interface AegovFormField {
         /**
-          * Wrapper-level error message — cascaded to first form-control descendant.
+          * Wrapper-level error message — cascaded to first form-control descendant unless it has its own; changing or clearing it updates the cascaded value.
           * @default ''
          */
         "errorMessage"?: string;
@@ -5115,12 +5155,12 @@ declare namespace LocalJSX {
          */
         "fieldId"?: string;
         /**
-          * Wrapper-level hint — cascaded to first form-control descendant.
+          * Wrapper-level hint — cascaded to first form-control descendant unless it has its own; changing or clearing it updates the cascaded value.
           * @default ''
          */
         "hint"?: string;
         /**
-          * Wrapper-level invalid state. Cascades to the first form-control descendant if the child has not set its own value. See validation-engine-addon.md §2.7.
+          * Wrapper-level invalid state. Cascades to the first form-control descendant if the child has not set its own value; setting it back to `false` clears what it cascaded. See validation-engine-addon.md §2.7.
           * @default false
          */
         "isInvalid"?: boolean;
@@ -5212,13 +5252,13 @@ declare namespace LocalJSX {
     }
     interface AegovInput {
         /**
-          * ID of an element (e.g. an addonPrefix span in aegov-input-group) to include in the native input's aria-describedby chain. Set by aegov-input-group when addonPrefix is present.
+          * Text of the prefix addon of an enclosing aegov-input-group ("AED", "+971"). Rendered in a hidden span inside this shadow root and added to the inner input's description, as an id in the group's light DOM can't be referenced from here. Set by aegov-input-group.
          */
-        "describedByPrefix"?: string;
+        "addonPrefixText"?: string;
         /**
-          * ID of an element (e.g. an addonSuffix span in aegov-input-group) to include in the native input's aria-describedby chain. Set by aegov-input-group when addonSuffix is present.
+          * Text of the suffix addon of an enclosing aegov-input-group (".gov.ae"). See `addonPrefixText`. Set by aegov-input-group.
          */
-        "describedBySuffix"?: string;
+        "addonSuffixText"?: string;
         /**
           * If `true`, the user cannot interact with the element.
          */
@@ -6199,17 +6239,17 @@ declare namespace LocalJSX {
          */
         "step"?: number;
         /**
-          * Current value (single mode).
+          * Current value (single mode). Sanitized like a native `<input type="range">`: clamped to `min`/`max` and rounded to the nearest `step`, on load and whenever it, `min`, `max` or `step` changes.
           * @default 50
          */
         "value"?: number;
         /**
-          * High thumb value (range mode).
+          * High thumb value (range mode). Sanitized like `value`.
           * @default 75
          */
         "valueHigh"?: number;
         /**
-          * Low thumb value (range mode).
+          * Low thumb value (range mode). Sanitized like `value`.
           * @default 25
          */
         "valueLow"?: number;
@@ -6970,6 +7010,8 @@ declare namespace LocalJSX {
         "variant": ButtonVariant;
         "size": string;
         "type": ButtonType;
+        "name": string;
+        "value": string;
         "appearance": ButtonAppearance;
         "isDisabled": boolean;
         "isIcon": boolean;
@@ -7168,8 +7210,8 @@ declare namespace LocalJSX {
         "errorMessage": string;
         "hint": string;
         "extraClass": string;
-        "describedByPrefix": string;
-        "describedBySuffix": string;
+        "addonPrefixText": string;
+        "addonSuffixText": string;
     }
     interface AegovInputGroupAttributes {
         "size": string;
@@ -7590,6 +7632,12 @@ declare module "@stencil/core" {
              * Do not use this component standalone.
              */
             "aegov-breadcrumbs-item": LocalJSX.IntrinsicElements["aegov-breadcrumbs-item"] & JSXBase.HTMLAttributes<HTMLAegovBreadcrumbsItemElement>;
+            /**
+             * A `type="submit"` button submits its form like a native submit button:
+             * `event.submitter` is set, `name`/`value` are added to the form data, and the
+             * `formaction`, `formenctype`, `formmethod`, `formnovalidate` and `formtarget`
+             * attributes override the form's own settings.
+             */
             "aegov-button": LocalJSX.IntrinsicElements["aegov-button"] & JSXBase.HTMLAttributes<HTMLAegovButtonElement>;
             "aegov-button-group": LocalJSX.IntrinsicElements["aegov-button-group"] & JSXBase.HTMLAttributes<HTMLAegovButtonGroupElement>;
             "aegov-callout": LocalJSX.IntrinsicElements["aegov-callout"] & JSXBase.HTMLAttributes<HTMLAegovCalloutElement>;

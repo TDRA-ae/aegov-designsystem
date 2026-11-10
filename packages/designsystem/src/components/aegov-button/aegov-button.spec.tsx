@@ -98,7 +98,9 @@ describe('aegov-button', () => {
       html: `<aegov-button is-loading="true">X</aegov-button>`,
     });
     const btn = inner(page);
-    expect(btn.hasAttribute('disabled')).toBe(true);
+    // Loading keeps the button focusable: aria-disabled, not native disabled.
+    expect(btn.hasAttribute('disabled')).toBe(false);
+    expect(btn.getAttribute('aria-disabled')).toBe('true');
     expect(btn.getAttribute('aria-busy')).toBe('true');
     expect(btn.querySelector('svg')).not.toBeNull();
   });
@@ -199,5 +201,93 @@ describe('aegov-button', () => {
     const cls = inner(page).className;
     expect(cls).toContain('btn-grouped-horizontal');
     expect(cls).toContain('btn-grouped-first-horizontal');
+  });
+
+  /**
+   * Form actions. The inner native <button> is in the shadow root, so it has no
+   * form owner and the browser never submits/resets the light-DOM <form> for
+   * it; the component does it itself (form.requestSubmit() / form.reset()),
+   * after the click has finished dispatching.
+   */
+  describe('form actions', () => {
+    const tick = () => new Promise(r => setTimeout(r, 0));
+    const setup = async (html: string) => {
+      const page = await newSpecPage({ components: [AegovButton], html });
+      const form = page.body.querySelector('form') as HTMLFormElement | null;
+      if (form) {
+        (form as any).requestSubmit = jest.fn();
+        (form as any).reset = jest.fn();
+      }
+      const host = page.body.querySelector('aegov-button') as HTMLElement;
+      const btn = host.shadowRoot.querySelector('button') as HTMLButtonElement;
+      return { page, form, host, btn };
+    };
+
+    it('type="submit" submits the owning form via requestSubmit()', async () => {
+      const { page, form, host, btn } = await setup(`<form><aegov-button type="submit">Go</aegov-button></form>`);
+      const clickSpy = jest.fn();
+      host.addEventListener('aegovButtonClick', clickSpy);
+      btn.click();
+      await tick();
+      await page.waitForChanges();
+      expect(form.requestSubmit).toHaveBeenCalledTimes(1);
+      expect(form.reset).not.toHaveBeenCalled();
+      expect(clickSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('type="reset" resets the owning form', async () => {
+      const { form, btn } = await setup(`<form><aegov-button type="reset">Reset</aegov-button></form>`);
+      btn.click();
+      await tick();
+      expect(form.reset).toHaveBeenCalledTimes(1);
+      expect(form.requestSubmit).not.toHaveBeenCalled();
+    });
+
+    it('type="button" (the default) does nothing to the form', async () => {
+      const { form, btn } = await setup(`<form><aegov-button>Plain</aegov-button></form>`);
+      btn.click();
+      await tick();
+      expect(form.requestSubmit).not.toHaveBeenCalled();
+      expect(form.reset).not.toHaveBeenCalled();
+    });
+
+    it('does not submit when disabled or loading', async () => {
+      for (const attr of ['is-disabled="true"', 'is-loading="true"']) {
+        const { form, btn } = await setup(`<form><aegov-button type="submit" ${attr}>Go</aegov-button></form>`);
+        btn.click();
+        await tick();
+        expect(form.requestSubmit).not.toHaveBeenCalled();
+      }
+    });
+
+    it('does not submit when the click is default-prevented', async () => {
+      const { form, host, btn } = await setup(`<form><aegov-button type="submit">Go</aegov-button></form>`);
+      host.addEventListener('aegovButtonClick', (e: CustomEvent<MouseEvent>) => e.detail.preventDefault());
+      btn.click();
+      await tick();
+      expect(form.requestSubmit).not.toHaveBeenCalled();
+    });
+
+    it('does nothing (and does not throw) outside a form', async () => {
+      const { host, btn } = await setup(`<aegov-button type="submit">Go</aegov-button>`);
+      const clickSpy = jest.fn();
+      host.addEventListener('aegovButtonClick', clickSpy);
+      expect(() => btn.click()).not.toThrow();
+      await tick();
+      expect(clickSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('is disabled by an ancestor <fieldset disabled> (formDisabledCallback)', async () => {
+      const { page, form, btn } = await setup(`<form><aegov-button type="submit">Go</aegov-button></form>`);
+      page.rootInstance.formDisabledCallback(true);
+      await page.waitForChanges();
+      expect(btn.hasAttribute('disabled')).toBe(true);
+      btn.click();
+      await tick();
+      expect(form.requestSubmit).not.toHaveBeenCalled();
+      page.rootInstance.formDisabledCallback(false);
+      await page.waitForChanges();
+      expect(btn.hasAttribute('disabled')).toBe(false);
+    });
   });
 });

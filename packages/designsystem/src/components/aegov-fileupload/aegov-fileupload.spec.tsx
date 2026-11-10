@@ -85,8 +85,12 @@ describe('aegov-fileupload', () => {
       html: `<aegov-fileupload label="X" is-required></aegov-fileupload>`,
     });
     expect(q(page.root, '.fileupload__required')).not.toBeNull();
+    // DS-A11Y-fileupload-03: no native `required` (it made Chrome report the
+    // input invalid on load); "Required" is in the description instead.
     const input = q(page.root, 'input[type="file"]') as HTMLInputElement;
-    expect(input.required).toBe(true);
+    expect(input.required).toBe(false);
+    const requiredId = input.getAttribute('aria-describedby')!.split(' ')[0];
+    expect(q(page.root, `#${requiredId}`).textContent).toBe('Required.');
   });
 
   it('renders hint and helper text', async () => {
@@ -99,6 +103,47 @@ describe('aegov-fileupload', () => {
     const input = q(page.root, 'input[type="file"]') as HTMLInputElement;
     expect(input.getAttribute('aria-describedby')).toContain('-helper');
   });
+
+  describe("keeps the author's aria-describedby", () => {
+    it('appearance="default": author id first, then hint/error ids', async () => {
+      const page = await newSpecPage({
+        components: [AegovFileupload],
+        html: `<p id="ext">External help</p><aegov-fileupload field-id="fu" aria-describedby="ext" hint="Hint"></aegov-fileupload>`,
+      });
+      const host = page.body.querySelector('aegov-fileupload') as HTMLAegovFileuploadElement;
+      const selector = 'input[type="file"]';
+      // DS-A11Y-input-01: the external text is held in a hidden span in the shadow root.
+      expect(q(host, selector).getAttribute('aria-describedby')).toMatch(/^fu-host-desc .*fu-hint$/);
+      expect(q(host, '#fu-host-desc').textContent).toBe('External help');
+      host.isInvalid = true;
+      host.errorMessage = 'Err';
+      await page.waitForChanges();
+      expect(q(host, selector).getAttribute('aria-describedby')).toMatch(/^fu-host-desc .*fu-error$/);
+    });
+  });
+
+  // DS-A11Y-fileupload-02: button / dropzone put the hint and error on the
+  // trigger button itself (aria-description, as ids can't cross into
+  // aegov-button's shadow root), not on the group around it.
+  for (const appearance of ['button', 'dropzone']) {
+    it(`appearance="${appearance}": the trigger button carries the hint, then the error and invalid state`, async () => {
+      const page = await newSpecPage({
+        components: [AegovFileupload],
+        html: `<aegov-fileupload field-id="fu" appearance="${appearance}" label="L" hint="Hint"></aegov-fileupload>`,
+      });
+      const trigger = () => q(page.root, 'aegov-button');
+      const group = q(page.root, '[role="group"]');
+      expect(trigger().getAttribute('aria-description')).toBe('Hint');
+      expect(trigger().getAttribute('aria-invalid')).toBeNull();
+      page.root.isInvalid = true;
+      page.root.errorMessage = 'Err';
+      await page.waitForChanges();
+      expect(trigger().getAttribute('aria-description')).toBe('Err');
+      expect(trigger().getAttribute('aria-invalid')).toBe('true');
+      expect(group.getAttribute('aria-describedby')).toBeNull();
+      expect(group.getAttribute('aria-invalid')).toBeNull();
+    });
+  }
 
   it('auto-derives helper text from accept attribute', async () => {
     const page = await newSpecPage({

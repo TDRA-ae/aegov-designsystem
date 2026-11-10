@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Watch, Event, EventEmitter, Element, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Watch, Event, EventEmitter, Element, Method, Listen, forceUpdate } from '@stencil/core';
 import { RADIO_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
   RadioSize, FormVariant,
@@ -6,13 +6,14 @@ import type {
 } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { HostAria } from '../../utils/host-aria';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { generateId } from '../../utils/id-generator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity, syncHostDisabled,
 } from '../../utils/validation';
 
 @Component({
@@ -104,6 +105,7 @@ export class AegovRadio {
   }
 
   componentWillLoad() {
+    if (this.isDisabled) syncHostDisabled(this.el, true);
     this._defaultChecked = this.isChecked;
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', { component: 'aegov-radio', prop: 'variant' });
     if (!this.fieldId) {
@@ -119,7 +121,7 @@ export class AegovRadio {
     if (typeof host.attachInternals === 'function') {
       try {
         this.internals = host.attachInternals();
-        this.internals.setFormValue(this.isChecked ? (this.value ?? null) : null);
+        this.internals.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
       } catch {
         this.internals = null;
       }
@@ -127,13 +129,32 @@ export class AegovRadio {
   }
 
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
-  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formDisabledCallback(disabled: boolean) { this.formDisabled = disabled; }
+
+  /**
+   * True while an ancestor `<fieldset disabled>` or the host's `disabled`
+   * attribute disables the field. Kept apart from `isDisabled` so that
+   * re-enabling the fieldset doesn't clear the field's own setting.
+   */
+  @State() private formDisabled: boolean = false;
+
+  /** Disabled by its own `isDisabled` or by the form. */
+  private get disabled(): boolean {
+    return this.isDisabled || this.formDisabled;
+  }
+
+  /** Leave FormData and constraint validation while disabled, like a native control. */
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    syncHostDisabled(this.el, this.isDisabled);
+  }
+
   formResetCallback() {
     this.isChecked = this._defaultChecked;
     this.errorMessage = '';
     this.isInvalid = false;
     if (this.inputEl) this.inputEl.setCustomValidity('');
-    this.internals?.setFormValue(this.isChecked ? (this.value ?? null) : null);
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
     if (this.isRequired && !this.isChecked) {
       setInternalsValidity(this.internals, synthesizeValidity({ valueMissing: true }), 'Please select an option');
     } else {
@@ -142,7 +163,7 @@ export class AegovRadio {
   }
 
   componentDidLoad() {
-    this.syncInternalsValidity();
+    this.hostAria?.refreshSoon();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
     // Self-detect parent group appearance — bypasses syncChildren() timing dependency.
     const group = this.el.closest('aegov-radio-group');
@@ -165,14 +186,32 @@ export class AegovRadio {
     }
   }
 
+  /** Host aria-label / aria-labelledby / aria-describedby / labels, resolved for the inner control (DS-A11Y-input-01). */
+  private hostAria?: HostAria;
+
+  connectedCallback() {
+    this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, internals: () => this.internals, onChange: () => forceUpdate(this) });
+    this.hostAria.connect();
+  }
+
   disconnectedCallback() {
+    this.hostAria?.disconnect();
     this._sizeWatcher?.destroy();
+  }
+
+  /**
+   * The inner control's constraints only change once it re-renders, so
+   * validity is synced after every render rather than in a watcher, which
+   * would read the old ones.
+   */
+  componentDidRender() {
+    this.syncInternalsValidity();
   }
 
   @Watch('isChecked')
   onIsCheckedChange() {
     // Fires when radio-group programmatically deselects this radio (no DOM event fires).
-    this.internals?.setFormValue(this.isChecked ? (this.value ?? null) : null);
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
     this.syncInternalsValidity();
   }
 
@@ -190,9 +229,17 @@ export class AegovRadio {
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
   }
 
+  /** The form found this field invalid during a submit or checkValidity() — start announcing errors. */
+  @Listen('invalid')
+  onInvalid() {
+    this.hasBlurredOnce = true;
+  }
+
   /** Imperatively re-run validation. */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasBlurredOnce = true;
+    this.syncInternalsValidity();
     const validity = this.readValidity();
     const message = !validity.valid
       ? (this.errorMessage || this.inputEl?.validationMessage || '')
@@ -222,6 +269,8 @@ export class AegovRadio {
   }
 
   private readValidity() {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return VALID_STATE;
     const v = this.inputEl?.validity;
     return v ? fromNativeValidity(v) : VALID_STATE;
   }
@@ -229,7 +278,7 @@ export class AegovRadio {
   private syncInternalsValidity(): void {
     if (!this.internals || !this.inputEl) return;
     const v = this.inputEl.validity;
-    if (v.valid) {
+    if (this.disabled || v.valid) {
       setInternalsValidity(this.internals, { valid: true }, '');
     } else {
       const message = this.errorMessage || this.inputEl.validationMessage || '';
@@ -251,7 +300,7 @@ export class AegovRadio {
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
     this.isChecked = input.checked;
-    this.internals?.setFormValue(this.isChecked ? (this.value ?? null) : null);
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
     this.syncInternalsValidity();
     this.aegovRadioChange.emit({ checked: this.isChecked, value: this.value });
     this.emitValidate('change');
@@ -268,7 +317,7 @@ export class AegovRadio {
 
 
   render() {
-    const passThroughAttrs = getPassThroughAttributes(this.el, AegovRadio.PASS_THROUGH_ATTRS);
+    const passThroughAttrs = this.hostAria ? this.hostAria.bridge(getPassThroughAttributes(this.el, AegovRadio.PASS_THROUGH_ATTRS)) : getPassThroughAttributes(this.el, AegovRadio.PASS_THROUGH_ATTRS);
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
 
@@ -281,7 +330,7 @@ export class AegovRadio {
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
     const showHint = !showError && (hasHintSlot || !!this.hint);
     const announceError = showError && this.hasBlurredOnce;
-    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const authorDescribedBy = this.hostAria?.descriptionId();
     const describedBy = composeDescribedBy(
       authorDescribedBy,
       showError ? this.errorId : null,
@@ -292,10 +341,15 @@ export class AegovRadio {
       <input
         ref={(el) => this.inputEl = el}
         type="radio"
+        // A radio with no name belongs to no radio group, and the HTML spec never
+        // reports valueMissing for it — so a required radio could never be missing.
+        // The input lives in this component's own shadow root, so the name does not
+        // join it to other radios or change what the form submits (ElementInternals does).
+        name={this.name || this.fieldId}
         id={this.fieldId}
         value={this.value}
         checked={this.isChecked}
-        disabled={this.isDisabled}
+        disabled={this.disabled}
         required={this.isRequired}
         aria-required={this.isRequired ? 'true' : undefined}
         aria-invalid={this.isInvalid ? 'true' : null}
@@ -339,6 +393,7 @@ export class AegovRadio {
             </label>
           </div>
           {errorRegion}
+          {this.hostAria?.renderDescription()}
         </Host>
       );
     }
@@ -354,6 +409,7 @@ export class AegovRadio {
           )}
         </div>
         {errorRegion}
+        {this.hostAria?.renderDescription()}
       </Host>
     );
   }

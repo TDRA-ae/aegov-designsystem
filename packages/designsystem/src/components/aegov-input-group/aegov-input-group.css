@@ -20,17 +20,36 @@
 /* Focus-within — mirror aegov-input focus treatment per variant.
    ring-1 + offset-2 + border swap to support colour. Matches input focus look. */
 .aegov-input-group.input-group-variant-primary:focus-within {
-  @apply ring-1 ring-offset-2 ring-primary-support-400 border-primary-support-400
+  @apply ring-1 ring-offset-2 ring-primary-support-500 border-primary-support-500
          dark:ring-primary-support-400 dark:border-primary-support-400;
 }
 .aegov-input-group.input-group-variant-secondary:focus-within {
-  @apply ring-1 ring-offset-2 ring-secondary-support-400 border-secondary-support-400
+  @apply ring-1 ring-offset-2 ring-secondary-support-500 border-secondary-support-500
          dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
 .aegov-input-group.input-group-variant-neutral-max:focus-within,
 .aegov-input-group.input-group-variant-neutral-min:focus-within {
-  @apply ring-1 ring-offset-2 ring-seablue-400 border-seablue-400
+  @apply ring-1 ring-offset-2 ring-seablue-500 border-seablue-500
          dark:ring-seablue-400 dark:border-seablue-400;
+}
+
+/* Invalid child — red border like a standalone invalid input (DS-A11Y-input-group-02) */
+.aegov-input-group:has(aegov-input.is-invalid) {
+  @apply border-aered-600 dark:border-aered-500;
+}
+.aegov-input-group:has(aegov-input.is-invalid):focus-within {
+  @apply ring-1 ring-offset-2 ring-aered-500 border-aered-500 dark:ring-aered-400 dark:border-aered-400;
+}
+
+/* Error / hint of the child inputs, below the group (same look as aegov-input's) */
+.input-group__error {
+  @apply text-sm text-aered-600 leading-snug dark:text-aered-400;
+}
+.input-group__error:not(:empty) {
+  @apply mt-1.5;
+}
+.input-group__hint {
+  @apply text-sm text-aeblack-600 mt-1.5 leading-snug dark:text-aeblack-300;
 }
 
 /* Separator between adjacent children */
@@ -81,8 +100,8 @@
    Child overrides: native select inside group
    -------------------------------------------------------- */
 .aegov-input-group select {
-  @apply border-0 bg-transparent outline-none cursor-pointer
-         focus:ring-0 focus:outline-none;
+  @apply border-0 bg-transparent outline-hidden cursor-pointer
+         focus:ring-0 focus:outline-hidden;
   /* Custom chevron matching aegov-select */
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%234b4f58' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");

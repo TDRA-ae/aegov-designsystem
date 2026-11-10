@@ -8,8 +8,12 @@ export const DATEPICKER_PORTAL_STYLES = `
   position: fixed;
   top: 0;
   left: 0;
-  width: 0;
+  /* Viewport-wide (but zero-height, click-through) so the dialog can use it as
+     a size container: the narrow layout below follows the viewport width in
+     rem, so it also kicks in when the text is enlarged. */
+  width: 100vw;
   height: 0;
+  container-type: inline-size;
   z-index: 9999;
   pointer-events: none;
 }
@@ -28,7 +32,12 @@ export const DATEPICKER_PORTAL_STYLES = `
   opacity: 0;
   transform: translateY(4px);
   transition: opacity 200ms ease, transform 200ms ease;
-  overflow: hidden;
+  /* Never larger than the viewport (WCAG 1.4.10 Reflow): scroll inside instead. */
+  max-width: calc(100vw - 16px);
+  max-height: calc(100vh - 16px);
+  max-height: calc(100dvh - 16px);
+  overflow: auto;
+  overscroll-behavior: contain;
 }
 
 .aegov-datepicker.datepicker--visible {
@@ -375,6 +384,15 @@ export const DATEPICKER_PORTAL_STYLES = `
   z-index: 1;
 }
 
+/* Focus on a filled day (selected / range start / range end): the ring colour is
+   too close to the fill, so add an inner ring in the dialog background colour.
+   The cell's look then changes clearly between focused and unfocused. */
+.datepicker__day--selected:is(:focus-visible, .datepicker__day--focused),
+.datepicker__day--range-start:is(:focus-visible, .datepicker__day--focused),
+.datepicker__day--range-end:is(:focus-visible, .datepicker__day--focused) {
+  box-shadow: inset 0 0 0 4px var(--color-whitely-50, #fff);
+}
+
 /* ── Footer (Confirmation Buttons) ──────────────────── */
 .datepicker__footer {
   display: flex;
@@ -538,6 +556,49 @@ export const DATEPICKER_PORTAL_STYLES = `
   color: var(--color-aeblack-900, #111827);
 }
 
+/* ── Narrow viewport / large text ───────────────────── */
+/* Presets move above the calendar as a wrapping row of buttons. */
+@container (max-width: 46rem) {
+  .aegov-datepicker {
+    flex-direction: column;
+  }
+
+  .datepicker__presets,
+  [dir="rtl"] .datepicker__presets {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    min-width: 0;
+    max-height: none;
+    overflow: visible;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid var(--color-aeblack-200, #e2e8f0);
+  }
+
+  .datepicker__preset-btn {
+    width: auto;
+  }
+}
+
+/* Range: the two months stack in one column. */
+@container (max-width: 37rem) {
+  .datepicker__calendars {
+    flex-direction: column;
+  }
+
+  .datepicker__calendar + .datepicker__calendar,
+  [dir="rtl"] .datepicker__calendar + .datepicker__calendar {
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid var(--color-aeblack-200, #e2e8f0);
+  }
+
+  .datepicker__calendar {
+    min-width: 0;
+  }
+}
+
 /* ─────────────────────────────────────────────────────────────────────
    Dark mode — .dark on <html> cascades into portal (document.body child).
    Mirrors light surface tokens with darker equivalents.
@@ -552,6 +613,7 @@ export const DATEPICKER_PORTAL_STYLES = `
 .dark .datepicker__presets {
   background: var(--color-aeblack-800);
   border-right-color: var(--color-aeblack-700);
+  border-bottom-color: var(--color-aeblack-700);
 }
 
 [dir="rtl"].dark .datepicker__presets,
@@ -575,6 +637,7 @@ export const DATEPICKER_PORTAL_STYLES = `
 
 .dark .datepicker__calendar + .datepicker__calendar {
   border-left-color: var(--color-aeblack-700);
+  border-top-color: var(--color-aeblack-700);
 }
 
 [dir="rtl"].dark .datepicker__calendar + .datepicker__calendar,
@@ -676,6 +739,12 @@ export const DATEPICKER_PORTAL_STYLES = `
 
 .dark .datepicker__day--focused {
   outline-color: var(--color-primary-400);
+}
+
+.dark .datepicker__day--selected:is(:focus-visible, .datepicker__day--focused),
+.dark .datepicker__day--range-start:is(:focus-visible, .datepicker__day--focused),
+.dark .datepicker__day--range-end:is(:focus-visible, .datepicker__day--focused) {
+  box-shadow: inset 0 0 0 4px var(--color-aeblack-900);
 }
 
 .dark .datepicker__footer {

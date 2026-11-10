@@ -39,17 +39,17 @@
 }
 /* Variant — rest border, checked bg+border, hover halo, focus outline per colour family.
    Focus outline colour matches the designsystem convention used by aegov-input et al:
-   support-400 (light + dark); neutrals use seablue-400. */
-.aegov-checkbox.checkbox-variant-primary input[type="checkbox"]       { @apply border-primary-600 checked:bg-primary-600 accent-primary-600 focus-visible:outline-primary-support-400 dark:border-primary-400 dark:checked:bg-primary-500 dark:accent-primary-500 dark:focus-visible:outline-primary-support-400 }
+   support-500 light (≥3:1 on white) / support-400 dark; neutrals seablue-500 / -400. */
+.aegov-checkbox.checkbox-variant-primary input[type="checkbox"]       { @apply border-primary-600 checked:bg-primary-600 accent-primary-600 focus-visible:outline-primary-support-500 dark:border-primary-400 dark:checked:bg-primary-500 dark:accent-primary-500 dark:focus-visible:outline-primary-support-400 }
 .aegov-checkbox.checkbox-variant-primary input[type="checkbox"]::before { @apply bg-primary-50 dark:bg-primary-900/40; }
 
-.aegov-checkbox.checkbox-variant-secondary input[type="checkbox"]     { @apply border-secondary-600 checked:bg-secondary-600 accent-secondary-600 focus-visible:outline-secondary-support-400 dark:border-secondary-400 dark:checked:bg-secondary-500 dark:accent-secondary-500 dark:focus-visible:outline-secondary-support-400; }
+.aegov-checkbox.checkbox-variant-secondary input[type="checkbox"]     { @apply border-secondary-600 checked:bg-secondary-600 accent-secondary-600 focus-visible:outline-secondary-support-500 dark:border-secondary-400 dark:checked:bg-secondary-500 dark:accent-secondary-500 dark:focus-visible:outline-secondary-support-400; }
 .aegov-checkbox.checkbox-variant-secondary input[type="checkbox"]::before { @apply bg-secondary-50 dark:bg-secondary-900/40; }
 
-.aegov-checkbox.checkbox-variant-neutral-max input[type="checkbox"]   { @apply border-aeblack-800 checked:bg-aeblack-800 accent-aeblack-800 focus-visible:outline-seablue-400 dark:border-aeblack-300 dark:checked:bg-aeblack-300 dark:accent-aeblack-300 dark:focus-visible:outline-seablue-400; }
+.aegov-checkbox.checkbox-variant-neutral-max input[type="checkbox"]   { @apply border-aeblack-800 checked:bg-aeblack-800 accent-aeblack-800 focus-visible:outline-seablue-500 dark:border-aeblack-300 dark:checked:bg-aeblack-300 dark:accent-aeblack-300 dark:focus-visible:outline-seablue-400; }
 .aegov-checkbox.checkbox-variant-neutral-max input[type="checkbox"]::before { @apply bg-aeblack-100 dark:bg-aeblack-700; }
 
-.aegov-checkbox.checkbox-variant-neutral-min input[type="checkbox"]   { @apply border-aeblack-400 checked:bg-aeblack-400 accent-aeblack-400 focus-visible:outline-seablue-400 dark:border-aeblack-500 dark:checked:bg-aeblack-500 dark:accent-aeblack-500 dark:focus-visible:outline-seablue-400; }
+.aegov-checkbox.checkbox-variant-neutral-min input[type="checkbox"]   { @apply border-aeblack-400 checked:bg-aeblack-400 accent-aeblack-400 focus-visible:outline-seablue-500 dark:border-aeblack-500 dark:checked:bg-aeblack-500 dark:accent-aeblack-500 dark:focus-visible:outline-seablue-400; }
 .aegov-checkbox.checkbox-variant-neutral-min input[type="checkbox"]::before { @apply bg-aeblack-50 dark:bg-aeblack-800; }
 
 /* Indeterminate fill follows variant */
@@ -391,10 +391,10 @@
 }
 
 /* Pill focus-visible outline — matches variant focus color from base checkbox rules */
-:host(.checkbox-appearance-pills) .checkbox-variant-primary .checkbox__wrapper:has(input:focus-visible)    { @apply outline-2 outline-offset-2 outline-primary-support-400; }
-:host(.checkbox-appearance-pills) .checkbox-variant-secondary .checkbox__wrapper:has(input:focus-visible)  { @apply outline-2 outline-offset-2 outline-secondary-support-400; }
+:host(.checkbox-appearance-pills) .checkbox-variant-primary .checkbox__wrapper:has(input:focus-visible)    { @apply outline-2 outline-offset-2 outline-primary-support-500; }
+:host(.checkbox-appearance-pills) .checkbox-variant-secondary .checkbox__wrapper:has(input:focus-visible)  { @apply outline-2 outline-offset-2 outline-secondary-support-500; }
 :host(.checkbox-appearance-pills) .checkbox-variant-neutral-max .checkbox__wrapper:has(input:focus-visible),
-:host(.checkbox-appearance-pills) .checkbox-variant-neutral-min .checkbox__wrapper:has(input:focus-visible) { @apply outline-2 outline-offset-2 outline-seablue-400; }
+:host(.checkbox-appearance-pills) .checkbox-variant-neutral-min .checkbox__wrapper:has(input:focus-visible) { @apply outline-2 outline-offset-2 outline-seablue-500; }
 
 /* ============================
    List variant separator.
@@ -442,4 +442,142 @@
 :host-context([dir="rtl"]) input[type="checkbox"]::before,
 :host(:dir(rtl)) input[type="checkbox"]::before {
   --tw-translate-x: 50%;
+}
+
+/* ========================================
+   Forced colours (Windows High Contrast / Contrast themes)
+   The check / dash is a white SVG background on a coloured fill; forced
+   colours drops the fill, so checked and indeterminate looked unchecked
+   (DS-A11Y-toggle-02). Redraw with the user's system colours: the box fills
+   with Highlight and the mark is painted in HighlightText through a mask
+   (a background SVG can't take system colours). Pills and cards get the
+   same Highlight treatment. Rules start with ":host .aegov-checkbox" so they
+   outrank the per-variant colour rules.
+   ======================================== */
+@media (forced-colors: active) {
+  :host .aegov-checkbox input[type="checkbox"] {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    background-image: none;
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+
+  /* The ::before halo becomes the mark. */
+  :host .aegov-checkbox input[type="checkbox"]::before {
+    display: none;
+  }
+  :host .aegov-checkbox input[type="checkbox"]:checked,
+  :host .aegov-checkbox input[type="checkbox"]:indeterminate {
+    background-color: Highlight;
+    border-color: Highlight;
+  }
+  :host .aegov-checkbox input[type="checkbox"]:checked::before,
+  :host .aegov-checkbox input[type="checkbox"]:indeterminate::before {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: auto;
+    height: auto;
+    /* The halo is shrunk with Tailwind v4's scale/translate properties, which
+       read these variables. (Setting scale/translate directly gets merged into
+       a transform by the CSS optimiser and stops working.) */
+    --tw-scale-x: 1;
+    --tw-scale-y: 1;
+    --tw-scale-z: 1;
+    --tw-translate-x: 0;
+    --tw-translate-y: 0;
+    border-radius: 0;
+    mix-blend-mode: normal;
+    background-color: HighlightText;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M12.207 4.793a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L6.5 9.086l4.293-4.293a1 1 0 0 1 1.414 0z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M12.207 4.793a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L6.5 9.086l4.293-4.293a1 1 0 0 1 1.414 0z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  }
+  :host .aegov-checkbox input[type="checkbox"]:indeterminate::before {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='3' y='7' width='10' height='2' rx='1'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='3' y='7' width='10' height='2' rx='1'/%3E%3C/svg%3E");
+  }
+
+  /* Disabled: the system "unavailable" colour. */
+  :host .aegov-checkbox input[type="checkbox"]:disabled {
+    border-color: GrayText;
+  }
+  :host .aegov-checkbox input[type="checkbox"]:disabled:checked,
+  :host .aegov-checkbox input[type="checkbox"]:disabled:indeterminate {
+    background-color: GrayText;
+    border-color: GrayText;
+  }
+  :host .aegov-checkbox input[type="checkbox"]:disabled:checked::before,
+  :host .aegov-checkbox input[type="checkbox"]:disabled:indeterminate::before {
+    display: block !important;
+    background-color: Canvas;
+  }
+
+  /* Focus: a Highlight outline. */
+  :host .aegov-checkbox input[type="checkbox"]:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  /* Invalid: the red ring is a box-shadow (removed) — use a dashed border,
+     a cue that doesn't depend on colour, next to the error text. */
+  :host(.is-invalid) .aegov-checkbox .checkbox__wrapper input[type="checkbox"] {
+    box-shadow: none;
+  }
+  :host(.is-invalid) .aegov-checkbox .checkbox__wrapper input[type="checkbox"]:not(:checked):not(:indeterminate) {
+    border-style: dashed;
+  }
+
+  /* Pills: unchecked = outlined, checked = Highlight fill. */
+  :host(.checkbox-appearance-pills) .aegov-checkbox .checkbox__wrapper {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    border-color: CanvasText;
+  }
+  :host(.checkbox-appearance-pills) .aegov-checkbox .checkbox__label-text {
+    color: CanvasText !important;
+  }
+  :host(.checkbox-appearance-pills) .aegov-checkbox .checkbox__wrapper:has(input:checked) {
+    background-color: Highlight;
+    border-color: Highlight;
+  }
+  :host(.checkbox-appearance-pills) .aegov-checkbox .checkbox__wrapper:has(input:checked) .checkbox__label-text {
+    color: HighlightText !important;
+  }
+  :host(.checkbox-appearance-pills) .aegov-checkbox .checkbox__wrapper:has(input:disabled) {
+    border-color: GrayText;
+  }
+  :host(.checkbox-appearance-pills) .aegov-checkbox .checkbox__wrapper:has(input:disabled) .checkbox__label-text {
+    color: GrayText !important;
+  }
+  :host(.checkbox-appearance-pills) .aegov-checkbox .checkbox__wrapper:has(input:focus-visible) {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  /* Cards: checked card gets a Highlight border (the box inside is drawn too). */
+  :host(.checkbox-appearance-cards) .aegov-checkbox .checkbox__wrapper {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    border-color: CanvasText;
+  }
+  /* forced-color-adjust: none on the card also stops the system recolouring
+     its text, so set the label and hint to the system text colour. */
+  :host(.checkbox-appearance-cards) .aegov-checkbox .checkbox__label-text,
+  :host(.checkbox-appearance-cards) .aegov-checkbox .checkbox__hint {
+    color: CanvasText;
+  }
+  :host(.checkbox-appearance-cards) .aegov-checkbox .checkbox__wrapper:has(input:disabled) .checkbox__label-text,
+  :host(.checkbox-appearance-cards) .aegov-checkbox .checkbox__wrapper:has(input:disabled) .checkbox__hint {
+    color: GrayText;
+  }
+  :host(.checkbox-appearance-cards) .aegov-checkbox .checkbox__wrapper:has(input:checked) {
+    background-color: Canvas;
+    border-color: Highlight;
+    outline: 2px solid Highlight;
+    outline-offset: -4px;
+  }
+  :host(.checkbox-appearance-cards) .aegov-checkbox .checkbox__wrapper:has(input:disabled) {
+    border-color: GrayText;
+  }
 }

@@ -6,7 +6,7 @@ import type { TextSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 
 /**
- * @slot default - The text content
+ * @slot - The text content
  */
 @Component({
   tag: 'aegov-text',
