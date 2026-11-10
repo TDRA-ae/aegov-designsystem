@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, Element, Event, EventEmitter, State, Watch } from '@stencil/core';
 import type { NavblockIcon, NavblockSize, NavblockVariant, LinkTarget } from '../../utils/types';
 import { NAVBLOCK_ICONS } from '../../utils/types';
-import { getPassThroughAttributes } from '../../utils/attributes';
+import { getDataAttributes, listItemRole } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 
 /**
@@ -320,7 +320,7 @@ export class AegovNavblockItem {
   render() {
     const isFlat = this.variant === 'flat';
 
-    const liClasses = {
+    const itemClasses = {
       'aegov-navblock-item': true,
       [`navblock-item--${this.size}`]: true,
       'aegov-navblock-item--has-children': this.hasChildren,
@@ -331,7 +331,9 @@ export class AegovNavblockItem {
       'is-active': this.isActive,
     };
 
-    const passThroughAttributes = getPassThroughAttributes(this.el);
+    // The host is the list item (role and its own aria-* apply there); the
+    // inner wrapper only keeps data-* for styling hooks.
+    const dataAttributes = getDataAttributes(this.el);
     const linkAttrs: Record<string, string> = {};
     Array.from(this.el.attributes).forEach(attr => {
       if (AegovNavblockItem.PASS_THROUGH_LINK_ATTRS.has(attr.name)) {
@@ -438,25 +440,25 @@ export class AegovNavblockItem {
     }
 
     return (
-      <Host>
-        <li {...passThroughAttributes} class={liClasses}>
+      <Host role={listItemRole(this.el)}>
+        <div {...dataAttributes} class={itemClasses}>
           {row}
           {this.hasChildren && (
             isFlat ? (
               // Flat: children always visible, no animation, no indentation
-              <ul
+              <div
                 class="aegov-navblock-item__sub aegov-navblock-item__sub--flat"
                 role="list"
               >
                 <slot name="subnav" />
-              </ul>
+              </div>
             ) : (
               // Collapsible: animated height wrapper
               <div
                 class="aegov-navblock-item__sub-wrapper"
                 style={{ height: `${this.contentHeight}px` }}
               >
-                <ul
+                <div
                   class="aegov-navblock-item__sub"
                   id={subId}
                   role="list"
@@ -464,11 +466,11 @@ export class AegovNavblockItem {
                   ref={el => (this.subInnerEl = el)}
                 >
                   <slot name="subnav" />
-                </ul>
+                </div>
               </div>
             )
           )}
-        </li>
+        </div>
       </Host>
     );
   }

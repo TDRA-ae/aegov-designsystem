@@ -99,13 +99,16 @@ export class AegovBreadcrumbs {
     return (
       <Host>
         <nav aria-label={isRtl(this.el) ? STRINGS.ar.breadcrumb : STRINGS.en.breadcrumb} id={this.fieldId} class="aegov-breadcrumbs" {...passThroughAttributes}>
-          <ol
+          {/* role="list" on a div, not <ol>: the items are aegov-breadcrumbs-item
+              hosts (role="listitem"), which an <ol> may not contain. */}
+          <div
             class="breadcrumb__list"
+            role="list"
             itemScope={this.isMicrodata ? true : undefined}
             itemType={this.isMicrodata ? "https://schema.org/BreadcrumbList" : undefined}
           >
             <slot />
-          </ol>
+          </div>
         </nav>
       </Host>
     );

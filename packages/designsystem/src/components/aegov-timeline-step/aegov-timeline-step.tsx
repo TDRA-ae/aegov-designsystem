@@ -3,6 +3,7 @@ import { TIMELINE_STEP_STATUSES } from '../../utils/types';
 import type { TimelineVariant, TimelineSize, TimelineOrientation, TimelineStepStatus } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { isRtl } from '../../utils/rtl';
+import { listItemRole } from '../../utils/attributes';
 
 const TAG = 'aegov-timeline-step';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -239,11 +240,11 @@ export class AegovTimelineStep {
     if (this.standaloneError) {
       return (
         <Host>
-          <li class="aegov-step" role="alert">
+          <div class="aegov-step" role="alert">
             <span class="step__label">
               <strong>aegov-timeline-step configuration error:</strong> must be used inside &lt;aegov-timeline&gt;.
             </span>
-          </li>
+          </div>
         </Host>
       );
     }
@@ -256,33 +257,36 @@ export class AegovTimelineStep {
       'host--vertical': !isHorizontal,
     };
 
-    const liClasses = [
+    const stepClasses = [
       'aegov-step',
       `step--${this.orientation}`,
       `step--${status}`,
     ].filter(Boolean).join(' ');
 
     const ariaCurrent = this.status === 'active' ? 'step' : undefined;
+    // The host is the list item of the timeline's role="list", so it carries
+    // the role and aria-current="step" (read as "current step" on the item).
+    const role = listItemRole(this.el);
 
     if (isHorizontal) {
       return (
-        <Host class={hostClasses}>
-          <li class={liClasses} aria-current={ariaCurrent}>
+        <Host class={hostClasses} role={role} aria-current={ariaCurrent}>
+          <div class={stepClasses}>
             <div class="step__indicator-row">
               {this.renderConnectorBefore()}
               {this.renderIndicator()}
               {this.renderConnectorAfter()}
             </div>
             {this.renderLabel()}
-          </li>
+          </div>
         </Host>
       );
     }
 
     // Vertical layout
     return (
-      <Host class={hostClasses}>
-        <li class={liClasses} aria-current={ariaCurrent}>
+      <Host class={hostClasses} role={role} aria-current={ariaCurrent}>
+        <div class={stepClasses}>
           <div class="step__vertical-row">
             <div class="step__vertical-indicator">
               {this.renderIndicator()}
@@ -290,7 +294,7 @@ export class AegovTimelineStep {
             </div>
             {this.renderLabel()}
           </div>
-        </li>
+        </div>
       </Host>
     );
   }
