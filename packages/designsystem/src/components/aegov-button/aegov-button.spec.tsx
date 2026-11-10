@@ -74,6 +74,16 @@ describe('aegov-button', () => {
     expect(inner(page).className).toContain('btn-sm');
   });
 
+  it('applies the btn-xl class (not btn-lg) for size="xl"', async () => {
+    const page = await newSpecPage({
+      components: [AegovButton],
+      html: `<aegov-button size="xl">X</aegov-button>`,
+    });
+    const classes = inner(page).classList;
+    expect(classes.contains('btn-xl')).toBe(true);
+    expect(classes.contains('btn-lg')).toBe(false);
+  });
+
   it('reflects native type attribute', async () => {
     const page = await newSpecPage({
       components: [AegovButton],
