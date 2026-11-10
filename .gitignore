@@ -53,13 +53,11 @@ playwright-report/
 Thumbs.db
 .npmrc
 
-# Claude Code local settings (machine-specific, should not be shared)
-.claude/settings.local.json
-.claude/worktrees/
-
-# `npx skills` CLI installs (duplicates of .claude/skills, personal tooling)
+# AI agent config and skills: local only, at any depth (root and packages/*)
+.claude/
 .agents/
 skills-lock.json
+/SKILL.md
 
 # Live package verification (uses published npm packages, not workspace)
 test-published/
