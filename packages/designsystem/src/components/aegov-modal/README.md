@@ -275,7 +275,7 @@ aegov-modal {
 
 ### Colors
 - Background: white
-- Backdrop: black with variable opacity
+- Backdrop: `aeblack-900` at 30% / 50% / 70% (`overlayOpacity` light / base / dark); dark mode `aeblack-950` at 50% / 70% / 85%. Identical to `aegov-drawer`.
 - Shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)
 
 ### Spacing
@@ -285,9 +285,9 @@ aegov-modal {
 
 ### Scrollbar (Webkit browsers)
 - Width: 8px
-- Track color: slate-100 (#f1f5f9)
-- Thumb color: slate-300 (#cbd5e1)
-- Thumb hover: slate-400 (#94a3b8)
+- Track color: aeblack-100 (dark mode: aeblack-800)
+- Thumb color: aeblack-300 (dark mode: aeblack-600)
+- Thumb hover: aeblack-400 (dark mode: aeblack-500)
 
 ## Accessibility
 

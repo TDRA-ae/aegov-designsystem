@@ -81,13 +81,13 @@ button.aegov-navbar-item__chevron[aria-expanded="true"] svg {
   @apply rotate-180;
 }
 
-/* Disabled */
-:host([is-disabled]) {
-  cursor: not-allowed;
-}
-
+/* Disabled — keyed off the render-time modifier class, not the reflected
+   `is-disabled` attribute (stale after re-enable) or `:host` (matches nothing
+   in a scoped:false component). The link has pointer-events:none, so the
+   pointer lands on this wrapper and picks up its cursor. */
 div.aegov-navbar-item--disabled {
   opacity: 0.4;
+  cursor: not-allowed;
 }
 
 div.aegov-navbar-item--disabled .aegov-navbar-item__link {
