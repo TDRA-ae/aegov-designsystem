@@ -1,12 +1,14 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, State } from '@stencil/core';
+import { Build, Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, State } from '@stencil/core';
 import { DRAWER_POSITIONS, DRAWER_ANIMATIONS, DRAWER_OVERLAY_OPACITIES, DRAWER_SIZES } from '../../utils/types';
 import type { DrawerPosition, DrawerAnimation, DrawerOverlayOpacity, DrawerSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { getSlottedFocusableElements, handleTabKeyWrap, resolveFocusTarget } from '../../utils/focus-management';
 import { lockBodyScroll, unlockBodyScroll } from '../../utils/scroll-lock';
-import { pushZIndex, popZIndex } from '../../utils/z-index-manager';
+import { pushZIndex, popZIndex, isTopOverlay } from '../../utils/z-index-manager';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
+import { forgetRelocatedHost, relocateHost, restoreHost } from '../../utils/portal-manager';
+import { isRtl } from '../../utils/rtl';
 
 const TAG = 'aegov-drawer';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -25,7 +27,14 @@ export class AegovDrawer {
   private triggerElement: HTMLElement | null = null;
   private focusableElements: HTMLElement[] = [];
   private drawerZIndex: number = 50;
-  private movedToBody: boolean = false;
+  // True only while this component itself is moving its host to/from
+  // its declared place (see moveHost()); the synchronous disconnect/connect pair
+  // that move fires is not a removal by the owner.
+  private relocating: boolean = false;
+  private didLoad: boolean = false;
+  // The `dir` value this component set on the host while open (null when it
+  // set none, e.g. because the author supplied their own `dir`).
+  private bakedDir: string | null = null;
   private overlayResourcesHeld: boolean = false;
 
   /**
@@ -81,8 +90,12 @@ export class AegovDrawer {
   @Prop() isPreventScroll: boolean = true;
 
   /**
-   * Whether the drawer relocates itself to `document.body` on connect, so it
-   * stacks above the rest of the page.
+   * Whether the drawer may move itself while open when an ancestor would trap
+   * it (a `transform`, `filter`, `contain`, `z-index` stacking context, or a
+   * hidden ancestor), so it still covers and stacks above the page. It moves
+   * only out of that ancestor, and opens in place when there is none. (It
+   * returns to where it was declared when it closes, and leaves with its
+   * declared parent if that is removed.)
    *
    * Set to `false` when the drawer is rendered inside another component's
    * shadow DOM and forwards a `<slot>` into its content: relocating would take
@@ -203,6 +216,7 @@ export class AegovDrawer {
     // handleOpen(): no scroll lock, no focus trap, and no Escape-key listener
     // (only ever attached inside handleOpen()), leaving it visible but
     // completely inert to the keyboard and unable to be dismissed.
+    this.didLoad = true;
     if (this.isOpen) {
       this.handleOpen();
     }
@@ -221,21 +235,28 @@ export class AegovDrawer {
   onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, DRAWER_SIZES, 'base', ctx('size')); }
 
   connectedCallback() {
-    // Move drawer to body for proper stacking. Guarded by movedToBody to
-    // avoid re-entrant hydration loops: appendChild triggers a synchronous
-    // disconnect/reconnect pair and Stencil's lazy hydration can fire
-    // connectedCallback again before parent state stabilises.
-    if (this.isPortal && !this.movedToBody && this.el.parentNode !== document.body) {
-      this.movedToBody = true;
-      document.body.appendChild(this.el);
+    if (this.relocating) return;
+    // Re-inserted by its owner while still open (e.g. Vue <KeepAlive>
+    // re-activation): the disconnect released the scroll lock / z-index /
+    // Escape listener, so open again. Deferred so no DOM move happens from
+    // inside this callback.
+    if (this.didLoad && this.isOpen && !this.overlayResourcesHeld) {
+      Promise.resolve().then(() => {
+        if (this.el.isConnected && this.isOpen && !this.overlayResourcesHeld) this.handleOpen();
+      });
     }
   }
 
   disconnectedCallback() {
-    // Cleanup. Note: we deliberately do NOT call body.removeChild(this.el)
-    // here — the disconnect IS the removal, and re-removing inside the
-    // callback caused a "Maximum call stack size exceeded" loop with
-    // connectedCallback under Stencil's shadow-DOM hydration.
+    // A move, not a removal: our own move out of / back to its declared place (or any other
+    // move — when the callback runs the element is already connected again).
+    // Releasing the scroll lock / z-index / Escape listener here would leave an
+    // open overlay visible but inert.
+    if (this.relocating || this.el.isConnected) return;
+    // Note: never move or remove this.el from in here (nor from
+    // connectedCallback) — doing that inside the callbacks is what caused the
+    // old "Maximum call stack size exceeded" loop under Stencil's shadow-DOM
+    // hydration. The move happens in handleOpen()/handleCloseComplete().
     //
     // Covers a framework removing the element entirely while still open,
     // without ever calling close()/handleCloseComplete() — otherwise the
@@ -243,23 +264,65 @@ export class AegovDrawer {
     // pushZIndex()) and every subsequently-opened overlay stacks one
     // increment higher than it should, forever.
     //
-    // Guarded on overlayResourcesHeld, not this.isOpen: connectedCallback's
-    // own document.body.appendChild portal-move triggers a synchronous
-    // disconnect/reconnect pair, which for a declaratively `is-open="true"`
-    // drawer can fire BEFORE handleOpen() has ever run — at that moment
-    // isOpen is already true but no lock/z-index was ever acquired. A naive
-    // `if (this.isOpen)` guard would then call unlockBodyScroll() for a lock
-    // this instance never took, decrementing the shared ref-counted lock and
-    // potentially releasing scroll out from under some OTHER genuinely-open
-    // overlay (confirmed via direct reproduction, not hypothetical).
+    // Guarded on overlayResourcesHeld, not this.isOpen: a declaratively
+    // `is-open="true"` drawer can be disconnected before handleOpen() has ever
+    // run — at that moment isOpen is already true but no lock/z-index was
+    // ever acquired. A naive `if (this.isOpen)` guard would then call
+    // unlockBodyScroll() for a lock this instance never took, decrementing the
+    // shared ref-counted lock and potentially releasing scroll out from under
+    // some OTHER genuinely-open overlay.
     if (this.overlayResourcesHeld) {
       this.overlayResourcesHeld = false;
       if (this.isPreventScroll) {
         unlockBodyScroll();
       }
-      popZIndex();
+      popZIndex(this.el);
     }
     document.removeEventListener('keydown', this.handleKeyDown);
+    // Removed by its owner while relocated (e.g. `host.remove()`):
+    // drop the placeholder left at the declared position.
+    forgetRelocatedHost(this.el);
+    this.unbakeDir();
+  }
+
+  /**
+   * While open (and isPortal), move the host out of any ancestor that would
+   * trap it, or back to where it was declared on close (see relocateHost in
+   * utils/portal-manager). Moving only while open keeps a closed drawer where
+   * its owner put it, so frameworks and SSR hydration find their node, and
+   * removing an ancestor removes the drawer with it instead of orphaning it.
+   */
+  private moveHost(open: boolean) {
+    // Never during server-side rendering (hydrate); spec tests also report isServer.
+    if (Build.isServer && !Build.isTesting) return;
+    if (open && !this.isPortal) return;
+    this.relocating = true;
+    try {
+      if (open) relocateHost(this.el);
+      else restoreHost(this.el);
+    } finally {
+      this.relocating = false;
+    }
+  }
+
+  /**
+   * Pin the direction the drawer had at its declared position onto the host
+   * while it is open: once moved out of its ancestors it no longer inherits `dir` from a
+   * local `<div dir="rtl">` wrapper. Resolved at open time, so a later change
+   * of `<html dir>` is picked up on the next open, and removed again on close.
+   * An author-supplied `dir` on the host is left alone. Same as aegov-modal.
+   */
+  private bakeDir() {
+    if (this.el.hasAttribute('dir')) return;
+    this.bakedDir = isRtl(this.el) ? 'rtl' : 'ltr';
+    this.el.setAttribute('dir', this.bakedDir);
+  }
+
+  private unbakeDir() {
+    if (this.bakedDir !== null && this.el.getAttribute('dir') === this.bakedDir) {
+      this.el.removeAttribute('dir');
+    }
+    this.bakedDir = null;
   }
 
   private getAnimationDuration(): number {
@@ -271,8 +334,13 @@ export class AegovDrawer {
     // Store the currently focused element
     this.triggerElement = document.activeElement as HTMLElement;
 
+    // Resolve direction at the declared position, then move out of any trapping ancestor for
+    // stacking (unless isPortal is off).
+    this.bakeDir();
+    this.moveHost(true);
+
     // Assign z-index for this drawer
-    this.drawerZIndex = pushZIndex();
+    this.drawerZIndex = pushZIndex(this.el);
     this.overlayResourcesHeld = true;
 
     // Phase 1: Render at off-screen / invisible position.
@@ -330,17 +398,27 @@ export class AegovDrawer {
   }
 
   private handleCloseComplete() {
-    // Decrement overlay stack
-    popZIndex();
-    this.overlayResourcesHeld = false;
-
-    // Unlock body scroll (ref-counted, only unlocks when last overlay closes)
-    if (this.isPreventScroll) {
-      unlockBodyScroll();
+    // Release the overlay stack slot and scroll lock — only if still held: a
+    // disconnect while open/closing has already released them.
+    if (this.overlayResourcesHeld) {
+      this.overlayResourcesHeld = false;
+      popZIndex(this.el);
+      // Unlock body scroll (ref-counted, only unlocks when last overlay closes)
+      if (this.isPreventScroll) {
+        unlockBodyScroll();
+      }
     }
 
     // Remove keyboard listener
     document.removeEventListener('keydown', this.handleKeyDown);
+
+    // Return the host to where it was declared — unless it was reopened during
+    // the close animation, in which case it must stay where it moved — and drop the
+    // pinned direction.
+    if (!this.isOpen) {
+      this.moveHost(false);
+      this.unbakeDir();
+    }
 
     // Return focus to trigger element. resolveFocusTarget handles a shadow-DOM
     // trigger whose host isn't itself focusable — .focus() on it directly would
@@ -365,6 +443,8 @@ export class AegovDrawer {
   };
 
   private handleKeyDown = (event: KeyboardEvent) => {
+    // Under a nested overlay, the key belongs to that one.
+    if (!isTopOverlay(this.el)) return;
     if (event.key === 'Escape') {
       this.aegovDrawerEscapePress.emit(event);
       // Escape must always close per SC 2.1.2 — bypass the cancellable beforeClose event

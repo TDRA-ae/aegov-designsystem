@@ -1,6 +1,6 @@
 {
     "name": "@aegov/designsystem",
-    "version": "0.2.23",
+    "version": "4.0.0",
     "description": "AEGOV Design System - Framework-agnostic web components with Tailwind CSS",
     "main": "dist/index.cjs.js",
     "module": "dist/index.js",
@@ -11,6 +11,17 @@
     "files": [
         "dist/",
         "loader/"
+    ],
+    "sideEffects": [
+        "./src/global/*",
+        "*.css",
+        "./loader/*",
+        "./dist/index.js",
+        "./dist/index.cjs.js",
+        "./dist/esm/*",
+        "./dist/cjs/*",
+        "./dist/aegov/*",
+        "./dist/collection/*"
     ],
     "exports": {
         ".": {
@@ -41,28 +52,28 @@
     "scripts": {
         "build": "stencil build --docs && npm run build:copy-css",
         "build:copy-css": "node -e \"const fs=require('fs');['styles','global'].forEach(d=>{fs.mkdirSync('./dist/'+d,{recursive:true});fs.readdirSync('./src/'+d).filter(f=>f.endsWith('.css')).forEach(f=>fs.copyFileSync('./src/'+d+'/'+f,'./dist/'+d+'/'+f));});\"",
-        "build:prod": "NODE_ENV=production stencil build --docs && npm run build:copy-css",
+        "build:prod": "stencil build --docs --prod && npm run build:copy-css",
         "test": "stencil test --spec --e2e",
         "test:unit": "stencil test --spec",
         "test:e2e": "stencil test --e2e",
         "test:watch": "stencil test --spec --e2e --watchAll",
         "test:coverage": "stencil test --spec --coverage",
         "test:ci": "stencil test --spec --e2e --ci",
-        "verify:build": "node -e \"const fs=require('fs');if(!fs.existsSync('./dist'))throw new Error('dist missing')\"",
-        "test:build": "npm run build && npm run verify:build",
+        "verify:build": "node -e \"const fs=require('fs');if(!fs.existsSync('./dist'))throw new Error('dist missing');const maps=['dist','loader'].flatMap(d=>fs.readdirSync(d,{recursive:true}).filter(f=>String(f).endsWith('.map')));if(maps.length)throw new Error(maps.length+' .map files in dist/loader: this is a development build. Publish a production build (npm run build:prod).');const rt=fs.readFileSync(require.resolve('@stencil/core/internal/client'),'utf8');if(rt.includes('newValue === \\\"false\\\" && !isFormAssociated'))throw new Error('@stencil/core is not patched, so is-*=\\\"false\\\" would turn form flags on. Rebuild with stencil build (stencil.config.ts applies stencil-runtime-patch.ts).')\"",
+        "test:build": "npm run build:prod && npm run verify:build",
         "size": "size-limit",
         "generate": "stencil generate",
         "prepublishOnly": "npm run test:build"
     },
     "dependencies": {
-        "@stencil/core": "^4.38.3"
+        "@stencil/core": "4.45.2"
     },
     "devDependencies": {
         "@size-limit/preset-small-lib": "^12.1.0",
-        "@stencil/angular-output-target": "^1.4.0",
+        "@stencil/angular-output-target": "^1.5.2",
         "@stencil/react-output-target": "^0.8.0",
         "@stencil/sass": "^3.2.1",
-        "@stencil/vue-output-target": "^0.8.9",
+        "@stencil/vue-output-target": "^0.14.6",
         "@tailwindcss/postcss": "^4.1.3",
         "@types/jest": "^29.5.14",
         "@types/node": "^22.10.1",

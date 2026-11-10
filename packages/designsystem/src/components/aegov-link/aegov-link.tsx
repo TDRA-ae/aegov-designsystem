@@ -22,7 +22,7 @@ const TAG = 'aegov-link';
 const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
- * @slot default - The link text content
+ * @slot - The link text content
  *
  * An anchor element wrapper.
  *

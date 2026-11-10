@@ -73,6 +73,21 @@ export function synthesizeValidity(flags: Partial<AegovValidityState>): AegovVal
 }
 
 /**
+ * Fold a pending `setCustomValidity()` message into a computed result, the way
+ * a native control does: `customError` joins whatever other flags are set and
+ * the custom message wins. Custom controls recompute validity on every blur and
+ * `validate()` call, so without this the custom error would be silently dropped
+ * from ElementInternals while it is still shown on screen.
+ */
+export function withCustomError<R extends { validity: AegovValidityState; message: string }>(
+  result: R,
+  customMessage: string,
+): R {
+  if (!customMessage) return result;
+  return { ...result, validity: synthesizeValidity({ ...result.validity, customError: true }), message: customMessage };
+}
+
+/**
  * Compose a space-separated `aria-describedby` value from any number of IDs,
  * filtering out null/undefined/empty entries. Returns `undefined` if all empty
  * (caller can spread to remove the attribute).
@@ -135,6 +150,21 @@ export function setInternalsValidity(
   if (validity.badInput) flags.badInput = true;
   if (validity.customError) flags.customError = true;
   internals.setValidity(flags, message || 'Invalid', anchor);
+}
+
+/**
+ * Mirror a control's `isDisabled` onto the host's `disabled` attribute.
+ *
+ * The browser treats a form-associated custom element as disabled — left out of
+ * FormData and of constraint validation, matched by `:disabled` — only when it
+ * has a `disabled` attribute or sits in a disabled `<fieldset>`; disabling the
+ * inner native control is not enough. Called from an `isDisabled` watcher, and
+ * from `componentWillLoad` only when `isDisabled` is set, so an author's own
+ * `disabled` attribute is never removed at load.
+ */
+export function syncHostDisabled(host: HTMLElement, isDisabled: boolean): void {
+  if (isDisabled) host.setAttribute('disabled', '');
+  else host.removeAttribute('disabled');
 }
 
 /**

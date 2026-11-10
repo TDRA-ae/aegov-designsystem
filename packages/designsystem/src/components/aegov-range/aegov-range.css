@@ -54,7 +54,11 @@
    Track — the thin bar
    ======================================== */
 .range__track {
-  @apply relative w-full rounded-full bg-aeblack-100 dark:bg-aeblack-700;
+  /* 1px aeblack-400 edge: the unfilled track is 3.7:1 against the page
+     (its aeblack-100 fill alone is 1.33:1) — WCAG 1.4.11, DS-A11Y-range-01.
+     Like the grey border of a native range track; the fill covers it. */
+  @apply relative w-full rounded-full bg-aeblack-100 inset-ring-1 inset-ring-aeblack-400
+         dark:bg-aeblack-700 dark:inset-ring-aeblack-400;
 }
 
 .range--vertical .range__track {
@@ -93,8 +97,12 @@
    Thumb — toggle-like, always 24x24
    ======================================== */
 .range__thumb {
+  /* 2px aeblack-500 border: the white thumb is 5.5:1 against the page and the
+     pale track (it was 1.03:1, only a soft shadow) — DS-A11Y-range-01. One
+     neutral colour, as the thumb doesn't change with the variant. */
   @apply absolute inline-flex items-center justify-center rounded-full
-         bg-white cursor-pointer select-none;
+         bg-white cursor-pointer select-none
+         box-border border-2 border-aeblack-500 dark:border-aeblack-300;
   width: 24px;
   height: 24px;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
@@ -242,23 +250,23 @@
 
 /* Single thumb outline — wrapper contains only one input, paired automatically. */
 .aegov-range.range-variant-primary .range__thumb--single:has(~ .range__input:focus-visible),
-.aegov-range.range-variant-primary .range__thumb:has(~ .range__input:focus-visible)         { @apply outline-2 outline-offset-2 outline-primary-support-400 dark:outline-primary-support-400; }
+.aegov-range.range-variant-primary .range__thumb:has(~ .range__input:focus-visible)         { @apply outline-2 outline-offset-2 outline-primary-support-500 dark:outline-primary-support-400; }
 .aegov-range.range-variant-secondary .range__thumb--single:has(~ .range__input:focus-visible),
-.aegov-range.range-variant-secondary .range__thumb:has(~ .range__input:focus-visible)       { @apply outline-2 outline-offset-2 outline-secondary-support-400 dark:outline-secondary-support-400; }
+.aegov-range.range-variant-secondary .range__thumb:has(~ .range__input:focus-visible)       { @apply outline-2 outline-offset-2 outline-secondary-support-500 dark:outline-secondary-support-400; }
 .aegov-range.range-variant-neutral-max .range__thumb--single:has(~ .range__input:focus-visible),
 .aegov-range.range-variant-neutral-max .range__thumb:has(~ .range__input:focus-visible),
 .aegov-range.range-variant-neutral-min .range__thumb--single:has(~ .range__input:focus-visible),
-.aegov-range.range-variant-neutral-min .range__thumb:has(~ .range__input:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-400 dark:outline-seablue-400; }
+.aegov-range.range-variant-neutral-min .range__thumb:has(~ .range__input:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-500 dark:outline-seablue-400; }
 
 /* Dual-mode thumb outline — pair low thumb with low input, high with high. */
 .aegov-range.range-variant-primary .range__thumb--low:has(~ .range__input--low:focus-visible),
-.aegov-range.range-variant-primary .range__thumb--high:has(~ .range__input--high:focus-visible)         { @apply outline-2 outline-offset-2 outline-primary-support-400 dark:outline-primary-support-400; }
+.aegov-range.range-variant-primary .range__thumb--high:has(~ .range__input--high:focus-visible)         { @apply outline-2 outline-offset-2 outline-primary-support-500 dark:outline-primary-support-400; }
 .aegov-range.range-variant-secondary .range__thumb--low:has(~ .range__input--low:focus-visible),
-.aegov-range.range-variant-secondary .range__thumb--high:has(~ .range__input--high:focus-visible)       { @apply outline-2 outline-offset-2 outline-secondary-support-400 dark:outline-secondary-support-400; }
+.aegov-range.range-variant-secondary .range__thumb--high:has(~ .range__input--high:focus-visible)       { @apply outline-2 outline-offset-2 outline-secondary-support-500 dark:outline-secondary-support-400; }
 .aegov-range.range-variant-neutral-max .range__thumb--low:has(~ .range__input--low:focus-visible),
 .aegov-range.range-variant-neutral-max .range__thumb--high:has(~ .range__input--high:focus-visible),
 .aegov-range.range-variant-neutral-min .range__thumb--low:has(~ .range__input--low:focus-visible),
-.aegov-range.range-variant-neutral-min .range__thumb--high:has(~ .range__input--high:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-400 dark:outline-seablue-400; }
+.aegov-range.range-variant-neutral-min .range__thumb--high:has(~ .range__input--high:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-500 dark:outline-seablue-400; }
 
 /* Vertical native input — use writing-mode (spec-compliant, replaces deprecated -webkit-appearance: slider-vertical) */
 .range--vertical .range__input {
@@ -386,4 +394,90 @@
 
 .aegov-range__hint {
   @apply text-sm text-aeblack-600 mt-1.5 leading-snug dark:text-aeblack-300;
+}
+
+/* ============================================================
+   Forced colours (Windows High Contrast)
+   The system replaces backgrounds with Canvas and removes shadows, so the
+   track, fill and white thumb all disappear. Redraw them with system colours.
+   `:host .aegov-range` makes these rules outrank the per-variant colours above.
+   ============================================================ */
+@media (forced-colors: active) {
+  /* Track: an outlined bar (outline, so the track keeps its size). */
+  :host .aegov-range .range__track {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    outline: 1px solid CanvasText;
+    box-shadow: none;
+  }
+
+  /* Fill: the selected part of the track. */
+  :host .aegov-range .range__fill {
+    forced-color-adjust: none;
+    background-color: Highlight;
+  }
+
+  /* Thumb: an outlined circle. */
+  :host .aegov-range .range__thumb {
+    forced-color-adjust: none;
+    box-sizing: border-box;
+    background-color: Canvas;
+    border: 2px solid CanvasText;
+    box-shadow: none;
+  }
+  :host .aegov-range .range__thumb-value {
+    color: CanvasText;
+  }
+
+  /* Tooltip: a framed box with the arrow in the system text colour. */
+  :host .aegov-range .range__tooltip {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    color: CanvasText;
+    border: 1px solid CanvasText;
+  }
+  :host .aegov-range.range--horizontal .range__tooltip::after {
+    border-color: CanvasText transparent transparent transparent;
+  }
+  :host .aegov-range.range--vertical .range__tooltip::after {
+    border-color: transparent transparent transparent CanvasText;
+  }
+
+  /* Min / max labels keep the system text colour. */
+  :host .aegov-range .range__label-min,
+  :host .aegov-range .range__label-max {
+    color: CanvasText;
+  }
+
+  /* Focus: a Highlight outline on the thumb whose input has focus. */
+  :host .aegov-range .range__thumb:has(~ .range__input:focus-visible),
+  :host .aegov-range .range__thumb--low:has(~ .range__input--low:focus-visible),
+  :host .aegov-range .range__thumb--high:has(~ .range__input--high:focus-visible) {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  /* Disabled: the system "unavailable" colour. */
+  :host .aegov-range.aegov-range--disabled .range__track {
+    outline-color: GrayText;
+  }
+  :host .aegov-range.aegov-range--disabled .range__fill {
+    background-color: GrayText;
+  }
+  :host .aegov-range.aegov-range--disabled .range__thumb {
+    border-color: GrayText;
+  }
+  :host .aegov-range.aegov-range--disabled .range__thumb-value,
+  :host .aegov-range.aegov-range--disabled .range__label-min,
+  :host .aegov-range.aegov-range--disabled .range__label-max {
+    color: GrayText;
+  }
+
+  /* Invalid: the red ring is a box-shadow — use a dashed outline instead,
+     a cue that doesn't depend on colour, next to the error text. */
+  :host(.is-invalid) .aegov-range .range__track {
+    box-shadow: none;
+    outline: 2px dashed CanvasText;
+    outline-offset: 3px;
+  }
 }

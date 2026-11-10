@@ -205,4 +205,38 @@ describe('aegov-drawer', () => {
       expect(page.rootInstance.isOpen).toBe(false);
     });
   });
+
+  /**
+   * Move while open, only when trapped (#14): with no ancestor that traps its
+   * fixed layers the host opens where it was declared (inside the app's root,
+   * so React handlers work). The move out of a trapping ancestor, and how the
+   * declared parent keeps addressing a moved host, need real computed styles:
+   * see src/utils/portal-manager.e2e.ts.
+   */
+  describe('opens in place unless trapped', () => {
+    const comments = (n: Node) => Array.from(n.childNodes).filter(c => c.nodeType === 8).length;
+    const setup = async () => {
+      const page = await newSpecPage({
+        components: [AegovDrawer],
+        html: `<div id="wrap"><span id="before"></span><aegov-drawer label="x"><p>Body</p></aegov-drawer></div>`,
+      });
+      const wrap = page.body.querySelector('#wrap') as HTMLElement;
+      const host = page.body.querySelector('aegov-drawer') as any;
+      return { page, wrap, host };
+    };
+    const open = async (page, host) => { host.isOpen = true; await page.waitForChanges(); };
+
+    it('stays where it was declared while closed', async () => {
+      const { wrap, host } = await setup();
+      expect(host.parentNode === wrap).toBe(true);
+      expect(comments(wrap)).toBe(0);
+    });
+
+    it('opens where it was declared when no ancestor traps it', async () => {
+      const { page, wrap, host } = await setup();
+      await open(page, host);
+      expect(host.parentNode === wrap).toBe(true);
+      expect(comments(wrap)).toBe(0);
+    });
+  });
 });

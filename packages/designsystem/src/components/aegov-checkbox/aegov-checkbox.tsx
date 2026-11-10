@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method, Listen, forceUpdate } from '@stencil/core';
 import { CHECKBOX_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
   CheckboxSize, FormVariant,
@@ -6,13 +6,14 @@ import type {
 } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { HostAria } from '../../utils/host-aria';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { generateId } from '../../utils/id-generator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity, syncHostDisabled,
 } from '../../utils/validation';
 
 @Component({
@@ -110,6 +111,7 @@ export class AegovCheckbox {
   }
 
   componentWillLoad() {
+    if (this.isDisabled) syncHostDisabled(this.el, true);
     this._defaultChecked = this.isChecked;
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', { component: 'aegov-checkbox', prop: 'variant' });
     if (!this.fieldId) {
@@ -133,7 +135,26 @@ export class AegovCheckbox {
   }
 
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
-  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formDisabledCallback(disabled: boolean) { this.formDisabled = disabled; }
+
+  /**
+   * True while an ancestor `<fieldset disabled>` or the host's `disabled`
+   * attribute disables the field. Kept apart from `isDisabled` so that
+   * re-enabling the fieldset doesn't clear the field's own setting.
+   */
+  @State() private formDisabled: boolean = false;
+
+  /** Disabled by its own `isDisabled` or by the form. */
+  private get disabled(): boolean {
+    return this.isDisabled || this.formDisabled;
+  }
+
+  /** Leave FormData and constraint validation while disabled, like a native control. */
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    syncHostDisabled(this.el, this.isDisabled);
+  }
+
   formResetCallback() {
     this.isChecked = this._defaultChecked;
     this.errorMessage = '';
@@ -148,7 +169,7 @@ export class AegovCheckbox {
   }
 
   componentDidLoad() {
-    this.syncInternalsValidity();
+    this.hostAria?.refreshSoon();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
     // Self-detect parent group appearance — bypasses syncChildren() timing dependency.
     // Stencil: children mount before parents, so we read the HTML attribute directly.
@@ -175,9 +196,17 @@ export class AegovCheckbox {
     }
   }
 
+  /** The form found this field invalid during a submit or checkValidity() — start announcing errors. */
+  @Listen('invalid')
+  onInvalid() {
+    this.hasBlurredOnce = true;
+  }
+
   /** Imperatively re-run validation. */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasBlurredOnce = true;
+    this.syncInternalsValidity();
     const validity = this.readValidity();
     const message = !validity.valid
       ? (this.errorMessage || this.inputEl?.validationMessage || '')
@@ -207,6 +236,8 @@ export class AegovCheckbox {
   }
 
   private readValidity() {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return VALID_STATE;
     const v = this.inputEl?.validity;
     return v ? fromNativeValidity(v) : VALID_STATE;
   }
@@ -214,7 +245,7 @@ export class AegovCheckbox {
   private syncInternalsValidity(): void {
     if (!this.internals || !this.inputEl) return;
     const v = this.inputEl.validity;
-    if (v.valid) {
+    if (this.disabled || v.valid) {
       setInternalsValidity(this.internals, { valid: true }, '');
     } else {
       const message = this.errorMessage || this.inputEl.validationMessage || '';
@@ -238,7 +269,16 @@ export class AegovCheckbox {
     this.emitValidate('blur');
   };
 
+  /** Host aria-label / aria-labelledby / aria-describedby / labels, resolved for the inner control (DS-A11Y-input-01). */
+  private hostAria?: HostAria;
+
+  connectedCallback() {
+    this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, internals: () => this.internals, onChange: () => forceUpdate(this) });
+    this.hostAria.connect();
+  }
+
   disconnectedCallback() {
+    this.hostAria?.disconnect();
     this._sizeWatcher?.destroy();
   }
 
@@ -251,10 +291,30 @@ export class AegovCheckbox {
     this._resolvedSize = this._sizeWatcher.current as CheckboxSize;
   }
 
+  /**
+   * The inner input's constraints (required, …) only change once it re-renders,
+   * so validity is synced after every render rather than in a watcher, which
+   * would read the old ones.
+   */
   componentDidRender() {
     if (this.inputEl) {
       this.inputEl.indeterminate = this.isIndeterminate;
     }
+    this.syncInternalsValidity();
+  }
+
+  /**
+   * Checked state or value set from code fires no change event — keep the inner
+   * input, the form value and validity in step with it (no events, like native).
+   */
+  @Watch('isChecked')
+  @Watch('value')
+  onCheckedOrValueChange() {
+    if (this.inputEl && this.inputEl.checked !== !!this.isChecked) {
+      this.inputEl.checked = !!this.isChecked;
+    }
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
+    this.syncInternalsValidity();
   }
 
   @Watch('isIndeterminate')
@@ -285,7 +345,7 @@ export class AegovCheckbox {
 
 
   render() {
-    const passThroughAttrs = getPassThroughAttributes(this.el, AegovCheckbox.PASS_THROUGH_ATTRS);
+    const passThroughAttrs = this.hostAria ? this.hostAria.bridge(getPassThroughAttributes(this.el, AegovCheckbox.PASS_THROUGH_ATTRS)) : getPassThroughAttributes(this.el, AegovCheckbox.PASS_THROUGH_ATTRS);
     // Layer 1 owns aria-invalid + aria-describedby (gap §7.8)
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
@@ -299,7 +359,7 @@ export class AegovCheckbox {
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
     const showHint = !showError && (hasHintSlot || !!this.hint);
     const announceError = showError && this.hasBlurredOnce;
-    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const authorDescribedBy = this.hostAria?.descriptionId();
     const describedBy = composeDescribedBy(
       authorDescribedBy,
       showError ? this.errorId : null,
@@ -313,7 +373,7 @@ export class AegovCheckbox {
         id={this.fieldId}
         value={this.value}
         checked={this.isChecked}
-        disabled={this.isDisabled}
+        disabled={this.disabled}
         required={this.isRequired}
         aria-checked={this.isIndeterminate ? 'mixed' : this.isChecked ? 'true' : 'false'}
         aria-required={this.isRequired ? 'true' : undefined}
@@ -358,6 +418,7 @@ export class AegovCheckbox {
             </label>
           </div>
           {errorRegion}
+          {this.hostAria?.renderDescription()}
         </Host>
       );
     }
@@ -368,6 +429,7 @@ export class AegovCheckbox {
           {checkboxInput}
         </div>
         {errorRegion}
+        {this.hostAria?.renderDescription()}
       </Host>
     );
   }

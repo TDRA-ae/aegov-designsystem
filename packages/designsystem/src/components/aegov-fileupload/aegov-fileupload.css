@@ -88,20 +88,27 @@
 }
 
 /* ============================================
-   NATIVE INPUT — sr-only but focusable
-   (default variant)
+   NATIVE INPUT — the focusable control (default variant)
+   Transparent and stretched over the whole visible field, not clipped to
+   1×1 px: the screen-reader cursor, screen magnifiers and the focus box then
+   frame the field, and a click or a dropped file reaches the real input
+   (DS-A11Y-fileupload-15, -09).
    ============================================ */
 
 .fileupload__native-input {
-  @apply absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-  padding: 0;
-  margin: -1px;
+  @apply absolute inset-0 w-full h-full m-0 p-0 border-0 opacity-0 cursor-pointer z-10;
+}
+.fileupload__native-input:disabled {
+  cursor: not-allowed;
+}
+
+/* Forced colours drop the box-shadow ring: draw a system-colour outline
+   around the field instead (the input itself is transparent). */
+@media (forced-colors: active) {
+  .fileupload__input-wrapper:has(.fileupload__native-input:focus-visible) {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
 }
 
 /* ============================================
@@ -151,32 +158,32 @@
 
 /* Focus-within when native input has focus — mirrors aegov-input focus look (ring + offset + border swap). */
 .aegov-fileupload.fileupload-variant-primary .fileupload__input-wrapper:has(:focus-visible) {
-  @apply ring-1 ring-offset-2 ring-primary-support-400 border-2 border-primary-support-400
+  @apply ring-1 ring-offset-2 ring-primary-support-500 border-2 border-primary-support-500
          dark:ring-primary-support-400 dark:border-primary-support-400;
 }
 .aegov-fileupload.fileupload-variant-secondary .fileupload__input-wrapper:has(:focus-visible) {
-  @apply ring-1 ring-offset-2 ring-secondary-support-400 border-2 border-secondary-support-400
+  @apply ring-1 ring-offset-2 ring-secondary-support-500 border-2 border-secondary-support-500
          dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__input-wrapper:has(:focus-visible),
 .aegov-fileupload.fileupload-variant-neutral-min .fileupload__input-wrapper:has(:focus-visible) {
-  @apply ring-1 ring-offset-2 ring-seablue-400 border-2 border-seablue-400
+  @apply ring-1 ring-offset-2 ring-seablue-500 border-2 border-seablue-500
          dark:ring-seablue-400 dark:border-seablue-400;
 }
 
 /* Browse button — bg + text shift when input element receives focus-visible.
    Placed after hover rule so source order wins the (0,4) tie when both hover + focus active. */
 .aegov-fileupload.fileupload-variant-primary .fileupload__input-wrapper:has(:focus-visible) .fileupload__browse-btn {
-  @apply bg-primary-support-400 text-primary-support-50 border-s-primary-support-400
+  @apply bg-primary-support-400 text-primary-support-950 border-s-primary-support-400
          dark:bg-primary-support-400 dark:text-primary-support-950 dark:border-s-primary-support-400;
 }
 .aegov-fileupload.fileupload-variant-secondary .fileupload__input-wrapper:has(:focus-visible) .fileupload__browse-btn {
-  @apply bg-secondary-support-400 text-secondary-support-50 border-s-secondary-support-400
+  @apply bg-secondary-support-400 text-secondary-support-950 border-s-secondary-support-400
          dark:bg-secondary-support-400 dark:text-secondary-support-950 dark:border-s-secondary-support-400;
 }
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__input-wrapper:has(:focus-visible) .fileupload__browse-btn,
 .aegov-fileupload.fileupload-variant-neutral-min .fileupload__input-wrapper:has(:focus-visible) .fileupload__browse-btn {
-  @apply bg-seablue-400 text-seablue-50 border-s-seablue-400 dark:bg-seablue-400 dark:text-seablue-950 dark:border-s-seablue-400;
+  @apply bg-seablue-400 text-seablue-950 border-s-seablue-400 dark:bg-seablue-400 dark:text-seablue-950 dark:border-s-seablue-400;
 }
 
 .fileupload--disabled .fileupload__input-wrapper {
@@ -364,7 +371,7 @@
          rounded cursor-pointer border-0 bg-transparent
          text-aeblack-400
          hover:text-aered-600 hover:bg-aered-50
-         focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-support-400
+         focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-support-500
          transition-colors duration-150
          dark:text-aeblack-400 dark:hover:text-aered-300 dark:hover:bg-aered-950
          dark:focus-visible:outline-primary-support-400;
@@ -482,4 +489,6 @@
 
 .aegov-fileupload__error {
   @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
+  /* One line per rejected file (DS-A11Y-fileupload-05). */
+  white-space: pre-line;
 }

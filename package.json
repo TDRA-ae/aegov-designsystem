@@ -3,7 +3,7 @@
   "version": "4.0.0",
   "description": "",
   "main": "index.js",
- "scripts": {
+  "scripts": {
     "build": "lerna run build --scope='{@aegov/designsystem,@aegov/designsystem-react,@aegov/designsystem-vue,@aegov/designsystem-angular}'",
     "build:all": "lerna run build",
     "build:libs": "lerna run build --scope='{@aegov/designsystem,@aegov/designsystem-react,@aegov/designsystem-vue}'",

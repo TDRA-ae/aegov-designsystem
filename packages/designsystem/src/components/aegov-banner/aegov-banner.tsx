@@ -31,7 +31,7 @@ const BODY_PADDING_PROP: Record<BannerPosition, string> = {
 };
 
 /**
- * @slot default - The main content of the banner
+ * @slot - The main content of the banner
  * @slot actions - Action buttons (optional)
  * @slot icon - Custom icon (optional, has fallback variant-based icons)
  */
