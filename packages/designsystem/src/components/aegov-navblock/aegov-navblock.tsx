@@ -225,7 +225,7 @@ export class AegovNavblock {
   /**
    * Close any sibling `aegov-navblock-item` of `item` (items sharing the same
    * direct parent in the rendered DOM) that is currently open. Stencil's
-   * scoped:false rendering moves slotted items into the inner `<ul>`, so the
+   * scoped:false rendering moves slotted items into the inner list, so the
    * sibling check uses `item.parentElement` directly rather than walking up to
    * the nearest navblock ancestor.
    */
@@ -261,7 +261,7 @@ export class AegovNavblock {
 
     const rows: HTMLElement[] = [];
     visible.forEach(item => {
-      const row = item.querySelector(':scope > li > .aegov-navblock-item__row') as HTMLElement | null;
+      const row = item.querySelector(':scope > .aegov-navblock-item > .aegov-navblock-item__row') as HTMLElement | null;
       if (row && !row.hasAttribute('disabled') && row.getAttribute('aria-disabled') !== 'true') {
         rows.push(row);
       }
@@ -281,7 +281,7 @@ export class AegovNavblock {
 
     const item = target.closest('aegov-navblock-item') as HTMLAegovNavblockItemElement;
     // Toggle rows expose `aria-expanded`; leaf rows don't. Cheaper and more
-    // direct than walking into the rendered <li> for a class check.
+    // direct than walking into the rendered item wrapper for a class check.
     const hasChildren = target.hasAttribute('aria-expanded');
 
     let nextIdx = -1;
@@ -314,7 +314,7 @@ export class AegovNavblock {
         {
           const parentItem = item.parentElement?.closest('aegov-navblock-item') as HTMLAegovNavblockItemElement | null;
           if (parentItem) {
-            const parentRow = parentItem.querySelector(':scope > li > .aegov-navblock-item__row') as HTMLElement | null;
+            const parentRow = parentItem.querySelector(':scope > .aegov-navblock-item > .aegov-navblock-item__row') as HTMLElement | null;
             if (parentRow) {
               event.preventDefault();
               parentRow.focus();
@@ -351,9 +351,11 @@ export class AegovNavblock {
               {this.hasTitleSlot ? <slot name="title" /> : this.blockTitle}
             </h2>
           )}
-          <ul class="aegov-navblock__list" role="list">
+          {/* role="list" on a div, not <ul>: the items are aegov-navblock-item
+              hosts (role="listitem"), which a <ul> may not contain. */}
+          <div class="aegov-navblock__list" role="list">
             <slot />
-          </ul>
+          </div>
         </nav>
       </Host>
     );

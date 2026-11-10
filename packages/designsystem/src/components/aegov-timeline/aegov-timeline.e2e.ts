@@ -37,15 +37,15 @@ describe('aegov-timeline (e2e)', () => {
         <aegov-timeline-step>One</aegov-timeline-step>
       </aegov-timeline>
     `);
-    const ol = await page.find('aegov-timeline ol.timeline__list');
-    expect(ol).toHaveClass('timeline__list--vertical');
+    const list = await page.find('aegov-timeline .timeline__list');
+    expect(list).toHaveClass('timeline__list--vertical');
   });
 
   it('marks the active step with aria-current=step', async () => {
     const page = await newE2EPage();
     await page.setContent(baseHtml);
-    const li = await page.find('aegov-timeline-step:nth-of-type(2) li');
-    expect(li.getAttribute('aria-current')).toBe('step');
+    const step = await page.find('aegov-timeline-step:nth-of-type(2)');
+    expect(step.getAttribute('aria-current')).toBe('step');
   });
 
   it('renders step labels from slot content', async () => {

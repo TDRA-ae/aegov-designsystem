@@ -154,14 +154,14 @@
 }
 
 /* Flat + active-border: Flux sidebar pattern.
-   A ::before pseudo-element on the active top-level <li> is positioned exactly
+   A ::before pseudo-element on the active top-level item is positioned exactly
    at the list container's border (inset = list-padding + list-border-width = 0.75rem + 1.5px).
    It paints primary-color over the gray list border at that row segment, creating
    the "merged active border" effect without any layout shift. */
-.navblock--flat.navblock--active-border .aegov-navblock__list > aegov-navblock-item > li.aegov-navblock-item.is-active {
+.navblock--flat.navblock--active-border .aegov-navblock__list > aegov-navblock-item > div.aegov-navblock-item.is-active {
   position: relative;
 }
-.navblock--flat.navblock--active-border .aegov-navblock__list > aegov-navblock-item > li.aegov-navblock-item.is-active::before {
+.navblock--flat.navblock--active-border .aegov-navblock__list > aegov-navblock-item > div.aegov-navblock-item.is-active::before {
   content: '';
   position: absolute;
   inset-block: 0;

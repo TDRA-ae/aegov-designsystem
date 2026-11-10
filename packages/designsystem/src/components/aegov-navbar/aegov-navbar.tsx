@@ -163,9 +163,11 @@ export class AegovNavbar {
           class={`aegov-navbar aegov-navbar-${this._resolvedSize}`}
           aria-label={navLabel}
         >
-          <ul class={`aegov-navbar-list ${this.gap}`}>
+          {/* role="list" on a div, not <ul>: the items are aegov-navbar-item
+              hosts (role="listitem"), which a <ul> may not contain. */}
+          <div class={`aegov-navbar-list ${this.gap}`} role="list">
             <slot />
-          </ul>
+          </div>
         </nav>
       </Host>
     );
