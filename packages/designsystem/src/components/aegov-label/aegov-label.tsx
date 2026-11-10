@@ -20,7 +20,7 @@ export class AegovLabel {
   /** The ID of the form element this label is for. Automatically set by parent aegov-form-field. */
   @Prop({ mutable: true, attribute: 'for' }) htmlFor?: string;
 
-  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
+  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Error stays aered regardless. */
   @Prop() variant?: FormVariant;
 
   /** Additional CSS classes to apply. */

@@ -100,6 +100,42 @@ describe('aegov-header', () => {
     expect(emblem.getAttribute('aria-hidden')).toBe('true');
   });
 
+  describe('emblem-color', () => {
+    const emblemFill = (page: any) =>
+      (page.root.shadowRoot.querySelector('.header__emblem') as HTMLElement).style.getPropertyValue('--aegov-emblem-fill');
+    const html = (attr = '') =>
+      `<aegov-header variant="authority" ${attr} entity-name="N" entity-domain="https://x.gov.ae" logo-label="Home"><nav slot="mobile-content"></nav></aegov-header>`;
+
+    it('defaults to aeblack', async () => {
+      const page = await newSpecPage({ components: COMPONENTS, html: html() });
+      expect(page.root.emblemColor).toBe('aeblack');
+      expect(emblemFill(page)).toContain('--color-aeblack-800');
+    });
+
+    it.each([
+      ['aegold', '--color-aegold-600'],
+      ['whitely', '--color-whitely-50'],
+    ])('paints the emblem with the %s token', async (value, token) => {
+      const page = await newSpecPage({ components: COMPONENTS, html: html(`emblem-color="${value}"`) });
+      expect(emblemFill(page)).toContain(token);
+    });
+
+    it('falls back to aeblack on an invalid value and warns', async () => {
+      const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      const page = await newSpecPage({ components: COMPONENTS, html: html('emblem-color="red"') });
+      expect(emblemFill(page)).toContain('--color-aeblack-800');
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('emblemColor'));
+      warn.mockRestore();
+    });
+
+    it('updates when emblemColor changes at runtime', async () => {
+      const page = await newSpecPage({ components: COMPONENTS, html: html() });
+      page.root.emblemColor = 'whitely';
+      await page.waitForChanges();
+      expect(emblemFill(page)).toContain('--color-whitely-50');
+    });
+  });
+
   it('warns when search content is supplied to the authority variant', async () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     await newSpecPage({

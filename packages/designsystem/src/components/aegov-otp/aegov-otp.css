@@ -4,11 +4,14 @@
   container-type: inline-size;
 }
 
-:host([is-disabled]) {
+/* Disabled — the host is form-associated and keeps a `disabled` attribute in
+   sync, so :host(:disabled) is reactive and also covers <fieldset disabled>;
+   the reflected [is-disabled] goes stale on re-enable (CLAUDE.md gotcha #8). */
+:host(:disabled) {
   cursor: not-allowed;
 }
 
-:host([is-disabled]) .aegov-otp {
+:host(:disabled) .aegov-otp {
   opacity: 0.4;
   pointer-events: none;
 }
@@ -56,8 +59,10 @@
   transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
 }
 
+/* Disabled digits keep the variant text colour (as in Figma); the 40% host
+   dimming and the grey cell are the disabled treatment. */
 .otp__cell:disabled {
-  @apply bg-aeblack-100 text-aeblack-400 cursor-not-allowed dark:bg-aeblack-900 dark:text-aeblack-500;
+  @apply bg-aeblack-100 cursor-not-allowed dark:bg-aeblack-900;
 }
 
 /* ============================================
@@ -150,7 +155,9 @@
   @apply border-2 rounded-lg;
 }
 
-.otp__wrapper--individual .otp__cell:disabled {
+/* (0,4,0), after the per-variant cell border (also (0,4,0)) so it wins —
+   at (0,3,0) a disabled cell kept its variant border. */
+.aegov-otp .otp__wrapper--individual .otp__cell:disabled {
   @apply border-aeblack-100 dark:border-aeblack-700;
 }
 
@@ -201,10 +208,13 @@
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6.
    Mirrors aegov-input invalid treatment:
    - idle → aered-600 border (+ red divider on continuous)
-   - focus → aered-500 border + aered inset shadow */
+   - focus → aered-500 border + aered inset shadow
+   Selectors carry `.aegov-otp` so they outrank the per-variant rules: the
+   individual cell border is (0,4,0) idle / (0,5,0) focus, and at (0,3,0) /
+   (0,4,0) an invalid individual cell kept its variant border and focus ring. */
 
-:host(.is-invalid) .otp__wrapper--continuous,
-:host(.is-invalid) .otp__cell {
+:host(.is-invalid) .aegov-otp .otp__wrapper--continuous,
+:host(.is-invalid) .aegov-otp .otp__wrapper--individual .otp__cell {
   @apply border-aered-600 dark:border-aered-500;
 }
 
@@ -212,8 +222,8 @@
   @apply bg-aered-600 dark:bg-aered-500;
 }
 
-:host(.is-invalid) .otp__wrapper--continuous:has(.otp__cell:focus-visible),
-:host(.is-invalid) .otp__wrapper--individual .otp__cell:focus-visible {
+:host(.is-invalid) .aegov-otp .otp__wrapper--continuous:has(.otp__cell:focus-visible),
+:host(.is-invalid) .aegov-otp .otp__wrapper--individual .otp__cell:focus-visible {
   @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
 }
 

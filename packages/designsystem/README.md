@@ -1,35 +1,23 @@
-# AEGOV Design System
+# @aegov/designsystem
 
-The UAE Government Design System as framework-agnostic Web Components, built with **StencilJS** and **Tailwind CSS v4**. One implementation, used from plain HTML, React, Vue and Angular.
+**The UAE Design System as Web Components.** This is the official component library for UAE Federal Government websites and applications. You write it once and it works in plain HTML, React, Vue and Angular.
 
-[![npm](https://img.shields.io/badge/npm-%40aegov%2Fdesignsystem-blue)](https://www.npmjs.com/package/@aegov/designsystem)
+📘 **Documentation, live examples and guidelines: [designsystem.gov.ae](https://designsystem.gov.ae)**
 
-## Contents
-
-- [What you get](#what-you-get)
-- [Installation](#installation)
-- [Quick start](#quick-start)
-- [Framework packages](#framework-packages)
-- [Design tokens and theming](#design-tokens-and-theming)
-- [Component API conventions](#component-api-conventions)
-- [Validation](#validation)
-- [Accessibility](#accessibility)
-- [Documentation](#documentation)
-- [Development](#development)
-- [Browser support](#browser-support)
-- [License](#license)
+[Get started](https://designsystem.gov.ae/docs/getting-started) · [Installation](https://designsystem.gov.ae/docs/installation) · [Components](https://designsystem.gov.ae/docs/components) · [Guidelines](https://designsystem.gov.ae/guidelines) · [Figma kit](https://designsystem.gov.ae/resources/assets-and-tools)
 
 ---
 
 ## What you get
 
-- **57 components** — actions, forms, navigation, overlays, feedback, layout, typography and site chrome (header, footer).
-- **Framework-agnostic** — native custom elements, plus generated wrappers for React, Vue and Angular.
-- **Tailwind CSS v4 theme** — the full UAE palette, type scale, breakpoints and spacing as `@theme` tokens you can use in your own markup.
-- **Right-to-left throughout** — logical properties everywhere, automatic Arabic font stacks, and built-in Arabic strings for every component-supplied label.
-- **Dark mode** — class-based, so your application can offer an explicit user preference.
-- **A uniform validation surface** across all 13 form components, with no validation library required.
-- **TypeScript types** for every component, event payload and design token.
+- **57 components.** Actions, forms, navigation, overlays, feedback, layout and the official government header and footer.
+- **Any framework.** Standard custom elements, plus companion packages for React, Vue and Angular.
+- **Arabic and RTL built in.** Layouts mirror with `dir="rtl"`, Arabic typefaces apply automatically, and component text is supplied in English and Arabic.
+- **Accessible by default.** Focus management, keyboard support, linked labels and errors, and screen-reader announcements.
+- **Native forms.** Form controls submit with `<form>` and share one validation API. No validation library is needed.
+- **UAE design tokens.** The national palette, type scale and breakpoints are Tailwind CSS v4 tokens you can use in your own markup and rebrand.
+- **Dark mode and responsive sizing.** Switch themes with a class. Set sizes per breakpoint with `size="sm md:base xl:lg"`.
+- **TypeScript types** for every component, event payload and token.
 
 ---
 
@@ -39,9 +27,9 @@ The UAE Government Design System as framework-agnostic Web Components, built wit
 npm install @aegov/designsystem
 ```
 
-**Tailwind CSS v4 is required in your project.** The package ships source CSS with `@theme` tokens rather than a pre-compiled stylesheet, so your build compiles it.
+**Your project needs Tailwind CSS v4.** The package ships its base styles and tokens as Tailwind source, not a pre-compiled stylesheet, so your build compiles them.
 
-Add three imports to your CSS entry file, in this order:
+**1. Styles.** Add three imports to your CSS entry file, in this order:
 
 ```css
 @import "tailwindcss";
@@ -49,213 +37,92 @@ Add three imports to your CSS entry file, in this order:
 @import "@aegov/designsystem/theme";
 ```
 
-Then register the components once, as early as possible:
+**2. Components.** Register the elements once, as early as possible:
 
-```ts
+```js
 import { defineCustomElements } from '@aegov/designsystem/loader';
 
 defineCustomElements();
 ```
 
-Full setup for Vite, Webpack, Parcel, Rollup and the PostCSS CLI is in the Installation guide on the documentation site (see [Documentation](#documentation)).
+**3. Use them.**
 
-### Package entry points
+```html
+<form>
+  <aegov-form-field>
+    <aegov-label>Email address</aegov-label>
+    <aegov-input type="email" name="email" is-required></aegov-input>
+  </aegov-form-field>
+
+  <aegov-button type="submit" variant="primary">Submit application</aegov-button>
+</form>
+```
+
+Custom elements need an HTTP server. They do not load from `file://`. Setup for Vite, Webpack and other bundlers is in the [installation guide](https://designsystem.gov.ae/docs/installation).
+
+### Entry points
 
 | Specifier | Contents |
 | --- | --- |
 | `@aegov/designsystem` | Types, and a re-export of the loader. |
-| `@aegov/designsystem/loader` | `defineCustomElements()` — lazy registration of all components. |
-| `@aegov/designsystem/components` | Tree-shakeable element classes and per-component `defineCustomElement`. |
-| `@aegov/designsystem/base` | Global stylesheet — fonts, resets, `.aegov-container`, `.aegov-skip-content`. |
+| `@aegov/designsystem/loader` | `defineCustomElements()`, which lazily registers every component. |
+| `@aegov/designsystem/components` | Tree-shakeable element classes and a `defineCustomElement` for each component. |
+| `@aegov/designsystem/base` | Global stylesheet: fonts, resets, `.aegov-container`, `.aegov-skip-content`. |
 | `@aegov/designsystem/theme` | The Tailwind `@theme` design tokens. |
 
 ---
 
-## Quick start
+## Using a framework
 
-### Plain HTML
+Install the companion package next to this one. Every setup keeps the three CSS imports above.
 
-With a bundler such as Vite. `styles.css` is your CSS entry containing the three imports above.
-
-```html
-<link rel="stylesheet" href="/src/styles.css" />
-
-<aegov-form-field>
-  <aegov-label>Email address</aegov-label>
-  <aegov-input field-id="email" type="email" name="email" is-required></aegov-input>
-</aegov-form-field>
-
-<aegov-button variant="primary" size="lg">Submit application</aegov-button>
-
-<script type="module">
-  import { defineCustomElements } from '@aegov/designsystem/loader';
-  defineCustomElements();
-
-  document.querySelector('aegov-button')
-    .addEventListener('aegovButtonClick', () => console.log('clicked'));
-</script>
-```
-
-### React
+| Framework | Install | Registering the elements | Props | Events |
+| --- | --- | --- | --- | --- |
+| HTML / other | `@aegov/designsystem` | `defineCustomElements()` | kebab-case attributes | `addEventListener('aegovButtonClick', …)` |
+| React 18 / 19 | `@aegov/designsystem-react` | Automatic: each wrapper registers its own element | camelCase | `onAegovButtonClick` |
+| Vue 3.5+ | `@aegov/designsystem-vue` | `app.use(ComponentLibrary)` after `defineDesignSystem()` resolves, or the typed components | kebab-case on tags | `@aegovButtonClick` (camelCase) |
+| Angular 18+ | `@aegov/designsystem-angular` | Each wrapper registers its own element. Add `provideDesignSystem()` from `@aegov/designsystem-angular/provider` for the global script. | camelCase | `(aegovButtonClick)` |
 
 ```tsx
-import { AegovButton, AegovInput } from '@aegov/designsystem-react';
+// React
+import { AegovButton } from '@aegov/designsystem-react';
 
-export function App() {
-  return (
-    <>
-      <AegovInput fieldId="email" type="email" name="email" isRequired />
-      <AegovButton variant="primary" size="lg" onAegovButtonClick={submit}>
-        Submit application
-      </AegovButton>
-    </>
-  );
-}
+<AegovButton variant="primary" onAegovButtonClick={submit}>Submit application</AegovButton>;
 ```
 
-### Vue 3
-
-```ts
-// main.ts
-import { createApp } from 'vue';
-import { ComponentLibrary, defineDesignSystem } from '@aegov/designsystem-vue';
-import './styles.css';
-import App from './App.vue';
-
-defineDesignSystem().then(() => {
-  createApp(App).use(ComponentLibrary).mount('#app');
-});
-```
-
-```vue
-<template>
-  <aegov-input field-id="email" type="email" name="email" :is-required="true" />
-  <aegov-button variant="primary" size="lg" @aegovButtonClick="submit">
-    Submit application
-  </aegov-button>
-</template>
-```
-
-Set Vue's `isCustomElement` compiler option for `aegov-*` tags, or use the typed components (`AegovButton`, `AegovInput`, …), which also support `v-model`. See the `@aegov/designsystem-vue` README.
-
-### Angular 18+
-
-Each wrapper registers its own element:
-
-```ts
-import { Component } from '@angular/core';
-import { AegovButton, AegovInput } from '@aegov/designsystem-angular';
-
-@Component({
-  selector: 'app-root',
-  imports: [AegovButton, AegovInput],
-  template: `
-    <aegov-input fieldId="email" type="email" name="email" [isRequired]="true" />
-    <aegov-button variant="primary" size="lg" (aegovButtonClick)="submit()">
-      Submit application
-    </aegov-button>
-  `,
-})
-export class AppComponent {}
-```
-
-For the global script (toast live region, `window.aegovToast`) and registration of every element, add `provideDesignSystem()` from the `/provider` entry point. NgModule apps import `DesignSystemModule`, which re-exports every wrapper and has no providers.
-
-```ts
-// app.config.ts
-import { provideDesignSystem } from '@aegov/designsystem-angular/provider';
-
-export const appConfig = { providers: [provideDesignSystem()] };
-```
+Components run in the browser only. In server-rendered apps (Next.js, Nuxt, Angular SSR), render them on the client. The CSS imports are safe to use on the server.
 
 ---
 
-## Framework packages
+## The API in one table
 
-| Package | Registration | Props | Events |
-| --- | --- | --- | --- |
-| `@aegov/designsystem` | `defineCustomElements()` | kebab-case attributes | `addEventListener('aegovX')` |
-| `@aegov/designsystem-react` | automatic, per wrapper | **camelCase** | `onAegovX` |
-| `@aegov/designsystem-vue` | `app.use(ComponentLibrary)`, or automatic per typed component | kebab-case on tags, camelCase on typed components | `@aegovX` |
-| `@aegov/designsystem-angular` | automatic, per wrapper (`DesignSystemModule` for NgModule apps); `provideDesignSystem()` from `@aegov/designsystem-angular/provider` for the global script | **camelCase** | `(aegovX)` |
+Every component uses the same naming, so once you know one you can predict the rest.
 
-Per-framework guides, including SSR notes and the known caveats (`ngModel` / `formControlName` are not yet supported in Angular), are on the documentation site: *Using with React*, *Using with Vue* and *Using with Angular*. Working setups for each framework live in the monorepo's `test-apps/` directory.
-
----
-
-## Design tokens and theming
-
-Importing `@aegov/designsystem/theme` gives you the full token set as Tailwind utilities in your own markup:
-
-```html
-<div class="bg-primary-600 text-whitely-50 px-4 py-2 rounded-lg">
-  Using AEGOV design tokens
-</div>
-```
-
-| Token family | Contents |
-| --- | --- |
-| Colours | `primary` (+ `primary-support`), `secondary` (+ `secondary-support`), `aeblack`, `aered`, `aegreen`, `aegold`, `techblue`, `seablue`, `camel`, `desert`, `whitely`, `fuchsia`, `indigo`, `purple`, `pink`, `lime`, `slate` — each on a 50–950 scale, in OKLCH. |
-| Typography | `--font-roboto`, `--font-inter`, `--font-notokufi`, `--font-alexandria`; sizes `text-xs`–`text-3xl` plus `text-display` and `text-h1`–`text-h6`, each with a paired line height. |
-| Breakpoints | `xs` 480, `sm` 640, `md` 768, `lg` 1024, `xl` 1280, `2xl` 1536. |
-| Transitions | Duration and timing tokens. |
-
-The theme also declares an explicit cascade-layer order:
-
-```css
-@layer theme, base, components, aegov-internals, utilities;
-```
-
-Because `utilities` comes last, your own Tailwind classes always beat the design system's element-level styling — no `!important` needed.
-
-### Dark mode
-
-Class-based, via `@custom-variant dark (&:where(.dark, .dark *))`. Add `dark` to the root element:
-
-```html
-<html class="dark">
-```
-
-### Right-to-left
-
-Set `dir="rtl"` and the whole system flips: layout uses logical properties, and the body and heading font stacks switch to Noto Kufi Arabic and Alexandria automatically.
-
-Set `dir` on `<html>` rather than an inner wrapper — the portal-based components (toast, dropdown, popover, datepicker) and the header's injected skip link render into `document.body` and inherit direction from the document.
-
----
-
-## Component API conventions
-
-The whole library follows one naming grammar, which makes most of the API predictable:
-
-| Slot in the grammar | Meaning | Values |
+| Name | Meaning | Values |
 | --- | --- | --- |
-| `variant` | Semantic **colour** | `primary`, `secondary`, `neutral-max`, `neutral-min` (+ `danger` on actions) |
-| `appearance` | Visual **style** | `solid`, `outline`, `soft`, `link` on actions; per-family sets elsewhere |
-| `size` | Size token, **responsive** | `"sm md:base xl:lg"` — resolved at runtime |
+| `variant` | Colour | `primary`, `secondary`, `neutral-max`, `neutral-min` (+ `danger` on button and link) |
+| `appearance` | Visual style | `solid`, `outline`, `soft`, `link` on actions. Other families have their own sets. |
+| `size` | Size, responsive | `"sm md:base xl:lg"`, using breakpoint prefixes `xs` to `2xl` |
 | `is*` | Every boolean | `isDisabled`, `isRequired`, `isOpen`, `isInvalid`, `isLoading`, … |
-| `label*` | User-visible strings | `label`, `labelNav`, `labelButton`, … |
-| `extraClass` | Extra classes on the inner element | not `class` |
-| `fieldId` | Element ID | not `id`; auto-generated |
+| `label*` | Visible and accessible text | `label`, `labelMenu`, `logoLabel`, … |
+| `extraClass` | Your extra CSS classes | instead of `class` |
+| `fieldId` | Element ID | instead of `id`. Generated automatically. |
 
-Responsive size strings work on most components and accept the breakpoint prefixes `xs`, `sm`, `md`, `lg`, `xl` and `2xl`:
-
-```html
-<aegov-button size="sm md:base xl:lg">Adapts to the viewport</aegov-button>
-<aegov-bento-grid cols="1 md:2 lg:4"></aegov-bento-grid>
-```
-
-Events are named `aegov` + component + action, and carry structured detail:
+Events are named `aegov` + component + action and carry a typed `detail`:
 
 ```js
 input.addEventListener('aegovInputChange', (e) => console.log(e.detail.value));
 ```
 
+The full API (props, events, methods and slots for every tag) ships in this package as **`dist/docs.json`**. Usage guidance for each component is on [designsystem.gov.ae](https://designsystem.gov.ae/docs/components).
+
 ---
 
-## Validation
+## Forms and validation
 
-Every form component ships the same surface, with **no dependencies**: `isInvalid`, `errorMessage` and `hint` properties, `error` and `hint` slots, an `aegovValidate` event, and `validate()` / `setCustomValidity()` methods.
+`aegov-button` and the ten single form controls (`input`, `textarea`, `select`, `checkbox`, `radio`, `toggle`, `range`, `otp`, `fileupload`, `datepicker`) are **form-associated custom elements**. They submit with the surrounding `<form>`, respect `<fieldset disabled>` and report validity like native inputs. `checkbox-group` and `radio-group` collect the values of the controls inside them.
+
+All twelve controls share one validation API: the `isInvalid`, `errorMessage` and `hint` props, the `error` and `hint` slots, the `validate()` and `setCustomValidity()` methods, and the `aegovValidate` event.
 
 ```js
 input.addEventListener('aegovValidate', (e) => {
@@ -266,97 +133,64 @@ input.addEventListener('aegovValidate', (e) => {
 });
 ```
 
-All 13 form components participate in native `<form>` submission. The 10 single controls (`aegov-input`, `aegov-textarea`, `aegov-select`, `aegov-checkbox`, `aegov-radio`, `aegov-toggle`, `aegov-range`, `aegov-otp`, `aegov-fileupload`, `aegov-datepicker`) are form-associated custom elements using `ElementInternals`; `aegov-checkbox-group` and `aegov-radio-group` aggregate their children, and `aegov-form-field` cascades state to the control inside it.
-
-The documentation site covers the full contract (*Validation Surface*) and recipes with no extra package (*Bring Your Own Validator*).
-
-For schema-driven validation an **optional** companion package, `@aegov/designsystem-validation`, is being developed in a separate repository, with adapters for Valibot, Zod, Vest and the native Constraint Validation API. Nothing in the design system depends on it.
+Wrap a control in `aegov-form-field` and the wrapper links the label, hint and error text to it. Error state set on the wrapper passes down to the control.
 
 ---
 
-## Accessibility
+## Accessibility, RTL and theming
 
-Built for WCAG 2.2 AA. Every component page documents what the component handles and what you must supply. The highlights:
+**Accessibility.** The components follow the [UAE accessibility guidelines](https://designsystem.gov.ae/guidelines/accessibility):
 
-- Native elements underneath wherever possible — real `<button>`, `<input>`, `<select>`, `<progress>`, `<blockquote>`.
-- `aria-describedby` is **composed**, not overwritten, so your own IDs survive alongside hint, error and counter regions.
-- Error regions announce only after a field's first blur, so screen readers are not flooded mid-typing.
-- Focus is trapped in modals and drawers, and returned to the trigger on close with `preventScroll`.
-- Live-region politeness is derived from meaning: `error` and `warning` interrupt, everything else waits.
-- Component-supplied labels — "Show password", "Clear selection", "Dismiss", size units, file errors — are provided in English and Arabic and selected from the page direction.
-- Focus rings hold a constant high-contrast colour across variants to meet the 3:1 non-text contrast requirement.
+- Real `<button>`, `<input>`, `<select>` and `<progress>` elements sit underneath wherever possible.
+- `aria-describedby` is combined, not overwritten, so your own IDs are kept alongside the hint and error IDs.
+- Error messages are announced after the user first leaves a field, not on every keystroke.
+- Modals and drawers keep focus inside while open, close with <kbd>Esc</kbd> and return focus to the control that opened them.
 
----
+**Right-to-left.** Set `dir="rtl"` on `<html>`. Layouts mirror, and the fonts switch to Noto Kufi Arabic (body) and Alexandria (headings). Built-in text, such as "Show password", "Clear selection", dismiss labels, file-size units and upload errors, switches to Arabic. Set `dir` on `<html>`, not on an inner wrapper, because toasts, dropdowns, popovers and the date picker render into `document.body`.
 
-## Documentation
+**Dark mode.** Class-based. Add `dark` to `<html>`:
 
-The documentation site lives in its own repository, `aegov-designsystem-docs`. It installs this package and renders live examples against it; every component has a page covering examples, RTL behaviour, a full API reference, and accessibility obligations.
-
-The generated API for every tag — props, events, methods, slots — ships in this package as `dist/docs.json`, and each component directory has a generated `readme.md`.
-
----
-
-## Development
-
-```bash
-npm run build          # Stencil build (+ docs.json, wrapper proxies) → copy CSS to dist
-npm run build:prod     # production build (minified)
-npm test               # unit + e2e
-npm run test:unit      # unit only
-npm run test:e2e       # e2e only
-npm run test:watch     # unit + e2e in watch mode
-npm run test:coverage  # coverage report
-npm run size           # check bundle-size budgets
-npx stencil generate   # scaffold a new component
+```html
+<html class="dark">
 ```
 
-There is no dev server in this package. To try components in a running app, use the test apps from the repository root:
+**Design tokens.** `@aegov/designsystem/theme` makes the full token set available as Tailwind utilities:
 
-```bash
-npm run test:html      # also test:react, test:vue, test:angular, or test:apps for all four
+```html
+<div class="bg-primary-600 text-whitely-50 px-4 py-2 rounded-lg">Using UAE design tokens</div>
 ```
 
-This package lives in a Lerna + Nx monorepo. Building it also regenerates the React, Vue and Angular wrapper sources, so run builds from the repository root to get everything in the right order:
+| Family | Tokens |
+| --- | --- |
+| Colours | `primary` (+ `primary-support`), `secondary` (+ `secondary-support`), `aegold`, `aered`, `aegreen`, `aeblack`, `whitely`, `camel`, `desert`, `slate`, `techblue`, `seablue`, `fuchsia`, `purple`, `indigo`, `pink`. Each has a 50–950 scale in OKLCH. |
+| Typography | `--font-roboto`, `--font-inter`, `--font-notokufi`, `--font-alexandria`. Sizes `text-xs` to `text-3xl`, plus `text-display` and `text-h1` to `text-h6`. |
+| Breakpoints | `xs` 480, `sm` 640, `md` 768, `lg` 1024, `xl` 1280, `2xl` 1536 |
+| Motion | Transition duration and timing tokens |
 
-```bash
-npm run build          # from the repo root: core + all three wrappers
-```
-
-Cross-component accessibility checks run as unit tests (`src/utils/accessibility.spec.ts`). The browser-driven Playwright accessibility suite lives in the documentation repository, where it runs against the docs pages.
-
-See [DEVELOPER.md](../../DEVELOPER.md) at the repository root for the monorepo command reference and the publish flow.
-
-### Project structure
-
-```
-src/
-├── components/     # 57 component directories
-├── utils/          # types, validation, portals, focus, responsive props, a11y helpers
-├── styles/
-│   └── tailwind.css  # the @theme token definitions
-├── global/
-│   ├── global.css    # global stylesheet shipped as ./base
-│   ├── app.ts        # Stencil globalScript
-│   └── toast-helper.ts
-└── index.ts        # library entry — exports all public types
-```
+To rebrand, point `primary` (or `secondary`) at another palette in your own `@theme` block, for example `--color-primary-600: var(--color-aegreen-600);`. Your own Tailwind utility classes always override the design system's element styles, with no `!important` needed. Follow the [colour guidelines](https://designsystem.gov.ae/guidelines/colour-system) when you customise.
 
 ---
 
 ## Browser support
 
-| Browser | Minimum |
+| Browser | Minimum version |
 | --- | --- |
-| Chrome / Edge | 77 |
-| Firefox | 98 |
-| Safari | **16.4** |
+| Chrome / Edge | 111 |
+| Firefox | 128 |
+| Safari (macOS and iOS) | **16.4** |
 
-Safari 16.4 is a hard floor: all 10 single form controls are form-associated custom elements and require `ElementInternals`.
-
-Components are client-side only — they rely on the Custom Elements API, which has no server implementation. Under SSR, render them on the client; the CSS import is SSR-safe.
+The minimums come from Tailwind CSS v4 and from `ElementInternals`, which the form-associated controls need. Safari 16.4 is a hard minimum.
 
 ---
 
-## License
+## Support
 
-MIT — see [LICENSE.md](LICENSE.md).
+- Documentation: [designsystem.gov.ae](https://designsystem.gov.ae)
+- Email: [design.system@tdra.gov.ae](mailto:design.system@tdra.gov.ae)
+- Release news: [designsystem.gov.ae/resources/roadmap](https://designsystem.gov.ae/resources/roadmap)
+
+## Licence
+
+Copyright © 2026 Telecommunication and Digital Regulatory Authority of United Arab Emirates (TDRA). All rights reserved.
+
+You may use this package to design, build and deploy websites and applications commissioned by, owned by or operated for the UAE Federal Government. Any other use needs prior permission from TDRA. Do not modify the core component code. Customise it only through the supported tokens, configuration and overrides. See `LICENSE.md` in this package for the full terms.

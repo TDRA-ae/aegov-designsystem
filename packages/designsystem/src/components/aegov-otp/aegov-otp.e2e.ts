@@ -178,4 +178,28 @@ describe('aegov-otp (e2e) validation trigger', () => {
     expect(spy.lastEvent.detail.trigger).toBe('input');
     expect(spy.lastEvent.detail.value).toBe('12');
   });
+
+  // The individual-cell variant border is (0,4,0); invalid and disabled used
+  // to lose to it and keep the variant colour.
+  it('individual cells take the invalid and disabled borders, like the continuous row', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-otp id="ii" appearance="individual" is-invalid="true"></aegov-otp>
+      <aegov-otp id="ci" appearance="continuous" is-invalid="true"></aegov-otp>
+      <aegov-otp id="id" appearance="individual" is-disabled="true"></aegov-otp>
+      <aegov-otp id="cd" appearance="continuous" is-disabled="true"></aegov-otp>
+      <aegov-otp id="iv" appearance="individual"></aegov-otp>
+    `);
+    await page.waitForChanges();
+    const border = (id: string, selector: string) => page.$eval(`#${id}`, (el: any, selector: string) =>
+      getComputedStyle(el.shadowRoot.querySelector(selector)).borderTopColor, selector);
+    const variantBorder = await border('iv', '.otp__cell');
+    expect(await border('ii', '.otp__cell')).toBe(await border('ci', '.otp__wrapper--continuous'));
+    expect(await border('ii', '.otp__cell')).not.toBe(variantBorder);
+    expect(await border('id', '.otp__cell')).toBe(await border('cd', '.otp__wrapper--continuous'));
+    expect(await border('id', '.otp__cell')).not.toBe(variantBorder);
+    // Disabled digits keep the variant text colour (Figma).
+    const text = (id: string) => page.$eval(`#${id}`, (el: any) => getComputedStyle(el.shadowRoot.querySelector('.otp__cell')).color);
+    expect(await text('id')).toBe(await text('iv'));
+  });
 });

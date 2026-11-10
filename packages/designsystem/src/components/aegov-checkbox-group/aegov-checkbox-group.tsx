@@ -41,7 +41,7 @@ export class AegovCheckboxGroup {
   @State() private _resolvedSize: CheckboxSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
-  /** Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless. */
+  /** Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless. */
   @Prop() variant?: FormVariant;
 
   /** Disables all checkboxes within the group via native fieldset disabled. */
@@ -219,16 +219,9 @@ export class AegovCheckboxGroup {
         cb.isDisabled = this.childOwnDisabled.get(cb);
         this.childOwnDisabled.delete(cb);
       }
-      // Flag grouped membership as a plain host attribute (#68), same pattern
-      // already used by aegov-input-group/aegov-input (#50): when the group's
-      // "default" appearance is disabled, its own wrapper AND each now-also-
-      // disabled child's own wrapper both apply their own opacity-0.4,
-      // compounding to a near-invisible 0.16. `is-grouped` lets aegov-checkbox's
-      // CSS tell "my own opacity is the only dimming source" (pills/cards,
-      // where the group wrapper deliberately isn't dimmed) apart from "the
-      // group wrapper is already dimming me too" (default appearance), without
-      // reaching back across the shadow boundary to check.
-      (cb as HTMLElement).setAttribute('is-grouped', '');
+      // Disabled dimming is per-item only (aegov-checkbox.css); the group
+      // dims just its legend/hint, so no `is-grouped` flag is needed to stop
+      // 0.4 × 0.4 compounding (#68).
     });
   }
 

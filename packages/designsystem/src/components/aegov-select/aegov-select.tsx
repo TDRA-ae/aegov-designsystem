@@ -80,7 +80,7 @@ export class AegovSelect {
   /** The size of the select. Matches aegov-input height. */
   @Prop() size: string = 'base';
 
-  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
+  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless. */
   @Prop() variant?: FormVariant;
   @State() private _resolvedSize: SelectSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;

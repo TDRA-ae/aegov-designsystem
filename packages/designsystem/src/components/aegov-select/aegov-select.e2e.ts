@@ -619,6 +619,34 @@ describe('aegov-select (e2e)', () => {
       expect(await page.evaluate(() => document.getElementById('s').shadowRoot.querySelector('[role="status"]').textContent)).toBe('No results found');
     });
 
+    it('searchable: the search field fits the panel, uses the page font and shows focus in the variant colour', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <div style="font-family: Georgia, serif">
+          <aegov-select id="s" appearance="listbox" variant="neutral-max" is-searchable aria-label="Nationality">${OPTIONS}</aegov-select>
+        </div>`);
+      await focusTrigger(page);
+      await page.keyboard.press('ArrowDown');
+      await page.waitForChanges();
+      await page.waitForFunction(() => document.getElementById('s').shadowRoot.activeElement?.classList.contains('select__search-input'));
+      const info = await page.evaluate(() => {
+        const root = document.getElementById('s').shadowRoot;
+        const input = root.querySelector('.select__search-input') as HTMLElement;
+        const box = root.querySelector('.select__search') as HTMLElement;
+        const inner = box.getBoundingClientRect();
+        const r = input.getBoundingClientRect();
+        const pad = parseFloat(getComputedStyle(box).paddingRight);
+        return {
+          fits: r.right <= inner.right - pad + 0.5,
+          font: getComputedStyle(input).fontFamily,
+          ring: getComputedStyle(input).boxShadow,
+        };
+      });
+      expect(info.fits).toBe(true);
+      expect(info.font).toContain('Georgia');
+      expect(info.ring).not.toBe('none');
+    });
+
     it('searchable: Tab from the search field closes and moves to the next field, not to <body>', async () => {
       const page = await newE2EPage();
       await page.setContent(`<aegov-select id="s" appearance="listbox" is-searchable aria-label="Nationality">${OPTIONS}</aegov-select><input id="next">`);

@@ -1,6 +1,6 @@
 import { Component, Element, Event, EventEmitter, Host, Method, Prop, State, Watch, h } from '@stencil/core';
-import { HEADER_VARIANTS, HEADER_COLLAPSE_BREAKPOINTS, DRAWER_SIZES } from '../../utils/types';
-import type { HeaderVariant, HeaderCollapseBreakpoint, DrawerSize } from '../../utils/types';
+import { HEADER_VARIANTS, HEADER_COLLAPSE_BREAKPOINTS, HEADER_EMBLEM_COLORS, DRAWER_SIZES } from '../../utils/types';
+import type { HeaderVariant, HeaderCollapseBreakpoint, HeaderEmblemColor, DrawerSize } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { isRtl } from '../../utils/rtl';
 import { readBreakpointPx } from '../../utils/responsive-prop';
@@ -11,17 +11,21 @@ const TAG = 'aegov-header';
 const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
- * Fill for the authority variant's UAE emblem.
+ * Fills for the authority variant's UAE emblem, keyed by `emblemColor`.
  *
- * Deliberately fixed by the component: it is a brand mark on a known light
- * ground, so it must not inherit the page's text colour and must not be
- * retintable by consumers. Applied as an inline custom property on the emblem
- * container, which beats any inherited value, and is unreachable from outside
- * the shadow root.
+ * The emblem is a brand mark, so its colour is chosen from this closed set of
+ * palette tokens rather than inherited or freely retinted: it must not pick up
+ * the page's text colour, and consumers can't push an arbitrary colour into it.
+ * Applied as an inline custom property on the emblem container, which beats any
+ * inherited value and is unreachable from outside the shadow root.
  *
- * Tracks the palette token, so a global retheme of aeblack-800 still carries.
+ * Each tracks its palette token, so a global retheme still carries.
  */
-const EMBLEM_COLOR = 'var(--color-aeblack-800, oklch(29.36% 0.0112 271.01))';
+const EMBLEM_COLORS: Record<HeaderEmblemColor, string> = {
+  aeblack: 'var(--color-aeblack-800, oklch(29.36% 0.0112 271.01))',
+  aegold: 'var(--color-aegold-600, oklch(56.32% 0.0956 83.8))',
+  whitely: 'var(--color-whitely-50, oklch(100% 0 0))',
+};
 
 const STRINGS = {
   en: { menu: 'Menu', close: 'Close menu' },
@@ -79,6 +83,14 @@ export class AegovHeader {
 
   /** Panel width of the menu drawer. Below 640px all widths collapse to full width. */
   @Prop() drawerSize: DrawerSize = 'base';
+
+  /**
+   * Colour of the UAE emblem on the `authority` variant: `"aeblack"` (default),
+   * `"aegold"` or `"whitely"`. Use `"whitely"` on dark backgrounds (dark mode);
+   * `"aegold"` is available to entities that show the emblem in gold. Ignored on
+   * the `ministry` variant, which has no emblem.
+   */
+  @Prop() emblemColor: HeaderEmblemColor = 'aeblack';
 
   /**
    * Whether the main bar pins to the top of the viewport on scroll. The
@@ -154,6 +166,7 @@ export class AegovHeader {
     warnIfInvalidEnumProp(this.variant, HEADER_VARIANTS, 'ministry', ctx('variant'));
     warnIfInvalidEnumProp(this.collapseAt, HEADER_COLLAPSE_BREAKPOINTS, 'lg', ctx('collapseAt'));
     warnIfInvalidEnumProp(this.drawerSize, DRAWER_SIZES, 'base', ctx('drawerSize'));
+    warnIfInvalidEnumProp(this.emblemColor, HEADER_EMBLEM_COLORS, 'aeblack', ctx('emblemColor'));
     this.syncDir();
   }
 
@@ -182,6 +195,9 @@ export class AegovHeader {
 
   @Watch('drawerSize')
   onDrawerSizeChange(v: unknown) { warnIfInvalidEnumProp(v, DRAWER_SIZES, 'base', ctx('drawerSize')); }
+
+  @Watch('emblemColor')
+  onEmblemColorChange(v: unknown) { warnIfInvalidEnumProp(v, HEADER_EMBLEM_COLORS, 'aeblack', ctx('emblemColor')); }
 
   @Watch('isSticky')
   onIsStickyChange(isSticky: boolean) {
@@ -407,7 +423,7 @@ export class AegovHeader {
             </a>
             <div class="header__brand-end">
               {variant === 'authority' ? (
-                <div class="header__emblem" style={{ '--aegov-emblem-fill': EMBLEM_COLOR }}>
+                <div class="header__emblem" style={{ '--aegov-emblem-fill': EMBLEM_COLORS[this.emblemColor] ?? EMBLEM_COLORS.aeblack }}>
                   {getUaeEmblem()}
                 </div>
               ) : (

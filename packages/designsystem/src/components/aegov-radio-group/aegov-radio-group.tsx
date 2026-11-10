@@ -41,7 +41,7 @@ export class AegovRadioGroup {
   @State() private _resolvedSize: RadioSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
-  /** Colour family. Cascades to child radios (only if child has no own variant). Focus ring stays camel; error stays aered regardless. */
+  /** Colour family. Cascades to child radios (only if child has no own variant). Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless. */
   @Prop() variant?: FormVariant;
 
   /** The name shared by all radios in the group. Ensures native single-select behavior. */
@@ -242,11 +242,8 @@ export class AegovRadioGroup {
         radio.isDisabled = this.childOwnDisabled.get(radio);
         this.childOwnDisabled.delete(radio);
       }
-      // Flag grouped membership as a plain host attribute (#68) — see the
-      // identical comment on aegov-checkbox-group's syncChildren(). Lets
-      // aegov-radio's CSS cancel its own disabled-opacity compounding with
-      // the group's wrapper-level dimming, for "default" appearance only.
-      hostEl.setAttribute('is-grouped', '');
+      // Disabled dimming is per-item only (aegov-radio.css); the group dims
+      // just its legend/hint, so nothing compounds (#68).
     });
     this.syncRovingTabindex(radios);
   }

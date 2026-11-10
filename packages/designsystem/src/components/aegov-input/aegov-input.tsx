@@ -54,7 +54,7 @@ export class AegovInput {
   /** The size of the input field. */
   @Prop() size: string = 'base';
 
-  /** Colour family. Drives idle ring, value text, and accent hover. Focus ring stays camel; error stays aered regardless. */
+  /** Colour family. Drives idle ring, value text, and accent hover. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered regardless. */
   @Prop() variant?: FormVariant;
   @State() private _resolvedSize: InputSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
