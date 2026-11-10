@@ -371,7 +371,7 @@ function updateRackIndices(position: ToastPosition): void {
    ============================================ */
 
 /**
- * @slot default - Toast description content
+ * @slot - Toast description content
  * @slot title - Toast title text
  * @slot icon - Custom icon
  * @slot actions - Action buttons/links

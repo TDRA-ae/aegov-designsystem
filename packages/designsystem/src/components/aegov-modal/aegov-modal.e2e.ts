@@ -108,13 +108,13 @@ describe('aegov-modal (e2e)', () => {
     expect(content).not.toBeNull();
   });
 
-  // connectedCallback() unconditionally moves the modal to document.body for
-  // proper stacking, detaching it from any dir="rtl" ancestor wrapper — the
+  // An open modal moves out of an ancestor that traps it (here the transformed
+  // dir="rtl" wrapper itself), detaching it from that wrapper's direction — the
   // same portal-vs-dir gap already found and fixed in aegov-datepicker (#37)
   // and aegov-dropdown (#41). Regression coverage for #53.
-  it('carries dir="rtl" from a local ancestor wrapper after the move to document.body', async () => {
+  it('carries dir="rtl" from a local ancestor wrapper after moving out of it', async () => {
     const page = await newE2EPage();
-    await page.setContent('<div dir="rtl"><aegov-modal><p>Body</p></aegov-modal></div>');
+    await page.setContent('<div dir="rtl" style="transform: translateX(0)"><aegov-modal><p>Body</p></aegov-modal></div>');
     const host = await page.find('aegov-modal');
     await host.callMethod('show');
     await page.waitForChanges();
@@ -176,5 +176,28 @@ describe('aegov-modal (e2e)', () => {
     });
     expect(focusState.hostTag).toBe('AEGOV-BUTTON');
     expect(focusState.deepActiveTag).toBe('BUTTON');
+  });
+});
+
+describe('aegov-modal (e2e) nested', () => {
+  it('Escape closes only the top modal of a nested pair', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-modal id="a" label="A"><button id="a1">a1</button></aegov-modal>
+      <aegov-modal id="b" label="B"><button id="b1">b1</button></aegov-modal>`);
+    await page.$eval('#a', (m: any) => m.show());
+    await page.waitForChanges();
+    await page.$eval('#b', (m: any) => m.show());
+    await page.waitForChanges();
+    await new Promise(r => setTimeout(r, 100));
+    await page.keyboard.press('Escape');
+    await new Promise(r => setTimeout(r, 400));
+    await page.waitForChanges();
+    expect(await page.$eval('#b', (m: any) => m.isOpen)).toBe(false);
+    expect(await page.$eval('#a', (m: any) => m.isOpen)).toBe(true);
+    await page.keyboard.press('Escape');
+    await new Promise(r => setTimeout(r, 400));
+    await page.waitForChanges();
+    expect(await page.$eval('#a', (m: any) => m.isOpen)).toBe(false);
   });
 });

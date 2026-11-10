@@ -139,3 +139,43 @@ describe('aegov-otp (e2e)', () => {
     expect(await first.getProperty('disabled')).toBe(true);
   });
 });
+
+describe('aegov-otp (e2e) group blur', () => {
+  it('moving between cells is not a blur; leaving the group is', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-otp length="4"></aegov-otp><button id="out">out</button>');
+    const host = await page.find('aegov-otp');
+    const spy = await host.spyOnEvent('aegovValidate');
+    const cells = await page.findAll('aegov-otp >>> input');
+    await cells[0].focus();
+    await cells[1].focus();
+    await cells[2].focus();
+    await page.waitForChanges();
+    expect(spy.events.filter((e: any) => e.detail.trigger === 'blur').length).toBe(0);
+    await page.focus('#out');
+    await page.waitForChanges();
+    expect(spy.events.filter((e: any) => e.detail.trigger === 'blur').length).toBe(1);
+  });
+});
+
+describe('aegov-otp (e2e) validation trigger', () => {
+  it('reports partial entry as input and a complete code as change', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-otp length="3"></aegov-otp>');
+    const host = await page.find('aegov-otp');
+    const spy = await host.spyOnEvent('aegovValidate');
+    const cells = await page.findAll('aegov-otp >>> input');
+    await cells[0].focus();
+    await page.keyboard.type('123');
+    await page.waitForChanges();
+    expect(spy.events.map((e: any) => [e.detail.trigger, e.detail.value])).toEqual([
+      ['input', '1'],
+      ['input', '12'],
+      ['change', '123'],
+    ]);
+    await page.keyboard.press('Backspace');
+    await page.waitForChanges();
+    expect(spy.lastEvent.detail.trigger).toBe('input');
+    expect(spy.lastEvent.detail.value).toBe('12');
+  });
+});

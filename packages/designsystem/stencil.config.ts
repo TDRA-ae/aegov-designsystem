@@ -8,10 +8,15 @@ import tailwindPlugin, {
   setPluginConfigurationDefaults
 } from 'stencil-tailwind-plugin';
 import { angularOutputTarget } from '@stencil/angular-output-target';
+import type { OutputTargetCustom } from '@stencil/core/internal';
 import { reactOutputTarget } from '@stencil/react-output-target';
 import { vueOutputTarget } from '@stencil/vue-output-target';
+import { patchStencilRuntime } from './stencil-runtime-patch';
 
-const isProd = process.env.NODE_ENV === 'production';
+patchStencilRuntime();
+
+// `--prod` works on every OS; NODE_ENV=production is kept for existing scripts.
+const isProd = process.env.NODE_ENV === 'production' || process.argv.includes('--prod');
 
 // Strip @source inline() lines for the per-component compile — they exist
 // only to keep theme tokens alive against the consumer's own build, which
@@ -39,6 +44,53 @@ setPluginConfigurationDefaults({
   optimise: !isProd
 });
 
+const angularProxyFile = resolve(
+  __dirname,
+  '../designsystem-angular/projects/component-library/src/lib/stencil-generated/components.ts'
+);
+
+/**
+ * Gives number props an Angular input transform, the counterpart of the output
+ * target's `booleanAttributes` (which only covers booleans). With `inlineProperties`
+ * the wrappers declare typed inputs, so without a transform a static `pages="5"`
+ * would be a string assigned to a number input and fail under strictTemplates.
+ * Runs after the output target has generated the proxies and edits only the
+ * `@Component` inputs list of each wrapper.
+ */
+function angularNumberAttributes(target: OutputTargetCustom): OutputTargetCustom {
+  return {
+    ...target,
+    async generator(config, compilerCtx, buildCtx, docs) {
+      await target.generator(config, compilerCtx, buildCtx, docs);
+      let text = await compilerCtx.fs.readFile(angularProxyFile);
+      let transformed = 0;
+      for (const cmp of buildCtx.components) {
+        const numberProps = cmp.properties.filter((prop) => prop.type === 'number' && !prop.internal);
+        if (numberProps.length === 0) continue;
+        const inputsLine = new RegExp(
+          `(selector: '${cmp.tagName}',[\\s\\S]*?no-inputs-metadata-property\\n  inputs: \\[)([^\\n]*)(\\],)`
+        );
+        text = text.replace(inputsLine, (_match, start: string, inputs: string, end: string) => {
+          for (const prop of numberProps) {
+            const before = inputs;
+            inputs = inputs.replace(`'${prop.name}'`, `{ name: '${prop.name}', transform: nullableNumberAttribute }`);
+            if (inputs === before) throw new Error(`angularNumberAttributes: input ${cmp.tagName}.${prop.name} not found`);
+            transformed++;
+          }
+          return start + inputs + end;
+        });
+      }
+      if (transformed > 0) {
+        text = text.replace(
+          "import { ProxyCmp } from './angular-component-lib/utils';",
+          "import { ProxyCmp } from './angular-component-lib/utils';\nimport { nullableNumberAttribute } from '../number-attribute';"
+        );
+      }
+      await compilerCtx.fs.writeFile(angularProxyFile, text);
+    },
+  };
+}
+
 export const config: Config = {
   namespace: 'aegov',
   globalScript: 'src/global/app.ts',
@@ -53,9 +105,12 @@ export const config: Config = {
     },
 
     // Custom elements bundle (tree-shakeable)
+    // 'single-export-module' is required by the Angular/React wrappers: each wrapper
+    // calls its component's defineCustomElement() itself, so component modules must not
+    // self-register on import — otherwise every app bundles and registers all components.
     {
       type: 'dist-custom-elements',
-      customElementsExportBehavior: 'auto-define-custom-elements',
+      customElementsExportBehavior: 'single-export-module',
       externalRuntime: false,
     },
 
@@ -68,19 +123,40 @@ export const config: Config = {
       file: 'dist/docs.json'
     },
 
-    angularOutputTarget({
+    // inlineProperties declares a typed member per input so strictTemplates checks value
+    // types; booleanAttributes and angularNumberAttributes add input transforms so static
+    // attributes (isDisabled, isDisabled="false", pages="5") still type-check.
+    angularNumberAttributes(angularOutputTarget({
       componentCorePackage: '@aegov/designsystem',
       outputType: 'standalone',
       directivesProxyFile: '../designsystem-angular/projects/component-library/src/lib/stencil-generated/components.ts',
       directivesArrayFile: '../designsystem-angular/projects/component-library/src/lib/stencil-generated/index.ts',
-    }),
+      inlineProperties: true,
+      booleanAttributes: true,
+    })),
     reactOutputTarget({
       stencilPackageName: '@aegov/designsystem',
       outDir: '../designsystem-react/lib/components/stencil-generated/',
     }),
+    // Each Vue proxy registers its own component from the custom elements bundle
+    // (like the Angular/React wrappers), so props set on first render are not lost.
+    // componentModels wire v-model to the prop each component updates before emitting
+    // the event; v-model reads it back from event.target.
     vueOutputTarget({
       componentCorePackage: '@aegov/designsystem',
       proxiesFile: '../designsystem-vue/lib/components.ts',
+      includeImportCustomElements: true,
+      componentModels: [
+        { elements: ['aegov-input'], event: 'aegovInputValue', targetAttr: 'value' },
+        { elements: ['aegov-textarea'], event: 'aegovTextareaValue', targetAttr: 'value' },
+        { elements: ['aegov-select'], event: 'aegovSelectChange', targetAttr: 'value' },
+        { elements: ['aegov-otp'], event: 'aegovOtpChange', targetAttr: 'value' },
+        { elements: ['aegov-range'], event: 'aegovRangeInput', targetAttr: 'value' },
+        { elements: ['aegov-datepicker'], event: 'aegovDatepickerChange', targetAttr: 'value' },
+        { elements: ['aegov-checkbox'], event: 'aegovCheckboxChange', targetAttr: 'isChecked' },
+        { elements: ['aegov-toggle'], event: 'aegovToggleChange', targetAttr: 'isChecked' },
+        { elements: ['aegov-radio'], event: 'aegovRadioChange', targetAttr: 'isChecked' },
+      ],
     }),
   ],
 

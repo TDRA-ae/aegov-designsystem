@@ -303,4 +303,19 @@ describe('aegov-checkbox-group', () => {
       expect(page.rootInstance.errorMessage).toBe('');
     });
   });
+
+  it("keeps the author's aria-describedby alongside the hint and error ids", async () => {
+    const page = await newSpecPage({
+      components: [AegovCheckboxGroup, AegovCheckbox],
+      html: `<p id="ext">External help</p><aegov-checkbox-group label="G" aria-describedby="ext" hint="Hint"><aegov-checkbox value="1" label="a"></aegov-checkbox></aegov-checkbox-group>`,
+    });
+    const host = page.body.querySelector('aegov-checkbox-group') as HTMLAegovCheckboxGroupElement;
+    // DS-A11Y-input-01: the external text is held in a hidden span in the shadow root.
+    expect(q(host, 'fieldset').getAttribute('aria-describedby')).toMatch(/^aegov-checkbox-group-\d+-host-desc aegov-checkbox-group-\d+-hint$/);
+    host.isInvalid = true;
+    host.errorMessage = 'Err';
+    await page.waitForChanges();
+    expect(q(host, 'fieldset').getAttribute('aria-describedby')).toMatch(/^aegov-checkbox-group-\d+-host-desc aegov-checkbox-group-\d+-error$/);
+    expect(q(host, '[id$="-host-desc"]').textContent).toBe('External help');
+  });
 });

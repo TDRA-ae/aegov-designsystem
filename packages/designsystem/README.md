@@ -118,33 +118,36 @@ export function App() {
 ```ts
 // main.ts
 import { createApp } from 'vue';
-import { ComponentLibrary } from '@aegov/designsystem-vue';
+import { ComponentLibrary, defineDesignSystem } from '@aegov/designsystem-vue';
 import './styles.css';
 import App from './App.vue';
 
-createApp(App).use(ComponentLibrary).mount('#app');
+defineDesignSystem().then(() => {
+  createApp(App).use(ComponentLibrary).mount('#app');
+});
 ```
 
 ```vue
 <template>
   <aegov-input field-id="email" type="email" name="email" :is-required="true" />
-  <aegov-button variant="primary" size="lg" @aegov-button-click="submit">
+  <aegov-button variant="primary" size="lg" @aegovButtonClick="submit">
     Submit application
   </aegov-button>
 </template>
 ```
 
+Set Vue's `isCustomElement` compiler option for `aegov-*` tags, or use the typed components (`AegovButton`, `AegovInput`, …), which also support `v-model`. See the `@aegov/designsystem-vue` README.
+
 ### Angular 18+
 
-```ts
-// app.config.ts
-import { provideDesignSystem } from '@aegov/designsystem-angular';
-
-export const appConfig = { providers: [provideDesignSystem()] };
-```
+Each wrapper registers its own element:
 
 ```ts
+import { Component } from '@angular/core';
+import { AegovButton, AegovInput } from '@aegov/designsystem-angular';
+
 @Component({
+  selector: 'app-root',
   imports: [AegovButton, AegovInput],
   template: `
     <aegov-input fieldId="email" type="email" name="email" [isRequired]="true" />
@@ -156,6 +159,15 @@ export const appConfig = { providers: [provideDesignSystem()] };
 export class AppComponent {}
 ```
 
+For the global script (toast live region, `window.aegovToast`) and registration of every element, add `provideDesignSystem()` from the `/provider` entry point. NgModule apps import `DesignSystemModule`, which re-exports every wrapper and has no providers.
+
+```ts
+// app.config.ts
+import { provideDesignSystem } from '@aegov/designsystem-angular/provider';
+
+export const appConfig = { providers: [provideDesignSystem()] };
+```
+
 ---
 
 ## Framework packages
@@ -164,12 +176,10 @@ export class AppComponent {}
 | --- | --- | --- | --- |
 | `@aegov/designsystem` | `defineCustomElements()` | kebab-case attributes | `addEventListener('aegovX')` |
 | `@aegov/designsystem-react` | automatic, per wrapper | **camelCase** | `onAegovX` |
-| `@aegov/designsystem-vue` | `app.use(ComponentLibrary)` | kebab-case | `@aegov-x` |
-| `@aegov/designsystem-angular` | `provideDesignSystem()` or `DesignSystemModule` | **camelCase** | `(aegovX)` |
+| `@aegov/designsystem-vue` | `app.use(ComponentLibrary)`, or automatic per typed component | kebab-case on tags, camelCase on typed components | `@aegovX` |
+| `@aegov/designsystem-angular` | automatic, per wrapper (`DesignSystemModule` for NgModule apps); `provideDesignSystem()` from `@aegov/designsystem-angular/provider` for the global script | **camelCase** | `(aegovX)` |
 
-Per-framework guides, including SSR notes and the known caveats — `v-model` is not supported in Vue, and `ngModel` / `formControlName` are not yet supported in Angular:
-
-are on the documentation site: *Using with React*, *Using with Vue* and *Using with Angular*. Working setups for each framework live in the monorepo's `test-apps/` directory.
+Per-framework guides, including SSR notes and the known caveats (`ngModel` / `formControlName` are not yet supported in Angular), are on the documentation site: *Using with React*, *Using with Vue* and *Using with Angular*. Working setups for each framework live in the monorepo's `test-apps/` directory.
 
 ---
 

@@ -34,17 +34,17 @@
 }
 /* Variant — rest border, checked bg+border, hover halo, focus outline per colour family.
    Focus outline colour matches the designsystem convention used by aegov-input et al:
-   support-400 (light + dark); neutrals use seablue-400. */
-.aegov-radio.radio-variant-primary input[type="radio"]       { @apply border-primary-600 checked:bg-primary-600 focus-visible:outline-primary-support-400 dark:border-primary-400 dark:checked:bg-primary-500 dark:focus-visible:outline-primary-support-400; }
+   support-500 light (≥3:1 on white) / support-400 dark; neutrals seablue-500 / -400. */
+.aegov-radio.radio-variant-primary input[type="radio"]       { @apply border-primary-600 checked:bg-primary-600 focus-visible:outline-primary-support-500 dark:border-primary-400 dark:checked:bg-primary-500 dark:focus-visible:outline-primary-support-400; }
 .aegov-radio.radio-variant-primary input[type="radio"]::before { @apply bg-primary-50 dark:bg-primary-900/40; }
 
-.aegov-radio.radio-variant-secondary input[type="radio"]     { @apply border-secondary-600 checked:bg-secondary-600 focus-visible:outline-secondary-support-400 dark:border-secondary-400 dark:checked:bg-secondary-500 dark:focus-visible:outline-secondary-support-400; }
+.aegov-radio.radio-variant-secondary input[type="radio"]     { @apply border-secondary-600 checked:bg-secondary-600 focus-visible:outline-secondary-support-500 dark:border-secondary-400 dark:checked:bg-secondary-500 dark:focus-visible:outline-secondary-support-400; }
 .aegov-radio.radio-variant-secondary input[type="radio"]::before { @apply bg-secondary-50 dark:bg-secondary-900/40; }
 
-.aegov-radio.radio-variant-neutral-max input[type="radio"]   { @apply border-aeblack-800 checked:bg-aeblack-800 focus-visible:outline-seablue-400 dark:border-aeblack-300 dark:checked:bg-aeblack-300 dark:focus-visible:outline-seablue-400; }
+.aegov-radio.radio-variant-neutral-max input[type="radio"]   { @apply border-aeblack-800 checked:bg-aeblack-800 focus-visible:outline-seablue-500 dark:border-aeblack-300 dark:checked:bg-aeblack-300 dark:focus-visible:outline-seablue-400; }
 .aegov-radio.radio-variant-neutral-max input[type="radio"]::before { @apply bg-aeblack-100 dark:bg-aeblack-700; }
 
-.aegov-radio.radio-variant-neutral-min input[type="radio"]   { @apply border-aeblack-400 checked:bg-aeblack-400 focus-visible:outline-seablue-400 dark:border-aeblack-500 dark:checked:bg-aeblack-500 dark:focus-visible:outline-seablue-400; }
+.aegov-radio.radio-variant-neutral-min input[type="radio"]   { @apply border-aeblack-400 checked:bg-aeblack-400 focus-visible:outline-seablue-500 dark:border-aeblack-500 dark:checked:bg-aeblack-500 dark:focus-visible:outline-seablue-400; }
 .aegov-radio.radio-variant-neutral-min input[type="radio"]::before { @apply bg-aeblack-50 dark:bg-aeblack-800; }
 
 /* Wrapper label for inline label mode */
@@ -416,12 +416,118 @@
 }
 
 /* Pill focus-visible outline */
-:host(.radio-appearance-pills) .radio-variant-primary .radio__wrapper:has(input:focus-visible)    { @apply outline-2 outline-offset-2 outline-primary-support-400; }
-:host(.radio-appearance-pills) .radio-variant-secondary .radio__wrapper:has(input:focus-visible)  { @apply outline-2 outline-offset-2 outline-secondary-support-400; }
+:host(.radio-appearance-pills) .radio-variant-primary .radio__wrapper:has(input:focus-visible)    { @apply outline-2 outline-offset-2 outline-primary-support-500; }
+:host(.radio-appearance-pills) .radio-variant-secondary .radio__wrapper:has(input:focus-visible)  { @apply outline-2 outline-offset-2 outline-secondary-support-500; }
 :host(.radio-appearance-pills) .radio-variant-neutral-max .radio__wrapper:has(input:focus-visible),
-:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__wrapper:has(input:focus-visible) { @apply outline-2 outline-offset-2 outline-seablue-400; }
+:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__wrapper:has(input:focus-visible) { @apply outline-2 outline-offset-2 outline-seablue-500; }
 
 /* Pill description — hidden in pill mode */
 :host(.radio-appearance-pills) .radio__hint {
   @apply hidden;
+}
+
+/* ============================================================
+   Forced colours (Windows High Contrast)
+   The system replaces backgrounds with Canvas, so the white dot on the
+   brand-coloured fill disappears and checked looks like unchecked.
+   Redraw every state with system colours. `:host .aegov-radio` makes these
+   rules outrank the per-variant colours above.
+   ============================================================ */
+@media (forced-colors: active) {
+  :host .aegov-radio input[type="radio"] {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    background-image: none;
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+
+  /* The hover halo blends with the page; hide it. */
+  :host .aegov-radio input[type="radio"]::before {
+    display: none;
+  }
+
+  /* Checked: Highlight fill with a HighlightText dot (same shape as normal mode). */
+  :host .aegov-radio input[type="radio"]:checked {
+    background-color: Highlight;
+    border-color: Highlight;
+    background-image: radial-gradient(circle closest-side, HighlightText 0 50%, transparent calc(50% + 0.5px));
+  }
+
+  /* Disabled: the system "unavailable" colour; the dot is kept. */
+  :host .aegov-radio input[type="radio"]:disabled {
+    border-color: GrayText;
+  }
+  :host .aegov-radio input[type="radio"]:disabled:checked {
+    background-color: GrayText;
+    background-image: radial-gradient(circle closest-side, Canvas 0 50%, transparent calc(50% + 0.5px));
+  }
+
+  /* Focus: a Highlight outline. */
+  :host .aegov-radio input[type="radio"]:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  /* Invalid: the red ring is a box-shadow (removed) — use a dashed border,
+     a cue that doesn't depend on colour, next to the error text. */
+  :host(.is-invalid) .aegov-radio .radio__wrapper input[type="radio"] {
+    box-shadow: none;
+  }
+  :host(.is-invalid) .aegov-radio .radio__wrapper input[type="radio"]:not(:checked) {
+    border-style: dashed;
+  }
+
+  /* Pills: unchecked = outlined, checked = Highlight fill. */
+  :host(.radio-appearance-pills) .aegov-radio .radio__wrapper {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    border-color: CanvasText;
+  }
+  :host(.radio-appearance-pills) .aegov-radio .radio__label-text {
+    color: CanvasText !important;
+  }
+  :host(.radio-appearance-pills) .aegov-radio .radio__wrapper:has(input:checked) {
+    background-color: Highlight;
+    border-color: Highlight;
+  }
+  :host(.radio-appearance-pills) .aegov-radio .radio__wrapper:has(input:checked) .radio__label-text {
+    color: HighlightText !important;
+  }
+  :host(.radio-appearance-pills) .aegov-radio .radio__wrapper:has(input:disabled) {
+    border-color: GrayText;
+  }
+  :host(.radio-appearance-pills) .aegov-radio .radio__wrapper:has(input:disabled) .radio__label-text {
+    color: GrayText !important;
+  }
+  :host(.radio-appearance-pills) .aegov-radio .radio__wrapper:has(input:focus-visible) {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  /* Cards: checked card gets a Highlight border (the radio inside is drawn too). */
+  :host(.radio-appearance-cards) .aegov-radio .radio__wrapper {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    border-color: CanvasText;
+  }
+  /* forced-color-adjust: none on the card also stops the system recolouring
+     its text, so set the label and hint to the system text colour. */
+  :host(.radio-appearance-cards) .aegov-radio .radio__label-text,
+  :host(.radio-appearance-cards) .aegov-radio .radio__hint {
+    color: CanvasText;
+  }
+  :host(.radio-appearance-cards) .aegov-radio .radio__wrapper:has(input:disabled) .radio__label-text,
+  :host(.radio-appearance-cards) .aegov-radio .radio__wrapper:has(input:disabled) .radio__hint {
+    color: GrayText;
+  }
+  :host(.radio-appearance-cards) .aegov-radio .radio__wrapper:has(input:checked) {
+    background-color: Canvas;
+    border-color: Highlight;
+    outline: 2px solid Highlight;
+    outline-offset: -4px;
+  }
+  :host(.radio-appearance-cards) .aegov-radio .radio__wrapper:has(input:disabled) {
+    border-color: GrayText;
+  }
 }

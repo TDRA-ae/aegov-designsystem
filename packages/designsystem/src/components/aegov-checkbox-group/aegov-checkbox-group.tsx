@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch, Method, forceUpdate } from '@stencil/core';
 import { CHECKBOX_GROUP_VARIANTS, CHECKBOX_GROUP_ORIENTATIONS, CHECKBOX_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
   CheckboxGroupVariant, CheckboxGroupOrientation, CheckboxSize, FormVariant,
@@ -6,11 +6,13 @@ import type {
 } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { HostAria } from '../../utils/host-aria';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   composeDescribedBy, buildValidationDetail, synthesizeValidity,
+  withCustomError,
 } from '../../utils/validation';
 import { generateId } from '../../utils/id-generator';
 
@@ -88,6 +90,7 @@ export class AegovCheckboxGroup {
   /** Imperatively re-run validation. */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasInteractedOnce = true;
     return this.runAndEmitValidation(trigger);
   }
 
@@ -96,7 +99,11 @@ export class AegovCheckboxGroup {
   async setCustomValidity(message: string): Promise<void> {
     this.errorMessage = message;
     this.isInvalid = !!message;
+    this.customValidityMessage = message;
   }
+
+  /** Message from setCustomValidity(), kept so recomputing validity does not drop it. */
+  private customValidityMessage = '';
 
   private collectValues(): string[] {
     const checkboxes = this.getRegularCheckboxes();
@@ -107,6 +114,12 @@ export class AegovCheckboxGroup {
   }
 
   private computeValidity() {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.isDisabled) return { ...this.computeConstraintValidity(), validity: synthesizeValidity({}), message: '' };
+    return withCustomError(this.computeConstraintValidity(), this.customValidityMessage);
+  }
+
+  private computeConstraintValidity() {
     const values = this.collectValues();
     if (this.isRequired && values.length === 0) {
       return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required', values };
@@ -124,6 +137,7 @@ export class AegovCheckboxGroup {
   }
 
   componentDidLoad() {
+    this.hostAria?.refreshSoon();
     this.syncChildren();
     this.updateCheckAllState();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
@@ -154,7 +168,16 @@ export class AegovCheckboxGroup {
     if (this.el.isConnected) { this.syncChildren(); }
   }
 
+  /** Host aria-label / aria-labelledby / aria-describedby / labels, resolved for the inner control (DS-A11Y-input-01). */
+  private hostAria?: HostAria;
+
+  connectedCallback() {
+    this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, onChange: () => forceUpdate(this) });
+    this.hostAria.connect();
+  }
+
   disconnectedCallback() {
+    this.hostAria?.disconnect();
     this._sizeWatcher?.destroy();
   }
 
@@ -215,6 +238,22 @@ export class AegovCheckboxGroup {
 
   private getCheckAllCheckbox(): HTMLAegovCheckboxElement | null {
     return this.el.querySelector('aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement | null;
+  }
+
+  /**
+   * A group is not form-associated, so the browser never calls formResetCallback()
+   * on it. `reset` bubbles, so listen at the document and clear the group's error
+   * state when its own form is reset (and the reset was not cancelled), matching
+   * what every form-associated control does in its formResetCallback().
+   */
+  @Listen('reset', { target: 'document' })
+  handleFormReset(event: Event) {
+    if (event.defaultPrevented) return;
+    const form = event.target as Node | null;
+    if (!form || !form.contains(this.el)) return;
+    this.errorMessage = '';
+    this.isInvalid = false;
+    this.customValidityMessage = '';
   }
 
   @Listen('focusout')
@@ -304,11 +343,13 @@ export class AegovCheckboxGroup {
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
     const showHint = !showError && (hasHintSlot || !!this.hint);
     const announceError = showError && this.hasInteractedOnce;
+    const authorDescribedBy = this.hostAria?.descriptionId();
     const describedBy = composeDescribedBy(
+      authorDescribedBy,
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );
-    const passThroughAttrs = getPassThroughAttributes(this.el);
+    const passThroughAttrs = this.hostAria ? this.hostAria.bridge(getPassThroughAttributes(this.el)) : getPassThroughAttributes(this.el);
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
     delete passThroughAttrs['aria-required'];
@@ -346,6 +387,7 @@ export class AegovCheckboxGroup {
             </div>
           )}
         </fieldset>
+        {this.hostAria?.renderDescription()}
       </Host>
     );
   }

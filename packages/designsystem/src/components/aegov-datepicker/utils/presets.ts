@@ -10,6 +10,9 @@ export interface PresetRange {
   end: Date;
 }
 
+/** Language of the datepicker's own text. */
+export type UiLang = 'en' | 'ar';
+
 export interface PresetDefinition {
   id: DatepickerPreset;
   label: string;
@@ -291,6 +294,44 @@ const ALL_PRESETS: PresetDefinition[] = [
     }),
   },
 ];
+
+/** Arabic preset labels. The English ones are each definition's `label`. */
+const PRESET_LABELS_AR: Record<DatepickerPreset, string> = {
+  today: 'اليوم',
+  yesterday: 'أمس',
+  thisWeek: 'هذا الأسبوع',
+  lastWeek: 'الأسبوع الماضي',
+  last7Days: 'آخر 7 أيام',
+  last14Days: 'آخر 14 يومًا',
+  last30Days: 'آخر 30 يومًا',
+  thisMonth: 'هذا الشهر',
+  lastMonth: 'الشهر الماضي',
+  last3Months: 'آخر 3 أشهر',
+  last6Months: 'آخر 6 أشهر',
+  thisQuarter: 'هذا الربع',
+  lastQuarter: 'الربع الماضي',
+  thisYear: 'هذا العام',
+  lastYear: 'العام الماضي',
+  yearToDate: 'منذ بداية العام',
+  tomorrow: 'غدًا',
+  nextWeek: 'الأسبوع القادم',
+  next7Days: 'الأيام الـ 7 القادمة',
+  next14Days: 'الأيام الـ 14 القادمة',
+  next30Days: 'الأيام الـ 30 القادمة',
+  nextMonth: 'الشهر القادم',
+  next3Months: 'الأشهر الـ 3 القادمة',
+  next6Months: 'الأشهر الـ 6 القادمة',
+  nextQuarter: 'الربع القادم',
+  nextYear: 'العام القادم',
+  allTime: 'كل الأوقات',
+};
+
+/**
+ * A preset's label in the given language.
+ */
+export function getPresetLabel(preset: PresetDefinition, lang: UiLang): string {
+  return lang === 'ar' ? PRESET_LABELS_AR[preset.id] : preset.label;
+}
 
 /**
  * Get preset definitions filtered by the requested preset IDs.

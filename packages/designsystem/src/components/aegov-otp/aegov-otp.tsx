@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Element, Event, EventEmitter, Watch, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Element, Event, EventEmitter, Watch, Method, Listen, forceUpdate } from '@stencil/core';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { OTP_VARIANTS, OTP_SIZES, FORM_VARIANTS } from '../../utils/types';
@@ -8,12 +8,14 @@ import type {
   AegovValidityState,
 } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { HostAria } from '../../utils/host-aria';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { isRtl } from '../../utils/rtl';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import {
-  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity,
+  withCustomError, setInternalsValidity, syncHostDisabled,
 } from '../../utils/validation';
 import type { InternalsHost } from '../../utils/validation';
 
@@ -99,7 +101,6 @@ export class AegovOtp {
   @Event() aegovValidate: EventEmitter<AegovValidationDetail<string>>;
 
   @State() private hasBlurredOnce: boolean = false;
-  @State() private groupLabelId: string = '';
 
   private cellRefs: HTMLInputElement[] = [];
   private internalUpdate = false;
@@ -107,7 +108,12 @@ export class AegovOtp {
   private errorId: string = '';
   private hintId: string = '';
 
+  /** The value the field started with — what a form reset restores, like a native control's default value. */
+  private _defaultValue: string = '';
+
   componentWillLoad() {
+    if (this.isDisabled) syncHostDisabled(this.el, true);
+    this._defaultValue = this.value ?? '';
     warnIfInvalidEnumProp(this.appearance, OTP_VARIANTS, 'continuous', ctx('appearance'));
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     if (!this.fieldId) {
@@ -132,16 +138,47 @@ export class AegovOtp {
     }
   }
 
+  /** Host aria-label / aria-labelledby / aria-describedby / labels, resolved for the inner control (DS-A11Y-input-01). */
+  private hostAria?: HostAria;
+
+  connectedCallback() {
+    this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, internals: () => this.internals, onChange: () => forceUpdate(this) });
+    this.hostAria.connect();
+  }
+
   disconnectedCallback() {
+    this.hostAria?.disconnect();
     this._sizeWatcher?.destroy();
   }
 
   // ── FormAssociated lifecycle ──
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
-  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formDisabledCallback(disabled: boolean) { this.formDisabled = disabled; }
+
+  /**
+   * True while an ancestor `<fieldset disabled>` or the host's `disabled`
+   * attribute disables the field. Kept apart from `isDisabled` so that
+   * re-enabling the fieldset doesn't clear the field's own setting.
+   */
+  @State() private formDisabled: boolean = false;
+
+  /** Disabled by its own `isDisabled` or by the form. */
+  private get disabled(): boolean {
+    return this.isDisabled || this.formDisabled;
+  }
+
+  /** Leave FormData and constraint validation while disabled, like a native control. */
+  @Watch('isDisabled')
+  onIsDisabledChange() {
+    syncHostDisabled(this.el, this.isDisabled);
+  }
+
   formResetCallback() {
-    this.value = '';
-    this.distributeValue('');
+    this.value = this._defaultValue;
+    this.distributeValue(this._defaultValue);
+    this.errorMessage = '';
+    this.isInvalid = false;
+    this.customValidityMessage = '';
     this.runValidationSync();
   }
   formStateRestoreCallback(state: string | File | FormData | null) {
@@ -167,19 +204,17 @@ export class AegovOtp {
   }
 
   componentDidLoad() {
+    this.hostAria?.refreshSoon();
     if (this.value) {
       this.distributeValue(this.value);
     }
     this.runValidationSync();
     adoptExtraClassStylesIntoShadowRoot(this.el.shadowRoot, this.extraClass);
-    // Find the associated aegov-label so the group wrapper can reference it by ID
-    const formField = this.el.closest('.aegov-form-field');
-    if (formField) {
-      const labelEl = formField.querySelector('aegov-label') as any;
-      if (labelEl?.fieldId) {
-        this.groupLabelId = labelEl.fieldId;
-      }
-    }
+  }
+
+  /** Constraint props (isRequired, length, pattern, …) changed after load must reach the form too. */
+  componentDidRender() {
+    this.runValidationSync();
   }
 
   @Watch('extraClass')
@@ -194,6 +229,8 @@ export class AegovOtp {
       return;
     }
     this.distributeValue(newVal);
+    // A value set from code fires no input event — keep the form value and validity in step.
+    this.runValidationSync();
   }
 
   /** Clears all cells and focuses the first cell. */
@@ -209,9 +246,16 @@ export class AegovOtp {
     this.cellRefs[0]?.focus();
   }
 
+  /** The form found this field invalid during a submit or checkValidity() — start announcing errors. */
+  @Listen('invalid')
+  onInvalid() {
+    this.hasBlurredOnce = true;
+  }
+
   /** Imperatively re-run validation. */
   @Method()
   async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    if (trigger === 'submit') this.hasBlurredOnce = true;
     return this.runAndEmitValidation(trigger);
   }
 
@@ -220,6 +264,7 @@ export class AegovOtp {
   async setCustomValidity(message: string): Promise<void> {
     this.errorMessage = message;
     this.isInvalid = !!message;
+    this.customValidityMessage = message;
     if (this.internals) {
       if (message) {
         setInternalsValidity(
@@ -234,7 +279,16 @@ export class AegovOtp {
     }
   }
 
+  /** Message from setCustomValidity(), kept so recomputing validity does not drop it. */
+  private customValidityMessage = '';
+
   private computeValidity(): { validity: AegovValidityState; message: string } {
+    // Disabled controls are barred from constraint validation, as native ones are.
+    if (this.disabled) return { validity: synthesizeValidity({}), message: '' };
+    return withCustomError(this.computeConstraintValidity(), this.customValidityMessage);
+  }
+
+  private computeConstraintValidity(): { validity: AegovValidityState; message: string } {
     const val = this.value || '';
     const filled = val.length;
     if (this.isRequired && filled === 0) {
@@ -305,11 +359,15 @@ export class AegovOtp {
     this.aegovOtpChange.emit({ value: val });
     this.runValidationSync();
 
-    // Emit unified validate event
+    // Emit unified validate event. Entering or deleting single cells is still
+    // typing (`input`, like each keystroke in a text field); only a complete
+    // code is a committed value (`change`), so listeners that skip `input`
+    // don't flag "too short" while the user is still entering it.
     const { validity, message } = this.computeValidity();
     this.aegovValidate.emit(buildValidationDetail<string>(
       this.el as unknown as HTMLElement & { name?: string },
-      val, validity, message, this.errorMessage || null, 'change',
+      val, validity, message, this.errorMessage || null,
+      val.length === this.length ? 'change' : 'input',
     ));
 
     if (val.length === this.length && validity.valid) {
@@ -407,14 +465,16 @@ export class AegovOtp {
 
   /** Blur on the entire OTP group — gates aria-live. Only fires when focus leaves the group entirely. */
   private handleBlurGroup = (e: FocusEvent) => {
-    // If focus is moving to another cell within this component, skip
-    if (this.el.contains(e.relatedTarget as Node)) return;
+    // If focus is moving to another cell within this component, skip. The cells
+    // live in the shadow root, which the host's contains() does not search.
+    const next = e.relatedTarget as Node | null;
+    if (next && (this.el.contains(next) || this.el.shadowRoot?.contains(next))) return;
     this.hasBlurredOnce = true;
     this.runAndEmitValidation('blur');
   };
 
   render() {
-    const passThroughAttrs = getPassThroughAttributes(this.el, new Set([]));
+    const passThroughAttrs = this.hostAria ? this.hostAria.bridge(getPassThroughAttributes(this.el, new Set([]))) : getPassThroughAttributes(this.el, new Set([]));
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
 
@@ -430,7 +490,7 @@ export class AegovOtp {
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
     const showHint = !showError && (hasHintSlot || !!this.hint);
     const announceError = showError && this.hasBlurredOnce;
-    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const authorDescribedBy = this.hostAria?.descriptionId();
     const describedBy = composeDescribedBy(
       authorDescribedBy,
       showError ? this.errorId : null,
@@ -458,7 +518,6 @@ export class AegovOtp {
           <div
             class={`otp__wrapper otp__wrapper--${appearance}`}
             role="group"
-            aria-labelledby={this.groupLabelId || undefined}
             aria-invalid={this.isInvalid ? 'true' : null}
             onFocusout={this.handleBlurGroup}
             {...passThroughAttrs}
@@ -470,7 +529,7 @@ export class AegovOtp {
                 class={`otp__cell otp__cell--${size}`}
                 type="text"
                 inputMode={this.isAlphanumeric ? 'text' : 'numeric'}
-                disabled={this.isDisabled}
+                disabled={this.disabled}
                 autocomplete={index === 0 ? 'one-time-code' : 'off'}
                 aria-label={rtl
                   ? `حرف ${index + 1} من ${this.length}`
@@ -492,6 +551,7 @@ export class AegovOtp {
           {errorRegion}
           {hintRegion}
         </div>
+        {this.hostAria?.renderDescription()}
       </Host>
     );
   }
