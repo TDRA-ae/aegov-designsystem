@@ -41,7 +41,7 @@ const SIZE_CLASSES: Record<ButtonSize, string[]> = {
   sm: ['btn-sm', 'h-10', 'rounded-md', 'gap-2', 'px-3', 'text-base'],
   base: ['btn-base', 'h-11', 'rounded-md', 'gap-2', 'px-3.5', 'text-base'],
   lg: ['btn-lg', 'h-12', 'rounded-lg', 'gap-3', 'px-4', 'text-lg'],
-  xl: ['btn-lg', 'h-13', 'rounded-lg', 'gap-3', 'px-4.5', 'text-lg'],
+  xl: ['btn-xl', 'h-13', 'rounded-lg', 'gap-3', 'px-4.5', 'text-lg'],
 };
 
 const VARIANT_CLASSES: Record<ButtonVariant, string[]> = {

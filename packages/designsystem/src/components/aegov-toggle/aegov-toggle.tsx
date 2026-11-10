@@ -39,7 +39,7 @@ export class AegovToggle {
   /** The size of the toggle. */
   @Prop() size: string = 'base';
 
-  /** Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring stays camel; error stays aered. */
+  /** Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered. */
   @Prop() variant?: FormVariant;
 
   @State() private _resolvedSize: ToggleSize = 'base';

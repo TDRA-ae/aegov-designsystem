@@ -78,4 +78,24 @@ describe('aegov-input-group (e2e)', () => {
     expect(await explicitPrimary.getProperty('variant')).toBe('primary');
     expect(await unset.getProperty('variant')).toBe('secondary');
   });
+
+  // Disabled keys off the child's real disabled state, not a markup-only
+  // [is-disabled] attribute: it follows a property set from JS both ways.
+  it('dims when the child input is disabled by property, and un-dims on re-enable', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-input-group id="g"><aegov-input id="i"></aegov-input></aegov-input-group>
+      <aegov-input-group id="m"><aegov-input id="j" is-disabled="true"></aegov-input></aegov-input-group>
+    `);
+    await page.waitForChanges();
+    const opacity = (id: string) => page.$eval(`#${id} .aegov-input-group`, (el: Element) => getComputedStyle(el).opacity);
+    expect(await opacity('g')).toBe('1');
+    expect(await opacity('m')).toBe('0.4');
+
+    await page.$eval('#i', (el: any) => { el.isDisabled = true; });
+    await page.$eval('#j', (el: any) => { el.isDisabled = false; });
+    await page.waitForChanges();
+    expect(await opacity('g')).toBe('0.4');
+    expect(await opacity('m')).toBe('1');
+  });
 });
