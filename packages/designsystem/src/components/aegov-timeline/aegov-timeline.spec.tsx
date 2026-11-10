@@ -19,7 +19,8 @@ describe('aegov-timeline', () => {
     const nav = page.root.querySelector('section.aegov-timeline');
     expect(nav).not.toBeNull();
     expect(nav.getAttribute('aria-label')).toBe('Timeline');
-    expect(page.root.querySelector('ol.timeline__list')).not.toBeNull();
+    expect(page.root.querySelector('.timeline__list').getAttribute('role')).toBe('list');
+    expect(page.root.querySelector('ol, ul, li')).toBeNull();
   });
 
   it('auto-generates fieldId when not provided', async () => {
@@ -52,8 +53,8 @@ describe('aegov-timeline', () => {
       components: [AegovTimeline],
       html: `<aegov-timeline orientation="vertical"></aegov-timeline>`,
     });
-    const ol = page.root.querySelector('ol.timeline__list');
-    expect(ol.className).toContain('timeline__list--vertical');
+    const list = page.root.querySelector('.timeline__list');
+    expect(list.className).toContain('timeline__list--vertical');
   });
 
   it('horizontal orientation by default', async () => {
@@ -61,7 +62,7 @@ describe('aegov-timeline', () => {
       components: [AegovTimeline],
       html: `<aegov-timeline></aegov-timeline>`,
     });
-    expect(page.root.querySelector('ol.timeline__list').className).toContain('timeline__list--horizontal');
+    expect(page.root.querySelector('.timeline__list').className).toContain('timeline__list--horizontal');
   });
 
   it('syncs variant/size/orientation onto child steps', async () => {
@@ -96,8 +97,8 @@ describe('aegov-timeline', () => {
     await page.waitForChanges();
     const step = page.root.querySelector('aegov-timeline-step');
     expect((step as any).orientation).toBe('horizontal');
-    expect(step.querySelector('li').className).toContain('step--horizontal');
-    expect(page.root.querySelector('ol.timeline__list').className).toContain('timeline__list--horizontal');
+    expect(step.querySelector('.aegov-step').className).toContain('step--horizontal');
+    expect(page.root.querySelector('.timeline__list').className).toContain('timeline__list--horizontal');
   });
 
   it('cascades a SANITIZED variant to children, not the raw invalid value', async () => {
