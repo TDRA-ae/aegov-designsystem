@@ -27,10 +27,12 @@
     @apply bg-center bg-no-repeat bg-[length:100%_100%];
   }
 
+  /* Disabled keeps the variant colours; the 40% dimming further down is the
+     only disabled treatment (a fixed primary-200 border here never applied —
+     the per-variant border rule below has equal specificity and wins). */
   &:disabled {
     pointer-events: none;
     cursor: not-allowed;
-    border-color: var(--color-primary-200);
   }
 
   &:disabled:before {
@@ -65,26 +67,20 @@
 
 .checkbox__wrapper:has(input:disabled) {
   cursor: not-allowed;
-  opacity: 0.4;
 }
 
-/* Cancel own disabled opacity when the group's "default"/"list"-appearance
-   wrapper already handles it (avoids 0.4×0.4=0.16 compound, #68 — same
-   pattern as aegov-input's #50). `is-grouped` is set unconditionally on
-   every grouped child regardless of disabled state; aegov-checkbox-group.css
-   deliberately excludes "pills"/"cards" appearance from its own
-   wrapper-level dimming (each pill/card dims individually there instead,
-   the exact same `:not()` exclusion mirrored here), so this must not cancel
-   a pill/card's own — only correct — dimming source.
-   The `:not()`s are nested INSIDE `:host()`'s own argument, not chained
-   after it (`:host(...):not(...)`) — confirmed live that chaining additional
-   simple selectors after `:host()` on the same compound selector silently
-   loses this cascade battle against the plain, unconditional base rule
-   above, even though both the selector match and the specificity math say
-   it shouldn't. Folding every host-targeting condition into one `:host()`
-   argument is what actually wins. */
-:host([is-grouped]:not([appearance="pills"]):not([appearance="cards"])) .checkbox__wrapper:has(input:disabled) {
-  opacity: 1;
+/* Disabled — every checkbox dims itself, whatever the appearance: the label
+   wrapper (inline label, card, pill) when there is one, otherwise the bare
+   input. Keyed off the native input's :disabled, which is reactive (see
+   CLAUDE.md gotcha #8). aegov-checkbox-group no longer dims its own
+   container — it only dims its legend and hint — so a disabled group (which
+   disables every child) never compounds to 0.4 × 0.4, and a single disabled
+   item in an enabled group still dims (#68 follow-up).
+   In a list the item's separator lives on .aegov-checkbox itself, so a list
+   item dims that whole element — separator included, as in Figma. */
+:host(:not(.checkbox-in-list)) .aegov-checkbox:has(input:disabled) > :is(.checkbox__wrapper, input[type="checkbox"]),
+:host(.checkbox-in-list) .aegov-checkbox:has(input:disabled) {
+  opacity: 0.4;
 }
 
 .checkbox__text {
@@ -285,17 +281,20 @@
   border-color: var(--color-aeblack-200, oklch(0.8023 0.006 262));
 }
 
-/* Card hover border */
-:host(.checkbox-appearance-cards) .checkbox-variant-primary .checkbox__wrapper:hover:not(:has(input:disabled)) {
+/* Card hover border — unchecked cards only. The `:not(:has(input:checked))`
+   matters: this selector outranks the checked rule below, so without it a
+   hovered checked neutral-max card fell from aeblack-800 to aeblack-500 (and
+   every dark-mode checked card lost its dark border on hover). */
+:host(.checkbox-appearance-cards) .checkbox-variant-primary .checkbox__wrapper:hover:not(:has(input:disabled)):not(:has(input:checked)) {
   border-color: var(--color-primary-600, var(--color-aegold-600, oklch(0.5632 0.0956 83.8)));
 }
-:host(.checkbox-appearance-cards) .checkbox-variant-secondary .checkbox__wrapper:hover:not(:has(input:disabled)) {
+:host(.checkbox-appearance-cards) .checkbox-variant-secondary .checkbox__wrapper:hover:not(:has(input:disabled)):not(:has(input:checked)) {
   border-color: var(--color-secondary-600, var(--color-camel-600, oklch(0.5632 0.0956 55)));
 }
-:host(.checkbox-appearance-cards) .checkbox-variant-neutral-max .checkbox__wrapper:hover:not(:has(input:disabled)) {
+:host(.checkbox-appearance-cards) .checkbox-variant-neutral-max .checkbox__wrapper:hover:not(:has(input:disabled)):not(:has(input:checked)) {
   border-color: var(--color-aeblack-500, oklch(0.5888 0.008 264));
 }
-:host(.checkbox-appearance-cards) .checkbox-variant-neutral-min .checkbox__wrapper:hover:not(:has(input:disabled)) {
+:host(.checkbox-appearance-cards) .checkbox-variant-neutral-min .checkbox__wrapper:hover:not(:has(input:disabled)):not(:has(input:checked)) {
   border-color: var(--color-aeblack-400, oklch(0.6535 0.008 263));
 }
 
@@ -304,12 +303,6 @@
 :host(.checkbox-appearance-cards) .checkbox-variant-secondary .checkbox__wrapper:has(input:checked)  { @apply border-secondary-600 bg-secondary-50 dark:border-secondary-400 dark:bg-secondary-900/30; }
 :host(.checkbox-appearance-cards) .checkbox-variant-neutral-max .checkbox__wrapper:has(input:checked) { @apply border-aeblack-800 bg-aeblack-50 dark:border-aeblack-300 dark:bg-aeblack-700/30; }
 :host(.checkbox-appearance-cards) .checkbox-variant-neutral-min .checkbox__wrapper:has(input:checked) { @apply border-aeblack-400 bg-aeblack-50 dark:border-aeblack-500 dark:bg-aeblack-600/30; }
-
-/* Card disabled */
-:host(.checkbox-appearance-cards) .checkbox__wrapper:has(input:disabled) {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
 
 /* ============================================================
    Pills appearance
@@ -383,12 +376,6 @@
 :host(.checkbox-appearance-pills) .checkbox-variant-secondary .checkbox__wrapper:has(input:checked):hover:not(:has(input:disabled))  { @apply bg-secondary-500 border-secondary-500 dark:bg-secondary-400 dark:border-secondary-400; }
 :host(.checkbox-appearance-pills) .checkbox-variant-neutral-max .checkbox__wrapper:has(input:checked):hover:not(:has(input:disabled)) { @apply bg-aeblack-700 border-aeblack-700 dark:bg-aeblack-200 dark:border-aeblack-200; }
 :host(.checkbox-appearance-pills) .checkbox-variant-neutral-min .checkbox__wrapper:has(input:checked):hover:not(:has(input:disabled)) { @apply bg-aeblack-500 border-aeblack-500 dark:bg-aeblack-500 dark:border-aeblack-500; }
-
-/* Pill disabled */
-:host(.checkbox-appearance-pills) .checkbox__wrapper:has(input:disabled) {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
 
 /* Pill focus-visible outline — matches variant focus color from base checkbox rules */
 :host(.checkbox-appearance-pills) .checkbox-variant-primary .checkbox__wrapper:has(input:focus-visible)    { @apply outline-2 outline-offset-2 outline-primary-support-500; }

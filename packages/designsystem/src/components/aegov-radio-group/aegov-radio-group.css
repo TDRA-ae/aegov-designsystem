@@ -2,10 +2,6 @@
   display: block;
 }
 
-:host([is-disabled]) {
-  cursor: not-allowed;
-}
-
 .aegov-radio-group {
   @apply border-0 p-0 m-0;
 }
@@ -36,11 +32,16 @@
 /* Cards/pills internal styles live in aegov-radio.css via syncChildren() → :host(.radio-appearance-*) pattern.
    External CSS cannot cross the aegov-radio shadow boundary. */
 
-/* Disabled group — dim default and list variants at the container level.
-   Pills/cards handle per-item opacity via :has(input:disabled). */
-:host([is-disabled]) .aegov-radio-group:not(.radio-group--pills):not(.radio-group--cards) {
+/* Disabled group — every child is disabled with it and dims itself (see
+   aegov-radio.css), so the group only dims what it renders itself: the
+   legend and the hint. Dimming the whole fieldset here as well compounded
+   to 0.4 × 0.4. Keyed off the native fieldset's :disabled, not the reflected
+   [is-disabled] attribute (CLAUDE.md gotcha #8). */
+.aegov-radio-group:disabled {
+  cursor: not-allowed;
+}
+.aegov-radio-group:disabled > :is(.radio-group__legend, .aegov-radio-group__hint) {
   opacity: 0.4;
-  pointer-events: none;
 }
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */

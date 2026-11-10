@@ -161,7 +161,9 @@ export type BreadcrumbSeparator = typeof BREADCRUMB_SEPARATORS[number];
 /**
  * Form-wide colour family. Applied uniformly across all form components.
  * Drives idle border/ring, selected/checked fill, and value/accent text.
- * Focus ring (`primary-support-600` camel) and error tokens (`aered-*`) stay constant — not variant-affected.
+ * Focus ring follows the variant too: `{family}-support-500` light / `-400` dark —
+ * camel (primary-support), desert (secondary-support), seablue for neutral-max/neutral-min.
+ * Only the error tokens (`aered-*`) stay constant regardless of variant.
  */
 export const FORM_VARIANTS = ['primary', 'secondary', 'neutral-max', 'neutral-min'] as const;
 export type FormVariant = typeof FORM_VARIANTS[number];

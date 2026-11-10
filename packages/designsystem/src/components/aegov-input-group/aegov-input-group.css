@@ -193,10 +193,14 @@
 
 /* --------------------------------------------------------
    Disabled state — dim entire group when child input is disabled.
-   `:has()` checks for is-disabled attribute on slotted aegov-input.
-   aegov-input.css cancels the input's own disabled:opacity-40 inside
-   this context to avoid compound opacity (0.4 × 0.4 = 0.16).
+   aegov-input is form-associated, so it matches :disabled whether it is
+   disabled by its own isDisabled (which also keeps a `disabled` host
+   attribute in sync, added AND removed) or by a <fieldset disabled>. The old
+   `[is-disabled]` selector only matched when the author wrote the attribute
+   in markup, never for a property set from JS, and went stale on re-enable
+   (CLAUDE.md gotcha #8). aegov-input.css skips its own dimming when
+   `is-grouped`, so nothing compounds (0.4 × 0.4).
    -------------------------------------------------------- */
-.aegov-input-group:has(aegov-input[is-disabled]) {
+.aegov-input-group:has(aegov-input:is(:disabled, [disabled])) {
   @apply opacity-40 pointer-events-none cursor-not-allowed;
 }

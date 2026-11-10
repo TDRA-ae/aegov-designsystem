@@ -2,10 +2,6 @@
   display: block;
 }
 
-:host([is-disabled]) {
-  cursor: not-allowed;
-}
-
 .aegov-checkbox-group {
   @apply border-0 p-0 m-0;
 }
@@ -42,11 +38,16 @@
   flex-basis: 100%;
 }
 
-/* Disabled group — dim default and list variants at the container level.
-   Pills/cards handle per-item opacity via :has(input:disabled). */
-:host([is-disabled]) .aegov-checkbox-group:not(.checkbox-group--pills):not(.checkbox-group--cards) {
+/* Disabled group — every child is disabled with it and dims itself (see
+   aegov-checkbox.css), so the group only dims what it renders itself: the
+   legend and the hint. Dimming the whole fieldset here as well compounded
+   to 0.4 × 0.4. Keyed off the native fieldset's :disabled, not the reflected
+   [is-disabled] attribute (CLAUDE.md gotcha #8). */
+.aegov-checkbox-group:disabled {
+  cursor: not-allowed;
+}
+.aegov-checkbox-group:disabled > :is(.checkbox-group__legend, .aegov-checkbox-group__hint) {
   opacity: 0.4;
-  pointer-events: none;
 }
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */

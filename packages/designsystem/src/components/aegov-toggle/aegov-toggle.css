@@ -91,20 +91,27 @@
   @apply opacity-100;
 }
 
-/* Icon color */
-.toggle__icon-item svg,
-.toggle__icon-item img {
+/* Icon colour + size. The icons are slotted (light DOM), so a shadow-side
+   `.toggle__icon-item svg` selector never matched them. Set `color` on the
+   item instead — it inherits into slotted content, so `currentColor` icons
+   pick it up — and size the slotted element itself with ::slotted() so a
+   24px icon can't overflow the thumb. */
+.toggle__icon-item {
   @apply text-aeblack-500;
 }
 
-.aegov-toggle.toggle-variant-primary .toggle__input:checked + .toggle__track .toggle__icon-item svg,
-.aegov-toggle.toggle-variant-primary .toggle__input:checked + .toggle__track .toggle__icon-item img { @apply text-primary-600; }
-.aegov-toggle.toggle-variant-secondary .toggle__input:checked + .toggle__track .toggle__icon-item svg,
-.aegov-toggle.toggle-variant-secondary .toggle__input:checked + .toggle__track .toggle__icon-item img { @apply text-secondary-600; }
-.aegov-toggle.toggle-variant-neutral-max .toggle__input:checked + .toggle__track .toggle__icon-item svg,
-.aegov-toggle.toggle-variant-neutral-max .toggle__input:checked + .toggle__track .toggle__icon-item img { @apply text-aeblack-800; }
-.aegov-toggle.toggle-variant-neutral-min .toggle__input:checked + .toggle__track .toggle__icon-item svg,
-.aegov-toggle.toggle-variant-neutral-min .toggle__input:checked + .toggle__track .toggle__icon-item img { @apply text-aeblack-800; }
+.toggle__icon-item ::slotted(*) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.aegov-toggle.toggle-variant-primary .toggle__input:checked + .toggle__track .toggle__icon-item { @apply text-primary-600; }
+.aegov-toggle.toggle-variant-secondary .toggle__input:checked + .toggle__track .toggle__icon-item { @apply text-secondary-600; }
+.aegov-toggle.toggle-variant-neutral-max .toggle__input:checked + .toggle__track .toggle__icon-item { @apply text-aeblack-800; }
+.aegov-toggle.toggle-variant-neutral-min .toggle__input:checked + .toggle__track .toggle__icon-item { @apply text-aeblack-800; }
 
 /* ========================================
    Label wrapper
@@ -115,6 +122,11 @@
 
 .toggle__wrapper:has(.toggle__input:disabled) {
   cursor: not-allowed;
+}
+
+/* Disabled — dim the label wrapper when there is one, otherwise the bare
+   switch (a label-less toggle previously got no dimming at all). */
+.aegov-toggle:has(.toggle__input:disabled) > :is(.toggle__wrapper, .toggle__control) {
   opacity: 0.4;
 }
 

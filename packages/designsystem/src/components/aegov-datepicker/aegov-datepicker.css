@@ -18,7 +18,10 @@
   @apply flex items-center cursor-pointer;
 }
 
-:host([is-disabled]) .datepicker__trigger {
+/* Disabled — the host is form-associated and keeps a `disabled` attribute in
+   sync, so :host(:disabled) is reactive and also covers <fieldset disabled>.
+   The reflected [is-disabled] goes stale on re-enable (CLAUDE.md gotcha #8). */
+:host(:disabled) .datepicker__trigger {
   cursor: not-allowed;
 }
 
@@ -39,18 +42,19 @@
 :host(.datepicker-variant-neutral-min) .datepicker__input-wrapper   { @apply border-aeblack-400 dark:border-aeblack-600; }
 :host(.datepicker-variant-neutral-min) .datepicker__input           { @apply text-aeblack-700 dark:text-aeblack-200; }
 
-/* Focus ring — fires when input receives focus. Mirrors aegov-input focus look
+/* Focus ring — keyboard focus on the input (:focus-visible, like aegov-input;
+   :focus also lit it on every mouse click). Mirrors aegov-input focus look
    (ring + offset + border swap to support colour). */
-:host(.datepicker-variant-primary) .datepicker__input-wrapper:has(.datepicker__input:focus) {
+:host(.datepicker-variant-primary) .datepicker__input-wrapper:has(.datepicker__input:focus-visible) {
   @apply ring-1 ring-offset-2 ring-primary-support-500 border-2 border-primary-support-500
          dark:ring-primary-support-400 dark:border-primary-support-400;
 }
-:host(.datepicker-variant-secondary) .datepicker__input-wrapper:has(.datepicker__input:focus) {
+:host(.datepicker-variant-secondary) .datepicker__input-wrapper:has(.datepicker__input:focus-visible) {
   @apply ring-1 ring-offset-2 ring-secondary-support-500 border-2 border-secondary-support-500
          dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
-:host(.datepicker-variant-neutral-max) .datepicker__input-wrapper:has(.datepicker__input:focus),
-:host(.datepicker-variant-neutral-min) .datepicker__input-wrapper:has(.datepicker__input:focus) {
+:host(.datepicker-variant-neutral-max) .datepicker__input-wrapper:has(.datepicker__input:focus-visible),
+:host(.datepicker-variant-neutral-min) .datepicker__input-wrapper:has(.datepicker__input:focus-visible) {
   @apply ring-1 ring-offset-2 ring-seablue-500 border-2 border-seablue-500
          dark:ring-seablue-400 dark:border-seablue-400;
 }
@@ -59,10 +63,15 @@
   @apply gap-0;
 }
 
-:host([is-disabled]) .datepicker__input-wrapper {
+/* Keyed off the inner input's :disabled (reactive) — see the trigger rule. */
+.datepicker__input-wrapper:has(.datepicker__input:disabled) {
   opacity: 0.4;
   pointer-events: none;
 }
+
+/* Wrapper border (2px) is outside the inputs, so each size's input and icon
+   are 4px shorter than the matching aegov-input (h-9…h-13): the whole
+   trigger then measures 36/40/44/48/52px like the input, not 40–56px. */
 
 /* ── Input ──────────────────────────────────────────── */
 .datepicker__input {
@@ -77,7 +86,7 @@
 
 /* ── Size: xs ──────────────────────────────────────── */
 .datepicker__input-wrapper--xs .datepicker__input {
-  @apply text-sm py-1.5 px-2.5 h-9;
+  @apply text-sm py-1 px-2.5 h-8;
   min-width: 110px;
 }
 
@@ -88,7 +97,7 @@
 }
 
 .datepicker__input-wrapper--xs .datepicker__icon {
-  @apply h-9 w-9;
+  @apply h-8 w-9;
 }
 
 .datepicker__input-wrapper--xs .datepicker__clear-btn {
@@ -101,7 +110,7 @@
 
 /* ── Size: sm ──────────────────────────────────────── */
 .datepicker__input-wrapper--sm .datepicker__input {
-  @apply text-sm py-2 px-3 h-10;
+  @apply text-sm py-1.5 px-3 h-9;
   min-width: 120px;
 }
 
@@ -112,7 +121,7 @@
 }
 
 .datepicker__input-wrapper--sm .datepicker__icon {
-  @apply h-10 w-10;
+  @apply h-9 w-10;
 }
 
 .datepicker__input-wrapper--sm .datepicker__clear-btn {
@@ -125,7 +134,7 @@
 
 /* ── Size: base ────────────────────────────────────── */
 .datepicker__input-wrapper--base .datepicker__input {
-  @apply text-base py-2.5 px-3.5 h-11;
+  @apply text-base py-2 px-3.5 h-10;
   min-width: 135px;
 }
 
@@ -136,7 +145,7 @@
 }
 
 .datepicker__input-wrapper--base .datepicker__icon {
-  @apply h-11 w-11;
+  @apply h-10 w-11;
 }
 
 .datepicker__input-wrapper--base .datepicker__clear-btn {
@@ -149,7 +158,7 @@
 
 /* ── Size: lg ──────────────────────────────────────── */
 .datepicker__input-wrapper--lg .datepicker__input {
-  @apply text-lg py-3 px-4 h-12;
+  @apply text-lg py-2.5 px-4 h-11;
   min-width: 155px;
 }
 
@@ -160,7 +169,7 @@
 }
 
 .datepicker__input-wrapper--lg .datepicker__icon {
-  @apply h-12 w-12;
+  @apply h-11 w-12;
 }
 
 .datepicker__input-wrapper--lg .datepicker__clear-btn {
@@ -173,7 +182,7 @@
 
 /* ── Size: xl ──────────────────────────────────────── */
 .datepicker__input-wrapper--xl .datepicker__input {
-  @apply text-lg py-3.5 px-4.5 h-13;
+  @apply text-lg py-3 px-4.5 h-12;
   min-width: 170px;
 }
 
@@ -184,7 +193,7 @@
 }
 
 .datepicker__input-wrapper--xl .datepicker__icon {
-  @apply h-13 w-13;
+  @apply h-12 w-13;
 }
 
 .datepicker__input-wrapper--xl .datepicker__clear-btn {
@@ -211,8 +220,10 @@
 }
 
 /* ── Clear Button ───────────────────────────────────── */
+/* p-0: the UA's 1px 6px button padding squashed the 16px icon inside the
+   16–28px button. */
 .datepicker__clear-btn {
-  @apply flex shrink-0 items-center justify-center rounded
+  @apply flex shrink-0 items-center justify-center rounded p-0
          text-aeblack-500 hover:text-primary-700 hover:bg-primary-50
          cursor-pointer transition-colors duration-200
          focus-visible:outline-2 focus-visible:outline-primary-support-500 border-0 bg-transparent
@@ -220,7 +231,7 @@
          dark:focus-visible:outline-primary-support-400;
 }
 .datepicker__clear-btn > svg {
-  @apply w-4 h-4;
+  @apply w-4 h-4 shrink-0;
 }
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
@@ -231,7 +242,7 @@
 }
 
 /* Invalid + focus — red ring with offset (mirrors aegov-input). */
-:host(.is-invalid) .datepicker__input-wrapper:has(.datepicker__input:focus) {
+:host(.is-invalid) .datepicker__input-wrapper:has(.datepicker__input:focus-visible) {
   @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
 }
 
