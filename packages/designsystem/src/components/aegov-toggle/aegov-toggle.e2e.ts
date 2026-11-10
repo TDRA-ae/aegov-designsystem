@@ -96,4 +96,35 @@ describe('aegov-toggle (e2e)', () => {
     await page.waitForChanges();
     expect(host.getAttribute('is-checked')).toBeNull();
   });
+
+  it('a disabled toggle without a label is dimmed', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-toggle id="t" aria-label="Wi-Fi" is-disabled="true"></aegov-toggle>');
+    await page.waitForChanges();
+    const opacity = await page.$eval('#t', (el: any) => getComputedStyle(el.shadowRoot.querySelector('.toggle__control')).opacity);
+    expect(opacity).toBe('0.4');
+  });
+
+  it('slotted thumb icons take the state colour and fit the thumb', async () => {
+    const page = await newE2EPage();
+    const icon = (slot: string) => `<svg slot="${slot}" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><rect width="24" height="24"/></svg>`;
+    await page.setContent(`
+      <aegov-toggle id="off" aria-label="Off">${icon('icon-unchecked')}${icon('icon-checked')}</aegov-toggle>
+      <aegov-toggle id="on" aria-label="On" is-checked="true">${icon('icon-unchecked')}${icon('icon-checked')}</aegov-toggle>
+    `);
+    await page.waitForChanges();
+    const read = (id: string) => page.evaluate((id: string) => {
+      const host = document.getElementById(id) as any;
+      const svg = host.querySelector(host.id === 'on' ? '[slot="icon-checked"]' : '[slot="icon-unchecked"]');
+      const box = host.shadowRoot.querySelector('.toggle__icon').getBoundingClientRect();
+      const r = svg.getBoundingClientRect();
+      return { color: getComputedStyle(svg).color, fits: r.width <= box.width + 0.5 && r.height <= box.height + 0.5 };
+    }, id);
+    const off = await read('off');
+    const on = await read('on');
+    expect(off.fits).toBe(true);
+    expect(on.fits).toBe(true);
+    expect(off.color).not.toBe('rgb(0, 0, 0)');
+    expect(on.color).not.toBe(off.color);
+  });
 });

@@ -40,7 +40,7 @@ export class AegovRadio {
   /** The size of the radio. */
   @Prop() size: string = 'base';
 
-  /** Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered. */
+  /** Colour family. Drives rest border, checked bg/border. Focus ring follows the variant's support colour (camel for primary, desert for secondary, seablue for neutral-max/neutral-min); error stays aered. */
   @Prop() variant?: FormVariant;
 
   /** Visual appearance set by a parent aegov-radio-group. Not meant to be set directly. */

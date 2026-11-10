@@ -7,7 +7,7 @@
   @apply relative w-full bg-transparent leading-6 font-medium
          motion-reduce:transition-none
          disabled:pointer-events-none disabled:cursor-not-allowed
-         disabled:select-none disabled:opacity-40
+         disabled:select-none
          rounded-lg focus:outline-hidden;
   @apply placeholder:text-aeblack-500 bg-whitely-50
          border-2
@@ -62,8 +62,23 @@
   @apply relative;
 }
 
-.input--has-action {
-  @apply pe-12;
+/* Reveal / copy button is as wide as the input is tall (h-9…h-13), so the
+   end padding follows the size — a fixed pe-12 (48px) let text run under the
+   52px xl button. */
+.input--has-action.input--xs   { @apply pe-9; }
+.input--has-action.input--sm   { @apply pe-10; }
+.input--has-action.input--base { @apply pe-11; }
+.input--has-action.input--lg   { @apply pe-12; }
+.input--has-action.input--xl   { @apply pe-13; }
+
+/* Disabled — dim the whole control: the bare input, or, when there is a
+   wrapper, the wrapper with the input, slotted icons and the reveal / copy
+   button together (dimming only the <input> left icons and buttons at full
+   strength). Inside aegov-input-group the group dims itself instead, so the
+   grouped host is excluded here rather than cancelled afterwards. */
+:host(:not([is-grouped])) > .aegov-input:disabled,
+:host(:not([is-grouped])) .input__wrapper:has(> .aegov-input:disabled) {
+  opacity: 0.4;
 }
 
 /* Icon slot containers */
@@ -156,7 +171,7 @@
          outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-support-500
          focus-visible:bg-primary-support-400 focus-visible:text-primary-support-950
          cursor-pointer transition-colors duration-200
-         disabled:opacity-40 disabled:pointer-events-none
+         disabled:pointer-events-none
          dark:text-aeblack-400 dark:hover:text-primary-300
          dark:focus-visible:outline-primary-support-400
          dark:focus-visible:bg-primary-support-400 dark:focus-visible:text-primary-support-950;
@@ -268,15 +283,6 @@
 :host([is-grouped]) .aegov-input__hint,
 :host([is-grouped]) .aegov-input__error {
   @apply hidden;
-}
-/* Cancel own disabled opacity when the group wrapper already handles it (avoids 0.4×0.4=0.16 compound).
-   `is-grouped` is already set unconditionally on every grouped child (see above) — whenever ONE of them
-   is genuinely disabled, aegov-input-group.css's own `:has(aegov-input[is-disabled])` rule always dims
-   the whole group wrapper too, so this only needs "am I grouped AND actually disabled", not a second
-   `:host-context()`/`:has()` lookup back up into the group (#50 — `:host-context()` is deprecated and
-   not implemented in Firefox or Safari, the same reason `is-grouped` itself replaced it above). */
-:host([is-grouped]) .aegov-input:disabled {
-  opacity: 1;
 }
 .input__wrapper--xl .input__icon > svg { @apply w-[22px] h-[22px]; }
 

@@ -40,33 +40,57 @@ describe('aegov-input (e2e)', () => {
     expect(await input.getProperty('disabled')).toBe(true);
   });
 
-  // Regression coverage for #50. A disabled input inside aegov-input-group would
-  // otherwise compound its own disabled:opacity-40 with the group wrapper's own
-  // opacity-40 (0.4 × 0.4 = 0.16). `is-grouped` is already set on every grouped
-  // child unconditionally, so ":host([is-grouped]) .aegov-input:disabled" cancels
-  // just the input's own multiplier whenever it's genuinely disabled, leaving the
-  // group's single 0.4 as the only dimming applied.
-  it('cancels its own disabled opacity inside a group, but not standalone (#50)', async () => {
+  // Opacity the user sees: product of opacities up the flat tree.
+  const effectiveOpacity = (page: any, hostSelector: string, selector: string) => page.evaluate((hostSelector: string, selector: string) => {
+    const host = document.querySelector(hostSelector) as any;
+    let node: any = selector === ':host' ? host : (host.shadowRoot.querySelector(selector) || host.querySelector(selector));
+    let o = 1;
+    while (node) {
+      if (node.nodeType === 1) o *= parseFloat(getComputedStyle(node).opacity);
+      node = node.assignedSlot || node.parentNode || node.host;
+    }
+    return Math.round(o * 100) / 100;
+  }, hostSelector, selector);
+
+  // Regression coverage for #50: inside aegov-input-group only the group dims
+  // (0.4), the grouped input doesn't add its own (0.4 × 0.4 = 0.16).
+  it('is dimmed once inside a group, and dims itself standalone (#50)', async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <aegov-input-group>
-        <aegov-input is-disabled="true"></aegov-input>
+        <aegov-input id="grouped" is-disabled="true"></aegov-input>
       </aegov-input-group>
       <aegov-input id="standalone" is-disabled="true"></aegov-input>
     `);
     await page.waitForChanges();
+    expect(await effectiveOpacity(page, '#grouped', '.aegov-input')).toBe(0.4);
+    expect(await effectiveOpacity(page, '#standalone', '.aegov-input')).toBe(0.4);
+  });
 
-    const opacities = await page.evaluate(() => {
-      const grouped = document.querySelector('aegov-input-group aegov-input') as any;
-      const standalone = document.getElementById('standalone') as any;
-      return {
-        grouped: getComputedStyle(grouped.shadowRoot.querySelector('.aegov-input')).opacity,
-        standalone: getComputedStyle(standalone.shadowRoot.querySelector('.aegov-input')).opacity,
-      };
-    });
+  it('disabled dims slotted icons and the reveal button with the input', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-input id="i" type="password" is-revealable="true" is-disabled="true">
+        <svg slot="icon-start" viewBox="0 0 24 24"><rect width="24" height="24"/></svg>
+      </aegov-input>
+    `);
+    await page.waitForChanges();
+    expect(await effectiveOpacity(page, '#i', '.aegov-input')).toBe(0.4);
+    expect(await effectiveOpacity(page, '#i', '[slot="icon-start"]')).toBe(0.4);
+    expect(await effectiveOpacity(page, '#i', '.input__revealable')).toBe(0.4);
+  });
 
-    expect(opacities.grouped).toBe('1');
-    expect(opacities.standalone).toBe('0.4');
+  it('end padding clears the reveal / copy button at every size', async () => {
+    const page = await newE2EPage();
+    await page.setContent(['xs', 'sm', 'base', 'lg', 'xl']
+      .map(size => `<aegov-input size="${size}" type="password" is-revealable="true"></aegov-input>`).join(''));
+    await page.waitForChanges();
+    const rows = await page.evaluate(() => Array.from(document.querySelectorAll('aegov-input')).map((el: any) => {
+      const input = el.shadowRoot.querySelector('.aegov-input');
+      const btn = el.shadowRoot.querySelector('.input__revealable');
+      return { padding: parseFloat(getComputedStyle(input).paddingInlineEnd), button: btn.getBoundingClientRect().width };
+    }));
+    for (const row of rows) expect(row.padding).toBeGreaterThanOrEqual(row.button);
   });
 
   it('shows reveal button for password and toggles type', async () => {
