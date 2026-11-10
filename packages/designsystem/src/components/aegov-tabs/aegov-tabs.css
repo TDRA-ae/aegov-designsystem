@@ -4,13 +4,21 @@
 
 :host {
   @apply block;
-  --tab-fade-color: theme(--color-whitely-100);
 }
 
-:host-context(.dark),
-.dark :host,
+/* Scroll-fade colour. It should match the surface behind the tabs, which by
+   default is the page (body: whitely-100 light / aeblack-950 dark).
+   This component is scoped:false, so `:host` rules match nothing — the light
+   default therefore lives in the var() fallback on the scrollable wrapper
+   (`--tab-fade`), and dark mode sets the variable on `.dark`, from where it
+   inherits. Consumers can override `--tab-fade-color` on aegov-tabs or any
+   ancestor to match a different surface. */
 .dark {
   --tab-fade-color: theme(--color-aeblack-950);
+}
+
+.tabs__list-wrapper--scrollable {
+  --tab-fade: var(--tab-fade-color, theme(--color-whitely-100));
 }
 
 /* ---- Container ---- */
@@ -54,12 +62,12 @@
 
 .tabs__list-wrapper--scrollable::before {
   left: 0;
-  background: linear-gradient(to right, var(--tab-fade-color) 30%, transparent);
+  background: linear-gradient(to right, var(--tab-fade) 30%, transparent);
 }
 
 .tabs__list-wrapper--scrollable::after {
   right: 0;
-  background: linear-gradient(to left, var(--tab-fade-color) 30%, transparent);
+  background: linear-gradient(to left, var(--tab-fade) 30%, transparent);
 }
 
 .tabs__list-wrapper--scrollable.has-start-fade::before {
@@ -195,7 +203,7 @@
   bottom: auto;
   width: auto;
   height: 3rem;
-  background: linear-gradient(to bottom, var(--tab-fade-color) 30%, transparent);
+  background: linear-gradient(to bottom, var(--tab-fade) 30%, transparent);
 }
 
 .tabs--vertical .tabs__list-wrapper--scrollable::after {
@@ -205,7 +213,7 @@
   top: auto;
   width: auto;
   height: 3rem;
-  background: linear-gradient(to top, var(--tab-fade-color) 30%, transparent);
+  background: linear-gradient(to top, var(--tab-fade) 30%, transparent);
 }
 
 /* ============================================================
@@ -216,12 +224,12 @@
 [dir='rtl'] .tabs__list-wrapper--scrollable::before {
   left: auto;
   right: 0;
-  background: linear-gradient(to left, var(--tab-fade-color) 30%, transparent);
+  background: linear-gradient(to left, var(--tab-fade) 30%, transparent);
 }
 
 :host(:dir(rtl)) .tabs__list-wrapper--scrollable::after,
 [dir='rtl'] .tabs__list-wrapper--scrollable::after {
   right: auto;
   left: 0;
-  background: linear-gradient(to right, var(--tab-fade-color) 30%, transparent);
+  background: linear-gradient(to right, var(--tab-fade) 30%, transparent);
 }

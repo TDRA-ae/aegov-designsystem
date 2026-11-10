@@ -39,6 +39,16 @@ describe('aegov-navbar-item', () => {
     expect(span.getAttribute('aria-disabled')).toBe('true');
   });
 
+  it('disabled item is not focusable (no tabindex anywhere in the item)', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: wrap(`<aegov-navbar-item href="/x" is-disabled="true">D</aegov-navbar-item>`),
+    });
+    const item = page.root.querySelector('aegov-navbar-item');
+    expect(item.querySelector('[tabindex]')).toBeNull();
+    expect(item.querySelector('a, button')).toBeNull();
+  });
+
   it('marks active item with aria-current="page"', async () => {
     const page = await newSpecPage({
       components: COMPONENTS,

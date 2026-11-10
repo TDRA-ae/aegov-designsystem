@@ -134,4 +134,67 @@ describe('aegov-tabs (e2e)', () => {
     expect(root).toHaveClass('tabs--segmented');
     expect(root).toHaveClass('tabs--vertical');
   });
+
+  describe('scroll fades (is-scrollable)', () => {
+    const scrollableHtml = (wrapperStyle = '') => `
+      <div style="width: 160px; ${wrapperStyle}">
+        <aegov-tabs is-scrollable="true" default-open="t1">
+          ${[1, 2, 3, 4, 5, 6].map(i => `<aegov-tab slot="tabs" tab-id="t${i}">Long tab label ${i}</aegov-tab>`).join('')}
+          ${[1, 2, 3, 4, 5, 6].map(i => `<aegov-tab-panel tab-id="t${i}">P${i}</aegov-tab-panel>`).join('')}
+        </aegov-tabs>
+      </div>
+    `;
+
+    const endFade = (page: any) =>
+      page.$eval('aegov-tabs .tabs__list-wrapper--scrollable', (el: HTMLElement) => {
+        const cs = getComputedStyle(el, '::after');
+        return { image: cs.backgroundImage, opacity: cs.opacity, hasEndFade: el.classList.contains('has-end-fade') };
+      });
+
+    /** First colour stop of a computed linear-gradient string. */
+    const firstStop = (image: string) => {
+      const m = image.match(/linear-gradient\((?:to [a-z ]+,\s*)?((?:rgba?|oklch|oklab|color)\([^)]*\))/);
+      return m ? m[1] : null;
+    };
+
+    it('light mode: the end fade is visible and painted with a non-transparent colour', async () => {
+      const page = await newE2EPage();
+      await page.setContent(scrollableHtml());
+      await page.waitForChanges();
+      // The fade opacity transitions over 200ms once has-end-fade is applied.
+      await page.waitForFunction(() => {
+        const el = document.querySelector('aegov-tabs .tabs__list-wrapper--scrollable');
+        return !!el && getComputedStyle(el, '::after').opacity === '1';
+      }, { timeout: 2000 }).catch(() => undefined);
+      const fade = await endFade(page);
+      expect(fade.hasEndFade).toBe(true);
+      expect(fade.opacity).toBe('1');
+      // An undefined --tab-fade-color used to invalidate the whole declaration,
+      // leaving `none` here and no visible fade.
+      expect(fade.image).not.toBe('none');
+      const stop = firstStop(fade.image);
+      expect(stop).not.toBeNull();
+      expect(stop).not.toBe('rgba(0, 0, 0, 0)');
+    });
+
+    it('dark mode: the fade uses a different (dark) colour', async () => {
+      const page = await newE2EPage();
+      await page.setContent(scrollableHtml());
+      await page.waitForChanges();
+      const light = firstStop((await endFade(page)).image);
+      await page.evaluate(() => document.documentElement.classList.add('dark'));
+      await page.waitForChanges();
+      const dark = firstStop((await endFade(page)).image);
+      expect(dark).not.toBeNull();
+      expect(dark).not.toBe('rgba(0, 0, 0, 0)');
+      expect(dark).not.toBe(light);
+    });
+
+    it('consumers can override --tab-fade-color on an ancestor', async () => {
+      const page = await newE2EPage();
+      await page.setContent(scrollableHtml('--tab-fade-color: rgb(255, 0, 0);'));
+      await page.waitForChanges();
+      expect(firstStop((await endFade(page)).image)).toBe('rgb(255, 0, 0)');
+    });
+  });
 });

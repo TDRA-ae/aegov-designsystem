@@ -106,6 +106,56 @@ describe('aegov-navblock-item (e2e)', () => {
     expect(sub).not.toBeNull();
   });
 
+  describe('flat group header', () => {
+    const flatHtml = `
+      <aegov-navblock variant="flat">
+        <aegov-navblock-item id="g1">
+          Group one
+          <aegov-navblock-item href="/a">A</aegov-navblock-item>
+        </aegov-navblock-item>
+        <aegov-navblock-item id="leaf" href="/b">B</aegov-navblock-item>
+        <aegov-navblock-item id="g2">
+          Group two
+          <aegov-navblock-item href="/c">C</aegov-navblock-item>
+        </aegov-navblock-item>
+      </aegov-navblock>
+    `;
+
+    const headerStyle = (page: any, id: string) =>
+      page.$eval(`#${id} > .aegov-navblock-item > .aegov-navblock-item__group-header`, (el: HTMLElement) => {
+        const cs = getComputedStyle(el);
+        return { bg: cs.backgroundColor, color: cs.color, marginTop: cs.marginTop };
+      });
+
+    it('has no hover background or hover text colour change', async () => {
+      const page = await newE2EPage();
+      await page.setContent(flatHtml);
+      await page.waitForChanges();
+      const before = await headerStyle(page, 'g2');
+      await page.hover('#g2 .aegov-navblock-item__group-header');
+      const after = await headerStyle(page, 'g2');
+      expect(after.bg).toBe('rgba(0, 0, 0, 0)');
+      expect(after.color).toBe(before.color);
+    });
+
+    it('interactive rows still get the hover background', async () => {
+      const page = await newE2EPage();
+      await page.setContent(flatHtml);
+      await page.waitForChanges();
+      await page.hover('#leaf a.aegov-navblock-item__row');
+      const bg = await page.$eval('#leaf a.aegov-navblock-item__row', (el: HTMLElement) => getComputedStyle(el).backgroundColor);
+      expect(bg).not.toBe('rgba(0, 0, 0, 0)');
+    });
+
+    it('gets 16px top margin after other items, none as the first item', async () => {
+      const page = await newE2EPage();
+      await page.setContent(flatHtml);
+      await page.waitForChanges();
+      expect((await headerStyle(page, 'g1')).marginTop).toBe('0px');
+      expect((await headerStyle(page, 'g2')).marginTop).toBe('16px');
+    });
+  });
+
   it('forwards target/rel attributes onto the inner anchor', async () => {
     const page = await newE2EPage();
     await page.setContent(`

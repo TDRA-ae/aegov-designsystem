@@ -21,23 +21,26 @@
    Backdrop
    ============================================ */
 
+/* Colour comes only from the opacity variant below — the backdrop always
+   renders with one of them. Keep these values identical to aegov-drawer's
+   .drawer-backdrop--* (aeblack-900 at 30/50/70%, aeblack-950 at 50/70/85% dark). */
 .aegov-modal-backdrop {
-  @apply fixed inset-0 bg-slate-900/40;
+  @apply fixed inset-0;
   z-index: var(--modal-z-index);
   transition: opacity var(--modal-transition-duration) var(--modal-transition-timing);
 }
 
 /* Backdrop opacity variants */
 .modal-backdrop--light {
-  @apply bg-slate-900/30;
+  @apply bg-aeblack-900/30;
 }
 
 .modal-backdrop--base {
-  @apply bg-slate-900/50;
+  @apply bg-aeblack-900/50;
 }
 
 .modal-backdrop--dark {
-  @apply bg-slate-900/70;
+  @apply bg-aeblack-900/70;
 }
 
 /* Backdrop animation states */
@@ -97,9 +100,6 @@
   @apply bg-aeblack-900 text-whitely-100;
 }
 
-:host-context(.dark) .aegov-modal-backdrop {
-  @apply bg-aeblack-950/60;
-}
 :host-context(.dark) .modal-backdrop--light  { @apply bg-aeblack-950/50; }
 :host-context(.dark) .modal-backdrop--base   { @apply bg-aeblack-950/70; }
 :host-context(.dark) .modal-backdrop--dark   { @apply bg-aeblack-950/85; }
@@ -169,7 +169,7 @@
 }
 
 /* ============================================
-   Scrollbar Styling (Optional Enhancement)
+   Scrollbar Styling — same tokens as aegov-drawer
    ============================================ */
 
 .aegov-modal-content::-webkit-scrollbar {
@@ -177,15 +177,15 @@
 }
 
 .aegov-modal-content::-webkit-scrollbar-track {
-  @apply bg-slate-100 rounded-lg;
+  @apply bg-aeblack-100 rounded-lg;
 }
 
 .aegov-modal-content::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 rounded-lg;
+  @apply bg-aeblack-300 rounded-lg;
 }
 
 .aegov-modal-content::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-400;
+  @apply bg-aeblack-400;
 }
 
 :host-context(.dark) .aegov-modal-content::-webkit-scrollbar-track  { @apply bg-aeblack-800; }

@@ -42,7 +42,7 @@
   transition: none;
 }
 
-/* Backdrop opacity variants */
+/* Backdrop opacity variants — keep identical to aegov-modal's .modal-backdrop--* */
 .drawer-backdrop--light {
   @apply bg-aeblack-900/30;
 }
