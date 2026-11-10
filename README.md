@@ -352,8 +352,6 @@ packages/
   designsystem-react/    @aegov/designsystem-react: generated React wrappers
   designsystem-vue/      @aegov/designsystem-vue: generated Vue proxies + plugin
   designsystem-angular/  @aegov/designsystem-angular: generated Angular wrappers + provider
-test-apps/
-  test-html/  test-react/  test-vue/  test-angular/   working reference apps for each framework
 ```
 
 The core package is the single source of truth. Building it regenerates the React, Vue and Angular wrapper sources, so never edit the `stencil-generated` folders by hand.
@@ -377,7 +375,7 @@ npm run test:e2e       # Puppeteer end-to-end tests
 npm run build:prod     # production build, as published
 ```
 
-More commands and the release process are in [DEVELOPER.md](DEVELOPER.md). Some of its core-package sections are out of date: the docs site and its Playwright accessibility tests have moved to their own repository. Contributor conventions are in [packages/designsystem/CLAUDE.md](packages/designsystem/CLAUDE.md).
+Contributor conventions are in [packages/designsystem/CLAUDE.md](packages/designsystem/CLAUDE.md).
 
 ---
 
