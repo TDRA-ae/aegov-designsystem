@@ -308,8 +308,10 @@ export class AegovNavbarItem {
 
     let inner: any;
     if (this.isDisabled) {
+      // No tabindex: a disabled item must not be reachable with Tab (it is
+      // also skipped by aegov-navbar's arrow-key cycle via aria-disabled).
       inner = (
-        <span class="aegov-navbar-item__link" aria-disabled="true" tabIndex={0}>
+        <span class="aegov-navbar-item__link" aria-disabled="true">
           {iconNode}
           {labelNode}
         </span>
