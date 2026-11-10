@@ -30,6 +30,43 @@ describe('aegov-navbar-item e2e', () => {
     expect(span.getAttribute('aria-disabled')).toBe('true');
   });
 
+  it('Tab skips a disabled item', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-navbar>
+        <aegov-navbar-item id="a" href="/a">A</aegov-navbar-item>
+        <aegov-navbar-item id="d" href="/d" is-disabled="true">D</aegov-navbar-item>
+        <aegov-navbar-item id="c" href="/c">C</aegov-navbar-item>
+      </aegov-navbar>
+    `);
+    await page.waitForChanges();
+    await page.focus('#a a');
+    await page.keyboard.press('Tab');
+    const focusedItem = await page.evaluate(() => document.activeElement?.closest('aegov-navbar-item')?.id);
+    expect(focusedItem).toBe('c');
+    const disabledTabIndex = await page.$eval('#d .aegov-navbar-item__link', (el: HTMLElement) => el.tabIndex);
+    expect(disabledTabIndex).toBe(-1);
+  });
+
+  it('disabled item shows the not-allowed cursor', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<aegov-navbar><aegov-navbar-item id="d" is-disabled="true">D</aegov-navbar-item></aegov-navbar>`);
+    await page.waitForChanges();
+    const cursor = await page.$eval('#d div.aegov-navbar-item', (el: HTMLElement) => getComputedStyle(el).cursor);
+    expect(cursor).toBe('not-allowed');
+  });
+
+  it('re-enabled item drops the not-allowed cursor and becomes focusable', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<aegov-navbar><aegov-navbar-item id="d" href="/d" is-disabled="true">D</aegov-navbar-item></aegov-navbar>`);
+    await page.waitForChanges();
+    await page.$eval('#d', (el: any) => { el.isDisabled = false; });
+    await page.waitForChanges();
+    const cursor = await page.$eval('#d div.aegov-navbar-item', (el: HTMLElement) => getComputedStyle(el).cursor);
+    expect(cursor).not.toBe('not-allowed');
+    expect(await page.$('#d a.aegov-navbar-item__link')).not.toBeNull();
+  });
+
   // Regression coverage for #56. The chevron's own CSS previously never set
   // any transform/rotate on open or close, despite the reference docs
   // claiming the rotation was part of the component's behaviour.

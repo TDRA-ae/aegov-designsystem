@@ -19,7 +19,10 @@
   @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-primary-support-500 focus-visible:text-primary-support-950! dark:focus-visible:bg-primary-support-400;
 }
 
-.aegov-navblock-item__row:hover:not([aria-disabled="true"]):not(:disabled) {
+/* The flat group header shares the __row class but is not interactive —
+   excluded here rather than reset later, because a later reset would need to
+   out-specify this 0,4,0 selector. */
+.aegov-navblock-item__row:hover:not([aria-disabled="true"]):not(:disabled):not(.aegov-navblock-item__group-header) {
   @apply bg-whitely-100 text-aeblack-900 dark:bg-aeblack-800 dark:text-whitely-100;
 }
 
@@ -130,12 +133,17 @@
    FLAT VARIANT
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Group header: bold, non-interactive, top spacing to separate sections */
+/* Group header: bold, non-interactive (no hover state — see the row hover
+   rule above). */
 .aegov-navblock-item__group-header {
-  @apply font-semibold text-aeblack-900 cursor-default mt-4 first:mt-0 dark:text-whitely-100;
+  @apply font-semibold text-aeblack-900 cursor-default dark:text-whitely-100;
 }
-.aegov-navblock-item__group-header:hover {
-  background: none;
+
+/* Top spacing to separate sections. The header row is always the first child
+   of its own wrapper, so `first:` on the row can never tell whether other
+   items precede it — test the host's position among its siblings instead. */
+aegov-navblock-item:not(:first-child) > .aegov-navblock-item--flat-header > .aegov-navblock-item__group-header {
+  @apply mt-4;
 }
 
 /* Children sub-list: no indent, no border — all items flush at same left edge */
