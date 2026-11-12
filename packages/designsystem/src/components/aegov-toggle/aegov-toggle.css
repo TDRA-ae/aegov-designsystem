@@ -134,12 +134,15 @@
   @apply flex flex-col;
 }
 
+/* Text colours switch with an ancestor .dark through inherited custom
+   properties (see global.css); dark: variants can't reach into shadow DOM. */
 .toggle__label-text {
-  @apply text-aeblack-800 dark:text-whitely-100;
+  color: var(--aegov-text);
 }
 
 .toggle__hint {
-  @apply text-aeblack-600 dark:text-aeblack-300 leading-snug;
+  @apply leading-snug;
+  color: var(--aegov-text-muted);
 }
 
 /* ========================================

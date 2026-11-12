@@ -312,8 +312,11 @@ export class AegovCallout {
             onClick={this.handleDismiss}
             aria-label={isRtl(this.el) ? STRINGS.ar.close : STRINGS.en.close}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+            {/* Phosphor "x" (regular), the same icon as the toast's dismiss button */}
+            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" width="16" height="16" viewBox="0 0 256 256" aria-hidden="true">
+              <rect width="256" height="256" fill="none"/>
+              <line x1="200" y1="56" x2="56" y2="200" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
+              <line x1="200" y1="200" x2="56" y2="56" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
             </svg>
           </button>
         )}

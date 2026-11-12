@@ -141,7 +141,45 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+
   :root.dark{
     --form-select-arrow: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23D4A574' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   }
-  
+
+  /* Colour tokens for shadow DOM components (light and dark mode).
+     A selector inside a shadow root can't see the .dark class on <html>:
+     Tailwind's dark: variant (.dark *) can't cross the shadow boundary, and
+     :host-context(.dark) only works in Chromium (Firefox and Safari drop the
+     whole rule). Custom properties do inherit into shadow roots in every
+     browser, so :root sets the light values, .dark sets the dark values, and
+     components read them: var(--aegov-surface).
+     Any ancestor with .dark works, the same as Tailwind's dark: variant.
+     No fallbacks: the documented setup always loads base + theme, and the
+     theme colours referenced here are kept by the consumer's Tailwind build. */
+  :root {
+    --aegov-text: var(--color-aeblack-800);
+    --aegov-text-muted: var(--color-aeblack-600);
+    --aegov-surface: var(--color-whitely-50);
+    --aegov-backdrop-light: color-mix(in oklab, var(--color-aeblack-900) 30%, transparent);
+    --aegov-backdrop-base: color-mix(in oklab, var(--color-aeblack-900) 50%, transparent);
+    --aegov-backdrop-dark: color-mix(in oklab, var(--color-aeblack-900) 70%, transparent);
+    --aegov-scrollbar-track: var(--color-aeblack-100);
+    --aegov-scrollbar-thumb: var(--color-aeblack-300);
+    --aegov-scrollbar-thumb-hover: var(--color-aeblack-400);
+    --aegov-tooltip-bg: var(--color-aeblack-800);
+    --aegov-tooltip-text: var(--color-whitely-50);
+  }
+
+  .dark {
+    --aegov-text: var(--color-whitely-100);
+    --aegov-text-muted: var(--color-aeblack-300);
+    --aegov-surface: var(--color-aeblack-900);
+    --aegov-backdrop-light: color-mix(in oklab, var(--color-aeblack-950) 50%, transparent);
+    --aegov-backdrop-base: color-mix(in oklab, var(--color-aeblack-950) 70%, transparent);
+    --aegov-backdrop-dark: color-mix(in oklab, var(--color-aeblack-950) 85%, transparent);
+    --aegov-scrollbar-track: var(--color-aeblack-800);
+    --aegov-scrollbar-thumb: var(--color-aeblack-600);
+    --aegov-scrollbar-thumb-hover: var(--color-aeblack-500);
+    --aegov-tooltip-bg: var(--color-whitely-100);
+    --aegov-tooltip-text: var(--color-aeblack-900);
+  }
+
   * {
     box-sizing: border-box;
   }
