@@ -175,9 +175,12 @@
    Tooltip — floating value above thumb
    ======================================== */
 .range__tooltip {
-  @apply absolute bg-aeblack-800 text-white text-xs rounded
-         px-1.5 py-0.5 whitespace-nowrap pointer-events-none select-none
-         dark:bg-whitely-100 dark:text-aeblack-900;
+  @apply absolute text-xs rounded
+         px-1.5 py-0.5 whitespace-nowrap pointer-events-none select-none;
+  /* Dark when an ancestor has .dark (see global.css); the arrow reuses this colour. */
+  --range-tooltip-bg: var(--aegov-tooltip-bg);
+  background-color: var(--range-tooltip-bg);
+  color: var(--aegov-tooltip-text);
   font-variant-numeric: tabular-nums;
 }
 
@@ -195,11 +198,7 @@
   transform: translateX(-50%);
   border-width: 4px;
   border-style: solid;
-  border-color: theme('colors.aeblack.800') transparent transparent transparent;
-}
-
-:host-context(.dark) .range--horizontal .range__tooltip::after {
-  border-color: theme('colors.whitely.100') transparent transparent transparent;
+  border-color: var(--range-tooltip-bg) transparent transparent transparent;
 }
 
 .range--vertical .range__tooltip {
@@ -216,11 +215,7 @@
   transform: translateY(-50%);
   border-width: 4px;
   border-style: solid;
-  border-color: transparent transparent transparent theme('colors.aeblack.800');
-}
-
-:host-context(.dark) .range--vertical .range__tooltip::after {
-  border-color: transparent transparent transparent theme('colors.whitely.100');
+  border-color: transparent transparent transparent var(--range-tooltip-bg);
 }
 
 /* ========================================
@@ -374,12 +369,7 @@
 
 :host-context([dir="rtl"]) .range--vertical .range__tooltip::after,
 :host(:dir(rtl)) .range--vertical .range__tooltip::after {
-  border-color: transparent transparent transparent theme('colors.aeblack.800');
-}
-
-:host-context(.dark):host-context([dir="rtl"]) .range--vertical .range__tooltip::after,
-:host-context(.dark):host(:dir(rtl)) .range--vertical .range__tooltip::after {
-  border-color: transparent transparent transparent theme('colors.whitely.100');
+  border-color: transparent transparent transparent var(--range-tooltip-bg);
 }
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */

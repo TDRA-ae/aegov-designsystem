@@ -30,17 +30,18 @@
   transition: opacity var(--modal-transition-duration) var(--modal-transition-timing);
 }
 
-/* Backdrop opacity variants */
+/* Backdrop opacity variants. The --aegov-backdrop-* tokens come from global.css
+   (light on :root, dark on .dark; custom properties inherit into the shadow root in every browser). */
 .modal-backdrop--light {
-  @apply bg-aeblack-900/30;
+  background-color: var(--aegov-backdrop-light);
 }
 
 .modal-backdrop--base {
-  @apply bg-aeblack-900/50;
+  background-color: var(--aegov-backdrop-base);
 }
 
 .modal-backdrop--dark {
-  @apply bg-aeblack-900/70;
+  background-color: var(--aegov-backdrop-dark);
 }
 
 /* Backdrop animation states */
@@ -89,20 +90,13 @@
    ============================================ */
 
 .aegov-modal-content {
-  @apply relative bg-whitely-50 text-aeblack-800 shadow-xl max-w-full w-auto max-h-screen overflow-y-auto;
+  @apply relative shadow-xl max-w-full w-auto max-h-screen overflow-y-auto;
+  /* Light by default; dark when an ancestor has .dark (see global.css). */
+  background-color: var(--aegov-surface);
+  color: var(--aegov-text);
   transition: opacity var(--modal-transition-duration) var(--modal-transition-timing),
               transform var(--modal-transition-duration) var(--modal-transition-timing);
 }
-
-/* Shadow DOM dark mode — ancestor .dark on <html> cannot match through shadow
-   boundary, so :host-context(.dark) is required. */
-:host-context(.dark) .aegov-modal-content {
-  @apply bg-aeblack-900 text-whitely-100;
-}
-
-:host-context(.dark) .modal-backdrop--light  { @apply bg-aeblack-950/50; }
-:host-context(.dark) .modal-backdrop--base   { @apply bg-aeblack-950/70; }
-:host-context(.dark) .modal-backdrop--dark   { @apply bg-aeblack-950/85; }
 
 /* ============================================
    SIZES (drive border-radius; padding scales
@@ -177,20 +171,18 @@
 }
 
 .aegov-modal-content::-webkit-scrollbar-track {
-  @apply bg-aeblack-100 rounded-lg;
+  @apply rounded-lg;
+  background-color: var(--aegov-scrollbar-track);
 }
 
 .aegov-modal-content::-webkit-scrollbar-thumb {
-  @apply bg-aeblack-300 rounded-lg;
+  @apply rounded-lg;
+  background-color: var(--aegov-scrollbar-thumb);
 }
 
 .aegov-modal-content::-webkit-scrollbar-thumb:hover {
-  @apply bg-aeblack-400;
+  background-color: var(--aegov-scrollbar-thumb-hover);
 }
-
-:host-context(.dark) .aegov-modal-content::-webkit-scrollbar-track  { @apply bg-aeblack-800; }
-:host-context(.dark) .aegov-modal-content::-webkit-scrollbar-thumb  { @apply bg-aeblack-600; }
-:host-context(.dark) .aegov-modal-content::-webkit-scrollbar-thumb:hover { @apply bg-aeblack-500; }
 
 /* ============================================
    Keyframe Animations

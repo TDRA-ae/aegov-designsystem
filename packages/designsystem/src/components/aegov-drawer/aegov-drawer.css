@@ -42,23 +42,20 @@
   transition: none;
 }
 
-/* Backdrop opacity variants — keep identical to aegov-modal's .modal-backdrop--* */
+/* Backdrop opacity variants — keep identical to aegov-modal's .modal-backdrop--*.
+   The --aegov-backdrop-* tokens come from global.css (light on :root, dark on .dark; custom properties
+   inherit into the shadow root in every browser). */
 .drawer-backdrop--light {
-  @apply bg-aeblack-900/30;
+  background-color: var(--aegov-backdrop-light);
 }
 
 .drawer-backdrop--base {
-  @apply bg-aeblack-900/50;
+  background-color: var(--aegov-backdrop-base);
 }
 
 .drawer-backdrop--dark {
-  @apply bg-aeblack-900/70;
+  background-color: var(--aegov-backdrop-dark);
 }
-
-/* Shadow DOM dark mode — :host-context(.dark) pierces shadow boundary. */
-:host-context(.dark) .drawer-backdrop--light { @apply bg-aeblack-950/50; }
-:host-context(.dark) .drawer-backdrop--base  { @apply bg-aeblack-950/70; }
-:host-context(.dark) .drawer-backdrop--dark  { @apply bg-aeblack-950/85; }
 
 /* Invisible backdrop (overlay=false, closeWithBackdrop=true) */
 .aegov-drawer-backdrop-invisible {
@@ -72,12 +69,11 @@
    ============================================ */
 
 .aegov-drawer-container {
-  @apply fixed bg-whitely-50 text-aeblack-800 shadow-xl overflow-y-auto;
+  @apply fixed shadow-xl overflow-y-auto;
+  /* Light by default; dark when an ancestor has .dark (see global.css). */
+  background-color: var(--aegov-surface);
+  color: var(--aegov-text);
   z-index: calc(var(--drawer-z-index) + 1);
-}
-
-:host-context(.dark) .aegov-drawer-container {
-  @apply bg-aeblack-900 text-whitely-100;
 }
 
 /* ============================================
@@ -184,6 +180,15 @@
 .drawer-container--unpinned.drawer-size-xl.drawer-container--left   { @apply top-4 left-4 bottom-4; }
 .drawer-container--unpinned.drawer-size-xl.drawer-container--top    { @apply top-4 left-4 right-4; }
 .drawer-container--unpinned.drawer-size-xl.drawer-container--bottom { @apply bottom-4 left-4 right-4; }
+
+/* Unpinned left/right drawers keep their gap on both sides, so they never grow
+   wider than the screen (e.g. the 100vw mobile width, or xl's 800px on a
+   narrow window, plus the gap, used to overflow the opposite edge). */
+.drawer-container--unpinned.drawer-size-xs:is(.drawer-container--left, .drawer-container--right)   { max-width: calc(100vw - 0.25rem); }
+.drawer-container--unpinned.drawer-size-sm:is(.drawer-container--left, .drawer-container--right)   { max-width: calc(100vw - 0.5rem); }
+.drawer-container--unpinned.drawer-size-base:is(.drawer-container--left, .drawer-container--right) { max-width: calc(100vw - 1rem); }
+.drawer-container--unpinned.drawer-size-lg:is(.drawer-container--left, .drawer-container--right)   { max-width: calc(100vw - 1.5rem); }
+.drawer-container--unpinned.drawer-size-xl:is(.drawer-container--left, .drawer-container--right)   { max-width: calc(100vw - 2rem); }
 
 /* ============================================
    Content
@@ -305,20 +310,18 @@
 }
 
 .aegov-drawer-container::-webkit-scrollbar-track {
-  @apply bg-aeblack-100 rounded-lg;
+  @apply rounded-lg;
+  background-color: var(--aegov-scrollbar-track);
 }
 
 .aegov-drawer-container::-webkit-scrollbar-thumb {
-  @apply bg-aeblack-300 rounded-lg;
+  @apply rounded-lg;
+  background-color: var(--aegov-scrollbar-thumb);
 }
 
 .aegov-drawer-container::-webkit-scrollbar-thumb:hover {
-  @apply bg-aeblack-400;
+  background-color: var(--aegov-scrollbar-thumb-hover);
 }
-
-:host-context(.dark) .aegov-drawer-container::-webkit-scrollbar-track { @apply bg-aeblack-800; }
-:host-context(.dark) .aegov-drawer-container::-webkit-scrollbar-thumb { @apply bg-aeblack-600; }
-:host-context(.dark) .aegov-drawer-container::-webkit-scrollbar-thumb:hover { @apply bg-aeblack-500; }
 
 /* ============================================
    Accessibility — Reduced Motion
