@@ -574,3 +574,9 @@
     border-color: GrayText;
   }
 }
+
+/* Required marker after the label text (DS-A11Y-checkbox-03): aria-hidden, the
+   input already exposes required. Same colour as the other form components. */
+.checkbox__required {
+  @apply text-aered-600 dark:text-aered-400;
+}

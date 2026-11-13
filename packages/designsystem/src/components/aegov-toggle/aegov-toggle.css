@@ -116,8 +116,12 @@
 /* ========================================
    Label wrapper
    ======================================== */
+/* w-fit: only the switch and its text are the click target, like the checkbox
+   (a full-width row let a stray click far from the text change the setting,
+   DS-A11Y-toggle-04). min-h-6: the row is at least 24 px tall at every size,
+   so xs/sm meet WCAG 2.2 SC 2.5.8 Target Size (DS-A11Y-checkbox-04). */
 .toggle__wrapper {
-  @apply flex items-start cursor-pointer select-none;
+  @apply flex items-start w-fit min-h-6 cursor-pointer select-none;
 }
 
 .toggle__wrapper:has(.toggle__input:disabled) {
@@ -501,4 +505,10 @@
     border: 2px dashed CanvasText;
     box-shadow: none;
   }
+}
+
+/* Required marker after the label text (DS-A11Y-checkbox-03): aria-hidden, the
+   input already exposes required. Same colour as the other form components. */
+.toggle__required {
+  @apply text-aered-600 dark:text-aered-400;
 }

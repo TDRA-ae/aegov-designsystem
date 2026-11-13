@@ -15,9 +15,20 @@ import {
   withCustomError,
 } from '../../utils/validation';
 import { generateId } from '../../utils/id-generator';
+import { uiLang } from '../../utils/lang';
 
 const TAG = 'aegov-checkbox-group';
 const ctx = (prop: string) => ({ component: TAG, prop });
+
+/**
+ * Built-in text, by page language (DS-A11Y-checkbox-group-01): an Arabic page
+ * no longer gets "(required)" / "Required" in English. `errorMessage` still
+ * overrides the message.
+ */
+const STRINGS = {
+  en: { required: 'required', requiredMessage: 'Required' },
+  ar: { required: 'مطلوب', requiredMessage: 'هذا الحقل مطلوب' },
+};
 
 @Component({
   tag: 'aegov-checkbox-group',
@@ -122,7 +133,7 @@ export class AegovCheckboxGroup {
   private computeConstraintValidity() {
     const values = this.collectValues();
     if (this.isRequired && values.length === 0) {
-      return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required', values };
+      return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || STRINGS[uiLang(this.el)].requiredMessage, values };
     }
     return { validity: synthesizeValidity({}), message: '', values };
   }
@@ -359,7 +370,10 @@ export class AegovCheckboxGroup {
           {this.label && (
             <legend class="checkbox-group__legend">
               {this.label}
-              {this.isRequired && <span class="sr-only"> (required)</span>}
+              {/* Visible marker (WCAG 3.3.2, DS-A11Y-checkbox-03); a fieldset can't carry
+                  aria-required, so screen readers get the word instead. */}
+              {this.isRequired && <span class="checkbox-group__required" aria-hidden="true"> *</span>}
+              {this.isRequired && <span class="sr-only"> ({STRINGS[uiLang(this.el)].required})</span>}
             </legend>
           )}
           <div class="checkbox-group__items">

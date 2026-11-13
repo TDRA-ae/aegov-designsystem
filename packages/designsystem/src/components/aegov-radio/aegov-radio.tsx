@@ -94,6 +94,8 @@ export class AegovRadio {
   private internals: ElementInternals | null = null;
   private errorId: string = '';
   private hintId: string = '';
+  /** The visible label text only — the input's name, so the hint stays a description (DS-A11Y-checkbox-02). */
+  private labelTextId: string = '';
 
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', { component: 'aegov-radio', prop: 'variant' }); }
@@ -113,6 +115,7 @@ export class AegovRadio {
     }
     this.errorId = `${this.fieldId}-error`;
     this.hintId = `${this.fieldId}-hint`;
+    this.labelTextId = `${this.fieldId}-label-text`;
     this._sizeWatcher = watchResponsiveProp(this.size, RADIO_SIZES, 'base', v => {
       this._resolvedSize = v as RadioSize;
     });
@@ -213,6 +216,14 @@ export class AegovRadio {
     // Fires when radio-group programmatically deselects this radio (no DOM event fires).
     this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
     this.syncInternalsValidity();
+    // Keep the native input in step with the prop. Stencil's vdom skips the
+    // update when isChecked goes false→true→false between two renders (very
+    // fast arrow keys), which left several inputs checked (DS-A11Y-radio-group-04).
+    if (this.inputEl) this.inputEl.checked = this.isChecked;
+    // Tell the group, whatever changed the prop (form reset, a framework
+    // binding, script), so it keeps one radio selected and moves the Tab stop
+    // (DS-A11Y-radio-group-01). Internal: not part of the public event API.
+    this.el.dispatchEvent(new CustomEvent('aegovRadioCheckedSync', { bubbles: true, composed: true, detail: { checked: this.isChecked } }));
   }
 
   @Watch('size')
@@ -356,6 +367,7 @@ export class AegovRadio {
         aria-describedby={describedBy}
         onChange={this.handleChange}
         onBlur={this.handleBlur}
+        aria-labelledby={this.label ? this.labelTextId : undefined}
         {...passThroughAttrs}
       />
     );
@@ -383,7 +395,7 @@ export class AegovRadio {
             <label class="radio__wrapper">
               {radioInput}
               <span class="radio__text">
-                <span class="radio__label-text">{this.label}</span>
+                <span id={this.labelTextId} class="radio__label-text">{this.label}{this.isRequired && <span class="radio__required" aria-hidden="true"> *</span>}</span>
                 {showHint && (
                   <span id={this.hintId} class="radio__hint">
                     {hasHintSlot ? <slot name="hint" /> : this.hint}

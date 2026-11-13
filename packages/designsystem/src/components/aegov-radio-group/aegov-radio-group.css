@@ -57,3 +57,8 @@
 .aegov-radio-group__hint {
   @apply text-sm text-aeblack-600 mt-1.5 leading-snug dark:text-aeblack-300;
 }
+
+/* Required marker in the legend (DS-A11Y-checkbox-03). */
+.radio-group__required {
+  @apply text-aered-600 dark:text-aered-400;
+}
