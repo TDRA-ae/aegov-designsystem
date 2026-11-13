@@ -414,7 +414,7 @@ describe('aegov-select', () => {
       expect(q(page.root, '.aegov-select__hint').textContent).toBe('Pick one');
     });
 
-    it('hides hint when error shown', async () => {
+    it('keeps the hint visible alongside the error (DS-A11Y-input-08)', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
         html: `<aegov-select hint="h" is-invalid="true" error-message="err">
@@ -422,7 +422,7 @@ describe('aegov-select', () => {
         </aegov-select>`,
       });
       expect(q(page.root, '.aegov-select__error')).not.toBeNull();
-      expect(q(page.root, '.aegov-select__hint')).toBeNull();
+      expect(q(page.root, '.aegov-select__hint')).not.toBeNull();
     });
 
     it('validate() resolves valid for empty optional select', async () => {

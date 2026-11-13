@@ -1,4 +1,4 @@
-import { Component, Prop, Watch, State, Event, EventEmitter, Element, Method, h, Host } from '@stencil/core';
+import { Component, Prop, Watch, State, Event, EventEmitter, Element, Method, Listen, h, Host } from '@stencil/core';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
@@ -21,7 +21,8 @@ import { getPassThroughAttributes } from '../../utils/attributes';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
 import { getActionClasses } from '../../utils/action-classes';
-import { afterDispatchUnlessPrevented, getOwningForm, submitForm, resetForm } from '../../utils/form-submit';
+import { afterDispatchUnlessPrevented, getOwningForm, submitForm, resetForm, implicitlySubmit, isAegovImplicitSubmission } from '../../utils/form-submit';
+import { uiLang } from '../../utils/lang';
 
 const TAG = 'aegov-button';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -98,6 +99,15 @@ export class AegovButton {
    * @default false
    */
   @Prop() isDisabled: boolean = false;
+
+  /**
+   * Keep a disabled button in the Tab order: it gets `aria-disabled="true"`
+   * instead of native `disabled`, so keyboard and screen-reader users still
+   * find it (and any tooltip or text explaining why), while activation stays
+   * blocked. Only applies together with `is-disabled` (DS-A11Y-button-08).
+   * @default false
+   */
+  @Prop() isDisabledFocusable: boolean = false;
 
   /**
    * Whether the button is only an icon
@@ -199,6 +209,37 @@ export class AegovButton {
     this._hostAttrObserver.observe(this.el, { attributes: true });
   }
 
+  /**
+   * Icon-only buttons need a name from the author. Warn in development when
+   * there is none, and hide the decorative slotted SVG from the accessibility
+   * tree once the button is named, so it isn't exposed as a nameless image
+   * (DS-A11Y-button-04).
+   */
+  private warnedNoName = false;
+
+  private checkIconName() {
+    if (!this.isIcon) return;
+    const named = !!(this.el.getAttribute('aria-label')?.trim() || this.el.getAttribute('aria-labelledby')?.trim() || this.el.getAttribute('title')?.trim());
+    if (!named) {
+      // Always (not only in dev builds): npm consumers get the production build,
+      // and a nameless button is an accessibility failure, not a style choice.
+      if (!this.warnedNoName) {
+        this.warnedNoName = true;
+        console.warn('[aegov-button] An icon-only button (is-icon) needs an accessible name: add aria-label (or aria-labelledby) to <aegov-button>.', this.el);
+      }
+      return;
+    }
+    Array.from(this.el.children)
+      .filter(child => child.tagName.toLowerCase() === 'svg')
+      .forEach(svg => {
+        if (!svg.hasAttribute('aria-hidden') && !svg.hasAttribute('role')) svg.setAttribute('aria-hidden', 'true');
+      });
+  }
+
+  componentDidLoad() {
+    this.checkIconName();
+  }
+
   componentWillLoad() {
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-button');
@@ -263,6 +304,20 @@ export class AegovButton {
     warnIfInvalidEnumProp(v, BUTTON_GROUP_ORIENTATIONS, 'horizontal', ctx('groupOrientation'));
   }
 
+  /**
+   * Enter in a plain <input> of this button's form submits through this button
+   * when it is the form's default (first) submit button, as a native submit
+   * button would (DS-A11Y-button-03). aegov-input does its own implicit
+   * submission, so only native inputs are handled here.
+   */
+  @Listen('keydown', { target: 'document' })
+  handleDocumentKeydown(event: KeyboardEvent) {
+    if (this.getResolvedType() !== 'submit') return;
+    const form = getOwningForm(this.el, this.internals);
+    if (!form || !isAegovImplicitSubmission(event, form, this.el)) return;
+    afterDispatchUnlessPrevented(event, () => implicitlySubmit(form));
+  }
+
   private handleClick = (event: MouseEvent) => {
     if (this.isDisabled || this.isLoading || this.formDisabled) return;
     this.aegovButtonClick.emit(event);
@@ -318,7 +373,10 @@ export class AegovButton {
   render() {
     const passThroughAttributes = getPassThroughAttributes(this.el);
     const type = this.getResolvedType();
-    const disabled = this.isDisabled || this.formDisabled;
+    // is-disabled-focusable keeps a disabled button focusable (aria-disabled);
+    // a disabled <fieldset> still disables it natively, like any control.
+    const softDisabled = this.isDisabled && this.isDisabledFocusable && !this.formDisabled;
+    const disabled = (this.isDisabled && !softDisabled) || this.formDisabled;
 
     return (
       <Host>
@@ -331,7 +389,7 @@ export class AegovButton {
           // Loading is not native `disabled`: that would blur a focused button and
           // send focus to <body> mid-submit. The button stays focusable, is marked
           // aria-disabled, and handleClick ignores activation while loading.
-          aria-disabled={this.isLoading && !disabled ? 'true' : undefined}
+          aria-disabled={(this.isLoading || softDisabled) && !disabled ? 'true' : undefined}
           onClick={this.handleClick}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
@@ -341,9 +399,14 @@ export class AegovButton {
           {this.isLoading && (
             <svg aria-hidden="true" class={this.isIcon ? 'size-4! animate-spin' : 'mr-1 -ml-1 size-4! animate-spin'} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
           )}
-          {this.isLoading && <span class="sr-only" aria-live="polite">Loading</span>}
           <slot></slot>
         </button>
+        {/* Outside the <button>, so "Loading" is never part of its name, and always
+            present, so the text change is announced. In the page language
+            (DS-A11Y-button-02: it was "Loading Save application", English on Arabic pages). */}
+        <span class="sr-only" role="status" aria-live="polite">
+          {this.isLoading ? (uiLang(this.el) === 'ar' ? 'جارٍ التحميل' : 'Loading') : ''}
+        </span>
       </Host>
     );
   }

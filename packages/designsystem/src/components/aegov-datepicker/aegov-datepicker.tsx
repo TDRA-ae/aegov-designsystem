@@ -25,6 +25,7 @@ import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { HostAria } from '../../utils/host-aria';
 import { isRtl } from '../../utils/rtl';
+import { uiLang as pageUiLang } from '../../utils/lang';
 import { resolveFocusTarget } from '../../utils/focus-management';
 
 const STRINGS = {
@@ -243,7 +244,7 @@ export class AegovDatepicker {
    * otherwise the text direction, as in the rest of the library.
    */
   private get uiLang(): UiLang {
-    return this.localeLang ?? (isRtl(this.el) ? 'ar' : 'en');
+    return this.localeLang ?? pageUiLang(this.el);
   }
 
   /** `ar` or `en` when `locale` names one of them, else null. */
@@ -258,7 +259,10 @@ export class AegovDatepicker {
 
   /** Locale for day/month names and formatted dates. */
   private get dateLocale(): string {
-    return this.locale || 'en';
+    // Without `locale`, dates follow the page language like the built-in text:
+    // an Arabic page got Arabic buttons but English month and day names read
+    // by an Arabic voice (DS-A11Y-datepicker-11). Same result as locale="ar".
+    return this.locale || this.uiLang;
   }
 
   // ── Private ───────────────────────────────────────────
@@ -366,8 +370,24 @@ export class AegovDatepicker {
     this.runValidationSync();
   }
 
+  /**
+   * A slotted custom trigger (e.g. <aegov-button slot="trigger">) says it opens
+   * a dialog and whether it is open, like the built-in field does
+   * (DS-A11Y-datepicker-13). aegov-button forwards aria-* to its inner button.
+   * The author still puts the chosen date in the trigger text (docs).
+   */
+  private syncCustomTriggerState() {
+    if (!this.hasTriggerSlot) return;
+    const trigger = this.el.querySelector('[slot="trigger"]');
+    if (!trigger) return;
+    if (trigger.getAttribute('aria-haspopup') !== 'dialog') trigger.setAttribute('aria-haspopup', 'dialog');
+    const expanded = this.isOpen ? 'true' : 'false';
+    if (trigger.getAttribute('aria-expanded') !== expanded) trigger.setAttribute('aria-expanded', expanded);
+  }
+
   /** Constraint props (isRequired, min, max, minRange, …) changed after load must reach the form too. */
   componentDidRender() {
+    this.syncCustomTriggerState();
     this.runValidationSync();
   }
 
@@ -915,10 +935,14 @@ export class AegovDatepicker {
     // way the (non-portaled) host does. Set it explicitly, fresh on every render,
     // so CSS direction-dependent layout (flex order, etc.) resolves correctly.
     this.portalElement.setAttribute('dir', isRtl(this.el) ? 'rtl' : 'ltr');
-    // Text chosen by `locale` may differ from the page language: mark it so
-    // screen readers pronounce it in the right language.
-    if (this.localeLang) this.portalElement.setAttribute('lang', this.localeLang);
-    else this.portalElement.removeAttribute('lang');
+    // The portal lives under <body>, outside any lang on the component's
+    // ancestors, so always say which language its text is in: `locale` when it
+    // names Arabic or English, else the page language the text and dates follow
+    // (DS-A11Y-datepicker-11), so screen readers pronounce it correctly.
+    // A locale other than Arabic/English (e.g. "fr") mixes French dates with
+    // the page-language text, so no single lang fits: leave it unset, as before.
+    if (this.locale && !this.localeLang) this.portalElement.removeAttribute('lang');
+    else this.portalElement.setAttribute('lang', this.uiLang);
 
     this.portalElement.innerHTML = '';
 
@@ -987,6 +1011,17 @@ export class AegovDatepicker {
     }
 
     body.appendChild(calendars);
+
+    // Visible range-limit message (min-range / max-range), shown under the
+    // months while the previewed range breaks a limit and after a rejected end
+    // date, for mouse and keyboard alike (DS-A11Y-datepicker-09). Announced
+    // through the live region.
+    if (this.appearance === 'range' && (this.minRange > 0 || this.maxRange > 0)) {
+      const rangeMessage = document.createElement('p');
+      rangeMessage.className = 'datepicker__range-message';
+      rangeMessage.hidden = true;
+      body.appendChild(rangeMessage);
+    }
 
     // Confirmation footer
     if (this.isWithConfirmation) {
@@ -1224,12 +1259,18 @@ export class AegovDatepicker {
           }
         }
 
+        // A day only previewed (focused or hovered after picking the start) is not
+        // chosen yet: no "end date"/"start date" label and not aria-selected until
+        // committed (DS-A11Y-datepicker-10). The preview stays visible.
+        const isCommittedStart = !!activeRangeStart && isSameDay(date, activeRangeStart);
+        const isCommittedEnd = !!activeRangeEnd && isSameDay(date, activeRangeEnd);
+
         // Set aria-label now that range roles are known (range endpoints/in-range get role context)
         if (!isOutside) {
           let label = this.buildFullDateLabel(date, isDisabled);
           if (this.appearance === 'range' && !isDisabled) {
-            if (isRangeStart) label += `, ${this.t.startDate.toLowerCase()}`;
-            else if (isRangeEnd) label += `, ${this.t.endDate.toLowerCase()}`;
+            if (isRangeStart && isCommittedStart) label += `, ${this.t.startDate.toLowerCase()}`;
+            else if (isRangeEnd && isCommittedEnd) label += `, ${this.t.endDate.toLowerCase()}`;
             else if (isInRange && activeRangeEnd) label += `, ${this.t.inRange}`;
           }
           btn.setAttribute('aria-label', label);
@@ -1262,7 +1303,7 @@ export class AegovDatepicker {
         // aria-selected on gridcell per WAI-ARIA grid spec: all non-outside cells must expose
         // aria-selected (either "true" or "false") so screen readers can announce selection state.
         if (!isOutside) {
-          cell.setAttribute('aria-selected', (isSelected || isRangeStart || isRangeEnd || isInRange) ? 'true' : 'false');
+          cell.setAttribute('aria-selected', (isSelected || isCommittedStart || isCommittedEnd || (isInRange && !!activeRangeEnd)) ? 'true' : 'false');
         }
 
         if (!isDisabled && !isOutside) {
@@ -1372,10 +1413,14 @@ export class AegovDatepicker {
         [start, end] = [end, start];
       }
 
-      // Validate range limits
+      // Validate range limits: refuse, but say why (DS-A11Y-datepicker-09)
       if (this.isRangeSelectionInvalid(start, end)) {
-        return; // Don't complete selection if invalid
+        const message = this.rangeLimitMessage(start, end);
+        this.showRangeMessage(message);
+        this.announceLive(message);
+        return;
       }
+      this.showRangeMessage('');
 
       if (this.isWithConfirmation) {
         this.pendingRangeStart = start;
@@ -1392,6 +1437,7 @@ export class AegovDatepicker {
           startDate: this.rangeStart,
           endDate: this.rangeEnd,
         });
+        this.announceRange(start, end);
         this.isOpen = false;
       }
     }
@@ -1412,6 +1458,7 @@ export class AegovDatepicker {
         const previewStart = isBefore(date, activeStart) ? date : activeStart;
         const previewEnd = isBefore(date, activeStart) ? activeStart : date;
         const nowInvalid = this.isRangeSelectionInvalid(previewStart, previewEnd);
+        this.showRangeMessage(this.rangeLimitMessage(previewStart, previewEnd));
         if (nowInvalid !== this._lastHoverRangeInvalid) {
           this._lastHoverRangeInvalid = nowInvalid;
           if (nowInvalid) {
@@ -1447,6 +1494,7 @@ export class AegovDatepicker {
         startDate: this.rangeStart,
         endDate: this.rangeEnd,
       });
+      this.announceRange(range.start, range.end);
       this.isOpen = false;
     }
   }
@@ -1470,9 +1518,7 @@ export class AegovDatepicker {
         startDate: this.rangeStart,
         endDate: this.rangeEnd,
       });
-      const startLabel = this.buildFullDateLabel(this.rangeStart, false);
-      const endLabel = this.buildFullDateLabel(this.rangeEnd, false);
-      this.announceHostLive(`${startLabel} ${this.t.rangeTo} ${endLabel}`);
+      this.announceRange(this.rangeStart, this.rangeEnd);
     }
     this.isOpen = false;
   }
@@ -1630,6 +1676,23 @@ export class AegovDatepicker {
     }
   }
 
+  /** The range-limit message for a previewed/chosen range, or '' when it is within the limits. */
+  private rangeLimitMessage(start: Date, end: Date): string {
+    if (!(this.minRange > 0 || this.maxRange > 0)) return '';
+    const [from, to] = isBefore(end, start) ? [end, start] : [start, end];
+    if (!this.isRangeSelectionInvalid(from, to)) return '';
+    const days = diffDays(from, to) + 1;
+    return this.minRange > 0 && days < this.minRange ? this.t.rangeMinDays(this.minRange) : this.t.rangeMaxDays(this.maxRange);
+  }
+
+  /** Shows (or hides, with '') the visible range-limit message. */
+  private showRangeMessage(message: string) {
+    const el = this.portalElement?.querySelector('.datepicker__range-message') as HTMLElement | null;
+    if (!el) return;
+    el.textContent = message;
+    el.hidden = !message;
+  }
+
   private announceLive(message: string) {
     // Portal live region for month/year announcements
     if (!this.portalElement) return;
@@ -1639,6 +1702,16 @@ export class AegovDatepicker {
     requestAnimationFrame(() => {
       if (liveRegion) liveRegion.textContent = message;
     });
+  }
+
+  /**
+   * "3 November 2026 to 10 November 2026" after a range is chosen by clicks, a
+   * preset or Apply — single dates were already announced, ranges were not
+   * (DS-A11Y-datepicker-15).
+   */
+  private announceRange(start: Date, end: Date) {
+    const format = (date: Date) => new Intl.DateTimeFormat(this.dateLocale, { day: 'numeric', month: 'long', year: 'numeric' }).format(date);
+    this.announceHostLive(`${format(start)} ${this.t.rangeTo} ${format(end)}`);
   }
 
   private announceHostLive(message: string) {
@@ -1688,7 +1761,6 @@ export class AegovDatepicker {
       this.updateFocusedDay(first);
     }
     this.focusDayButton(first);
-    this.announceLive(this.buildFullDateLabel(first, this.isDateDisabled(first)));
   }
 
   private focusLastOfWeek() {
@@ -1708,7 +1780,6 @@ export class AegovDatepicker {
       this.updateFocusedDay(last);
     }
     this.focusDayButton(last);
-    this.announceLive(this.buildFullDateLabel(last, this.isDateDisabled(last)));
   }
 
   // ── Keyboard Navigation ───────────────────────────────
@@ -1927,7 +1998,18 @@ export class AegovDatepicker {
     }
 
     this.focusDayButton(next);
-    this.announceLive(this.buildFullDateLabel(next, this.isDateDisabled(next)));
+    // While choosing the end date, say (and show) when this day would break a range limit.
+    const label = this.buildFullDateLabel(next, this.isDateDisabled(next));
+    const rangeStart = this.isWithConfirmation ? this.pendingRangeStart : this.rangeStart;
+    const rangeEnd = this.isWithConfirmation ? this.pendingRangeEnd : this.rangeEnd;
+    const limitMessage = this.appearance === 'range' && rangeStart && !rangeEnd ? this.rangeLimitMessage(rangeStart, next) : '';
+    if (this.appearance === 'range' && rangeStart && !rangeEnd) this.showRangeMessage(limitMessage);
+    // The focused day button is read by the screen reader itself; repeating it
+    // in the live region made every move speak twice (DS-A11Y-datepicker-16).
+    // The live region only adds what focus doesn't say: a range-limit message,
+    // or the new month when the grid was rebuilt.
+    if (limitMessage) this.announceLive(limitMessage);
+    else if (needsMonthChange) this.announceLive(label);
   }
 
   private moveFocusMonths(months: number) {
@@ -1943,6 +2025,7 @@ export class AegovDatepicker {
     this.refreshCalendars();
     this.schedulePositionUpdate();
     this.focusDayButton(next);
+    // The grid was rebuilt for the new month: say where focus landed once.
     this.announceLive(this.buildFullDateLabel(next, this.isDateDisabled(next)));
   }
 
@@ -2042,19 +2125,27 @@ export class AegovDatepicker {
           }
         }
 
+        // Only committed endpoints are "start date"/"end date" and selected; a
+        // previewed one keeps its look but not its role (DS-A11Y-datepicker-10).
+        const isCommittedStart = !!activeRangeStart && isSameDay(date, activeRangeStart);
+        const isCommittedEnd = !!activeRangeEnd && isSameDay(date, activeRangeEnd);
         if (isRangeStart) {
           btn.classList.add('datepicker__day--range-start');
-          if (cell) cell.setAttribute('aria-selected', 'true');
-          if (!isOutside) btn.setAttribute('aria-label', `${this.buildFullDateLabel(date, false)}, ${this.t.startDate.toLowerCase()}`);
+          if (isCommittedStart) {
+            if (cell) cell.setAttribute('aria-selected', 'true');
+            if (!isOutside) btn.setAttribute('aria-label', `${this.buildFullDateLabel(date, false)}, ${this.t.startDate.toLowerCase()}`);
+          }
         }
         if (isRangeEnd) {
           btn.classList.add('datepicker__day--range-end');
-          if (cell) cell.setAttribute('aria-selected', 'true');
-          if (!isOutside) btn.setAttribute('aria-label', `${this.buildFullDateLabel(date, false)}, ${this.t.endDate.toLowerCase()}`);
+          if (isCommittedEnd) {
+            if (cell) cell.setAttribute('aria-selected', 'true');
+            if (!isOutside) btn.setAttribute('aria-label', `${this.buildFullDateLabel(date, false)}, ${this.t.endDate.toLowerCase()}`);
+          }
         }
         if (isInRange) {
           btn.classList.add('datepicker__day--in-range');
-          if (cell) cell.setAttribute('aria-selected', 'true');
+          if (cell && activeRangeEnd) cell.setAttribute('aria-selected', 'true');
           // Only add "within selected range" label for confirmed ranges (not hover previews)
           if (!isOutside && activeRangeEnd) btn.setAttribute('aria-label', `${this.buildFullDateLabel(date, false)}, ${this.t.inRange}`);
         }
@@ -2106,7 +2197,8 @@ export class AegovDatepicker {
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
-    const showHint = !showError && (hasHintSlot || !!this.hint);
+    // Hint stays visible (and in the description) while an error shows (DS-A11Y-input-08).
+    const showHint = hasHintSlot || !!this.hint;
     return { showError, showHint };
   }
 
@@ -2116,7 +2208,6 @@ export class AegovDatepicker {
     const placeholder = this.placeholder || this.t.selectDate;
     const externalLabel = this.externalLabelText();
     const { showError, showHint } = this.getValidationDisplay();
-    const formatHintId = `${this.fieldId}-format-hint`;
 
     return (
       <div class={`datepicker__input-wrapper datepicker__input-wrapper--${this._resolvedSize}`}>
@@ -2135,20 +2226,18 @@ export class AegovDatepicker {
           aria-haspopup="dialog"
           aria-expanded={this.isOpen.toString()}
           aria-controls={this.isOpen ? this.datepickerId : undefined}
-          aria-label={[
-            externalLabel,
-            this.selectedDate
-              ? `${this.t.changeDate}, ${new Intl.DateTimeFormat(this.dateLocale, { dateStyle: 'long' }).format(this.selectedDate)}`
-              : externalLabel ? '' : placeholder,
-          ].filter(Boolean).join(', ')}
+          // The name says what the field is for; the chosen date is the field's
+          // value, which screen readers read after the name. Before, picking a
+          // date replaced "Date of birth" with "Change date, May 4, 2026", so the
+          // purpose was lost (visually too, as the placeholder disappears) and
+          // the date was read twice (DS-A11Y-datepicker-07).
+          aria-label={externalLabel || placeholder}
           aria-describedby={composeDescribedBy(
             this.hostAria?.descriptionId(),
-            formatHintId,
             showError ? this.errorId : null,
             showHint ? this.hintId : null,
           )}
         />
-        <span id={formatHintId} class="datepicker__sr-only">{this.format}</span>
         {hasValue && this.isClearable && !this.disabled && (
           <button
             type="button"
@@ -2170,11 +2259,12 @@ export class AegovDatepicker {
     const labelStart = this.labelRangeStart || this.t.startDate;
     const labelEnd = this.labelRangeEnd || this.t.endDate;
     const externalLabel = this.externalLabelText();
-    const formatHintId = `${this.fieldId}-format-hint`;
+    // No format-token description ("YYYY-MM-DD" read letter by letter): the
+    // fields are read-only, chosen from the calendar, and their value already
+    // shows the format (DS-A11Y-datepicker-17).
     const { showError, showHint } = this.getValidationDisplay();
     const inputDescribedBy = composeDescribedBy(
       this.hostAria?.descriptionId(),
-      formatHintId,
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );
@@ -2218,7 +2308,6 @@ export class AegovDatepicker {
           aria-controls={this.isOpen ? this.datepickerId : undefined}
           aria-describedby={inputDescribedBy}
         />
-        <span id={formatHintId} class="datepicker__sr-only">{this.format}</span>
         {hasValue && this.isClearable && !this.disabled && (
           <button
             type="button"
@@ -2242,7 +2331,8 @@ export class AegovDatepicker {
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
-    const showHint = !showError && (hasHintSlot || !!this.hint);
+    // Hint stays visible (and in the description) while an error shows (DS-A11Y-input-08).
+    const showHint = hasHintSlot || !!this.hint;
     const announceError = showError && this.hasBlurredOnce;
 
     const errorRegion = showError ? (

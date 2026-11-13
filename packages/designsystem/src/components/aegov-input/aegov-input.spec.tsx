@@ -270,13 +270,13 @@ describe('aegov-input', () => {
       expect(hint.textContent).toBe('Helper text');
     });
 
-    it('hides hint when error is shown (error wins)', async () => {
+    it('keeps the hint visible alongside the error (DS-A11Y-input-08)', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
         html: `<aegov-input is-invalid="true" error-message="Err" hint="Hint"></aegov-input>`,
       });
       expect(q(page.root, '.aegov-input__error')).not.toBeNull();
-      expect(q(page.root, '.aegov-input__hint')).toBeNull();
+      expect(q(page.root, '.aegov-input__hint')).not.toBeNull();
     });
 
     it('aria-describedby points at error region id when error shown', async () => {
@@ -302,8 +302,9 @@ describe('aegov-input', () => {
       });
       const host = page.body.querySelector('aegov-input');
       // DS-A11Y-input-01: the page ID can't resolve in the shadow root, so its
-      // text sits in a hidden span here, first in the chain; hint hides because error wins.
-      expect(q(host, 'input').getAttribute('aria-describedby')).toBe('x-host-desc x-error');
+      // text sits in a hidden span here, first in the chain; the hint follows the
+      // error (it stays while invalid, DS-A11Y-input-08).
+      expect(q(host, 'input').getAttribute('aria-describedby')).toBe('x-host-desc x-error x-hint');
       expect(q(host, '#x-host-desc').textContent).toBe('Extra help');
     });
 

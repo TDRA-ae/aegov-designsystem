@@ -10,7 +10,7 @@ import type {
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { HostAria } from '../../utils/host-aria';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
-import { isRtl } from '../../utils/rtl';
+import { uiLang } from '../../utils/lang';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import {
@@ -21,6 +21,25 @@ import type { InternalsHost } from '../../utils/validation';
 
 const TAG = 'aegov-otp';
 const ctx = (prop: string) => ({ component: TAG, prop });
+
+/**
+ * Built-in text by page language (DS-A11Y-otp-09: validation messages were
+ * English on Arabic pages). `errorMessage` still overrides the messages.
+ */
+const STRINGS = {
+  en: {
+    cell: (n: number, of: number) => `Character ${n} of ${of}`,
+    required: 'Required',
+    tooShort: (n: number) => `Enter ${n} characters`,
+    patternMismatch: 'Invalid format',
+  },
+  ar: {
+    cell: (n: number, of: number) => `حرف ${n} من ${of}`,
+    required: 'هذا الحقل مطلوب',
+    tooShort: (n: number) => `أدخل ${n} أحرف`,
+    patternMismatch: 'الصيغة غير صحيحة',
+  },
+};
 
 @Component({
   tag: 'aegov-otp',
@@ -292,16 +311,16 @@ export class AegovOtp {
     const val = this.value || '';
     const filled = val.length;
     if (this.isRequired && filled === 0) {
-      return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required' };
+      return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || STRINGS[uiLang(this.el)].required };
     }
     if (filled > 0 && filled < this.length) {
-      return { validity: synthesizeValidity({ tooShort: true }), message: this.errorMessage || `Enter ${this.length} characters` };
+      return { validity: synthesizeValidity({ tooShort: true }), message: this.errorMessage || STRINGS[uiLang(this.el)].tooShort(this.length) };
     }
     if (filled === this.length && this.pattern) {
       try {
         const re = new RegExp(this.pattern);
         if (!re.test(val)) {
-          return { validity: synthesizeValidity({ patternMismatch: true }), message: this.errorMessage || 'Invalid format' };
+          return { validity: synthesizeValidity({ patternMismatch: true }), message: this.errorMessage || STRINGS[uiLang(this.el)].patternMismatch };
         }
       } catch {
         // Bad regex — treat as no constraint
@@ -384,10 +403,14 @@ export class AegovOtp {
       return;
     }
 
-    // Multi-character: distribute across cells (handles autofill or overtype)
+    // Multi-character: distribute across cells (handles autofill or overtype).
+    // A whole code inserted into a later cell (dictation, IME, password
+    // managers) fills from the first cell, like paste does; starting at this
+    // cell cut the end of the code off (DS-A11Y-otp-10).
     if (val.length > 1) {
       const cleaned = val.replace(/\s/g, '');
-      let ci = index;
+      const validCount = [...cleaned].filter(ch => this.isValidChar(ch)).length;
+      let ci = validCount >= this.length ? 0 : index;
       for (const ch of cleaned) {
         if (ci >= this.length) break;
         if (this.isValidChar(ch)) {
@@ -424,12 +447,16 @@ export class AegovOtp {
         this.cellRefs[index - 1].focus();
         this.emitChange();
       }
-    } else if (e.key === (isRtl(this.el) ? 'ArrowRight' : 'ArrowLeft') && index > 0) {
+    } else if (e.key === 'ArrowLeft' && index > 0) {
       e.preventDefault();
       this.cellRefs[index - 1].focus();
-    } else if (e.key === (isRtl(this.el) ? 'ArrowLeft' : 'ArrowRight') && index < this.length - 1) {
+    } else if (e.key === 'ArrowRight' && index < this.length - 1) {
       e.preventDefault();
       this.cellRefs[index + 1].focus();
+    } else if (e.key === 'Home' || e.key === 'End') {
+      // First / last cell, as in a single text field (DS-A11Y-otp-10).
+      e.preventDefault();
+      this.cellRefs[e.key === 'Home' ? 0 : this.length - 1]?.focus();
     } else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
       const input = e.target as HTMLInputElement;
       if (input.value) {
@@ -478,7 +505,7 @@ export class AegovOtp {
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
 
-    const rtl = isRtl(this.el);
+    const strings = STRINGS[uiLang(this.el)];
     const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
     const wrapperClasses = ['aegov-otp', `otp-variant-${variant}`, this.extraClass || ''].filter(Boolean).join(' ');
     const cells = Array.from({ length: this.length }, (_, i) => i);
@@ -488,7 +515,8 @@ export class AegovOtp {
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
-    const showHint = !showError && (hasHintSlot || !!this.hint);
+    // Hint stays visible (and in the description) while an error shows (DS-A11Y-input-08).
+    const showHint = hasHintSlot || !!this.hint;
     const announceError = showError && this.hasBlurredOnce;
     const authorDescribedBy = this.hostAria?.descriptionId();
     const describedBy = composeDescribedBy(
@@ -518,7 +546,11 @@ export class AegovOtp {
           <div
             class={`otp__wrapper otp__wrapper--${appearance}`}
             role="group"
-            aria-invalid={this.isInvalid ? 'true' : null}
+            // Codes read left to right in every language (an SMS shows "123456"
+            // on an Arabic phone too), so the cells never mirror: cell 1 is on
+            // the left and ArrowLeft goes back. Labels and messages stay in the
+            // page language (DS-A11Y-otp-08).
+            dir="ltr"
             onFocusout={this.handleBlurGroup}
             {...passThroughAttrs}
           >
@@ -531,12 +563,11 @@ export class AegovOtp {
                 inputMode={this.isAlphanumeric ? 'text' : 'numeric'}
                 disabled={this.disabled}
                 autocomplete={index === 0 ? 'one-time-code' : 'off'}
-                aria-label={rtl
-                  ? `حرف ${index + 1} من ${this.length}`
-                  : `Character ${index + 1} of ${this.length}`}
+                aria-label={strings.cell(index + 1, this.length)}
                 aria-invalid={this.isInvalid ? 'true' : undefined}
                 aria-required={this.isRequired ? 'true' : undefined}
-                aria-describedby={index === 0 ? describedBy : undefined}
+                // Every cell, not just the first: the user fixing cell 3 must hear the error too (DS-A11Y-otp-03).
+                aria-describedby={describedBy}
                 onInput={(e) => this.handleInput(index, e)}
                 onKeyDown={(e) => this.handleKeyDown(index, e)}
                 onPaste={(e: any) => this.handlePaste(index, e)}

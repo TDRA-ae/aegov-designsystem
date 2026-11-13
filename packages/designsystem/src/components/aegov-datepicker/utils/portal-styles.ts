@@ -19,6 +19,8 @@ export const DATEPICKER_PORTAL_STYLES = `
 }
 
 .aegov-datepicker {
+  /* Colour of the band lines on in-range days (see .datepicker__day--in-range). */
+  --dp-range-line: var(--color-primary-600);
   position: fixed;
   background: var(--color-whitely-50);
   color: var(--color-aeblack-800);
@@ -307,6 +309,24 @@ export const DATEPICKER_PORTAL_STYLES = `
   border-radius: 0;
 }
 
+/* The tint alone is 1.19:1 against the dialog, so the days between the start
+   and end were hard to see (WCAG 1.4.11 / 1.4.1, DS-A11Y-datepicker-05). Each
+   in-range day also gets a short 2 px bar under its number, in the variant's
+   range colour (>= 3:1 against the dialog and the tint): a non-colour cue that
+   keeps the grid clean (a line along every cell's top and bottom read as
+   stripes). Today inside a range keeps its own ring as well. */
+.datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end)::after {
+  content: '';
+  position: absolute;
+  left: 30%;
+  right: 30%;
+  bottom: 0.3125rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--dp-range-line);
+  pointer-events: none;
+}
+
 .datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end):hover {
   background: var(--color-primary-200, #bae6fd);
 }
@@ -348,6 +368,7 @@ export const DATEPICKER_PORTAL_STYLES = `
 }
 
 .datepicker__day--range-invalid.datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+  --dp-range-line: var(--color-aered-600);
   background: var(--color-aered-100, #fee2e2);
   color: var(--color-aered-800, #991b1b);
 }
@@ -357,6 +378,10 @@ export const DATEPICKER_PORTAL_STYLES = `
 }
 
 .datepicker__day--disabled {
+  /* Struck through, not only lighter grey, so unavailable (blackout, min/max)
+     days can be told apart without relying on colour (DS-A11Y-datepicker-18). */
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
   color: var(--color-aeblack-300, #cbd5e1);
   cursor: not-allowed;
   pointer-events: none;
@@ -478,6 +503,11 @@ export const DATEPICKER_PORTAL_STYLES = `
    regardless of variant (the trigger's focus ring does follow the variant —
    see aegov-datepicker.css).
    ───────────────────────────────────────────────────────────────────── */
+
+/* Range band line colour per variant (>= 3:1 against the dialog and the tint). */
+.aegov-datepicker.datepicker-variant-secondary { --dp-range-line: var(--color-secondary-600); }
+.aegov-datepicker.datepicker-variant-neutral-max { --dp-range-line: var(--color-aeblack-800); }
+.aegov-datepicker.datepicker-variant-neutral-min { --dp-range-line: var(--color-aeblack-500); }
 
 /* Secondary variant */
 .aegov-datepicker.datepicker-variant-secondary .datepicker__day--selected,
@@ -854,5 +884,73 @@ export const DATEPICKER_PORTAL_STYLES = `
 .dark .aegov-datepicker.datepicker-variant-neutral-min .datepicker__day:hover:not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end):not(.datepicker__day--disabled):not(:disabled) {
   background: var(--color-aeblack-800);
   color: var(--color-whitely-100);
+}
+
+/* ── Range-limit message (DS-A11Y-datepicker-09) ───────── */
+.datepicker__range-message {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--color-aered-600);
+  border-top: 1px solid var(--color-aeblack-100);
+}
+.datepicker__range-message[hidden] { display: none; }
+.dark .datepicker__range-message { color: var(--color-aered-400); border-top-color: var(--color-aeblack-700); }
+
+/* ── Forced colours (Windows High Contrast, DS-A11Y-datepicker-06) ──────
+   Backgrounds and box-shadows are replaced or dropped, so selected, range
+   and today states disappeared. Use system colours and borders instead. */
+@media (forced-colors: active) {
+  .datepicker__day--selected,
+  .datepicker__day--range-start,
+  .datepicker__day--range-end {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+  .datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+    forced-color-adjust: none;
+    background: Canvas;
+    color: CanvasText;
+  }
+  .datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end)::after {
+    background: Highlight;
+  }
+  /* Today inside a range: system text colour, outlined like any other today
+     (the variant today colour and ring would otherwise survive forced-color-adjust: none). */
+  .aegov-datepicker .datepicker__day.datepicker__day--in-range.datepicker__day--today:not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+    color: CanvasText;
+    box-shadow: none;
+  }
+  .datepicker__day--today:not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+    outline: 1px solid CanvasText;
+    outline-offset: -3px;
+  }
+  .datepicker__day--disabled {
+    color: GrayText;
+    opacity: 1;
+  }
+  .datepicker__day:focus-visible,
+  .datepicker__day--focused {
+    outline: 3px solid CanvasText;
+    outline-offset: -3px;
+  }
+  .datepicker__range-message { color: CanvasText; }
+}
+
+/* ── Reduced motion (DS-A11Y-datepicker-18) ──────────── */
+@media (prefers-reduced-motion: reduce) {
+  .aegov-datepicker,
+  .aegov-datepicker.datepicker--visible {
+    transition: none;
+    transform: none;
+  }
+  .datepicker__day,
+  .datepicker__preset-btn,
+  .datepicker__footer-btn,
+  .datepicker__nav-btn {
+    transition: none;
+  }
 }
 `;

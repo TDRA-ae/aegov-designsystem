@@ -278,7 +278,7 @@ describe('aegov-fileupload (e2e)', () => {
     expect(errorRegion).toBeNull();
   });
 
-  it('clears a stale "max files" error once removing a file drops the count back under the cap', async () => {
+  it('max-files: extra files are left out with a notice and the kept selection is valid (DS-A11Y-fileupload-11)', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-fileupload appearance="button" is-multiple max-files="2"></aegov-fileupload>');
     const host = await page.find('aegov-fileupload');
@@ -293,18 +293,18 @@ describe('aegov-fileupload (e2e)', () => {
       input.dispatchEvent(new Event('change', { bubbles: true }));
     });
     await page.waitForChanges();
-    expect(host.getAttribute('is-invalid')).not.toBeNull();
+    // Two files kept, valid; the third is reported, not an error.
+    expect(host.getAttribute('is-invalid')).toBeNull();
+    expect(await page.$eval('aegov-fileupload', (el: any) => el.shadowRoot.querySelectorAll('.fileupload__file-item').length)).toBe(2);
+    expect(await page.$eval('aegov-fileupload', (el: any) => el.shadowRoot.querySelector('.fileupload__notice').textContent)).toBe('c.txt not added: maximum 2 files.');
 
     await page.evaluate(() => {
       const fu = document.querySelector('aegov-fileupload')!;
       (fu.shadowRoot!.querySelector('.fileupload__remove-btn') as HTMLElement).click();
     });
     await page.waitForChanges();
-
-    // Before the fix, removeFile() never reset isInvalid/errorMessage, so
-    // "Maximum 2 files allowed." stuck around even once the count (2) was
-    // valid again.
-    expect(host.getAttribute('is-invalid')).toBeNull();
+    // The notice goes once the list changes again.
+    expect(await page.$eval('aegov-fileupload', (el: any) => el.shadowRoot.querySelector('.fileupload__notice'))).toBeNull();
   });
   // DS-A11Y-fileupload-01: the visible label names the group and the trigger
   // button ("Choose File, <label>"), for both the button and dropzone appearances.
@@ -370,7 +370,8 @@ describe('aegov-fileupload (e2e)', () => {
       <aegov-fileupload id="none" appearance="button" label="Plain"></aegov-fileupload>`);
     await page.waitForChanges();
     expect(await readDescription(page, 'b')).toEqual({ description: 'Allowed: PDF, Images. Up to 3 files', invalid: null, group: [null, null] });
-    expect(await readDescription(page, 'd')).toEqual({ description: 'Allowed: PDF. The file must be a PDF', invalid: 'true', group: [null, null] });
+    // The hint stays after the error (DS-A11Y-fileupload-11).
+    expect(await readDescription(page, 'd')).toEqual({ description: 'Allowed: PDF. The file must be a PDF. Hidden while invalid', invalid: 'true', group: [null, null] });
     expect((await readDescription(page, 'x')).description).toBe('Scan both sides.');
     expect(await readDescription(page, 's')).toEqual({ description: 'Photo is too dark', invalid: 'true', group: [null, null] });
     expect((await readDescription(page, 'ar')).description).toBe('المسموح به: PDF. حتى 3 ملفات');
@@ -418,7 +419,7 @@ describe('aegov-fileupload (e2e)', () => {
     host.setProperty('errorMessage', 'Upload a copy of your passport');
     host.setProperty('isInvalid', true);
     await page.waitForChanges();
-    expect(await readDescription(page, 'b')).toEqual({ description: 'Upload a copy of your passport', invalid: 'true', group: [null, null] });
+    expect(await readDescription(page, 'b')).toEqual({ description: 'Upload a copy of your passport. One file', invalid: 'true', group: [null, null] });
 
     host.setProperty('isInvalid', false);
     await page.evaluate(() => document.getElementById('b')!.setAttribute('aria-describedby', 'ext'));

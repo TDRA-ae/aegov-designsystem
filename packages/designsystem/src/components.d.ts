@@ -386,6 +386,11 @@ export namespace Components {
          */
         "isDisabled": boolean;
         /**
+          * Keep a disabled button in the Tab order: it gets `aria-disabled="true"` instead of native `disabled`, so keyboard and screen-reader users still find it (and any tooltip or text explaining why), while activation stays blocked. Only applies together with `is-disabled` (DS-A11Y-button-08).
+          * @default false
+         */
+        "isDisabledFocusable": boolean;
+        /**
           * Whether the button should take full width
           * @default false  Reflected to the `is-full` attribute: the host-level `:host([is-full])` CSS rule (in aegov-button.css) that switches the host to `display: block` only matches a real attribute, so a framework that sets this as a JS property binding instead of a literal string attribute (e.g. Angular's `[isFull]="true"`, React's JSX `isFull` shorthand) would otherwise never trigger it — only `reflect: true` makes every binding style reach the attribute the CSS depends on.
          */
@@ -4327,6 +4332,11 @@ declare namespace LocalJSX {
          */
         "isDisabled"?: boolean;
         /**
+          * Keep a disabled button in the Tab order: it gets `aria-disabled="true"` instead of native `disabled`, so keyboard and screen-reader users still find it (and any tooltip or text explaining why), while activation stays blocked. Only applies together with `is-disabled` (DS-A11Y-button-08).
+          * @default false
+         */
+        "isDisabledFocusable"?: boolean;
+        /**
           * Whether the button should take full width
           * @default false  Reflected to the `is-full` attribute: the host-level `:host([is-full])` CSS rule (in aegov-button.css) that switches the host to `display: block` only matches a real attribute, so a framework that sets this as a JS property binding instead of a literal string attribute (e.g. Angular's `[isFull]="true"`, React's JSX `isFull` shorthand) would otherwise never trigger it — only `reflect: true` makes every binding style reach the attribute the CSS depends on.
          */
@@ -7014,6 +7024,7 @@ declare namespace LocalJSX {
         "value": string;
         "appearance": ButtonAppearance;
         "isDisabled": boolean;
+        "isDisabledFocusable": boolean;
         "isIcon": boolean;
         "isFull": boolean;
         "isBold": boolean;

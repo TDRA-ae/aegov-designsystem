@@ -132,6 +132,25 @@ function blocksImplicitSubmission(el: Element): boolean {
 }
 
 /**
+ * Whether Enter in a native single-line input should submit through an
+ * aegov-button (DS-A11Y-button-03). The browser runs implicit submission only
+ * with a native default button; an aegov-button[type=submit] is never one, so
+ * a form of plain <input>s whose only submit button is an aegov-button did
+ * nothing on Enter. True only when the event comes from such an input in
+ * `form`, the form has no native submit button (the browser handles that
+ * case itself), and `button` is the form's first submit button.
+ */
+export function isAegovImplicitSubmission(event: KeyboardEvent, form: HTMLFormElement, button: Element): boolean {
+  if (event.key !== 'Enter' || event.isComposing || event.defaultPrevented) return false;
+  const target = event.target;
+  if (!(target instanceof HTMLInputElement) || !IMPLICIT_SUBMISSION_BLOCKING_TYPES.has(target.type)) return false;
+  if (target.form !== form || target.readOnly || target.disabled) return false;
+  const controls = formControls(form);
+  if (controls.some(el => (el instanceof HTMLButtonElement || el instanceof HTMLInputElement) && isSubmitButton(el))) return false;
+  return controls.find(isSubmitButton) === button;
+}
+
+/**
  * HTML implicit submission (Enter in a single-line text field):
  * - if the form has a default button (its first submit button, in tree order),
  *   activate it with a click, so its own click handlers and disabled state apply;

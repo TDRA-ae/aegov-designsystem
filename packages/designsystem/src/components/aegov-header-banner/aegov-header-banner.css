@@ -51,8 +51,12 @@
   @apply m-0 text-base sm:text-lg font-bold text-white leading-tight;
 }
 
+/* Body font (monospace is not one of the guideline fonts) and the address
+   wraps inside its box on narrow screens instead of being cut off
+   (DS-A11Y-header-banner-01). */
 .header__entity-domain {
-  @apply m-0 mt-0.5 text-sm text-aeblack-300 font-mono;
+  @apply m-0 mt-0.5 text-sm text-aeblack-300;
+  overflow-wrap: anywhere;
 }
 
 .header__trust {

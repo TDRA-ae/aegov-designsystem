@@ -1,4 +1,5 @@
 import { newE2EPage } from '@stencil/core/testing';
+import { themeColours } from '../../utils/e2e-theme';
 
 describe('aegov-otp (e2e)', () => {
   it('renders the cells based on length', async () => {
@@ -201,5 +202,39 @@ describe('aegov-otp (e2e) validation trigger', () => {
     // Disabled digits keep the variant text colour (Figma).
     const text = (id: string) => page.$eval(`#${id}`, (el: any) => getComputedStyle(el.shadowRoot.querySelector('.otp__cell')).color);
     expect(await text('id')).toBe(await text('iv'));
+  });
+});
+
+describe('aegov-otp (e2e) focused cell', () => {
+  // DS-A11Y-otp-05 (WCAG 2.4.7): in the continuous appearance the wrapper ring
+  // only says the field has focus; the focused cell itself must be marked too.
+  it('continuous: marks the focused cell with an inset bar, not the others', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-otp aria-label="Code" length="4"></aegov-otp>');
+    await page.addStyleTag({ content: themeColours() });
+    const first = await page.find('aegov-otp >>> .otp__cell:nth-of-type(1)');
+    await first.focus();
+    await page.keyboard.type('1');
+    await page.waitForChanges();
+    // cells animate box-shadow for 150 ms
+    await new Promise(resolve => setTimeout(resolve, 400));
+    const shadows = await page.$eval('aegov-otp', (el: any) =>
+      [...el.shadowRoot.querySelectorAll('.otp__cell')].map((cell: HTMLElement) => ({
+        focused: cell === el.shadowRoot.activeElement,
+        inset: getComputedStyle(cell).boxShadow.includes('inset'),
+      })),
+    );
+    expect(shadows.filter(c => c.inset)).toEqual([{ focused: true, inset: true }]);
+    expect(shadows[1]).toEqual({ focused: true, inset: true });
+  });
+
+  it('individual: unchanged, the focused cell keeps its own border ring and no inset bar', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-otp aria-label="Code" length="4" appearance="individual"></aegov-otp>');
+    const first = await page.find('aegov-otp >>> .otp__cell:nth-of-type(1)');
+    await first.focus();
+    await page.waitForChanges();
+    const inset = await page.$eval('aegov-otp', (el: any) => getComputedStyle(el.shadowRoot.activeElement).boxShadow.includes('inset'));
+    expect(inset).toBe(false);
   });
 });

@@ -111,3 +111,32 @@ describe('aegov-range (e2e)', () => {
     expect(host.getAttribute('data-testid')).toBe('rg');
   });
 });
+
+// DS-A11Y-range-02 (WCAG 2.4.7): in range mode only the thumb whose input has
+// focus shows the focus ring; the single-thumb slider keeps its ring.
+describe('aegov-range (e2e) focus ring', () => {
+  const ringedThumbs = (page: any, id: string) =>
+    page.$eval(`#${id}`, (el: any) =>
+      [...el.shadowRoot.querySelectorAll('.range__thumb')]
+        .filter((t: HTMLElement) => getComputedStyle(t).outlineStyle !== 'none' && parseFloat(getComputedStyle(t).outlineWidth) > 0)
+        .map((t: HTMLElement) => t.className.match(/range__thumb--(low|high|single)/)![1]));
+
+  it('range mode: only the focused thumb is ringed', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-range id="r" mode="range" aria-label="Price" value="20,60"></aegov-range>');
+    await page.keyboard.press('Tab');
+    await page.waitForChanges();
+    expect(await ringedThumbs(page, 'r')).toEqual(['low']);
+    await page.keyboard.press('Tab');
+    await page.waitForChanges();
+    expect(await ringedThumbs(page, 'r')).toEqual(['high']);
+  });
+
+  it('single mode: the thumb is ringed', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-range id="s" aria-label="Volume" value="40"></aegov-range>');
+    await page.keyboard.press('Tab');
+    await page.waitForChanges();
+    expect(await ringedThumbs(page, 's')).toEqual(['single']);
+  });
+});

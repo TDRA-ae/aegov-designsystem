@@ -9,7 +9,7 @@ import { HostAria } from '../../utils/host-aria';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
-import { isRtl } from '../../utils/rtl';
+import { uiLang, observePageLang } from '../../utils/lang';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
@@ -21,8 +21,16 @@ const TAG = 'aegov-textarea';
 const ctx = (prop: string) => ({ component: TAG, prop });
 
 const STRINGS = {
-  en: { copy: 'Copy to clipboard', copied: 'Copied' },
-  ar: { copy: 'نسخ إلى الحافظة', copied: 'تم النسخ' },
+  en: {
+    copy: 'Copy to clipboard',
+    copied: 'Copied',
+    remaining: (n: number) => (n >= 0 ? `${n} ${n === 1 ? 'character' : 'characters'} remaining` : `${-n} ${n === -1 ? 'character' : 'characters'} over the limit`),
+  },
+  ar: {
+    copy: 'نسخ إلى الحافظة',
+    copied: 'تم النسخ',
+    remaining: (n: number) => (n >= 0 ? `الأحرف المتبقية: ${n}` : `عدد الأحرف الزائدة: ${-n}`),
+  },
 };
 
 @Component({
@@ -96,6 +104,15 @@ export class AegovTextarea {
 
   /** Internal character count for the counter display. */
   @State() charCount: number = 0;
+
+  /**
+   * Text of the polite counter announcement. Set about a second after typing
+   * stops, in words ("9 characters remaining"), instead of the visible
+   * "11 / 20" being a live region that queued an announcement on every
+   * keystroke (DS-A11Y-textarea-02).
+   */
+  @State() private counterAnnouncement: string = '';
+  private counterTimer?: ReturnType<typeof setTimeout>;
 
   private textareaEl?: HTMLTextAreaElement;
   private internals: ElementInternals | null = null;
@@ -279,13 +296,19 @@ export class AegovTextarea {
     this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, internals: () => this.internals, onChange: () => forceUpdate(this) });
     this.hostAria.connect();
     this.attrObserver = observePassThroughAttributes(this.el, AegovTextarea.PASS_THROUGH_ATTRS, () => forceUpdate(this));
+    this.stopPageLangObserver = observePageLang(() => forceUpdate(this));
   }
 
   disconnectedCallback() {
     this.hostAria?.disconnect();
     this._sizeWatcher?.destroy();
     this.attrObserver?.disconnect();
+    this.stopPageLangObserver?.();
+    clearTimeout(this.counterTimer);
   }
+
+  /** Re-renders the built-in strings when the page language/direction changes (DS-A11Y-input-05). */
+  private stopPageLangObserver?: () => void;
 
   @Watch('size')
   onSizeChange() {
@@ -382,6 +405,7 @@ export class AegovTextarea {
     this.internals?.setFormValue(this.value ?? '');
     this.syncInternalsValidity();
     this.aegovTextareaValue.emit({ value: this.value, event });
+    this.scheduleCounterAnnouncement();
     if (this.resize === 'auto') {
       this.autoResize();
     }
@@ -427,13 +451,16 @@ export class AegovTextarea {
 
   private renderCopyButton() {
     if (!this.showCopy) return null;
-    const t = isRtl(this.el) ? STRINGS.ar : STRINGS.en;
-    return (
+    const t = STRINGS[uiLang(this.el)];
+    return [
       <button
         type="button"
         class={`textarea__copy-btn${this.justCopied ? ' textarea__copy-btn--copied' : ''}`}
         onClick={this.handleCopy}
-        aria-label={this.justCopied ? t.copied : t.copy}
+        // The name stays the same; only the status region below says "Copied".
+        // Changing the focused button's name as well made VoiceOver say it
+        // two or three times (DS-A11Y-textarea-01).
+        aria-label={t.copy}
       >
         {this.justCopied ? (
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -445,8 +472,29 @@ export class AegovTextarea {
             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
           </svg>
         )}
-      </button>
-    );
+      </button>,
+      // The label change alone on the focused button is not reliably announced;
+      // a polite status says "Copied", as aegov-input does (DS-A11Y-textarea-01).
+      <span
+        class="textarea__copy-status"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}
+      >
+        {this.justCopied ? t.copied : ''}
+      </span>,
+    ];
+  }
+
+  private remainingText(): string {
+    return STRINGS[uiLang(this.el)].remaining((this.maxlength ?? 0) - this.charCount);
+  }
+
+  private scheduleCounterAnnouncement() {
+    if (this.maxlength === undefined || this.maxlength === null) return;
+    clearTimeout(this.counterTimer);
+    this.counterTimer = setTimeout(() => { this.counterAnnouncement = this.remainingText(); }, 1000);
   }
 
   private get counterId(): string {
@@ -459,14 +507,24 @@ export class AegovTextarea {
     const isOver = this.charCount > this.maxlength;
 
     return (
-      <div
-        id={this.counterId}
-        class={`textarea__counter${isOver ? ' textarea__counter--over' : ''}`}
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        {this.charCount} / {this.maxlength}
-      </div>
+      [
+        // Visible "11 / 20": for sighted users only.
+        <div class={`textarea__counter${isOver ? ' textarea__counter--over' : ''}`} aria-hidden="true">
+          {this.charCount} / {this.maxlength}
+        </div>,
+        // Read with the field's description on focus, in words.
+        <span id={this.counterId} hidden>{this.remainingText()}</span>,
+        // Announced once typing pauses (see scheduleCounterAnnouncement).
+        <span
+          class="textarea__counter-status"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}
+        >
+          {this.counterAnnouncement}
+        </span>,
+      ]
     );
   }
 
@@ -481,7 +539,10 @@ export class AegovTextarea {
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
-    const showHint = !showError && (hasHintSlot || !!this.hint);
+    // The hint (format, length, where to find the value) stays visible while an
+    // error shows, after the error, and both describe the field: the hint is
+    // most needed exactly then (DS-A11Y-input-08).
+    const showHint = hasHintSlot || !!this.hint;
     const announceError = showError && this.hasBlurredOnce;
     const authorDescribedBy = this.hostAria?.descriptionId();
     const describedBy = composeDescribedBy(

@@ -15,7 +15,7 @@ import {
   fromNativeValidity, VALID_STATE,
   composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity, syncHostDisabled,
 } from '../../utils/validation';
-import { isRtl } from '../../utils/rtl';
+import { uiLang, observePageLang } from '../../utils/lang';
 import { afterDispatchUnlessPrevented, getOwningForm, implicitlySubmit } from '../../utils/form-submit';
 
 const STRINGS = {
@@ -349,13 +349,18 @@ export class AegovInput {
     this.attrObserver = observePassThroughAttributes(this.el, AegovInput.PASS_THROUGH_ATTRS, () => forceUpdate(this));
     this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, internals: () => this.internals, onChange: () => forceUpdate(this) });
     this.hostAria.connect();
+    this.stopPageLangObserver = observePageLang(() => forceUpdate(this));
   }
 
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
     this.attrObserver?.disconnect();
     this.hostAria?.disconnect();
+    this.stopPageLangObserver?.();
   }
+
+  /** Re-renders the built-in strings when the page language/direction changes (DS-A11Y-input-05). */
+  private stopPageLangObserver?: () => void;
 
   @Watch('type')
   onTypeChange(v: unknown) { warnIfInvalidEnumProp(v, INPUT_TYPES, 'text', ctx('type')); }
@@ -534,7 +539,7 @@ export class AegovInput {
         class={`input__revealable ${sizeClasses[this._resolvedSize]}`}
         onClick={this.handleRevealToggle}
         disabled={this.disabled}
-        aria-label={(() => { const t = isRtl(this.el) ? STRINGS.ar : STRINGS.en; return this.passwordVisible ? t.hidePassword : t.showPassword; })()}
+        aria-label={(() => { const t = STRINGS[uiLang(this.el)]; return this.passwordVisible ? t.hidePassword : t.showPassword; })()}
       >
         {this.passwordVisible ? (
           // Eye-off icon
@@ -565,14 +570,17 @@ export class AegovInput {
       lg: 'copy-btn--lg',
       xl: 'copy-btn--xl',
     };
-    const strings = isRtl(this.el) ? STRINGS.ar : STRINGS.en;
+    const strings = STRINGS[uiLang(this.el)];
 
     return [
       <button
         type="button"
         class={`input__copy-btn ${sizeClasses[this._resolvedSize]}${this.justCopied ? ' input__copy-btn--copied' : ''}`}
         onClick={this.handleCopy}
-        aria-label={this.justCopied ? strings.copied : strings.copyToClipboard}
+        // The name stays the same; only the status region below says "Copied".
+        // Changing the focused button's name as well made VoiceOver say it
+        // two or three times (DS-A11Y-textarea-01).
+        aria-label={strings.copyToClipboard}
       >
         {this.justCopied ? (
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -615,7 +623,10 @@ export class AegovInput {
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
-    const showHint = !showError && (hasHintSlot || !!this.hint);
+    // The hint (format, length, where to find the value) stays visible while an
+    // error shows, after the error, and both describe the field: the hint is
+    // most needed exactly then (DS-A11Y-input-08).
+    const showHint = hasHintSlot || !!this.hint;
     // Gap §7.10 — only announce errors via live region after first blur; silent during typing
     const announceError = showError && this.hasBlurredOnce;
     // Gap §7.8 — keep the author's host aria-describedby (external help text):

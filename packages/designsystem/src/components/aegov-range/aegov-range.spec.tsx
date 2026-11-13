@@ -260,13 +260,13 @@ describe('aegov-range', () => {
       expect(q(page.root, '.aegov-range__hint').textContent).toBe('0–100');
     });
 
-    it('hides hint when error shown', async () => {
+    it('keeps the hint visible alongside the error (DS-A11Y-input-08)', async () => {
       const page = await newSpecPage({
         components: [AegovRange],
         html: `<aegov-range hint="h" is-invalid="true" error-message="err"></aegov-range>`,
       });
       expect(q(page.root, '.aegov-range__error')).not.toBeNull();
-      expect(q(page.root, '.aegov-range__hint')).toBeNull();
+      expect(q(page.root, '.aegov-range__hint')).not.toBeNull();
     });
 
     it('aria-describedby includes error id', async () => {

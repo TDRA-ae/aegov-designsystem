@@ -124,36 +124,39 @@
          transition-all duration-200 dark:bg-aeblack-800;
 }
 
-/* Variant — wrapper border, filename text, browse button per colour family */
+/* Variant — wrapper border, filename text, browse button per colour family.
+   The dashed drop-zone border uses the same shades as the default wrapper
+   border (>= 3:1 against the page, WCAG 1.4.11, DS-A11Y-fileupload-07); it
+   was the 300/200 shade (1.9-2.6:1). Drag-over goes one step darker. */
 .aegov-fileupload.fileupload-variant-primary .fileupload__input-wrapper       { @apply border-primary-600 dark:border-primary-400; }
 .aegov-fileupload.fileupload-variant-primary .fileupload__filename            { @apply text-primary-900 dark:text-whitely-100; }
 .aegov-fileupload.fileupload-variant-primary .fileupload__browse-btn          { @apply text-primary-50 bg-primary-600 border-s-primary-600 hover:border-s-primary-700 hover:bg-primary-700 hover:text-primary-50 dark:text-primary-50 dark:bg-primary-600 dark:border-s-primary-400 dark:hover:bg-primary-700 dark:hover:border-s-primary-400 dark:hover:text-primary-50; }
-.aegov-fileupload.fileupload-variant-primary .fileupload__dropzone            { @apply border-primary-300 dark:border-primary-700; }
-.aegov-fileupload.fileupload-variant-primary .fileupload__dropzone--dragover  { @apply border-primary-500 bg-primary-50 dark:border-primary-400 dark:bg-primary-900/30; }
+.aegov-fileupload.fileupload-variant-primary .fileupload__dropzone            { @apply border-primary-600 dark:border-primary-700; }
+.aegov-fileupload.fileupload-variant-primary .fileupload__dropzone--dragover  { @apply border-primary-700 bg-primary-50 dark:border-primary-400 dark:bg-primary-900/30; }
 .aegov-fileupload.fileupload-variant-primary .fileupload__drop-icon           { @apply text-primary-600 dark:text-primary-400; }
 
 .aegov-fileupload.fileupload-variant-secondary .fileupload__input-wrapper       { @apply border-secondary-600 dark:border-secondary-400; }
 .aegov-fileupload.fileupload-variant-secondary .fileupload__filename            { @apply text-secondary-900 dark:text-whitely-100; }
 .aegov-fileupload.fileupload-variant-secondary .fileupload__browse-btn          { @apply text-secondary-50 bg-secondary-600 border-s-secondary-600 hover:border-s-secondary-700 hover:bg-secondary-700 hover:text-secondary-50 dark:text-secondary-50 dark:bg-secondary-600 dark:border-s-secondary-400 dark:hover:bg-secondary-700 dark:hover:border-s-secondary-400 dark:hover:text-secondary-50; }
 
-.aegov-fileupload.fileupload-variant-secondary .fileupload__dropzone            { @apply border-secondary-300 dark:border-secondary-700; }
-.aegov-fileupload.fileupload-variant-secondary .fileupload__dropzone--dragover  { @apply border-secondary-500 bg-secondary-50 dark:border-secondary-400 dark:bg-secondary-900/30; }
+.aegov-fileupload.fileupload-variant-secondary .fileupload__dropzone            { @apply border-secondary-600 dark:border-secondary-700; }
+.aegov-fileupload.fileupload-variant-secondary .fileupload__dropzone--dragover  { @apply border-secondary-700 bg-secondary-50 dark:border-secondary-400 dark:bg-secondary-900/30; }
 .aegov-fileupload.fileupload-variant-secondary .fileupload__drop-icon           { @apply text-secondary-600 dark:text-secondary-400; }
 
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__input-wrapper       { @apply border-aeblack-800 dark:border-aeblack-300; }
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__filename            { @apply text-aeblack-950 dark:text-whitely-100; }
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__browse-btn          { @apply text-aeblack-50 bg-aeblack-800 border-s-aeblack-800 hover:border-s-aeblack-900 hover:bg-aeblack-900 hover:text-aeblack-50 dark:text-aeblack-900 dark:bg-aeblack-300 dark:border-s-aeblack-300 dark:hover:bg-aeblack-200 dark:hover:border-s-aeblack-200 dark:hover:text-aeblack-900; }
 
-.aegov-fileupload.fileupload-variant-neutral-max .fileupload__dropzone            { @apply border-aeblack-300 dark:border-aeblack-600; }
-.aegov-fileupload.fileupload-variant-neutral-max .fileupload__dropzone--dragover  { @apply border-aeblack-500 bg-aeblack-50 dark:border-aeblack-300 dark:bg-aeblack-700; }
+.aegov-fileupload.fileupload-variant-neutral-max .fileupload__dropzone            { @apply border-aeblack-800 dark:border-aeblack-600; }
+.aegov-fileupload.fileupload-variant-neutral-max .fileupload__dropzone--dragover  { @apply border-aeblack-950 bg-aeblack-50 dark:border-aeblack-300 dark:bg-aeblack-700; }
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__drop-icon           { @apply text-aeblack-800 dark:text-whitely-100; }
 
 .aegov-fileupload.fileupload-variant-neutral-min .fileupload__input-wrapper       { @apply border-aeblack-400 dark:border-aeblack-600; }
 .aegov-fileupload.fileupload-variant-neutral-min .fileupload__filename            { @apply text-aeblack-700 dark:text-aeblack-200; }
 .aegov-fileupload.fileupload-variant-neutral-min .fileupload__browse-btn          { @apply text-aeblack-950 bg-aeblack-200 border-s-aeblack-300 hover:border-s-aeblack-400 hover:bg-aeblack-300 hover:text-aeblack-900 dark:text-whitely-100 dark:bg-aeblack-700 dark:border-s-aeblack-600 dark:hover:bg-aeblack-600 dark:hover:border-s-aeblack-600 dark:hover:text-whitely-100; }
 
-.aegov-fileupload.fileupload-variant-neutral-min .fileupload__dropzone            { @apply border-aeblack-200 dark:border-aeblack-700; }
-.aegov-fileupload.fileupload-variant-neutral-min .fileupload__dropzone--dragover  { @apply border-aeblack-400 bg-aeblack-50 dark:border-aeblack-500 dark:bg-aeblack-700; }
+.aegov-fileupload.fileupload-variant-neutral-min .fileupload__dropzone            { @apply border-aeblack-400 dark:border-aeblack-700; }
+.aegov-fileupload.fileupload-variant-neutral-min .fileupload__dropzone--dragover  { @apply border-aeblack-600 bg-aeblack-50 dark:border-aeblack-500 dark:bg-aeblack-700; }
 .aegov-fileupload.fileupload-variant-neutral-min .fileupload__drop-icon           { @apply text-aeblack-400 dark:text-aeblack-500; }
 
 /* Focus-within when native input has focus — mirrors aegov-input focus look (ring + offset + border swap). */
@@ -361,8 +364,17 @@
   @apply shrink-0 text-primary-500 dark:text-primary-400;
 }
 
+/* Long names wrap instead of being cut with "…" (the full name was only in a
+   mouse tooltip), so keyboard, touch and zoom users can read which file they
+   picked (DS-A11Y-fileupload-10). */
 .fileupload__file-name {
-  @apply flex-1 truncate text-primary-900 font-medium dark:text-whitely-100;
+  @apply flex-1 min-w-0 text-primary-900 font-medium dark:text-whitely-100;
+  overflow-wrap: anywhere;
+}
+
+/* Files left out by max-files: information, not an error (DS-A11Y-fileupload-11). */
+.fileupload__notice {
+  @apply text-sm text-aeblack-700 mt-1.5 leading-snug dark:text-aeblack-200;
 }
 
 /* Variant-aware file list icon + name colours */

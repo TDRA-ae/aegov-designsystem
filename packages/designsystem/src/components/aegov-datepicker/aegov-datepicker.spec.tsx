@@ -263,13 +263,13 @@ describe('aegov-datepicker', () => {
       expect(q(page.root, '.aegov-datepicker__hint').textContent).toBe('Future dates only');
     });
 
-    it('hides hint when error shown', async () => {
+    it('keeps the hint visible alongside the error (DS-A11Y-input-08)', async () => {
       const page = await newSpecPage({
         components: [AegovDatepicker],
         html: `<aegov-datepicker hint="h" is-invalid="true" error-message="err"></aegov-datepicker>`,
       });
       expect(q(page.root, '.aegov-datepicker__error')).not.toBeNull();
-      expect(q(page.root, '.aegov-datepicker__hint')).toBeNull();
+      expect(q(page.root, '.aegov-datepicker__hint')).not.toBeNull();
     });
 
     it('aria-describedby on trigger includes error id', async () => {
@@ -411,16 +411,20 @@ describe('aegov-datepicker', () => {
       expect(q(ltr.root, '.datepicker__trigger').hasAttribute('lang')).toBe(false);
     });
 
-    it('follows the text direction for a locale other than Arabic or English, and formats dates in English when unset', async () => {
+    it('follows the text direction for a locale other than Arabic or English, and formats dates in the page language when unset', async () => {
       const page = await newSpecPage({
         components: [AegovDatepicker],
         html: `<div dir="rtl"><aegov-datepicker locale="fr" value="2026-03-05" format="D MMMM YYYY"></aegov-datepicker></div>`,
       });
       expect((q(page.root, 'input.datepicker__input') as HTMLInputElement).value).toBe('5 mars 2026');
-      expect(q(page.root, 'input.datepicker__input').getAttribute('aria-label')).toMatch(/^تغيير التاريخ, /);
+      // The name is the field's purpose; the date is its value (DS-A11Y-datepicker-07).
+      expect(q(page.root, 'input.datepicker__input').getAttribute('aria-label')).toBe('اختر التاريخ');
       page.root.locale = undefined;
       await page.waitForChanges();
-      expect((q(page.root, 'input.datepicker__input') as HTMLInputElement).value).toBe('5 March 2026');
+      // Without locale, dates follow the page language like the text (DS-A11Y-datepicker-11):
+      // this page is dir="rtl" with no lang, so Arabic.
+      expect((q(page.root, 'input.datepicker__input') as HTMLInputElement).value).not.toBe('5 March 2026');
+      expect((q(page.root, 'input.datepicker__input') as HTMLInputElement).value).toMatch(/مارس/);
     });
 
     it('updates its text when locale changes at runtime', async () => {
