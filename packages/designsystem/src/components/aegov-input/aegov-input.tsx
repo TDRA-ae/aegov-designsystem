@@ -15,7 +15,7 @@ import {
   fromNativeValidity, VALID_STATE,
   composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity, syncHostDisabled,
 } from '../../utils/validation';
-import { isRtl } from '../../utils/rtl';
+import { uiLang, observePageLang } from '../../utils/lang';
 import { afterDispatchUnlessPrevented, getOwningForm, implicitlySubmit } from '../../utils/form-submit';
 
 const STRINGS = {
@@ -349,13 +349,18 @@ export class AegovInput {
     this.attrObserver = observePassThroughAttributes(this.el, AegovInput.PASS_THROUGH_ATTRS, () => forceUpdate(this));
     this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, internals: () => this.internals, onChange: () => forceUpdate(this) });
     this.hostAria.connect();
+    this.stopPageLangObserver = observePageLang(() => forceUpdate(this));
   }
 
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
     this.attrObserver?.disconnect();
     this.hostAria?.disconnect();
+    this.stopPageLangObserver?.();
   }
+
+  /** Re-renders the built-in strings when the page language/direction changes (DS-A11Y-input-05). */
+  private stopPageLangObserver?: () => void;
 
   @Watch('type')
   onTypeChange(v: unknown) { warnIfInvalidEnumProp(v, INPUT_TYPES, 'text', ctx('type')); }
@@ -534,7 +539,7 @@ export class AegovInput {
         class={`input__revealable ${sizeClasses[this._resolvedSize]}`}
         onClick={this.handleRevealToggle}
         disabled={this.disabled}
-        aria-label={(() => { const t = isRtl(this.el) ? STRINGS.ar : STRINGS.en; return this.passwordVisible ? t.hidePassword : t.showPassword; })()}
+        aria-label={(() => { const t = STRINGS[uiLang(this.el)]; return this.passwordVisible ? t.hidePassword : t.showPassword; })()}
       >
         {this.passwordVisible ? (
           // Eye-off icon
@@ -565,7 +570,7 @@ export class AegovInput {
       lg: 'copy-btn--lg',
       xl: 'copy-btn--xl',
     };
-    const strings = isRtl(this.el) ? STRINGS.ar : STRINGS.en;
+    const strings = STRINGS[uiLang(this.el)];
 
     return [
       <button
