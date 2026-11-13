@@ -19,6 +19,8 @@ export const DATEPICKER_PORTAL_STYLES = `
 }
 
 .aegov-datepicker {
+  /* Colour of the band lines on in-range days (see .datepicker__day--in-range). */
+  --dp-range-line: var(--color-primary-600);
   position: fixed;
   background: var(--color-whitely-50);
   color: var(--color-aeblack-800);
@@ -305,6 +307,18 @@ export const DATEPICKER_PORTAL_STYLES = `
   background: var(--color-primary-100, #e0f2fe);
   color: var(--color-primary-800, #075985);
   border-radius: 0;
+  /* The tint alone is 1.19:1 against the dialog, so the days between the start
+     and end were hard to see (WCAG 1.4.11 / 1.4.1, DS-A11Y-datepicker-05).
+     A 2 px line along the top and bottom of each in-range day, in the variant's
+     range colour (>= 3:1 against the dialog and the tint), draws the range as
+     one band from the start to the end. Inset shadows keep the cell size. */
+  box-shadow: inset 0 2px 0 var(--dp-range-line), inset 0 -2px 0 var(--dp-range-line);
+}
+
+/* Today inside a range keeps the band and adds its own ring. Specificity
+   (0,7,0) beats the per-variant today rules (0,6,0) further down. */
+.aegov-datepicker .datepicker__day.datepicker__day--in-range.datepicker__day--today:not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+  box-shadow: inset 0 2px 0 var(--dp-range-line), inset 0 -2px 0 var(--dp-range-line), inset 0 0 0 1px var(--dp-range-line);
 }
 
 .datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end):hover {
@@ -348,6 +362,7 @@ export const DATEPICKER_PORTAL_STYLES = `
 }
 
 .datepicker__day--range-invalid.datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+  --dp-range-line: var(--color-aered-600);
   background: var(--color-aered-100, #fee2e2);
   color: var(--color-aered-800, #991b1b);
 }
@@ -478,6 +493,11 @@ export const DATEPICKER_PORTAL_STYLES = `
    regardless of variant (the trigger's focus ring does follow the variant —
    see aegov-datepicker.css).
    ───────────────────────────────────────────────────────────────────── */
+
+/* Range band line colour per variant (>= 3:1 against the dialog and the tint). */
+.aegov-datepicker.datepicker-variant-secondary { --dp-range-line: var(--color-secondary-600); }
+.aegov-datepicker.datepicker-variant-neutral-max { --dp-range-line: var(--color-aeblack-800); }
+.aegov-datepicker.datepicker-variant-neutral-min { --dp-range-line: var(--color-aeblack-500); }
 
 /* Secondary variant */
 .aegov-datepicker.datepicker-variant-secondary .datepicker__day--selected,

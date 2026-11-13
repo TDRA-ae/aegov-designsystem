@@ -1,4 +1,5 @@
 import { newE2EPage } from '@stencil/core/testing';
+import { themeColours } from '../../utils/e2e-theme';
 
 describe('aegov-datepicker (e2e)', () => {
   it('renders the trigger input', async () => {
@@ -614,5 +615,36 @@ describe('aegov-datepicker (e2e)', () => {
     await page.waitForFunction(() => getComputedStyle((document.querySelector('aegov-datepicker') as any)
       .shadowRoot.querySelector('.datepicker__input-wrapper')).opacity === '1', { timeout: 2000 });
     expect(await opacity()).toBe('1');
+  });
+});
+
+// DS-A11Y-datepicker-05 (WCAG 1.4.11 / 1.4.1): days inside a selected range
+// carry a top and bottom line in the variant colour, not only a faint tint.
+describe('aegov-datepicker (e2e) range band', () => {
+  const band = (page: any, date: string) =>
+    page.evaluate((d: string) => {
+      const day = document.querySelector(`.aegov-datepicker-portal .datepicker__day[data-date="${d}"]`) as HTMLElement;
+      return (getComputedStyle(day).boxShadow.match(/inset/g) || []).length;
+    }, date);
+
+  it('in-range days have the band lines; days outside the range do not', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker aria-label="Stay" appearance="range" value="2024-06-10 / 2024-06-15"></aegov-datepicker>');
+    await page.addStyleTag({ content: themeColours() });
+    const host = await page.find('aegov-datepicker');
+    await host.callMethod('open');
+    await page.waitForChanges();
+    expect(await band(page, '2024-06-12')).toBe(2);
+    expect(await band(page, '2024-06-20')).toBe(0);
+  });
+
+  it('keeps the band on the other variants', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker aria-label="Stay" appearance="range" variant="neutral-min" value="2024-06-10 / 2024-06-15"></aegov-datepicker>');
+    await page.addStyleTag({ content: themeColours() });
+    const host = await page.find('aegov-datepicker');
+    await host.callMethod('open');
+    await page.waitForChanges();
+    expect(await band(page, '2024-06-12')).toBe(2);
   });
 });
