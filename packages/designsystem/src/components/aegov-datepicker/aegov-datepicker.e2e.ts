@@ -545,15 +545,17 @@ describe('aegov-datepicker (e2e)', () => {
       expect(t.portalLang).toBe('en');
     });
 
-    it('without locale the text follows the direction, as before', async () => {
+    it('without locale the text and the dates follow the page language', async () => {
       const rtl = await newE2EPage();
       await rtl.setContent(`<div dir="rtl">${PICKER}</div>`);
       const r = await readTexts(rtl);
       expect(r.presets).toEqual(['اليوم', 'آخر 7 أيام']);
       expect(r.apply).toBe('تطبيق');
       expect(r.message).toBe('مطلوب');
-      expect(r.prev).toMatch(/^الشهر السابق, [A-Z][a-z]+ \d{4}$/);
-      expect(r.portalLang).toBeNull();
+      // Dates are Arabic too, not English read by an Arabic voice (DS-A11Y-datepicker-11),
+      // and the portal (under <body>) carries the language.
+      expect(r.prev).toMatch(/^الشهر السابق, [^A-Za-z]+$/);
+      expect(r.portalLang).toBe('ar');
       expect(r.triggerLang).toBeNull();
 
       const ltr = await newE2EPage();
@@ -562,7 +564,7 @@ describe('aegov-datepicker (e2e)', () => {
       expect(l.presets).toEqual(['Today', 'Last 7 Days']);
       expect(l.apply).toBe('Apply');
       expect(l.message).toBe('Required');
-      expect(l.portalLang).toBeNull();
+      expect(l.portalLang).toBe('en');
     });
 
     it('changing locale while open updates the trigger and the open calendar', async () => {

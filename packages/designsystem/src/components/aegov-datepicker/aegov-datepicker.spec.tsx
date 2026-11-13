@@ -411,16 +411,20 @@ describe('aegov-datepicker', () => {
       expect(q(ltr.root, '.datepicker__trigger').hasAttribute('lang')).toBe(false);
     });
 
-    it('follows the text direction for a locale other than Arabic or English, and formats dates in English when unset', async () => {
+    it('follows the text direction for a locale other than Arabic or English, and formats dates in the page language when unset', async () => {
       const page = await newSpecPage({
         components: [AegovDatepicker],
         html: `<div dir="rtl"><aegov-datepicker locale="fr" value="2026-03-05" format="D MMMM YYYY"></aegov-datepicker></div>`,
       });
       expect((q(page.root, 'input.datepicker__input') as HTMLInputElement).value).toBe('5 mars 2026');
-      expect(q(page.root, 'input.datepicker__input').getAttribute('aria-label')).toMatch(/^تغيير التاريخ, /);
+      // The name is the field's purpose; the date is its value (DS-A11Y-datepicker-07).
+      expect(q(page.root, 'input.datepicker__input').getAttribute('aria-label')).toBe('اختر التاريخ');
       page.root.locale = undefined;
       await page.waitForChanges();
-      expect((q(page.root, 'input.datepicker__input') as HTMLInputElement).value).toBe('5 March 2026');
+      // Without locale, dates follow the page language like the text (DS-A11Y-datepicker-11):
+      // this page is dir="rtl" with no lang, so Arabic.
+      expect((q(page.root, 'input.datepicker__input') as HTMLInputElement).value).not.toBe('5 March 2026');
+      expect((q(page.root, 'input.datepicker__input') as HTMLInputElement).value).toMatch(/مارس/);
     });
 
     it('updates its text when locale changes at runtime', async () => {

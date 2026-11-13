@@ -875,4 +875,50 @@ export const DATEPICKER_PORTAL_STYLES = `
   background: var(--color-aeblack-800);
   color: var(--color-whitely-100);
 }
+
+/* ── Range-limit message (DS-A11Y-datepicker-09) ───────── */
+.datepicker__range-message {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--color-aered-600);
+  border-top: 1px solid var(--color-aeblack-100);
+}
+.datepicker__range-message[hidden] { display: none; }
+.dark .datepicker__range-message { color: var(--color-aered-400); border-top-color: var(--color-aeblack-700); }
+
+/* ── Forced colours (Windows High Contrast, DS-A11Y-datepicker-06) ──────
+   Backgrounds and box-shadows are replaced or dropped, so selected, range
+   and today states disappeared. Use system colours and borders instead. */
+@media (forced-colors: active) {
+  .datepicker__day--selected,
+  .datepicker__day--range-start,
+  .datepicker__day--range-end {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+  .datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+    forced-color-adjust: none;
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+    border-block: 2px solid Highlight;
+  }
+  .datepicker__day--today:not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+    outline: 1px solid CanvasText;
+    outline-offset: -3px;
+  }
+  .datepicker__day--disabled {
+    color: GrayText;
+    opacity: 1;
+  }
+  .datepicker__day:focus-visible,
+  .datepicker__day--focused {
+    outline: 3px solid CanvasText;
+    outline-offset: -3px;
+  }
+  .datepicker__range-message { color: CanvasText; }
+}
 `;
