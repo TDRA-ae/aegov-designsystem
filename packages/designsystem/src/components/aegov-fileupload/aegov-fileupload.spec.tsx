@@ -118,7 +118,8 @@ describe('aegov-fileupload', () => {
       host.isInvalid = true;
       host.errorMessage = 'Err';
       await page.waitForChanges();
-      expect(q(host, selector).getAttribute('aria-describedby')).toMatch(/^fu-host-desc .*fu-error$/);
+      // The hint stays after the error (DS-A11Y-fileupload-11).
+      expect(q(host, selector).getAttribute('aria-describedby')).toMatch(/^fu-host-desc .*fu-error fu-hint$/);
     });
   });
 
@@ -138,7 +139,8 @@ describe('aegov-fileupload', () => {
       page.root.isInvalid = true;
       page.root.errorMessage = 'Err';
       await page.waitForChanges();
-      expect(trigger().getAttribute('aria-description')).toBe('Err');
+      // Error first, then the hint, which now stays (DS-A11Y-fileupload-11).
+      expect(trigger().getAttribute('aria-description')).toBe('Err. Hint');
       expect(trigger().getAttribute('aria-invalid')).toBe('true');
       expect(group.getAttribute('aria-describedby')).toBeNull();
       expect(group.getAttribute('aria-invalid')).toBeNull();
@@ -306,13 +308,13 @@ describe('aegov-fileupload', () => {
       expect(q(page.root, '.fileupload__hint').textContent).toBe('Up to 10MB');
     });
 
-    it('hides hint when error shown', async () => {
+    it('keeps the hint visible alongside the error (DS-A11Y-input-08)', async () => {
       const page = await newSpecPage({
         components: [AegovFileupload],
         html: `<aegov-fileupload hint="h" is-invalid="true" error-message="err"></aegov-fileupload>`,
       });
       expect(q(page.root, '.aegov-fileupload__error')).not.toBeNull();
-      expect(q(page.root, '.fileupload__hint')).toBeNull();
+      expect(q(page.root, '.fileupload__hint')).not.toBeNull();
     });
 
     it('validate() resolves valid for empty optional fileupload', async () => {
