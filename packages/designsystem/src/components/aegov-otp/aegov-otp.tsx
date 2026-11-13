@@ -403,10 +403,14 @@ export class AegovOtp {
       return;
     }
 
-    // Multi-character: distribute across cells (handles autofill or overtype)
+    // Multi-character: distribute across cells (handles autofill or overtype).
+    // A whole code inserted into a later cell (dictation, IME, password
+    // managers) fills from the first cell, like paste does; starting at this
+    // cell cut the end of the code off (DS-A11Y-otp-10).
     if (val.length > 1) {
       const cleaned = val.replace(/\s/g, '');
-      let ci = index;
+      const validCount = [...cleaned].filter(ch => this.isValidChar(ch)).length;
+      let ci = validCount >= this.length ? 0 : index;
       for (const ch of cleaned) {
         if (ci >= this.length) break;
         if (this.isValidChar(ch)) {
@@ -449,6 +453,10 @@ export class AegovOtp {
     } else if (e.key === 'ArrowRight' && index < this.length - 1) {
       e.preventDefault();
       this.cellRefs[index + 1].focus();
+    } else if (e.key === 'Home' || e.key === 'End') {
+      // First / last cell, as in a single text field (DS-A11Y-otp-10).
+      e.preventDefault();
+      this.cellRefs[e.key === 'Home' ? 0 : this.length - 1]?.focus();
     } else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
       const input = e.target as HTMLInputElement;
       if (input.value) {
@@ -507,7 +515,8 @@ export class AegovOtp {
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
-    const showHint = !showError && (hasHintSlot || !!this.hint);
+    // Hint stays visible (and in the description) while an error shows (DS-A11Y-input-08).
+    const showHint = hasHintSlot || !!this.hint;
     const announceError = showError && this.hasBlurredOnce;
     const authorDescribedBy = this.hostAria?.descriptionId();
     const describedBy = composeDescribedBy(
