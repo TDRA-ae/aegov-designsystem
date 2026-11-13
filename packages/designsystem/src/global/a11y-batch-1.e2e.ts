@@ -210,6 +210,20 @@ describe('textarea and input', () => {
     });
     await page.waitForChanges();
     expect(await page.$eval('aegov-textarea', (el: any) => el.shadowRoot.querySelector('.textarea__copy-status').textContent)).toBe('Copied');
+    // Said once: the button's own name does not change as well.
+    expect(await shadowAttr(page, 'aegov-textarea', '.textarea__copy-btn', 'aria-label')).toBe('Copy to clipboard');
+  });
+
+  it('textarea-01: the input copy button also keeps its name and announces through its status only', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-input aria-label="Ref" is-readonly="true" is-copyable="true" value="ABC"></aegov-input>');
+    await page.$eval('aegov-input', (el: any) => {
+      Object.defineProperty(navigator, 'clipboard', { value: { writeText: () => Promise.resolve() }, configurable: true });
+      el.shadowRoot.querySelector('button').click();
+    });
+    await page.waitForChanges();
+    expect(await shadowAttr(page, 'aegov-input', 'button', 'aria-label')).toBe('Copy to clipboard');
+    expect(await page.$eval('aegov-input', (el: any) => el.shadowRoot.querySelector('[role=status]').textContent)).toBe('Copied');
   });
 
   it('textarea-02: the visible counter is not a live region; a worded status follows a pause', async () => {

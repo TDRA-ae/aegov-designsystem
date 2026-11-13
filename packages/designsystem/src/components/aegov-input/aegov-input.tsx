@@ -577,7 +577,10 @@ export class AegovInput {
         type="button"
         class={`input__copy-btn ${sizeClasses[this._resolvedSize]}${this.justCopied ? ' input__copy-btn--copied' : ''}`}
         onClick={this.handleCopy}
-        aria-label={this.justCopied ? strings.copied : strings.copyToClipboard}
+        // The name stays the same; only the status region below says "Copied".
+        // Changing the focused button's name as well made VoiceOver say it
+        // two or three times (DS-A11Y-textarea-01).
+        aria-label={strings.copyToClipboard}
       >
         {this.justCopied ? (
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
