@@ -173,7 +173,7 @@ describe('aegov-radio-group', () => {
       expect(q(page.root, '.aegov-radio-group__hint').textContent).toBe('Single choice');
     });
 
-    it('hides hint when error shown', async () => {
+    it('keeps the hint visible alongside the error (DS-A11Y-input-08)', async () => {
       const page = await newSpecPage({
         components: [AegovRadioGroup, AegovRadio],
         html: `<aegov-radio-group name="r" hint="h" is-invalid="true" error-message="err">
@@ -181,7 +181,7 @@ describe('aegov-radio-group', () => {
         </aegov-radio-group>`,
       });
       expect(q(page.root, '.aegov-radio-group__error')).not.toBeNull();
-      expect(q(page.root, '.aegov-radio-group__hint')).toBeNull();
+      expect(q(page.root, '.aegov-radio-group__hint')).not.toBeNull();
     });
 
     it('validate() resolves valid for optional empty group', async () => {

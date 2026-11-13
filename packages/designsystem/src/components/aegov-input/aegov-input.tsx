@@ -623,7 +623,10 @@ export class AegovInput {
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
-    const showHint = !showError && (hasHintSlot || !!this.hint);
+    // The hint (format, length, where to find the value) stays visible while an
+    // error shows, after the error, and both describe the field: the hint is
+    // most needed exactly then (DS-A11Y-input-08).
+    const showHint = hasHintSlot || !!this.hint;
     // Gap §7.10 — only announce errors via live region after first blur; silent during typing
     const announceError = showError && this.hasBlurredOnce;
     // Gap §7.8 — keep the author's host aria-describedby (external help text):
