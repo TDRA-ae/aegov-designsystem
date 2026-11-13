@@ -1,4 +1,4 @@
-import { Component, Prop, Watch, State, Event, EventEmitter, Element, Method, h, Host } from '@stencil/core';
+import { Component, Prop, Watch, State, Event, EventEmitter, Element, Method, Listen, h, Host } from '@stencil/core';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
@@ -21,7 +21,8 @@ import { getPassThroughAttributes } from '../../utils/attributes';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
 import { getActionClasses } from '../../utils/action-classes';
-import { afterDispatchUnlessPrevented, getOwningForm, submitForm, resetForm } from '../../utils/form-submit';
+import { afterDispatchUnlessPrevented, getOwningForm, submitForm, resetForm, implicitlySubmit, isAegovImplicitSubmission } from '../../utils/form-submit';
+import { uiLang } from '../../utils/lang';
 
 const TAG = 'aegov-button';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -263,6 +264,20 @@ export class AegovButton {
     warnIfInvalidEnumProp(v, BUTTON_GROUP_ORIENTATIONS, 'horizontal', ctx('groupOrientation'));
   }
 
+  /**
+   * Enter in a plain <input> of this button's form submits through this button
+   * when it is the form's default (first) submit button, as a native submit
+   * button would (DS-A11Y-button-03). aegov-input does its own implicit
+   * submission, so only native inputs are handled here.
+   */
+  @Listen('keydown', { target: 'document' })
+  handleDocumentKeydown(event: KeyboardEvent) {
+    if (this.getResolvedType() !== 'submit') return;
+    const form = getOwningForm(this.el, this.internals);
+    if (!form || !isAegovImplicitSubmission(event, form, this.el)) return;
+    afterDispatchUnlessPrevented(event, () => implicitlySubmit(form));
+  }
+
   private handleClick = (event: MouseEvent) => {
     if (this.isDisabled || this.isLoading || this.formDisabled) return;
     this.aegovButtonClick.emit(event);
@@ -341,9 +356,14 @@ export class AegovButton {
           {this.isLoading && (
             <svg aria-hidden="true" class={this.isIcon ? 'size-4! animate-spin' : 'mr-1 -ml-1 size-4! animate-spin'} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
           )}
-          {this.isLoading && <span class="sr-only" aria-live="polite">Loading</span>}
           <slot></slot>
         </button>
+        {/* Outside the <button>, so "Loading" is never part of its name, and always
+            present, so the text change is announced. In the page language
+            (DS-A11Y-button-02: it was "Loading Save application", English on Arabic pages). */}
+        <span class="sr-only" role="status" aria-live="polite">
+          {this.isLoading ? (uiLang(this.el) === 'ar' ? 'جارٍ التحميل' : 'Loading') : ''}
+        </span>
       </Host>
     );
   }
