@@ -160,9 +160,23 @@
 }
 
 @media (forced-colors: active) {
-  .otp__wrapper--continuous .otp__cell:focus-visible {
+  /* Both appearances: forced colours drop the shadow/tint marker and the
+     individual cell's border colour change (DS-A11Y-otp-05, -07). */
+  .otp__cell:focus-visible {
     outline: 3px solid Highlight;
     outline-offset: -3px;
+  }
+  /* The dividers between continuous cells are background-coloured spans,
+     which forced colours remove, so the cells merged into one field
+     (DS-A11Y-otp-07). Paint them in the system text colour. */
+  /* !important: the per-variant divider colours are more specific, and with
+     forced-color-adjust: none they would show (gold on a dark HC theme). */
+  .otp__divider {
+    forced-color-adjust: none;
+    background-color: CanvasText !important;
+  }
+  .otp__wrapper--continuous:has(.otp__cell:disabled) .otp__divider {
+    background-color: GrayText !important;
   }
 }
 
