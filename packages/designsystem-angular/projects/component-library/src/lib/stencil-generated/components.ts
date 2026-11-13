@@ -594,7 +594,7 @@ export declare interface AegovBreadcrumbsItem extends Components.AegovBreadcrumb
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovButton,
-  inputs: ['appearance', 'fieldId', 'isBold', 'isDisabled', 'isFull', 'isIcon', 'isLoading', 'name', 'size', 'type', 'value', 'variant'],
+  inputs: ['appearance', 'fieldId', 'isBold', 'isDisabled', 'isDisabledFocusable', 'isFull', 'isIcon', 'isLoading', 'name', 'size', 'type', 'value', 'variant'],
   methods: ['setFocus']
 })
 @Component({
@@ -602,7 +602,7 @@ export declare interface AegovBreadcrumbsItem extends Components.AegovBreadcrumb
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['appearance', 'fieldId', { name: 'isBold', transform: nullableBooleanAttribute }, { name: 'isDisabled', transform: nullableBooleanAttribute }, { name: 'isFull', transform: nullableBooleanAttribute }, { name: 'isIcon', transform: nullableBooleanAttribute }, { name: 'isLoading', transform: nullableBooleanAttribute }, 'name', 'size', 'type', 'value', 'variant'],
+  inputs: ['appearance', 'fieldId', { name: 'isBold', transform: nullableBooleanAttribute }, { name: 'isDisabled', transform: nullableBooleanAttribute }, { name: 'isDisabledFocusable', transform: nullableBooleanAttribute }, { name: 'isFull', transform: nullableBooleanAttribute }, { name: 'isIcon', transform: nullableBooleanAttribute }, { name: 'isLoading', transform: nullableBooleanAttribute }, 'name', 'size', 'type', 'value', 'variant'],
   outputs: ['aegovButtonClick', 'aegovButtonFocus', 'aegovButtonBlur'],
 })
 export class AegovButton {
@@ -640,6 +640,13 @@ it — as on a native `<button>`.
    * Whether the button is disabled @default false
    */
   set isDisabled(_: Components.AegovButton['isDisabled']) {};
+    /**
+   * Keep a disabled button in the Tab order: it gets `aria-disabled="true"`
+instead of native `disabled`, so keyboard and screen-reader users still
+find it (and any tooltip or text explaining why), while activation stays
+blocked. Only applies together with `is-disabled` (DS-A11Y-button-08). @default false
+   */
+  set isDisabledFocusable(_: Components.AegovButton['isDisabledFocusable']) {};
     /**
    * Whether the button is only an icon @default false
    */
