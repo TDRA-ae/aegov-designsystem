@@ -262,10 +262,15 @@
 .aegov-range.range-variant-neutral-min .range__thumb--low:has(~ .range__input--low:focus-visible),
 .aegov-range.range-variant-neutral-min .range__thumb--high:has(~ .range__input--high:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-500 dark:outline-seablue-400; }
 
-/* Vertical native input — use writing-mode (spec-compliant, replaces deprecated -webkit-appearance: slider-vertical) */
+/* Vertical native input — use writing-mode (spec-compliant, replaces deprecated -webkit-appearance: slider-vertical).
+   direction: rtl puts the native minimum at the bottom, matching the drawn
+   thumb (bottom = min), so ArrowUp raises the value like Page Up and End.
+   With ltr the minimum was at the top: ArrowUp lowered the value and moved the
+   thumb down (DS-A11Y-range-03). This is the standard bottom-to-top slider
+   (writing-mode: vertical-lr; direction: rtl). */
 .range--vertical .range__input {
   writing-mode: vertical-lr;
-  direction: ltr;
+  direction: rtl;
 }
 
 /* ========================================
