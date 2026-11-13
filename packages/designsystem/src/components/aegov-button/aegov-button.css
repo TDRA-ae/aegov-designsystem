@@ -31,3 +31,16 @@
 :host([is-grouped]) .aegov-btn {
   @apply rounded-none border-0;
 }
+
+/* Forced colours (DS-A11Y-button-07): solid and outline buttons keep a border
+   in the system colour, but soft and link buttons have none, so they read as
+   plain text. Give soft buttons a system-colour border and keep links
+   underlined. Two classes so they beat the border-0 utility. */
+@media (forced-colors: active) {
+  .aegov-btn.btn-soft {
+    border: 1px solid ButtonText;
+  }
+  .aegov-btn.btn-link {
+    text-decoration-line: underline;
+  }
+}

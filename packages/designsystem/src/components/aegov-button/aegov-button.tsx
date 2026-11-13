@@ -101,6 +101,15 @@ export class AegovButton {
   @Prop() isDisabled: boolean = false;
 
   /**
+   * Keep a disabled button in the Tab order: it gets `aria-disabled="true"`
+   * instead of native `disabled`, so keyboard and screen-reader users still
+   * find it (and any tooltip or text explaining why), while activation stays
+   * blocked. Only applies together with `is-disabled` (DS-A11Y-button-08).
+   * @default false
+   */
+  @Prop() isDisabledFocusable: boolean = false;
+
+  /**
    * Whether the button is only an icon
    * @default false
    */
@@ -198,6 +207,37 @@ export class AegovButton {
       if (forwarded) this._passThroughVersion++;
     });
     this._hostAttrObserver.observe(this.el, { attributes: true });
+  }
+
+  /**
+   * Icon-only buttons need a name from the author. Warn in development when
+   * there is none, and hide the decorative slotted SVG from the accessibility
+   * tree once the button is named, so it isn't exposed as a nameless image
+   * (DS-A11Y-button-04).
+   */
+  private warnedNoName = false;
+
+  private checkIconName() {
+    if (!this.isIcon) return;
+    const named = !!(this.el.getAttribute('aria-label')?.trim() || this.el.getAttribute('aria-labelledby')?.trim() || this.el.getAttribute('title')?.trim());
+    if (!named) {
+      // Always (not only in dev builds): npm consumers get the production build,
+      // and a nameless button is an accessibility failure, not a style choice.
+      if (!this.warnedNoName) {
+        this.warnedNoName = true;
+        console.warn('[aegov-button] An icon-only button (is-icon) needs an accessible name: add aria-label (or aria-labelledby) to <aegov-button>.', this.el);
+      }
+      return;
+    }
+    Array.from(this.el.children)
+      .filter(child => child.tagName.toLowerCase() === 'svg')
+      .forEach(svg => {
+        if (!svg.hasAttribute('aria-hidden') && !svg.hasAttribute('role')) svg.setAttribute('aria-hidden', 'true');
+      });
+  }
+
+  componentDidLoad() {
+    this.checkIconName();
   }
 
   componentWillLoad() {
@@ -333,7 +373,10 @@ export class AegovButton {
   render() {
     const passThroughAttributes = getPassThroughAttributes(this.el);
     const type = this.getResolvedType();
-    const disabled = this.isDisabled || this.formDisabled;
+    // is-disabled-focusable keeps a disabled button focusable (aria-disabled);
+    // a disabled <fieldset> still disables it natively, like any control.
+    const softDisabled = this.isDisabled && this.isDisabledFocusable && !this.formDisabled;
+    const disabled = (this.isDisabled && !softDisabled) || this.formDisabled;
 
     return (
       <Host>
@@ -346,7 +389,7 @@ export class AegovButton {
           // Loading is not native `disabled`: that would blur a focused button and
           // send focus to <body> mid-submit. The button stays focusable, is marked
           // aria-disabled, and handleClick ignores activation while loading.
-          aria-disabled={this.isLoading && !disabled ? 'true' : undefined}
+          aria-disabled={(this.isLoading || softDisabled) && !disabled ? 'true' : undefined}
           onClick={this.handleClick}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
