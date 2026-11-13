@@ -378,6 +378,10 @@ export const DATEPICKER_PORTAL_STYLES = `
 }
 
 .datepicker__day--disabled {
+  /* Struck through, not only lighter grey, so unavailable (blackout, min/max)
+     days can be told apart without relying on colour (DS-A11Y-datepicker-18). */
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
   color: var(--color-aeblack-300, #cbd5e1);
   cursor: not-allowed;
   pointer-events: none;
@@ -933,5 +937,20 @@ export const DATEPICKER_PORTAL_STYLES = `
     outline-offset: -3px;
   }
   .datepicker__range-message { color: CanvasText; }
+}
+
+/* ── Reduced motion (DS-A11Y-datepicker-18) ──────────── */
+@media (prefers-reduced-motion: reduce) {
+  .aegov-datepicker,
+  .aegov-datepicker.datepicker--visible {
+    transition: none;
+    transform: none;
+  }
+  .datepicker__day,
+  .datepicker__preset-btn,
+  .datepicker__footer-btn,
+  .datepicker__nav-btn {
+    transition: none;
+  }
 }
 `;

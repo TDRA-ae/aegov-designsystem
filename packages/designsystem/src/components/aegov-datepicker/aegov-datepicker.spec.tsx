@@ -263,13 +263,13 @@ describe('aegov-datepicker', () => {
       expect(q(page.root, '.aegov-datepicker__hint').textContent).toBe('Future dates only');
     });
 
-    it('hides hint when error shown', async () => {
+    it('keeps the hint visible alongside the error (DS-A11Y-input-08)', async () => {
       const page = await newSpecPage({
         components: [AegovDatepicker],
         html: `<aegov-datepicker hint="h" is-invalid="true" error-message="err"></aegov-datepicker>`,
       });
       expect(q(page.root, '.aegov-datepicker__error')).not.toBeNull();
-      expect(q(page.root, '.aegov-datepicker__hint')).toBeNull();
+      expect(q(page.root, '.aegov-datepicker__hint')).not.toBeNull();
     });
 
     it('aria-describedby on trigger includes error id', async () => {

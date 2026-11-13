@@ -1437,6 +1437,7 @@ export class AegovDatepicker {
           startDate: this.rangeStart,
           endDate: this.rangeEnd,
         });
+        this.announceRange(start, end);
         this.isOpen = false;
       }
     }
@@ -1493,6 +1494,7 @@ export class AegovDatepicker {
         startDate: this.rangeStart,
         endDate: this.rangeEnd,
       });
+      this.announceRange(range.start, range.end);
       this.isOpen = false;
     }
   }
@@ -1516,9 +1518,7 @@ export class AegovDatepicker {
         startDate: this.rangeStart,
         endDate: this.rangeEnd,
       });
-      const startLabel = this.buildFullDateLabel(this.rangeStart, false);
-      const endLabel = this.buildFullDateLabel(this.rangeEnd, false);
-      this.announceHostLive(`${startLabel} ${this.t.rangeTo} ${endLabel}`);
+      this.announceRange(this.rangeStart, this.rangeEnd);
     }
     this.isOpen = false;
   }
@@ -1704,6 +1704,16 @@ export class AegovDatepicker {
     });
   }
 
+  /**
+   * "3 November 2026 to 10 November 2026" after a range is chosen by clicks, a
+   * preset or Apply — single dates were already announced, ranges were not
+   * (DS-A11Y-datepicker-15).
+   */
+  private announceRange(start: Date, end: Date) {
+    const format = (date: Date) => new Intl.DateTimeFormat(this.dateLocale, { day: 'numeric', month: 'long', year: 'numeric' }).format(date);
+    this.announceHostLive(`${format(start)} ${this.t.rangeTo} ${format(end)}`);
+  }
+
   private announceHostLive(message: string) {
     // Host live region for selection announcements (survives portal close)
     this.liveAnnouncement = '';
@@ -1751,7 +1761,6 @@ export class AegovDatepicker {
       this.updateFocusedDay(first);
     }
     this.focusDayButton(first);
-    this.announceLive(this.buildFullDateLabel(first, this.isDateDisabled(first)));
   }
 
   private focusLastOfWeek() {
@@ -1771,7 +1780,6 @@ export class AegovDatepicker {
       this.updateFocusedDay(last);
     }
     this.focusDayButton(last);
-    this.announceLive(this.buildFullDateLabel(last, this.isDateDisabled(last)));
   }
 
   // ── Keyboard Navigation ───────────────────────────────
@@ -1996,7 +2004,12 @@ export class AegovDatepicker {
     const rangeEnd = this.isWithConfirmation ? this.pendingRangeEnd : this.rangeEnd;
     const limitMessage = this.appearance === 'range' && rangeStart && !rangeEnd ? this.rangeLimitMessage(rangeStart, next) : '';
     if (this.appearance === 'range' && rangeStart && !rangeEnd) this.showRangeMessage(limitMessage);
-    this.announceLive(limitMessage ? `${label}. ${limitMessage}` : label);
+    // The focused day button is read by the screen reader itself; repeating it
+    // in the live region made every move speak twice (DS-A11Y-datepicker-16).
+    // The live region only adds what focus doesn't say: a range-limit message,
+    // or the new month when the grid was rebuilt.
+    if (limitMessage) this.announceLive(limitMessage);
+    else if (needsMonthChange) this.announceLive(label);
   }
 
   private moveFocusMonths(months: number) {
@@ -2012,6 +2025,7 @@ export class AegovDatepicker {
     this.refreshCalendars();
     this.schedulePositionUpdate();
     this.focusDayButton(next);
+    // The grid was rebuilt for the new month: say where focus landed once.
     this.announceLive(this.buildFullDateLabel(next, this.isDateDisabled(next)));
   }
 
@@ -2183,7 +2197,8 @@ export class AegovDatepicker {
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
-    const showHint = !showError && (hasHintSlot || !!this.hint);
+    // Hint stays visible (and in the description) while an error shows (DS-A11Y-input-08).
+    const showHint = hasHintSlot || !!this.hint;
     return { showError, showHint };
   }
 
@@ -2193,7 +2208,6 @@ export class AegovDatepicker {
     const placeholder = this.placeholder || this.t.selectDate;
     const externalLabel = this.externalLabelText();
     const { showError, showHint } = this.getValidationDisplay();
-    const formatHintId = `${this.fieldId}-format-hint`;
 
     return (
       <div class={`datepicker__input-wrapper datepicker__input-wrapper--${this._resolvedSize}`}>
@@ -2220,12 +2234,10 @@ export class AegovDatepicker {
           aria-label={externalLabel || placeholder}
           aria-describedby={composeDescribedBy(
             this.hostAria?.descriptionId(),
-            formatHintId,
             showError ? this.errorId : null,
             showHint ? this.hintId : null,
           )}
         />
-        <span id={formatHintId} class="datepicker__sr-only">{this.format}</span>
         {hasValue && this.isClearable && !this.disabled && (
           <button
             type="button"
@@ -2247,11 +2259,12 @@ export class AegovDatepicker {
     const labelStart = this.labelRangeStart || this.t.startDate;
     const labelEnd = this.labelRangeEnd || this.t.endDate;
     const externalLabel = this.externalLabelText();
-    const formatHintId = `${this.fieldId}-format-hint`;
+    // No format-token description ("YYYY-MM-DD" read letter by letter): the
+    // fields are read-only, chosen from the calendar, and their value already
+    // shows the format (DS-A11Y-datepicker-17).
     const { showError, showHint } = this.getValidationDisplay();
     const inputDescribedBy = composeDescribedBy(
       this.hostAria?.descriptionId(),
-      formatHintId,
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );
@@ -2295,7 +2308,6 @@ export class AegovDatepicker {
           aria-controls={this.isOpen ? this.datepickerId : undefined}
           aria-describedby={inputDescribedBy}
         />
-        <span id={formatHintId} class="datepicker__sr-only">{this.format}</span>
         {hasValue && this.isClearable && !this.disabled && (
           <button
             type="button"
@@ -2319,7 +2331,8 @@ export class AegovDatepicker {
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
-    const showHint = !showError && (hasHintSlot || !!this.hint);
+    // Hint stays visible (and in the description) while an error shows (DS-A11Y-input-08).
+    const showHint = hasHintSlot || !!this.hint;
     const announceError = showError && this.hasBlurredOnce;
 
     const errorRegion = showError ? (
