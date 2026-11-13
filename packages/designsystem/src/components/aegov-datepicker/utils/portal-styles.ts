@@ -307,18 +307,24 @@ export const DATEPICKER_PORTAL_STYLES = `
   background: var(--color-primary-100, #e0f2fe);
   color: var(--color-primary-800, #075985);
   border-radius: 0;
-  /* The tint alone is 1.19:1 against the dialog, so the days between the start
-     and end were hard to see (WCAG 1.4.11 / 1.4.1, DS-A11Y-datepicker-05).
-     A 2 px line along the top and bottom of each in-range day, in the variant's
-     range colour (>= 3:1 against the dialog and the tint), draws the range as
-     one band from the start to the end. Inset shadows keep the cell size. */
-  box-shadow: inset 0 2px 0 var(--dp-range-line), inset 0 -2px 0 var(--dp-range-line);
 }
 
-/* Today inside a range keeps the band and adds its own ring. Specificity
-   (0,7,0) beats the per-variant today rules (0,6,0) further down. */
-.aegov-datepicker .datepicker__day.datepicker__day--in-range.datepicker__day--today:not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
-  box-shadow: inset 0 2px 0 var(--dp-range-line), inset 0 -2px 0 var(--dp-range-line), inset 0 0 0 1px var(--dp-range-line);
+/* The tint alone is 1.19:1 against the dialog, so the days between the start
+   and end were hard to see (WCAG 1.4.11 / 1.4.1, DS-A11Y-datepicker-05). Each
+   in-range day also gets a short 2 px bar under its number, in the variant's
+   range colour (>= 3:1 against the dialog and the tint): a non-colour cue that
+   keeps the grid clean (a line along every cell's top and bottom read as
+   stripes). Today inside a range keeps its own ring as well. */
+.datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end)::after {
+  content: '';
+  position: absolute;
+  left: 30%;
+  right: 30%;
+  bottom: 0.3125rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--dp-range-line);
+  pointer-events: none;
 }
 
 .datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end):hover {
@@ -903,8 +909,15 @@ export const DATEPICKER_PORTAL_STYLES = `
     forced-color-adjust: none;
     background: Canvas;
     color: CanvasText;
+  }
+  .datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end)::after {
+    background: Highlight;
+  }
+  /* Today inside a range: system text colour, outlined like any other today
+     (the variant today colour and ring would otherwise survive forced-color-adjust: none). */
+  .aegov-datepicker .datepicker__day.datepicker__day--in-range.datepicker__day--today:not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+    color: CanvasText;
     box-shadow: none;
-    border-block: 2px solid Highlight;
   }
   .datepicker__day--today:not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
     outline: 1px solid CanvasText;

@@ -621,15 +621,17 @@ describe('aegov-datepicker (e2e)', () => {
 });
 
 // DS-A11Y-datepicker-05 (WCAG 1.4.11 / 1.4.1): days inside a selected range
-// carry a top and bottom line in the variant colour, not only a faint tint.
+// carry a short bar under the number in the variant colour, not only a faint tint.
 describe('aegov-datepicker (e2e) range band', () => {
+  /** 2 when the day shows the in-range bar, 0 when it doesn't (kept numeric for the assertions below). */
   const band = (page: any, date: string) =>
     page.evaluate((d: string) => {
       const day = document.querySelector(`.aegov-datepicker-portal .datepicker__day[data-date="${d}"]`) as HTMLElement;
-      return (getComputedStyle(day).boxShadow.match(/inset/g) || []).length;
+      const bar = getComputedStyle(day, '::after');
+      return bar.content !== 'none' && bar.height === '2px' && bar.backgroundColor !== 'rgba(0, 0, 0, 0)' ? 2 : 0;
     }, date);
 
-  it('in-range days have the band lines; days outside the range do not', async () => {
+  it('in-range days have the bar; days outside the range do not', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-datepicker aria-label="Stay" appearance="range" value="2024-06-10 / 2024-06-15"></aegov-datepicker>');
     await page.addStyleTag({ content: themeColours() });
