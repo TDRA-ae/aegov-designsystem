@@ -659,8 +659,8 @@ export class AegovRange {
         onMouseDown={(e: MouseEvent) => this.handleThumbMouseDown(e, which)}
         onTouchStart={(e: TouchEvent) => this.handleThumbTouchStart(e, which)}
       >
-        {showThumbValue && <span class="range__thumb-value">{value}</span>}
-        {showTooltip && <span class="range__tooltip">{value}</span>}
+        {showThumbValue && <span class="range__thumb-value" aria-hidden="true">{value}</span>}
+        {showTooltip && <span class="range__tooltip" aria-hidden="true">{value}</span>}
       </div>
     );
   }
@@ -675,7 +675,8 @@ export class AegovRange {
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
-    const showHint = !showError && (hasHintSlot || !!this.hint);
+    // Hint stays visible (and in the description) while an error shows (DS-A11Y-input-08).
+    const showHint = hasHintSlot || !!this.hint;
     const announceError = showError && this.hasBlurredOnce;
     const authorDescribedBy = this.hostAria?.descriptionId();
     // Each thumb of a two-thumb range: "<field name> — Range minimum / maximum".
@@ -728,7 +729,8 @@ export class AegovRange {
     const rangeContent = (
       <div class={wrapperClasses}>
         <div class="range__container" style={containerStyle}>
-          {showMinMax && <span class="range__label-min">{this.min}</span>}
+          {/* Visual only: the sliders expose min, max and value themselves (DS-A11Y-range-06). */}
+          {showMinMax && <span class="range__label-min" aria-hidden="true">{this.min}</span>}
 
           <div
             class="range__track-wrapper"
@@ -784,7 +786,8 @@ export class AegovRange {
                 onChange={this.handleLowChange}
                 onBlur={this.handleInputBlur}
                 aria-valuemin={this.min}
-                aria-valuemax={this.valueHigh}
+                // The thumbs can't meet: report the limit that is really reachable (DS-A11Y-range-05).
+                aria-valuemax={this.valueHigh - this.step}
                 aria-valuenow={this.valueLow}
                 aria-label={t.thumbMin(fieldName)}
                 aria-orientation={orientation}
@@ -805,7 +808,7 @@ export class AegovRange {
                 onInput={this.handleHighInput}
                 onChange={this.handleHighChange}
                 onBlur={this.handleInputBlur}
-                aria-valuemin={this.valueLow}
+                aria-valuemin={this.valueLow + this.step}
                 aria-valuemax={this.max}
                 aria-valuenow={this.valueHigh}
                 aria-label={t.thumbMax(fieldName)}
@@ -817,7 +820,7 @@ export class AegovRange {
             ]}
           </div>
 
-          {showMinMax && <span class="range__label-max">{this.max}</span>}
+          {showMinMax && <span class="range__label-max" aria-hidden="true">{this.max}</span>}
         </div>
       </div>
     );

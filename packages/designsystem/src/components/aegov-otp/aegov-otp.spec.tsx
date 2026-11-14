@@ -192,13 +192,13 @@ describe('aegov-otp', () => {
       expect(q(page.root, '.aegov-otp__hint').textContent).toBe('6 digits');
     });
 
-    it('hides hint when error shown', async () => {
+    it('keeps the hint visible alongside the error (DS-A11Y-input-08)', async () => {
       const page = await newSpecPage({
         components: [AegovOtp],
         html: `<aegov-otp length="4" hint="h" is-invalid="true" error-message="err"></aegov-otp>`,
       });
       expect(q(page.root, '.aegov-otp__error')).not.toBeNull();
-      expect(q(page.root, '.aegov-otp__hint')).toBeNull();
+      expect(q(page.root, '.aegov-otp__hint')).not.toBeNull();
     });
 
     it('aria-describedby on the first cell includes error id', async () => {

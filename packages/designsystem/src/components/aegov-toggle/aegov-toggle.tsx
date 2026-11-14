@@ -80,6 +80,8 @@ export class AegovToggle {
   private internals: ElementInternals | null = null;
   private errorId: string = '';
   private hintId: string = '';
+  /** The visible label text only — the input's name, so the hint stays a description (DS-A11Y-checkbox-02). */
+  private labelTextId: string = '';
 
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', { component: 'aegov-toggle', prop: 'variant' }); }
@@ -93,6 +95,7 @@ export class AegovToggle {
     }
     this.errorId = `${this.fieldId}-error`;
     this.hintId = `${this.fieldId}-hint`;
+    this.labelTextId = `${this.fieldId}-label-text`;
     this._sizeWatcher = watchResponsiveProp(this.size, TOGGLE_SIZES, 'base', v => {
       this._resolvedSize = v as ToggleSize;
     });
@@ -302,7 +305,8 @@ export class AegovToggle {
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
-    const showHint = !showError && (hasHintSlot || !!this.hint);
+    // Hint stays visible (and in the description) while an error shows (DS-A11Y-input-08).
+    const showHint = hasHintSlot || !!this.hint;
     const announceError = showError && this.hasBlurredOnce;
     const authorDescribedBy = this.hostAria?.descriptionId();
     const describedBy = composeDescribedBy(
@@ -333,7 +337,8 @@ export class AegovToggle {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           class="toggle__input"
-          {...passThroughAttrs}
+          aria-labelledby={this.label ? this.labelTextId : undefined}
+        {...passThroughAttrs}
         />
         <span class="toggle__track" aria-hidden="true">
           <span class={`toggle__thumb${hasIcons ? ' toggle__thumb--has-icon' : ''}`}>
@@ -371,7 +376,7 @@ export class AegovToggle {
             <label class="toggle__wrapper">
               {toggle}
               <span class="toggle__text">
-                <span class="toggle__label-text">{this.label}</span>
+                <span id={this.labelTextId} class="toggle__label-text">{this.label}{this.isRequired && <span class="toggle__required" aria-hidden="true"> *</span>}</span>
                 {showHint && (
                   <span id={this.hintId} class="toggle__hint">
                     {hasHintSlot ? <slot name="hint" /> : this.hint}

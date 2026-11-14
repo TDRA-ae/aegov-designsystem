@@ -139,6 +139,47 @@
   @apply bg-seablue-500 dark:bg-seablue-400;
 }
 
+/* Continuous focus — mark the focused cell itself (WCAG 2.4.7, DS-A11Y-otp-05).
+   The wrapper ring says "this field has focus"; a light tint plus a 3 px bar
+   along the cell's bottom edge, in the focus colour, says which cell. The bar
+   is the same support-500 / seablue-500 as the ring (≥3:1). An inset shadow is
+   used so the cell size never changes; forced colours drop shadows and
+   backgrounds, so they get an inset outline instead (below). */
+.aegov-otp.otp-variant-primary .otp__wrapper--continuous .otp__cell:focus-visible {
+  @apply bg-primary-support-50 shadow-[inset_0_-3px_0_0_var(--color-primary-support-500)]
+         dark:bg-aeblack-700 dark:shadow-[inset_0_-3px_0_0_var(--color-primary-support-400)];
+}
+.aegov-otp.otp-variant-secondary .otp__wrapper--continuous .otp__cell:focus-visible {
+  @apply bg-secondary-support-50 shadow-[inset_0_-3px_0_0_var(--color-secondary-support-500)]
+         dark:bg-aeblack-700 dark:shadow-[inset_0_-3px_0_0_var(--color-secondary-support-400)];
+}
+.aegov-otp.otp-variant-neutral-max .otp__wrapper--continuous .otp__cell:focus-visible,
+.aegov-otp.otp-variant-neutral-min .otp__wrapper--continuous .otp__cell:focus-visible {
+  @apply bg-seablue-50 shadow-[inset_0_-3px_0_0_var(--color-seablue-500)]
+         dark:bg-aeblack-700 dark:shadow-[inset_0_-3px_0_0_var(--color-seablue-400)];
+}
+
+@media (forced-colors: active) {
+  /* Both appearances: forced colours drop the shadow/tint marker and the
+     individual cell's border colour change (DS-A11Y-otp-05, -07). */
+  .otp__cell:focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: -3px;
+  }
+  /* The dividers between continuous cells are background-coloured spans,
+     which forced colours remove, so the cells merged into one field
+     (DS-A11Y-otp-07). Paint them in the system text colour. */
+  /* !important: the per-variant divider colours are more specific, and with
+     forced-color-adjust: none they would show (gold on a dark HC theme). */
+  .otp__divider {
+    forced-color-adjust: none;
+    background-color: CanvasText !important;
+  }
+  .otp__wrapper--continuous:has(.otp__cell:disabled) .otp__divider {
+    background-color: GrayText !important;
+  }
+}
+
 /* ============================================
    Cell — continuous variant (no individual border)
    ============================================ */
@@ -225,6 +266,11 @@
 :host(.is-invalid) .aegov-otp .otp__wrapper--continuous:has(.otp__cell:focus-visible),
 :host(.is-invalid) .aegov-otp .otp__wrapper--individual .otp__cell:focus-visible {
   @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
+}
+
+:host(.is-invalid) .aegov-otp .otp__wrapper--continuous .otp__cell:focus-visible {
+  @apply bg-aered-50 shadow-[inset_0_-3px_0_0_var(--color-aered-500)]
+         dark:bg-aeblack-700 dark:shadow-[inset_0_-3px_0_0_var(--color-aered-400)];
 }
 
 :host(.is-invalid) .otp__wrapper--continuous:has(.otp__cell:focus-visible) .otp__divider {

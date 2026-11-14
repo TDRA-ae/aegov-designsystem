@@ -166,13 +166,13 @@ describe('aegov-radio', () => {
       expect(q(page.root, '.radio__hint').textContent).toBe('helper');
     });
 
-    it('hides hint when error shown', async () => {
+    it('keeps the hint visible alongside the error (DS-A11Y-input-08)', async () => {
       const page = await newSpecPage({
         components: [AegovRadio],
         html: `<aegov-radio label="X" hint="h" is-invalid="true" error-message="err"></aegov-radio>`,
       });
       expect(q(page.root, '.aegov-radio__error')).not.toBeNull();
-      expect(q(page.root, '.radio__hint')).toBeNull();
+      expect(q(page.root, '.radio__hint')).not.toBeNull();
     });
 
     it('aria-describedby includes error id', async () => {

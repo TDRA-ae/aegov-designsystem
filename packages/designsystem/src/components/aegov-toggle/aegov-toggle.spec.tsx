@@ -185,13 +185,13 @@ describe('aegov-toggle', () => {
       expect(q(page.root, '.toggle__hint').textContent).toBe('helper');
     });
 
-    it('hides hint when error shown', async () => {
+    it('keeps the hint visible alongside the error (DS-A11Y-input-08)', async () => {
       const page = await newSpecPage({
         components: [AegovToggle],
         html: `<aegov-toggle label="X" hint="h" is-invalid="true" error-message="err"></aegov-toggle>`,
       });
       expect(q(page.root, '.aegov-toggle__error')).not.toBeNull();
-      expect(q(page.root, '.toggle__hint')).toBeNull();
+      expect(q(page.root, '.toggle__hint')).not.toBeNull();
     });
 
     it('aria-describedby includes error id', async () => {

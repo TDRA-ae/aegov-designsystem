@@ -40,6 +40,9 @@ const STRINGS = {
     browseFiles: 'Browse Files',
     nameSeparator: ', ',
     remove: (name: string) => `Remove ${name}`,
+    filesAdded: (names: string[]) => `${names.join(', ')} added (${names.length} ${names.length === 1 ? 'file' : 'files'})`,
+    fileRemoved: (name: string) => `${name} removed`,
+    filesNotAdded: (names: string[], max: number) => `${names.join(', ')} not added: maximum ${max} ${max === 1 ? 'file' : 'files'}.`,
     dragAndDrop: (multiple: boolean) => `Drag and drop ${multiple ? 'files' : 'a file'} here, or`,
     sizeUnits: ['B', 'KB', 'MB', 'GB'] as const,
     zeroBytes: '0 B',
@@ -64,6 +67,9 @@ const STRINGS = {
     browseFiles: 'تصفح الملفات',
     nameSeparator: '، ',
     remove: (name: string) => `إزالة ${name}`,
+    filesAdded: (names: string[]) => `تمت إضافة ${names.join('، ')} (${names.length === 1 ? 'ملف واحد' : `${names.length} ملفات`})`,
+    fileRemoved: (name: string) => `تمت إزالة ${name}`,
+    filesNotAdded: (names: string[], max: number) => `لم تتم إضافة ${names.join('، ')}: الحد الأقصى ${max === 1 ? 'ملف واحد' : `${max} ملفات`}.`,
     dragAndDrop: (multiple: boolean) => `اسحب وأفلت ${multiple ? 'الملفات' : 'الملف'} هنا، أو`,
     sizeUnits: ['بايت', 'ك.ب', 'م.ب', 'ج.ب'] as const,
     zeroBytes: '0 بايت',
@@ -183,6 +189,29 @@ export class AegovFileupload {
   @State() isDragOver: boolean = false;
 
   /**
+   * Text of the polite status region: which files were just added or removed
+   * (WCAG 4.1.3, DS-A11Y-fileupload-06). Focus stays where it is; screen
+   * readers hear the change without the list having to be re-read.
+   */
+  @State() private fileStatus: string = '';
+
+  /**
+   * Visible note when files beyond max-files were not added. The files that
+   * were kept are a valid selection, so this is information, not an error
+   * (DS-A11Y-fileupload-11): before, the field stayed invalid and blocked the
+   * form until the user removed a file.
+   */
+  @State() private fileNotice: string = '';
+  private fileStatusTimer?: ReturnType<typeof setTimeout>;
+
+  /** Empties the region first so the same text (e.g. adding the same file twice) is announced again. */
+  private announceFiles(message: string) {
+    clearTimeout(this.fileStatusTimer);
+    this.fileStatus = '';
+    this.fileStatusTimer = setTimeout(() => { this.fileStatus = message; }, 100);
+  }
+
+  /**
    * Emitted when the file selection changes.
    */
   @Event() aegovFileuploadChange!: EventEmitter<{ files: File[] }>;
@@ -205,6 +234,7 @@ export class AegovFileupload {
   private hintId: string = '';
   private requiredId: string = '';
   private labelId: string = '';
+  private browseId: string = '';
 
   /**
    * Bumped when the host's aria-label / aria-labelledby changes (aegov-form-field
@@ -233,6 +263,7 @@ export class AegovFileupload {
     this.hintId = `${this.fieldId}-hint`;
     this.requiredId = `${this.fieldId}-required`;
     this.labelId = `${this.fieldId}-label`;
+    this.browseId = `${this.fieldId}-browse`;
 
     // Manual attachInternals per §6.8 fallback
     const host = this.el as unknown as InternalsHost;
@@ -296,6 +327,7 @@ export class AegovFileupload {
   }
 
   disconnectedCallback() {
+    clearTimeout(this.fileStatusTimer);
     this.hostAria?.disconnect();
     this._sizeWatcher?.destroy();
     this.hostNameObserver?.disconnect();
@@ -637,32 +669,40 @@ export class AegovFileupload {
     }
     let pendingMessage = reasons.join('\n');
 
+    // Files beyond max-files are left out and reported in a notice; the kept
+    // selection is valid (DS-A11Y-fileupload-11).
+    let notAdded: File[] = [];
     if (this.appearance === 'default') {
       // Default replaces selection each time
       if (this.maxFiles && validFiles.length > this.maxFiles) {
-        pendingFlag = { ...pendingFlag, customError: true };
-        pendingMessage = [pendingMessage, this.t.maxFiles(this.maxFiles)].filter(Boolean).join('\n');
+        notAdded = validFiles.slice(this.maxFiles);
         this.selectedFiles = validFiles.slice(0, this.maxFiles);
       } else {
         this.selectedFiles = validFiles;
       }
     } else {
-      // Button/Dropzone accumulate files
-      const combined = [...this.selectedFiles, ...validFiles];
+      // Button/Dropzone accumulate files. Picking a file that is already in the
+      // list (same name) replaces that entry instead of adding it twice, so a
+      // corrected re-pick updates it (DS-A11Y-fileupload-14).
+      const sameFile = (a: File, b: File) => a.name === b.name;
+      const replaced = this.selectedFiles.map(existing => validFiles.find(file => sameFile(file, existing)) ?? existing);
+      const added = validFiles.filter(file => !this.selectedFiles.some(existing => sameFile(file, existing)));
+      const combined = [...replaced, ...added];
 
       if (this.maxFiles && combined.length > this.maxFiles) {
-        pendingFlag = { ...pendingFlag, customError: true };
-        pendingMessage = [pendingMessage, this.t.maxFiles(this.maxFiles)].filter(Boolean).join('\n');
-        const slotsAvailable = this.maxFiles - this.selectedFiles.length;
-        if (slotsAvailable > 0) {
-          this.selectedFiles = [...this.selectedFiles, ...validFiles.slice(0, slotsAvailable)];
-        }
+        notAdded = combined.slice(this.maxFiles);
+        this.selectedFiles = combined.slice(0, this.maxFiles);
       } else {
         this.selectedFiles = combined;
       }
     }
+    this.fileNotice = notAdded.length && this.maxFiles ? this.t.filesNotAdded(notAdded.map(file => file.name), this.maxFiles) : '';
 
     this.rejection = Object.keys(pendingFlag).length > 0 ? { flags: pendingFlag, message: pendingMessage } : null;
+    // Only files that actually made it into the list; rejections are announced by the error alert.
+    const added = this.selectedFiles.filter(file => validFiles.includes(file));
+    const announcement = [added.length ? this.t.filesAdded(added.map(file => file.name)) : '', this.fileNotice].filter(Boolean).join('. ');
+    if (announcement) this.announceFiles(announcement);
     this.aegovFileuploadChange.emit({ files: [...this.selectedFiles] });
     // Map all transient validation issues into the unified aegovValidate event (replaces aegovFileuploadError)
     this.runValidationSync(pendingFlag, pendingMessage);
@@ -690,6 +730,8 @@ export class AegovFileupload {
     const removed = this.selectedFiles[index];
     const remaining = this.selectedFiles.filter((_, i) => i !== index);
     this.selectedFiles = remaining;
+    this.fileNotice = '';
+    if (removed) this.announceFiles(this.t.fileRemoved(removed.name));
     this.aegovFileuploadRemove.emit({ file: removed, remaining: [...remaining] });
     this.aegovFileuploadChange.emit({ files: [...remaining] });
     // Same condition as the error-clearing below: once the message goes, so does the flag.
@@ -918,6 +960,22 @@ export class AegovFileupload {
 
   // --- Variant renderers ---
 
+  /**
+   * Default appearance: the field shows a "Browse" button (an aria-hidden span),
+   * so the input's name must contain that word too, after the label, e.g.
+   * "Passport bio-data page Browse" (WCAG 2.5.3, DS-A11Y-fileupload-08) —
+   * speech-input users can then say "click Browse". aria-labelledby may point
+   * at the hidden span; both live in this shadow root.
+   */
+  private getDefaultInputNameAttrs(passThroughAttrs: Record<string, string | boolean>): Record<string, string> {
+    const labelledBy = passThroughAttrs['aria-labelledby'];
+    if (typeof labelledBy === 'string' && labelledBy.trim()) return { 'aria-labelledby': `${labelledBy} ${this.browseId}` };
+    const label = passThroughAttrs['aria-label'];
+    if (typeof label === 'string' && label.trim()) return { 'aria-label': `${label}${this.t.nameSeparator}${this.getDefaultButtonText()}` };
+    if (this.label?.trim()) return { 'aria-labelledby': `${this.labelId} ${this.browseId}` };
+    return {};
+  }
+
   private renderDefault(passThroughAttrs: Record<string, string | boolean>, showError: boolean, showHint: boolean) {
     const helperText = this.getHelperText();
     const describedBy = composeDescribedBy(
@@ -933,6 +991,7 @@ export class AegovFileupload {
           type="file"
           ref={this.setInputRef}
           {...passThroughAttrs}
+          {...this.getDefaultInputNameAttrs(passThroughAttrs)}
           id={this.fieldId}
           name={this.name}
           accept={this.accept}
@@ -948,7 +1007,7 @@ export class AegovFileupload {
         <span class={`fileupload__filename ${this.selectedFiles.length === 0 ? 'fileupload__filename--empty' : ''}`}>
           {this.getDisplayText()}
         </span>
-        <span class="fileupload__browse-btn" aria-hidden="true">
+        <span id={this.browseId} class="fileupload__browse-btn" aria-hidden="true">
           {this.getDefaultButtonText()}
         </span>
       </div>
@@ -1075,7 +1134,10 @@ export class AegovFileupload {
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
-    const showHint = !showError && (hasHintSlot || !!this.hint);
+    // The hint (e.g. the accepted types and limits) stays visible while an
+    // error shows: that is exactly when it is needed (DS-A11Y-fileupload-11,
+    // same as aegov-input DS-A11Y-input-08). The description reads error, then hint.
+    const showHint = hasHintSlot || !!this.hint;
     const announceError = showError && this.hasInteractedOnce;
 
     const errorRegion = showError ? (
@@ -1099,7 +1161,17 @@ export class AegovFileupload {
           {appearance === 'dropzone' && this.renderDropzone(passThroughAttrs, showError, showHint)}
           {this.renderHint(showHint, hasHintSlot)}
           {this.renderHelperText()}
+          {this.fileNotice && <p class="fileupload__notice">{this.fileNotice}</p>}
           {errorRegion}
+          <span
+            class="fileupload__status"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}
+          >
+            {this.fileStatus}
+          </span>
         </div>
         {this.hostAria?.renderDescription()}
       </Host>

@@ -15,9 +15,21 @@ import { getPassThroughAttributes } from '../../utils/attributes';
 import { HostAria } from '../../utils/host-aria';
 import { adoptExtraClassStylesIntoShadowRoot } from '../../utils/shadow-styles';
 import { generateId } from '../../utils/id-generator';
+import { uiLang } from '../../utils/lang';
+import { isRtl } from '../../utils/rtl';
 
 const TAG = 'aegov-radio-group';
 const ctx = (prop: string) => ({ component: TAG, prop });
+
+/**
+ * Built-in text, by page language (DS-A11Y-checkbox-group-01): an Arabic page
+ * no longer gets "(required)" / "Required" in English. `errorMessage` still
+ * overrides the message.
+ */
+const STRINGS = {
+  en: { required: 'required', requiredMessage: 'Required' },
+  ar: { required: 'مطلوب', requiredMessage: 'هذا الحقل مطلوب' },
+};
 
 @Component({
   tag: 'aegov-radio-group',
@@ -130,7 +142,7 @@ export class AegovRadioGroup {
   private computeConstraintValidity() {
     const value = this.collectSelectedValue();
     if (this.isRequired && !value) {
-      return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required', value };
+      return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || STRINGS[uiLang(this.el)].requiredMessage, value };
     }
     return { validity: synthesizeValidity({}), message: '', value };
   }
@@ -289,6 +301,50 @@ export class AegovRadioGroup {
     this.customValidityMessage = '';
   }
 
+  /**
+   * A radio's isChecked changed outside a user click/arrow (form reset,
+   * framework binding, script): keep a single selection and move the Tab stop
+   * to it (DS-A11Y-radio-group-01).
+   */
+  @Listen('aegovRadioCheckedSync')
+  handleRadioCheckedSync(event: CustomEvent<{ checked: boolean }>) {
+    const target = event.target as HTMLAegovRadioElement;
+    const radios = this.getRadios();
+    if (!radios.includes(target)) return;
+    if (event.detail.checked) {
+      radios.forEach(radio => {
+        if (radio !== target && radio.isChecked) radio.isChecked = false;
+      });
+    }
+    this.syncRovingTabindex(radios);
+  }
+
+  /**
+   * With nothing selected the first radio is the Tab stop, so Shift+Tab from
+   * after the group landed on the first option. Native radios land on the
+   * last one when coming from below; do the same (DS-A11Y-radio-group-03).
+   */
+  /** Time of the last Shift+Tab, so only keyboard entry is redirected (a mouse click keeps its target). */
+  private lastShiftTabAt = 0;
+
+  @Listen('keydown', { target: 'document', capture: true })
+  trackShiftTab(event: KeyboardEvent) {
+    if (event.key === 'Tab' && event.shiftKey) this.lastShiftTabAt = Date.now();
+  }
+
+  @Listen('focusin')
+  handleGroupFocusIn(event: FocusEvent) {
+    if (Date.now() - this.lastShiftTabAt > 500) return;
+    const from = event.relatedTarget as Node | null;
+    if (!from || this.el.contains(from)) return;
+    if (!(this.el.compareDocumentPosition(from) & Node.DOCUMENT_POSITION_FOLLOWING)) return;
+    const enabled = this.getRadios().filter(radio => !radio.isDisabled);
+    if (enabled.length < 2 || enabled.some(radio => radio.isChecked)) return;
+    const last = enabled[enabled.length - 1];
+    if (event.target === last) return;
+    (last as unknown as HTMLElement).focus();
+  }
+
   @Listen('focusout')
   handleGroupBlur(event: FocusEvent) {
     if (!this.el.contains(event.relatedTarget as Node)) {
@@ -342,7 +398,11 @@ export class AegovRadioGroup {
 
     event.preventDefault();
 
-    const direction = (event.key === 'ArrowRight' || event.key === 'ArrowDown') ? 1 : -1;
+    // Left/Right follow the reading direction: in RTL the next option is on the
+    // left, so ArrowLeft moves forward (as native radios do, DS-A11Y-radio-group-02).
+    // Up/Down are the same in both directions.
+    const forwardKeys = isRtl(this.el) ? ['ArrowLeft', 'ArrowDown'] : ['ArrowRight', 'ArrowDown'];
+    const direction = forwardKeys.includes(event.key) ? 1 : -1;
     const next = radios[(currentIndex + direction + radios.length) % radios.length];
 
     const nextInput = next.shadowRoot?.querySelector('input[type="radio"]') as HTMLInputElement | null;
@@ -373,7 +433,8 @@ export class AegovRadioGroup {
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
-    const showHint = !showError && (hasHintSlot || !!this.hint);
+    // Hint stays visible (and in the description) while an error shows (DS-A11Y-input-08).
+    const showHint = hasHintSlot || !!this.hint;
     const announceError = showError && this.hasInteractedOnce;
 
     const passThroughAttrs = this.hostAria ? this.hostAria.bridge(getPassThroughAttributes(this.el)) : getPassThroughAttributes(this.el);
@@ -399,7 +460,13 @@ export class AegovRadioGroup {
           aria-describedby={describedBy}
           {...passThroughAttrs}
         >
-          {this.label && <legend class="radio-group__legend">{this.label}</legend>}
+          {this.label && (
+            <legend class="radio-group__legend">
+              {this.label}
+              {/* Visible marker (WCAG 3.3.2, DS-A11Y-checkbox-03); the radiogroup already exposes aria-required. */}
+              {this.isRequired && <span class="radio-group__required" aria-hidden="true"> *</span>}
+            </legend>
+          )}
           <div class="radio-group__items">
             <slot />
           </div>

@@ -31,7 +31,8 @@ const toAttr = (prop: string) => prop.replace(/[A-Z]/g, c => `-${c.toLowerCase()
 describe('boolean attributes on form-associated components', () => {
   it('finds the form-associated components and their boolean props', () => {
     expect(formComponents.length).toBe(11);
-    expect(formComponents.reduce((n, c) => n + c.props.length, 0)).toBe(54);
+    // 55: aegov-button gained is-disabled-focusable (DS-A11Y-button-08).
+    expect(formComponents.reduce((n, c) => n + c.props.length, 0)).toBe(55);
   });
 
   for (const { tag, props } of formComponents) {

@@ -37,6 +37,32 @@ function isControlDisabled(ctrl: AegovFormControl): boolean {
   }
 }
 
+/**
+ * The label's text as a screen reader would read it: content marked
+ * `aria-hidden="true"` or `hidden` is skipped (the decorative required "*"),
+ * and a space is kept between elements (React drops the whitespace between
+ * JSX elements, which ran words together: "enquiry*(required)").
+ * DS-A11Y-form-field-03: `label.textContent` gave "Emirates ID * (required)".
+ */
+function accessibleLabelText(root: Node): string {
+  const parts: string[] = [];
+  const walk = (node: Node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      parts.push(node.textContent ?? '');
+      return;
+    }
+    if (node.nodeType !== Node.ELEMENT_NODE) return;
+    // (`Element` is Stencil's decorator in this file, so check the node type.)
+    const el = node as HTMLElement;
+    if (el.getAttribute('aria-hidden') === 'true' || el.hasAttribute('hidden')) return;
+    parts.push(' ');
+    el.childNodes.forEach(walk);
+    parts.push(' ');
+  };
+  root.childNodes.forEach(walk);
+  return parts.join('').replace(/\s+/g, ' ').trim();
+}
+
 @Component({
   tag: 'aegov-form-field',
   styleUrl: 'aegov-form-field.css',
@@ -118,12 +144,48 @@ export class AegovFormField {
   componentDidLoad() {
     this.linkChildren();
     this.cascadeToChild();
+    this.linkHintSlot();
   }
 
   componentDidUpdate() {
     this.linkChildren();
     this.cascadeToChild();
+    this.linkHintSlot();
   }
+
+  /** Ids this wrapper added to the control's aria-describedby, so they can be taken out again. */
+  private linkedHintIds: string[] = [];
+
+  /**
+   * Text in the wrapper's own `slot="hint"` was shown but never linked to the
+   * control (DS-A11Y-form-field-04). Give it an id and add that id to the
+   * control's `aria-describedby`; every control resolves its host
+   * aria-describedby into the description of its inner element (HostAria),
+   * after any ids the author set there.
+   */
+  private linkHintSlot() {
+    const ctrl = this.findControl();
+    if (!ctrl) return;
+    // Light DOM (shadow: false): Stencil moves slotted children inside the
+    // wrapper div, so look anywhere below, but not inside the control (its own
+    // slot="hint") or a nested form field.
+    const hints = (Array.from(this.el.querySelectorAll('[slot="hint"]')) as HTMLElement[])
+      .filter(hint => !ctrl.contains(hint) && hint.closest('aegov-form-field') === this.el);
+    const ids = hints.filter(hint => hint.textContent?.trim()).map((hint, index) => {
+      if (!hint.id) hint.id = `${this.fieldId}-hint${index ? `-${index + 1}` : ''}`;
+      return hint.id;
+    });
+    const current = (ctrl.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean);
+    const authors = current.filter(id => !this.linkedHintIds.includes(id));
+    const next = [...authors, ...ids.filter(id => !authors.includes(id))];
+    if (next.join(' ') !== current.join(' ')) {
+      if (next.length) ctrl.setAttribute('aria-describedby', next.join(' '));
+      else ctrl.removeAttribute('aria-describedby');
+    }
+    this.linkedHintIds = ids;
+  }
+
+  private handleHintSlotChange = () => this.linkHintSlot();
 
   disconnectedCallback() {
     this.disabledObserver?.disconnect();
@@ -360,7 +422,7 @@ export class AegovFormField {
     const weSetLast = this.appliedAriaLabels.get(ctrl);
     if (current !== null && current !== weSetLast) return; // author's own explicit aria-label — never override
 
-    const text = label.textContent?.trim() || null;
+    const text = accessibleLabelText(label) || null;
     if (!text) {
       if (weSetLast !== undefined) {
         ctrl.removeAttribute('aria-label');
@@ -399,7 +461,7 @@ export class AegovFormField {
       <Host>
         <div class={this.getFieldClasses()} {...passThroughAttributes}>
           <slot />
-          <slot name="hint" />
+          <slot name="hint" onSlotchange={this.handleHintSlotChange} />
         </div>
       </Host>
     );

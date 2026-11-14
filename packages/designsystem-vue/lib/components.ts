@@ -197,6 +197,7 @@ export const AegovButton: StencilVueComponent<JSX.AegovButton> = /*@__PURE__*/ d
   'value',
   'appearance',
   'isDisabled',
+  'isDisabledFocusable',
   'isIcon',
   'isFull',
   'isBold',

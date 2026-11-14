@@ -243,7 +243,7 @@ describe('aegov-checkbox-group', () => {
       expect(q(page.root, '.aegov-checkbox-group__hint').textContent).toBe('Multiple OK');
     });
 
-    it('hides hint when error shown', async () => {
+    it('keeps the hint visible alongside the error (DS-A11Y-input-08)', async () => {
       const page = await newSpecPage({
         components: [AegovCheckboxGroup, AegovCheckbox],
         html: `<aegov-checkbox-group hint="h" is-invalid="true" error-message="err">
@@ -251,7 +251,7 @@ describe('aegov-checkbox-group', () => {
         </aegov-checkbox-group>`,
       });
       expect(q(page.root, '.aegov-checkbox-group__error')).not.toBeNull();
-      expect(q(page.root, '.aegov-checkbox-group__hint')).toBeNull();
+      expect(q(page.root, '.aegov-checkbox-group__hint')).not.toBeNull();
     });
 
     it('validate() resolves valid for optional empty group', async () => {
@@ -315,7 +315,8 @@ describe('aegov-checkbox-group', () => {
     host.isInvalid = true;
     host.errorMessage = 'Err';
     await page.waitForChanges();
-    expect(q(host, 'fieldset').getAttribute('aria-describedby')).toMatch(/^aegov-checkbox-group-\d+-host-desc aegov-checkbox-group-\d+-error$/);
+    // The hint stays after the error (DS-A11Y-input-08).
+    expect(q(host, 'fieldset').getAttribute('aria-describedby')).toMatch(/^aegov-checkbox-group-\d+-host-desc aegov-checkbox-group-\d+-error aegov-checkbox-group-\d+-hint$/);
     expect(q(host, '[id$="-host-desc"]').textContent).toBe('External help');
   });
 });

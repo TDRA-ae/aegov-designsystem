@@ -227,13 +227,13 @@ describe('aegov-textarea', () => {
       expect(hint.textContent).toBe('Helper text');
     });
 
-    it('hides hint when error shown (error wins)', async () => {
+    it('keeps the hint visible alongside the error (DS-A11Y-input-08)', async () => {
       const page = await newSpecPage({
         components: [AegovTextarea],
         html: `<aegov-textarea is-invalid="true" error-message="Err" hint="Hint"></aegov-textarea>`,
       });
       expect(q(page.root, '.aegov-textarea__error')).not.toBeNull();
-      expect(q(page.root, '.aegov-textarea__hint')).toBeNull();
+      expect(q(page.root, '.aegov-textarea__hint')).not.toBeNull();
     });
 
     it('aria-describedby chains counter + error ids', async () => {

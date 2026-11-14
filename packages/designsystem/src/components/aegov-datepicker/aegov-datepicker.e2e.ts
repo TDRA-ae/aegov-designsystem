@@ -1,4 +1,5 @@
 import { newE2EPage } from '@stencil/core/testing';
+import { themeColours } from '../../utils/e2e-theme';
 
 describe('aegov-datepicker (e2e)', () => {
   it('renders the trigger input', async () => {
@@ -544,15 +545,17 @@ describe('aegov-datepicker (e2e)', () => {
       expect(t.portalLang).toBe('en');
     });
 
-    it('without locale the text follows the direction, as before', async () => {
+    it('without locale the text and the dates follow the page language', async () => {
       const rtl = await newE2EPage();
       await rtl.setContent(`<div dir="rtl">${PICKER}</div>`);
       const r = await readTexts(rtl);
       expect(r.presets).toEqual(['اليوم', 'آخر 7 أيام']);
       expect(r.apply).toBe('تطبيق');
       expect(r.message).toBe('مطلوب');
-      expect(r.prev).toMatch(/^الشهر السابق, [A-Z][a-z]+ \d{4}$/);
-      expect(r.portalLang).toBeNull();
+      // Dates are Arabic too, not English read by an Arabic voice (DS-A11Y-datepicker-11),
+      // and the portal (under <body>) carries the language.
+      expect(r.prev).toMatch(/^الشهر السابق, [^A-Za-z]+$/);
+      expect(r.portalLang).toBe('ar');
       expect(r.triggerLang).toBeNull();
 
       const ltr = await newE2EPage();
@@ -561,7 +564,7 @@ describe('aegov-datepicker (e2e)', () => {
       expect(l.presets).toEqual(['Today', 'Last 7 Days']);
       expect(l.apply).toBe('Apply');
       expect(l.message).toBe('Required');
-      expect(l.portalLang).toBeNull();
+      expect(l.portalLang).toBe('en');
     });
 
     it('changing locale while open updates the trigger and the open calendar', async () => {
@@ -614,5 +617,38 @@ describe('aegov-datepicker (e2e)', () => {
     await page.waitForFunction(() => getComputedStyle((document.querySelector('aegov-datepicker') as any)
       .shadowRoot.querySelector('.datepicker__input-wrapper')).opacity === '1', { timeout: 2000 });
     expect(await opacity()).toBe('1');
+  });
+});
+
+// DS-A11Y-datepicker-05 (WCAG 1.4.11 / 1.4.1): days inside a selected range
+// carry a short bar under the number in the variant colour, not only a faint tint.
+describe('aegov-datepicker (e2e) range band', () => {
+  /** 2 when the day shows the in-range bar, 0 when it doesn't (kept numeric for the assertions below). */
+  const band = (page: any, date: string) =>
+    page.evaluate((d: string) => {
+      const day = document.querySelector(`.aegov-datepicker-portal .datepicker__day[data-date="${d}"]`) as HTMLElement;
+      const bar = getComputedStyle(day, '::after');
+      return bar.content !== 'none' && bar.height === '2px' && bar.backgroundColor !== 'rgba(0, 0, 0, 0)' ? 2 : 0;
+    }, date);
+
+  it('in-range days have the bar; days outside the range do not', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker aria-label="Stay" appearance="range" value="2024-06-10 / 2024-06-15"></aegov-datepicker>');
+    await page.addStyleTag({ content: themeColours() });
+    const host = await page.find('aegov-datepicker');
+    await host.callMethod('open');
+    await page.waitForChanges();
+    expect(await band(page, '2024-06-12')).toBe(2);
+    expect(await band(page, '2024-06-20')).toBe(0);
+  });
+
+  it('keeps the band on the other variants', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker aria-label="Stay" appearance="range" variant="neutral-min" value="2024-06-10 / 2024-06-15"></aegov-datepicker>');
+    await page.addStyleTag({ content: themeColours() });
+    const host = await page.find('aegov-datepicker');
+    await host.callMethod('open');
+    await page.waitForChanges();
+    expect(await band(page, '2024-06-12')).toBe(2);
   });
 });

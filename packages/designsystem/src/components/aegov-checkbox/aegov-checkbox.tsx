@@ -100,6 +100,8 @@ export class AegovCheckbox {
   private internals: ElementInternals | null = null;
   private errorId: string = '';
   private hintId: string = '';
+  /** The visible label text only — the input's name, so the hint stays a description (DS-A11Y-checkbox-02). */
+  private labelTextId: string = '';
 
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', { component: 'aegov-checkbox', prop: 'variant' }); }
@@ -119,6 +121,7 @@ export class AegovCheckbox {
     }
     this.errorId = `${this.fieldId}-error`;
     this.hintId = `${this.fieldId}-hint`;
+    this.labelTextId = `${this.fieldId}-label-text`;
     this._sizeWatcher = watchResponsiveProp(this.size, CHECKBOX_SIZES, 'base', v => {
       this._resolvedSize = v as CheckboxSize;
     });
@@ -357,7 +360,8 @@ export class AegovCheckbox {
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
-    const showHint = !showError && (hasHintSlot || !!this.hint);
+    // Hint stays visible (and in the description) while an error shows (DS-A11Y-input-08).
+    const showHint = hasHintSlot || !!this.hint;
     const announceError = showError && this.hasBlurredOnce;
     const authorDescribedBy = this.hostAria?.descriptionId();
     const describedBy = composeDescribedBy(
@@ -381,6 +385,7 @@ export class AegovCheckbox {
         aria-describedby={describedBy}
         onChange={this.handleChange}
         onBlur={this.handleBlur}
+        aria-labelledby={this.label ? this.labelTextId : undefined}
         {...passThroughAttrs}
       />
     );
@@ -408,7 +413,7 @@ export class AegovCheckbox {
             <label class="checkbox__wrapper">
               {checkboxInput}
               <span class="checkbox__text">
-                <span class="checkbox__label-text">{this.label}</span>
+                <span id={this.labelTextId} class="checkbox__label-text">{this.label}{this.isRequired && <span class="checkbox__required" aria-hidden="true"> *</span>}</span>
                 {showHint && (
                   <span id={this.hintId} class="checkbox__hint">
                     {hasHintSlot ? <slot name="hint" /> : this.hint}

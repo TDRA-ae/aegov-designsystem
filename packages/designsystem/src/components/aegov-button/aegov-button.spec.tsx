@@ -120,9 +120,26 @@ describe('aegov-button', () => {
       components: [AegovButton],
       html: `<aegov-button is-loading="true">X</aegov-button>`,
     });
-    const live = inner(page).querySelector('.sr-only');
+    // DS-A11Y-button-02: the status sits outside the <button>, so "Loading" is
+    // never part of the button's name, and follows the page language.
+    const live = page.root.shadowRoot.querySelector('[role="status"]');
     expect(live).not.toBeNull();
     expect(live.getAttribute('aria-live')).toBe('polite');
+    expect(live.textContent).toBe('Loading');
+    expect(inner(page).querySelector('[role="status"], [aria-live]')).toBeNull();
+    expect(inner(page).textContent).not.toContain('Loading');
+  });
+
+  it('says "Loading" in Arabic on an Arabic page, and nothing when not loading', async () => {
+    const page = await newSpecPage({
+      components: [AegovButton],
+      html: `<div lang="ar" dir="rtl"><aegov-button is-loading="true">حفظ</aegov-button></div>`,
+    });
+    const button = page.body.querySelector('aegov-button');
+    expect(button.shadowRoot.querySelector('[role="status"]').textContent).toBe('جارٍ التحميل');
+    (button as any).isLoading = false;
+    await page.waitForChanges();
+    expect(button.shadowRoot.querySelector('[role="status"]').textContent).toBe('');
   });
 
   it('applies isFull class', async () => {

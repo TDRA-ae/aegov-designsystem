@@ -175,9 +175,12 @@
    Tooltip — floating value above thumb
    ======================================== */
 .range__tooltip {
-  @apply absolute bg-aeblack-800 text-white text-xs rounded
-         px-1.5 py-0.5 whitespace-nowrap pointer-events-none select-none
-         dark:bg-whitely-100 dark:text-aeblack-900;
+  @apply absolute text-xs rounded
+         px-1.5 py-0.5 whitespace-nowrap pointer-events-none select-none;
+  /* Dark when an ancestor has .dark (see global.css); the arrow reuses this colour. */
+  --range-tooltip-bg: var(--aegov-tooltip-bg);
+  background-color: var(--range-tooltip-bg);
+  color: var(--aegov-tooltip-text);
   font-variant-numeric: tabular-nums;
 }
 
@@ -195,11 +198,7 @@
   transform: translateX(-50%);
   border-width: 4px;
   border-style: solid;
-  border-color: theme('colors.aeblack.800') transparent transparent transparent;
-}
-
-:host-context(.dark) .range--horizontal .range__tooltip::after {
-  border-color: theme('colors.whitely.100') transparent transparent transparent;
+  border-color: var(--range-tooltip-bg) transparent transparent transparent;
 }
 
 .range--vertical .range__tooltip {
@@ -216,11 +215,7 @@
   transform: translateY(-50%);
   border-width: 4px;
   border-style: solid;
-  border-color: transparent transparent transparent theme('colors.aeblack.800');
-}
-
-:host-context(.dark) .range--vertical .range__tooltip::after {
-  border-color: transparent transparent transparent theme('colors.whitely.100');
+  border-color: transparent transparent transparent var(--range-tooltip-bg);
 }
 
 /* ========================================
@@ -248,15 +243,14 @@
    DOM order is track → thumb → input, so `~` doesn't reach back; use `:has()`.
    ======================================== */
 
-/* Single thumb outline — wrapper contains only one input, paired automatically. */
-.aegov-range.range-variant-primary .range__thumb--single:has(~ .range__input:focus-visible),
-.aegov-range.range-variant-primary .range__thumb:has(~ .range__input:focus-visible)         { @apply outline-2 outline-offset-2 outline-primary-support-500 dark:outline-primary-support-400; }
-.aegov-range.range-variant-secondary .range__thumb--single:has(~ .range__input:focus-visible),
-.aegov-range.range-variant-secondary .range__thumb:has(~ .range__input:focus-visible)       { @apply outline-2 outline-offset-2 outline-secondary-support-500 dark:outline-secondary-support-400; }
+/* Single thumb outline. Only the --single thumb: in range mode both thumbs sit
+   before both inputs, so a plain `.range__thumb:has(~ .range__input:focus-visible)`
+   matched both thumbs and drew the ring on the unfocused one too
+   (WCAG 2.4.7, DS-A11Y-range-02). Range mode uses the paired rules below. */
+.aegov-range.range-variant-primary .range__thumb--single:has(~ .range__input:focus-visible)     { @apply outline-2 outline-offset-2 outline-primary-support-500 dark:outline-primary-support-400; }
+.aegov-range.range-variant-secondary .range__thumb--single:has(~ .range__input:focus-visible)   { @apply outline-2 outline-offset-2 outline-secondary-support-500 dark:outline-secondary-support-400; }
 .aegov-range.range-variant-neutral-max .range__thumb--single:has(~ .range__input:focus-visible),
-.aegov-range.range-variant-neutral-max .range__thumb:has(~ .range__input:focus-visible),
-.aegov-range.range-variant-neutral-min .range__thumb--single:has(~ .range__input:focus-visible),
-.aegov-range.range-variant-neutral-min .range__thumb:has(~ .range__input:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-500 dark:outline-seablue-400; }
+.aegov-range.range-variant-neutral-min .range__thumb--single:has(~ .range__input:focus-visible) { @apply outline-2 outline-offset-2 outline-seablue-500 dark:outline-seablue-400; }
 
 /* Dual-mode thumb outline — pair low thumb with low input, high with high. */
 .aegov-range.range-variant-primary .range__thumb--low:has(~ .range__input--low:focus-visible),
@@ -268,10 +262,15 @@
 .aegov-range.range-variant-neutral-min .range__thumb--low:has(~ .range__input--low:focus-visible),
 .aegov-range.range-variant-neutral-min .range__thumb--high:has(~ .range__input--high:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-500 dark:outline-seablue-400; }
 
-/* Vertical native input — use writing-mode (spec-compliant, replaces deprecated -webkit-appearance: slider-vertical) */
+/* Vertical native input — use writing-mode (spec-compliant, replaces deprecated -webkit-appearance: slider-vertical).
+   direction: rtl puts the native minimum at the bottom, matching the drawn
+   thumb (bottom = min), so ArrowUp raises the value like Page Up and End.
+   With ltr the minimum was at the top: ArrowUp lowered the value and moved the
+   thumb down (DS-A11Y-range-03). This is the standard bottom-to-top slider
+   (writing-mode: vertical-lr; direction: rtl). */
 .range--vertical .range__input {
   writing-mode: vertical-lr;
-  direction: ltr;
+  direction: rtl;
 }
 
 /* ========================================
@@ -374,12 +373,7 @@
 
 :host-context([dir="rtl"]) .range--vertical .range__tooltip::after,
 :host(:dir(rtl)) .range--vertical .range__tooltip::after {
-  border-color: transparent transparent transparent theme('colors.aeblack.800');
-}
-
-:host-context(.dark):host-context([dir="rtl"]) .range--vertical .range__tooltip::after,
-:host-context(.dark):host(:dir(rtl)) .range--vertical .range__tooltip::after {
-  border-color: transparent transparent transparent theme('colors.whitely.100');
+  border-color: transparent transparent transparent var(--range-tooltip-bg);
 }
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
@@ -450,7 +444,7 @@
   }
 
   /* Focus: a Highlight outline on the thumb whose input has focus. */
-  :host .aegov-range .range__thumb:has(~ .range__input:focus-visible),
+  :host .aegov-range .range__thumb--single:has(~ .range__input:focus-visible),
   :host .aegov-range .range__thumb--low:has(~ .range__input--low:focus-visible),
   :host .aegov-range .range__thumb--high:has(~ .range__input--high:focus-visible) {
     outline: 2px solid Highlight;

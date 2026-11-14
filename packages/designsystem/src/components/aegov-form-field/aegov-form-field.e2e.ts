@@ -378,6 +378,7 @@ describe('aegov-form-field (e2e)', () => {
     await page.waitForChanges();
     const withValue = await page.evaluate(() =>
       document.querySelector('#one')!.shadowRoot!.querySelector('input')!.getAttribute('aria-label'));
-    expect(withValue).toBe('Preferred appointment, Change date, November 3, 2026');
+    // The name stays the label; the chosen date is the field's value (DS-A11Y-datepicker-07).
+    expect(withValue).toBe('Preferred appointment');
   });
 });

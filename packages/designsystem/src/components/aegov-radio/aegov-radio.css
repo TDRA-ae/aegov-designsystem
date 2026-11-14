@@ -50,8 +50,10 @@
 .aegov-radio.radio-variant-neutral-min input[type="radio"]::before { @apply bg-aeblack-50 dark:bg-aeblack-800; }
 
 /* Wrapper label for inline label mode */
+/* min-h-6: the whole row is the click target, at least 24 × 24 px at every size
+   (WCAG 2.2 SC 2.5.8 Target Size, Minimum). */
 .radio__wrapper {
-  @apply flex items-start w-fit select-none;
+  @apply flex items-start w-fit min-h-6 select-none;
 }
 
 .radio__wrapper:has(input:disabled) {
@@ -73,12 +75,16 @@
   @apply flex flex-col;
 }
 
+/* Text colours switch with an ancestor .dark through inherited custom
+   properties (see global.css); dark: variants can't reach into shadow DOM. */
 .radio__label-text {
-  @apply text-base text-aeblack-800 dark:text-whitely-100;
+  @apply text-base;
+  color: var(--aegov-text);
 }
 
 .radio__hint {
-  @apply text-aeblack-600 dark:text-aeblack-300 leading-snug;
+  @apply leading-snug;
+  color: var(--aegov-text-muted);
 }
 
 /* ========================================
@@ -524,4 +530,10 @@
   :host(.radio-appearance-cards) .aegov-radio .radio__wrapper:has(input:disabled) {
     border-color: GrayText;
   }
+}
+
+/* Required marker after the label text (DS-A11Y-checkbox-03): aria-hidden, the
+   input already exposes required. Same colour as the other form components. */
+.radio__required {
+  @apply text-aered-600 dark:text-aered-400;
 }

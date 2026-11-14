@@ -1,4 +1,5 @@
 import { newE2EPage } from '@stencil/core/testing';
+import { themeColours } from '../../utils/e2e-theme';
 
 /**
  * aegov-modal and aegov-drawer must share one overlay palette:
@@ -20,6 +21,7 @@ async function backdropColours(isDarkMode: boolean, opacity: Opacity) {
     <aegov-modal is-open="true" overlay-opacity="${opacity}"><p>Modal</p></aegov-modal>
     <aegov-drawer is-open="true" overlay-opacity="${opacity}" animation="none"><p>Drawer</p></aegov-drawer>
   `);
+  await page.addStyleTag({ content: themeColours() });
   if (isDarkMode) {
     await page.evaluate(() => document.documentElement.classList.add('dark'));
   }
@@ -63,6 +65,7 @@ describe('modal / drawer overlay parity (e2e)', () => {
     it(`${host} base backdrop is aeblack-900 at 50%`, async () => {
       const page = await newE2EPage();
       await page.setContent(`<${host} is-open="true" overlay-opacity="base" animation="none"><p>x</p></${host}>`);
+      await page.addStyleTag({ content: themeColours() });
       await page.waitForChanges();
       const { actual, expected } = await page.evaluate((tag: string) => {
         const root = document.querySelector(tag)!.shadowRoot!;
