@@ -9,7 +9,6 @@ import { generateId } from '../../utils/id-generator';
  * Do not use this component standalone.
  *
  * @slot accordion-item-heading - Heading content for the accordion item
- * @slot accordion-item-content - Content that expands/collapses
  */
 @Component({
   tag: 'aegov-accordion-item',

@@ -100,12 +100,12 @@ Every component uses the same naming, so once you know one you can predict the r
 
 | Name | Meaning | Values |
 | --- | --- | --- |
-| `variant` | Colour | `primary`, `secondary`, `neutral-max`, `neutral-min` (+ `danger` on button and link) |
+| `variant` | Colour | `primary`, `secondary`, `neutral-max`, `neutral-min` (+ `danger` on button and link). On `aegov-badge`, `variant` is a palette colour such as `aegold` or `techblue`. |
 | `appearance` | Visual style | `solid`, `outline`, `soft`, `link` on actions. Other families have their own sets. |
 | `size` | Size, responsive | `"sm md:base xl:lg"`, using breakpoint prefixes `xs` to `2xl` |
 | `is*` | Every boolean | `isDisabled`, `isRequired`, `isOpen`, `isInvalid`, `isLoading`, … |
 | `label*` | Visible and accessible text | `label`, `labelMenu`, `logoLabel`, … |
-| `extraClass` | Your extra CSS classes | instead of `class` |
+| `extraClass` | Your extra CSS classes, on components that have it | instead of `class` |
 | `fieldId` | Element ID | instead of `id`. Generated automatically. |
 
 Events are named `aegov` + component + action and carry a typed `detail`:
