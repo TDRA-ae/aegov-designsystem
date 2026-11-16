@@ -123,9 +123,9 @@ export class AegovTabs {
       this.activeTabId = this.defaultOpen;
     } else {
       const tabs = this.getTabElements();
-      const first = tabs.find(t => !t.hasAttribute('is-disabled') && !t.hasAttribute('disabled'));
+      const first = tabs.find(t => !this.isTabDisabled(t));
       if (first) {
-        this.activeTabId = first.getAttribute('tab-id') || '';
+        this.activeTabId = this.tabIdOf(first);
       }
     }
   }
@@ -151,7 +151,7 @@ export class AegovTabs {
     this.syncChildren();
     if (this.isScrollable && this.listEl) {
       this.checkScrollFade();
-      const activeTab = this.el.querySelector(`aegov-tab[tab-id="${this.activeTabId}"]`) as HTMLElement;
+      const activeTab = this.getTabElements().find(t => this.tabIdOf(t) === this.activeTabId);
       if (activeTab) {
         const scrollOpts: ScrollIntoViewOptions = this.orientation === 'vertical'
           ? { behavior: 'smooth', block: 'nearest', inline: 'start' }
@@ -189,6 +189,21 @@ export class AegovTabs {
     this.activateTab(event.detail);
   }
 
+  /**
+   * A tab's or panel's id. React and Angular bindings set only the tabId
+   * property (no tab-id attribute), so read both.
+   */
+  private tabIdOf(el: Element): string {
+    return el.getAttribute('tab-id') || (el as unknown as { tabId?: string }).tabId || '';
+  }
+
+  /** Same for isDisabled, which framework bindings also set as a property only. */
+  private isTabDisabled(el: Element): boolean {
+    const prop = (el as unknown as { isDisabled?: boolean }).isDisabled;
+    if (typeof prop === 'boolean') return prop || el.hasAttribute('disabled');
+    return (el.hasAttribute('is-disabled') && el.getAttribute('is-disabled') !== 'false') || el.hasAttribute('disabled');
+  }
+
   private getTabElements(): HTMLElement[] {
     return Array.from(this.el.querySelectorAll('aegov-tab'));
   }
@@ -209,7 +224,7 @@ export class AegovTabs {
     });
 
     panels.forEach((panel: any) => {
-      const tabId = panel.getAttribute('tab-id') || panel.tabId;
+      const tabId = this.tabIdOf(panel);
       panel.active = tabId === this.activeTabId;
     });
   }
@@ -242,11 +257,11 @@ export class AegovTabs {
     if (!target.closest('aegov-tab')) return;
 
     const allTabs = this.getTabElements();
-    const enabledTabs = allTabs.filter(t => !t.hasAttribute('is-disabled') && !t.hasAttribute('disabled'));
+    const enabledTabs = allTabs.filter(t => !this.isTabDisabled(t));
     if (enabledTabs.length === 0) return;
 
     const currentIndex = enabledTabs.findIndex(
-      (t: any) => (t.getAttribute('tab-id') || t.tabId) === this.activeTabId,
+      t => this.tabIdOf(t) === this.activeTabId,
     );
     const isRtl = detectRtl(this.el);
 
@@ -292,7 +307,7 @@ export class AegovTabs {
     if (nextIndex >= 0) {
       event.preventDefault();
       const nextTab = enabledTabs[nextIndex] as any;
-      const nextTabId = nextTab.getAttribute('tab-id') || nextTab.tabId;
+      const nextTabId = this.tabIdOf(nextTab);
       if (nextTabId) {
         this.activateTab(nextTabId);
         // Focus the button inside the aegov-tab. preventScroll: activateTab()

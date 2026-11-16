@@ -224,13 +224,50 @@ describe('aegov-tabs (e2e)', () => {
         await page.waitForChanges();
         await page.$eval('aegov-tab button', (b: HTMLElement) => b.focus());
         for (const k of [key, key, 'End']) {
-          await page.keyboard.press(k);
+          await page.keyboard.press(k as any);
           await page.waitForChanges();
           await new Promise(r => setTimeout(r, 700));
           const v = await inView(page);
           expect(v.fullyIn).toBe(true);
         }
       });
+    }
+  });
+
+  // React/Angular bindings set tabId / isDisabled as properties only (no attributes).
+  it('property-only tabId and isDisabled: first enabled tab active, arrows move and scroll', async () => {
+    const page = await newE2EPage();
+    await page.setViewport({ width: 340, height: 600 });
+    await page.setContent(`<div style="width:300px" id="host"></div>`);
+    await page.evaluate(() => {
+      const tabs = document.createElement('aegov-tabs') as any;
+      tabs.isScrollable = true;
+      const names = ['Disabled first', 'Design and research', 'Development and DevOps', 'Content and communication', 'Quality assurance'];
+      names.forEach((name, i) => {
+        const t = document.createElement('aegov-tab') as any;
+        t.slot = 'tabs'; t.tabId = 't' + i; t.textContent = name; if (i === 0) t.isDisabled = true;
+        const p = document.createElement('aegov-tab-panel') as any;
+        p.tabId = 't' + i; p.textContent = 'Panel ' + i;
+        tabs.append(t, p);
+      });
+      document.getElementById('host').append(tabs);
+    });
+    await page.waitForChanges();
+    await new Promise(r => setTimeout(r, 200));
+    const selected = () => page.evaluate(() => document.querySelector('aegov-tab button[aria-selected="true"]')?.textContent.trim());
+    expect(await selected()).toBe('Design and research');
+    await page.$eval('aegov-tab button[aria-selected="true"]', (b: HTMLElement) => b.focus());
+    for (const want of ['Development and DevOps', 'Content and communication']) {
+      await page.keyboard.press('ArrowRight');
+      await page.waitForChanges();
+      await new Promise(r => setTimeout(r, 700));
+      const st = await page.evaluate(() => {
+        const btn = document.activeElement as HTMLElement;
+        const list = btn.closest('[role="tablist"]');
+        const r = btn.getBoundingClientRect(), l = list.getBoundingClientRect();
+        return { active: document.querySelector('aegov-tab button[aria-selected="true"]')?.textContent.trim(), fullyIn: r.left >= l.left - 1 && r.right <= l.right + 1 };
+      });
+      expect(st).toEqual({ active: want, fullyIn: true });
     }
   });
 });
