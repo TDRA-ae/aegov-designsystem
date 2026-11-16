@@ -90,15 +90,25 @@ export class AegovHeaderBanner {
     document.body.insertBefore(link, document.body.firstChild);
   }
 
+  /** Set on open; Close is focused once the open panel has rendered. */
+  private focusCloseOnRender = false;
+
   @Watch('headerExpanded')
   handleExpandedChange(newValue: boolean) {
     if (newValue) {
-      requestAnimationFrame(() => {
-        this.closeButtonEl?.focus();
-      });
+      // The collapsed panel is inert (A11Y-FINAL-02), so Close can only take
+      // focus after the render that opens it, not in the next frame.
+      this.focusCloseOnRender = true;
     } else {
+      this.focusCloseOnRender = false;
       this.triggerEl?.focus();
     }
+  }
+
+  componentDidUpdate() {
+    if (!this.focusCloseOnRender || !this.headerExpanded) return;
+    this.focusCloseOnRender = false;
+    this.closeButtonEl?.focus();
   }
 
   @Listen('keydown')
@@ -170,6 +180,10 @@ export class AegovHeaderBanner {
           <div
             id="header-top-expand"
             class={`header__top-expand ${this.headerExpanded ? 'header__top-expand--open' : ''}`}
+            // Collapsed, the panel is 0 px tall but its Close button was still a
+            // Tab stop and in the accessibility tree (A11Y-FINAL-02). inert takes
+            // it out without touching the collapse animation.
+            inert={!this.headerExpanded}
             ref={(el) => this.expandedEl = el}
           >
             <div class="aegov-container header__expand-inner">
