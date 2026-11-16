@@ -1,4 +1,4 @@
-import { Component, Prop, Watch, State, Event, EventEmitter, Element, Method, Listen, h, Host } from '@stencil/core';
+import { Component, Prop, Watch, State, Event, EventEmitter, Element, Method, Listen, h, Host, forceUpdate } from '@stencil/core';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
@@ -18,6 +18,7 @@ import type {
   ButtonVariant,
 } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { HostAria } from '../../utils/host-aria';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
 import { getActionClasses } from '../../utils/action-classes';
@@ -176,6 +177,13 @@ export class AegovButton {
 
   private _hostAttrObserver?: MutationObserver;
 
+  /**
+   * Host aria-labelledby / aria-describedby point at elements in the page; the
+   * IDs can't resolve inside the shadow root, so they reach the inner button
+   * as name and description text (GitHub #57, as for the form controls).
+   */
+  private hostAria?: HostAria;
+
   private internals: ElementInternals | null = null;
 
   /** True while an ancestor `<fieldset disabled>` (or a host `disabled` attribute) disables the button. */
@@ -195,6 +203,8 @@ export class AegovButton {
   }
 
   connectedCallback() {
+    this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, onChange: () => forceUpdate(this) });
+    this.hostAria.connect();
     // `getPassThroughAttributes` only reads the host's attributes during
     // render, and Stencil does not re-render on arbitrary attribute changes.
     // Without this, a caller toggling `aria-expanded` / `aria-pressed` on the
@@ -269,6 +279,7 @@ export class AegovButton {
 
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
+    this.hostAria?.disconnect();
   }
 
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op: the owner is read lazily in handleClick */ }
@@ -371,7 +382,8 @@ export class AegovButton {
   }
 
   render() {
-    const passThroughAttributes = getPassThroughAttributes(this.el);
+    const rawAttributes = getPassThroughAttributes(this.el);
+    const passThroughAttributes = this.hostAria ? this.hostAria.bridge(rawAttributes) : rawAttributes;
     const type = this.getResolvedType();
     // is-disabled-focusable keeps a disabled button focusable (aria-disabled);
     // a disabled <fieldset> still disables it natively, like any control.
@@ -394,6 +406,7 @@ export class AegovButton {
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           aria-busy={this.isLoading ? 'true' : undefined}
+          aria-describedby={this.hostAria?.descriptionId()}
           {...passThroughAttributes}
         >
           {this.isLoading && (
@@ -407,6 +420,7 @@ export class AegovButton {
         <span class="sr-only" role="status" aria-live="polite">
           {this.isLoading ? (uiLang(this.el) === 'ar' ? 'جارٍ التحميل' : 'Loading') : ''}
         </span>
+        {this.hostAria?.renderDescription()}
       </Host>
     );
   }

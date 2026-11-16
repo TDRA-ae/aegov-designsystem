@@ -142,13 +142,15 @@ describe('aegov-modal', () => {
     expect(event.detail?.preventDefault).toBeUndefined();
   });
 
-  it('passes through aria-labelledby attribute', async () => {
+  // GitHub #57: the ID can't resolve inside the shadow root, so the dialog gets the heading's text.
+  it('names the dialog from the host aria-labelledby heading, not a raw ID it cannot resolve', async () => {
     const page = await newSpecPage({
       components: [AegovModal],
-      html: `<aegov-modal is-open="true" aria-labelledby="title-id"></aegov-modal>`,
+      html: `<aegov-modal is-open="true" aria-labelledby="title-id"><h2 id="title-id">Delete this application?</h2></aegov-modal>`,
     });
     const dialog = page.root.shadowRoot.querySelector('[role="dialog"]');
-    expect(dialog.getAttribute('aria-labelledby')).toBe('title-id');
+    expect(dialog.getAttribute('aria-labelledby')).toBeNull();
+    expect(dialog.getAttribute('aria-label')).toBe('Delete this application?');
   });
 
   /**

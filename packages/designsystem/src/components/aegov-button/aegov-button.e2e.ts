@@ -119,4 +119,31 @@ describe('aegov-button e2e', () => {
     const btn = await page.find('aegov-button >>> button');
     expect(btn.getAttribute('aria-label')).toBe('Submit');
   });
+
+  // GitHub #57: host aria-labelledby / aria-describedby point outside the shadow root.
+  describe('name and description from the host (#57)', () => {
+    it('an icon button is named and described by elements in the page', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-button is-icon="true" aria-labelledby="lbl" aria-describedby="hint"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M3 6h18"/></svg></aegov-button>
+        <span id="lbl">Delete row</span><span id="hint">You can undo this for 10 seconds.</span>`);
+      await page.waitForChanges();
+      const info = await page.$eval('aegov-button', (el: HTMLElement) => {
+        const b = el.shadowRoot.querySelector('button');
+        const descId = b.getAttribute('aria-describedby');
+        return { label: b.getAttribute('aria-label'), labelledby: b.getAttribute('aria-labelledby'), description: descId ? el.shadowRoot.getElementById(descId)?.textContent : null };
+      });
+      expect(info).toEqual({ label: 'Delete row', labelledby: null, description: 'You can undo this for 10 seconds.' });
+      const snap = await page.accessibility.snapshot({ interestingOnly: true });
+      const find = (n) => n?.role === 'button' ? n : (n?.children ?? []).map(find).find(Boolean);
+      expect(find(snap)?.name).toBe('Delete row');
+    });
+
+    it('a text button keeps its own text as its name when nothing names it from the host', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-button>Save application</aegov-button>`);
+      await page.waitForChanges();
+      expect(await page.$eval('aegov-button', (el: HTMLElement) => el.shadowRoot.querySelector('button').getAttribute('aria-label'))).toBeNull();
+    });
+  });
 });

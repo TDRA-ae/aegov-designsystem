@@ -16,6 +16,13 @@
   display: contents;
 }
 
+/* A closed dialog renders nothing and marks its host hidden, so the empty
+   host (and any aria-labelledby on it) stays out of the accessibility tree
+   (GitHub #57). display: contents above would otherwise override [hidden]. */
+:host([hidden]) {
+  display: none;
+}
+
 /* ============================================
    Backdrop
    ============================================ */
