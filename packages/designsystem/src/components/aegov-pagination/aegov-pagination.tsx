@@ -15,10 +15,6 @@ const STRINGS = {
     first: 'First',
     last: 'Last',
     pagination: 'Pagination',
-    goToFirst: 'Go to first page',
-    goToPrev: 'Go to previous page',
-    goToNext: 'Go to next page',
-    goToLast: 'Go to last page',
     currentPage: (p: number) => `Page ${p}, current page`,
     goToPage: (p: number) => `Go to page ${p}`,
     compactIndicator: (p: number, total: number) => `Page ${p} of ${total}`,
@@ -29,10 +25,6 @@ const STRINGS = {
     first: 'الأول',
     last: 'الأخير',
     pagination: 'ترقيم الصفحات',
-    goToFirst: 'الانتقال إلى الصفحة الأولى',
-    goToPrev: 'الانتقال إلى الصفحة السابقة',
-    goToNext: 'الانتقال إلى الصفحة التالية',
-    goToLast: 'الانتقال إلى الصفحة الأخيرة',
     currentPage: (p: number) => `الصفحة ${p}، الصفحة الحالية`,
     goToPage: (p: number) => `الانتقال إلى الصفحة ${p}`,
     compactIndicator: (p: number, total: number) => `الصفحة ${p} من ${total}`,
@@ -273,6 +265,11 @@ export class AegovPagination {
       <nav aria-label={t.pagination} id={this.fieldId} class={`aegov-pagination pagination--${size}${isCompact ? ' pagination--compact' : ''}`} {...passThroughAttributes}>
         <ul class="pagination__list">
 
+          {/* First / Previous / Next / Last are named by their visible label
+              (default or label-* prop), so a voice user can say what they see
+              (WCAG 2.5.3, A11Y-FINAL-14). An aria-label like "Go to previous
+              page" did not contain a custom label such as "Back". */}
+
           {/* First button */}
           {this.isEnabledFirstLast && (
             <li class="pagination__item">
@@ -281,8 +278,7 @@ export class AegovPagination {
                 class={`pagination__btn pagination__btn--nav${(this.isDisabled || isFirst) ? ' pagination__btn--disabled' : ''}`}
                 onClick={() => this.handlePageClick(1)}
                 disabled={this.isDisabled || isFirst}
-                aria-label={t.goToFirst}
-                aria-disabled={(this.isDisabled || isFirst) ? 'true' : undefined}
+                                aria-disabled={(this.isDisabled || isFirst) ? 'true' : undefined}
               >
                 <span class="pagination__icon pagination__icon--dir" aria-hidden="true">
                   {this.renderIconFirst()}
@@ -299,8 +295,7 @@ export class AegovPagination {
               class={`pagination__btn pagination__btn--nav${(this.isDisabled || isFirst) ? ' pagination__btn--disabled' : ''}`}
               onClick={() => this.handlePageClick(this.pageCurrent - 1)}
               disabled={this.isDisabled || isFirst}
-              aria-label={t.goToPrev}
-              aria-disabled={(this.isDisabled || isFirst) ? 'true' : undefined}
+                            aria-disabled={(this.isDisabled || isFirst) ? 'true' : undefined}
             >
               <span class="pagination__icon pagination__icon--dir" aria-hidden="true">
                 {this.renderIconPrev()}
@@ -359,8 +354,7 @@ export class AegovPagination {
               class={`pagination__btn pagination__btn--nav${(this.isDisabled || isLast) ? ' pagination__btn--disabled' : ''}`}
               onClick={() => this.handlePageClick(this.pageCurrent + 1)}
               disabled={this.isDisabled || isLast}
-              aria-label={t.goToNext}
-              aria-disabled={(this.isDisabled || isLast) ? 'true' : undefined}
+                            aria-disabled={(this.isDisabled || isLast) ? 'true' : undefined}
             >
               <span class="pagination__nav-label">{this.labelNext || t.next}</span>
               <span class="pagination__icon pagination__icon--dir" aria-hidden="true">
@@ -377,8 +371,7 @@ export class AegovPagination {
                 class={`pagination__btn pagination__btn--nav${(this.isDisabled || isLast) ? ' pagination__btn--disabled' : ''}`}
                 onClick={() => this.handlePageClick(this.pages)}
                 disabled={this.isDisabled || isLast}
-                aria-label={t.goToLast}
-                aria-disabled={(this.isDisabled || isLast) ? 'true' : undefined}
+                                aria-disabled={(this.isDisabled || isLast) ? 'true' : undefined}
               >
                 <span class="pagination__nav-label">{this.labelLast || t.last}</span>
                 <span class="pagination__icon pagination__icon--dir" aria-hidden="true">
