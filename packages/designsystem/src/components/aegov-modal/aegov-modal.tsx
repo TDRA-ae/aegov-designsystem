@@ -1,7 +1,8 @@
-import { Build, Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, State } from '@stencil/core';
+import { Build, Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, State, forceUpdate } from '@stencil/core';
 import { MODAL_POSITIONS, MODAL_OVERLAY_OPACITIES, MODAL_SIZES } from '../../utils/types';
 import type { ModalPosition, ModalOverlayOpacity, ModalSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { HostAria } from '../../utils/host-aria';
 import { getSlottedFocusableElements, handleTabKeyWrap, resolveFocusTarget } from '../../utils/focus-management';
 import { lockBodyScroll, unlockBodyScroll } from '../../utils/scroll-lock';
 import { pushZIndex, popZIndex, isTopOverlay } from '../../utils/z-index-manager';
@@ -97,8 +98,13 @@ export class AegovModal {
    */
   @Prop() label?: string;
 
-  // Note: aria-labelledby / aria-describedby can also be passed as host attributes
-  // and are forwarded automatically via getPassThroughAttributes()
+  /**
+   * aria-labelledby / aria-describedby on the host point at elements in the
+   * page (usually the slotted heading). ID references can't cross into the
+   * shadow root, so they are resolved to text and given to the dialog as its
+   * name and description, and kept up to date (GitHub #57).
+   */
+  private hostAria?: HostAria;
 
   /**
    * @internal State to manage animation
@@ -198,6 +204,8 @@ export class AegovModal {
   onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, MODAL_SIZES, 'base', ctx('size')); }
 
   connectedCallback() {
+    this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, onChange: () => forceUpdate(this) });
+    this.hostAria.connect();
     if (this.relocating) return;
     // Re-inserted by its owner while still open (e.g. Vue <KeepAlive>
     // re-activation, or an app moving the element): the disconnect released the
@@ -216,6 +224,7 @@ export class AegovModal {
     // Releasing the scroll lock / z-index / Escape listener here would leave an
     // open overlay visible but inert.
     if (this.relocating || this.el.isConnected) return;
+    this.hostAria?.disconnect();
     // Note: never move or remove this.el from in here (nor from
     // connectedCallback) — doing that inside the callbacks is what caused the
     // old "Maximum call stack size exceeded" loop under Stencil's shadow-DOM
@@ -455,10 +464,15 @@ export class AegovModal {
 
   render() {
     if (!this.isOpen && this.animationState === 'closed') {
-      return null;
+      // Nothing is shown: keep the empty host (which may carry the author's
+      // aria-labelledby) out of the accessibility tree too.
+      return <Host hidden></Host>;
     }
 
-    const passThroughAttributes = getPassThroughAttributes(this.el);
+    // Host aria-labelledby / aria-describedby become the dialog's name and
+    // description text (see hostAria).
+    const rawAttributes = getPassThroughAttributes(this.el);
+    const passThroughAttributes = this.hostAria ? this.hostAria.bridge(rawAttributes) : rawAttributes;
     // The `label` prop wins when set; otherwise fall back to whatever
     // passThroughAttributes already collected from a raw host aria-label
     // attribute — a literal `aria-label={undefined}` in the JSX below would
@@ -482,9 +496,11 @@ export class AegovModal {
             role="dialog"
             aria-modal="true"
             aria-label={dialogAriaLabel}
+            aria-describedby={this.hostAria?.descriptionId()}
             tabindex={-1}
           >
             <slot></slot>
+            {this.hostAria?.renderDescription()}
           </div>
         </div>
       </Host>

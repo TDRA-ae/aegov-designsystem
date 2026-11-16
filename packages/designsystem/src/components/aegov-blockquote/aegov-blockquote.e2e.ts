@@ -75,4 +75,12 @@ describe('aegov-blockquote e2e', () => {
     expect(styles.scale).toBe('-1 1');
     expect(styles.transform).toBe('none');
   });
+  // GitHub #57: host aria-labelledby points outside the shadow root.
+  it('is named by the element its host aria-labelledby points at', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<aegov-blockquote aria-labelledby="q">Service in minutes.</aegov-blockquote><span id="q">Customer quote</span>`);
+    await page.waitForChanges();
+    const label = await page.$eval('aegov-blockquote', (el: HTMLElement) => el.shadowRoot.querySelector('blockquote').getAttribute('aria-label'));
+    expect(label).toBe('Customer quote');
+  });
 });

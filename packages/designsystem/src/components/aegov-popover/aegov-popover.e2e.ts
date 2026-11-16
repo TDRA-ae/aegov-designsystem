@@ -244,4 +244,107 @@ describe('aegov-popover (e2e)', () => {
     expect(focusState.hostTag).toBe('AEGOV-BUTTON');
     expect(focusState.deepActiveTag).toBe('BUTTON');
   });
+
+  // GitHub #62: an open popover must not take Tab / arrow keys from the rest of the page.
+  describe('keys outside the popover (#62)', () => {
+    const markup = (trigger: string, content: string) => `
+      <aegov-popover trigger="${trigger}" delay-start="0">
+        <button id="trigger">Fees</button>
+        <div slot="popover-content">${content}</div>
+      </aegov-popover>
+      <a id="next" href="#">Next link</a>
+      <textarea id="notes">line 1\nline 2</textarea>`;
+    const isOpen = (page) => page.evaluate(() => !!document.querySelector('.aegov-popover-portal .aegov-popover'));
+    const activeId = (page) => page.evaluate(() => document.activeElement?.id || document.activeElement?.tagName);
+    // Records whether the popover cancelled a key (window listeners run after document ones).
+    const watchPrevented = (page) => page.evaluate(() => {
+      (window as any).__prevented = [];
+      window.addEventListener('keydown', e => (window as any).__prevented.push(`${e.key}:${e.defaultPrevented}`));
+    });
+    const prevented = (page) => page.evaluate(() => (window as any).__prevented);
+    const settle = async (page) => { await page.waitForChanges(); await new Promise(r => setTimeout(r, 120)); await page.waitForChanges(); };
+
+    it('hover popover: arrows in a textarea elsewhere and Tab elsewhere keep working', async () => {
+      const page = await newE2EPage();
+      await page.setContent(markup('hover', '<p>The fee is AED 100.</p>'));
+      await page.hover('#trigger');
+      await settle(page);
+      expect(await isOpen(page)).toBe(true);
+      await page.focus('#notes');
+      await watchPrevented(page);
+      await page.keyboard.press('ArrowUp');
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('Tab');
+      expect(await prevented(page)).toEqual(['ArrowUp:false', 'ArrowDown:false', 'Tab:false']);
+    });
+
+    it('hover popover with text only: Tab from the trigger moves on to the next link', async () => {
+      const page = await newE2EPage();
+      await page.setContent(markup('hover', '<p>The fee is AED 100.</p>'));
+      await page.focus('#trigger');
+      await settle(page);
+      expect(await isOpen(page)).toBe(true);
+      await page.keyboard.press('Tab');
+      await settle(page);
+      expect(await activeId(page)).toBe('next');
+    });
+
+    it('hover popover with a link: Tab from the trigger reaches the link in the panel', async () => {
+      const page = await newE2EPage();
+      await page.setContent(markup('hover', '<p>Fees</p><a id="inside" href="#">Fee table</a>'));
+      await page.focus('#trigger');
+      await settle(page);
+      await page.keyboard.press('Tab');
+      await settle(page);
+      expect(await activeId(page)).toBe('inside');
+      expect(await isOpen(page)).toBe(true);
+    });
+
+    it('click popover with text only: Tab leaves the panel instead of being stuck, Shift+Tab returns to the trigger', async () => {
+      const page = await newE2EPage();
+      await page.setContent(markup('click', '<p>The fee is AED 100.</p>'));
+      await page.click('#trigger');
+      await settle(page);
+      expect(await isOpen(page)).toBe(true);
+      await page.keyboard.press('Tab');
+      await settle(page);
+      expect([await isOpen(page), await activeId(page)]).toEqual([false, 'next']);
+
+      await page.click('#trigger');
+      await settle(page);
+      await page.keyboard.down('Shift');
+      await page.keyboard.press('Tab');
+      await page.keyboard.up('Shift');
+      await settle(page);
+      expect([await isOpen(page), await activeId(page)]).toEqual([false, 'trigger']);
+    });
+
+    it('arrows inside a text field in the panel move the caret, Tab still moves between panel controls', async () => {
+      const page = await newE2EPage();
+      await page.setContent(markup('click', '<input id="amount" value="100"><button id="apply">Apply</button>'));
+      await page.click('#trigger');
+      await settle(page);
+      expect(await activeId(page)).toBe('amount');
+      await watchPrevented(page);
+      await page.keyboard.press('ArrowDown');
+      expect(await prevented(page)).toEqual(['ArrowDown:false']);
+      await page.keyboard.press('Tab');
+      await settle(page);
+      expect(await activeId(page)).toBe('apply');
+      await page.keyboard.press('ArrowDown');
+      await settle(page);
+      expect(await activeId(page)).toBe('amount');
+    });
+
+    it('Escape still closes the popover from anywhere on the page', async () => {
+      const page = await newE2EPage();
+      await page.setContent(markup('hover', '<p>The fee is AED 100.</p>'));
+      await page.hover('#trigger');
+      await settle(page);
+      await page.focus('#notes');
+      await page.keyboard.press('Escape');
+      await settle(page);
+      expect(await isOpen(page)).toBe(false);
+    });
+  });
 });

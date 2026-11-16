@@ -727,4 +727,166 @@ describe('aegov-select (e2e)', () => {
       expect(await searchGrouped('zzz')).toEqual({ matches: [], allVisible: true, emptyInsidePanel: true });
     });
   });
+
+  // GitHub #61: options that change after load must reach the select.
+  describe('options changed after load', () => {
+    const nativeOptions = (page) => page.$eval('aegov-select', (el: HTMLElement) =>
+      Array.from(el.shadowRoot.querySelector('select').options).map(o => ({ value: o.value, text: o.text.trim(), selected: o.selected })));
+    const settle = async (page) => { await page.waitForChanges(); await new Promise(r => setTimeout(r, 50)); await page.waitForChanges(); };
+
+    it('native: an option appended later appears, a removed one goes', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-select aria-label="Emirate" placeholder="Select an emirate"><aegov-select-option value="auh">Abu Dhabi</aegov-select-option></aegov-select>`);
+      await page.evaluate(() => {
+        const option = document.createElement('aegov-select-option') as any;
+        option.value = 'dxb';
+        option.textContent = 'Dubai';
+        document.querySelector('aegov-select').append(option);
+      });
+      await settle(page);
+      expect((await nativeOptions(page)).map(o => o.text)).toEqual(['Select an emirate', 'Abu Dhabi', 'Dubai']);
+      await page.evaluate(() => document.querySelector('aegov-select-option[value="auh"]').remove());
+      await settle(page);
+      expect((await nativeOptions(page)).map(o => o.text)).toEqual(['Select an emirate', 'Dubai']);
+    });
+
+    it('native: many options appended at once, inside a group, are all offered', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-select aria-label="Emirate"></aegov-select>`);
+      await page.evaluate(() => {
+        const group = document.createElement('aegov-select-option-group') as any;
+        group.setAttribute('label', 'Northern');
+        ['shj', 'ajm', 'rak'].forEach(v => {
+          const o = document.createElement('aegov-select-option');
+          o.setAttribute('value', v);
+          o.textContent = v.toUpperCase();
+          group.append(o);
+        });
+        document.querySelector('aegov-select').append(group);
+      });
+      await settle(page);
+      expect((await nativeOptions(page)).map(o => o.value)).toEqual(['shj', 'ajm', 'rak']);
+      expect(await page.$eval('aegov-select', (el: HTMLElement) => el.shadowRoot.querySelector('optgroup').label)).toBe('Northern');
+    });
+
+    it('native: a changed option text is shown', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-select aria-label="Emirate"><aegov-select-option value="auh">Abu Dabi</aegov-select-option></aegov-select>`);
+      await page.evaluate(() => { document.querySelector('aegov-select-option').textContent = 'Abu Dhabi'; });
+      await settle(page);
+      expect((await nativeOptions(page)).map(o => o.text)).toEqual(['Abu Dhabi']);
+    });
+
+    it('native: a value set before its option loads is selected when the option arrives', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-select aria-label="Emirate" placeholder="Select an emirate" value="dxb"><aegov-select-option value="auh">Abu Dhabi</aegov-select-option></aegov-select>`);
+      await settle(page);
+      expect(await page.$eval('aegov-select', (el: HTMLElement) => el.shadowRoot.querySelector('select').value)).toBe('');
+      await page.evaluate(() => {
+        const o = document.createElement('aegov-select-option');
+        o.setAttribute('value', 'dxb');
+        o.textContent = 'Dubai';
+        document.querySelector('aegov-select').append(o);
+      });
+      await settle(page);
+      expect(await page.$eval('aegov-select', (el: HTMLElement) => el.shadowRoot.querySelector('select').value)).toBe('dxb');
+    });
+
+    it('native: the chosen value survives the list being rebuilt', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-select aria-label="Emirate" placeholder="Select an emirate"><aegov-select-option value="auh">Abu Dhabi</aegov-select-option><aegov-select-option value="dxb">Dubai</aegov-select-option></aegov-select>`);
+      await page.$eval('aegov-select >>> select', (s: HTMLSelectElement) => { s.value = 'dxb'; s.dispatchEvent(new Event('change', { bubbles: true })); });
+      await settle(page);
+      await page.evaluate(() => {
+        const host = document.querySelector('aegov-select');
+        host.querySelectorAll('aegov-select-option').forEach(o => o.remove());
+        ['auh', 'dxb', 'shj'].forEach(v => {
+          const o = document.createElement('aegov-select-option');
+          o.setAttribute('value', v);
+          o.textContent = v;
+          host.append(o);
+        });
+      });
+      await settle(page);
+      expect(await page.$eval('aegov-select', (el: any) => [el.value, el.shadowRoot.querySelector('select').value])).toEqual(['dxb', 'dxb']);
+    });
+
+    it('native and listbox: removing the selected option clears the value, as a native select does', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-select id="n" aria-label="Emirate" placeholder="Select an emirate"><aegov-select-option value="auh">Abu Dhabi</aegov-select-option><aegov-select-option value="dxb">Dubai</aegov-select-option></aegov-select>
+        <aegov-select id="l" appearance="listbox" aria-label="Emirate" placeholder="Select an emirate"><aegov-select-option value="auh">Abu Dhabi</aegov-select-option><aegov-select-option value="dxb">Dubai</aegov-select-option></aegov-select>`);
+      await page.$eval('#n >>> select', (s: HTMLSelectElement) => { s.value = 'auh'; s.dispatchEvent(new Event('change', { bubbles: true })); });
+      const trigger = await page.find('#l >>> button[role="combobox"]');
+      await trigger.click();
+      await settle(page);
+      await page.$eval('#l', (el: HTMLElement) => (Array.from(el.shadowRoot.querySelectorAll('[role="option"]')).find(o => o.textContent.includes('Abu Dhabi')) as HTMLElement).click());
+      await settle(page);
+      expect(await page.$$eval('aegov-select', els => els.map((e: any) => e.value))).toEqual(['auh', 'auh']);
+      await page.evaluate(() => document.querySelectorAll('aegov-select-option[value="auh"]').forEach(o => o.remove()));
+      await settle(page);
+      const state = await page.evaluate(() => {
+        const n = document.getElementById('n') as any;
+        const l = document.getElementById('l') as any;
+        return {
+          values: [n.value, l.value],
+          native: n.shadowRoot.querySelector('select').selectedOptions[0]?.text.trim(),
+          listbox: l.shadowRoot.querySelector('button[role="combobox"]').textContent.trim(),
+        };
+      });
+      expect(state).toEqual({ values: ['', ''], native: 'Select an emirate', listbox: 'Select an emirate' });
+    });
+
+    it('listbox multiple: removing one selected option keeps the others', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-select is-multiple="true" aria-label="Emirates" value="auh,dxb,shj"><aegov-select-option value="auh">Abu Dhabi</aegov-select-option><aegov-select-option value="dxb">Dubai</aegov-select-option><aegov-select-option value="shj">Sharjah</aegov-select-option></aegov-select>`);
+      await page.evaluate(() => document.querySelector('aegov-select-option[value="dxb"]').remove());
+      await settle(page);
+      expect(await page.$eval('aegov-select', (el: any) => el.value)).toBe('auh,shj');
+    });
+
+    it('listbox: a value whose option has not loaded yet shows the placeholder, not the raw value', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-select appearance="listbox" aria-label="Emirate" placeholder="Select an emirate" value="dxb"></aegov-select>`);
+      await settle(page);
+      const text = () => page.$eval('aegov-select', (el: HTMLElement) => el.shadowRoot.querySelector('button[role="combobox"]').textContent.trim());
+      expect(await text()).toBe('Select an emirate');
+      await page.evaluate(() => { const o = document.createElement('aegov-select-option'); o.setAttribute('value', 'dxb'); o.textContent = 'Dubai'; document.querySelector('aegov-select').append(o); });
+      await settle(page);
+      expect([await text(), await page.$eval('aegov-select', (el: any) => el.value)]).toEqual(['Dubai', 'dxb']);
+    });
+
+    it('listbox: options appended later are offered when it opens, and the label of a preset value appears', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-select appearance="listbox" aria-label="Emirate" value="dxb"></aegov-select>`);
+      await page.evaluate(() => {
+        const host = document.querySelector('aegov-select');
+        [['auh', 'Abu Dhabi'], ['dxb', 'Dubai']].forEach(([v, t]) => {
+          const o = document.createElement('aegov-select-option');
+          o.setAttribute('value', v);
+          o.textContent = t;
+          host.append(o);
+        });
+      });
+      await settle(page);
+      expect(await page.$eval('aegov-select', (el: HTMLElement) => el.shadowRoot.querySelector('button[role="combobox"]').textContent.trim())).toContain('Dubai');
+      const trigger = await page.find('aegov-select >>> button[role="combobox"]');
+      await trigger.click();
+      await settle(page);
+      const labels = await page.$eval('aegov-select', (el: HTMLElement) => Array.from(el.shadowRoot.querySelectorAll('[role="option"]')).map(o => o.textContent.trim()));
+      expect(labels).toEqual(['Abu Dhabi', 'Dubai']);
+    });
+
+    it('listbox: removing options while it is open updates the open list', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-select appearance="listbox" aria-label="Emirate"><aegov-select-option value="auh">Abu Dhabi</aegov-select-option><aegov-select-option value="dxb">Dubai</aegov-select-option></aegov-select>`);
+      const trigger = await page.find('aegov-select >>> button[role="combobox"]');
+      await trigger.click();
+      await settle(page);
+      await page.evaluate(() => document.querySelector('aegov-select-option[value="dxb"]').remove());
+      await settle(page);
+      const labels = await page.$eval('aegov-select', (el: HTMLElement) => Array.from(el.shadowRoot.querySelectorAll('[role="option"]')).map(o => o.textContent.trim()));
+      expect(labels).toEqual(['Abu Dhabi']);
+    });
+  });
 });
