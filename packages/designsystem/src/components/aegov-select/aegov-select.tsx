@@ -449,6 +449,20 @@ export class AegovSelect {
     this.syncOptions();
   }
 
+  /**
+   * A selected option that is removed takes its value with it, as in a native
+   * <select> (no change event, as there). A value whose option has not loaded
+   * yet is different: it was never offered, so it is kept and selected once
+   * the option arrives. A list rebuilt in one go (remove all, add again) keeps
+   * the value, because the options are read once the whole change is done.
+   */
+  private dropRemovedValues(previous: OptionItem[], next: OptionItem[]) {
+    const selected = this.cachedSelectedValues;
+    const removed = selected.filter(v => previous.some(o => o.value === v) && !next.some(o => o.value === v));
+    if (!removed.length) return;
+    this.value = selected.filter(v => !removed.includes(v)).join(',');
+  }
+
   private observeOptions() {
     if (this.optionsObserver || typeof MutationObserver === 'undefined') return;
     this.optionsObserver = new MutationObserver(() => this.queueOptionsSync());
@@ -473,9 +487,11 @@ export class AegovSelect {
 
   /** Re-read the options; re-render only when the list really changed. */
   private syncOptions() {
+    const previous = this.parsedOptions;
     const next = this.readOptions();
-    if (JSON.stringify(next) === JSON.stringify(this.parsedOptions)) return;
+    if (JSON.stringify(next) === JSON.stringify(previous)) return;
     this.parsedOptions = next;
+    this.dropRemovedValues(previous, next);
     this.updateDerivedState();
     const enabled = this.filteredOptions.filter(o => !o.disabled).length;
     if (this.focusedIndex >= enabled) this.focusedIndex = enabled - 1;
@@ -537,11 +553,10 @@ export class AegovSelect {
 
   /**
    * After the options change, the browser may show a different option than
-   * the component's value (it selects the first option when the selected one
-   * goes, or when none is marked selected). Show the value's option; while the
-   * value has no option (options still loading, or removed) show the
-   * placeholder, and select the option once it arrives. The value itself is
-   * kept, so a list that is rebuilt keeps the reader's choice.
+   * the component's value (it selects the first option when none is marked
+   * selected). Show the value's option; while the value has no option yet
+   * (options still loading) show the placeholder, and select the option once
+   * it arrives.
    */
   private syncNativeValue() {
     if (this.useListbox || !this.nativeSelectEl || !this.value) return;
@@ -630,7 +645,8 @@ export class AegovSelect {
       this.cachedDisplayText = this.t.selectedCount(selected.length);
     } else {
       const option = this.parsedOptions.find(o => o.value === selected[0]);
-      this.cachedDisplayText = option ? option.label : selected[0];
+      // No option for the value (yet): show the placeholder, never the raw value.
+      this.cachedDisplayText = option ? option.label : '';
     }
   }
 
