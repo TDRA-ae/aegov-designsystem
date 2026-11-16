@@ -197,4 +197,40 @@ describe('aegov-tabs (e2e)', () => {
       expect(firstStop((await endFade(page)).image)).toBe('rgb(255, 0, 0)');
     });
   });
+
+  // A11Y-FINAL-22: in a scrollable tab list the arrow keys bring the new tab fully into view.
+  describe('scrollable: keyboard scrolls the focused tab into view', () => {
+    const markup = (dir: string) => `<div dir="${dir}" style="width:300px">
+      <aegov-tabs is-scrollable="true">
+        <aegov-tab slot="tabs" tab-id="a">Design and research</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="b">Development and DevOps</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="c">Content and communication</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="d">Quality assurance</aegov-tab>
+        <aegov-tab-panel tab-id="a">A</aegov-tab-panel><aegov-tab-panel tab-id="b">B</aegov-tab-panel>
+        <aegov-tab-panel tab-id="c">C</aegov-tab-panel><aegov-tab-panel tab-id="d">D</aegov-tab-panel>
+      </aegov-tabs></div>`;
+    const inView = (page) => page.evaluate(() => {
+      const btn = document.activeElement as HTMLElement;
+      const list = btn.closest('aegov-tabs').querySelector('[role="tablist"]') ?? (btn.closest('aegov-tabs') as HTMLElement).shadowRoot.querySelector('[role="tablist"]');
+      const r = btn.getBoundingClientRect(), l = list.getBoundingClientRect();
+      return { tab: btn.textContent.trim(), fullyIn: r.left >= l.left - 1 && r.right <= l.right + 1 };
+    });
+
+    for (const [dir, key] of [['ltr', 'ArrowRight'], ['rtl', 'ArrowLeft']]) {
+      it(`${dir}: ${key} and End`, async () => {
+        const page = await newE2EPage();
+        await page.setViewport({ width: 340, height: 600 });
+        await page.setContent(markup(dir));
+        await page.waitForChanges();
+        await page.$eval('aegov-tab button', (b: HTMLElement) => b.focus());
+        for (const k of [key, key, 'End']) {
+          await page.keyboard.press(k);
+          await page.waitForChanges();
+          await new Promise(r => setTimeout(r, 700));
+          const v = await inView(page);
+          expect(v.fullyIn).toBe(true);
+        }
+      });
+    }
+  });
 });

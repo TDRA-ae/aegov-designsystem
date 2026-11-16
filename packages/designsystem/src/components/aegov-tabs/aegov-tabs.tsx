@@ -295,9 +295,13 @@ export class AegovTabs {
       const nextTabId = nextTab.getAttribute('tab-id') || nextTab.tabId;
       if (nextTabId) {
         this.activateTab(nextTabId);
-        // Focus the button inside the aegov-tab
+        // Focus the button inside the aegov-tab. preventScroll: activateTab()
+        // already scrolls the tab fully into view (onActiveTabChange); the
+        // browser's own focus scroll cancelled that smooth scroll and does not
+        // move a tab that is only half hidden, so keyboard users were left with
+        // a half-visible tab under the edge fade (A11Y-FINAL-22).
         const btnEl = nextTab.querySelector('button') as HTMLElement;
-        if (btnEl) btnEl.focus();
+        if (btnEl) btnEl.focus({ preventScroll: true });
       }
     }
   }
