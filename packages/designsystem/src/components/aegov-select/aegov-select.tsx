@@ -162,6 +162,16 @@ export class AegovSelect {
   /** Watches the host's own aria-label / aria-labelledby, which aegov-form-field or the author may set after load. */
   private nameObserver?: MutationObserver;
 
+  /**
+   * Watches the options in the light DOM. Options added, removed or renamed
+   * after load (loaded from an API, or a framework list that changes after
+   * mount) must reach the native select and the listbox (GitHub #61).
+   */
+  private optionsObserver?: MutationObserver;
+  private optionsSyncQueued = false;
+  /** componentDidLoad has run; a later connectedCallback is a move, not the first attach. */
+  private loaded = false;
+
   /** Bumped to re-render when the host's labelling attributes change. */
   @State() private nameRevision: number = 0;
 
@@ -221,6 +231,8 @@ export class AegovSelect {
   connectedCallback() {
     this.hostAria ??= new HostAria(this.el, { fieldId: () => this.fieldId, internals: () => this.internals, onChange: () => forceUpdate(this) });
     this.hostAria.connect();
+    // Moved in the DOM (frameworks do this): the observer was dropped on disconnect.
+    if (this.loaded) this.observeOptions();
   }
 
   disconnectedCallback() {
@@ -228,6 +240,8 @@ export class AegovSelect {
     this._sizeWatcher?.destroy();
     if (this.typeaheadTimer) clearTimeout(this.typeaheadTimer);
     this.nameObserver?.disconnect();
+    this.optionsObserver?.disconnect();
+    this.optionsObserver = undefined;
   }
 
   // ── FormAssociated lifecycle (listbox appearance uses ElementInternals) ──
@@ -429,6 +443,42 @@ export class AegovSelect {
       this.nameObserver = new MutationObserver(() => { this.nameRevision++; });
       this.nameObserver.observe(this.el, { attributes: true, attributeFilter: ['aria-label', 'aria-labelledby'] });
     }
+    this.loaded = true;
+    this.observeOptions();
+    // Options added between the first parse and now.
+    this.syncOptions();
+  }
+
+  private observeOptions() {
+    if (this.optionsObserver || typeof MutationObserver === 'undefined') return;
+    this.optionsObserver = new MutationObserver(() => this.queueOptionsSync());
+    this.optionsObserver.observe(this.el, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ['value', 'is-disabled', 'label'],
+    });
+  }
+
+  /** Many options appended in one go are read once. */
+  private queueOptionsSync() {
+    if (this.optionsSyncQueued) return;
+    this.optionsSyncQueued = true;
+    queueMicrotask(() => {
+      this.optionsSyncQueued = false;
+      this.syncOptions();
+    });
+  }
+
+  /** Re-read the options; re-render only when the list really changed. */
+  private syncOptions() {
+    const next = this.readOptions();
+    if (JSON.stringify(next) === JSON.stringify(this.parsedOptions)) return;
+    this.parsedOptions = next;
+    this.updateDerivedState();
+    const enabled = this.filteredOptions.filter(o => !o.disabled).length;
+    if (this.focusedIndex >= enabled) this.focusedIndex = enabled - 1;
   }
 
   /** UI strings in the page's language. */
@@ -481,7 +531,23 @@ export class AegovSelect {
    * must reach the form too; the native select only has them once it re-renders.
    */
   componentDidRender() {
+    this.syncNativeValue();
     this.runValidationSync();
+  }
+
+  /**
+   * After the options change, the browser may show a different option than
+   * the component's value (it selects the first option when the selected one
+   * goes, or when none is marked selected). Show the value's option; while the
+   * value has no option (options still loading, or removed) show the
+   * placeholder, and select the option once it arrives. The value itself is
+   * kept, so a list that is rebuilt keeps the reader's choice.
+   */
+  private syncNativeValue() {
+    if (this.useListbox || !this.nativeSelectEl || !this.value) return;
+    const hasOption = this.parsedOptions.some(o => o.value === this.value);
+    const shown = hasOption ? this.value : this.placeholder ? '' : null;
+    if (shown !== null && this.nativeSelectEl.value !== shown) this.nativeSelectEl.value = shown;
   }
 
   componentDidUpdate() {
@@ -570,6 +636,10 @@ export class AegovSelect {
 
   /** Parse option children into a flat list. */
   private parseOptions() {
+    this.parsedOptions = this.readOptions();
+  }
+
+  private readOptions(): OptionItem[] {
     const items: OptionItem[] = [];
 
     // Find all option-group elements (may be direct children or inside slot container)
@@ -605,7 +675,7 @@ export class AegovSelect {
       }
     }
 
-    this.parsedOptions = items;
+    return items;
   }
 
   /** Filtered options based on search query. */
@@ -1116,7 +1186,7 @@ export class AegovSelect {
             {...passThroughAttrs}
           >
             {this.placeholder && (
-              <option value="" disabled selected={!this.value}>
+              <option value="" disabled selected={!this.value || !this.parsedOptions.some(o => o.value === this.value)}>
                 {this.placeholder}
               </option>
             )}
