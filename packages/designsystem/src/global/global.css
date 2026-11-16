@@ -265,8 +265,11 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+
     @apply relative inline-flex shrink-0 cursor-pointer select-none flex-wrap items-center justify-center no-underline transition-all duration-200 ease-in-out rounded-lg disabled:cursor-default disabled:pointer-events-none;
   }
 
+  /* Focus: the gold fill keeps the brand look; the 2 px primary-support-700
+     outline is what makes the indicator stand out from the page (6.2:1 on
+     white; the gold alone was 2.65:1, A11Y-FINAL-03). */
   a {
-    @apply inline-flex items-center align-middle gap-2 text-primary-600 bg-transparent hover:text-primary-500 hover:underline-offset-2 hover:underline decoration-2 focus-visible:bg-primary-support-400 focus-visible:text-primary-support-950! focus-visible:no-underline focus-visible:decoration-0 focus-visible:outline-primary-support-400 focus-visible:outline focus-visible:outline-offset-2 focus-visible:rounded-md dark:text-primary-400 dark:hover:text-primary-300 dark:focus-visible:bg-primary-support-700 dark:focus-visible:text-primary-support-50 dark:focus-visible:decoration-primary-support-100 dark:focus-visible:outline-primary-support-500;
+    @apply inline-flex items-center align-middle gap-2 text-primary-600 bg-transparent hover:text-primary-500 hover:underline-offset-2 hover:underline decoration-2 focus-visible:bg-primary-support-400 focus-visible:text-primary-support-950! focus-visible:no-underline focus-visible:decoration-0 focus-visible:outline-primary-support-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:rounded-md dark:text-primary-400 dark:hover:text-primary-300 dark:focus-visible:bg-primary-support-700 dark:focus-visible:text-primary-support-50 dark:focus-visible:decoration-primary-support-100 dark:focus-visible:outline-primary-support-500;
   }
 }
 

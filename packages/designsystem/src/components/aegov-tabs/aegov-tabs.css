@@ -40,6 +40,14 @@
 .tabs__list-wrapper--scrollable .tabs__list {
   @apply overflow-x-auto;
   scrollbar-width: none; /* Firefox */
+  /* A tab scrolled into view (keyboard or click) stops clear of the 3rem
+     edge fade instead of ending under it (A11Y-FINAL-22). */
+  scroll-padding-inline: 3rem;
+}
+
+.tabs--vertical .tabs__list-wrapper--scrollable .tabs__list {
+  scroll-padding-inline: 0;
+  scroll-padding-block: 3rem;
 }
 
 .tabs__list-wrapper--scrollable .tabs__list::-webkit-scrollbar {
