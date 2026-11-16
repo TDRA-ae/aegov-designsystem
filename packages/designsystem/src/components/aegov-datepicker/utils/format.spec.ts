@@ -108,6 +108,31 @@ describe('format utils', () => {
       expect(result.start).toBeNull();
       expect(result.end).toBeNull();
     });
+
+    // GitHub #60: formats that use "/" themselves.
+    it('should parse a range when the format contains "/"', () => {
+      const result = parseRangeValue('14/11/2026 / 20/11/2026', 'DD/MM/YYYY');
+      expect([result.start?.getDate(), result.start?.getMonth(), result.end?.getDate(), result.end?.getMonth()]).toEqual([14, 10, 20, 10]);
+    });
+
+    it('should round-trip formatRangeValue for formats with "/"', () => {
+      for (const format of ['DD/MM/YYYY', 'MM/DD/YYYY', 'D/M/YY', 'YYYY/MM/DD']) {
+        const value = formatRangeValue(new Date(2026, 10, 4), new Date(2026, 11, 25), format);
+        const { start, end } = parseRangeValue(value, format);
+        expect([format, start?.toDateString(), end?.toDateString()]).toEqual([format, new Date(2026, 10, 4).toDateString(), new Date(2026, 11, 25).toDateString()]);
+      }
+    });
+
+    it('should still read a range written without spaces', () => {
+      const result = parseRangeValue('2026-03-01/2026-03-15', 'YYYY-MM-DD');
+      expect([result.start?.getDate(), result.end?.getDate()]).toEqual([1, 15]);
+    });
+
+    it('should keep the start when only the start is given', () => {
+      const result = parseRangeValue('14/11/2026 / ', 'DD/MM/YYYY');
+      expect(result.start?.getDate()).toBe(14);
+      expect(result.end).toBeNull();
+    });
   });
 
   describe('formatRangeValue', () => {
