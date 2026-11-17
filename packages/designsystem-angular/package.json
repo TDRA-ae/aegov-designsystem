@@ -33,6 +33,5 @@
     "prettier": "^3.8.1",
     "typescript": "~6.0.2",
     "vitest": "^4.0.8"
-  },
-  "gitHead": "cb9cbea55adbeb993074c9b61ca6b19c49a7abc1"
+  }
 }
