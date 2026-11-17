@@ -12,6 +12,13 @@ describe('aegov-header', () => {
     document.documentElement.removeAttribute('dir');
   });
 
+  // mock-doc resets the document between pages without firing
+  // disconnectedCallback, so a previous test's embedded banner would still
+  // hold aegov-header-banner's one-per-page slot. Remove headers properly.
+  afterEach(() => {
+    document.querySelectorAll('aegov-header').forEach((el) => el.remove());
+  });
+
   it('renders ministry variant by default', async () => {
     const page = await newSpecPage({
       components: COMPONENTS,
@@ -209,6 +216,7 @@ describe('aegov-header', () => {
       });
       const header = page.root.shadowRoot.querySelector('header');
       expect(header.className).toContain(`header--collapse-${bp}`);
+      page.root.remove(); // free the one-per-page banner slot for the next page
     }
   });
 

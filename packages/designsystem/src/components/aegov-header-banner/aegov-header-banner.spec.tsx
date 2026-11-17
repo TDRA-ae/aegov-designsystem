@@ -1,9 +1,20 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { AegovHeaderBanner } from './aegov-header-banner';
+import { AegovHeader } from '../aegov-header/aegov-header';
+import { AegovDrawer } from '../aegov-drawer/aegov-drawer';
+import { AegovButton } from '../aegov-button/aegov-button';
 
 describe('aegov-header-banner', () => {
   beforeEach(() => {
     document.querySelectorAll('.aegov-skip-content').forEach((el) => el.remove());
+  });
+
+  // mock-doc resets the document between pages by truncating body.childNodes,
+  // which never fires disconnectedCallback and leaves old nodes reporting
+  // isConnected. Remove banners properly so a previous test's banner cannot
+  // hold the one-per-page slot.
+  afterEach(() => {
+    document.querySelectorAll('aegov-header, aegov-header-banner').forEach((el) => el.remove());
   });
 
   it('renders error block when entity-name is missing', async () => {
@@ -99,5 +110,57 @@ describe('aegov-header-banner', () => {
       html: `<aegov-header-banner entity-name="N" entity-domain="https://x.gov.ae"></aegov-header-banner>`,
     });
     expect(page.root.shadowRoot).not.toBeNull();
+  });
+
+  describe('one banner per page', () => {
+    let errorSpy: jest.SpyInstance;
+    beforeEach(() => {
+      errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    });
+    afterEach(() => { errorSpy.mockRestore(); });
+
+    const html = (extra = '') =>
+      `<aegov-header-banner id="a" entity-name="A" entity-domain="https://a.gov.ae" ${extra}></aegov-header-banner>` +
+      `<aegov-header-banner id="b" entity-name="B" entity-domain="https://b.gov.ae" ${extra}></aegov-header-banner>`;
+
+    it('renders the first banner and an error block for the second', async () => {
+      const page = await newSpecPage({ components: [AegovHeaderBanner], html: html() });
+      const first = page.body.querySelector('#a');
+      const second = page.body.querySelector('#b');
+      expect(first.shadowRoot.querySelector('.header__top')).not.toBeNull();
+      expect(first.shadowRoot.querySelector('.aegov-header-banner--error')).toBeNull();
+      expect(second.shadowRoot.querySelector('.header__top')).toBeNull();
+      expect(second.shadowRoot.querySelector('.aegov-header-banner--error')).not.toBeNull();
+      expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('Only one aegov-header-banner is allowed per page'), second);
+      expect(errorSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('keeps the banner inside aegov-header and rejects a standalone one, whichever connects first', async () => {
+      const page = await newSpecPage({
+        components: [AegovHeaderBanner, AegovHeader, AegovDrawer, AegovButton],
+        html:
+          `<aegov-header-banner id="standalone" entity-name="S" entity-domain="https://s.gov.ae"></aegov-header-banner>` +
+          `<aegov-header entity-name="H" entity-domain="https://h.gov.ae"><div slot="mobile-content">m</div></aegov-header>`,
+      });
+      const embedded = page.body.querySelector('aegov-header').shadowRoot.querySelector('aegov-header-banner');
+      const standalone = page.body.querySelector('#standalone');
+      expect(embedded.shadowRoot.querySelector('.header__top')).not.toBeNull();
+      expect(standalone.shadowRoot.querySelector('.aegov-header-banner--error')).not.toBeNull();
+      expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('Only one aegov-header-banner is allowed per page'), standalone);
+    });
+
+    it('injects only one skip link', async () => {
+      const page = await newSpecPage({ components: [AegovHeaderBanner], html: html('skip-content-container="#main"') });
+      expect(page.doc.querySelectorAll('.aegov-skip-content').length).toBe(1);
+    });
+
+    it('promotes the duplicate when the original banner is removed', async () => {
+      const page = await newSpecPage({ components: [AegovHeaderBanner], html: html() });
+      page.body.querySelector('#a').remove();
+      await page.waitForChanges();
+      const second = page.body.querySelector('#b');
+      expect(second.shadowRoot.querySelector('.header__top')).not.toBeNull();
+      expect(second.shadowRoot.querySelector('.aegov-header-banner--error')).toBeNull();
+    });
   });
 });

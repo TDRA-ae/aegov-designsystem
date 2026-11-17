@@ -1,7 +1,38 @@
 import { Component, Element, Listen, Prop, State, Watch, h } from '@stencil/core';
 import { getFocusableElements, handleTabKeyWrap } from '../../utils/focus-management';
-import { isRtl } from '../../utils/rtl';
+import { isRtl, observeDir } from '../../utils/rtl';
 import { getUaeEmblem } from '../../utils/icons';
+
+/**
+ * Every connected banner, in connection order. A page may carry only one: the
+ * first to connect renders, and any later one renders an error block instead.
+ * Note `aegov-header` embeds a banner of its own, so a standalone banner next
+ * to it counts as a second one.
+ */
+const connectedBanners: AegovHeaderBanner[] = [];
+
+const DUPLICATE_MESSAGE =
+  '[aegov-header-banner] Only one aegov-header-banner is allowed per page. ' +
+  'aegov-header already renders one, so do not add a standalone banner next to it. ' +
+  'This banner will not render.';
+
+function syncBannerOwnership() {
+  // Drop banners detached without a disconnectedCallback (e.g. a test harness
+  // wiping the document) so they cannot hold the slot forever.
+  for (let i = connectedBanners.length - 1; i >= 0; i--) {
+    if (!connectedBanners[i].el.isConnected) connectedBanners.splice(i, 1);
+  }
+  // A banner rendered by aegov-header always wins over a standalone one. It
+  // connects later (only once the header has rendered), so connection order
+  // alone would keep the stray standalone banner and blank the header's.
+  const owner = connectedBanners.find(isEmbeddedInHeader) ?? connectedBanners[0];
+  connectedBanners.forEach((banner) => banner.setDuplicate(banner !== owner));
+}
+
+function isEmbeddedInHeader(banner: AegovHeaderBanner): boolean {
+  const root = banner.el.getRootNode() as ShadowRoot;
+  return root?.host?.tagName === 'AEGOV-HEADER';
+}
 
 @Component({
   tag: 'aegov-header-banner',
@@ -23,6 +54,17 @@ export class AegovHeaderBanner {
   @Prop() skipContentContainer: string;
 
   @State() headerExpanded: boolean = false;
+
+  /** True when another banner was already on the page; this one then renders an error block. */
+  @State() isDuplicate: boolean = false;
+
+  /**
+   * Resolved text direction. Kept in state, and refreshed by a `dir` observer,
+   * so the copy switches language when `dir` changes after first render.
+   */
+  @State() isRtlDir: boolean = false;
+
+  private stopDirWatch?: () => void;
 
   private actionsSlotEl: HTMLSlotElement;
   private actionsDefaultEl: HTMLElement;
@@ -63,13 +105,54 @@ export class AegovHeaderBanner {
   private secureTextAr = 'يشير القفل و https:// إلى اتصال مشفّر عبر SSL. يمكنك بثقة مشاركة المعلومات الحساسة هنا.';
 
   connectedCallback() {
-    if (this.skipContentContainer) {
+    this.syncDir();
+    this.stopDirWatch?.();
+    this.stopDirWatch = observeDir(this.syncDir);
+    if (!connectedBanners.includes(this)) connectedBanners.push(this);
+    syncBannerOwnership();
+    if (!this.isDuplicate && this.skipContentContainer && !this.skipLinkEl) {
       this.createSkipLink();
     }
   }
 
   disconnectedCallback() {
+    this.stopDirWatch?.();
+    this.stopDirWatch = undefined;
     this.skipLinkEl?.remove();
+    this.skipLinkEl = undefined;
+    const index = connectedBanners.indexOf(this);
+    if (index !== -1) connectedBanners.splice(index, 1);
+    // A duplicate waiting behind this banner takes over.
+    syncBannerOwnership();
+  }
+
+  /**
+   * Called by the page-level registry. Not a @Method — it has to run
+   * synchronously during another banner's connect/disconnect.
+   * @internal
+   */
+  setDuplicate(isDuplicate: boolean) {
+    if (isDuplicate === this.isDuplicate) return;
+    this.isDuplicate = isDuplicate;
+    if (isDuplicate) {
+      console.error(DUPLICATE_MESSAGE, this.el);
+      this.headerExpanded = false;
+      this.skipLinkEl?.remove();
+      this.skipLinkEl = undefined;
+    } else if (this.skipContentContainer && !this.skipLinkEl && this.el.isConnected) {
+      // Promoted after the original banner was removed.
+      this.createSkipLink();
+    }
+  }
+
+  private syncDir = () => {
+    this.isRtlDir = isRtl(this.el);
+    // The skip link lives outside the shadow root, so render() never touches it.
+    if (this.skipLinkEl) this.skipLinkEl.textContent = this.skipLinkText();
+  };
+
+  private skipLinkText(): string {
+    return this.isRtlDir ? 'تخطي إلى المحتوى' : 'Skip to content';
   }
 
   private createSkipLink() {
@@ -77,7 +160,7 @@ export class AegovHeaderBanner {
     const link = document.createElement('a');
     link.href = skipTarget;
     link.className = 'aegov-skip-content';
-    link.textContent = this.isRtl() ? 'تخطي إلى المحتوى' : 'Skip to content';
+    link.textContent = this.skipLinkText();
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const target = document.querySelector(skipTarget) as HTMLElement;
@@ -143,10 +226,18 @@ export class AegovHeaderBanner {
   };
 
   private isRtl(): boolean {
-    return isRtl(this.el);
+    return this.isRtlDir;
   }
 
   render() {
+    if (this.isDuplicate) {
+      return (
+        <div class="aegov-header-banner aegov-header-banner--error" role="alert">
+          <p>Error: only one <code>aegov-header-banner</code> is allowed per page. <code>aegov-header</code> already includes one.</p>
+        </div>
+      );
+    }
+
     if (!this.entityName || !this.entityDomain) {
       return (
         <div class="aegov-header-banner aegov-header-banner--error">

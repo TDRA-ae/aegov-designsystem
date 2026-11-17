@@ -2,7 +2,7 @@ import { Component, Element, Event, EventEmitter, Host, Method, Prop, State, Wat
 import { HEADER_VARIANTS, HEADER_COLLAPSE_BREAKPOINTS, HEADER_EMBLEM_COLORS, DRAWER_SIZES } from '../../utils/types';
 import type { HeaderVariant, HeaderCollapseBreakpoint, HeaderEmblemColor, DrawerSize } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
-import { isRtl } from '../../utils/rtl';
+import { isRtl, observeDir } from '../../utils/rtl';
 import { readBreakpointPx } from '../../utils/responsive-prop';
 import { generateId } from '../../utils/id-generator';
 import { getUaeEmblem } from '../../utils/icons';
@@ -137,7 +137,7 @@ export class AegovHeader {
   private drawerEl?: HTMLAegovDrawerElement;
   private menuButtonEl?: HTMLAegovButtonElement;
   private desktopMql?: MediaQueryList;
-  private dirObservers: MutationObserver[] = [];
+  private stopDirWatch?: () => void;
   private bannerEl?: HTMLElement;
   private brandRowEl?: HTMLElement;
   private navRowEl?: HTMLElement;
@@ -182,8 +182,8 @@ export class AegovHeader {
   disconnectedCallback() {
     this.desktopMql?.removeEventListener('change', this.handleDesktopChange);
     this.desktopMql = undefined;
-    this.dirObservers.forEach((o) => o.disconnect());
-    this.dirObservers = [];
+    this.stopDirWatch?.();
+    this.stopDirWatch = undefined;
     this.unwatchSticky();
   }
 
@@ -277,18 +277,8 @@ export class AegovHeader {
    * recomputed whenever the effective direction changes.
    */
   private watchDir() {
-    if (typeof MutationObserver === 'undefined') return;
-    const targets: Element[] = [];
-    const closestDir = this.el.closest('[dir]');
-    if (closestDir) targets.push(closestDir);
-    if (typeof document !== 'undefined' && document.documentElement && !targets.includes(document.documentElement)) {
-      targets.push(document.documentElement);
-    }
-    targets.forEach((target) => {
-      const observer = new MutationObserver(this.syncDir);
-      observer.observe(target, { attributes: true, attributeFilter: ['dir'] });
-      this.dirObservers.push(observer);
-    });
+    this.stopDirWatch?.();
+    this.stopDirWatch = observeDir(this.syncDir);
   }
 
   /**
