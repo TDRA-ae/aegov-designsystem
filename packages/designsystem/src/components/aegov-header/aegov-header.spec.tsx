@@ -516,4 +516,107 @@ describe('aegov-header', () => {
     });
     expect(page.root.shadowRoot).not.toBeNull();
   });
+  describe('gsr-stars (Global Star Rating badge)', () => {
+    // The badge artwork arrives through a dynamic import; let it resolve.
+    const settle = async (page) => {
+      await new Promise((r) => setTimeout(r, 0));
+      await page.waitForChanges();
+    };
+    const badge = (page) => page.root.shadowRoot.querySelector('.header__gsr');
+    const badgeImg = (page) => page.root.shadowRoot.querySelector('.header__gsr-img') as HTMLImageElement;
+    const decoded = (img: HTMLImageElement) => decodeURIComponent(img.getAttribute('src').replace(/^data:image\/svg\+xml;charset=utf-8,/, ''));
+    const html = (attrs: string) => `<aegov-header entity-name="N" entity-domain="https://x.gov.ae" ${attrs}><div slot="mobile-content">m</div></aegov-header>`;
+
+    it('shows no badge by default', async () => {
+      const page = await newSpecPage({ components: COMPONENTS, html: html('') });
+      await settle(page);
+      expect(badge(page)).toBeNull();
+    });
+
+    it('shows no badge for gsr-stars="0"', async () => {
+      const page = await newSpecPage({ components: COMPONENTS, html: html('gsr-stars="0"') });
+      await settle(page);
+      expect(badge(page)).toBeNull();
+    });
+
+    it.each([1, 2, 3, 4, 5])('renders the %i-star badge with that many stars', async (n) => {
+      const page = await newSpecPage({ components: COMPONENTS, html: html(`gsr-stars="${n}"`) });
+      await settle(page);
+      const img = badgeImg(page);
+      expect(img).not.toBeNull();
+      expect(img.getAttribute('src')).toMatch(/^data:image\/svg\+xml;charset=utf-8,/);
+      expect(img.getAttribute('width')).toBe('912');
+      expect(img.getAttribute('height')).toBe('964');
+      expect((decoded(img).match(/<use href="#gold-star"/g) || []).length).toBe(n);
+    });
+
+    it('lays out five stars in two rows and fewer in one', async () => {
+      const five = await newSpecPage({ components: COMPONENTS, html: html('gsr-stars="5"') });
+      await settle(five);
+      const rowsOf = (svg: string) => new Set([...svg.matchAll(/translate\([\d.]+ ([\d.]+)\)"\/>/g)].map((m) => m[1])).size;
+      expect(rowsOf(decoded(badgeImg(five)))).toBe(2);
+      const four = await newSpecPage({ components: COMPONENTS, html: html('gsr-stars="4"') });
+      await settle(four);
+      expect(rowsOf(decoded(badgeImg(four)))).toBe(1);
+    });
+
+    it('names the rating in English, singular for one star', async () => {
+      const one = await newSpecPage({ components: COMPONENTS, html: html('gsr-stars="1"') });
+      await settle(one);
+      expect(badgeImg(one).getAttribute('alt')).toBe('Global Star Rating System for Services: 1 star');
+      const four = await newSpecPage({ components: COMPONENTS, html: html('gsr-stars="4"') });
+      await settle(four);
+      expect(badgeImg(four).getAttribute('alt')).toBe('Global Star Rating System for Services: 4 stars');
+    });
+
+    it('names the rating in Arabic under dir="rtl", with Arabic number agreement', async () => {
+      const cases: Array<[number, string]> = [
+        [1, 'نظام النجوم العالمي لتصنيف الخدمات: نجمة واحدة'],
+        [2, 'نظام النجوم العالمي لتصنيف الخدمات: نجمتان'],
+        [3, 'نظام النجوم العالمي لتصنيف الخدمات: 3 نجوم'],
+      ];
+      for (const [n, alt] of cases) {
+        const page = await newSpecPage({ components: COMPONENTS, html: `<div dir="rtl">${html(`gsr-stars="${n}"`)}</div>` });
+        await settle(page);
+        expect(page.body.querySelector('aegov-header').shadowRoot.querySelector('.header__gsr-img').getAttribute('alt')).toBe(alt);
+        page.body.querySelector('aegov-header').remove();
+      }
+    });
+
+    it('places the badge beside the logo, outside the logo link', async () => {
+      const page = await newSpecPage({ components: COMPONENTS, html: html('gsr-stars="3"') });
+      await settle(page);
+      const start = page.root.shadowRoot.querySelector('.header__brand-start');
+      expect(start.children[0].classList.contains('header__logo')).toBe(true);
+      expect(start.children[1].classList.contains('header__gsr')).toBe(true);
+      expect(page.root.shadowRoot.querySelector('.header__logo .header__gsr')).toBeNull();
+    });
+
+    it('falls back to no badge on an invalid value and warns', async () => {
+      const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      for (const v of ['7', '-1', '2.5', 'four']) {
+        const page = await newSpecPage({ components: COMPONENTS, html: html(`gsr-stars="${v}"`) });
+        await settle(page);
+        expect(badge(page)).toBeNull();
+        page.root.remove();
+      }
+      expect(warn.mock.calls.filter((c) => String(c[0]).includes('"gsrStars"')).length).toBe(4);
+      warn.mockRestore();
+    });
+
+    it('adds, changes and removes the badge when gsrStars changes at runtime', async () => {
+      const page = await newSpecPage({ components: COMPONENTS, html: html('') });
+      await settle(page);
+      expect(badge(page)).toBeNull();
+      page.root.gsrStars = 2;
+      await settle(page);
+      expect((decoded(badgeImg(page)).match(/<use /g) || []).length).toBe(2);
+      page.root.gsrStars = 5;
+      await settle(page);
+      expect((decoded(badgeImg(page)).match(/<use /g) || []).length).toBe(5);
+      page.root.gsrStars = 0;
+      await settle(page);
+      expect(badge(page)).toBeNull();
+    });
+  });
 });

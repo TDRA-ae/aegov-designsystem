@@ -454,6 +454,7 @@ export const AegovHeader: StencilVueComponent<JSX.AegovHeader> = /*@__PURE__*/ d
   'collapseAt',
   'drawerSize',
   'emblemColor',
+  'gsrStars',
   'isSticky',
   'aegovHeaderMenuOpen',
   'aegovHeaderMenuClose',

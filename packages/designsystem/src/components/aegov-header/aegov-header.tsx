@@ -1,6 +1,7 @@
-import { Component, Element, Event, EventEmitter, Host, Method, Prop, State, Watch, h } from '@stencil/core';
-import { HEADER_VARIANTS, HEADER_COLLAPSE_BREAKPOINTS, HEADER_EMBLEM_COLORS, DRAWER_SIZES } from '../../utils/types';
-import type { HeaderVariant, HeaderCollapseBreakpoint, HeaderEmblemColor, DrawerSize } from '../../utils/types';
+import { Build, Component, Element, Event, EventEmitter, Host, Method, Prop, State, Watch, h } from '@stencil/core';
+import { HEADER_VARIANTS, HEADER_COLLAPSE_BREAKPOINTS, HEADER_EMBLEM_COLORS, HEADER_GSR_STARS, DRAWER_SIZES } from '../../utils/types';
+import type { HeaderVariant, HeaderCollapseBreakpoint, HeaderEmblemColor, HeaderGsrStars, DrawerSize } from '../../utils/types';
+import { GSR_BADGE_WIDTH, GSR_BADGE_HEIGHT } from './gsr-badge-size';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { isRtl, observeDir } from '../../utils/rtl';
 import { readBreakpointPx } from '../../utils/responsive-prop';
@@ -28,8 +29,17 @@ const EMBLEM_COLORS: Record<HeaderEmblemColor, string> = {
 };
 
 const STRINGS = {
-  en: { menu: 'Menu', close: 'Close menu' },
-  ar: { menu: 'القائمة', close: 'إغلاق القائمة' },
+  en: {
+    menu: 'Menu',
+    close: 'Close menu',
+    gsr: (n: number) => `Global Star Rating System for Services: ${n} ${n === 1 ? 'star' : 'stars'}`,
+  },
+  ar: {
+    menu: 'القائمة',
+    close: 'إغلاق القائمة',
+    // Arabic number agreement: 1 = singular, 2 = dual, 3–10 = plural.
+    gsr: (n: number) => `نظام النجوم العالمي لتصنيف الخدمات: ${n === 1 ? 'نجمة واحدة' : n === 2 ? 'نجمتان' : `${n} نجوم`}`,
+  },
 };
 
 /**
@@ -93,6 +103,16 @@ export class AegovHeader {
   @Prop() emblemColor: HeaderEmblemColor = 'aeblack';
 
   /**
+   * Number of stars the entity holds in the Global Star Rating System for
+   * Services: `0`–`5`. `0` (default) shows no badge. Any other value shows the
+   * official badge next to the logo, vertically centred on it, with an
+   * accessible name that states the rating. Its height follows the logo's,
+   * clamped to 50–80px. The badge artwork is loaded on demand, so headers
+   * without a rating download nothing extra.
+   */
+  @Prop() gsrStars: HeaderGsrStars = 0;
+
+  /**
    * Whether the main bar pins to the top of the viewport on scroll. The
    * `aegov-header-banner` above it scrolls away; once it has, the bar gains a
    * translucent blurred background and a shadow.
@@ -121,6 +141,9 @@ export class AegovHeader {
   /** Resolved text direction. Drives the drawer edge, which is a physical position. */
   @State() isRtlDir: boolean = false;
 
+  /** `data:` URI of the loaded Global Star Rating badge, once its chunk has arrived. */
+  @State() gsrBadgeSrc?: string;
+
   /** Emitted when the menu drawer has opened. */
   @Event() aegovHeaderMenuOpen: EventEmitter<void>;
 
@@ -143,6 +166,10 @@ export class AegovHeader {
   private navRowEl?: HTMLElement;
   private stuckObserver?: IntersectionObserver;
   private sizeObserver?: ResizeObserver;
+  /** Increments per badge request, so a slow load cannot overwrite a newer star count. */
+  private gsrRequest = 0;
+  private logoSlotEl?: HTMLSlotElement;
+  private logoSizeObserver?: ResizeObserver;
 
   /** Open the menu drawer. */
   @Method()
@@ -167,7 +194,11 @@ export class AegovHeader {
     warnIfInvalidEnumProp(this.collapseAt, HEADER_COLLAPSE_BREAKPOINTS, 'lg', ctx('collapseAt'));
     warnIfInvalidEnumProp(this.drawerSize, DRAWER_SIZES, 'base', ctx('drawerSize'));
     warnIfInvalidEnumProp(this.emblemColor, HEADER_EMBLEM_COLORS, 'aeblack', ctx('emblemColor'));
+    this.warnIfInvalidGsrStars(this.gsrStars);
     this.syncDir();
+    // Not awaited: the header renders immediately and the badge fills its
+    // reserved box when the artwork chunk arrives.
+    this.loadGsrBadge();
   }
 
   componentDidLoad() {
@@ -177,9 +208,11 @@ export class AegovHeader {
     this.watchDesktopBreakpoint();
     this.watchDir();
     this.watchSticky();
+    this.watchLogoSize();
   }
 
   disconnectedCallback() {
+    this.unwatchLogoSize();
     this.desktopMql?.removeEventListener('change', this.handleDesktopChange);
     this.desktopMql = undefined;
     this.stopDirWatch?.();
@@ -198,6 +231,12 @@ export class AegovHeader {
 
   @Watch('emblemColor')
   onEmblemColorChange(v: unknown) { warnIfInvalidEnumProp(v, HEADER_EMBLEM_COLORS, 'aeblack', ctx('emblemColor')); }
+
+  @Watch('gsrStars')
+  onGsrStarsChange(v: unknown) {
+    this.warnIfInvalidGsrStars(v);
+    this.loadGsrBadge();
+  }
 
   @Watch('isSticky')
   onIsStickyChange(isSticky: boolean) {
@@ -218,6 +257,77 @@ export class AegovHeader {
     // Re-arm the media query so the drawer still auto-closes at the new width.
     this.watchDesktopBreakpoint();
   }
+
+  /**
+   * `gsr-stars` is numeric, so the string-based enum validator does not apply.
+   * Accepts numbers and numeric strings (the attribute arrives as a string).
+   */
+  private resolvedGsrStars(): HeaderGsrStars {
+    const n = Number(this.gsrStars);
+    return (HEADER_GSR_STARS as readonly number[]).includes(n) ? (n as HeaderGsrStars) : 0;
+  }
+
+  private warnIfInvalidGsrStars(v: unknown) {
+    if (!Build.isDev || v === undefined || v === null || v === '') return;
+    if (!(HEADER_GSR_STARS as readonly number[]).includes(Number(v))) {
+      console.warn(`[aegov-header] Invalid value ${JSON.stringify(v)} for prop "gsrStars". Expected one of: ${HEADER_GSR_STARS.join(', ')}. Falling back to 0 (no badge).`);
+    }
+  }
+
+  /**
+   * The artwork (~40KB) lives in its own module and is imported on demand, so
+   * only headers that show a rating fetch it.
+   */
+  private async loadGsrBadge() {
+    const stars = this.resolvedGsrStars();
+    const request = ++this.gsrRequest;
+    if (stars === 0) {
+      this.gsrBadgeSrc = undefined;
+      return;
+    }
+    const { getGsrBadgeSvg } = await import('./gsr-badge');
+    if (request !== this.gsrRequest) return;
+    this.gsrBadgeSrc = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(getGsrBadgeSvg(stars))}`;
+  }
+
+  /**
+   * The badge takes its height from the logo (clamped in CSS to 50–80px), so
+   * the slotted logo is measured and published as
+   * `--aegov-header-gsr-logo-height` on the host. CSS cannot read a sibling's
+   * height, and a ResizeObserver also follows logos that change size per
+   * breakpoint or finish loading late.
+   */
+  private watchLogoSize() {
+    this.logoSlotEl = this.el.shadowRoot?.querySelector('slot[name="logo"]') as HTMLSlotElement;
+    if (!this.logoSlotEl) return;
+    this.logoSlotEl.addEventListener('slotchange', this.observeLogo);
+    this.observeLogo();
+  }
+
+  private unwatchLogoSize() {
+    this.logoSlotEl?.removeEventListener('slotchange', this.observeLogo);
+    this.logoSlotEl = undefined;
+    this.logoSizeObserver?.disconnect();
+    this.logoSizeObserver = undefined;
+  }
+
+  private observeLogo = () => {
+    this.logoSizeObserver?.disconnect();
+    const logo = this.logoSlotEl?.assignedElements?.({ flatten: true })[0] as HTMLElement | undefined;
+    if (!logo) {
+      this.el.style.removeProperty('--aegov-header-gsr-logo-height');
+      return;
+    }
+    const publish = () => {
+      const h = logo.getBoundingClientRect().height;
+      if (h > 0) this.el.style.setProperty('--aegov-header-gsr-logo-height', `${h}px`);
+    };
+    publish();
+    if (typeof ResizeObserver !== 'undefined') {
+      this.logoSizeObserver = new ResizeObserver(publish);
+      this.logoSizeObserver.observe(logo);
+    }
+  };
 
   private warnIfLogoUnlabelled() {
     if (this.logoLabel) return;
@@ -387,6 +497,7 @@ export class AegovHeader {
     const menuLabel = this.labelMenu || strings.menu;
     const closeLabel = this.labelMenuClose || strings.close;
     const drawerPosition = this.isRtlDir ? 'left' : 'right';
+    const gsrStars = this.resolvedGsrStars();
 
     return (
       <Host class={{
@@ -403,14 +514,35 @@ export class AegovHeader {
           <slot name="actions" slot="actions" />
         </aegov-header-banner>
 
-        {/* Brand row: logo at the inline start; search (ministry) or the emblem
-            (authority) at the inline end, both replaced by the menu toggle
-            below the collapse breakpoint. */}
+        {/* Brand row: logo (plus the Global Star Rating badge when gsrStars > 0)
+            at the inline start; search (ministry) or the emblem (authority) at
+            the inline end, both replaced by the menu toggle below the collapse
+            breakpoint. */}
         <div class="header__brand-row" ref={(el) => this.brandRowEl = el}>
           <div class="aegov-container header__brand-bar">
-            <a class="header__logo" href={this.entityDomain} aria-label={this.logoLabel || undefined}>
-              <slot name="logo" />
-            </a>
+            <div class="header__brand-start">
+              <a class="header__logo" href={this.entityDomain} aria-label={this.logoLabel || undefined}>
+                <slot name="logo" />
+              </a>
+              {/* Global Star Rating badge: beside the logo, never inside its
+                  link, vertically centred on it. Height follows the logo,
+                  clamped to 50–80px. The box is sized before the artwork
+                  arrives, so loading it causes no layout shift. */}
+              {gsrStars > 0 && (
+                <span class="header__gsr">
+                  {this.gsrBadgeSrc && (
+                    <img
+                      class="header__gsr-img"
+                      src={this.gsrBadgeSrc}
+                      alt={strings.gsr(gsrStars)}
+                      width={GSR_BADGE_WIDTH}
+                      height={GSR_BADGE_HEIGHT}
+                      decoding="async"
+                    />
+                  )}
+                </span>
+              )}
+            </div>
             <div class="header__brand-end">
               {variant === 'authority' ? (
                 <div class="header__emblem" style={{ '--aegov-emblem-fill': EMBLEM_COLORS[this.emblemColor] ?? EMBLEM_COLORS.aeblack }}>

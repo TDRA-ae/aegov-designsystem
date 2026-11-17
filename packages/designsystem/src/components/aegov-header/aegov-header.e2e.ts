@@ -1019,4 +1019,132 @@ describe('aegov-header e2e', () => {
     });
     expect(isOpen).toBe(false);
   });
+  describe('gsr-stars (Global Star Rating badge)', () => {
+    // A 400x100 logo; `style` lets a test pin its rendered height, otherwise the
+    // header's own ::slotted sizing applies (48px / 64px at lg / 72px at xl).
+    const logo = (style = '') => `<img slot="logo" src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22100%22/%3E" alt="Entity" ${style ? `style="${style}"` : ''} />`;
+    const markup = (attrs: string, { dir = 'ltr', logoStyle = '' } = {}) => `
+      <div dir="${dir}">
+        <aegov-header entity-name="N" entity-domain="https://x.gov.ae" ${attrs}>
+          ${logo(logoStyle)}
+          <nav slot="mobile-content" aria-label="Mobile"><a href="#a">A</a></nav>
+        </aegov-header>
+      </div>`;
+    const waitForBadge = (page) => page.waitForFunction(() => {
+      const img = document.querySelector('aegov-header').shadowRoot.querySelector('.header__gsr-img') as HTMLImageElement;
+      return !!img && img.complete && img.naturalWidth > 0;
+    });
+    const settle = async (page) => { await page.waitForChanges(); await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))); };
+    const rects = (page) => page.evaluate(() => {
+      const box = (el: Element) => { const b = el.getBoundingClientRect(); return { left: b.left, right: b.right, top: b.top, width: b.width, height: b.height, cy: b.top + b.height / 2 }; };
+      const host = document.querySelector('aegov-header');
+      return { logo: box(host.querySelector('img[slot="logo"]')), gsr: box(host.shadowRoot.querySelector('.header__gsr')) };
+    });
+
+    it('loads the badge after the logo on the inline end, centred on it (LTR)', async () => {
+      const page = await newE2EPage();
+      await page.setViewport({ width: 1280, height: 800 });
+      await page.setContent(markup('gsr-stars="4"', { logoStyle: 'height:64px;width:auto' }));
+      await waitForBadge(page); await settle(page);
+      const { logo, gsr } = await rects(page);
+      expect(gsr.left).toBeGreaterThan(logo.right);
+      expect(gsr.height).toBeCloseTo(64, 0);
+      expect(gsr.width).toBeCloseTo(64 * 912 / 964, 0);
+      expect(Math.abs(gsr.cy - logo.cy)).toBeLessThan(1);
+    });
+
+    it('mirrors under dir="rtl": the badge sits to the left of the logo', async () => {
+      const page = await newE2EPage();
+      await page.setViewport({ width: 1280, height: 800 });
+      await page.setContent(markup('gsr-stars="3"', { dir: 'rtl', logoStyle: 'height:64px;width:auto' }));
+      await waitForBadge(page); await settle(page);
+      const { logo, gsr } = await rects(page);
+      expect(gsr.right).toBeLessThan(logo.left);
+      expect(Math.abs(gsr.cy - logo.cy)).toBeLessThan(1);
+    });
+
+    it('never grows past 80px, however tall the logo', async () => {
+      const page = await newE2EPage();
+      await page.setViewport({ width: 1280, height: 800 });
+      await page.setContent(markup('gsr-stars="5"', { logoStyle: 'height:120px;width:auto;max-width:none' }));
+      await waitForBadge(page); await settle(page);
+      const { logo, gsr } = await rects(page);
+      expect(gsr.height).toBeCloseTo(80, 0);
+      expect(Math.abs(gsr.cy - logo.cy)).toBeLessThan(1);
+    });
+
+    it('never shrinks under 50px, however short the logo', async () => {
+      const page = await newE2EPage();
+      await page.setViewport({ width: 1280, height: 800 });
+      await page.setContent(markup('gsr-stars="5"', { logoStyle: 'height:30px;width:auto' }));
+      await waitForBadge(page); await settle(page);
+      expect((await rects(page)).gsr.height).toBeCloseTo(50, 0);
+    });
+
+    it('follows the default logo size per breakpoint: 50px on phones, 64px at lg, 72px at xl', async () => {
+      const page = await newE2EPage();
+      await page.setViewport({ width: 375, height: 800 });
+      await page.setContent(markup('gsr-stars="5"'));
+      await waitForBadge(page); await settle(page);
+      let r = await rects(page);
+      expect(r.logo.height).toBeCloseTo(48, 0);
+      expect(r.gsr.height).toBeCloseTo(50, 0);
+      await page.setViewport({ width: 1100, height: 800 }); await settle(page);
+      r = await rects(page);
+      expect(r.logo.height).toBeCloseTo(64, 0);
+      expect(r.gsr.height).toBeCloseTo(64, 0);
+      await page.setViewport({ width: 1400, height: 800 }); await settle(page);
+      r = await rects(page);
+      expect(r.logo.height).toBeCloseTo(72, 0);
+      expect(r.gsr.height).toBeCloseTo(72, 0);
+    });
+
+    it('keeps 16px between logo and badge on phones, 20px from md and 24px from lg', async () => {
+      const page = await newE2EPage();
+      await page.setViewport({ width: 375, height: 800 });
+      await page.setContent(markup('gsr-stars="2"'));
+      await waitForBadge(page); await settle(page);
+      const gap = async () => { const r = await rects(page); return r.gsr.left - r.logo.right; };
+      expect(await gap()).toBeCloseTo(16, 0);
+      await page.setViewport({ width: 800, height: 800 }); await settle(page);
+      expect(await gap()).toBeCloseTo(20, 0);
+      await page.setViewport({ width: 1280, height: 800 }); await settle(page);
+      expect(await gap()).toBeCloseTo(24, 0);
+    });
+
+    it('resizes with the logo at runtime', async () => {
+      const page = await newE2EPage();
+      await page.setViewport({ width: 1280, height: 800 });
+      await page.setContent(markup('gsr-stars="3"', { logoStyle: 'height:40px;width:auto' }));
+      await waitForBadge(page); await settle(page);
+      expect((await rects(page)).gsr.height).toBeCloseTo(50, 0);
+      await page.$eval('aegov-header img[slot="logo"]', (el: HTMLElement) => { el.style.height = '60px'; });
+      await settle(page);
+      expect((await rects(page)).gsr.height).toBeCloseTo(60, 0);
+      await page.$eval('aegov-header img[slot="logo"]', (el: HTMLElement) => { el.style.height = '100px'; el.style.maxWidth = 'none'; });
+      await settle(page);
+      expect((await rects(page)).gsr.height).toBeCloseTo(80, 0);
+    });
+
+    it('does not cause horizontal overflow at 320px', async () => {
+      const page = await newE2EPage();
+      await page.setViewport({ width: 320, height: 700 });
+      await page.setContent(markup('gsr-stars="5" variant="authority"'));
+      await waitForBadge(page); await settle(page);
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      expect(overflow).toBeLessThanOrEqual(0);
+    });
+
+    it('fetches the badge artwork only when a rating is set', async () => {
+      const page = await newE2EPage();
+      const urls: string[] = [];
+      page.on('request', (req) => urls.push(req.url()));
+      await page.setContent(markup(''));
+      await page.waitForChanges();
+      expect(urls.filter((u) => /gsr-badge/.test(u))).toEqual([]);
+      await page.$eval('aegov-header', (el: any) => { el.gsrStars = 2; });
+      await waitForBadge(page);
+      expect(urls.filter((u) => /gsr-badge/.test(u)).length).toBeGreaterThan(0);
+    });
+  });
 });
