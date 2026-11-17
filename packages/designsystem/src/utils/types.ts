@@ -665,6 +665,13 @@ export const HEADER_EMBLEM_COLORS = ['aeblack', 'aegold', 'whitely'] as const;
 export type HeaderEmblemColor = typeof HEADER_EMBLEM_COLORS[number];
 
 /**
+ * aegov-header Global Star Rating badge: number of stars, 0–5. `0` hides the
+ * badge.
+ */
+export const HEADER_GSR_STARS = [0, 1, 2, 3, 4, 5] as const;
+export type HeaderGsrStars = typeof HEADER_GSR_STARS[number];
+
+/**
  * Navbar component size types
  */
 export const NAVBAR_SIZES = ['sm', 'base', 'lg'] as const;

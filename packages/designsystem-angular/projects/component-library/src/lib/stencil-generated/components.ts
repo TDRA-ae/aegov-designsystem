@@ -1707,7 +1707,7 @@ export declare interface AegovFormField extends Components.AegovFormField {}
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovHeader,
-  inputs: ['collapseAt', 'drawerSize', 'emblemColor', 'entityDomain', 'entityName', 'isSticky', 'labelMenu', 'labelMenuClose', 'logoLabel', 'skipContentContainer', 'variant'],
+  inputs: ['collapseAt', 'drawerSize', 'emblemColor', 'entityDomain', 'entityName', 'gsrStars', 'isSticky', 'labelMenu', 'labelMenuClose', 'logoLabel', 'skipContentContainer', 'variant'],
   methods: ['openMenu', 'closeMenu', 'toggleMenu']
 })
 @Component({
@@ -1715,7 +1715,7 @@ export declare interface AegovFormField extends Components.AegovFormField {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['collapseAt', 'drawerSize', 'emblemColor', 'entityDomain', 'entityName', { name: 'isSticky', transform: nullableBooleanAttribute }, 'labelMenu', 'labelMenuClose', 'logoLabel', 'skipContentContainer', 'variant'],
+  inputs: ['collapseAt', 'drawerSize', 'emblemColor', 'entityDomain', 'entityName', { name: 'gsrStars', transform: nullableNumberAttribute }, { name: 'isSticky', transform: nullableBooleanAttribute }, 'labelMenu', 'labelMenuClose', 'logoLabel', 'skipContentContainer', 'variant'],
   outputs: ['aegovHeaderMenuOpen', 'aegovHeaderMenuClose', 'aegovHeaderStuck', 'aegovHeaderUnstuck'],
 })
 export class AegovHeader {
@@ -1767,6 +1767,15 @@ disappears. Below it, navigation is hidden and the toggle opens the drawer.
 the `ministry` variant, which has no emblem. @default 'aeblack'
    */
   set emblemColor(_: Components.AegovHeader['emblemColor']) {};
+    /**
+   * Number of stars the entity holds in the Global Star Rating System for
+Services: `0`–`5`. `0` (default) shows no badge. Any other value shows the
+official badge next to the logo, vertically centred on it, with an
+accessible name that states the rating. Its height follows the logo's,
+clamped to 50–80px. The badge artwork is loaded on demand, so headers
+without a rating download nothing extra. @default 0
+   */
+  set gsrStars(_: Components.AegovHeader['gsrStars']) {};
     /**
    * Whether the main bar pins to the top of the viewport on scroll. The
 `aegov-header-banner` above it scrolls away; once it has, the bar gains a

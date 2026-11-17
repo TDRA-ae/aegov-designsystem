@@ -16,6 +16,32 @@
   @apply flex items-center justify-between gap-3 lg:gap-4 xl:gap-6;
 }
 
+/* Logo plus the optional Global Star Rating badge, centred on each other.
+   min-w-0 lets this group give way before the brand-end controls overflow on
+   narrow screens. Logo-to-badge space = the logo's own pe-4 (16px) + this gap:
+   16px on phones, 20px from md, 24px from lg. */
+.header__brand-start {
+  @apply flex items-center min-w-0 gap-0 md:gap-1 lg:gap-2;
+}
+
+/* Global Star Rating badge.
+   Height follows the logo — published by JS as --aegov-header-gsr-logo-height
+   from a ResizeObserver on the slotted logo — clamped to 50px..80px: never
+   taller than 80px however big the logo, never under 50px however small (in
+   practice on phones, where the default logo is 48px). Width follows from the
+   artwork's aspect ratio, and the box exists before the lazily loaded image
+   arrives, so there is no layout shift. Visible at every width, like the badge
+   on the federal sites. */
+.header__gsr {
+  @apply block shrink-0;
+  height: clamp(50px, var(--aegov-header-gsr-logo-height, 56px), 80px);
+  aspect-ratio: 912 / 964;
+}
+
+.header__gsr-img {
+  @apply block size-full;
+}
+
 .header__logo {
   @apply flex items-center shrink-0 py-2 md:py-3 lg:py-3.5 pe-4;
   ::slotted(img),
