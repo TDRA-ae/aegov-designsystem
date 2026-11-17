@@ -176,6 +176,12 @@ export class AegovHeaderBanner {
   /** Set on open; Close is focused once the open panel has rendered. */
   private focusCloseOnRender = false;
 
+  /** Whether closing moves focus back to "Learn more" (not when the reader clicked or tapped elsewhere). */
+  private returnFocusOnClose = true;
+
+  /** Time of the last pointer press inside the banner (A11Y-FINAL-24). */
+  private lastPointerDownInside = 0;
+
   @Watch('headerExpanded')
   handleExpandedChange(newValue: boolean) {
     if (newValue) {
@@ -184,8 +190,15 @@ export class AegovHeaderBanner {
       this.focusCloseOnRender = true;
     } else {
       this.focusCloseOnRender = false;
-      this.triggerEl?.focus();
+      if (this.returnFocusOnClose) this.triggerEl?.focus();
     }
+    this.returnFocusOnClose = true;
+  }
+
+  private closePanel(returnFocus: boolean) {
+    if (!this.headerExpanded) return;
+    this.returnFocusOnClose = returnFocus;
+    this.headerExpanded = false;
   }
 
   componentDidUpdate() {
@@ -194,19 +207,26 @@ export class AegovHeaderBanner {
     this.closeButtonEl?.focus();
   }
 
-  @Listen('keydown')
+  // On the document, not the host: a click or tap on plain text in the panel
+  // leaves nothing focused, and Escape must still close it then.
+  @Listen('keydown', { target: 'document' })
   handleKeyDown(event: KeyboardEvent) {
     if (!this.headerExpanded) return;
 
     if (event.key === 'Escape') {
-      this.headerExpanded = false;
+      this.closePanel(true);
       return;
     }
 
-    if (event.key === 'Tab' && this.expandedEl) {
+    if (event.key === 'Tab' && this.expandedEl && this.isEventInside(event)) {
       const focusable = getFocusableElements(this.expandedEl);
       handleTabKeyWrap(event, focusable);
     }
+  }
+
+  @Listen('pointerdown')
+  handlePointerDown() {
+    this.lastPointerDownInside = Date.now();
   }
 
   @Listen('focusout')
@@ -215,14 +235,44 @@ export class AegovHeaderBanner {
     const rt = event.relatedTarget as Node;
     const isInsideLight = rt && this.el.contains(rt);
     const isInsideShadow = rt && this.el.shadowRoot?.contains(rt);
-    if (!isInsideLight && !isInsideShadow) {
-      this.headerExpanded = false;
-    }
+    if (isInsideLight || isInsideShadow) return;
+    // A press inside the banner that leaves nothing focused is not "leaving":
+    // iOS does not focus a tapped button (it only blurs Close), and a click on
+    // plain text in the panel blurs it in every browser. Closing here made the
+    // Close tap re-open the panel on iPhone (A11Y-FINAL-24).
+    if (!rt && Date.now() - this.lastPointerDownInside < 1000) return;
+    this.closePanel(false);
+  }
+
+  // Clicks or taps outside the banner close the panel even when focus already
+  // left it (e.g. after a tap on panel text), so no focusout follows.
+  @Listen('click', { target: 'document' })
+  handleDocumentClick(event: MouseEvent) {
+    if (!this.headerExpanded || this.isEventInside(event)) return;
+    this.closePanel(false);
+  }
+
+  private isEventInside(event: Event): boolean {
+    const path = event.composedPath?.() ?? [];
+    if (path.includes(this.el) || (this.el.shadowRoot && path.includes(this.el.shadowRoot))) return true;
+    // Fallback for DOMs without a full composed path (e.g. test doubles).
+    const target = event.target as Node;
+    return !!target && (target === this.el || this.el.contains(target) || !!this.el.shadowRoot?.contains(target));
   }
 
   private toggleHeaderExpanded = (e: Event) => {
     e.preventDefault();
-    this.headerExpanded = !this.headerExpanded;
+    if (this.headerExpanded) {
+      this.closePanel(true);
+    } else {
+      this.headerExpanded = true;
+    }
+  };
+
+  /** Close always closes: a toggle re-opened the panel after an iOS blur had closed it (A11Y-FINAL-24). */
+  private handleCloseClick = (e: Event) => {
+    e.preventDefault();
+    this.closePanel(true);
   };
 
   private isRtl(): boolean {
@@ -278,7 +328,7 @@ export class AegovHeaderBanner {
             ref={(el) => this.expandedEl = el}
           >
             <div class="aegov-container header__expand-inner">
-              <aegov-button onClick={this.toggleHeaderExpanded} appearance="link" size="xs" variant="neutral-min" class="absolute top-3 end-3 z-10" ref={(el) => this.closeButtonEl = el}>
+              <aegov-button onClick={this.handleCloseClick} appearance="link" size="xs" variant="neutral-min" class="absolute top-3 end-3 z-10" ref={(el) => this.closeButtonEl = el}>
                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="w-4! h-4! text-aeblack-100!" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="200" y1="56" x2="56" y2="200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><line x1="200" y1="200" x2="56" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
                 <span class="text-aeblack-100!">{this.isRtl() ? this.closeTextAr : this.closeTextEn}</span>
               </aegov-button>

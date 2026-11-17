@@ -162,4 +162,76 @@ describe('aegov-header-banner e2e', () => {
       expect(await deepFocus(page)).toBe('button#after');
     });
   });
+
+  // A11Y-FINAL-24: on iPhone a tap on Close only blurred it (iOS does not focus a
+  // tapped button); focusout closed the panel and the click toggled it open again.
+  describe('closing by pointer and touch', () => {
+    const setup = async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-header-banner entity-name="Ministry" entity-domain="example.gov.ae"></aegov-header-banner><p id="outside" style="margin-top: 900px">Page text, below the open panel</p>`);
+      await page.waitForChanges();
+      await page.$eval('aegov-header-banner', (el: HTMLElement) => (el.shadowRoot.querySelector('a[aria-controls="header-top-expand"]') as HTMLElement).click());
+      await page.waitForChanges();
+      await new Promise(r => setTimeout(r, 100));
+      return page;
+    };
+    const isOpen = (page: E2EPage) => page.$eval('aegov-header-banner', (el: HTMLElement) => el.shadowRoot.querySelector('#header-top-expand').classList.contains('header__top-expand--open'));
+    const closeBtn = 'aegov-header-banner >>> aegov-button';
+
+    it('a tap on Close closes the panel when the tap only blurs Close (iOS event order)', async () => {
+      const page = await setup();
+      expect(await isOpen(page)).toBe(true);
+      await page.$eval('aegov-header-banner', (el: HTMLElement) => {
+        const close = el.shadowRoot.querySelector('aegov-button');
+        close.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, composed: true }));
+        let a: Element | null = document.activeElement;
+        while ((a as HTMLElement)?.shadowRoot?.activeElement) a = (a as HTMLElement).shadowRoot.activeElement;
+        (a as HTMLElement).blur(); // iOS: focus leaves Close, nothing takes it
+        (close.shadowRoot?.querySelector('button') ?? close).dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true }));
+      });
+      await page.waitForChanges();
+      expect(await isOpen(page)).toBe(false);
+    });
+
+    it('Close always closes, also when clicked twice', async () => {
+      const page = await setup();
+      const close = await page.find(closeBtn);
+      await close.click();
+      await page.waitForChanges();
+      expect(await isOpen(page)).toBe(false);
+      await page.$eval('aegov-header-banner', (el: HTMLElement) => el.shadowRoot.querySelector('aegov-button').dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true })));
+      await page.waitForChanges();
+      expect(await isOpen(page)).toBe(false);
+    });
+
+    it('clicking plain text in the panel keeps it open, and Escape still closes it', async () => {
+      const page = await setup();
+      const text = await page.find('aegov-header-banner >>> .header__trust-title');
+      await text.click();
+      await page.waitForChanges();
+      expect(await isOpen(page)).toBe(true);
+      await page.keyboard.press('Escape');
+      await page.waitForChanges();
+      expect(await isOpen(page)).toBe(false);
+    });
+
+    it('clicking outside closes the panel, also after a click on panel text left nothing focused', async () => {
+      const page = await setup();
+      const text = await page.find('aegov-header-banner >>> .header__trust-title');
+      await text.click();
+      await page.waitForChanges();
+      expect(await isOpen(page)).toBe(true);
+      await (await page.find('#outside')).click();
+      await page.waitForChanges();
+      expect(await isOpen(page)).toBe(false);
+    });
+
+    // The open panel covers the top bar, so "Learn more" is activated directly here.
+    it('"Learn more" still toggles the panel closed', async () => {
+      const page = await setup();
+      await page.$eval('aegov-header-banner', (el: HTMLElement) => (el.shadowRoot.querySelector('a[aria-controls="header-top-expand"]') as HTMLElement).click());
+      await page.waitForChanges();
+      expect(await isOpen(page)).toBe(false);
+    });
+  });
 });
