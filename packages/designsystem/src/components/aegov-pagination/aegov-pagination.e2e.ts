@@ -60,4 +60,32 @@ describe('aegov-pagination e2e', () => {
     const navs = await page.findAll('aegov-pagination button.pagination__btn--nav');
     expect(navs.length).toBe(4);
   });
+
+  // A11Y-FINAL-14 (WCAG 2.5.3): the name of First/Previous/Next/Last is the visible label.
+  describe('nav buttons are named by their visible label', () => {
+    const names = async (page) => {
+      const snap = await page.accessibility.snapshot({ interestingOnly: true });
+      const out: string[] = [];
+      const walk = (n) => { if (n?.role === 'button') out.push(n.name); (n?.children ?? []).forEach(walk); };
+      walk(snap);
+      return out;
+    };
+
+    it('custom labels', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-pagination pages="5" page-current="3" is-enabled-first-last="true" label-first="Start" label-prev="Back" label-next="Forward" label-last="End"></aegov-pagination>`);
+      await page.waitForChanges();
+      const n = await names(page);
+      expect([n[0], n[1], n[n.length - 2], n[n.length - 1]]).toEqual(['Start', 'Back', 'Forward', 'End']);
+      expect(n).toContain('Go to page 2');
+    });
+
+    it('default labels, English and Arabic', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-pagination pages="5" page-current="3"></aegov-pagination><div dir="rtl" lang="ar"><aegov-pagination pages="5" page-current="3"></aegov-pagination></div>`);
+      await page.waitForChanges();
+      const n = await names(page);
+      expect(n).toEqual(expect.arrayContaining(['Previous', 'Next', 'السابق', 'التالي']));
+    });
+  });
 });

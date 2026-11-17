@@ -1,6 +1,6 @@
 {
   "name": "@aegov/designsystem-vue",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "AEGOV Design System - Framework-agnostic web components with Tailwind CSS",
   "author": "Anis conceptlz <124657785+anismansuriui@users.noreply.github.com>",
   "homepage": "",
@@ -22,10 +22,10 @@
     "tsc": "tsc -p . --outDir ./dist"
   },
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   },
   "dependencies": {
-    "@aegov/designsystem": "^4.0.1",
+    "@aegov/designsystem": "^4.0.2",
     "@stencil/vue-output-target": "^0.14.6"
   },
   "devDependencies": {

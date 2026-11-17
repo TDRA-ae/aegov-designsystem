@@ -190,11 +190,21 @@ export function parseRangeValue(value: string, format: string, locale: string = 
     return { start: null, end: null };
   }
 
-  const parts = value.split('/').map(s => s.trim());
-  return {
-    start: parts[0] ? parseDate(parts[0], format, locale) : null,
-    end: parts[1] ? parseDate(parts[1], format, locale) : null,
-  };
+  // The separator is "/", but a format such as DD/MM/YYYY uses "/" too, so a
+  // plain split cuts the dates apart (GitHub #60). Try each "/" as the
+  // separator and keep the first one with a valid date on both sides; this
+  // also reads values written without the spaces ("2026-11-14/2026-11-20").
+  let startOnly: Date | null = null;
+  for (let i = value.indexOf('/'); i !== -1; i = value.indexOf('/', i + 1)) {
+    const startText = value.slice(0, i).trim();
+    const endText = value.slice(i + 1).trim();
+    const start = startText ? parseDate(startText, format, locale) : null;
+    if (!start) continue;
+    const end = endText ? parseDate(endText, format, locale) : null;
+    if (end) return { start, end };
+    startOnly ??= start;
+  }
+  return { start: startOnly, end: null };
 }
 
 /**

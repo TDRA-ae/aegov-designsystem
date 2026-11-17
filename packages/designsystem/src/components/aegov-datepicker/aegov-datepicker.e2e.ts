@@ -129,6 +129,27 @@ describe('aegov-datepicker (e2e)', () => {
     expect(last.value).toBe('2024-06-10 / 2024-06-15');
   });
 
+  // GitHub #60: a format that contains "/" must not lose the picked range.
+  it('range mode keeps the picked range when the format contains "/"', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-datepicker appearance="range" format="DD/MM/YYYY" value="01/06/2024 / 05/06/2024" label="Travel dates"></aegov-datepicker>');
+    const host = await page.find('aegov-datepicker');
+    expect(await page.$eval('aegov-datepicker', (el: any) => el.value)).toBe('01/06/2024 / 05/06/2024');
+    await host.callMethod('open');
+    await page.waitForChanges();
+    for (const d of ['2024-06-10', '2024-06-15']) {
+      await page.evaluate((date) => (document.querySelector(`.aegov-datepicker-portal .datepicker__day[data-date="${date}"]`) as HTMLButtonElement).click(), d);
+      await page.waitForChanges();
+    }
+    await new Promise(r => setTimeout(r, 100));
+    await page.waitForChanges();
+    expect(await page.$eval('aegov-datepicker', (el: any) => el.value)).toBe('10/06/2024 / 15/06/2024');
+    await host.callMethod('open');
+    await page.waitForChanges();
+    const ends = await page.evaluate(() => ['start', 'end'].map(e => document.querySelector(`.aegov-datepicker-portal .datepicker__day--range-${e}`)?.getAttribute('data-date')));
+    expect(ends).toEqual(['2024-06-10', '2024-06-15']);
+  });
+
   it('navigating to next/previous month emits aegovDatepickerMonthChange', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-datepicker value="2024-06-15"></aegov-datepicker>');

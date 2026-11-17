@@ -2,7 +2,7 @@ import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, 
 import { POPOVER_POSITIONS, POPOVER_ALIGNS, POPOVER_TRIGGERS } from '../../utils/types';
 import type { PopoverPosition, PopoverAlign, PopoverTrigger } from '../../utils/types';
 import { generateId } from '../../utils/id-generator';
-import { getFocusableElements, FOCUSABLE_SELECTORS, cycleFocus, resolveFocusTarget } from '../../utils/focus-management';
+import { getFocusableElementsDeep, FOCUSABLE_SELECTORS, cycleFocus, resolveFocusTarget, getDeepActiveElement } from '../../utils/focus-management';
 import { createPortal, removePortal } from '../../utils/portal-manager';
 import { createKeyboardHandler } from '../../utils/keyboard-handler';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -116,6 +116,20 @@ const POPOVER_PORTAL_STYLES = `
 
 // Singleton to track currently open popover
 let currentOpenPopover: AegovPopover | null = null;
+
+/** Elements where ArrowUp/ArrowDown already do something (caret, value, list). */
+function isOwnArrowKeyTarget(el: Element | null): boolean {
+  if (!el) return false;
+  if ((el as HTMLElement).isContentEditable) return true;
+  const tag = el.tagName;
+  if (tag === 'TEXTAREA' || tag === 'SELECT') return true;
+  if (tag === 'INPUT') {
+    const type = (el as HTMLInputElement).type;
+    return !['button', 'submit', 'reset', 'checkbox', 'image', 'file', 'color'].includes(type);
+  }
+  const role = el.getAttribute('role');
+  return role === 'combobox' || role === 'listbox' || role === 'slider' || role === 'spinbutton' || role === 'radio' || role === 'menu' || role === 'tree' || role === 'grid';
+}
 
 /**
  * Popover component that displays positioned content with an arrow marker
@@ -683,10 +697,61 @@ export class AegovPopover {
     onArrowUp: () => { this.focusNextElement(true); },
   });
 
+  /**
+   * Escape closes the popover from anywhere. Tab and the arrow keys belong to
+   * the popover only while focus is in its panel, and Tab also on its trigger
+   * (to reach the panel, which is portalled to the end of <body>). Everywhere
+   * else they keep their normal job: tab order, caret movement, scrolling
+   * (GitHub #62).
+   */
   @Listen('keydown', { target: 'document' })
   handleKeyDown(event: KeyboardEvent) {
     if (!this.isOpen) return;
-    this.keyHandler(event);
+    if (event.key === 'Escape') {
+      this.keyHandler(event);
+      return;
+    }
+    const isTab = event.key === 'Tab';
+    const isArrow = event.key === 'ArrowUp' || event.key === 'ArrowDown';
+    if (!isTab && !isArrow) return;
+
+    const active = document.activeElement;
+    if (this.portalElement && active && this.portalElement.contains(active)) {
+      // Arrows move the caret / change the value in a text field or select.
+      if (isArrow && isOwnArrowKeyTarget(getDeepActiveElement())) return;
+      this.refreshFocusables();
+      if (this.focusableElements.length === 0) {
+        // Nothing to move between: leave the panel instead of trapping focus
+        // on it. Closing returns focus to the trigger; Tab then carries on
+        // from there, Shift+Tab stays on the trigger.
+        if (!isTab) return;
+        if (event.shiftKey) event.preventDefault();
+        this.isOpen = false;
+        return;
+      }
+      this.keyHandler(event);
+      return;
+    }
+
+    if (isTab && !event.shiftKey && this.triggerRef && active && this.triggerRef.contains(active)) {
+      this.refreshFocusables();
+      if (this.focusableElements.length === 0) return;
+      event.preventDefault();
+      this.currentFocusIndex = 0;
+      this.focusableElements[0].focus();
+    }
+  }
+
+  /** The panel's focusable elements, and which one has focus now. */
+  private refreshFocusables() {
+    if (!this.popoverRef) {
+      this.focusableElements = [];
+      return;
+    }
+    this.focusableElements = getFocusableElementsDeep(this.popoverRef, FOCUSABLE_SELECTORS);
+    // Deep: a button inside an aegov-button's shadow root is the real target.
+    const active = getDeepActiveElement();
+    this.currentFocusIndex = this.focusableElements.findIndex(el => el === active || (!!active && el.contains(active)));
   }
 
   private static readonly TRIGGER_FOCUSABLE_SELECTOR =
@@ -755,7 +820,7 @@ export class AegovPopover {
 
   private setupFocusTrap() {
     if (!this.popoverRef) return;
-    this.focusableElements = getFocusableElements(this.popoverRef, FOCUSABLE_SELECTORS);
+    this.focusableElements = getFocusableElementsDeep(this.popoverRef, FOCUSABLE_SELECTORS);
     if (this.focusableElements.length > 0) {
       this.currentFocusIndex = 0;
       this.focusableElements[0].focus();

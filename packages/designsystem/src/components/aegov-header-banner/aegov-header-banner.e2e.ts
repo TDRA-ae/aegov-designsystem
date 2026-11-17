@@ -122,4 +122,44 @@ describe('aegov-header-banner e2e', () => {
       expect(await prime(page)).toContain('حكومة دولة الإمارات');
     });
   });
+
+  // A11Y-FINAL-02: the collapsed panel's Close button must not be a Tab stop.
+  describe('collapsed panel is out of the Tab order', () => {
+    const deepFocus = (page) => page.evaluate(() => {
+      let a: Element | null = document.activeElement;
+      const path: string[] = [];
+      while (a) { path.push(a.tagName.toLowerCase() + (a.id ? '#' + a.id : '')); a = (a as HTMLElement).shadowRoot?.activeElement ?? null; }
+      return path.join(' > ');
+    });
+
+    it('Tab goes from "Learn more" to the next control, not to the hidden Close button', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-header-banner entity-name="Ministry" entity-domain="example.gov.ae"></aegov-header-banner>
+        <button id="after">After</button>`);
+      await page.waitForChanges();
+      expect(await page.$eval('aegov-header-banner', (el: HTMLElement) => (el.shadowRoot.querySelector('#header-top-expand') as HTMLElement).inert)).toBe(true);
+      await page.$eval('aegov-header-banner', (el: HTMLElement) => (el.shadowRoot.querySelector('a[aria-controls="header-top-expand"]') as HTMLElement).focus());
+      await page.keyboard.press('Tab');
+      expect(await deepFocus(page)).toBe('button#after');
+    });
+
+    it('opening moves focus to Close; closing returns it to "Learn more" and hides the panel again', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-header-banner entity-name="Ministry" entity-domain="example.gov.ae"></aegov-header-banner><button id="after">After</button>`);
+      await page.waitForChanges();
+      await page.$eval('aegov-header-banner', (el: HTMLElement) => (el.shadowRoot.querySelector('a[aria-controls="header-top-expand"]') as HTMLElement).focus());
+      await page.keyboard.press('Enter');
+      await page.waitForChanges();
+      await new Promise(r => setTimeout(r, 100));
+      expect(await deepFocus(page)).toContain('aegov-button');
+      expect(await page.$eval('aegov-header-banner', (el: HTMLElement) => (el.shadowRoot.querySelector('#header-top-expand') as HTMLElement).inert)).toBe(false);
+      await page.keyboard.press('Escape');
+      await page.waitForChanges();
+      expect(await deepFocus(page)).toBe('aegov-header-banner > a');
+      expect(await page.$eval('aegov-header-banner', (el: HTMLElement) => (el.shadowRoot.querySelector('#header-top-expand') as HTMLElement).inert)).toBe(true);
+      await page.keyboard.press('Tab');
+      expect(await deepFocus(page)).toBe('button#after');
+    });
+  });
 });

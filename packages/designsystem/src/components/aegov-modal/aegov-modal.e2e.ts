@@ -200,4 +200,61 @@ describe('aegov-modal (e2e) nested', () => {
     await page.waitForChanges();
     expect(await page.$eval('#a', (m: any) => m.isOpen)).toBe(false);
   });
+
+  // GitHub #57: host aria-labelledby / aria-describedby must name and describe the dialog.
+  describe('name and description from the host (#57)', () => {
+    const dialogInfo = (page) => page.$eval('aegov-modal', (el: HTMLElement) => {
+      const d = el.shadowRoot.querySelector('[role="dialog"]');
+      const descId = d?.getAttribute('aria-describedby');
+      return {
+        label: d?.getAttribute('aria-label') ?? null,
+        labelledby: d?.getAttribute('aria-labelledby') ?? null,
+        description: descId ? el.shadowRoot.getElementById(descId)?.textContent : null,
+      };
+    });
+    const axName = async (page) => {
+      const snap = await page.accessibility.snapshot({ interestingOnly: true });
+      const find = (n) => n?.role === 'dialog' ? n : (n?.children ?? []).map(find).find(Boolean);
+      return find(snap)?.name ?? null;
+    };
+
+    it('the dialog is named by the slotted heading and described by the referenced text', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-modal id="x" aria-labelledby="x-title" aria-describedby="x-desc"><h2 id="x-title">Service details</h2><p id="x-desc">Fees and documents.</p></aegov-modal>`);
+      await page.$eval('aegov-modal', (el: any) => el.show());
+      await page.waitForChanges();
+      expect(await dialogInfo(page)).toEqual({ label: 'Service details', labelledby: null, description: 'Fees and documents.' });
+      expect(await axName(page)).toBe('Service details');
+    });
+
+    it('follows the heading text and a changed aria-labelledby', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-modal aria-labelledby="a"><h2 id="a">First</h2><h2 id="b">Second</h2></aegov-modal>`);
+      await page.$eval('aegov-modal', (el: any) => el.show());
+      await page.waitForChanges();
+      await page.$eval('#a', (h: HTMLElement) => { h.textContent = 'First, renamed'; });
+      await page.waitForChanges();
+      expect((await dialogInfo(page)).label).toBe('First, renamed');
+      await page.$eval('aegov-modal', (el: HTMLElement) => el.setAttribute('aria-labelledby', 'b'));
+      await page.waitForChanges();
+      expect((await dialogInfo(page)).label).toBe('Second');
+    });
+
+    it('the label prop still wins', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-modal label="From the prop" aria-labelledby="t"><h2 id="t">From the heading</h2></aegov-modal>`);
+      await page.$eval('aegov-modal', (el: any) => el.show());
+      await page.waitForChanges();
+      expect((await dialogInfo(page)).label).toBe('From the prop');
+    });
+
+    it('a closed host is hidden, an open one is not', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<aegov-modal aria-labelledby="t"><h2 id="t">Title</h2></aegov-modal>`);
+      expect(await page.$eval('aegov-modal', (el: HTMLElement) => el.hidden)).toBe(true);
+      await page.$eval('aegov-modal', (el: any) => el.show());
+      await page.waitForChanges();
+      expect(await page.$eval('aegov-modal', (el: HTMLElement) => el.hidden)).toBe(false);
+    });
+  });
 });
