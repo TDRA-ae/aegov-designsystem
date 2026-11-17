@@ -104,6 +104,5 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/aegov/designsystem"
-    },
-    "gitHead": "cb9cbea55adbeb993074c9b61ca6b19c49a7abc1"
+    }
 }
