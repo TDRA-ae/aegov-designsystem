@@ -3,8 +3,12 @@
  * Code here runs once when the library initialises — before any component is loaded.
  */
 import './toast-helper';
+import { initLinkFocus } from './link-focus';
 
 export default function () {
+  // Text link or card link: decides on focus whether a link gets the gold fill (A11Y-FINAL-25).
+  initLinkFocus();
+
   // Pre-create the toast live region so screen readers register it at page load
   // (aria-live regions must be in the DOM before announcements to be reliably captured).
   if (typeof document !== 'undefined' && !document.getElementById('aegov-toast-live-region')) {
