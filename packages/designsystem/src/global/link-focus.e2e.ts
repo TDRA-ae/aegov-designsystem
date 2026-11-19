@@ -120,3 +120,16 @@ describe('link focus: CSS fallback without the script mark', () => {
   });
 });
 
+describe('link focus: text on the fill in dark mode', () => {
+  it('uses the light text colour on the dark gold fill (not the light-mode dark text)', async () => {
+    const page = await newE2EPage({ html: `<a id="t" href="#">Read the guidelines</a>` });
+    const r = await focusResult(page, true);
+    const expected = await page.evaluate(() => {
+      const probe = (value: string) => { const p = document.createElement('div'); p.style.color = value; document.body.appendChild(p); const c = getComputedStyle(p).color; p.remove(); return c; };
+      return { text: probe('var(--color-primary-support-50)'), fill: probe('var(--color-primary-support-700)') };
+    });
+    expect(r.filled).toBe(true);
+    expect(r.background).toBe(expected.fill);
+    expect(r.color).toBe(expected.text);
+  });
+});
