@@ -127,6 +127,18 @@ describe('link focus: card that clips its overflow', () => {
     expect(r.filled).toBe(false);
   });
 
+  it('keeps the inside outline when the card is focused again (Tab away, Shift+Tab back)', async () => {
+    const page = await newE2EPage({ html: html + '<a id="after" href="#">Next link</a>' });
+    await page.keyboard.press('Shift');
+    const rounds: string[] = [];
+    for (let round = 0; round < 3; round++) {
+      await page.evaluate(() => document.getElementById('t')!.focus());
+      rounds.push(await page.evaluate(() => { const a = document.getElementById('t')!; return `${a.getAttribute('data-aegov-focus')} ${getComputedStyle(a).outlineOffset}`; }));
+      await page.evaluate(() => document.getElementById('after')!.focus());
+    }
+    expect(rounds).toEqual(['box-inset -4px', 'box-inset -4px', 'box-inset -4px']);
+  });
+
   it('keeps the outline outside a card link with room around it', async () => {
     const page = await newE2EPage({ html });
     await page.keyboard.press('Shift');

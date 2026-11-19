@@ -155,6 +155,10 @@ function onFocusIn(event: Event): void {
   if (!(target instanceof Element)) return;
   const link = target.closest('a[href]') as HTMLElement | null;
   if (!link) return;
+  // Measure from a clean state: the mark from an earlier focus changes the
+  // outline offset ("box-inset" draws it inside), and measuring that inside
+  // outline flipped the result on every second focus (Shift+Tab back).
+  link.removeAttribute('data-aegov-focus');
   // Links drawn by a DS component (aegov-btn, aegov-navbar-item__link, ...) keep the component's own design.
   const componentLink = Array.from(link.classList).some((name) => name.startsWith('aegov-'));
   const card = !componentLink && isCardLink(link);
