@@ -227,15 +227,33 @@ export class AegovButton {
    */
   private warnedNoName = false;
 
+  /**
+   * Text the author puts inside the button (visible, or visually hidden such as
+   * an `sr-only` span) reaches the inner <button> through the slot and names it.
+   * The decorative SVG and content hidden from assistive technology don't count.
+   */
+  private hasTextContentName(): boolean {
+    const nameFrom = (node: Node): string => {
+      if (node.nodeType === Node.TEXT_NODE) return node.textContent ?? '';
+      if (node.nodeType !== Node.ELEMENT_NODE) return '';
+      const element = node as Element;
+      if (element.tagName.toLowerCase() === 'svg') return '';
+      if (element.getAttribute('aria-hidden') === 'true' || element.hasAttribute('hidden')) return '';
+      return Array.from(element.childNodes).map(nameFrom).join('');
+    };
+    return Array.from(this.el.childNodes).map(nameFrom).join('').trim().length > 0;
+  }
+
   private checkIconName() {
     if (!this.isIcon) return;
-    const named = !!(this.el.getAttribute('aria-label')?.trim() || this.el.getAttribute('aria-labelledby')?.trim() || this.el.getAttribute('title')?.trim());
+    const named = !!(this.el.getAttribute('aria-label')?.trim() || this.el.getAttribute('aria-labelledby')?.trim() || this.el.getAttribute('title')?.trim())
+      || this.hasTextContentName();
     if (!named) {
       // Always (not only in dev builds): npm consumers get the production build,
       // and a nameless button is an accessibility failure, not a style choice.
       if (!this.warnedNoName) {
         this.warnedNoName = true;
-        console.warn('[aegov-button] An icon-only button (is-icon) needs an accessible name: add aria-label (or aria-labelledby) to <aegov-button>.', this.el);
+        console.warn('[aegov-button] An icon-only button (is-icon) needs an accessible name: add aria-label (or aria-labelledby) to <aegov-button>, or put visually hidden text (sr-only) inside it.', this.el);
       }
       return;
     }

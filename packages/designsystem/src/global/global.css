@@ -269,7 +269,39 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+
      outline is what makes the indicator stand out from the page (6.2:1 on
      white; the gold alone was 2.65:1, A11Y-FINAL-03). */
   a {
-    @apply inline-flex items-center align-middle gap-2 text-primary-600 bg-transparent hover:text-primary-500 hover:underline-offset-2 hover:underline decoration-2 focus-visible:bg-primary-support-400 focus-visible:text-primary-support-950! focus-visible:no-underline focus-visible:decoration-0 focus-visible:outline-primary-support-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:rounded-md dark:text-primary-400 dark:hover:text-primary-300 dark:focus-visible:bg-primary-support-700 dark:focus-visible:text-primary-support-50 dark:focus-visible:decoration-primary-support-100 dark:focus-visible:outline-primary-support-500;
+    @apply inline-flex items-center align-middle gap-2 text-primary-600 bg-transparent hover:text-primary-500 hover:underline-offset-2 hover:underline decoration-2 focus-visible:outline-primary-support-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:rounded-md dark:text-primary-400 dark:hover:text-primary-300 dark:focus-visible:outline-primary-support-500;
+  }
+
+  /* The gold fill is for text links only. A link that is a whole card, image
+     or logo, or an empty overlay stretched over a card, keeps just the outline:
+     filling it would hide the content (A11Y-FINAL-25). A link counts as a card
+     when it holds block content (headings, paragraphs, divs, media, lists,
+     tables, slotted content), when it holds two or more content parts (icons,
+     sr-only text and inline text tags don't count), when it is empty, or when
+     it is stretched with inset-0. The global script (link-focus.ts) checks how
+     the link is actually drawn when it gets focus and sets
+     data-aegov-focus="box", "box-inset" or "text"; that mark wins, and the
+     markup checks below are the fallback when the script hasn't run. :where()
+     keeps the specificity of a plain `a`. */
+  a:where(:not([data-aegov-focus^="box"], :not([data-aegov-focus]):is(
+    :has(:is(h1, h2, h3, h4, h5, h6, p, div, section, article, header, footer, figure, img, picture, video, canvas, iframe, ul, ol, dl, table, slot, aegov-card)),
+    :has(> :not(svg, br, .sr-only, b, strong, i, em, code, abbr, small, mark, kbd, sup, sub, time, q, cite, dfn, var, samp, s, u)
+         ~ :not(svg, br, .sr-only, b, strong, i, em, code, abbr, small, mark, kbd, sup, sub, time, q, cite, dfn, var, samp, s, u)),
+    :empty,
+    [class~="inset-0"]
+  ))) {
+    @apply focus-visible:bg-primary-support-400 focus-visible:text-primary-support-950! focus-visible:no-underline focus-visible:decoration-0 dark:focus-visible:bg-primary-support-700 dark:focus-visible:text-primary-support-50! dark:focus-visible:decoration-primary-support-100;
+  }
+
+  /* A card link that fills a container which clips its overflow (an
+     overflow-hidden card) would lose the outline drawn outside it; the script
+     marks it "box-inset" and the outline is drawn inside its edge, with a 2 px
+     gap so it stays apart from the card's own border.
+     !important on purpose: the script only sets this mark after measuring
+     that the outline would be clipped, so an outline-offset from the page
+     (for example focus-visible:outline-offset-2) would be invisible anyway. */
+  a:where([data-aegov-focus="box-inset"]) {
+    @apply focus-visible:-outline-offset-4!;
   }
 }
 

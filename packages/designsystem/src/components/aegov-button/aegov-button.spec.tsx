@@ -317,4 +317,46 @@ describe('aegov-button', () => {
       expect(btn.hasAttribute('disabled')).toBe(false);
     });
   });
+
+  describe('icon-only name check', () => {
+    const svg = '<svg viewBox="0 0 24 24"><path d="M3 6h18"/></svg>';
+    let warn: jest.SpyInstance;
+    beforeEach(() => { warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined); });
+    afterEach(() => warn.mockRestore());
+
+    it('accepts visually hidden text inside the button as its name and hides the icon', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button is-icon="true">${svg}<span class="sr-only">Search the UAE Design System</span></aegov-button>`,
+      });
+      expect(warn).not.toHaveBeenCalled();
+      expect(page.root.querySelector('svg').getAttribute('aria-hidden')).toBe('true');
+    });
+
+    it('accepts aria-label and hides the icon', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button is-icon="true" aria-label="Search">${svg}</aegov-button>`,
+      });
+      expect(warn).not.toHaveBeenCalled();
+      expect(page.root.querySelector('svg').getAttribute('aria-hidden')).toBe('true');
+    });
+
+    it('warns when the only content is the icon, and leaves the icon exposed', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button is-icon="true">${svg}</aegov-button>`,
+      });
+      expect(warn).toHaveBeenCalledTimes(1);
+      expect(page.root.querySelector('svg').hasAttribute('aria-hidden')).toBe(false);
+    });
+
+    it('does not count text hidden from assistive technology', async () => {
+      await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button is-icon="true">${svg}<span aria-hidden="true">Search</span><span hidden>Search</span></aegov-button>`,
+      });
+      expect(warn).toHaveBeenCalledTimes(1);
+    });
+  });
 });
