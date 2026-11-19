@@ -113,20 +113,36 @@ export function isCardLink(link: HTMLElement): boolean {
 }
 
 let started = false;
+const watchedRoots = new WeakSet<ShadowRoot>();
+const handledEvents = new WeakSet<Event>();
+
+function onFocusIn(event: Event): void {
+  if (handledEvents.has(event)) return;
+  handledEvents.add(event);
+  const path = event.composedPath();
+  // Focus moving between two elements inside the same shadow root (for example
+  // "Learn more" to the logo in aegov-header) never reaches the document: from
+  // outside, the host keeps focus. Listen inside every shadow root focus enters.
+  for (const node of path) {
+    if (node instanceof ShadowRoot && !watchedRoots.has(node)) {
+      watchedRoots.add(node);
+      node.addEventListener('focusin', onFocusIn, true);
+    }
+  }
+  const target = path[0];
+  if (!(target instanceof Element)) return;
+  const link = target.closest('a[href]') as HTMLElement | null;
+  if (!link) return;
+  // Links drawn by a DS component (aegov-btn, aegov-navbar-item__link, ...) keep the component's own design.
+  const componentLink = Array.from(link.classList).some((name) => name.startsWith('aegov-'));
+  link.setAttribute('data-aegov-focus', !componentLink && isCardLink(link) ? 'box' : 'text');
+}
 
 /** Marks each link as it receives focus (light DOM and open shadow roots). */
 export function initLinkFocus(): void {
   if (started || typeof document === 'undefined') return;
   started = true;
-  document.addEventListener('focusin', (event) => {
-    const target = event.composedPath()[0];
-    if (!(target instanceof Element)) return;
-    const link = target.closest('a[href]') as HTMLElement | null;
-    if (!link) return;
-    // Links drawn by a DS component (aegov-btn, aegov-navbar-item__link, ...) keep the component's own design.
-    const componentLink = Array.from(link.classList).some((name) => name.startsWith('aegov-'));
-    link.setAttribute('data-aegov-focus', !componentLink && isCardLink(link) ? 'box' : 'text');
-  }, true);
+  document.addEventListener('focusin', onFocusIn, true);
 }
 
 // Start as soon as this module loads. The custom-elements build (used by the

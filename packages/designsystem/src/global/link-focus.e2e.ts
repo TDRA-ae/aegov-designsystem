@@ -93,6 +93,23 @@ describe('link focus: card links get the outline only', () => {
   });
 });
 
+describe('link focus: focus moving inside one shadow root', () => {
+  it('marks the aegov-header logo when focus comes from "Learn more" in the same header', async () => {
+    const page = await newE2EPage({ html: `<aegov-header entity-name="Example" entity-domain="https://example.gov.ae"><img slot="logo" alt="Example logo" width="120" height="48" src="${LOGO}"></aegov-header>` });
+    await page.keyboard.press('Shift');
+    const r = await page.evaluate(() => {
+      const header = document.querySelector('aegov-header')!.shadowRoot!;
+      const learnMore = header.querySelector('aegov-header-banner')!.shadowRoot!.querySelector('a[aria-controls]') as HTMLElement;
+      const logo = header.querySelector('.header__logo') as HTMLElement;
+      learnMore.focus(); // focus enters the header from the page
+      logo.focus(); // moves inside the header: the page sees no focusin
+      return { active: header.activeElement === logo, mark: logo.getAttribute('data-aegov-focus') };
+    });
+    expect(r.active).toBe(true);
+    expect(r.mark).toBe('box');
+  });
+});
+
 describe('link focus: CSS fallback without the script mark', () => {
   const fallback = async (html: string) => {
     const page = await newE2EPage({ html });
