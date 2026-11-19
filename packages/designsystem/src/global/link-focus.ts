@@ -112,6 +112,28 @@ export function isCardLink(link: HTMLElement): boolean {
   return walk(link);
 }
 
+/**
+ * True when an ancestor that clips its overflow would cut off the focus
+ * outline drawn outside the link (for example a link that fills an
+ * overflow-hidden card). The outline is then drawn just inside the link.
+ */
+export function isOutlineClipped(link: HTMLElement): boolean {
+  const style = getComputedStyle(link);
+  const reach = parseFloat(style.outlineOffset) + parseFloat(style.outlineWidth) || 4;
+  if (reach <= 0) return false;
+  const rect = link.getBoundingClientRect();
+  let node: Element | null = link.parentElement ?? ((link.getRootNode() as ShadowRoot).host || null);
+  while (node && node !== document.documentElement && node !== document.body) {
+    const s = getComputedStyle(node);
+    if (/hidden|clip|auto|scroll/.test(s.overflowX + s.overflowY)) {
+      const box = node.getBoundingClientRect();
+      if (rect.left - reach < box.left || rect.top - reach < box.top || rect.right + reach > box.right || rect.bottom + reach > box.bottom) return true;
+    }
+    node = node.parentElement ?? (((node.getRootNode() as ShadowRoot).host as Element) || null);
+  }
+  return false;
+}
+
 let started = false;
 const watchedRoots = new WeakSet<ShadowRoot>();
 const handledEvents = new WeakSet<Event>();
@@ -135,7 +157,8 @@ function onFocusIn(event: Event): void {
   if (!link) return;
   // Links drawn by a DS component (aegov-btn, aegov-navbar-item__link, ...) keep the component's own design.
   const componentLink = Array.from(link.classList).some((name) => name.startsWith('aegov-'));
-  link.setAttribute('data-aegov-focus', !componentLink && isCardLink(link) ? 'box' : 'text');
+  const card = !componentLink && isCardLink(link);
+  link.setAttribute('data-aegov-focus', card ? (isOutlineClipped(link) ? 'box-inset' : 'box') : 'text');
 }
 
 /** Marks each link as it receives focus (light DOM and open shadow roots). */

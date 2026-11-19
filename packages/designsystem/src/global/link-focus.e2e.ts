@@ -110,6 +110,32 @@ describe('link focus: focus moving inside one shadow root', () => {
   });
 });
 
+describe('link focus: card that clips its overflow', () => {
+  // The page's own outline-offset (unlayered, like a Tailwind utility) would push the outline outside the card.
+  const html = `<style>.page-offset:focus-visible { outline-offset: 2px; }</style>
+    <div style="width:300px;overflow:hidden;border-radius:12px;border:1px solid #ccc">
+      <a id="t" class="page-offset" href="#" style="display:block"><img alt="" width="300" height="120" src="${LOGO}"><h3>Title</h3><p>Text</p></a>
+    </div>
+    <div style="margin:40px;width:300px"><a id="free" href="#" style="display:block"><h3>Title</h3><p>Text</p></a></div>`;
+
+  it('draws the outline inside a link that fills an overflow-hidden card', async () => {
+    const page = await newE2EPage({ html });
+    await page.keyboard.press('Shift');
+    const r = await page.evaluate(() => { const a = document.getElementById('t')!; a.focus(); const s = getComputedStyle(a); return { mark: a.getAttribute('data-aegov-focus'), offset: s.outlineOffset, filled: s.backgroundColor !== 'rgba(0, 0, 0, 0)' }; });
+    expect(r.mark).toBe('box-inset');
+    expect(r.offset).toBe('-4px');
+    expect(r.filled).toBe(false);
+  });
+
+  it('keeps the outline outside a card link with room around it', async () => {
+    const page = await newE2EPage({ html });
+    await page.keyboard.press('Shift');
+    const r = await page.evaluate(() => { const a = document.getElementById('free')!; a.focus(); return { mark: a.getAttribute('data-aegov-focus'), offset: getComputedStyle(a).outlineOffset }; });
+    expect(r.mark).toBe('box');
+    expect(r.offset).toBe('2px');
+  });
+});
+
 describe('link focus: CSS fallback without the script mark', () => {
   const fallback = async (html: string) => {
     const page = await newE2EPage({ html });

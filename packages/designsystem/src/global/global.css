@@ -280,10 +280,10 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+
      sr-only text and inline text tags don't count), when it is empty, or when
      it is stretched with inset-0. The global script (link-focus.ts) checks how
      the link is actually drawn when it gets focus and sets
-     data-aegov-focus="box" or "text"; that mark wins, and the markup checks
-     below are the fallback when the script hasn't run. :where() keeps the
-     specificity of a plain `a`. */
-  a:where(:not([data-aegov-focus="box"], :not([data-aegov-focus]):is(
+     data-aegov-focus="box", "box-inset" or "text"; that mark wins, and the
+     markup checks below are the fallback when the script hasn't run. :where()
+     keeps the specificity of a plain `a`. */
+  a:where(:not([data-aegov-focus^="box"], :not([data-aegov-focus]):is(
     :has(:is(h1, h2, h3, h4, h5, h6, p, div, section, article, header, footer, figure, img, picture, video, canvas, iframe, ul, ol, dl, table, slot, aegov-card)),
     :has(> :not(svg, br, .sr-only, b, strong, i, em, code, abbr, small, mark, kbd, sup, sub, time, q, cite, dfn, var, samp, s, u)
          ~ :not(svg, br, .sr-only, b, strong, i, em, code, abbr, small, mark, kbd, sup, sub, time, q, cite, dfn, var, samp, s, u)),
@@ -291,6 +291,17 @@ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+
     [class~="inset-0"]
   ))) {
     @apply focus-visible:bg-primary-support-400 focus-visible:text-primary-support-950! focus-visible:no-underline focus-visible:decoration-0 dark:focus-visible:bg-primary-support-700 dark:focus-visible:text-primary-support-50! dark:focus-visible:decoration-primary-support-100;
+  }
+
+  /* A card link that fills a container which clips its overflow (an
+     overflow-hidden card) would lose the outline drawn outside it; the script
+     marks it "box-inset" and the outline is drawn inside its edge, with a 2 px
+     gap so it stays apart from the card's own border.
+     !important on purpose: the script only sets this mark after measuring
+     that the outline would be clipped, so an outline-offset from the page
+     (for example focus-visible:outline-offset-2) would be invisible anyway. */
+  a:where([data-aegov-focus="box-inset"]) {
+    @apply focus-visible:-outline-offset-4!;
   }
 }
 
